@@ -43,6 +43,21 @@
                 "name": "Cersei",
                 "sleep_time": 0.5
             }
-        }        
+        },
+        {
+            "id": "FM-SENTINEL-EVENT-NOTEBOOK",
+            "name": "FM SENTINEL EVENT",
+            "description": "ETL to create FM Sentinel Sentinel Event",
+            "pythonFile": "fm_sentinel_events.ipynb",
+            "hideInUI": true,
+            "dataConnections": [
+                "ANA",
+                "MyOwnConnection"
+            ],
+            "params": {
+                "name": "Cerseid",
+                "sleep_time": 0.5
+            }
+        }         
     ]
 }
