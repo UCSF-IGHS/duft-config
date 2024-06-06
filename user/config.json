@@ -48,6 +48,14 @@
       "port": "5432",
       "database": "mydatabase",
       "type": "postgresql"
+    },
+    "MSSQL_TEST": {
+      "server": "127.0.0.1",
+      "username": "sa",
+      "password": "mysecretpassword",
+      "port": "1433",
+      "database": "mydatabase",
+      "type": "mssql"
     }
   }
 }

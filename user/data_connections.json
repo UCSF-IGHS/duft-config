@@ -107,6 +107,44 @@
           "label": "Database name"
         }
       ]
+    },
+    {
+      "id": "MSSQL_TEST",
+      "name": "MSSQL Database",
+      "description": "The database where all MSSQL data will be stored.",
+      "allowQueryEngine": "True",
+      "params": [
+        {
+          "name": "type",
+          "type": "text",
+          "label": "The type of connection (MSSQL | MySQL | PosgtresSQL | sqlite3)"
+        },
+        {
+          "name": "server",
+          "type": "text",
+          "label": "Server name"
+        },
+        {
+          "name": "username",
+          "type": "text",
+          "label": "User name"
+        },
+        {
+          "name": "password",
+          "type": "password",
+          "label": "Password"
+        },
+        {
+          "name": "port",
+          "type": "integer",
+          "label": "Port"
+        },
+        {
+          "name": "database",
+          "type": "text",
+          "label": "Database name"
+        }
+      ]
     }
   ]
 }
