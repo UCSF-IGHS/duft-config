@@ -1,0 +1,91 @@
+{
+    "name": "dashboard.json",
+    "title": "Sample Dashboard",
+    "version": 3,
+    "releaseDate": "2024-03-15T14:30:00Z",
+    "slicers": [
+          {
+            "sortOrder": 1,
+            "name": "Sex",
+            "type": "select",
+            "options": "select distinct sex as val from base.dim_encounter"
+          },
+          {
+            "sortOrder": 2,
+            "name": "Region",
+            "type": "select",
+            "options": "select distinct region as val from base.dim_encounter"
+          }
+    ],
+    "tabs": [
+    {
+        "id": 0,
+            "title": "Overview",
+            "badge": {
+              "query": "SELECT COUNT(*) as data FROM A TABLE",
+              "color": {
+                "high": {
+                  "upperThreshold": "100",
+                  "lowerThreshold": "80",
+                  "hex": "#300"
+                },
+                "medium": {
+                  "upperThreshold": "79",
+                  "lowerThreshold": "26",
+                  "hex": "#ddd"
+                },
+                "low": {
+                  "upperThreshold": "25",
+                  "lowerThreshold": "0",
+                  "hex": "#fff"
+                }
+              }
+            },
+            "tiles": [
+                {
+                    "id": 23,
+                    "sortOrder": 4,
+                    "label": "Total Count",
+                    "format": "integer",
+                    "query": "SELECT COUNT(*) as data FROM A TABLE",
+                    "totalCounter": "totalCounts",
+                    "icon": "/assets/icons/glass/ic_glass_users.png"
+                  },
+                {
+                    "id": 23,
+                    "sortOrder": 4,
+                    "label": "Total Count",
+                    "format": "integer",
+                    "query": "SELECT COUNT(*) as data FROM A TABLE",
+                    "totalCounter": "totalCounts",
+                    "icon": "/assets/icons/glass/ic_glass_users.png"
+                }
+            ],
+            "visuals": [
+             
+              {
+                "id": 13,
+                "sortOrder": 3,
+                "groupBy": "region",
+                "col": 8,
+                "label": "Sample Bar Graph",
+                "title": "Total Encounters By Region",
+                "type": "bar",
+                "x": {
+                  "label": "Patients",
+                  "column": "patients",
+                  "format": "decimal",
+                  "action": "count"
+                },
+                "y": {
+                  "label": "Period",
+                  "column": "date",
+                  "format": "integer",
+                  "action": "count"
+                },
+                "query": "SELECT region, SUM(total) as data FROM table"
+              }
+            ]
+          }
+        ]
+}
