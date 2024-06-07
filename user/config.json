@@ -39,7 +39,7 @@
       "password": "Namibia23",
       "port": "3306",
       "database": "ptracker",
-      "type": "mysql"
+      "type": "MySQL"
     },
     "POSTGRRESQL_TEST": {
       "server": "127.0.0.1",
@@ -47,7 +47,7 @@
       "password": "mysecretpassword",
       "port": "5432",
       "database": "mydatabase",
-      "type": "postgresql"
+      "type": "PosgtresSQL"
     },
     "MSSQL_TEST": {
       "server": "127.0.0.1",
@@ -55,7 +55,7 @@
       "password": "mysecretpassword",
       "port": "1433",
       "database": "mydatabase",
-      "type": "mssql"
+      "type": "MSSQL"
     }
   }
 }
