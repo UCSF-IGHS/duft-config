@@ -1,0 +1,182 @@
+{
+  "name": "dashboard.json",
+  "title": "Sample Dashboard",
+  "version": 3,
+  "releaseDate": "2024-03-15T14:30:00Z",
+  "slicers": [
+    {
+      "sortOrder": 1,
+      "name": "Sex",
+      "type": "select",
+      "options": "select distinct gender as val from fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id"
+    },
+    {
+      "sortOrder": 2,
+      "name": "Age Group",
+      "type": "select",
+      "options": "select distinct five_year_interval as val from dim_client c INNER JOIN dim_age_group a on c.current_age=a.age"
+    }
+  ],
+  "tabs": [
+    {
+      "id": 0,
+      "title": "Overview",
+      "badge": {
+        "query": "SELECT COUNT(*) as data FROM fact_sentinel_event",
+        "color": {
+          "high": {
+            "upperThreshold": "100",
+            "lowerThreshold": "80",
+            "hex": "#300"
+          },
+          "medium": {
+            "upperThreshold": "79",
+            "lowerThreshold": "26",
+            "hex": "#ddd"
+          },
+          "low": {
+            "upperThreshold": "25",
+            "lowerThreshold": "0",
+            "hex": "#fff"
+          }
+        }
+      },
+      "tiles": [
+        {
+          "id": 1,
+          "sortOrder": 2,
+          "label": "Total Active",
+          "format": "integer",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event WHERE cascade_status_is_on_art=1",
+          "totalCounter": "totalActiveCounts",
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 2,
+          "sortOrder": 1,
+          "label": "PLHIV",
+          "format": "integer",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event WHERE status=1 AND new=1",
+          "totalCounter": "totalNewCounts",
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 3,
+          "sortOrder": 3,
+          "label": "Total Male Active",
+          "format": "integer",
+          "query": "SELECT COUNT(*) as data FROM analysis.fact_encounter WHERE status=1 AND sex='Male'",
+          "totalCounter": "totalMaleActiveCounts",
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 4,
+          "sortOrder": 4,
+          "label": "Total Female Active",
+          "format": "integer",
+          "query": "SELECT COUNT(*) as data FROM analysis.fact_encounter WHERE status=1 AND sex='Female'",
+          "totalCounter": "totalFemaleActiveCounts",
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        }
+      ],
+      "visuals": [
+        {
+          "id": 1,
+          "sortOrder": 1,
+          "groupBy": "region",
+          "col": 6,
+          "label": "Total Active By Region",
+          "title": "Total Active By Region",
+          "type": "bar",
+          "y": {
+            "label": "Patients",
+            "column": "patients",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Region",
+            "column": "region",
+            "format": "string"
+          },
+          "query": "SELECT last_visit_region, SUM(total) as data FROM analysis.fact_encounter WHERE status=1"
+        },
+        {
+          "id": 2,
+          "sortOrder": 0,
+          "groupBy": "region",
+          "col": 6,
+          "label": "Total New By Region",
+          "title": "Total New By Region",
+          "type": "bar",
+          "y": {
+            "label": "Patients",
+            "column": "patients",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Region",
+            "column": "region",
+            "format": "string"
+          },
+          "query": "SELECT first_visit_region, SUM(total) as data FROM analysis.fact_encounter WHERE status=1 AND new=1"
+        },
+        {
+          "id": 5,
+          "sortOrder": 1,
+          "label": "Patient",
+          "title": "Patient Line List",
+          "type": "table",
+          "groupBy": null,
+          "sortable": true,
+          "columns": {
+            "1": {
+              "label": "Clinic Number",
+              "column": "clinic_number",
+              "format": "string",
+              "sort": 1
+            },
+            "2": {
+              "label": "Sex",
+              "column": "sex",
+              "format": "string",
+              "sort": 2
+            },
+            "3": {
+              "label": "Date of birth",
+              "column": "dob",
+              "format": "date",
+              "sort": 3
+            },
+            "4": {
+              "label": "First Visit Date",
+              "column": "first_visit_date",
+              "format": "date",
+              "sort": 4
+            },
+            "5": {
+              "label": "Last Visit Date",
+              "column": "last_visit_date",
+              "format": "date",
+              "sort": 5
+            },
+            "6": {
+              "label": "Last Visit Region",
+              "column": "last_visit_region",
+              "format": "string",
+              "sort": 6
+            },
+            "8": {
+              "label": "First Visit Region",
+              "column": "first_visit_region",
+              "format": "string",
+              "sort": 7
+            }
+          },
+          "query": "SELECT clinic_number, sex, dob, region, first_visit_date, first_visit_region, last_visit_date, last_visit_region FROM analysis.fact_encounter"
+        }
+      ]
+    }
+  ]
+}
