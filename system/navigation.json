@@ -4,6 +4,11 @@
             "label": "Sample Dashboard",
             "dashboardFile": "dashboard.json",
             "hasSubMenu": false            
+        },
+        {
+            "label": "Wakanda Dashboard",
+            "dashboardFile": "dashboard-wakanda.json",
+            "hasSubMenu": false            
         }
     ]
 }
