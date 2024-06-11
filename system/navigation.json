@@ -1,7 +1,6 @@
 {
     "navigation": [
         {
-            "sortOrder": 0,
             "label": "Sample Dashboard",
             "dashboardFile": "dashboard.json",
             "hasSubMenu": false            

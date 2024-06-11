@@ -5,13 +5,11 @@
     "releaseDate": "2024-03-15T14:30:00Z",
     "slicers": [
           {
-            "sortOrder": 1,
             "name": "Sex",
             "type": "select",
             "options": "select distinct sex as val from base.dim_encounter"
           },
           {
-            "sortOrder": 2,
             "name": "Region",
             "type": "select",
             "options": "select distinct region as val from base.dim_encounter"
@@ -44,7 +42,6 @@
             "tiles": [
                 {
                     "id": 23,
-                    "sortOrder": 4,
                     "label": "Total Count",
                     "format": "integer",
                     "query": "SELECT COUNT(*) as data FROM A TABLE",
@@ -53,7 +50,6 @@
                   },
                 {
                     "id": 23,
-                    "sortOrder": 4,
                     "label": "Total Count",
                     "format": "integer",
                     "query": "SELECT COUNT(*) as data FROM A TABLE",
@@ -65,7 +61,6 @@
              
               {
                 "id": 13,
-                "sortOrder": 3,
                 "groupBy": "region",
                 "col": 8,
                 "label": "Sample Bar Graph",
