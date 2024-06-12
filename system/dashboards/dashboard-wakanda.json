@@ -74,7 +74,7 @@
         {
           "id": 1,
           "sortOrder": 1,
-          "groupBy": "county",
+          "groupBy": "data",
           "col": 12,
           "label": "Total Active By Region",
           "title": "Total Active By Region",
@@ -90,22 +90,22 @@
             "column": "region",
             "format": "string"
           },
-          "query": "SELECT county, COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_hiv_diagnosis_facility f ON fs.hiv_diagnosis_facility_id=f.facility_id WHERE cascade_status_is_on_art=1"
+          "query": "SELECT county as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id INNER JOIN dim_hiv_diagnosis_facility f ON fs.hiv_diagnosis_facility_id=f.facility_id WHERE cascade_status_is_on_art=1"
         },
         {
           "id": 2,
           "sortOrder": 3,
-          "groupBy": "gender",
+          "groupBy": "data",
           "col": 6,
           "label": "Total Active By Gender",
           "title": "Total Active By Gender",
           "type": "pie",
-          "query": "SELECT gender, COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1"
+          "query": "SELECT gender as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1"
         },
         {
           "id": 3,
           "sortOrder": 1,
-          "groupBy": "cascade_status",
+          "groupBy": "data",
           "col": 6,
           "label": "Patient Cascade Status Distribution",
           "title": "Patient Cascade Status Distribution",
@@ -122,7 +122,7 @@
             "format": "integer",
             "action": "count"
           },
-          "query": "SELECT cascade_status, COUNT(*) as data FROM fact_sentinel_event WHERE cascade_status !=''"
+          "query": "SELECT cascade_status as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status !=''"
         },
         {
           "id": 5,
@@ -208,7 +208,7 @@
       "id": 1,
       "title": "Regimen Analysis",
       "badge": {
-        "query": "SELECT COUNT(*) as data FROM fact_sentinel_event",
+        "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id",
         "color": {
           "high": {
             "upperThreshold": "100",
@@ -233,7 +233,7 @@
           "sortOrder": 2,
           "label": "Total Active",
           "format": "integer",
-          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event WHERE cascade_status_is_on_art=1",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1",
           "totalCounter": "totalActiveCounts",
           "icon": "/assets/icons/glass/ic_glass_users.png"
         },
@@ -242,7 +242,7 @@
           "sortOrder": 3,
           "label": "Total Active On First Line",
           "format": "integer",
-          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event WHERE cascade_status_is_on_art=1 AND is_currently_on_first_line_art=1",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND is_currently_on_first_line_art=1",
           "totalCounter": "totalMaleActiveCounts",
           "icon": "/assets/icons/glass/ic_glass_users.png"
         },
@@ -251,7 +251,7 @@
           "sortOrder": 4,
           "label": "Total Active On Second Line",
           "format": "integer",
-          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event WHERE cascade_status_is_on_art=1 AND is_currently_on_second_line_art=1",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND is_currently_on_second_line_art=1",
           "totalCounter": "totalFemaleActiveCounts",
           "icon": "/assets/icons/glass/ic_glass_users.png"
         },
@@ -260,7 +260,7 @@
           "sortOrder": 5,
           "label": "Total Active On Third Line",
           "format": "integer",
-          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event WHERE cascade_status_is_on_art=1 AND is_currently_on_third_line_art=1",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND is_currently_on_third_line_art=1",
           "totalCounter": "totalFemaleActiveCounts",
           "icon": "/assets/icons/glass/ic_glass_users.png"
         }
@@ -269,7 +269,7 @@
         {
           "id": 1,
           "sortOrder": 1,
-          "groupBy": "regimen",
+          "groupBy": "data",
           "col": 16,
           "label": "Distribution of Regimen",
           "title": "Distribution of Regimen",
@@ -285,7 +285,7 @@
             "column": "regimen",
             "format": "string"
           },
-          "query": "SELECT last_art_regimen as regimen, COUNT(*) as data FROM fact_sentinel_event fs WHERE cascade_status_is_on_art=1"
+          "query": "SELECT last_art_regimen as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1"
         },
         {
           "id": 2,
@@ -295,7 +295,7 @@
           "label": "Distribution of Regimen Lines",
           "title": "Total Active By Gender",
           "type": "pie",
-          "query": "SELECT last_art_regimen_line as regimen_line, COUNT(*) as data FROM fact_sentinel_event fs WHERE cascade_status_is_on_art=1"
+          "query": "SELECT last_art_regimen_line as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1"
         },
         {
           "id": 5,
