@@ -1,5 +1,5 @@
 {
-  "name": "dashboard.json",
+  "name": "dashboard-wakanda.json",
   "title": "Sample Dashboard",
   "version": 3,
   "releaseDate": "2024-03-15T14:30:00Z",
@@ -8,7 +8,7 @@
       "sortOrder": 1,
       "name": "Sex",
       "type": "select",
-      "options": "select distinct gender as val from fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id"
+      "options": "select distinct gender as val from dim_client"
     },
     {
       "sortOrder": 2,
