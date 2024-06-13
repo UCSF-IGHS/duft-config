@@ -1,17 +1,15 @@
 {
   "name": "dashboard-wakanda.json",
-  "title": "Sample Dashboard",
+  "title": "Sample Wakanda Dashboard",
   "version": 3,
   "releaseDate": "2024-03-15T14:30:00Z",
   "slicers": [
     {
-      "sortOrder": 1,
       "name": "Sex",
       "type": "select",
       "options": "select distinct gender as val from dim_client"
     },
     {
-      "sortOrder": 2,
       "name": "Age Group",
       "type": "select",
       "options": "select distinct five_year_interval as val from dim_client c INNER JOIN dim_age_group a on c.current_age=a.age"
@@ -44,7 +42,6 @@
       "tiles": [
         {
           "id": 1,
-          "sortOrder": 2,
           "label": "Total Active",
           "format": "integer",
           "query": "SELECT COUNT(*) as data FROM fact_sentinel_event WHERE cascade_status_is_on_art=1",
@@ -53,7 +50,6 @@
         },
         {
           "id": 3,
-          "sortOrder": 3,
           "label": "Total Male Active",
           "format": "integer",
           "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND gender='Male'",
@@ -62,7 +58,6 @@
         },
         {
           "id": 4,
-          "sortOrder": 4,
           "label": "Total Female Active",
           "format": "integer",
           "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND gender='Female'",
@@ -73,7 +68,6 @@
       "visuals": [
         {
           "id": 1,
-          "sortOrder": 1,
           "groupBy": "data",
           "col": 12,
           "label": "Total Active By Region",
@@ -94,7 +88,6 @@
         },
         {
           "id": 2,
-          "sortOrder": 3,
           "groupBy": "data",
           "col": 6,
           "label": "Total Active By Gender",
@@ -104,7 +97,6 @@
         },
         {
           "id": 3,
-          "sortOrder": 1,
           "groupBy": "data",
           "col": 6,
           "label": "Patient Cascade Status Distribution",
@@ -126,7 +118,6 @@
         },
         {
           "id": 5,
-          "sortOrder": 1,
           "label": "Patient",
           "title": "Patient Line List",
           "type": "table",
@@ -230,7 +221,6 @@
       "tiles": [
         {
           "id": 1,
-          "sortOrder": 2,
           "label": "Total Active",
           "format": "integer",
           "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1",
@@ -239,7 +229,6 @@
         },
         {
           "id": 3,
-          "sortOrder": 3,
           "label": "Total Active On First Line",
           "format": "integer",
           "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND is_currently_on_first_line_art=1",
@@ -248,7 +237,6 @@
         },
         {
           "id": 4,
-          "sortOrder": 4,
           "label": "Total Active On Second Line",
           "format": "integer",
           "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND is_currently_on_second_line_art=1",
@@ -257,7 +245,6 @@
         },
         {
           "id": 5,
-          "sortOrder": 5,
           "label": "Total Active On Third Line",
           "format": "integer",
           "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND is_currently_on_third_line_art=1",
@@ -268,7 +255,6 @@
       "visuals": [
         {
           "id": 1,
-          "sortOrder": 1,
           "groupBy": "data",
           "col": 16,
           "label": "Distribution of Regimen",
@@ -299,7 +285,6 @@
         },
         {
           "id": 5,
-          "sortOrder": 1,
           "label": "Patient",
           "title": "Patient Line List",
           "type": "table",
