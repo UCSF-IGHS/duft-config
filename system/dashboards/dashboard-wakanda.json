@@ -1,0 +1,372 @@
+{
+  "name": "dashboard-wakanda.json",
+  "title": "Sample Wakanda Dashboard",
+  "version": 3,
+  "releaseDate": "2024-03-15T14:30:00Z",
+  "slicers": [
+    {
+      "name": "Sex",
+      "type": "select",
+      "options": "select distinct gender as val from dim_client"
+    },
+    {
+      "name": "Age Group",
+      "type": "select",
+      "options": "select distinct five_year_interval as val from dim_client c INNER JOIN dim_age_group a on c.current_age=a.age"
+    }
+  ],
+  "tabs": [
+    {
+      "id": 0,
+      "title": "Overview",
+      "badge": {
+        "query": "SELECT COUNT(*) as data FROM fact_sentinel_event",
+        "color": {
+          "high": {
+            "upperThreshold": "100",
+            "lowerThreshold": "80",
+            "hex": "#300"
+          },
+          "medium": {
+            "upperThreshold": "79",
+            "lowerThreshold": "26",
+            "hex": "#ddd"
+          },
+          "low": {
+            "upperThreshold": "25",
+            "lowerThreshold": "0",
+            "hex": "#fff"
+          }
+        }
+      },
+      "tiles": [
+        {
+          "id": 1,
+          "label": "Total Active",
+          "format": "integer",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event WHERE cascade_status_is_on_art=1",
+          "totalCounter": "totalActiveCounts",
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 3,
+          "label": "Total Male Active",
+          "format": "integer",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND gender='Male'",
+          "totalCounter": "totalMaleActiveCounts",
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 4,
+          "label": "Total Female Active",
+          "format": "integer",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND gender='Female'",
+          "totalCounter": "totalFemaleActiveCounts",
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        }
+      ],
+      "visuals": [
+        {
+          "id": 1,
+          "groupBy": "data",
+          "col": 12,
+          "label": "Total Active By Region",
+          "title": "Total Active By Region",
+          "type": "bar",
+          "y": {
+            "label": "Patients",
+            "column": "patients",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Region",
+            "column": "region",
+            "format": "string"
+          },
+          "query": "SELECT county as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id INNER JOIN dim_hiv_diagnosis_facility f ON fs.hiv_diagnosis_facility_id=f.facility_id WHERE cascade_status_is_on_art=1"
+        },
+        {
+          "id": 2,
+          "groupBy": "data",
+          "col": 6,
+          "label": "Total Active By Gender",
+          "title": "Total Active By Gender",
+          "type": "pie",
+          "query": "SELECT gender as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1"
+        },
+        {
+          "id": 3,
+          "groupBy": "data",
+          "col": 6,
+          "label": "Patient Cascade Status Distribution",
+          "title": "Patient Cascade Status Distribution",
+          "type": "bar",
+          "x": {
+            "label": "Patients",
+            "column": "data",
+            "format": "decimal",
+            "action": "count"
+          },
+          "y": {
+            "label": "Cascade Status",
+            "column": "cascade_status",
+            "format": "integer",
+            "action": "count"
+          },
+          "query": "SELECT cascade_status as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status !=''"
+        },
+        {
+          "id": 5,
+          "label": "Patient",
+          "title": "Patient Line List",
+          "type": "table",
+          "groupBy": null,
+          "sortable": true,
+          "columns": {
+            "1": {
+              "label": "Client ID",
+              "column": "client_id",
+              "format": "string",
+              "sort": 1
+            },
+            "2": {
+              "label": "Gender",
+              "column": "gender",
+              "format": "string",
+              "sort": 2
+            },
+            "3": {
+              "label": "Date of birth",
+              "column": "birth_date",
+              "format": "string",
+              "sort": 3
+            },
+            "4": {
+              "label": "Patient Source",
+              "column": "patient_source",
+              "format": "date",
+              "sort": 4
+            },
+            "5": {
+              "label": "HIV Diagnosis Date",
+              "column": "hiv_diagnosis_date",
+              "format": "date",
+              "sort": 5
+            },
+            "6": {
+              "label": "First ART Date",
+              "column": "first_art_date",
+              "format": "date",
+              "sort": 6
+            },
+            "7": {
+              "label": "First ART Regimen",
+              "column": "first_art_regimen",
+              "format": "string",
+              "sort": 7
+            },
+            "8": {
+              "label": "Last ART Date",
+              "column": "last_art_date",
+              "format": "date",
+              "sort": 8
+            },
+            "9": {
+              "label": "Last ART Regimen",
+              "column": "last_art_regimen",
+              "format": "string",
+              "sort": 9
+            },
+            "10": {
+              "label": "Last ART End DAte",
+              "column": "last_art_end_date",
+              "format": "date",
+              "sort": 10
+            },
+            "11": {
+              "label": "Current Cascade Status",
+              "column": "current_cascade_status",
+              "format": "string",
+              "sort": 11
+            }
+          },
+          "query": "SELECT c.client_id, gender, birth_date, patient_source, hiv_diagnosis_date, first_art_date, first_art_regimen, last_art_date, last_art_regimen, last_art_end_date, current_cascade_status FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Regimen Analysis",
+      "badge": {
+        "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id",
+        "color": {
+          "high": {
+            "upperThreshold": "100",
+            "lowerThreshold": "80",
+            "hex": "#300"
+          },
+          "medium": {
+            "upperThreshold": "79",
+            "lowerThreshold": "26",
+            "hex": "#ddd"
+          },
+          "low": {
+            "upperThreshold": "25",
+            "lowerThreshold": "0",
+            "hex": "#fff"
+          }
+        }
+      },
+      "tiles": [
+        {
+          "id": 1,
+          "label": "Total Active",
+          "format": "integer",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1",
+          "totalCounter": "totalActiveCounts",
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 3,
+          "label": "Total Active On First Line",
+          "format": "integer",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND is_currently_on_first_line_art=1",
+          "totalCounter": "totalMaleActiveCounts",
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 4,
+          "label": "Total Active On Second Line",
+          "format": "integer",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND is_currently_on_second_line_art=1",
+          "totalCounter": "totalFemaleActiveCounts",
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 5,
+          "label": "Total Active On Third Line",
+          "format": "integer",
+          "query": "SELECT COUNT(*) as data FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1 AND is_currently_on_third_line_art=1",
+          "totalCounter": "totalFemaleActiveCounts",
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        }
+      ],
+      "visuals": [
+        {
+          "id": 1,
+          "groupBy": "data",
+          "col": 16,
+          "label": "Distribution of Regimen",
+          "title": "Distribution of Regimen",
+          "type": "bar",
+          "y": {
+            "label": "Patients",
+            "column": "data",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Regimen",
+            "column": "regimen",
+            "format": "string"
+          },
+          "query": "SELECT last_art_regimen as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1"
+        },
+        {
+          "id": 2,
+          "sortOrder": 3,
+          "groupBy": "regimen_line",
+          "col": 6,
+          "label": "Distribution of Regimen Lines",
+          "title": "Total Active By Gender",
+          "type": "pie",
+          "query": "SELECT last_art_regimen_line as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE cascade_status_is_on_art=1"
+        },
+        {
+          "id": 5,
+          "label": "Patient",
+          "title": "Patient Line List",
+          "type": "table",
+          "groupBy": null,
+          "sortable": true,
+          "columns": {
+            "1": {
+              "label": "Client ID",
+              "column": "client_id",
+              "format": "string",
+              "sort": 1
+            },
+            "2": {
+              "label": "Gender",
+              "column": "gender",
+              "format": "string",
+              "sort": 2
+            },
+            "3": {
+              "label": "Date of birth",
+              "column": "birth_date",
+              "format": "string",
+              "sort": 3
+            },
+            "4": {
+              "label": "Patient Source",
+              "column": "patient_source",
+              "format": "date",
+              "sort": 4
+            },
+            "5": {
+              "label": "HIV Diagnosis Date",
+              "column": "hiv_diagnosis_date",
+              "format": "date",
+              "sort": 5
+            },
+            "6": {
+              "label": "First ART Date",
+              "column": "first_art_date",
+              "format": "date",
+              "sort": 6
+            },
+            "7": {
+              "label": "First ART Regimen",
+              "column": "first_art_regimen",
+              "format": "string",
+              "sort": 7
+            },
+            "8": {
+              "label": "Last ART Date",
+              "column": "last_art_date",
+              "format": "date",
+              "sort": 8
+            },
+            "9": {
+              "label": "Last ART Regimen",
+              "column": "last_art_regimen",
+              "format": "string",
+              "sort": 9
+            },
+            "10": {
+              "label": "Last ART Regimen Line",
+              "column": "last_art_regimen_line",
+              "format": "string",
+              "sort": 10
+            },
+            "11": {
+              "label": "Last ART End Date",
+              "column": "last_art_end_date",
+              "format": "date",
+              "sort": 11
+            },
+            "12": {
+              "label": "Current Cascade Status",
+              "column": "current_cascade_status",
+              "format": "string",
+              "sort": 12
+            }
+          },
+          "query": "SELECT c.client_id, gender, birth_date, patient_source, hiv_diagnosis_date, first_art_date, first_art_regimen, last_art_date, last_art_regimen, last_art_regimen_line, last_art_end_date, current_cascade_status FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id"
+        }
+      ]
+    }
+  ]
+}
