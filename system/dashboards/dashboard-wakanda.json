@@ -1,4 +1,5 @@
 {
+  "$schema": "https://openmrs-dev.globalhealthapp.net/standard-json-schemas/duft-schemas/dashboard.schema.json",
   "name": "dashboard-wakanda.json",
   "title": "Sample Wakanda Dashboard",
   "version": 3,
