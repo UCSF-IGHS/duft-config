@@ -60,7 +60,7 @@
 			"id":"ANA",
 			"name":"Analysis Database",
 			"description":"The database where all analysis data will be stored.",
-			"allowQueryEngine":"True",
+			"allowQueryEngine":true,
 			"params":[
 				{
 					"name":"type",

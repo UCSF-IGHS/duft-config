@@ -1,3 +1,4 @@
 {
+    "$schema":"https://openmrs-dev.globalhealthapp.net/standard-json-schemas/duft-schemas/navigation.schema.json",
     "navigation":"user"
 }

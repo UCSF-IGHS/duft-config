@@ -1,4 +1,5 @@
 {
+  "$schema":"https://openmrs-dev.globalhealthapp.net/standard-json-schemas/duft-schemas/config.schema.json",
   "dataConnectionParameters": {
     "EMPS": {
       "server": "127.0.0.1",
