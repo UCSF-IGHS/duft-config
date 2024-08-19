@@ -1,3 +1,23 @@
 {
-    "navigation":"user"
-}
+    "navigation": [
+      {
+        "label": "Wakanda Dashboard",
+        "dashboardFile": "dashboard-wakanda.json",
+        "hasSubMenu": false
+      }
+    ],
+    "dataTasks": [
+      {
+        "id": "SAMPLE-NOTEBOOK",
+        "name": "Sample Notebook Task",
+        "description": "A sample notebook that does nothing",
+        "pythonFile": "sample_notebook.ipynb",
+        "hideInUI": true,
+        "dataConnections": ["ANA", "MyOwnConnection"],
+        "params": {
+          "name": "Cersei",
+          "sleep_time": 0.5
+        }
+      }        
+    ]
+  }
