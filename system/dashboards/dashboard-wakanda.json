@@ -29,239 +29,6 @@
   "tabs": [
     {
       "id": 0,
-      "title": "D. Retention Rate",
-      "tiles": [
-        {
-          "id": 1,
-          "label": "New Cases",
-          "format": "integer",
-          "query": "SELECT hiv_diagnosis_date FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';",
-          "totalCounter": "totalNewCases",
-          "icon": "/assets/icons/glass/ic_glass_users.png",
-          "hasDetails": true,
-          "hasExport": false
-        },
-        {
-          "id": 2,
-          "label": "Initiated",
-          "format": "integer",
-          "query": "SELECT client_id, hiv_diagnosis_date, hiv_diagnosis_age, final_recency_result, days_since_last_seen, last_cd4_count_result, last_art_regimen, last_art_regimen_line FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';",
-          "totalCounter": "totalInitiatedon",
-          "icon": "/assets/icons/glass/ic_glass_users.png",
-          "hasDetails": true,
-          "hasExport": true,
-          "columns": [
-                {
-                  "id": "client_id",
-                  "label": "Client ID"
-                },
-                {
-                  "id": "hiv_diagnosis_date",
-                  "label": "HIV Diagnosis Date"
-                },
-                {
-                  "id": "hiv_diagnosis_age",
-                  "label": "HIV Diagnosis Age"
-                },
-                {
-                  "id": "final_recency_result",
-                  "label": "Recency Result"
-                },
-                {
-                  "id": "days_since_last_seen",
-                  "label": "Days Since Last Seen"
-                },
-                {
-                  "id": "last_cd4_count_result",
-                  "label": "Recency Result"
-                },
-                {
-                  "id": "last_art_regimen",
-                  "label": "Last ART Regimen"
-                },
-                {
-                  "id": "last_art_regimen_line",
-                  "label": "Last ART Regimen Line"
-                }
-              ]
-        },
-        {
-          "id": 3,
-          "label": "Suppressed",
-          "format": "integer",
-          "query": "SELECT client_id, hiv_diagnosis_date, last_viral_load_age, last_viral_load_result_text, last_viral_load_result_copies FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';",
-          "totalCounter": "totalThirdLineCounts",
-          "icon": "/assets/icons/glass/ic_glass_users.png",
-          "hasDetails": true,
-          "hasExport": false,
-          "columns": [
-                {
-                  "id": "client_id",
-                  "label": "Client ID"
-                },
-                {
-                  "id": "hiv_diagnosis_date",
-                  "label": "HIV Diagnosis Date"
-                },
-                {
-                  "id": "last_viral_load_age",
-                  "label": "Age"
-                },
-                {
-                  "id": "last_viral_load_result_text",
-                  "label": "VL Result Text"
-                },
-                {
-                  "id": "last_viral_load_result_copies",
-                  "label": "VL Result Copies"
-                }
-              ]
-        },
-        {
-          "id": 4,
-          "label": "Not Suppressed",
-          "format": "integer",
-          "query": "SELECT client_id, hiv_diagnosis_date, hiv_diagnosis_age, final_recency_result, days_since_last_seen, last_cd4_count_result, last_art_regimen, last_art_regimen_line, last_viral_load_age, last_viral_load_result_text, last_viral_load_result_copies FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';",
-          "totalCounter": "totalThirdLineCounts",
-          "icon": "/assets/icons/glass/ic_glass_users.png",
-          "hasDetails": true,
-          "hasExport": false,
-          "columns": [
-                {
-                  "id": "client_id",
-                  "label": "Client ID"
-                },
-                {
-                  "id": "hiv_diagnosis_date",
-                  "label": "Diagnosis Date"
-                },
-                {
-                  "id": "last_viral_load_age",
-                  "label": "Age"
-                },
-                {
-                  "id": "last_viral_load_result_text",
-                  "label": "VL Result Text"
-                },
-                {
-                  "id": "last_viral_load_result_copies",
-                  "label": "VL Result Copies"
-                },
-                {
-                  "id": "hiv_diagnosis_age",
-                  "label": "Diagnosis Age"
-                },
-                {
-                  "id": "final_recency_result",
-                  "label": "Recency Result"
-                },
-                {
-                  "id": "days_since_last_seen",
-                  "label": "Days Last Seen"
-                },
-                {
-                  "id": "last_cd4_count_result",
-                  "label": "Last CD4 Count"
-                },
-                {
-                  "id": "last_art_regimen",
-                  "label": "ART Regimen"
-                },
-                {
-                  "id": "last_art_regimen_line",
-                  "label": "Regimen Line"
-                }
-              ]
-        }
-      ],
-      "visuals": [
-        {
-          "id": 1,
-          "groupBy": null,
-          "col": 12,
-          "label": "Ever Initiated on ART Versus Exited",
-          "title": "Ever Initiated on ART Versus Exited",
-          "type": "area",    
-          "stacked": true,
-          "tooltip": {
-            "enabled": true,
-            "enabledOnSeries": "first_art_regimen"
-          },
-          "y": {
-            "label": "Patients Count",
-            "column": "tot",
-            "format": "decimal",
-            "action": "count"
-          },
-          "x": {
-            "label": "Year Month",
-            "column": "year_month",
-            "format": "string"
-          },
-          "category": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-          "query": "WITH temp_results AS ( SELECT 'Initiated' AS status, SUM( CASE WHEN has_ever_been_initiated_on_art != 0 THEN 1 ELSE 0 END ) AS tot, month_yyyy, year_month FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date = d.full_date WHERE year_month >= 202301 GROUP BY month_yyyy UNION SELECT 'Exited' AS status, SUM( CASE WHEN has_exited_died != 0 THEN 1 ELSE 0 END ) AS tot, month_yyyy, year_month FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date = d.full_date WHERE year_month >= 202301 GROUP BY month_yyyy ORDER BY year_month ), json_results AS ( SELECT status, json_group_array ( tot ) AS data FROM temp_results GROUP BY status ORDER BY status DESC), formatted_results AS ( SELECT json_object ( 'name', status, 'data', json_extract ( data, '$' ) ) AS result FROM json_results ) SELECT '' AS data, result AS tot FROM formatted_results;"
-        },
-        {
-          "id": 2,
-          "groupBy": "data",
-          "col": 6,
-          "label": "Distribution of ART Outcomes",
-          "title": "Distribution of ART Outcomes",
-          "type": "pie",
-          "query": "SELECT current_cascade_status as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE current_cascade_status !=''"
-        },
-        {
-          "id": 3,
-          "groupBy": null,
-          "col": 6,
-          "label": "Ever initiated on ART By Age Group and Gender",
-          "title": "Ever initiated on ART By Age Group and Gender",
-          "type": "bar",
-          "stacked": true,
-          "y": {
-            "label": "Patients Count",
-            "column": "tot",
-            "format": "decimal",
-            "action": "count"
-          },
-          "x": {
-            "label": "Age Group",
-            "column": "five_year_interval",
-            "format": "string"
-          },
-          "category": ["0-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65+"],
-          "query": "WITH temp_results AS (SELECT SUM(CASE WHEN has_ever_been_initiated_on_art != 0 THEN 1 ELSE 0 END) AS tot, gender, five_year_interval FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_age_group ag ON c.current_age = ag.age WHERE has_exited_died != 1 GROUP BY gender, ag.five_year_interval), json_results AS (SELECT gender, json_group_array(tot) AS data FROM temp_results GROUP BY gender), formatted_results AS (SELECT json_object('name', gender, 'data', json_extract(data, '$')) AS result FROM json_results) SELECT '' as data, result AS tot FROM formatted_results;"
-        },
-        {
-          "id": 4,
-          "groupBy": null,
-          "col": 12,
-          "label": "Deceased By Age Group Over the Years",
-          "title": "Deceased By Age Group Over the Years",
-          "type": "heatmap",    
-          "stacked": true,
-          "tooltip": {
-            "enabled": true,
-            "enabledOnSeries": "gender"
-          },
-          "y": {
-            "label": "Patients Count",
-            "column": "tot",
-            "format": "decimal",
-            "action": "count"
-          },
-          "x": {
-            "label": "Year",
-            "column": "year",
-            "format": "integer"
-          },
-          "category": ["2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
-          "query": "WITH all_combinations AS ( SELECT DISTINCT c.gender,d.year,0 AS tot FROM ( SELECT gender FROM dim_client) c CROSS JOIN ( SELECT DISTINCT year FROM dim_date WHERE year BETWEEN 2005 AND 2023) d),actual_results AS ( SELECT c.gender,d.year,COUNT(*) AS tot FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date=d.full_date WHERE year BETWEEN 2005 AND 2023 GROUP BY d.year,c.gender),all_results AS ( SELECT COALESCE(ar.gender,ac.gender) AS gender,COALESCE(ar.year,ac.year) AS year,COALESCE(ar.tot,ac.tot) AS tot FROM all_combinations ac LEFT JOIN actual_results ar ON ar.gender=ac.gender AND ar.year=ac.year ORDER BY year),json_results AS ( SELECT gender,json_group_array (tot) AS data FROM all_results GROUP BY gender),formatted_results AS ( SELECT json_object ('name',gender,'data',json_extract (data,'$')) AS result FROM json_results) SELECT '' AS data,result AS tot FROM formatted_results;" 
-        }
-      ]
-    },
-    {
-      "id": 1,
       "title": "A. ART Cascade",
       "tiles": [
         {
@@ -461,7 +228,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": 1,
       "title": "B. Regimen Analysis",
       "tiles": [
         {
@@ -625,7 +392,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": 2,
       "title": "C. ART Outcome",
       "tiles": [
         {
@@ -813,35 +580,69 @@
       ]
     },
     {
-      "id": 4,
-      "title": "D. Diagnosis",
+      "id": 3,
+      "title": "D. Retention",
       "tiles": [
         {
           "id": 1,
-          "label": "Total diagnosis",
+          "label": "New Cases",
           "format": "integer",
-          "query": "SELECT * FROM fact_sentinel_event",
-          "hasDetails": false,
-          "totalCounter": "totaldiagnosisCounts",
+          "query": "SELECT hiv_diagnosis_date FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';",
+          "totalCounter": "totalNewCases",
           "icon": "/assets/icons/glass/ic_glass_users.png",
+          "hasDetails": true,
           "hasExport": false
         },
         {
           "id": 2,
-          "label": "Initiated within 30 days of diagnosis",
+          "label": "Initiated",
           "format": "integer",
-          "query": "SELECT * FROM fact_sentinel_event WHERE has_initiated_art_within_30_days=1",
-          "totalCounter": "totalInitiatedOwithin30days",
+          "query": "SELECT client_id, hiv_diagnosis_date, hiv_diagnosis_age, final_recency_result, days_since_last_seen, last_cd4_count_result, last_art_regimen, last_art_regimen_line FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';",
+          "totalCounter": "totalInitiatedon",
           "icon": "/assets/icons/glass/ic_glass_users.png",
-          "hasDetails": false,
-          "hasExport": false
-        },      
+          "hasDetails": true,
+          "hasExport": true,
+          "columns": [
+                {
+                  "id": "client_id",
+                  "label": "Client ID"
+                },
+                {
+                  "id": "hiv_diagnosis_date",
+                  "label": "HIV Diagnosis Date"
+                },
+                {
+                  "id": "hiv_diagnosis_age",
+                  "label": "HIV Diagnosis Age"
+                },
+                {
+                  "id": "final_recency_result",
+                  "label": "Recency Result"
+                },
+                {
+                  "id": "days_since_last_seen",
+                  "label": "Days Since Last Seen"
+                },
+                {
+                  "id": "last_cd4_count_result",
+                  "label": "Recency Result"
+                },
+                {
+                  "id": "last_art_regimen",
+                  "label": "Last ART Regimen"
+                },
+                {
+                  "id": "last_art_regimen_line",
+                  "label": "Last ART Regimen Line"
+                }
+              ]
+        },
         {
           "id": 3,
-          "label": "Initiated after 30 days of diagnosis",
+          "label": "Suppressed",
           "format": "integer",
-          "query": "SELECT * FROM fact_sentinel_event WHERE has_initiated_art_within_30_days=0",
-          "totalCounter": "totalInitiatedafter30days",
+          "query": "SELECT client_id, hiv_diagnosis_date, last_viral_load_age, last_viral_load_result_text, last_viral_load_result_copies FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';",
+          "totalCounter": "totalThirdLineCounts",
           "icon": "/assets/icons/glass/ic_glass_users.png",
           "hasDetails": true,
           "hasExport": false,
@@ -851,19 +652,31 @@
                   "label": "Client ID"
                 },
                 {
-                  "id": "sex",
-                  "label": "sex"
+                  "id": "hiv_diagnosis_date",
+                  "label": "HIV Diagnosis Date"
+                },
+                {
+                  "id": "last_viral_load_age",
+                  "label": "Age"
+                },
+                {
+                  "id": "last_viral_load_result_text",
+                  "label": "VL Result Text"
+                },
+                {
+                  "id": "last_viral_load_result_copies",
+                  "label": "VL Result Copies"
                 }
               ]
-        },        
+        },
         {
           "id": 4,
-          "label": "Died in Diagnosis year",
+          "label": "Not Suppressed",
           "format": "integer",
-          "query": "SELECT * FROM fact_sentinel_event where first_art_age >75 AND has_exited_died=1",
-          "totalCounter": "totaldiedinDyear",
+          "query": "SELECT client_id, hiv_diagnosis_date, hiv_diagnosis_age, final_recency_result, days_since_last_seen, last_cd4_count_result, last_art_regimen, last_art_regimen_line, last_viral_load_age, last_viral_load_result_text, last_viral_load_result_copies FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';",
+          "totalCounter": "totalThirdLineCounts",
           "icon": "/assets/icons/glass/ic_glass_users.png",
-          "hasDetails": false,
+          "hasDetails": true,
           "hasExport": false,
           "columns": [
                 {
@@ -871,54 +684,157 @@
                   "label": "Client ID"
                 },
                 {
-                  "id": "sex",
-                  "label": "sex"
+                  "id": "hiv_diagnosis_date",
+                  "label": "Diagnosis Date"
+                },
+                {
+                  "id": "last_viral_load_age",
+                  "label": "Age"
+                },
+                {
+                  "id": "last_viral_load_result_text",
+                  "label": "VL Result Text"
+                },
+                {
+                  "id": "last_viral_load_result_copies",
+                  "label": "VL Result Copies"
+                },
+                {
+                  "id": "hiv_diagnosis_age",
+                  "label": "Diagnosis Age"
+                },
+                {
+                  "id": "final_recency_result",
+                  "label": "Recency Result"
+                },
+                {
+                  "id": "days_since_last_seen",
+                  "label": "Days Last Seen"
+                },
+                {
+                  "id": "last_cd4_count_result",
+                  "label": "Last CD4 Count"
+                },
+                {
+                  "id": "last_art_regimen",
+                  "label": "ART Regimen"
+                },
+                {
+                  "id": "last_art_regimen_line",
+                  "label": "Regimen Line"
                 }
               ]
         }
-         ],
+      ],
       "visuals": [
         {
           "id": 1,
-          "groupBy": "data",
-          "col": 6,
-          "label": "Diagnosis by location",
-          "title": "Diagnosis by location",
-          "type": "bar",
-          "y": {
-            "label": "Patients",
-            "column": "data",
-            "format": "decimal",
-            "action": "count"
-          },
-          "x": {
-            "label": "Regimen",
-            "column": "regimen",
-            "format": "string"
-          },
-          "query": "SELECT county as data, COUNT(*) as tot FROM fact_sentinel_event fs LEFT JOIN dim_hiv_diagnosis_facility hc on fs.hiv_diagnosis_facility_id=hc.facility_id"
-        },
-        {
-          "id": 2,
-          "groupBy": "data",
-          "col": 6,
-          "label": "Age at diagnosis",
-          "title": "Age at diagnosis",
-          "type": "bar",
+          "groupBy": null,
+          "col": 12,
+          "label": "Ever Initiated on ART Versus Exited",
+          "title": "Ever Initiated on ART Versus Exited",
+          "type": "area",    
           "stacked": true,
+          "tooltip": {
+            "enabled": true,
+            "enabledOnSeries": "status"
+          },
           "y": {
-            "label": "Patients",
+            "label": "Patients Count",
             "column": "tot",
             "format": "decimal",
             "action": "count"
           },
           "x": {
-            "label": "ageatdiagnosis",
+            "label": "Year Month",
+            "column": "year_month",
+            "format": "string"
+          },
+          "category": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          "query": "WITH temp_results AS ( SELECT 'Initiated' AS status, SUM( CASE WHEN has_ever_been_initiated_on_art != 0 THEN 1 ELSE 0 END ) AS tot, month_yyyy, year_month FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date = d.full_date WHERE year_month >= 202301 GROUP BY month_yyyy UNION SELECT 'Exited' AS status, SUM( CASE WHEN has_exited_died != 0 THEN 1 ELSE 0 END ) AS tot, month_yyyy, year_month FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date = d.full_date WHERE year_month >= 202301 GROUP BY month_yyyy ORDER BY year_month ), json_results AS ( SELECT status, json_group_array ( tot ) AS data FROM temp_results GROUP BY status ORDER BY status DESC), formatted_results AS ( SELECT json_object ( 'name', status, 'data', json_extract ( data, '$' ) ) AS result FROM json_results ) SELECT '' AS data, result AS tot FROM formatted_results;"
+        },
+        {
+          "id": 2,
+          "groupBy": "data",
+          "col": 6,
+          "label": "Distribution of ART Outcomes",
+          "title": "Distribution of ART Outcomes",
+          "type": "pie",
+          "query": "SELECT current_cascade_status as data, COUNT(*) as tot FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE current_cascade_status !=''"
+        },
+        {
+          "id": 3,
+          "groupBy": null,
+          "col": 6,
+          "label": "Ever initiated on ART By Age Group and Gender",
+          "title": "Ever initiated on ART By Age Group and Gender",
+          "type": "bar",
+          "stacked": true,
+          "y": {
+            "label": "Patients Count",
+            "column": "tot",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Age Group",
             "column": "five_year_interval",
             "format": "string"
           },
           "category": ["0-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65+"],
-          "query": "WITH temp_results AS (SELECT COUNT(*) AS tot, gender, five_year_interval FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_age_group ag ON c.current_age = ag.age GROUP BY gender, ag.five_year_interval), json_results AS (SELECT gender, json_group_array(tot) AS data FROM temp_results GROUP BY gender), formatted_results AS (SELECT json_object('name', gender, 'data', json_extract(data, '$')) AS result FROM json_results) SELECT '' as data, result AS tot FROM formatted_results;"
+          "query": "WITH temp_results AS (SELECT SUM(CASE WHEN has_ever_been_initiated_on_art != 0 THEN 1 ELSE 0 END) AS tot, gender, five_year_interval FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_age_group ag ON c.current_age = ag.age WHERE has_exited_died != 1 GROUP BY gender, ag.five_year_interval), json_results AS (SELECT gender, json_group_array(tot) AS data FROM temp_results GROUP BY gender), formatted_results AS (SELECT json_object('name', gender, 'data', json_extract(data, '$')) AS result FROM json_results) SELECT '' as data, result AS tot FROM formatted_results;"
+        },
+        {
+          "id": 4,
+          "groupBy": null,
+          "col": 12,
+          "label": "Deceased By Gender Over the Years",
+          "title": "Deceased By Gender Over the Years",
+          "type": "heatmap",    
+          "stacked": true,
+          "tooltip": {
+            "enabled": true,
+            "enabledOnSeries": "gender"
+          },
+          "y": {
+            "label": "Patients Count",
+            "column": "tot",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Year",
+            "column": "year",
+            "format": "integer"
+          },
+          "category": ["2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+          "query": "WITH all_combinations AS ( SELECT DISTINCT c.gender,d.year,0 AS tot FROM ( SELECT gender FROM dim_client) c CROSS JOIN ( SELECT DISTINCT year FROM dim_date WHERE year BETWEEN 2005 AND 2023) d),actual_results AS ( SELECT c.gender,d.year,COUNT(*) AS tot FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date=d.full_date WHERE year BETWEEN 2005 AND 2023 GROUP BY d.year,c.gender),all_results AS ( SELECT COALESCE(ar.gender,ac.gender) AS gender,COALESCE(ar.year,ac.year) AS year,COALESCE(ar.tot,ac.tot) AS tot FROM all_combinations ac LEFT JOIN actual_results ar ON ar.gender=ac.gender AND ar.year=ac.year ORDER BY year),json_results AS ( SELECT gender,json_group_array (tot) AS data FROM all_results GROUP BY gender),formatted_results AS ( SELECT json_object ('name',gender,'data',json_extract (data,'$')) AS result FROM json_results) SELECT '' AS data,result AS tot FROM formatted_results;" 
+        },
+        {
+          "id": 5,
+          "groupBy": null,
+          "col": 12,
+          "label": "Active Clients vs Years on ART (Longterm retention)",
+          "title": "Active Clients vs Years on ART (Longterm retention)",
+          "type": "bar",  
+          "stacked": true,  
+          "tooltip": {
+            "enabled": true,
+            "enabledOnSeries": "gender"
+          },
+          "y": {
+            "label": "Patients Count",
+            "column": "tot",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Year",
+            "column": "year",
+            "format": "integer"
+          },
+          "category": ["1995", "1997", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+          "query": "WITH temp_results AS ( SELECT year, 'Active Clients' AS num, COUNT( first_art_date ) AS tot FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date = d.full_date WHERE is_currently_on_art = 1 GROUP BY year UNION SELECT year, 'Years on ART' AS num, CAST ( ( strftime( '%Y', 'now' ) - CAST ( SUBSTR( first_art_date, LENGTH( first_art_date ) - 3 ) AS INTEGER ) ) AS INTEGER ) AS tot FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date = d.full_date WHERE is_currently_on_art = 1 GROUP BY year ORDER BY year ), json_results AS ( SELECT num, json_group_array ( tot ) AS data FROM temp_results GROUP BY num ORDER BY year ), formatted_results AS ( SELECT json_object ( 'name', num, 'data', json_extract ( data, '$' ) ) AS result FROM json_results ) SELECT '' AS data, result AS tot FROM formatted_results;" 
         }
       ]
     }
