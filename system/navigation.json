@@ -2,7 +2,7 @@
     "home": {
         "title": "Home",
         "icon": "home-icon",
-        "dashboard": "/"
+        "dashboard": "/dashboard/home"
     },
     "menu": [
       {
@@ -10,52 +10,16 @@
         "icon": "dashboards-icon",
         "dashboards": [
           {
-            "title": "3DL Dashboard 1",
+            "title": "Wakanda Dashboard 1",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/3dlsample"
           },
           {
-            "title": "Sub Dashboard 2",
+            "title": "Wakanda Dashboard 2",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/3dlsample-2"
           }
         ]
-      },
-    {
-      "title": "{API} DB 1",
-      "icon": "dashboard-icon",
-      "dashboard": "/dashboard"
-    },
-    {
-      "title": "{API} More",
-      "icon": "dashboards-icon",
-      "dashboards": [
-        {
-          "title": "Sub Dashboard 1",
-          "icon": "dashboard-icon",
-          "dashboard": "/a"
-        },
-        {
-          "title": "Sub Dashboard 2",
-          "icon": "dashboard-icon",
-          "dashboard": "/b"
-        },
-        {
-          "title": "Sub Dashboard 3",
-          "icon": "dashboard-icon",
-          "dashboard": "/c"
-        },
-        {
-          "title": "Sub Dashboard 4",
-          "icon": "dashboard-icon",
-          "dashboard": "/d"
-        },
-        {
-          "title": "APIs",
-          "icon": "hashtag-icon",
-          "dashboard": "/api"
-        }
-      ]
-    }
+      }
   ]
 }
