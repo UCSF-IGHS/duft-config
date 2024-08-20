@@ -5,5 +5,20 @@
             <Visual1 />
             <Visual3 />
         </DataContainer>
+        <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+            <BarChart />
+        </DataContainer>
+
+        <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+            <LineChart />
+            <PieChart />
+            <DonutChart />
+            <RadialBarChart/>
+            <SmartDataTable/>
+            <DataTable/>
+            <HeatmapChart/>
+        </DataContainer>
+
+        
     </Filters>
 </Dashboard>
