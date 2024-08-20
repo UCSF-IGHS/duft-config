@@ -1,0 +1,68 @@
+<Dashboard>
+    <Filters>
+        <Filter name="location" values="USA,Canada,UK" />
+        
+        <DataContainer query={` SELECT  count(*) as value FROM (SELECT "__client_id" FROM analysis.fact_sentinel_event  WHERE "Client Status" = 'Active on ART') a`}>
+            <Tile label='Total Active' />
+        </DataContainer>
+
+        <DataContainer query={` SELECT count(*) as value FROM (SELECT "Sex" as sex, "Pepfar Age Group" as age_group, "__client_id" FROM analysis.fact_sentinel_event WHERE "Client Status" ='Active on ART' AND "Last Viral Load Result" is not null) a `}>
+            <Tile label='Documented VL' />
+        </DataContainer>
+
+        <DataContainer query={` SELECT count(*) as value FROM (SELECT "Sex" as sex, "Pepfar Age Group" as age_group, "__client_id" FROM analysis.fact_sentinel_event WHERE "Client Status" ='Active on ART' AND "Last Viral Load Result Category" = 'Suppressed') a `}>
+            <Tile label='Suppressed VL' />
+        </DataContainer>
+
+
+        <DataContainer query={'SELECT "ART Outcomes" as category, count(*) as value FROM (SELECT "Pepfar Age Group" as age_group,"ART Outcomes", "Sex" as sex FROM  analysis.fact_sentinel_event) a GROUP BY "ART Outcomes"'}>
+            <PieChart />
+        </DataContainer>
+        
+        <DataContainer query={  `SELECT age_group as category, count(*) as value FROM (SELECT "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "Client Status" ='Active on ART') a GROUP BY age_group`}>
+            <BarChart />
+        </DataContainer>
+
+        <DataContainer query={  `SELECT age_group as category, count(*) as value FROM (SELECT "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "Client Status" ='Active on ART: Missed Appointment') a GROUP BY age_group`}>
+            <BarChart />
+        </DataContainer>
+
+        <DataContainer query={  `SELECT age_group as category, count(*) as value FROM (SELECT "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "Client Status" ='IIT: Missed Appointment') a GROUP BY age_group"`}>
+            <BarChart />
+        </DataContainer>
+
+        <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE EXTRACT(YEAR FROM "Last Visit Date") - EXTRACT(YEAR FROM "Date Of Birth") > 15  AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status"`}>
+            <BarChart />
+        </DataContainer>
+
+
+        <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM ( SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE EXTRACT(YEAR FROM "Last Visit Date") - EXTRACT(YEAR FROM "Date Of Birth") <= 15 AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status"`}>
+            <BarChart />
+        </DataContainer>
+
+
+        <DataContainer query={`SELECT data as category, count(*) as value FROM (SELECT "Sex" as "Sex", "Pepfar Age Group" as age_group,  CASE  WHEN "Last Viral Load Result" IS NOT NULL THEN 'Monitored'  ELSE 'Pending' END as data, "__client_id" FROM analysis.fact_sentinel_event) a GROUP BY data`}>
+            <PieChart />
+        </DataContainer>
+
+
+        <DataContainer query={`SELECT "Last Viral Load Result Category" as category, count(*) as value FROM (SELECT "Pepfar Age Group" as age_group, "Last Viral Load Result Category", "Sex" as sex FROM analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL ) a  GROUP BY "Last Viral Load Result Category"`}>
+            <PieChart />
+        </DataContainer>
+
+        <DataContainer query={`SELECT tpt_outcome as category, count(*) as value FROM (SELECT "Pepfar Age Group" as age_group,case when "TPT Expected Stop Date" <= NOW() then 'Completed' else 'Not Completed' end as tpt_outcome, "Sex" as sex FROM  analysis.fact_sentinel_event) a GROUP BY tpt_outcome`}>
+            <PieChart />
+        </DataContainer>
+
+        <DataContainer query={`SELECT "MMP Status" as category, count(*) as value FROM (SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE EXTRACT(YEAR FROM "Last Visit Date") - EXTRACT(YEAR FROM "Date Of Birth") > 15 and "MMP Status" is NOT NULL ) a GROUP BY "MMP Status"`}>
+            <PieChart />
+        </DataContainer>
+
+        <DataContainer query={`SELECT "MMP Status" as category, count(*) as value FROM (SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE EXTRACT(YEAR FROM "Last Visit Date") - EXTRACT(YEAR FROM "Date Of Birth") <= 15 and "MMP Status" is NOT NULL ) a GROUP BY "MMP Status"`}>
+            <PieChart />
+        </DataContainer>
+
+
+
+    </Filters>
+</Dashboard>
