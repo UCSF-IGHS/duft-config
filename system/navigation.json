@@ -1,3 +1,55 @@
 {
-    "navigation":"system"
-}
+    "navigation": [
+      {
+        "label": "Clients Needing Attention",
+        "dashboardFile": "epms-line-list.json",
+        "hasSubMenu": false
+      },
+      {
+        "label": "Quality Indicators",
+        "dashboardFile": "epms-dashboard.json",
+        "hasSubMenu": false
+      }
+    ],
+    "dataTasks": [
+      {
+        "id": "SAMPLE-NOTEBOOK",
+        "name": "Sample Notebook Task",
+        "description": "A sample notebook that does nothing",
+        "pythonFile": "sample_notebook.ipynb",
+        "hideInUI": true,
+        "dataConnections": ["ANA", "MyOwnConnection"],
+        "params": {
+          "name": "Cersei",
+          "sleep_time": 0.5
+        }
+      },
+      {
+        "id": "FM-DATABASE-SUBMISSION-NOTEBOOK",
+        "name": "FM DATABASE SUBMISSION",
+        "description": "Data task to extract data from a facility Filemaker DB to push to national level",
+        "pythonFile": "data_extraction.ipynb",
+        "hideInUI": true,
+        "dataConnections": ["ANA", "MyOwnConnection"],
+        "params": {
+          "name": "Cersei",
+          "sleep_time": 0.5
+        }
+      },
+      {
+        "id": "FM-SENTINEL-EVENT-NOTEBOOK",
+        "name": "FM SENTINEL EVENT",
+        "description": "ETL to create FM Sentinel Sentinel Event",
+        "pythonFile": "fm_sentinel_events.ipynb",
+        "hideInUI": true,
+        "dataConnections": [
+            "EPMS_Source",
+            "EPMS_Destination"
+        ],
+        "params": {
+            "name": "Cerseid",
+            "sleep_time": 0.5
+        }
+    }         
+    ]
+  }

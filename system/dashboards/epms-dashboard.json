@@ -1,0 +1,699 @@
+{
+  "name": "epms-dashboard.json",
+  "title": "Quality Indicators",
+  "version": 3,
+  "dataConnection": "EPMS_Destination",
+  "releaseDate": "2024-03-15T14:30:00Z",
+  "slicers": [
+    {
+      "name": "Sex",
+      "type": "select",
+      "options": "select DISTINCT \"Sex\" as val FROM analysis.fact_sentinel_event"
+    },
+    {
+      "name": "Age Group",
+      "type": "select",
+      "options": "select DISTINCT pepfar_age_group as val FROM analysis.dim_age_group "
+    }
+  ],
+  "tabs": [
+    {
+      "id": 0,
+      "title": "Client Line List",
+      "badge": {
+        "query": "SELECT COUNT(*) as data FROM (SELECT \"Pepfar Age Group\" as age_group,\"Sex\" as sex from  analysis.fact_sentinel_event) a",
+        "color": {
+          "high": {
+            "upperThreshold": "100",
+            "lowerThreshold": "80",
+            "hex": "#300"
+          },
+          "medium": {
+            "upperThreshold": "79",
+            "lowerThreshold": "26",
+            "hex": "#ddd"
+          },
+          "low": {
+            "upperThreshold": "25",
+            "lowerThreshold": "0",
+            "hex": "#fff"
+          }
+        }
+      },
+      "tiles": [
+        {
+          "id": 1,
+          "label": "Total Active",
+          "format": "integer",
+          "query": "SELECT * FROM (SELECT \"__client_id\",\"Sex\" as sex, \"Pepfar Age Group\" as age_group, CAST( \"Date Of Birth\" AS date) as \"Date Of Birth\", cast(\"ART Start Date\" as date) as \"ART Start Date\",cast(\"Last Visit Date\" as date) as \"Last Visit Date\",cast(\"Last Next Visit Date\" as date) as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",cast(\"Last Viral Load Result Date\"as date) as \"Last Viral Load Result Date\", cast(\"TPT Start Date\" as date) as \"TPT Start Date\", cast(\"TPT Actual Stop Date\"as date) as \"TPT Actual Stop Date\", \"ART Outcomes\" FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART') a",
+          "totalCounter": "totalActiveCounts",
+          "hasDetails":true,
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 2,
+          "label": "Total Missed Appointment",
+          "format": "integer",
+          "query": "SELECT * FROM (SELECT \"__client_id\",\"Sex\" as sex, \"Pepfar Age Group\" as age_group, CAST( \"Date Of Birth\" AS date) as \"Date Of Birth\", cast(\"ART Start Date\" as date) as \"ART Start Date\",cast(\"Last Visit Date\" as date) as \"Last Visit Date\",cast(\"Last Next Visit Date\" as date) as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",cast(\"Last Viral Load Result Date\"as date) as \"Last Viral Load Result Date\", cast(\"TPT Start Date\" as date) as \"TPT Start Date\", cast(\"TPT Actual Stop Date\"as date) as \"TPT Actual Stop Date\", \"ART Outcomes\" FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART: Missed Appointment') a",
+          "totalCounter": "totalMissedAppointmentCounts",
+          "hasDetails":true,
+          "columns": [
+            {
+              "id": "__client_id",
+              "label": "Client ID"
+            },
+            {
+              "id": "Sex",
+              "label": "Sex"
+            },
+            {
+              "id": "Date Of Birth",
+              "label": "Date of Birth"
+            },
+            {
+              "id": "art_number",
+              "label": "ART Number"
+            },
+            {
+              "id": "Last Visit Date",
+              "label": "Last Visit Date"
+            },
+            {
+              "id": "Last Next Visit Date",
+              "label": "Last Next Visit Date"
+            },
+            {
+              "id": "MMP Status",
+              "label": "MMP Status"
+            }
+
+          ],
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 3,
+          "label": "Total IIT",
+          "format": "integer",
+          "query": "SELECT * FROM (SELECT \"__client_id\",\"Sex\", \"Pepfar Age Group\" as age_group, CAST( \"Date Of Birth\" AS date) as \"Date Of Birth\", cast(\"ART Start Date\" as date) as \"ART Start Date\",cast(\"Last Visit Date\" as date) as \"Last Visit Date\",cast(\"Last Next Visit Date\" as date) as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",cast(\"Last Viral Load Result Date\"as date) as \"Last Viral Load Result Date\", cast(\"TPT Start Date\" as date) as \"TPT Start Date\", cast(\"TPT Actual Stop Date\"as date) as \"TPT Actual Stop Date\", \"ART Outcomes\" FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='IIT: Missed Appointment') a",
+          "totalCounter": "totalIITCounts",
+          "hasDetails":true,
+          "columns": [
+            {
+              "id": "__client_id",
+              "label": "Client ID"
+            },
+            {
+              "id": "Sex",
+              "label": "Sex"
+            },
+            {
+              "id": "Date Of Birth",
+              "label": "Date of Birth"
+            },
+            {
+              "id": "art_number",
+              "label": "ART Number"
+            },
+            {
+              "id": "Last Visit Date",
+              "label": "Last Visit Date"
+            },
+            {
+              "id": "Last Next Visit Date",
+              "label": "Last Next Visit Date"
+            },
+            {
+              "id": "MMP Status",
+              "label": "MMP Status"
+            }
+
+          ],
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        }
+      ],
+      "visuals": [
+        {
+          "id": 1,
+          "label": "Client Line List",
+          "title": "Client Line List",
+          "type": "table",
+          "groupBy": null,
+          "sortable": true,
+          "columns": {
+            "1": {
+              "label": "ID",
+              "column": "__client_id",
+              "format": "string"
+            },
+            "2": {
+              "label": "Sex",
+              "column": "sex",
+              "format": "string"
+            },
+            "3": {
+              "label": "Date of birth",
+              "column": "Date Of Birth",
+              "format": "string"
+            },
+            "4": {
+              "label": "Pepfar Age Group",
+              "column": "age_group",
+              "format": "string"
+            },
+            "5": {
+              "label": "ART Number",
+              "column": "ART Number Legacy",
+              "format": "string"
+            },
+            "6": {
+              "label": "ART Start Date",
+              "column": "ART Start Date",
+              "format": "date"
+            },
+            "7": {
+              "label": "Last Visit Date",
+              "column": "Last Visit Date",
+              "format": "date"
+            },
+            "8": {
+              "label": "Last Next Visit Date",
+              "column": "Last Next Visit Date",
+              "format": "date"
+            },
+            "9": {
+              "label": "MMP Status",
+              "column": "MMP Status",
+              "format": "date"
+            },
+            "10": {
+              "label": "Last Viral Load Result",
+              "column": "Last Viral Load Result",
+              "format": "string"
+            },
+            "11": {
+              "label": "Last Viral Load Result Date",
+              "column": "Last Viral Load Result Date",
+              "format": "date"
+            },
+            "12": {
+              "label": "TPT Start Date",
+              "column": "TPT Start Date",
+              "format": "date"
+            },
+            "13": {
+              "label": "TPT Actual Stop Date",
+              "column": "TPT Actual Stop Date",
+              "format": "date"
+            },
+            "14": {
+              "label": "ART Outcomes",
+              "column": "ART Outcomes",
+              "format": "string"
+            }
+          },
+          "query": "SELECT * FROM (SELECT \"__client_id\",\"Sex\" as sex, \"Pepfar Age Group\" as age_group, CAST( \"Date Of Birth\" AS date) as \"Date Of Birth\",\"ART Number Legacy\", cast(\"ART Start Date\" as date) as \"ART Start Date\",cast(\"Last Visit Date\" as date) as \"Last Visit Date\",cast(\"Last Next Visit Date\" as date) as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",cast(\"Last Viral Load Result Date\"as date) as \"Last Viral Load Result Date\", cast(\"TPT Start Date\" as date) as \"TPT Start Date\", cast(\"TPT Actual Stop Date\"as date) as \"TPT Actual Stop Date\", \"ART Outcomes\" FROM analysis.fact_sentinel_event) a"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Overview Visuals",
+      "badge": {
+        "query": "SELECT COUNT(*) as data FROM (SELECT \"Pepfar Age Group\" as age_group,\"Sex\" as sex from  analysis.fact_sentinel_event) a",
+        "color": {
+          "high": {
+            "upperThreshold": "100",
+            "lowerThreshold": "80",
+            "hex": "#300"
+          },
+          "medium": {
+            "upperThreshold": "79",
+            "lowerThreshold": "26",
+            "hex": "#ddd"
+          },
+          "low": {
+            "upperThreshold": "25",
+            "lowerThreshold": "0",
+            "hex": "#fff"
+          }
+        }
+      },
+      "tiles": [
+        {
+          "id": 1,
+          "label": "Total Active",
+          "format": "integer",
+          "query": "SELECT * FROM (SELECT \"__client_id\",\"Sex\" as sex, \"Pepfar Age Group\" as age_group, CAST( \"Date Of Birth\" AS date) as \"Date Of Birth\", cast(\"ART Start Date\" as date) as \"ART Start Date\",cast(\"Last Visit Date\" as date) as \"Last Visit Date\",cast(\"Last Next Visit Date\" as date) as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",cast(\"Last Viral Load Result Date\"as date) as \"Last Viral Load Result Date\", cast(\"TPT Start Date\" as date) as \"TPT Start Date\", cast(\"TPT Actual Stop Date\"as date) as \"TPT Actual Stop Date\", \"ART Outcomes\" FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART') a",
+          "totalCounter": "totalActiveCounts",
+          "hasDetails":true,
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 2,
+          "label": "Documented VL",
+          "query": "SELECT * FROM (SELECT \"Sex\" as sex, \"Pepfar Age Group\" as age_group, \"__client_id\" FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART' AND \"Last Viral Load Result\" is not null) a",
+          "hasDetails":true,
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 2,
+          "label": "Suppressed VL",
+          "format": "integer",
+          "query": "SELECT * FROM (SELECT \"Sex\" as sex, \"Pepfar Age Group\" as age_group, \"__client_id\" FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART' AND last_viral_load_result_category = 'Suppressed') a",
+          "totalCounter": "totalIITCounts",
+          "hasDetails":true,
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        }
+      ],
+      "visuals": [
+        {
+          "id": 0,
+          "groupBy": "data",
+          "col": 12,
+          "label": "ART Outcomes",
+          "title": "ART Outcomes",
+          "type": "pie",
+          "query": "SELECT \"ART Outcomes\" as data, count(*) as tot FROM (SELECT \"Pepfar Age Group\" as age_group,\"ART Outcomes\", \"Sex\" as sex FROM  analysis.fact_sentinel_event) a"
+        },
+        {
+          "id": 0,
+          "groupBy": "data",
+          "col": 6,
+          "label": "ART Outcomes",
+          "title": "ART Outcomes",
+          "type": "pie",
+          "query": "SELECT \"ART Outcomes\" as data, count(*) as tot FROM (SELECT \"Pepfar Age Group\" as age_group,\"ART Outcomes\", \"Sex\" as sex FROM  analysis.fact_sentinel_event) a"
+        },
+        {
+          "id": 0,
+          "groupBy": "data",
+          "col": 6,
+          "label": "ART Outcomes",
+          "title": "ART Outcomes",
+          "type": "pie",
+          "query": "SELECT \"ART Outcomes\" as data, count(*) as tot FROM (SELECT \"Pepfar Age Group\" as age_group,\"ART Outcomes\", \"Sex\" as sex FROM  analysis.fact_sentinel_event) a"
+        },
+        {
+          "id": 1,
+          "groupBy": "data",
+          "col": 4,
+          "label": "TxCurr By Age Group",
+          "title": "TxCurr By Age Group",
+          "type": "bar",
+          "stacked": true,
+          
+          "y": {
+            "label": "Patients",
+            "column": "tot",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Category",
+            "column": "sex",
+            "format": "string"
+          },
+          "query": "SELECT age_group as data, count(*) as tot FROM (SELECT \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART') a"
+        },
+        {
+          "id": 2,
+          "groupBy": "data",
+          "col": 4,
+          "label": "Missed Appointment By Age Group",
+          "title": "Missed Appointment By Age Group",
+          "type": "bar",
+          "y": {
+            "label": "Patients",
+            "column": "tot",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Category",
+            "column": "sex",
+            "format": "string"
+          },
+          "query": "SELECT age_group as data, count(*) as tot FROM (SELECT \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART: Missed Appointment') a"
+        },
+        {
+          "id": 3,
+          "groupBy": "data",
+          "col": 4,
+          "label": "IIT By Age Group",
+          "title": "IIT By Age Group",
+          "type": "bar",
+          "y": {
+            "label": "Patients",
+            "column": "tot",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Category",
+            "column": "sex",
+            "format": "string"
+          },
+          "query": "SELECT age_group as data, count(*) as tot FROM (SELECT \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='IIT: Missed Appointment') a"
+        },
+        {
+          "id": 4,
+          "groupBy": "data",
+          "col": 6,
+          "label": "Adult Multi Month Prescription",
+          "title": "Adult Multi Month Prescription",
+          "type": "bar",
+          "y": {
+            "label": "Patients",
+            "column": "tot",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Category",
+            "column": "sex",
+            "format": "string"
+          },
+          "query": "SELECT \"MMP Status\" as data, count(*) as tot FROM (SELECT \"MMP Status\", \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group FROM analysis.fact_sentinel_event WHERE EXTRACT(YEAR FROM \"Last Visit Date\") - EXTRACT(YEAR FROM \"Date Of Birth\") > 15 and \"MMP Status\" is NOT NULL ) a"
+        },
+        {
+          "id": 5,
+          "groupBy": "data",
+          "col": 6,
+          "label": "Paed Multi Month Prescription",
+          "title": "Paed Multi Month Prescription",
+          "type": "bar",
+          "y": {
+            "label": "Patients",
+            "column": "patients",
+            "format": "decimal",
+            "action": "count"
+          },
+          "x": {
+            "label": "Category",
+            "column": "data",
+            "format": "string"
+          },
+          "query": "SELECT \"MMP Status\" as data, count(*) as tot FROM (SELECT \"MMP Status\", \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group FROM analysis.fact_sentinel_event WHERE EXTRACT(YEAR FROM \"Last Visit Date\") - EXTRACT(YEAR FROM \"Date Of Birth\") <= 15 and \"MMP Status\" is NOT NULL ) a"
+        },
+        {
+          "id": 6,
+          "groupBy": "data",
+          "col": 4,
+          "label": "Viral Load Monitoring",
+          "title": "Viral Load Monitoring",
+          "type": "pie",
+          "query": "SELECT data, count (*) as tot FROM (SELECT \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group, case when \"Last Viral Load Result\" is not null then 'Monitored' else 'Pending' end as data, \"__client_id\" FROM analysis.fact_sentinel_event) a"
+        },
+        {
+          "id": 7,
+          "groupBy": "data",
+          "col": 4,
+          "label": "Viral Load Suppression",
+          "title": "Viral Load Suppression",
+          "type": "pie",
+          "query": "SELECT \"Last Viral Load Result Category\" as data, count(*) as tot FROM (SELECT \"Pepfar Age Group\" as age_group,\"Last Viral Load Result Category\", \"Sex\" as sex FROM  analysis.fact_sentinel_event WHERE \"Last Viral Load Result Category\" IS NOT NULL) a"
+        },
+        {
+          "id": 8,
+          "groupBy": "data",
+          "col": 4,
+          "label": "TPT Monitoring",
+          "title": "TPT Monitoring",
+          "type": "pie",
+          "query": "SELECT tpt_outcome as data, count(*) as tot FROM (SELECT \"Pepfar Age Group\" as age_group,case when \"TPT Expected Stop Date\" <= NOW() then 'Completed' else 'Not Completed' end as tpt_outcome, \"Sex\" as sex FROM  analysis.fact_sentinel_event) a"
+        },
+        
+        {
+          "id": 9,
+          "groupBy": "data",
+          "col": 2,
+          "label": "MMP Adult",
+          "title": "MMP Adult",
+          "type": "pie",
+          "query": "SELECT \"MMP Status\" as data, count(*) as tot FROM (SELECT \"MMP Status\", \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group FROM analysis.fact_sentinel_event WHERE EXTRACT(YEAR FROM \"Last Visit Date\") - EXTRACT(YEAR FROM \"Date Of Birth\") > 15 and \"MMP Status\" is NOT NULL ) a"
+        },
+        {
+          "id": 10,
+          "groupBy": "data",
+          "col": 2,
+          "label": "MMP Paed",
+          "title": "MMP Paed",
+          "type": "pie",
+          "query": "SELECT \"MMP Status\" as data, count(*) as tot FROM (SELECT \"MMP Status\", \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group FROM analysis.fact_sentinel_event WHERE EXTRACT(YEAR FROM \"Last Visit Date\") - EXTRACT(YEAR FROM \"Date Of Birth\") <= 15 and \"MMP Status\" is NOT NULL ) a"
+        },
+        {
+          "id": 11,
+          "groupBy": "data",
+          "col": 2,
+          "label": "VLM All",
+          "title": "VLM All",
+          "type": "pie",
+          "query": "SELECT data, count (*) as tot FROM (SELECT \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group, case when \"Last Viral Load Result\" is not null then 'Monitored' else 'Pending' end as data, \"__client_id\" FROM analysis.fact_sentinel_event) a"
+        },
+        {
+          "id": 12,
+          "groupBy": "data",
+          "col": 2,
+          "label": "VLM Men",
+          "title": "VLM Men",
+          "type": "pie",
+          "query": "SELECT data, count (*) as tot FROM (SELECT \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group, case when \"Last Viral Load Result\" is not null then 'Monitored' else 'Pending' end as data, \"__client_id\" FROM analysis.fact_sentinel_event WHERE \"Sex\"='Male' AND \"Current Age\" BETWEEN 20 AND 39 ) a"
+        },
+        {
+          "id": 13,
+          "groupBy": "data",
+          "col": 2,
+          "label": "VLM Paed",
+          "title": "VLM Paed",
+          "type": "pie",
+          "query": "SELECT data, count (*) as tot FROM (SELECT \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group, case when \"Last Viral Load Result\" is not null then 'Monitored' else 'Pending' end as data, \"__client_id\" FROM analysis.fact_sentinel_event WHERE \"Current Age\" BETWEEN 0 AND 14 ) a"
+        },
+        {
+          "id": 14,
+          "groupBy": "data",
+          "col": 2,
+          "label": "VLM PBFW",
+          "title": "VLM PBFW",
+          "type": "pie",
+          "query": "SELECT data, count (*) as tot FROM (SELECT \"Sex\" as \"Sex\", \"Pepfar Age Group\" as age_group, case when \"Last Viral Load Result\" is not null then 'Monitored' else 'Pending' end as data, \"__client_id\" FROM analysis.fact_sentinel_event WHERE \"Last Pregnancy Status\" = 'Yes' OR  \"Last Breast Feeding\" = 'Yes') a"
+        },
+        {
+          "id": 15,
+          "groupBy": "data",
+          "col": 2,
+          "label": "Adult TPT ",
+          "title": "Adult TPT",
+          "type": "pie",
+          "query": "SELECT tpt_outcome as data, count(*) as tot FROM (SELECT \"Pepfar Age Group\" as age_group,case when \"TPT Expected Stop Date\" <= NOW() then 'Completed' else 'Not Completed' end as tpt_outcome, \"Sex\" as sex FROM  analysis.fact_sentinel_event WHERE \"Current Age\" > 15) a"
+        },
+        {
+          "id": 16,
+          "groupBy": "data",
+          "col": 2,
+          "label": "Paed TPT ",
+          "title": "Paed TPT",
+          "type": "pie",
+          "query": "SELECT tpt_outcome as data, count(*) as tot FROM (SELECT \"Pepfar Age Group\" as age_group,case when \"TPT Expected Stop Date\" <= NOW() then 'Completed' else 'Not Completed' end as tpt_outcome, \"Sex\" as sex FROM  analysis.fact_sentinel_event WHERE \"Current Age\" BETWEEN 0 AND 14) a"
+        },
+        {
+          "id": 17,
+          "groupBy": "data",
+          "col": 2,
+          "label": "VLS All",
+          "title": "VLS All",
+          "type": "pie",
+          "query": "SELECT \"Last Viral Load Result Category\" as data, count (*) as tot FROM (SELECT \"Pepfar Age Group\" as age_group,\"Last Viral Load Result Category\", \"Sex\" as sex FROM  analysis.fact_sentinel_event WHERE \"Last Viral Load Result Category\" IS NOT NULL) a"
+        },
+        {
+          "id": 18,
+          "groupBy": "data",
+          "col": 2,
+          "label": "VLS Men",
+          "title": "VLS Men",
+          "type": "pie",
+          "query": "SELECT \"Last Viral Load Result Category\" as data, count (*) as tot FROM (SELECT \"Pepfar Age Group\" as age_group,\"Last Viral Load Result Category\", \"Sex\" as sex FROM  analysis.fact_sentinel_event WHERE \"Last Viral Load Result Category\" IS NOT NULL AND \"Sex\"='Male' AND \"Current Age\" BETWEEN 20 AND 39 ) a"
+        },
+        {
+          "id": 19,
+          "groupBy": "data",
+          "col": 2,
+          "label": "VLS Paed",
+          "title": "VLS Paed",
+          "type": "pie",
+          "query": "SELECT \"Last Viral Load Result Category\" as data, count (*) as tot FROM (SELECT \"Pepfar Age Group\" as age_group,\"Last Viral Load Result Category\", \"Sex\" as sex FROM  analysis.fact_sentinel_event WHERE \"Last Viral Load Result Category\" IS NOT NULL AND \"Current Age\" BETWEEN 0 AND 14 ) a"
+        },
+        {
+          "id": 20,
+          "groupBy": "data",
+          "col": 2,
+          "label": "VLS PBFW",
+          "title": "VLS PBFW",
+          "type": "pie",
+          "query": "SELECT \"Last Viral Load Result Category\" as data, count (*) as tot FROM (SELECT \"Pepfar Age Group\" as age_group,\"Last Viral Load Result Category\", \"Sex\" as sex FROM  analysis.fact_sentinel_event WHERE \"Last Viral Load Result Category\" IS NOT NULL AND (\"Last Pregnancy Status\" = 'Yes' OR  \"Last Breast Feeding\" = 'Yes')) a"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "TxCurr Visuals",
+      "badge": {
+        "query": "SELECT COUNT(*) as data FROM (SELECT \"Pepfar Age Group\" as age_group,\"Sex\" as sex from  analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART') a ",
+        "color": {
+          "high": {
+            "upperThreshold": "100",
+            "lowerThreshold": "80",
+            "hex": "#300"
+          },
+          "medium": {
+            "upperThreshold": "79",
+            "lowerThreshold": "26",
+            "hex": "#ddd"
+          },
+          "low": {
+            "upperThreshold": "25",
+            "lowerThreshold": "0",
+            "hex": "#fff"
+          }
+        }
+      },
+      "tiles": [
+        {
+          "id": 1,
+          "label": "Total Active",
+          "format": "integer",
+          "query": "SELECT * FROM (SELECT \"__client_id\",\"Sex\" as sex, \"Pepfar Age Group\" as age_group, CAST( \"Date Of Birth\" AS date) as \"Date Of Birth\", cast(\"ART Start Date\" as date) as \"ART Start Date\",cast(\"Last Visit Date\" as date) as \"Last Visit Date\",cast(\"Last Next Visit Date\" as date) as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",cast(\"Last Viral Load Result Date\" as date) as \"Last Viral Load Result Date\", cast(\"TPT Start Date\" as date) as \"TPT Start Date\", cast(\"TPT Actual Stop Date\" as date) as \"TPT Actual Stop Date\", \"ART Outcomes\" FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART') a",
+          "totalCounter": "totalActiveCounts",
+          "hasDetails":true,
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 2,
+          "label": "Total Missed Appointment",
+          "format": "integer",
+          "query": "SELECT * FROM (SELECT \"__client_id\",\"Sex\" as sex, \"Pepfar Age Group\" as age_group, CAST( \"Date Of Birth\" AS date) as \"Date Of Birth\", cast(\"ART Start Date\" as date) as \"ART Start Date\",cast(\"Last Visit Date\" as date) as \"Last Visit Date\",cast(\"Last Next Visit Date\" as date) as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",cast(\"Last Viral Load Result Date\"as date) as \"Last Viral Load Result Date\", cast(\"TPT Start Date\" as date) as \"TPT Start Date\", cast(\"TPT Actual Stop Date\"as date) as \"TPT Actual Stop Date\", \"ART Outcomes\" FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART: Missed Appointment') a",
+          "totalCounter": "totalMissedAppointmentCounts",
+          "hasDetails":true,
+          "columns": [
+            {
+              "id": "__client_id",
+              "label": "Client ID"
+            },
+            {
+              "id": "Sex",
+              "label": "Sex"
+            },
+            {
+              "id": "Date Of Birth",
+              "label": "Date of Birth"
+            },
+            {
+              "id": "art_number",
+              "label": "ART Number"
+            },
+            {
+              "id": "Last Visit Date",
+              "label": "Last Visit Date"
+            },
+            {
+              "id": "Last Next Visit Date",
+              "label": "Last Next Visit Date"
+            },
+            {
+              "id": "MMP Status",
+              "label": "MMP Status"
+            }
+
+          ],
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        },
+        {
+          "id": 3,
+          "label": "Total IIT",
+          "format": "integer",
+          "query": "SELECT * FROM (SELECT \"__client_id\",\"Sex\", \"Pepfar Age Group\" as age_group, CAST( \"Date Of Birth\" AS date) as \"Date Of Birth\", cast(\"ART Start Date\" as date) as \"ART Start Date\",cast(\"Last Visit Date\" as date) as \"Last Visit Date\",cast(\"Last Next Visit Date\" as date) as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",cast(\"Last Viral Load Result Date\"as date) as \"Last Viral Load Result Date\", cast(\"TPT Start Date\" as date) as \"TPT Start Date\", cast(\"TPT Actual Stop Date\"as date) as \"TPT Actual Stop Date\", \"ART Outcomes\" FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='IIT: Missed Appointment') a",
+          "totalCounter": "totalIITCounts",
+          "hasDetails":true,
+          "columns": [
+            {
+              "id": "__client_id",
+              "label": "Client ID"
+            },
+            {
+              "id": "Sex",
+              "label": "Sex"
+            },
+            {
+              "id": "Date Of Birth",
+              "label": "Date of Birth"
+            },
+            {
+              "id": "art_number",
+              "label": "ART Number"
+            },
+            {
+              "id": "Last Visit Date",
+              "label": "Last Visit Date"
+            },
+            {
+              "id": "Last Next Visit Date",
+              "label": "Last Next Visit Date"
+            },
+            {
+              "id": "MMP Status",
+              "label": "MMP Status"
+            }
+
+          ],
+          "icon": "/assets/icons/glass/ic_glass_users.png"
+        }
+      ],
+      "visuals": [
+        {
+          "id": 1,
+          "groupBy": "data",
+          "col": 6,
+          "label": "Adult Client Status",
+          "title": "Adult Client Status",
+          "type": "pie",
+          "query": "SELECT \"Client Status\"  as data, count(*) as tot FROM (SELECT \"Sex\" as sex, \"Pepfar Age Group\" as age_group, \"Client Status\",\"Current Age\"   FROM analysis.fact_sentinel_event WHERE \"Client Status\"  IS NOT NULL AND \"Current Age\" > 15) a"
+        },
+        {
+          "id": 2,
+          "groupBy": "data",
+          "col": 6,
+          "label": "Paed Client Status",
+          "title": "Paed Client Status",
+          "type": "pie",
+          "query": "SELECT \"Client Status\"  as data, count(*) as tot FROM (SELECT \"Sex\" as sex, \"Pepfar Age Group\" as age_group, \"Client Status\" , \"Current Age\"  FROM analysis.fact_sentinel_event WHERE \"Client Status\"  IS NOT NULL AND \"Current Age\" <= 15) a"
+        },
+        {
+          "id": 3,
+          "groupBy": "data",
+          "col": 4,
+          "label": "TxCurr By Sex",
+          "title": "TxCurr By Sex",
+          "type": "pie",
+          "query": "SELECT sex as data, count(*) as tot FROM (SELECT \"Sex\" as sex, \"Pepfar Age Group\" as age_group  FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART') a"
+        },
+        {
+          "id": 4,
+          "groupBy": "data",
+          "col": 4,
+          "label": "Missed Appointment By Sex",
+          "title": "Missed Appointment By Sex",
+          "type": "pie",
+          "query": "SELECT sex as data, count(*) as tot FROM (SELECT \"Sex\" as sex, \"Pepfar Age Group\" as age_group  FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='Active on ART: Missed Appointment') a"
+        },
+        {
+          "id": 5,
+          "groupBy": "data",
+          "col": 4,
+          "label": "IIT By Sex",
+          "title": "IIT By Sex",
+          "type": "pie",
+          "query": "SELECT sex as data, count(*) as tot FROM (SELECT \"Sex\" as sex, \"Pepfar Age Group\" as age_group  FROM analysis.fact_sentinel_event WHERE \"Client Status\" ='IIT: Missed Appointment') a"
+        }
+      ]
+    }
+  ]
+}

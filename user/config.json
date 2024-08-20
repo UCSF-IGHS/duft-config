@@ -16,6 +16,20 @@
             "sqlite3file": "wakanda.sqlite",
             "type": "sqlite3"
         },
+        "EPMS_Source": {
+            "server": "jdbc:filemaker://localhost/QuantumKatuturaIntermediateHospital",
+            "username": "Administrator",
+            "password": "Qepms!@dmin",
+            "type": "filemaker"
+        },
+        "EPMS_Destination": {
+            "server": "127.0.0.1",
+            "username": "postgres",
+            "password": "root",
+            "port": "5433",
+            "database": "duft",
+            "type": "PosgtresSQL"
+        },
         "NDR": {
             "server": "https://www.myndr.com/api/v2",
             "username": "user",
@@ -25,7 +39,7 @@
             "server": "test://self3333",
             "username": "user",
             "password": "mysecretword333",
-            "unitTested": "2024-06-23 12:47:11.625553"
+            "unitTested": "2024-06-24 10:46:26.695602"
         },
         "UNITTEST_SAFECOPY": {
             "server": "test://self",

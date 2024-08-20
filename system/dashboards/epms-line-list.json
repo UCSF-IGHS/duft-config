@@ -1,0 +1,518 @@
+{
+  "name": "epms-line-list.json",
+  "title": "Clients Needing Attention",
+  "version": 3,
+  "dataConnection": "EPMS_Destination",
+  "releaseDate": "2024-03-15T14:30:00Z",
+  "slicers": [
+    {
+      "sortOrder": 1,
+      "name": "Sex",
+      "type": "select",
+      "options": "select distinct \"Sex\" as val FROM analysis.fact_sentinel_event"
+    },
+    {
+      "sortOrder": 1,
+      "name": "Age Group",
+      "type": "select",
+      "options": "select DISTINCT pepfar_age_group as val FROM analysis.dim_age_group"
+    }
+  ],
+  "tabs": [
+    {
+      "id": 0,
+      "title": "All",
+      "badge": {
+        "query": "SELECT COUNT(*) as data FROM (SELECT \"Pepfar Age Group\" as age_group,\"Sex\" as sex from  analysis.fact_sentinel_event) a",
+        "color": {
+          "high": {
+            "upperThreshold": "100",
+            "lowerThreshold": "80",
+            "hex": "#300"
+          },
+          "medium": {
+            "upperThreshold": "79",
+            "lowerThreshold": "26",
+            "hex": "#ddd"
+          },
+          "low": {
+            "upperThreshold": "25",
+            "lowerThreshold": "0",
+            "hex": "#fff"
+          }
+        }
+      },
+      "visuals": [
+        {
+          "id": 1,
+          "sortOrder": 1,
+          "type": "table",
+          "groupBy": null,
+          "sortable": true,
+          "columns": {
+            "1": {
+              "label": "ART Number",
+              "column": "ART Number Legacy",
+              "format": "string",
+              "detailsQuery": "SELECT * FROM analysis.fact_sentinel_event WHERE \"ART Number Legacy\" = '%value%'",
+              "detailsCaption": "Patient Details"
+            },
+            "2": {
+              "label": "Sex",
+              "column": "sex",
+              "format": "string"
+            },
+            "3": {
+              "label": "Age",
+              "column": "Current Age",
+              "format": "string"
+            },
+            "4": {
+              "label": "PBF Status",
+              "column": "PBF Status",
+              "format": "string"
+            },
+            "5": {
+              "label": "ART Start Date",
+              "column": "ART Start Date",
+              "format": "string"
+            },
+            "6": {
+              "label": "ART Duration",
+              "column": "ART Duration",
+              "format": "string"
+            },
+            "7": {
+              "label": "Last Visit Date",
+              "column": "Last Visit Date",
+              "format": "string"
+            },
+            "8": {
+              "label": "Next Fup Date",
+              "column": "Last Next Visit Date",
+              "format": "string"
+            },
+            "9": {
+              "label": "Eligible For VL",
+              "column": "eligible",
+              "format": "string"
+            },
+            "10": {
+              "label": "MMP Staus",
+              "column": "MMP Status",
+              "format": "string"
+            },
+            "11": {
+              "label": "TPT Status",
+              "column": "TPT Status",
+              "format": "string"
+            },
+            "12": {
+              "label": "Current Cascade Status",
+              "column": "ART Outcomes",
+              "format": "string"
+            }
+          },
+          "query": "SELECT * FROM (SELECT __client_id,\"Sex\" as sex, \"ART Duration\", \"Current Age\", \"Pepfar Age Group\" as age_group, to_char(\"Date Of Birth\", 'DD Mon YYYY') as \"Date Of Birth\", \"ART Number Legacy\", to_char(\"ART Start Date\" , 'DD Mon YYYY') as \"ART Start Date\",to_char(\"Last Visit Date\" , 'DD Mon YYYY') as \"Last Visit Date\",to_char(\"Last Next Visit Date\" , 'DD Mon YYYY') as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",to_char(\"Last Viral Load Result Date\" , 'DD Mon YYYY'), to_char(\"TPT Start Date\" , 'DD Mon YYYY'), to_char(\"TPT Actual Stop Date\" , 'DD Mon YYYY'), \"ART Outcomes\", CASE WHEN \"ART Outcomes\"='Needs VL Test' THEN 'Yes' ELSE 'No' END AS eligible, CASE WHEN \"Last Pregnancy Status\" = 'Yes' THEN 'Pregnant' WHEN \"Last Breast Feeding\" = 'Yes' THEN 'Breast Feeding' END AS \"PBF Status\", case when \"TPT Expected Stop Date\" <= NOW() then 'Completed' else 'Not Completed' end as \"TPT Status\" FROM analysis.fact_sentinel_event) a"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Not initiated on ART",
+      "badge": {
+        "query": "SELECT COUNT(*) as data FROM (SELECT \"ART Outcomes\",\"Pepfar Age Group\" as age_group,\"Sex\" as sex from  analysis.fact_sentinel_event) a WHERE \"ART Outcomes\"='Not initiated on ART'",
+        "color": {
+          "high": {
+            "upperThreshold": "100",
+            "lowerThreshold": "80",
+            "hex": "#300"
+          },
+          "medium": {
+            "upperThreshold": "79",
+            "lowerThreshold": "26",
+            "hex": "#ddd"
+          },
+          "low": {
+            "upperThreshold": "25",
+            "lowerThreshold": "0",
+            "hex": "#fff"
+          }
+        }
+      },
+      "visuals": [
+        {
+          "id": 1,
+          "sortOrder": 1,
+          "type": "table",
+          "groupBy": null,
+          "sortable": true,
+          "columns": {
+            "1": {
+              "label": "ART Number",
+              "column": "ART Number Legacy",
+              "format": "string",
+              "detailsQuery": "SELECT * FROM analysis.fact_sentinel_event WHERE \"ART Number Legacy\" = '%value%'",
+              "detailsCaption": "Patient Details"
+            },
+            "2": {
+              "label": "Sex",
+              "column": "sex",
+              "format": "string"
+            },
+            "3": {
+              "label": "Age",
+              "column": "Current Age",
+              "format": "string"
+            },
+            "4": {
+              "label": "PBF Status",
+              "column": "PBF Status",
+              "format": "string"
+            },
+           
+            "7": {
+              "label": "Last Visit Date",
+              "column": "Last Visit Date",
+              "format": "string"
+            },
+            "8": {
+              "label": "Next Fup Date",
+              "column": "Last Next Visit Date",
+              "format": "string"
+            },
+            "9": {
+              "label": "MMP Status",
+              "column": "MMP Status",
+              "format": "string"
+            },
+            "10": {
+              "label": "Days Lapsed Since Last",
+              "column": "Days Since Last Visit",
+              "format": "string"
+            },
+            "11": {
+              "label": "Client Status",
+              "column": "Client Status",
+              "format": "string"
+            }
+          },
+          "query": "SELECT * FROM (SELECT __client_id,\"Sex\" as sex, \"Days Since Last Visit\", CASE WHEN \"Last Pregnancy Status\" = 'Yes' THEN 'Pregnant' WHEN \"Last Breast Feeding\" = 'Yes' THEN 'Breast Feeding' END AS \"PBF Status\", \"Client Status\", \"Current Age\", \"Pepfar Age Group\" as age_group, to_char( \"Date Of Birth\" , 'DD Mon YYYY') as \"Date Of Birth\", \"ART Number Legacy\", to_char(\"ART Start Date\" , 'DD Mon YYYY') as art_start_date,to_char(\"Last Visit Date\" , 'DD Mon YYYY') as \"Last Visit Date\",to_char(\"Last Next Visit Date\" , 'DD Mon YYYY') as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",to_char(\"Last Viral Load Result Date\" , 'DD Mon YYYY') as \"Last Viral Load Result Date\", to_char(\"TPT Start Date\" , 'DD Mon YYYY') as \"TPT Start Date\", to_char(\"TPT Actual Stop Date\" , 'DD Mon YYYY') as \"TPT Actual Stop Date\", \"ART Outcomes\" FROM analysis.fact_sentinel_event WHERE \"ART Outcomes\"='Not initiated on ART') a"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Due for VL",
+      "badge": {
+        "query": "SELECT COUNT(*) as data FROM (SELECT \"ART Outcomes\",\"Pepfar Age Group\" as age_group,\"Sex\" as sex from  analysis.fact_sentinel_event) a WHERE \"ART Outcomes\"='Needs VL Test'",
+        "color": {
+          "high": {
+            "upperThreshold": "100",
+            "lowerThreshold": "80",
+            "hex": "#300"
+          },
+          "medium": {
+            "upperThreshold": "79",
+            "lowerThreshold": "26",
+            "hex": "#ddd"
+          },
+          "low": {
+            "upperThreshold": "25",
+            "lowerThreshold": "0",
+            "hex": "#fff"
+          }
+        }
+      },
+
+      "visuals": [
+        {
+          "id": 1,
+          "sortOrder": 1,
+          "type": "table",
+          "groupBy": null,
+          "sortable": true,
+          "columns": {
+            "1": {
+              "label": "ART Number",
+              "column": "ART Number Legacy",
+              "format": "string",
+              "detailsQuery": "SELECT * FROM analysis.fact_sentinel_event WHERE \"ART Number Legacy\" = '%value%'",
+              "detailsCaption": "Patient Details"
+            },
+            "2": {
+              "label": "Sex",
+              "column": "sex",
+              "format": "string"
+            },
+            "3": {
+              "label": "Age Group",
+              "column": "age_group",
+              "format": "string"
+            },
+            "4": {
+              "label": "PBF Status",
+              "column": "PBF Status",
+              "format": "string"
+            },
+            "5": {
+              "label": "ART Start Date",
+              "column": "ART Start Date",
+              "format": "date"
+            },
+            "6": {
+              "label": "ART Duration",
+              "column": "ART Duration",
+              "format": "string"
+            },
+            "7": {
+              "label": "Last Visit Date",
+              "column": "Last Visit Date",
+              "format": "string"
+            },
+            "8": {
+              "label": "Next FUP Date",
+              "column": "Last Next Visit Date",
+              "format": "string"
+            },
+            "9": {
+              "label": "Last VL Test Date",
+              "column": "Last Viral Load Order Date",
+              "format": "date"
+            },
+            "10": {
+              "label": "Last VL Result Date",
+              "column": "Last Viral Load Result",
+              "format": "date"
+            },
+            "12": {
+              "label": "Next Viral Load Date",
+              "column": "Next Viral Load Date",
+              "format": "string"
+            },
+            "13": {
+              "label": "Eligible Status",
+              "column": "Reason For Next Viral Load",
+              "format": "string"
+            }
+          },
+          "query": "SELECT * FROM (SELECT __client_id,\"Sex\" as sex, CASE WHEN \"Last Pregnancy Status\" = 'Yes' THEN 'Pregnant' WHEN \"Last Breast Feeding\" = 'Yes' THEN 'Breast Feeding' END AS \"PBF Status\", \"ART Duration\", \"Reason For Next Viral Load\", \"Last Viral Load Result Status\", \"Current Age\", \"Pepfar Age Group\" as age_group, to_char( \"Next Viral Load Date\" , 'DD Mon YYYY') as \"Next Viral Load Date\", to_char( \"Date Of Birth\" , 'DD Mon YYYY') as \"Date Of Birth\",\"ART Number Legacy\", to_char(\"ART Start Date\" , 'DD Mon YYYY') as \"ART Start Date\",to_char(\"Last Visit Date\" , 'DD Mon YYYY') as \"Last Visit Date\",to_char(\"Last Next Visit Date\" , 'DD Mon YYYY') as \"Last Next Visit Date\",\"MMP Status\",\"Last Viral Load Result\",to_char(\"Last Viral Load Order Date\" , 'DD Mon YYYY') as \"Last Viral Load Order Date\", to_char(\"Last Viral Load Result Date\" , 'DD Mon YYYY') as \"Last Viral Load Result Date\", to_char(\"TPT Start Date\" , 'DD Mon YYYY') as \"TPT Start Date\", to_char(\"TPT Actual Stop Date\" , 'DD Mon YYYY') as \"TPT Actual Stop Date\", \"ART Outcomes\", \"Last Viral Load Result Category\" FROM analysis.fact_sentinel_event WHERE \"ART Outcomes\"='Needs VL Test') a"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Virally Unsuppressed Line list",
+      "badge": {
+        "query": "SELECT COUNT(*) as data FROM (SELECT \"ART Outcomes\",\"Pepfar Age Group\" as age_group, \"Sex\" as sex from  analysis.fact_sentinel_event) a WHERE \"ART Outcomes\"='VL Not Suppressed'",
+        "color": {
+          "high": {
+            "upperThreshold": "100",
+            "lowerThreshold": "80",
+            "hex": "#300"
+          },
+          "medium": {
+            "upperThreshold": "79",
+            "lowerThreshold": "26",
+            "hex": "#ddd"
+          },
+          "low": {
+            "upperThreshold": "25",
+            "lowerThreshold": "0",
+            "hex": "#fff"
+          }
+        }
+      },
+      "visuals": [
+        {
+          "id": 1,
+          "sortOrder": 1,
+          "type": "table",
+          "groupBy": null,
+          "sortable": true,
+          "columns": {
+            "1": {
+              "label": "ART Number",
+              "column": "ART Number Legacy",
+              "format": "string",
+              "detailsQuery": "SELECT * FROM analysis.fact_sentinel_event WHERE \"ART Number Legacy\" = '%value%'",
+              "detailsCaption": "Patient Details"
+            },
+            "2": {
+              "label": "Sex",
+              "column": "sex",
+              "format": "string"
+            },
+            "4": {
+              "label": "PBF Status",
+              "column": "PBF Status",
+              "format": "string"
+            },
+            "5": {
+              "label": "ART Start Date",
+              "column": "ART Start Date",
+              "format": "date"
+            },
+            "6": {
+              "label": "ART Duration",
+              "column": "ART Duration",
+              "format": "string"
+            },
+            "7": {
+              "label": "Last Visit Date",
+              "column": "Last Visit Date",
+              "format": "string"
+            },
+            "8": {
+              "label": "Next FUP Date",
+              "column": "Last Next Visit Date",
+              "format": "string"
+            },
+            "9": {
+              "label": "Last VL Test Date",
+              "column": "Last Viral Load Order Date",
+              "format": "date"
+            },
+            "10": {
+              "label": "Last VL Result Date",
+              "column": "Last Viral Load Result Date",
+              "format": "date"
+            },
+            "11": {
+              "label": "Result Status",
+              "column": "Last Viral Load Result Status",
+              "format": "string"
+            },
+            "12": {
+              "label": "VL Result",
+              "column": "Last Viral Load Result",
+              "format": "string"
+            },
+            "13": {
+              "label": "VL Status",
+              "column": "Last Viral Load Result Category",
+              "format": "string"
+            }
+          },
+          "query": "SELECT * FROM (SELECT __client_id,\"Sex\" as sex, \"ART Duration\", CASE WHEN \"Last Pregnancy Status\" = 'Yes' THEN 'Pregnant' WHEN \"Last Breast Feeding\" = 'Yes' THEN 'Breast Feeding' END AS \"PBF Status\", \"Last Viral Load Result Status\", \"Current Age\", \"Pepfar Age Group\" as age_group, to_char( \"Date Of Birth\" , 'DD Mon YYYY') as \"Date Of Birth\",\"ART Number Legacy\", to_char(\"ART Start Date\" , 'DD Mon YYYY') as \"ART Start Date\",to_char(\"Last Visit Date\" , 'DD Mon YYYY') as \"Last Visit Date\",to_char(\"Last Next Visit Date\" , 'DD Mon YYYY') as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",to_char(\"Last Viral Load Order Date\" , 'DD Mon YYYY') as \"Last Viral Load Order Date\", to_char(\"Last Viral Load Result Date\" , 'DD Mon YYYY') as \"Last Viral Load Result Date\", to_char(\"TPT Start Date\" , 'DD Mon YYYY') as \"TPT Start Date\", to_char(\"TPT Actual Stop Date\" , 'DD Mon YYYY') as \"TPT Actual Stop Date\", \"ART Outcomes\", \"Last Viral Load Result Category\" FROM analysis.fact_sentinel_event WHERE \"ART Outcomes\"='VL Not Suppressed') a"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "TPT Not Completed",
+      "badge": {
+        "query": "SELECT COUNT(*) as data FROM (SELECT \"TPT Actual Stop Date\",\"Pepfar Age Group\" as age_group,\"Sex\" as sex from  analysis.fact_sentinel_event) a WHERE \"TPT Actual Stop Date\" IS NULL",
+        "color": {
+          "high": {
+            "upperThreshold": "100",
+            "lowerThreshold": "80",
+            "hex": "#300"
+          },
+          "medium": {
+            "upperThreshold": "79",
+            "lowerThreshold": "26",
+            "hex": "#ddd"
+          },
+          "low": {
+            "upperThreshold": "25",
+            "lowerThreshold": "0",
+            "hex": "#fff"
+          }
+        }
+      },
+      "visuals": [
+        {
+          "id": 1,
+          "sortOrder": 1,
+          "type": "table",
+          "groupBy": null,
+          "sortable": true,
+          "columns": {
+            "1": {
+              "label": "ART Number",
+              "column": "ART Number Legacy",
+              "format": "string",
+              "detailsQuery": "SELECT * FROM analysis.fact_sentinel_event WHERE \"ART Number Legacy\" = '%value%'",
+              "detailsCaption": "Patient Details"
+            },
+            "2": {
+              "label": "Sex",
+              "column": "sex",
+              "format": "string"
+            },
+            "3": {
+              "label": "Age",
+              "column": "Current Age",
+              "format": "string"
+            },
+            "4": {
+              "label": "ART Start Date",
+              "column": "ART Start Date",
+              "format": "date"
+            },
+            "5": {
+              "label": "Duration",
+              "column": "TPT Adherance",
+              "format": "string"
+            },
+            "6": {
+              "label": "IPT Regimen",
+              "column": "TPT Regimen",
+              "format": "string"
+            },
+            "7": {
+              "label": "TPT Start Date",
+              "column": "TPT Start Date",
+              "format": "string"
+            },
+            "8": {
+              "label": "Expected Stop Date",
+              "column": "TPT Expected Stop Date",
+              "format": "string"
+            },
+            "9": {
+              "label": "Actual Stop Date",
+              "column": "TPT Actual Stop Date",
+              "format": "string"
+            },
+            "10": {
+              "label": "Adherence",
+              "column": "TPT Adherance",
+              "format": "string"
+            },
+            "11": {
+              "label": "Status",
+              "column": "TPT Status",
+              "format": "string"
+            },
+            "12": {
+              "label": "Stop Reason",
+              "column": "TPT Stop Reason",
+              "format": "string"
+            }
+          },
+          "query": "SELECT * FROM (SELECT \"__client_id\",\"Sex\" as sex, to_char(\"ART Start Date\" , 'DD Mon YYYY') as \"ART Start Date\", \"TPT Adherance\", \"TPT Stop Reason\", \"TPT Adherance\", \"Current Age\", \"Pepfar Age Group\" as age_group, \"TPT Regimen\", \"TPT Status\", to_char( \"Date Of Birth\" , 'DD Mon YYYY') as \"Date Of Birth\",\"ART Number Legacy\", to_char(\"TPT Expected Stop Date\" , 'DD Mon YYYY') as \"TPT Expected Stop Date\",to_char(\"TPT Actual Stop Date\" , 'DD Mon YYYY') as \"TPT Actual Stop Date\",to_char(\"Last Next Visit Date\" , 'DD Mon YYYY') as \"Last Next Visit Date\",\"MMP Status\", \"Last Viral Load Result\",to_char(\"Last Viral Load Result Date\" , 'DD Mon YYYY') as \"Last Viral Load Result Date\", to_char(\"TPT Start Date\" , 'DD Mon YYYY') as \"TPT Start Date\", to_char(\"TPT Actual Stop Date\" , 'DD Mon YYYY') as \"TPT Actual Stop Date\", \"ART Outcomes\" FROM analysis.fact_sentinel_event WHERE \"TPT Actual Stop Date\" IS NULL) a"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Pivot Table",
+      "visuals": [
+        {
+          "id": 1,
+          "title": "Patient Pivot Analysis",
+          "type": "pivot",
+          "query": "select \"Sex\", \"Current Age\" , \"Pepfar Age Group\", 1 as ct from analysis.fact_sentinel_event limit 30",
+          "rows": ["Sex", "Current Age", "Pepfar Age Group", "ct"],
+          "vals": ["ct"],
+          "cols": ["Pepfar Age Group"]
+        }
+      ]
+    }
+
+    
+    
+  ]
+}
