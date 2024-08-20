@@ -1,9 +1,16 @@
 <Dashboard>
     <Filters>
         <Filter name="location" values="USA,Canada,UK" />
-        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
-            <Visual1 />
-            <Visual3 />
+        <DataContainer query="SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 GROUP BY year;">
+        <BarChart/>
+        <LineChart/>
+        <HeatmapChart/>
+        <RadarChart/>
+        <PolarAreaChart/>
+        <SmartDataTable/>
+        <DataTable/>
+        <PivotTable/>
+        <JSONVisual/>
         </DataContainer>
     </Filters>
 </Dashboard>
