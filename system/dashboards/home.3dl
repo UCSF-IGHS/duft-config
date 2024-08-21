@@ -4,19 +4,19 @@
             
             <DashboardRow>
 
-                <DataContainer query="SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="New Cases"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Initiated"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Suppressed"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Not Suppressed"/>
                 </DataContainer>
             
@@ -34,19 +34,19 @@
 
             <DashboardRow>
 
-                <DataContainer query="SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="New Cases"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Initiated"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Suppressed"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Not Suppressed"/>
                 </DataContainer>
 
@@ -70,7 +70,7 @@
                 <PercentStackedBarChart/>
                 </DataContainer>
 
-                <DataContainer query="SELECT TRIM(ten_year_interval) AS category,SUM(CASE WHEN last_art_regimen_line='First line' THEN 1 ELSE 0 END) AS 'First line',SUM(CASE WHEN last_art_regimen_line='Second line' THEN 1 ELSE 0 END) AS 'Second line',SUM(CASE WHEN last_art_regimen_line='Third line' THEN 1 ELSE 0 END) AS 'Third line',SUM(CASE WHEN last_art_regimen_line='Unknown line' THEN 1 ELSE 0 END) AS 'Unknown line' FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group a ON c.current_age=a.age WHERE last_art_regimen_line !='' GROUP BY ten_year_interval ORDER BY ten_year_interval;">
+                <DataContainer query={`SELECT TRIM(ten_year_interval) AS category,SUM(CASE WHEN last_art_regimen_line='First line' THEN 1 ELSE 0 END) AS 'First line',SUM(CASE WHEN last_art_regimen_line='Second line' THEN 1 ELSE 0 END) AS 'Second line',SUM(CASE WHEN last_art_regimen_line='Third line' THEN 1 ELSE 0 END) AS 'Third line',SUM(CASE WHEN last_art_regimen_line='Unknown line' THEN 1 ELSE 0 END) AS 'Unknown line' FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group a ON c.current_age=a.age WHERE last_art_regimen_line !='' GROUP BY ten_year_interval ORDER BY ten_year_interval;`}>
                 <StackedBarChart/>
                 </DataContainer>
             </DashboardRow>
@@ -81,19 +81,19 @@
 
             <DashboardRow>
 
-                <DataContainer query="SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="New Cases"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Initiated"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Suppressed"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Not Suppressed"/>
                 </DataContainer>
 
@@ -117,19 +117,19 @@
 
             <DashboardRow>
 
-                <DataContainer query="SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="New Cases"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Initiated"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Suppressed"/>
                 </DataContainer>
 
-                <DataContainer query="SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';">
+                <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                     <Tile label="Not Suppressed"/>
                 </DataContainer>
 
@@ -141,17 +141,22 @@
                 <LineChart/>
                 </DataContainer>
 
+                <DataContainer query={`SELECT TRIM(ten_year_interval) AS category,SUM(CASE WHEN gender='Male' THEN 1 ELSE 0 END) AS Male,SUM(CASE WHEN gender='Female' THEN 1 ELSE 0 END) AS Female FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group ag ON c.current_age=ag.age WHERE has_ever_been_initiated_on_art=1 GROUP BY TRIM(ten_year_interval) ORDER BY TRIM(ten_year_interval);`}>
+                <StackedBarChart/>
+                </DataContainer>
+                
             </DashboardRow>
                 
             <DashboardRow>
 
-                <DataContainer query={`WITH all_combinations AS (SELECT DISTINCT r.first_art_regimen,a.ten_year_interval,0 AS tot FROM (SELECT DISTINCT TRIM(ten_year_interval) AS ten_year_interval FROM dim_age_group) a CROSS JOIN (SELECT DISTINCT first_art_regimen FROM fact_sentinel_event) r),actual_results AS (SELECT TRIM(ag.ten_year_interval) AS ten_year_interval,se.first_art_regimen,COUNT(*) AS tot FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group ag ON c.current_age=ag.age GROUP BY ag.ten_year_interval,se.first_art_regimen) SELECT COALESCE(ar.first_art_regimen,ac.first_art_regimen) AS category,COALESCE(SUM(CASE WHEN ar.ten_year_interval='0-9' THEN ar.tot ELSE 0 END),0) AS '0-9',COALESCE(SUM(CASE WHEN ar.ten_year_interval='10-19' THEN ar.tot ELSE 0 END),0) AS '10-19',COALESCE(SUM(CASE WHEN ar.ten_year_interval='20-29' THEN ar.tot ELSE 0 END),0) AS '20-29',COALESCE(SUM(CASE WHEN ar.ten_year_interval='30-39' THEN ar.tot ELSE 0 END),0) AS '30-39',COALESCE(SUM(CASE WHEN ar.ten_year_interval='40-49' THEN ar.tot ELSE 0 END),0) AS '40-49',COALESCE(SUM(CASE WHEN ar.ten_year_interval='50-59' THEN ar.tot ELSE 0 END),0) AS '50-59',COALESCE(SUM(CASE WHEN ar.ten_year_interval='60-69' THEN ar.tot ELSE 0 END),0) AS '60-69',COALESCE(SUM(CASE WHEN ar.ten_year_interval='70+' THEN ar.tot ELSE 0 END),0) AS '70+' FROM all_combinations ac LEFT JOIN actual_results ar ON ar.first_art_regimen=ac.first_art_regimen AND ar.ten_year_interval=ac.ten_year_interval GROUP BY ac.first_art_regimen ORDER BY ac.first_art_regimen;`}>
-                <PercentStackedBarChart/>
-                </DataContainer>
-
-                <DataContainer query="SELECT TRIM(ten_year_interval) AS category,SUM(CASE WHEN last_art_regimen_line='First line' THEN 1 ELSE 0 END) AS 'First line',SUM(CASE WHEN last_art_regimen_line='Second line' THEN 1 ELSE 0 END) AS 'Second line',SUM(CASE WHEN last_art_regimen_line='Third line' THEN 1 ELSE 0 END) AS 'Third line',SUM(CASE WHEN last_art_regimen_line='Unknown line' THEN 1 ELSE 0 END) AS 'Unknown line' FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group a ON c.current_age=a.age WHERE last_art_regimen_line !='' GROUP BY ten_year_interval ORDER BY ten_year_interval;">
+                <DataContainer query={`SELECT year AS category,SUM(CASE WHEN num='Active Clients' THEN value ELSE 0 END) AS 'Active Clients',SUM(CASE WHEN num='Years on ART' THEN value ELSE 0 END) AS 'Years on ART' FROM (SELECT year,'Active Clients' AS num,COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE year BETWEEN 2005 AND 2023 AND is_currently_on_art=1 GROUP BY year UNION ALL SELECT year,'Years on ART' AS num,CAST ((strftime('%Y','now')-CAST (SUBSTR(first_art_date,LENGTH(first_art_date)-3) AS INTEGER)) AS INTEGER) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE year BETWEEN 2005 AND 2023 AND is_currently_on_art=1 GROUP BY year) AS combined GROUP BY year ORDER BY year;`}>
                 <StackedBarChart/>
                 </DataContainer>
+            
+                <DataContainer query={`SELECT TRIM(year) AS category,SUM(CASE WHEN gender='Male' THEN 1 ELSE 0 END) AS Male,SUM(CASE WHEN gender='Female' THEN 1 ELSE 0 END) AS Female FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date=d.full_date WHERE year BETWEEN 2005 AND 2023 AND has_exited_died=1 GROUP BY TRIM(year) ORDER BY TRIM(year);`}>
+                <StackedBarChart/>
+                </DataContainer>
+
             </DashboardRow>
                 
         </Tab>
