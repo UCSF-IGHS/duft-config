@@ -27,7 +27,7 @@
             <BarChart />
         </DataContainer>
 
-        <DataContainer query={  `SELECT age_group as category, count(*) as value FROM (SELECT "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "Client Status" ='IIT: Missed Appointment') a GROUP BY age_group"`}>
+        <DataContainer query={  `SELECT age_group as category, count(*) as value FROM (SELECT "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "Client Status" ='IIT: Missed Appointment') a GROUP BY age_group`}>
             <BarChart />
         </DataContainer>
 
