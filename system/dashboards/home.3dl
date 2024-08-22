@@ -2,6 +2,9 @@
     
         
         <Grid>
+            <DashboardHeader>
+                Indicators for Quality Improvement 
+            </DashboardHeader>
             <Row mediumCols = "3"   largeCols = "3" >
                 <DataContainer query={` SELECT  count(*) as value FROM (SELECT "__client_id" FROM analysis.fact_sentinel_event  WHERE "TX Curr" = 'Yes') a`}>
                     <Tile label='Total Active' />
