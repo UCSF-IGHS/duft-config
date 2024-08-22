@@ -1,38 +1,38 @@
 <Dashboard>
     <Filters>
         <Filter name="location" values="USA,Canada,UK" />
-        <DashboardRow>
+        <Row>
             <DataContainer query={` SELECT * FROM (SELECT __client_id,"Sex" as sex, "ART Duration", "Current Age", "Pepfar Age Group" as age_group, to_char("Date Of Birth", 'DD Mon YYYY') as "Date Of Birth", "ART Number Legacy", to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit Date",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Last Next Visit Date","MMP Status", "Last Viral Load Result",to_char("Last Viral Load Result Date" , 'DD Mon YYYY'), to_char("TPT Start Date" , 'DD Mon YYYY'), to_char("TPT Actual Stop Date" , 'DD Mon YYYY'), "ART Outcomes", CASE WHEN "ART Outcomes"='Needs VL Test' THEN 'Yes' ELSE 'No' END AS eligible, CASE WHEN "Last Pregnancy Status" = 'Yes' THEN 'Pregnant' WHEN "Last Breast Feeding" = 'Yes' THEN 'Breast Feeding' END AS "PBF Status", case when "TPT Expected Stop Date" <= NOW() then 'Completed' else 'Not Completed' end as "TPT Status" FROM analysis.fact_sentinel_event) a `}>
                 <SmartDataTable/>
             </DataContainer>
-        </DashboardRow>
+        </Row>
 
-        <DashboardRow>
+        <Row>
             <DataContainer query={` SELECT * FROM (SELECT __client_id,"Sex" as sex, "Days Since Last Visit", CASE WHEN "Last Pregnancy Status" = 'Yes' THEN 'Pregnant' WHEN "Last Breast Feeding" = 'Yes' THEN 'Breast Feeding' END AS "PBF Status", "Client Status", "Current Age", "Pepfar Age Group" as age_group, to_char( "Date Of Birth" , 'DD Mon YYYY') as "Date Of Birth", "ART Number Legacy", to_char("ART Start Date" , 'DD Mon YYYY') as art_start_date,to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit Date",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Last Next Visit Date","MMP Status", "Last Viral Load Result",to_char("Last Viral Load Result Date" , 'DD Mon YYYY') as "Last Viral Load Result Date", to_char("TPT Start Date" , 'DD Mon YYYY') as "TPT Start Date", to_char("TPT Actual Stop Date" , 'DD Mon YYYY') as "TPT Actual Stop Date", "ART Outcomes" FROM analysis.fact_sentinel_event WHERE "ART Outcomes"='Not initiated on ART') a `}>
                 <SmartDataTable/>
             </DataContainer>
-        </DashboardRow>
+        </Row>
 
-        <DashboardRow>
+        <Row>
             <DataContainer query={` SELECT * FROM (SELECT __client_id,"Sex" as sex, CASE WHEN "Last Pregnancy Status" = 'Yes' THEN 'Pregnant' WHEN "Last Breast Feeding" = 'Yes' THEN 'Breast Feeding' END AS "PBF Status", "ART Duration", "Reason For Next Viral Load", "Last Viral Load Result Status", "Current Age", "Pepfar Age Group" as age_group, to_char( "Next Viral Load Date" , 'DD Mon YYYY') as "Next Viral Load Date", to_char( "Date Of Birth" , 'DD Mon YYYY') as "Date Of Birth","ART Number Legacy", to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit Date",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Last Next Visit Date","MMP Status","Last Viral Load Result", to_char("Last Viral Load Result Date" , 'DD Mon YYYY') as "Last Viral Load Result Date", to_char("TPT Start Date" , 'DD Mon YYYY') as "TPT Start Date", "ART Outcomes", "Last Viral Load Result Category" FROM analysis.fact_sentinel_event WHERE "ART Outcomes"='Needs VL Test') a`}>
                 <SmartDataTable/>
             </DataContainer>
             
-        </DashboardRow>
+        </Row>
 
-        <DashboardRow>
+        <Row>
             <DataContainer query={` SELECT * FROM (SELECT __client_id,"Sex" as sex, "ART Duration", CASE WHEN "Last Pregnancy Status" = 'Yes' THEN 'Pregnant' WHEN "Last Breast Feeding" = 'Yes' THEN 'Breast Feeding' END AS "PBF Status", "Last Viral Load Result Status",  "Pepfar Age Group" as age_group, to_char( "Date Of Birth" , 'DD Mon YYYY') as "Date Of Birth","ART Number Legacy", to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit Date",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Last Next Visit Date","MMP Status", "Last Viral Load Result",to_char("Last Viral Load Order Date" , 'DD Mon YYYY') as "Last Viral Load Order Date", to_char("Last Viral Load Result Date" , 'DD Mon YYYY') as "Last Viral Load Result Date", to_char("TPT Start Date" , 'DD Mon YYYY') as "TPT Start Date",  "ART Outcomes", "Last Viral Load Result Category" FROM analysis.fact_sentinel_event WHERE "ART Outcomes"='VL Not Suppressed') a`}>
                 <SmartDataTable/>
             </DataContainer>
             
-        </DashboardRow>
+        </Row>
 
-        <DashboardRow>
+        <Row>
             <DataContainer query={` SELECT * FROM (SELECT "__client_id","Sex" as sex, to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date", "TPT Adherance", "TPT Stop Reason", "TPT Adherance", "Current Age", "Pepfar Age Group" as age_group, "TPT Regimen", "TPT Status", to_char( "Date Of Birth" , 'DD Mon YYYY') as "Date Of Birth","ART Number Legacy", to_char("TPT Expected Stop Date" , 'DD Mon YYYY') as "TPT Expected Stop Date",to_char("TPT Actual Stop Date" , 'DD Mon YYYY') as "TPT Actual Stop Date",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Last Next Visit Date","MMP Status", "Last Viral Load Result",to_char("Last Viral Load Result Date" , 'DD Mon YYYY') as "Last Viral Load Result Date", to_char("TPT Start Date" , 'DD Mon YYYY') as "TPT Start Date", to_char("TPT Actual Stop Date" , 'DD Mon YYYY') as "TPT Actual Stop Date", "ART Outcomes" FROM analysis.fact_sentinel_event WHERE "TPT Actual Stop Date" IS NULL) a `}>
                 <SmartDataTable/>
             </DataContainer>
             
-        </DashboardRow>
+        </Row>
         
     
     </Filters>
