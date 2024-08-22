@@ -1,24 +1,69 @@
-<Dashboard>
-    <Filters>
-        <Filter name="location" values="USA,Canada,UK" />
-        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
-            <Visual1 />
-            <Visual3 />
-        </DataContainer>
-        <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
-            <BarChart />
-        </DataContainer>
-
-        <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+<TabSet>
+  <Tab title="Dashboard 1">
+    <Dashboard title="My Dashboard">
+      <Grid>
+        <Row>
+          <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+            <BarChart header='fact_sentinel_event' subHeader='fact sentinel data' />
+          </DataContainer>
+          <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
             <LineChart />
+          </DataContainer>
+          <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+            <RadarChart />
+          </DataContainer>
+        </Row>
+        <Row>
+          <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+            <HeatmapChart />
+          </DataContainer>
+          <DataContainer staticData={[
+            { category: "Apples", type: "fruit", value: 30 },
+            { category: "Bananas", type: "fruit", value: 40 },
+            { category: "Cherries", type: "fruit", value: 25 },
+            { category: "Chocolate", type: "vice", value: 16 },
+            { category: "Coffee", type: "vice", value: 49 },
+          ]}>
+            <PolarAreaChart />
+          </DataContainer>
+        </Row>
+        <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+          <Row>
             <PieChart />
             <DonutChart />
-            <RadialBarChart/>
-            <SmartDataTable/>
-            <DataTable/>
-            <HeatmapChart/>
+            <BarChart />
+          </Row>
         </DataContainer>
-
-        
-    </Filters>
-</Dashboard>
+        <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+          <Row>
+            <SmartDataTable />
+          </Row>
+        </DataContainer>
+        <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+          <Row>
+            <PivotTable />
+          </Row>
+        </DataContainer>
+        <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+          <Row>
+            <DataTable />
+          </Row>
+        </DataContainer>
+      </Grid>
+    </Dashboard>
+  </Tab>
+  <Tab title="Dashboard 2">
+    <Dashboard>
+      <Grid>
+        <Row>
+          <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+            <BarChart />
+          </DataContainer>
+          <DataContainer query='SELECT "Sex" AS category, COUNT("Sex") AS value FROM analysis.fact_sentinel_event GROUP BY "Sex"'>
+            <BarChart />
+          </DataContainer>
+        </Row>
+      </Grid>
+    </Dashboard>
+  </Tab>
+</TabSet>
