@@ -1,8 +1,9 @@
 <TabSet>
     <Tab title="A. ART Cascade">
-        <Dashboard title="Wakanda Dashboard">
-            <Grid>
-                <Row>
+        <Dashboard>
+            <Grid>      
+                <DashboardHeader>ART Cascade</DashboardHeader>
+                <Row mediumCols = "2" largeCols = "4">
 
                     <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                         <Tile label="New Cases"/>
@@ -21,8 +22,7 @@
                     </DataContainer>
                 
                 </Row>
-
-                <Row>
+                <Row mediumCols = "1" largeCols = "1">
                     <DataContainer query={`WITH counts AS (SELECT gender, sub_county AS region, COUNT(CASE WHEN hiv_diagnosis_date IS NOT NULL THEN 1 END) AS new_cases, COUNT(CASE WHEN has_ever_been_initiated_on_art = 1 THEN 1 END) AS initiated_on_art, COUNT(CASE WHEN last_viral_load_result_is_suppressed = 1 THEN 1 END) AS suppressed, COUNT(CASE WHEN last_viral_load_result_is_not_suppressed = 1 THEN 1 END) AS not_suppressed FROM fact_sentinel_event s INNER JOIN dim_client c ON c.client_id = s.client_id INNER JOIN dim_hiv_diagnosis_facility f ON f.facility_id = s.hiv_diagnosis_facility_id WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022' GROUP BY sub_county, gender) SELECT gender, region, new_cases, initiated_on_art, CASE WHEN new_cases = 0 THEN '0.0%' ELSE printf('%.1f%%', (initiated_on_art * 1.0 / new_cases) * 100) END AS percent_initiated_on_art, suppressed, not_suppressed, CASE WHEN initiated_on_art = 0 THEN '0.0%' ELSE printf('%.1f%%', (suppressed * 1.0 / initiated_on_art) * 100) END AS percent_suppressed, CASE WHEN initiated_on_art = 0 THEN '0.0%' ELSE printf('%.1f%%', (not_suppressed * 1.0 / initiated_on_art) * 100) END AS percent_not_suppressed FROM counts;`}>
                     <SmartDataTable/>
                     </DataContainer>
@@ -32,9 +32,10 @@
     </Tab>
 
     <Tab title="B. Regimen Analysis">
-        <Dashboard title="Wakanda Dashboard">
-            <Grid>
-                <Row>
+        <Dashboard>
+            <Grid>      
+                <DashboardHeader>Regimen Analysis</DashboardHeader>
+                <Row mediumCols = "2" largeCols = "4">
 
                     <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                         <Tile label="New Cases"/>
@@ -53,8 +54,7 @@
                     </DataContainer>
 
                 </Row>
-
-                <Row>
+                <Row mediumCols = "1" largeCols = "2">
 
                     <DataContainer query={`SELECT last_art_regimen_line AS category, COUNT(*) AS value FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE last_art_regimen_line !='' GROUP BY last_art_regimen_line;`}>
                     <DonutChart/>
@@ -65,8 +65,7 @@
                     </DataContainer>
                 
                 </Row>
-                    
-                <Row>
+                <Row mediumCols = "1" largeCols = "2">
                 
                     <DataContainer query={`WITH all_combinations AS (SELECT DISTINCT r.first_art_regimen,a.ten_year_interval,0 AS tot FROM (SELECT DISTINCT TRIM(ten_year_interval) AS ten_year_interval FROM dim_age_group) a CROSS JOIN (SELECT DISTINCT first_art_regimen FROM fact_sentinel_event) r),actual_results AS (SELECT TRIM(ag.ten_year_interval) AS ten_year_interval,se.first_art_regimen,COUNT(*) AS tot FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group ag ON c.current_age=ag.age GROUP BY ag.ten_year_interval,se.first_art_regimen) SELECT COALESCE(ar.first_art_regimen,ac.first_art_regimen) AS category,COALESCE(SUM(CASE WHEN ar.ten_year_interval='0-9' THEN ar.tot ELSE 0 END),0) AS '0-9',COALESCE(SUM(CASE WHEN ar.ten_year_interval='10-19' THEN ar.tot ELSE 0 END),0) AS '10-19',COALESCE(SUM(CASE WHEN ar.ten_year_interval='20-29' THEN ar.tot ELSE 0 END),0) AS '20-29',COALESCE(SUM(CASE WHEN ar.ten_year_interval='30-39' THEN ar.tot ELSE 0 END),0) AS '30-39',COALESCE(SUM(CASE WHEN ar.ten_year_interval='40-49' THEN ar.tot ELSE 0 END),0) AS '40-49',COALESCE(SUM(CASE WHEN ar.ten_year_interval='50-59' THEN ar.tot ELSE 0 END),0) AS '50-59',COALESCE(SUM(CASE WHEN ar.ten_year_interval='60-69' THEN ar.tot ELSE 0 END),0) AS '60-69',COALESCE(SUM(CASE WHEN ar.ten_year_interval='70+' THEN ar.tot ELSE 0 END),0) AS '70+' FROM all_combinations ac LEFT JOIN actual_results ar ON ar.first_art_regimen=ac.first_art_regimen AND ar.ten_year_interval=ac.ten_year_interval GROUP BY ac.first_art_regimen ORDER BY ac.first_art_regimen;`}>
                     <PercentStackedBarChart/>
@@ -76,14 +75,15 @@
                     <StackedBarChart/>
                     </DataContainer>
                 </Row>
-            </Grid>
+            </Grid>      
         </Dashboard>
     </Tab>
 
     <Tab title="C. ART Outcome">
-        <Dashboard title="Wakanda Dashboard">
-            <Grid>
-                <Row>
+        <Dashboard>
+            <Grid>      
+                <DashboardHeader>ART Outcome</DashboardHeader>
+                <Row mediumCols = "2" largeCols = "4">
 
                     <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                         <Tile label="New Cases"/>
@@ -102,8 +102,7 @@
                     </DataContainer>
 
                 </Row>
-
-                <Row>
+                <Row mediumCols = "1" largeCols = "2">
                 
                     <DataContainer query={`SELECT CASE WHEN current_cascade_status='' THEN 'Case Closed' ELSE current_cascade_status END AS category,COUNT(*) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group a ON c.current_age=a.age GROUP BY current_cascade_status;`}>
                     <PieChart/>
@@ -114,15 +113,15 @@
                     </DataContainer>
 
                 </Row>            
-            </Grid>
+            </Grid>      
         </Dashboard>
     </Tab>
 
     <Tab title="D. ART Retention">
-        <Dashboard title="Wakanda Dashboard">
-            <Grid>
-                <Row>
-
+        <Dashboard>
+            <Grid>      
+                <DashboardHeader></DashboardHeader>
+                <Row mediumCols = "2" largeCols = "4">
                     <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
                         <Tile label="New Cases"/>
                     </DataContainer>
@@ -140,8 +139,7 @@
                     </DataContainer>
 
                 </Row>
-
-                <Row>
+                <Row mediumCols = "1" largeCols = "2">
 
                     <DataContainer query={`SELECT month_yyyy AS category,SUM(CASE WHEN status='Initiated' THEN tot ELSE 0 END) AS Initiated,SUM(CASE WHEN status='Exited' THEN tot ELSE 0 END) AS Exited FROM (SELECT 'Initiated' AS status,SUM(CASE WHEN has_ever_been_initiated_on_art !=0 THEN 1 ELSE 0 END) AS tot,month_yyyy,year_month FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date=d.full_date WHERE year_month>=202301 GROUP BY month_yyyy UNION ALL SELECT 'Exited' AS status,SUM(CASE WHEN has_exited_died !=0 THEN 1 ELSE 0 END) AS tot,month_yyyy,year_month FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date=d.full_date WHERE year_month>=202301 GROUP BY month_yyyy) AS combined_results GROUP BY month_yyyy ORDER BY year_month;`}>
                     <LineChart/>
@@ -151,9 +149,8 @@
                     <StackedBarChart/>
                     </DataContainer>
                     
-                </Row>
-                    
-                <Row>
+                </Row>   
+                <Row mediumCols = "1" largeCols = "2">
 
                     <DataContainer query={`SELECT year AS category,SUM(CASE WHEN num='Active Clients' THEN value ELSE 0 END) AS 'Active Clients',SUM(CASE WHEN num='Years on ART' THEN value ELSE 0 END) AS 'Years on ART' FROM (SELECT year,'Active Clients' AS num,COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE year BETWEEN 2005 AND 2023 AND is_currently_on_art=1 GROUP BY year UNION ALL SELECT year,'Years on ART' AS num,CAST ((strftime('%Y','now')-CAST (SUBSTR(first_art_date,LENGTH(first_art_date)-3) AS INTEGER)) AS INTEGER) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE year BETWEEN 2005 AND 2023 AND is_currently_on_art=1 GROUP BY year) AS combined GROUP BY year ORDER BY year;`}>
                     <StackedBarChart/>
@@ -164,7 +161,7 @@
                     </DataContainer>
 
                 </Row>         
-            </Grid>
+            </Grid>      
         </Dashboard>
     </Tab>
 
