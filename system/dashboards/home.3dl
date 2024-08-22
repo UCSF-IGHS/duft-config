@@ -3,15 +3,15 @@
         <Filter name="location" values="USA,Canada,UK" />
 
         <DashboardRow>
-            <DataContainer query={` SELECT  count(*) as value FROM (SELECT "__client_id" FROM analysis.fact_sentinel_event  WHERE "Client Status" = 'Active on ART') a`}>
+            <DataContainer query={` SELECT  count(*) as value FROM (SELECT "__client_id" FROM analysis.fact_sentinel_event  WHERE "TX Curr" = 'Yes') a`}>
                 <Tile label='Total Active' />
             </DataContainer>
 
-            <DataContainer query={` SELECT count(*) as value FROM (SELECT "Sex" as sex, "Pepfar Age Group" as age_group, "__client_id" FROM analysis.fact_sentinel_event WHERE "Client Status" ='Active on ART' AND "Last Viral Load Result" is not null) a `}>
+            <DataContainer query={` SELECT count(*) as value FROM (SELECT "Sex" as sex, "Pepfar Age Group" as age_group, "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Last Viral Load Result" is not null) a `}>
                 <Tile label='Documented VL' />
             </DataContainer>
 
-            <DataContainer query={` SELECT count(*) as value FROM (SELECT "Sex" as sex, "Pepfar Age Group" as age_group, "__client_id" FROM analysis.fact_sentinel_event WHERE "Client Status" ='Active on ART' AND "Last Viral Load Result Category" = 'Suppressed') a `}>
+            <DataContainer query={` SELECT count(*) as value FROM (SELECT "Sex" as sex, "Pepfar Age Group" as age_group, "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Last Viral Load Result Category" = 'Suppressed') a `}>
                 <Tile label='Suppressed VL' />
             </DataContainer>
         </DashboardRow>
@@ -23,15 +23,15 @@
         </DashboardRow>
         
         <DashboardRow>
-            <DataContainer query={  `SELECT age_group as category, count(*) as value FROM (SELECT "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "Client Status" ='Active on ART') a GROUP BY age_group`}>
+            <DataContainer query={  `SELECT age_group as category, count(*) as value FROM (SELECT "Sex", "Pepfar Age Group" as age_group, CAST("Pepfar Age Group Val" AS integer) as age_group_val FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') a  GROUP BY age_group ORDER BY MAX(age_group_val)`}>
                 <BarChart />
             </DataContainer>
 
-            <DataContainer query={  `SELECT age_group as category, count(*) as value FROM (SELECT "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "Client Status" ='Active on ART: Missed Appointment') a GROUP BY age_group`}>
+            <DataContainer query={  `SELECT age_group as category, count(*) as value FROM (SELECT "Sex", "Pepfar Age Group" as age_group, CAST("Pepfar Age Group Val" AS integer) as age_group_val FROM analysis.fact_sentinel_event WHERE "Client Status" ='Active on ART: Missed Appointment') a  GROUP BY age_group ORDER BY MAX(age_group_val)`}>
                 <BarChart />
             </DataContainer>
 
-            <DataContainer query={  `SELECT age_group as category, count(*) as value FROM (SELECT "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "Client Status" ='IIT: Missed Appointment') a GROUP BY age_group`}>
+            <DataContainer query={  `SELECT age_group as category, count(*) as value FROM (SELECT "Sex", "Pepfar Age Group" as age_group, CAST("Pepfar Age Group Val" AS integer) as age_group_val FROM analysis.fact_sentinel_event WHERE "Client Status" ='IIT: Missed Appointment') a  GROUP BY age_group ORDER BY MAX(age_group_val)`}>
                 <BarChart />
             </DataContainer>
 
