@@ -6,7 +6,7 @@
             <Row><Header small="true">Indicators For Quality Improvement</Header></Row>
             <Row mediumCols = "2"   largeCols = "4" >
             <DataContainer query={` SELECT  count(*) as value FROM analysis.fact_sentinel_event `}>
-                    <Tile label='Total Active' />
+                    <Tile label='Total Patients' />
                 </DataContainer>
 
                 <DataContainer query={` SELECT  count(*) as value FROM analysis.fact_sentinel_event  WHERE "TX Curr" = 'Yes'`}>
@@ -22,10 +22,9 @@
                 </DataContainer>
             </Row>
             
-            <Row><Header small="true">ART Outcomes</Header></Row>
             <Row mediumCols = "1"   largeCols = "1" >
                 <DataContainer query={'SELECT "ART Outcomes" as category, count(*) as value FROM (SELECT "Pepfar Age Group" as age_group,"ART Outcomes", "Sex" as sex FROM  analysis.fact_sentinel_event) a GROUP BY "ART Outcomes"'}>
-                    <PieChart />
+                    <PieChart  header="ART Outcomes" />
                 </DataContainer>
             </Row>
             
