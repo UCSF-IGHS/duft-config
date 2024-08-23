@@ -63,7 +63,7 @@
 
 
                 <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,CASE WHEN "Last Viral Load Result" IS NOT NULL THEN 'Monitored' ELSE 'Pending' END AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39) A GROUP BY DATA;`}>
-                    <PieChart header="VLM Men" />
+                    <PieChart header="VLM Men" subHeader="VLM Men List" />
                 </DataContainer>
 
                 <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,CASE WHEN "Last Viral Load Result" IS NOT NULL THEN 'Monitored' ELSE 'Pending' END AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE  "Current Age" BETWEEN 0 AND 14) A GROUP BY DATA;`}>
