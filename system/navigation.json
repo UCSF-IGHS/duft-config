@@ -23,7 +23,12 @@
           "title": "Tab Dashboard",
           "icon": "dashboard-icon",
           "dashboard": "/dashboard/3dlsample-tabs"
-        }
+        },
+        {
+          "title": "Filter Dashboard",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/3dlfilters"
+        }        
       ]
     },
     {

@@ -1,0 +1,59 @@
+<TabSet>
+    <Tab title="Dashboard 1">
+        <Dashboard title="My Dashboard">
+
+            <Grid>
+                <Row><Header>Dashboard 1</Header></Row>
+                <Filters>
+                <Filter name="gender" values_query="SELECT DISTINCT gender from dim_client" />
+                <Filter name="age_group" values_query="SELECT DISTINCT five_year_interval from dim_age_group" />
+                </Filters>
+                <Row>
+                    <DataContainer query="SELECT gender as category, COUNT(client_id) from dim_client WHERE gender='$gender' OR '$gender'='' GROUP BY gender">
+                        <BarChart header='fact_sentinel_event' subHeader='fact sentinel data' />
+                    </DataContainer>
+                    <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2006 and 2010 GROUP BY year'>
+                        <LineChart />
+                    </DataContainer>
+
+                </Row>
+                <Row>
+                    <DataContainer staticData={[12500]}>
+                        <Tile label="sample tile"></Tile>
+                    </DataContainer>
+                </Row>
+                <Row><Header small="true">More visuals</Header></Row>
+                <Row>
+                    <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+                        <HeatmapChart />
+                    </DataContainer>
+                    <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+                        <PolarAreaChart />
+                    </DataContainer>
+                </Row>
+                <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2017 and 2022 GROUP BY year'>
+                    <Row>
+                        <PieChart />
+                        <DonutChart />
+                        <BarChart />
+                    </Row>
+                </DataContainer>
+                <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2005 and 2007 GROUP BY year'>
+                    <Row>
+                        <SmartDataTable />
+                    </Row>
+                </DataContainer>
+                <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+                    <Row>
+                        <PivotTable />
+                    </Row>
+                </DataContainer>
+                <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+                    <Row>
+                        <DataTable />
+                    </Row>
+                </DataContainer>
+            </Grid>
+        </Dashboard>
+    </Tab>
+</TabSet>
