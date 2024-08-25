@@ -3,9 +3,18 @@
     <Dashboard title="My Dashboard">
       <Grid>
         <Row><Header>Dashboard 1</Header></Row>
-        <Row>
+        <Row columns="4">
           <DataContainer staticData={[12500]}>
-            <Tile label="sample tile"></Tile>
+            <Tile title="sample tile"></Tile>
+          </DataContainer>
+          <DataContainer staticData={[12500]}>
+            <Tile title="sample tile"></Tile>
+          </DataContainer>
+          <DataContainer staticData={[12500]}>
+            <Tile title="sample tile"></Tile>
+          </DataContainer>
+          <DataContainer staticData={[12500]}>
+            <Tile title="sample tile"></Tile>
           </DataContainer>
         </Row>
         <Row>

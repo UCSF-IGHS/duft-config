@@ -58,18 +58,18 @@
     </Tab>
     <Tab title="Clients">
         <Dashboard title="My Dashboard">
-<Grid>
-            <Row><Header>Clients</Header></Row>
+            <SingleView>
+                <Row><SingleViewHeader>Clients</SingleViewHeader></Row>
                 <Filters>
                     <Filter caption="Gender" name="gender" values_query="SELECT DISTINCT gender from dim_client" />
                     <Filter caption="Age Group" name="five_year_interval" values_query="SELECT DISTINCT five_year_interval from dim_age_group" />
                 </Filters>
-                <Row mediumCols="1">
+                
                     <DataContainer query="SELECT client_id, birth_date, current_age, gender FROM vw_client WHERE (gender='$gender' OR '$gender'='') AND (five_year_interval='$five_year_interval' OR '$five_year_interval'='') LIMIT 100">
                         <SmartDataTable />
                     </DataContainer>
-                </Row>
-                </Grid>
+                
+            </SingleView>
         </Dashboard>
     </Tab>
 </TabSet>
