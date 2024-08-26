@@ -1,36 +1,126 @@
 {
-    "themes": [
-        {
-        "name": "default",
-        "description": "This is the default colour theme, all visuals will default to these colours",
-        "colours": {
-            "colour1": "#5BE49B",
-            "colour2": "#90b4a6",
-            "colour3": "#779b52",
-            "colour4": "#17a2b8",
-            "colour5": "#ffc107",
-            "colour6": "#dc3545",
-            "colour7": "#f8f9fa",
-            "colour9": "#343a40",
-            "colour10": "#343a40",
-            "colour11": "#343a40",
-            "colour12": "#343a40"
-        }
+  "themes": [
+    {
+      "name": "default",
+      "description": "This is the default colour theme, all visuals will default to these colours",
+      "apex": {
+        "chart": {
+          "foreColor": "#4B5563",
+          "fontFamily": "Inter, sans-serif",
+          "toolbar": {
+            "show": false
+          }
         },
-        {
-        "name": "wakanda",
-        "description": "This is a sample colour theme",
-        "colours": {
-            "primary": "#93ccea",
-            "secondary": "#5c4033",
-            "success": "#779b52",
-            "light": "#f8f9fa",
-            "dark": "#343a40",
-            "bar-graph1": "#343a40",
-            "bar-graph2": "#343a40",
-            "bar-graph3": "#343a40",
-            "header": "#343a40"
-        }
-        }
-    ]
+        "theme": {
+          "monochrome": {
+            "enabled": false,
+            "color": "#C42783"
+          }
+        },
+        "plotOptions": {
+          "bar": {
+            "columnWidth": "35%",
+            "borderRadius": 3,
+            "colors": {
+              "backgroundBarColors": {
+                "lightMode": [
+                  "#374151",
+                  "#374151",
+                  "#374151",
+                  "#374151",
+                  "#374151",
+                  "#374151",
+                  "#374151"
+                ],
+                "darkMode": [
+                  "#E5E7EB",
+                  "#E5E7EB",
+                  "#E5E7EB",
+                  "#E5E7EB",
+                  "#E5E7EB",
+                  "#E5E7EB",
+                  "#E5E7EB"
+                ]
+              },
+              "backgroundBarRadius": 3
+            }
+          }
+        },
+        "xaxis": {
+          "floating": false,
+          "labels": {
+            "show": true
+          },
+          "axisBorder": {
+            "show": true
+          },
+          "axisTicks": {
+            "show": true
+          }
+        },
+        "tooltip": {
+          "shared": false,
+          "intersect": false,
+          "style": {
+            "fontSize": "14px",
+            "fontFamily": "Inter, sans-serif"
+          }
+        },
+        "states": {
+          "hover": {
+            "filter": {
+              "type": "darken",
+              "value": 0.8
+            }
+          }
+        },
+        "fill": {
+          "opacity": 1
+        },
+        "yaxis": {
+          "show": true
+        },
+        "grid": {
+          "show": false
+        },
+        "dataLabels": {
+          "enabled": true
+        },
+        "legend": {
+          "show": false
+        },
+        "colors": ["#5BE49B", "#dc3545", "#779b52", "#343a40"]
+      },
+      "mantine-react-table": {},
+      "pivot-table": {},
+      "colours": {
+        "colour1": "#5BE49B",
+        "colour2": "#90b4a6",
+        "colour3": "#779b52",
+        "colour4": "#17a2b8",
+        "colour5": "#ffc107",
+        "colour6": "#dc3545",
+        "colour7": "#f8f9fa",
+        "colour9": "#343a40",
+        "colour10": "#343a40",
+        "colour11": "#343a40",
+        "colour12": "#343a40"
+      }
+    },
+    {
+      "name": "wakanda",
+      "description": "This is a sample colour theme",
+      "colours": {
+        "primary": "#93ccea",
+        "secondary": "#5c4033",
+        "success": "#779b52",
+        "light": "#f8f9fa",
+        "dark": "#343a40",
+        "bar-graph1": "#343a40",
+        "bar-graph2": "#343a40",
+        "bar-graph3": "#343a40",
+        "header": "#343a40"
+      }
+    }
+  ]
 }

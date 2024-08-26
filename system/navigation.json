@@ -1,25 +1,20 @@
 {
-    "home": {
-        "title": "Home",
-        "icon": "home-icon",
-        "dashboard": "/dashboard/home"
-    },
-    "menu": [
-      {
-        "title": "3DL Dashboards",
-        "icon": "dashboards-icon",
-        "dashboards": [
-          {
-            "title": "Wakanda Dashboard 1",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlsample"
-          },
-          {
-            "title": "Wakanda Dashboard 2",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlsample-2"
-          }
-        ]
-      }
-  ]
+  "home": {
+      "title": "Home",
+      "icon": "home-icon",
+      "dashboard": "/dashboard/home"
+  },
+  "menu": [
+    {
+      "title": "Patient Data",
+      "icon": "dashboards-icon",
+      "dashboards": [
+        {
+          "title": "Patient Dashboard",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/3dlsample"
+        }
+      ]
+    }
+]
 }
