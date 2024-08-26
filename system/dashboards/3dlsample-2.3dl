@@ -10,11 +10,12 @@
       <Visual3 />
       <Filters>
         <Filter name="occupation" values_query="SELECT * FROM dim_age_group" />
-        <DataContainer query="SELECT * FROM dim_age_group"></DataContainer>
+        <DataContainer query="SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 GROUP BY year"></DataContainer>
       </Filters>
     </DataContainer>
     <Section title="JSON Visual">
-      <DataContainer query="SELECT * FROM dim_age_group"></DataContainer>
+      <DataContainer query="SELECT * FROM dim_age_group">
+      </DataContainer>
     </Section>
     <Section title="Tiles">
       <div style={{ display: "flex", flexWrap: "wrap", margin: "20px 0" }}>

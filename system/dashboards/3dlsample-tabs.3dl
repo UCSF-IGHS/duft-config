@@ -1,49 +1,83 @@
-<Dashboards>
-    <Tabset>
-        <Tab title="Dashboard 1">
-            <Dashboard >
-                <Filters>
-                    <Filter name="location" values="USA,Canada,UK" />
-                    <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
-                        <Filter name="location" values="USA,Canada,UK" />
-                    </DataContainer>
-                </Filters>
-                <Content>
-                    <Row>
-                        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
-                            <Visual1 />
-                            <Visual3 />
-                        </DataContainer>
-                    </Row>
-                    <Row>
-                        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
-                            <Visual1 />
-                            <Markdown>Some text</Markdown>
-                        </DataContainer>
-                        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
-                            <Visual3 />
-                        </DataContainer>
-                    </Row>
-                    <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
-                        <TabHeader>Tab title</TabHeader>
-                    </DataContainer>
-                    <Row>
-                        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
-                            <Visual1 />
-                            <Visual3 />
-                        </DataContainer>
-                    </Row>
-                    <Row>
-                        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
-                            <Visual1 />
-                            <Markdown>Some text</Markdown>
-                        </DataContainer>
-                        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
-                            <Visual3 />
-                        </DataContainer>
-                    </Row>
-                </Content>
-            </Dashboard>
-        </Tab>
-    </Tabset>
-</Dashboards>
+<TabSet>
+  <Tab title="Dashboard 1">
+    <Dashboard >
+      {/* <Filters>
+        <Filter name="location" values="USA,Canada,UK" />
+        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+          <Filter name="location" values="USA,Canada,UK" />
+        </DataContainer>
+      </Filters> */}
+      {/* <Grid> */}
+      <DashboardRow>
+        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+          <Visual1 />
+          <Visual3 />
+        </DataContainer>
+      </DashboardRow>
+      <DashboardRow>
+        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+          <Visual1 />
+          <Visual1 />
+          <Visual1 />
+        </DataContainer>
+      </DashboardRow>
+      <DashboardRow>
+        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+          <Visual3 />
+        </DataContainer>
+      </DashboardRow>
+      <DashboardRow>
+        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        </DataContainer>
+      </DashboardRow>
+      <DashboardRow>
+        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+          <Visual1 />
+          <Visual3 />
+        </DataContainer>
+      </DashboardRow>
+      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <Visual1 />
+      </DataContainer>
+      <DashboardRow>
+        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+          <Visual3 />
+        </DataContainer>
+      </DashboardRow>
+      {/* </Grid> */}
+    </Dashboard>
+  </Tab>
+  <Tab title="Dashboard 2">
+    <Dashboard >
+      <Filters>
+        <Filter name="location" values="USA,Canada,UK" />
+        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+          <Filter name="location" values="USA,Canada,UK" />
+        </DataContainer>
+      </Filters>
+      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <Visual1 />
+        <Visual3 />
+      </DataContainer>
+      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <Visual1 />
+      </DataContainer>
+      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <Visual3 />
+      </DataContainer>
+      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <TabHeader>Tab title</TabHeader>
+      </DataContainer>
+      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <Visual1 />
+        <Visual3 />
+      </DataContainer>
+      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <Visual1 />
+      </DataContainer>
+      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <Visual3 />
+      </DataContainer>
+    </Dashboard>
+  </Tab>
+</TabSet>
