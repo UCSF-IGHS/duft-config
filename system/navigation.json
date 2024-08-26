@@ -6,9 +6,14 @@
   },
   "menu": [
     {
-      "title": "Patient Data",
+      "title": "Wakanda Dashboards",
       "icon": "dashboards-icon",
       "dashboards": [
+        {
+          "title": "Overview Dashboard",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/home"
+        },
         {
           "title": "Patient Dashboard",
           "icon": "dashboard-icon",
