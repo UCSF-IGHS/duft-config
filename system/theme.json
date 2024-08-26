@@ -13,7 +13,7 @@
         },
         "theme": {
           "monochrome": {
-            "enabled": false,
+            "enabled": true,
             "color": "#C42783"
           }
         },

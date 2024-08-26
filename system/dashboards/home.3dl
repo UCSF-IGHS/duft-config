@@ -6,19 +6,15 @@
             <Row><Header small="true">Indicators For Quality Improvement</Header></Row>
             <Row mediumCols = "2"   largeCols = "4" >
             <DataContainer query={` SELECT  count(*) as value FROM analysis.fact_sentinel_event `}>
-                    <Tile label='Total Patients' />
+                    <Tile title='Total Patients' />
                 </DataContainer>
 
                 <DataContainer query={` SELECT  count(*) as value FROM analysis.fact_sentinel_event  WHERE "TX Curr" = 'Yes'`}>
-                    <Tile label='Total Active' />
-                </DataContainer>
-
-                <DataContainer query={` SELECT count(*) as value FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Last Viral Load Result" is not null `}>
-                    <Tile label='Documented VL' />
+                    <Tile title='Total Active' />
                 </DataContainer>
 
                 <DataContainer query={` SELECT count(*) as value FROM analysis.fact_sentinel_event WHERE "ART Outcomes" = 'VL Suppressed'`}>
-                    <Tile label='Suppressed VL' />
+                    <Tile title='Suppressed VL' />
                 </DataContainer>
             </Row>
             
