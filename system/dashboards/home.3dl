@@ -58,7 +58,7 @@
                     </DataContainer>
 
                 </Row>
-                <Row columns = "1" largeColumns = "2">
+                <Row columns = "1" largeColumns = "3">
 
                     <DataContainer query={`SELECT last_art_regimen_line AS category, COUNT(*) AS value FROM fact_sentinel_event fs INNER JOIN dim_client c on fs.client_id=c.client_id WHERE last_art_regimen_line !='' GROUP BY last_art_regimen_line;`}>
                     <DonutChart header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines"/>
@@ -109,14 +109,18 @@
                     </DataContainer>
 
                 </Row>
-                <Row columns = "1" largeColumns = "2">
+                <Row columns = "1" largeColumns = "3">
                 
                     <DataContainer query={`SELECT CASE WHEN current_cascade_status='' THEN 'Case Closed' ELSE current_cascade_status END AS category,COUNT(*) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group a ON c.current_age=a.age GROUP BY current_cascade_status;`}>
-                    <PieChart/>
+                    <PieChart header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
+                    </DataContainer>
+
+                    <DataContainer query={`SELECT current_cascade_status AS category, COUNT(*) AS total FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_age_group a ON c.current_age = a.age GROUP BY current_cascade_status ORDER BY total DESC;`}>
+                    <BarChart header="ART Outcomes" subHeader="Bar Chart: ART Outcomes"/>
                     </DataContainer>
 
                     <DataContainer query={`SELECT TRIM(ten_year_interval) AS category,SUM(CASE WHEN current_cascade_status='' THEN 1 ELSE 0 END) AS 'Case Closed',SUM(CASE WHEN current_cascade_status='Needs VL Test' THEN 1 ELSE 0 END) AS 'Needs VL Test',SUM(CASE WHEN current_cascade_status='Unknown' THEN 1 ELSE 0 END) AS 'Unknown',SUM(CASE WHEN current_cascade_status='Died' THEN 1 ELSE 0 END) AS 'Died',SUM(CASE WHEN current_cascade_status='VL Suppressed' THEN 1 ELSE 0 END) AS 'VL Suppressed',SUM(CASE WHEN current_cascade_status='VL Not Suppressed' THEN 1 ELSE 0 END) AS 'VL Not Suppressed',SUM(CASE WHEN current_cascade_status='Less than 6 months on ART' THEN 1 ELSE 0 END) AS 'Less than 6 months on ART' FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group a ON c.current_age=a.age GROUP BY ten_year_interval ORDER BY ten_year_interval;`}>
-                    <BarChart/>
+                    <StackedBarChart header="ART Outcomes by Age Group" subHeader="Stacked Bar Chart: ART Outcomes"/>
                     </DataContainer>
 
                 </Row>            
@@ -151,22 +155,24 @@
                 <Row columns = "1" largeColumns = "2">
 
                     <DataContainer query={`SELECT month_yyyy AS category,SUM(CASE WHEN status='Initiated' THEN tot ELSE 0 END) AS Initiated,SUM(CASE WHEN status='Exited' THEN tot ELSE 0 END) AS Exited FROM (SELECT 'Initiated' AS status,SUM(CASE WHEN has_ever_been_initiated_on_art !=0 THEN 1 ELSE 0 END) AS tot,month_yyyy,year_month FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date=d.full_date WHERE year_month>=202301 GROUP BY month_yyyy UNION ALL SELECT 'Exited' AS status,SUM(CASE WHEN has_exited_died !=0 THEN 1 ELSE 0 END) AS tot,month_yyyy,year_month FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date=d.full_date WHERE year_month>=202301 GROUP BY month_yyyy) AS combined_results GROUP BY month_yyyy ORDER BY year_month;`}>
-                    <AreaChart/>
+                    <AreaChart header="Ever Initiated on ART versus Exited" subHeader="Area Chart: Clients Ever Initiated on ART versus Exited"/>
                     </DataContainer>
 
                     <DataContainer query={`SELECT TRIM(ten_year_interval) AS category,SUM(CASE WHEN gender='Male' THEN 1 ELSE 0 END) AS Male,SUM(CASE WHEN gender='Female' THEN 1 ELSE 0 END) AS Female FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group ag ON c.current_age=ag.age WHERE has_ever_been_initiated_on_art=1 GROUP BY TRIM(ten_year_interval) ORDER BY TRIM(ten_year_interval);`}>
-                    <StackedBarChart/>
+                    <StackedBarChart header="Ever Initiated on ART By Age Group and Gender
+" subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender
+"/>
                     </DataContainer>
                     
                 </Row>   
                 <Row columns = "1" largeColumns = "2">
 
-                    <DataContainer query={`SELECT year AS category,SUM(CASE WHEN num='Active Clients' THEN value ELSE 0 END) AS 'Active Clients',SUM(CASE WHEN num='Years on ART' THEN value ELSE 0 END) AS 'Years on ART' FROM (SELECT year,'Active Clients' AS num,COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE year BETWEEN 2005 AND 2023 AND is_currently_on_art=1 GROUP BY year UNION ALL SELECT year,'Years on ART' AS num,CAST ((strftime('%Y','now')-CAST (SUBSTR(first_art_date,LENGTH(first_art_date)-3) AS INTEGER)) AS INTEGER) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE year BETWEEN 2005 AND 2023 AND is_currently_on_art=1 GROUP BY year) AS combined GROUP BY year ORDER BY year;`}>
-                    <HeatmapChart/>
+                    <DataContainer query={`SELECT TRIM(year) AS category,SUM(CASE WHEN gender='Male' THEN 1 ELSE 0 END) AS Male,SUM(CASE WHEN gender='Female' THEN 1 ELSE 0 END) AS Female FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date=d.full_date WHERE year BETWEEN 2005 AND 2023 AND has_exited_died=1 GROUP BY TRIM(year) ORDER BY TRIM(year);`}>
+                    <HeatmapChart header="Deceased by Gender Over the Years" subHeader="Area Chart: Deceased by Gender Over the Years"/>
                     </DataContainer>
                 
-                    <DataContainer query={`SELECT TRIM(year) AS category,SUM(CASE WHEN gender='Male' THEN 1 ELSE 0 END) AS Male,SUM(CASE WHEN gender='Female' THEN 1 ELSE 0 END) AS Female FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_date d ON se.hiv_diagnosis_date=d.full_date WHERE year BETWEEN 2005 AND 2023 AND has_exited_died=1 GROUP BY TRIM(year) ORDER BY TRIM(year);`}>
-                    <StackedBarChart/>
+                    <DataContainer query={`SELECT year AS category,SUM(CASE WHEN num='Active Clients' THEN value ELSE 0 END) AS 'Active Clients',SUM(CASE WHEN num='Years on ART' THEN value ELSE 0 END) AS 'Years on ART' FROM (SELECT year,'Active Clients' AS num,COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE year BETWEEN 2005 AND 2023 AND is_currently_on_art=1 GROUP BY year UNION ALL SELECT year,'Years on ART' AS num,CAST ((strftime('%Y','now')-CAST (SUBSTR(first_art_date,LENGTH(first_art_date)-3) AS INTEGER)) AS INTEGER) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE year BETWEEN 2005 AND 2023 AND is_currently_on_art=1 GROUP BY year) AS combined GROUP BY year ORDER BY year;`}>
+                    <StackedBarChart header="Longterm Retention" subHeader="Stacked Bar Chart: Active Clients vs Years on ART (Longterm Retention)"/>
                     </DataContainer>
 
                 </Row>         
