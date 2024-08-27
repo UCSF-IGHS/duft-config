@@ -2,6 +2,72 @@
 	"dataConnections": 
 	[
 		{
+			"id":"EPMS_Source",
+			"name":"EPMS_Source",
+			"description":"The Quantum EPMS database that hosts the patient records",
+			"allowQueryEngine":"True",
+			"params":[
+				{
+					"name":"PosgtresSQL",
+					"type":"text",
+					"label":"The type of connection (MSSQL | MySQL | PosgtresSQL | sqlite3)"
+				},				
+				{
+					"name":"jdbc:filemaker://localhost/QuantumOuNickHealthCentre",
+					"type":"text",
+					"label":"Server name"
+				},			
+				{
+					"name":"Administrator",
+					"type":"text",
+					"label":"User name"
+				},		
+				{
+					"name":"Qepms!@dmin",
+					"type":"password",
+					"label":"Password"
+				}
+			]
+		},
+		{
+			"id":"EPMS_Destination",
+			"name":"EPMS Notebook",
+			"description":"The EPMS DUFT database that host the patient fact sentinel events records",
+			"allowQueryEngine":"True",
+            "params":[
+                {
+					"name":"PosgtresSQL",
+					"type":"text",
+					"label":"The type of connection (MSSQL | MySQL | PosgtresSQL | sqlite3)"
+				},
+				{
+					"name":"localhost",
+					"type":"text",
+					"label":"Server name"
+				},
+				{
+					"name":"postgres",
+					"type":"text",
+					"label":"User name"
+				},		
+				{
+					"name":"root",
+					"type":"password",
+					"label":"Password"
+				},
+				{
+					"name":"5433",
+					"type":"integer",
+					"label":"Port"
+				},
+				{
+					"name":"duft",
+					"type":"text",
+					"label":"Database name"
+				}
+			]
+		},
+		{
 			"id":"EPMS",
 			"name":"EPMS",
 			"description":"The Quantum EPMS database that holds the patient records",

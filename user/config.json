@@ -48,6 +48,12 @@
             "database": "mydatabase",
             "type": "postgresql"
         },
+        "EPMS_Source": {
+            "server": "jdbc:filemaker://localhost/QuantumKatuturaIntermediateHospital",
+            "username": "Administrator",
+            "password": "Qepms!@dmin",
+            "type": "filemaker"
+        },
         "EPMS_Destination": {
             "server": "127.0.0.1",
             "username": "postgres",
