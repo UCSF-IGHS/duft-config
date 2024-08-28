@@ -51,7 +51,7 @@
                     <PieChart userOptions={{ colors: ["#ec6240","#f3af3d", "#52b5d5"] }} header="Viral Load Monitoring" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL AND "TX Curr" = 'Yes') a GROUP BY data ORDER BY 2`}>
+                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL AND "TX Curr" = 'Yes') a GROUP BY data ORDER BY CASE WHEN "TPT Status Two" = 'Suppressed' THEN 1 WHEN "TPT Status Two" = 'LLV' THEN 2 WHEN "TPT Status Two" = 'Unsuppressed' THEN 3 END; `}>
                     <PieChart userOptions={{ colors: ["#ec6240", "#f3af3d","#2a63c4"] }} header="Viral Load Suppression" />
                 </DataContainer>
             </Row>
