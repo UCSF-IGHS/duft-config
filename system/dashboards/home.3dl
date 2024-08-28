@@ -13,19 +13,19 @@
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="New Cases"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Initiated"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Suppressed"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Not Suppressed"/>
                     </DataContainer>
 
@@ -52,19 +52,19 @@
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="New Cases"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Initiated"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Suppressed"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Not Suppressed"/>
                     </DataContainer>
 
@@ -108,19 +108,19 @@
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="New Cases"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Initiated"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Suppressed"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Not Suppressed"/>
                     </DataContainer>
 
@@ -162,19 +162,19 @@
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="New Cases"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Initiated"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Suppressed"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
+                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Not Suppressed"/>
                     </DataContainer>
 

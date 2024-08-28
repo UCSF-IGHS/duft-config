@@ -6,16 +6,16 @@
   },
   "menu": [
     {
-      "title": "Wakanda Dashboards",
+      "title": "Wakanda",
       "icon": "dashboards-icon",
       "dashboards": [
         {
-          "title": "Overview Dashboard",
+          "title": "Overview",
           "icon": "dashboard-icon",
           "dashboard": "/dashboard/home"
         },
         {
-          "title": "Patient Dashboard",
+          "title": "Patients",
           "icon": "dashboard-icon",
           "dashboard": "/dashboard/3dlsample"
         }
