@@ -29,26 +29,26 @@
                     <DataTable  header="Score Card" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status"`}>
-                    <PieChart header="MMP" />
+                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '<3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
+                    <PieChart userOptions={{ colors: ["#f3af3d","#ed70f8","#ec6240"] }} header="MMP" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT "TPT Status Two" as category, count(*) as value  FROM (SELECT "TPT Status Two", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "TPT Status Two" IS NOT NULL) a GROUP BY "TPT Status Two"`}>
-                    <PieChart header="TPT" />
+                <DataContainer query={`SELECT "TPT Status Two" as category, count(*) as value  FROM (SELECT "TPT Status Two", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "TPT Status Two" IS NOT NULL) a GROUP BY "TPT Status Two"  `}>
+                    <PieChart header="TPT" userOptions={{ colors: ["#f3af3d","#ec6240","#68349a"] }} />
                 </DataContainer>
             </Row>
             
             <Row columns = "2"   largeColumns = "3" >
-                <DataContainer query={`SELECT "Client Status" as category, count(*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Client Status", "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') a GROUP BY "Client Status"`}>
-                    <PieChart  header="Retention" />
+                <DataContainer query={`SELECT "Client Status" as category, count(*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Client Status", "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') a GROUP BY "Client Status" ORDER BY 2`}>
+                    <PieChart userOptions={{ colors: [ "#ec6240","#c6cdd4"] }}  header="Retention" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group, "Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' ) A GROUP BY DATA;`}>
-                    <PieChart header="Viral Load Monitoring" />
+                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group, "Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)') ) A GROUP BY DATA ORDER BY 2`}>
+                    <PieChart userOptions={{ colors: ["#ec6240","#f3af3d", "#52b5d5"] }} header="Viral Load Monitoring" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL AND "TX Curr" = 'Yes') a GROUP BY data;`}>
-                    <PieChart header="Viral Load Suppression" />
+                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL AND "TX Curr" = 'Yes') a GROUP BY data ORDER BY 2`}>
+                    <PieChart userOptions={{ colors: ["#ec6240", "#f3af3d","#2a63c4"] }} header="Viral Load Suppression" />
                 </DataContainer>
             </Row>
         
@@ -70,13 +70,13 @@
             
             
             <Row columns = "2"   largeColumns = "2">
-                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 18  AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status"`}>
-                    <PieChart header="Adults" />
+                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 18  AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status" ORDER BY 2`}>
+                    <PieChart userOptions={{ colors: ["#ec6240","#f3af3d","#ed70f8"] }} header="Adults" />
                 </DataContainer>
 
 
                 <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM ( SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 18 AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status"`}>
-                    <PieChart header="Paediatrics"/>
+                    <PieChart userOptions={{ colors: ["#ec6240","#f3af3d","#ed70f8"] }} header="Paediatrics"/>
                 </DataContainer>
             </Row>
 

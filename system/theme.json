@@ -13,7 +13,7 @@
         },
         "theme": {
           "monochrome": {
-            "enabled": true,
+            "enabled": false,
             "color": "#C42783"
           }
         },
@@ -87,7 +87,8 @@
           "enabled": true
         },
         "legend": {
-          "show": false
+          "show": true,
+          "position": "bottom"
         },
         "colors": ["#5BE49B", "#dc3545", "#779b52", "#343a40"]
       },
