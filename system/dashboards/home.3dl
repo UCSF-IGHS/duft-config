@@ -6,27 +6,27 @@
             <Row columns = "2"   largeColumns = "4" >
             
 
-                <DataContainer query={` SELECT  count(*) as value FROM analysis.fact_sentinel_event  WHERE "TX Curr" = 'Yes'`}>
+                <DataContainer query={` SELECT COUNT(*) AS value, ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`}>
                     <Tile title='TX_CURR All' />
                 </DataContainer>
 
-                <DataContainer query={` SELECT  count(*) as value FROM analysis.fact_sentinel_event  WHERE "Current Age" > 18 AND "TX Curr" = 'Yes'`}>
+                <DataContainer query={` SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" > 18 AND "TX Curr" = 'Yes'`}>
                     <Tile title='Adults (>18)' />
                 </DataContainer>
 
-                <DataContainer query={` SELECT  count(*) as value FROM analysis.fact_sentinel_event  WHERE "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39 AND "TX Curr" = 'Yes'`}>
+                <DataContainer query={` 		SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39 AND "TX Curr" = 'Yes'`}>
                     <Tile title='Men (20-39)' />
                 </DataContainer>
 
-                <DataContainer query={` SELECT  count(*) as value FROM analysis.fact_sentinel_event  WHERE  "Current Age" BETWEEN 0 AND 18 AND "TX Curr" = 'Yes'`}>
+                <DataContainer query={` SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" BETWEEN 0 AND 18 AND "TX Curr" = 'Yes'`}>
                     <Tile title='Paediatrics (0-18)' />
                 </DataContainer>
 
             </Row>
 
             <Row columns = "2"   largeColumns = "3" >
-                <DataContainer query={`SELECT "ART Outcomes" as category, count(*) as value FROM (SELECT "Pepfar Age Group" as age_group,"ART Outcomes", "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' ) a GROUP BY "ART Outcomes"`}>
-                    <PieChart  header="ART Outcomes" />
+                <DataContainer query={`SELECT * FROM analysis.score_card`}>
+                    <DataTable  header="Score Card" />
                 </DataContainer>
 
                 <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status"`}>
@@ -40,10 +40,10 @@
             
             <Row columns = "2"   largeColumns = "3" >
                 <DataContainer query={`SELECT "Client Status" as category, count(*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Client Status", "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') a GROUP BY "Client Status"`}>
-                    <PieChart  header="Client Status" />
+                    <PieChart  header="Retention" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,CASE WHEN "Last Viral Load Result" IS NOT NULL THEN 'Monitored' ELSE 'Pending' END AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' ) A GROUP BY DATA;`}>
+                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group, "Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' ) A GROUP BY DATA;`}>
                     <PieChart header="Viral Load Monitoring" />
                 </DataContainer>
 
@@ -210,20 +210,20 @@
             <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
             
             <Row columns = "2"   largeColumns = "2">
-                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,CASE WHEN "Last Viral Load Result" IS NOT NULL THEN 'Monitored' ELSE 'Pending' END AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') A GROUP BY DATA;`}>
+                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') A GROUP BY DATA;`}>
                     <PieChart header="All" />
                 </DataContainer>
 
 
-                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,CASE WHEN "Last Viral Load Result" IS NOT NULL THEN 'Monitored' ELSE 'Pending' END AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39) A GROUP BY DATA;`}>
+                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39) A GROUP BY DATA;`}>
                     <PieChart header="Men (20-39)" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,CASE WHEN "Last Viral Load Result" IS NOT NULL THEN 'Monitored' ELSE 'Pending' END AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND  "Current Age" BETWEEN 0 AND 18) A GROUP BY DATA;`}>
+                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND  "Current Age" BETWEEN 0 AND 18) A GROUP BY DATA;`}>
                     <PieChart header="Paediatrics" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,CASE WHEN "Last Viral Load Result" IS NOT NULL THEN 'Monitored' ELSE 'Pending' END AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND  "Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes') A GROUP BY DATA;`}>
+                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND  "Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes') A GROUP BY DATA;`}>
                     <PieChart header="PBFW" />
                 </DataContainer>
 
