@@ -2,28 +2,33 @@
 
     <Tab title="A. ART Cascade">
         <Dashboard>
-            <Grid>  
+            <Grid>
                 <Row>
                     <Header>ART Cascade</Header>
-                </Row>    
+                </Row>
+                <Filters>
+                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
+                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
+                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
+                </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="New Cases"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Initiated"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Suppressed"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Not Suppressed"/>
                     </DataContainer>
-                
+
                 </Row>
                 <Row columns = "1" largeColumns = "1">
                     <DataContainer query={`SELECT * FROM vw_art_cascade;`}>
@@ -36,25 +41,30 @@
 
     <Tab title="B. Regimen Analysis">
         <Dashboard>
-            <Grid>  
+            <Grid>
                 <Row>
                     <Header>Regimen Analysis</Header>
-                </Row>        
+                </Row>
+                <Filters>
+                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
+                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
+                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
+                </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="New Cases"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Initiated"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Suppressed"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Not Suppressed"/>
                     </DataContainer>
 
@@ -75,43 +85,48 @@
                     <DataContainer query={`SELECT * FROM vw_art_regimen_lines_per_age_group;`}>
                     <StackedBarChart header="ART Regimen Lines" subHeader="Stacked Bar Chart: Current ART Regimen Lines "/>
                     </DataContainer>
-                    
+
                     <DataContainer query={`SELECT * FROM vw_art_initiation_regimens_per_age_group;`}>
                     <PercentStackedBarChart header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation"/>
                     </DataContainer>
 
                 </Row>
-            </Grid>      
+            </Grid>
         </Dashboard>
     </Tab>
 
     <Tab title="C. ART Outcome">
         <Dashboard>
-            <Grid>   
+            <Grid>
                 <Row>
                     <Header>ART Outcome</Header>
-                </Row>     
+                </Row>
+                <Filters>
+                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
+                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
+                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
+                </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="New Cases"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Initiated"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Suppressed"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Not Suppressed"/>
                     </DataContainer>
 
                 </Row>
                 <Row columns = "1" largeColumns = "3">
-                
+
                     <DataContainer query={`SELECT * FROM vw_art_outcomes;`}>
                     <PieChart header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
                     </DataContainer>
@@ -124,36 +139,42 @@
                     <StackedBarChart header="ART Outcomes by Age Group" subHeader="Stacked Bar Chart: ART Outcomes"/>
                     </DataContainer>
 
-                </Row>  
+                </Row>
                 <Row columns="1" largeColumns="1">
                     <DataContainer query={`SELECT * FROM vw_sentinel_event_line_list ORDER BY RANDOM() LIMIT 100;`}>
                         <SmartDataTable header="ART Outcomes Line List" subHeader="Smart Data Table: ART Outcomes Line List"/>
                     </DataContainer>
-                </Row>          
-            </Grid>      
+                </Row>
+            </Grid>
         </Dashboard>
     </Tab>
 
     <Tab title="D. ART Retention">
         <Dashboard>
-            <Grid>   
+            <Grid>
                 <Row>
                     <Header>ART Retention</Header>
-                </Row>    
+                </Row>
+                <Filters>
+                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
+                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
+                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
+                </Filters>
                 <Row columns = "2" largeColumns = "4">
-                    <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+
+                    <DataContainer query={`SELECT SUM(new_cases) FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="New Cases"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE has_ever_been_initiated_on_art = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Initiated"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Suppressed"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+                    <DataContainer query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade WHERE gender = '$gender' OR '$gender' = '';`}>
                         <Tile title="Not Suppressed"/>
                     </DataContainer>
 
@@ -169,20 +190,20 @@
 " subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender
 "/>
                     </DataContainer>
-                    
-                </Row>   
+
+                </Row>
                 <Row columns = "1" largeColumns = "2">
 
                     <DataContainer query={`SELECT * FROM vw_exited_died_per_age_group;`}>
                     <HeatmapChart header="Deceased by Gender Over the Years" subHeader="Area Chart: Deceased by Gender Over the Years"/>
                     </DataContainer>
-                
+
                     <DataContainer query={`SELECT * FROM vw_longterm_retention WHERE category > 2005;`}>
                     <StackedBarChart header="Longterm Retention" subHeader="Stacked Bar Chart: Active Clients vs Years on ART (Longterm Retention)"/>
                     </DataContainer>
 
-                </Row>         
-            </Grid>      
+                </Row>
+            </Grid>
         </Dashboard>
     </Tab>
 
