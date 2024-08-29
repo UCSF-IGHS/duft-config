@@ -31,7 +31,7 @@
 
                 </Row>
                 <Row columns = "1" largeColumns = "1">
-                    <DataContainer query={`SELECT * FROM vw_art_cascade;`}>
+                    <DataContainer query={`SELECT * FROM vw_art_cascade WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <SmartDataTable header="ART Cascade" subHeader="Smart Data Table: ART Cascade per Region"/>
                     </DataContainer>
                 </Row>
@@ -71,22 +71,22 @@
                 </Row>
                 <Row columns = "1" largeColumns = "2">
 
-                    <DataContainer query={`SELECT * FROM vw_art_regimen_lines;`}>
+                    <DataContainer query={`SELECT * FROM vw_art_regimen_lines WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <DonutChart header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT * FROM vw_art_regimen_lines_per_age_group;`}>
+                    <DataContainer query={`SELECT * FROM vw_art_regimen_lines_per_age_group WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <BarChart header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines"/>
                     </DataContainer>
 
                 </Row>
                 <Row columns = "1" largeColumns = "2">
 
-                    <DataContainer query={`SELECT * FROM vw_art_regimen_lines_per_age_group;`}>
+                    <DataContainer query={`SELECT * FROM vw_art_regimen_lines_per_age_group WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <StackedBarChart header="ART Regimen Lines" subHeader="Stacked Bar Chart: Current ART Regimen Lines "/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT * FROM vw_art_initiation_regimens_per_age_group;`}>
+                    <DataContainer query={`SELECT * FROM vw_art_initiation_regimens_per_age_group WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <PercentStackedBarChart header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation"/>
                     </DataContainer>
 
@@ -127,21 +127,21 @@
                 </Row>
                 <Row columns = "1" largeColumns = "3">
 
-                    <DataContainer query={`SELECT * FROM vw_art_outcomes;`}>
+                    <DataContainer query={`SELECT * FROM vw_art_outcomes WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <PieChart header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT * FROM vw_art_outcomes;`}>
+                    <DataContainer query={`SELECT * FROM vw_art_outcomes WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <BarChart header="ART Outcomes" subHeader="Bar Chart: ART Outcomes"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT * FROM vw_art_outcomes_per_age_group;`}>
+                    <DataContainer query={`SELECT * FROM vw_art_outcomes_per_age_group WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <StackedBarChart header="ART Outcomes by Age Group" subHeader="Stacked Bar Chart: ART Outcomes"/>
                     </DataContainer>
 
                 </Row>
                 <Row columns="1" largeColumns="1">
-                    <DataContainer query={`SELECT * FROM vw_sentinel_event_line_list ORDER BY RANDOM() LIMIT 100;`}>
+                    <DataContainer query={`SELECT * FROM vw_sentinel_event_line_list ORDER BY RANDOM() LIMIT 100 WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <SmartDataTable header="ART Outcomes Line List" subHeader="Smart Data Table: ART Outcomes Line List"/>
                     </DataContainer>
                 </Row>
@@ -181,11 +181,11 @@
                 </Row>
                 <Row columns = "1" largeColumns = "2">
 
-                    <DataContainer query={`SELECT category, Initiated, Exited FROM vw_initiated_vs_exited WHERE year_month > 202301;`}>
+                    <DataContainer query={`SELECT category, Initiated, Exited FROM vw_initiated_vs_exited WHERE year_month > 202301 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <AreaChart header="Ever Initiated on ART versus Exited" subHeader="Area Chart: Clients Ever Initiated on ART versus Exited"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT * FROM vw_initiated_per_age_group;`}>
+                    <DataContainer query={`SELECT * FROM vw_initiated_per_age_group WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <StackedBarChart header="Ever Initiated on ART By Age Group and Gender
 " subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender
 "/>
@@ -194,11 +194,11 @@
                 </Row>
                 <Row columns = "1" largeColumns = "2">
 
-                    <DataContainer query={`SELECT * FROM vw_exited_died_per_age_group;`}>
+                    <DataContainer query={`SELECT * FROM vw_exited_died_per_age_group WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <HeatmapChart header="Deceased by Gender Over the Years" subHeader="Area Chart: Deceased by Gender Over the Years"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT * FROM vw_longterm_retention WHERE category > 2005;`}>
+                    <DataContainer query={`SELECT * FROM vw_longterm_retention WHERE category > 2005 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                     <StackedBarChart header="Longterm Retention" subHeader="Stacked Bar Chart: Active Clients vs Years on ART (Longterm Retention)"/>
                     </DataContainer>
 
