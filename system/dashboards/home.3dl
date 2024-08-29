@@ -10,19 +10,19 @@
             <Row columns = "2"   largeColumns = "4" >
             
 
-                <DataContainer query={` SELECT COUNT(*) AS value, ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`}>
+                <DataContainer query={` SELECT COUNT(*) AS value, ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
                     <Tile title='TX_CURR All' />
                 </DataContainer>
 
-                <DataContainer query={` SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" > 18 AND "TX Curr" = 'Yes'`}>
+                <DataContainer query={` SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" > 18 AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
                     <Tile title='Adults (>18)' />
                 </DataContainer>
 
-                <DataContainer query={` 		SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39 AND "TX Curr" = 'Yes'`}>
+                <DataContainer query={` 		SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39 AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
                     <Tile title='Men (20-39)' />
                 </DataContainer>
 
-                <DataContainer query={` SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" BETWEEN 0 AND 18 AND "TX Curr" = 'Yes'`}>
+                <DataContainer query={` SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" BETWEEN 0 AND 18 AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
                     <Tile title='Paediatrics (0-18)' />
                 </DataContainer>
 
@@ -30,32 +30,36 @@
 
             <Row columns = "2"   largeColumns = "3" >
                 <DataContainer query={`SELECT * FROM analysis.score_card`}>
-                    <DataTable  header="Score Card" />
+                    <ScoreCardTable  header="Score Card" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
+                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#ed70f8","#f3af3d","#ec6240"] }} header="MMP" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT "TPT Status Two" as category, count(*) as value  FROM (SELECT "TPT Status Two", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "TPT Status Two" IS NOT NULL) a GROUP BY "TPT Status Two" ORDER BY CASE WHEN "TPT Status Two" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status Two" = 'Have not completed TPT' THEN 2 WHEN "TPT Status Two" = 'Never initiated TPT' THEN 3 END; `}>
+                <DataContainer query={`SELECT "TPT Status Two" as category, count(*) as value  FROM (SELECT "TPT Status Two", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "TPT Status Two" IS NOT NULL) a GROUP BY "TPT Status Two" ORDER BY CASE WHEN "TPT Status Two" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status Two" = 'Have not completed TPT' THEN 2 WHEN "TPT Status Two" = 'Never initiated TPT' THEN 3 END; `}>
                     <PieChart header="TPT" userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} />
                 </DataContainer>
             </Row>
             
             <Row columns = "2"   largeColumns = "3" >
-                <DataContainer query={`SELECT "Client Status" as category, count(*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Client Status", "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') a GROUP BY "Client Status" ORDER BY CASE WHEN "Client Status" = 'Active on ART' THEN 1 WHEN "Client Status" = 'Active on ART: Missed Appointment' THEN 2 END;`}>
+                <DataContainer query={`SELECT "Client Status" as category, count(*) as value FROM (SELECT "Tri Pillar Age Group" as age_group,"Client Status", "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "Client Status" ORDER BY CASE WHEN "Client Status" = 'Active on ART' THEN 1 WHEN "Client Status" = 'Active on ART: Missed Appointment' THEN 2 END;`}>
                     <PieChart userOptions={{ colors: [ "#c6cdd4","#ec6240"] }}  header="Retention" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group, "Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)') ) A GROUP BY DATA ORDER BY CASE WHEN DATA = 'Monitored per Guidelines' THEN 1 WHEN DATA = 'Recent (Slightly delayed)' THEN 2 WHEN DATA = 'Delayed' THEN 3 END;`}>
+                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Tri Pillar Age Group" AS age_group, "Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)') ) A GROUP BY DATA ORDER BY CASE WHEN DATA = 'Monitored per Guidelines' THEN 1 WHEN DATA = 'Recent (Slightly delayed)' THEN 2 WHEN DATA = 'Delayed' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#52b5d5","#ec6240","#f3af3d"] }} header="Viral Load Monitoring" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL AND "TX Curr" = 'Yes') a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END; `}>
+                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Tri Pillar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END; `}>
                     <PieChart userOptions={{ colors: ["#2a63c4","#ec6240", "#f3af3d"] }} header="Viral Load Suppression" />
                 </DataContainer>
             </Row>
-        
+            <Row  columns = "1"   largeColumns = "1" >
+                <DataContainer query={` SELECT 'All Clients' as category, count(*) as value FROM analysis.fact_sentinel_event WHERE ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') `}>
+                    <DataTable header="Line List" />
+                </DataContainer>
+            </Row>
             
             
             
@@ -71,15 +75,18 @@
 <Dashboard>   
         <Grid>
             <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
-            
+            <Filters>
+                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
+                </Filters>
             
             <Row columns = "2"   largeColumns = "2">
-                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 18  AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
+                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 18  AND "MMP Status" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
                     <PieChart userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Adults" />
                 </DataContainer>
 
 
-                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM ( SELECT "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 18 AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
+                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM ( SELECT "MMP Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 18 AND "MMP Status" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
                     <PieChart userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Paediatrics"/>
                 </DataContainer>
             </Row>
@@ -97,14 +104,17 @@
         <Grid>
             <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
             
-            
+            <Filters>
+                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
+                </Filters>
             <Row columns = "2"   largeColumns = "2">
-                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status Current" as "MMP Status" , "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 18  AND "MMP Status Current" IS NOT NULL) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
+                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status Current" as "MMP Status" , "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 18  AND "MMP Status Current" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
                     <PieChart userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Adults" />
                 </DataContainer>
 
 
-                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM ( SELECT "MMP Status Current" as "MMP Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 18 AND "MMP Status Current" IS NOT NULL) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
+                <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM ( SELECT "MMP Status Current" as "MMP Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 18 AND "MMP Status Current" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
                     <PieChart userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Paediatrics"/>
                 </DataContainer>
             </Row>
@@ -121,15 +131,18 @@
 <Dashboard>   
         <Grid>
             <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
-            
+            <Filters>
+                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
+                </Filters>
             
             <Row columns = "2"   largeColumns = "2">
-                <DataContainer query={`SELECT "TPT Status" as category, count(*) as value  FROM (SELECT "TPT Status Two" as "TPT Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 18  AND "TPT Status Two" IS NOT NULL) a GROUP BY "TPT Status" ORDER BY CASE WHEN "TPT Status" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status" = 'Have not completed TPT' THEN 2 WHEN "TPT Status" = 'Never initiated TPT' THEN 3 END;`}>
+                <DataContainer query={`SELECT "TPT Status" as category, count(*) as value  FROM (SELECT "TPT Status Two" as "TPT Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 18  AND "TPT Status Two" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "TPT Status" ORDER BY CASE WHEN "TPT Status" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status" = 'Have not completed TPT' THEN 2 WHEN "TPT Status" = 'Never initiated TPT' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} header="Adults" />
                 </DataContainer>
 
 
-                <DataContainer query={`SELECT "TPT Status" as category, count(*) as value  FROM ( SELECT "TPT Status Two" as "TPT Status", "Sex" as "Sex", "Pepfar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 18 AND "TPT Status Two" IS NOT NULL) a GROUP BY "TPT Status" ORDER BY CASE WHEN "TPT Status" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status" = 'Have not completed TPT' THEN 2 WHEN "TPT Status" = 'Never initiated TPT' THEN 3 END;`}>
+                <DataContainer query={`SELECT "TPT Status" as category, count(*) as value  FROM ( SELECT "TPT Status Two" as "TPT Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 18 AND "TPT Status Two" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "TPT Status" ORDER BY CASE WHEN "TPT Status" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status" = 'Have not completed TPT' THEN 2 WHEN "TPT Status" = 'Never initiated TPT' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} header="Paediatrics"/>
                 </DataContainer>
             </Row>
@@ -146,25 +159,35 @@
 <Dashboard>   
         <Grid>
             <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
+            <Filters>
+                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
+                </Filters>
             
             <Row columns = "2"   largeColumns = "2">
-                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Client Status"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Client Status" IS NOT NULL) a GROUP BY data ORDER BY CASE WHEN DATA = 'Active on ART' THEN 1 WHEN DATA = 'Active on ART: Missed Appointment' THEN 2 END;`}>
+                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Tri Pillar Age Group" as age_group,"Client Status"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Client Status" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY data ORDER BY CASE WHEN DATA = 'Active on ART' THEN 1 WHEN DATA = 'Active on ART: Missed Appointment' THEN 2 END;`}>
                     <PieChart userOptions={{ colors: [ "#c6cdd4","#ec6240"]}} header="All" />
                 </DataContainer>
 
 
-                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Client Status"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Client Status" IS NOT NULL AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39) a GROUP BY data ORDER BY CASE WHEN DATA = 'Active on ART' THEN 1 WHEN DATA = 'Active on ART: Missed Appointment' THEN 2 END;`}>
+                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Tri Pillar Age Group" as age_group,"Client Status"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Client Status" IS NOT NULL AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39 AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY data ORDER BY CASE WHEN DATA = 'Active on ART' THEN 1 WHEN DATA = 'Active on ART: Missed Appointment' THEN 2 END;`}>
                     <PieChart userOptions={{ colors: [ "#c6cdd4","#ec6240"]}} header="Men (20-39)" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Client Status" AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Client Status" IS NOT NULL AND "Current Age" BETWEEN 0 AND 18 ) a GROUP BY DATA ORDER BY CASE WHEN DATA = 'Active on ART' THEN 1 WHEN DATA = 'Active on ART: Missed Appointment' THEN 2 END;`}>
+                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Tri Pillar Age Group" as age_group,"Client Status" AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Client Status" IS NOT NULL AND "Current Age" BETWEEN 0 AND 18 AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') ) a GROUP BY DATA ORDER BY CASE WHEN DATA = 'Active on ART' THEN 1 WHEN DATA = 'Active on ART: Missed Appointment' THEN 2 END;`}>
                     <PieChart userOptions={{ colors: [ "#c6cdd4","#ec6240"]}} header="Paediatrics" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group, "Client Status"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Client Status" IS NOT NULL AND ("Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes')) a GROUP BY data ORDER BY CASE WHEN DATA= 'Active on ART' THEN 1 WHEN DATA = 'Active on ART: Missed Appointment' THEN 2 END;`}>
+                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Tri Pillar Age Group" as age_group, "Client Status"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Client Status" IS NOT NULL AND ("Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes') AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY data ORDER BY CASE WHEN DATA= 'Active on ART' THEN 1 WHEN DATA = 'Active on ART: Missed Appointment' THEN 2 END;`}>
                     <PieChart userOptions={{ colors: [ "#c6cdd4","#ec6240"]}} header="PBFW" />
                 </DataContainer>
 
+            </Row>
+
+            <Row  columns = "1"   largeColumns = "1" >
+                <DataContainer query={` SELECT 'Active on ART: All Clients' as category, count(*) as value FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' UNION SELECT 'Active on ART: Men (20-39)' as category, count(*) as value FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39 UNION SELECT 'Active on ART: Paediatric (0-18)' as category, count(*) as value FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" BETWEEN 0 AND 18 `}>
+                    <DataTable header="Line List" />
+                </DataContainer>
             </Row>
 
 
@@ -179,22 +202,26 @@
 <Dashboard>   
         <Grid>
             <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
+            <Filters>
+                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
+                </Filters>
             
             <Row columns = "2"   largeColumns = "2">
-                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Last Viral Load Result Category" IS NOT NULL) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END;`}>
+                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Tri Pillar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "Last Viral Load Result Category" IS NOT NULL) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#2a63c4","#ec6240", "#f3af3d"] }} header="All" />
                 </DataContainer>
 
 
-                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Last Viral Load Result Category" IS NOT NULL AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END;`}>
+                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Tri Pillar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "Last Viral Load Result Category" IS NOT NULL AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#2a63c4","#ec6240", "#f3af3d"] }} header="Men (20-39)" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Last Viral Load Result Category" AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Last Viral Load Result Category" IS NOT NULL AND "Current Age" BETWEEN 0 AND 18 ) a GROUP BY DATA ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END;`}>
+                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Tri Pillar Age Group" as age_group,"Last Viral Load Result Category" AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "Last Viral Load Result Category" IS NOT NULL AND "Current Age" BETWEEN 0 AND 18 ) a GROUP BY DATA ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#2a63c4","#ec6240", "#f3af3d"] }} header="Paediatrics" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Pepfar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Last Viral Load Result Category" IS NOT NULL AND ("Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes')) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END;`}>
+                <DataContainer query={`SELECT DATA as category, count (*) as value FROM (SELECT "Tri Pillar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "Last Viral Load Result Category" IS NOT NULL AND ("Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes')) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#2a63c4","#ec6240", "#f3af3d"] }} header="PBFW" />
                 </DataContainer>
 
@@ -212,22 +239,26 @@
 <Dashboard>   
         <Grid>
             <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
+            <Filters>
+                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
+                </Filters>
             
             <Row columns = "2"   largeColumns = "2">
-                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)')) A GROUP BY DATA ORDER BY CASE WHEN DATA = 'Monitored per Guidelines' THEN 1 WHEN DATA = 'Recent (Slightly delayed)' THEN 2 WHEN DATA = 'Delayed' THEN 3 END;`}>
+                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Tri Pillar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)')) A GROUP BY DATA ORDER BY CASE WHEN DATA = 'Monitored per Guidelines' THEN 1 WHEN DATA = 'Recent (Slightly delayed)' THEN 2 WHEN DATA = 'Delayed' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#52b5d5","#ec6240","#f3af3d"] }} header="All" />
                 </DataContainer>
 
 
-                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)') AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39) A GROUP BY DATA ORDER BY CASE WHEN DATA = 'Monitored per Guidelines' THEN 1 WHEN DATA = 'Recent (Slightly delayed)' THEN 2 WHEN DATA = 'Delayed' THEN 3 END;`}>
+                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Tri Pillar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)') AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39) A GROUP BY DATA ORDER BY CASE WHEN DATA = 'Monitored per Guidelines' THEN 1 WHEN DATA = 'Recent (Slightly delayed)' THEN 2 WHEN DATA = 'Delayed' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#52b5d5","#ec6240","#f3af3d"] }} header="Men (20-39)" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)') AND  "Current Age" BETWEEN 0 AND 18) A GROUP BY DATA ORDER BY CASE WHEN DATA = 'Monitored per Guidelines' THEN 1 WHEN DATA = 'Recent (Slightly delayed)' THEN 2 WHEN DATA = 'Delayed' THEN 3 END;`}>
+                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Tri Pillar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)') AND  "Current Age" BETWEEN 0 AND 18) A GROUP BY DATA ORDER BY CASE WHEN DATA = 'Monitored per Guidelines' THEN 1 WHEN DATA = 'Recent (Slightly delayed)' THEN 2 WHEN DATA = 'Delayed' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#52b5d5","#ec6240","#f3af3d"] }} header="Paediatrics" />
                 </DataContainer>
 
-                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Pepfar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)') AND  ("Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes')) A GROUP BY DATA ORDER BY CASE WHEN DATA = 'Monitored per Guidelines' THEN 1 WHEN DATA = 'Recent (Slightly delayed)' THEN 2 WHEN DATA = 'Delayed' THEN 3 END;`}>
+                <DataContainer query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Tri Pillar Age Group" AS age_group,"Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)') AND  ("Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes')) A GROUP BY DATA ORDER BY CASE WHEN DATA = 'Monitored per Guidelines' THEN 1 WHEN DATA = 'Recent (Slightly delayed)' THEN 2 WHEN DATA = 'Delayed' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#52b5d5","#ec6240","#f3af3d"] }} header="PBFW" />
                 </DataContainer>
 

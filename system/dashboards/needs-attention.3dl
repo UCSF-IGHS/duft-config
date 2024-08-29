@@ -1,11 +1,11 @@
 <TabSet>
-<Tab title="All Patients">
+<Tab title="All Clients">
     <Dashboard>
       <Grid>
         <Row><Header>Client Line Lists</Header></Row>
         <Row  columns = "1"   largeColumns = "1" >
             <DataContainer query={` SELECT * FROM (SELECT "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event LIMIT 100) a `}>
-                <SmartDataTable header="All Patients" />
+                <SmartDataTable header="All Clients" />
             </DataContainer>
             </Row>
       </Grid>
