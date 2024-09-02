@@ -59,12 +59,17 @@
                     <PieChart userOptions={{ colors: ["#2a63c4","#ec6240", "#f3af3d"] }} header="Viral Load Suppression" />
                 </DataContainer>
             </Row>
-            <Row  columns = "1"   largeColumns = "1" >
-                <DataContainer query={` SELECT 'All Clients' as category, count(*) as value FROM analysis.fact_sentinel_event WHERE ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') `}>
-                    <DataTable header="Line List" />
-                </DataContainer>
-            </Row>
-            
+            <DataContainer query={` SELECT 'All Clients' as category, count(*) as value FROM analysis.fact_sentinel_event WHERE ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') `}>
+                <Row columns='1'>
+                    <SmartDataTable  >
+                    <DetailsView columnName='value' query={`SELECT "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event `}>
+                        <DataContainer>
+                        <DataTable variant='plain' />
+                        </DataContainer>
+                    </DetailsView>
+                    </SmartDataTable>
+                </Row>
+            </DataContainer>
             
             
        

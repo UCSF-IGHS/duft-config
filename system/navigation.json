@@ -4,11 +4,211 @@
         "icon": "home-icon",
         "dashboard": "/dashboard/home"
     },
-    "menu": [
-      {
-        "title": "Needs Attention",
-        "icon": "dashboard-icon",
-        "dashboard": "/dashboard/needs-attention"
-      }
+  "menu": [
+    {
+      "title": "MMP Line Lists",
+      "icon": "dashboards-icon",
+      "dashboards": [
+        {
+          "title": "Eligible for 6+ MMP but not given",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "< 3months, Adults",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "< 3months, Pediatric Clients",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "3-5 months, Adults",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "3-5 months, Pediatric Clients",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "6+ months, Adults",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "6+ months, Pediatric Clients",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        }                
+      ]
+    },
+    {
+      "title": "TPT Line Lists",
+      "icon": "dashboards-icon",
+      "dashboards": [
+        {
+          "title": "Never initiated, Adults",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Never initiated, Pediatrics",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Initiated but not completed, Adults",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Initiated but not completed, Pediatrics",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        }
+      ]
+    },
+    {
+      "title": "Retention Line Lists",
+      "icon": "dashboards-icon",
+      "dashboards": [
+        {
+          "title": "IIT:  Missed appointment 29-90 days, All patients",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "IIT: Missed appointment 29-90 days, Men (aged 20-39 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "IIT: Missed appointment 29-90 days, Paediatrics (aged 0-19 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "IIT: Missed appointment 29-90 days for PBFW",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Active on ART: Missed appointment 1-28 days, All patients",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Active on ART: Missed appointment 1-28 days, Men (aged 20-39 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Active on ART: Missed appointment 1-28 days for Paediatrics (aged 0-19 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Active on ART: Missed appointment 1-28 days for PBFW",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        }                  
+      ]
+    },
+    {
+      "title": "VLM Line Lists",
+      "icon": "dashboards-icon",
+      "dashboards": [
+        {
+          "title": "Delayed for All patients",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Delayed for Men (aged 20-39 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Delayed for Paediatrics (aged 0-19 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Delayed for PBFW",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Slighlty delayed for All patients",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Slighlty delayed for Men (aged 20-39 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Slighlty delayed for Paediatrics (aged 0-19 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "Slighlty delayed for PBFW",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        }                  
+      ]
+    },
+    {
+      "title": "VLS Line Lists",
+      "icon": "dashboards-icon",
+      "dashboards": [
+        {
+          "title": "HLV, All patients",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "HLV, Men (aged 20-39 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "HLV, Paediatrics (aged 0-19 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "HLV, PBFW",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "LLV, All patients",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "LLV, Men (aged 20-39 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "LLV, Paediatrics (aged 0-19 yrs old)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        },
+        {
+          "title": "LLV, PBFW",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/needs-attention"
+        }                  
+      ]
+    }
   ]
 }
