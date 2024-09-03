@@ -1,0 +1,14 @@
+<Dashboard>
+  <Grid>
+    <Row><Header>Preview query</Header></Row>
+    <Row columns='1'>
+      <PreviewQuery>
+        <DataContainer>
+          <Row columns='2'>
+            <PivotTable variant='plain' />
+          </Row>
+        </DataContainer>
+      </PreviewQuery>
+    </Row>
+  </Grid>
+</Dashboard>

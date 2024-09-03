@@ -71,7 +71,7 @@
         <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2005 and 2007 GROUP BY year'>
           <Row columns='1'>
             <SmartDataTable  >
-              <DetailsView columnName='category' query="SELECT enrolment_ccc_number, first_art_date, first_art_drugs, last_art_date, last_art_drugs, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event se INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date where is_currently_on_art=1 and year=${category}">
+              <DetailsView columnName='category' query="SELECT last_art_date, last_art_drugs, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event se INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date where is_currently_on_art=1 and year=${category}">
                 <DataContainer>
                   <DataTable variant='plain' />
                 </DataContainer>

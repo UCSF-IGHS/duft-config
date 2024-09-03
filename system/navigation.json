@@ -28,7 +28,12 @@
           "title": "Filter Dashboard",
           "icon": "dashboard-icon",
           "dashboard": "/dashboard/3dlfilters"
-        }        
+        },
+        {
+          "title": "Preview query",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/3dlpreview-query"
+        }
       ]
     },
     {
