@@ -67,5 +67,12 @@
         }
       ]
     }
+  ],
+  "dataTasks": [
+    {
+      "title":"Refresh data",
+      "icon":"update-icon",
+      "task": "SAMPLE-NOTEBOOK"
+    }
   ]
 }
