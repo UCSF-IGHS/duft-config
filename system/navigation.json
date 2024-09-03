@@ -20,6 +20,22 @@
           "dashboard": "/dashboard/mmp-paed"
         }
       ]
+    },
+    {
+      "title": "Retention",
+      "icon": "dashboards-icon",
+      "dashboards": [
+        {
+          "title": "Adult",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/retention-adult"
+        },
+        {
+          "title": "Paed",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/retention-paed"
+        }
+      ]
     }
   ]
 }
