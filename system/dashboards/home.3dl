@@ -30,9 +30,10 @@
                     </DataContainer>
 
                 </Row>
-                <Row columns = "1" largeColumns = "1">
+                <Row columns = "1" largeColumns = "1
+                ">
                     <DataContainer query={`SELECT * FROM vw_art_cascade;`}>
-                    <SmartDataTable header="ART Cascade" subHeader="Smart Data Table: ART Cascade per Region"/>
+                    <BarChart header="ART Cascade" subHeader="Smart Data Table: ART Cascade per Region"/>
                     </DataContainer>
                 </Row>
             </Grid>
