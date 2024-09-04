@@ -53,5 +53,14 @@
         }
       ]
     }
+  ],
+  "dataTasks": [
+    {
+      "title": "NAMIBIA-NOTEBOOK",
+      "icon": "update-icon",
+      "task": "FM-SENTINEL-EVENT-NOTEBOOK",
+      "dashboard": "refresh-data"
+    }
+    
   ]
 }
