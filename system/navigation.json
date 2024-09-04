@@ -26,14 +26,14 @@
       "icon": "dashboards-icon",
       "dashboards": [
         {
-          "title": "Adult",
+          "title": "IIT",
           "icon": "dashboard-icon",
-          "dashboard": "/dashboard/retention-adult"
+          "dashboard": "/dashboard/retention-iit"
         },
         {
-          "title": "Paed",
+          "title": "Active",
           "icon": "dashboard-icon",
-          "dashboard": "/dashboard/retention-paed"
+          "dashboard": "/dashboard/retention-active"
         }
       ]
     }
