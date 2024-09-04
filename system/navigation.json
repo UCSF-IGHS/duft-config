@@ -36,6 +36,22 @@
           "dashboard": "/dashboard/retention-active"
         }
       ]
+    },
+    {
+      "title": "TPT",
+      "icon": "dashboards-icon",
+      "dashboards": [
+        {
+          "title": "Adult",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/tpt-adult"
+        },
+        {
+          "title": "Paed",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/tpr-paed"
+        }
+      ]
     }
   ]
 }
