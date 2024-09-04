@@ -75,9 +75,10 @@
   ],
   "dataTasks": [
     {
-      "title":"Refresh data",
-      "icon":"update-icon",
-      "task": "SAMPLE-NOTEBOOK"
+      "title": "Refresh data",
+      "icon": "update-icon",
+      "task": "SAMPLE-NOTEBOOK",
+      "dashboard": "refresh-data"
     }
   ]
 }
