@@ -7600,7 +7600,7 @@ a.anchor-link {
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>DUFT Config: duft-config
 DUFT Config: duft-config
-[2024-09-04T13:33:30.754846] Jupyter Sample Data Task - INFO: Jupyter Sample Data Task initialised running in interactive mode
+[2024-09-04T14:15:20.208107] Jupyter Sample Data Task - INFO: Jupyter Sample Data Task initialised running in interactive mode
 &gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Jupyter Sample Data Task initialised running in interactive mode
 </pre>
 </div>
@@ -7659,6 +7659,8 @@ DUFT Config: duft-config
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">source_environment</span> <span class="o">=</span> <span class="n">get_resolved_parameters_for_connection</span><span class="p">(</span><span class="s2">"EPMS_Source"</span><span class="p">)</span>
 <span class="n">destination_environment</span> <span class="o">=</span> <span class="n">get_resolved_parameters_for_connection</span><span class="p">(</span><span class="s2">"EPMS_Destination"</span><span class="p">)</span>
+
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished setting source and destination connections'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7673,6 +7675,8 @@ DUFT Config: duft-config
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>DUFT Config: duft-config
 DUFT Config: duft-config
+[2024-09-04T14:15:20.526190] Jupyter Sample Data Task - INFO: Finished setting source and destination connections
+&gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Finished setting source and destination connections
 </pre>
 </div>
 </div>
@@ -7810,6 +7814,8 @@ DUFT Config: duft-config
 <span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'contact_number'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'123456'</span>
 
 <span class="n">dim_pat_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished extracting client data'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7819,175 +7825,12 @@ DUFT Config: duft-config
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>region</th>
-<th>district</th>
-<th>current_facility</th>
-<th>facility_code</th>
-<th>client_id</th>
-<th>sex</th>
-<th>date_of_birth</th>
-<th>marital_status</th>
-<th>patient_status</th>
-<th>client_code</th>
-<th>...</th>
-<th>current_town</th>
-<th>current_constituency</th>
-<th>current_street</th>
-<th>permanent_town</th>
-<th>permanent_constituency</th>
-<th>permanent_street</th>
-<th>id_facility_current</th>
-<th>cbart_cargs_name</th>
-<th>cbart_cargs_code</th>
-<th>death_date</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>EDC01C7E-D62B-574A-8A82-08E0182DC6E6</td>
-<td>Female</td>
-<td>1965-06-17</td>
-<td>Single</td>
-<td>Lost</td>
-<td>None</td>
-<td>...</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<th>1</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>1E6B7D7F-DB85-8040-9574-B7C79FC3CD21</td>
-<td>Male</td>
-<td>1958-06-15</td>
-<td>None</td>
-<td>Lost</td>
-<td>None</td>
-<td>...</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<th>2</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>BDB9DFE2-96DE-EC43-8727-591E32CFC64F</td>
-<td>Female</td>
-<td>1939-07-07</td>
-<td>Single</td>
-<td>Lost</td>
-<td>None</td>
-<td>...</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<th>3</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>BF615CCF-0F6C-C144-AF1B-B1CE8003DFB5</td>
-<td>Male</td>
-<td>1975-03-03</td>
-<td>None</td>
-<td>Deceased</td>
-<td>None</td>
-<td>...</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-<td>None</td>
-<td>2007-12-31</td>
-</tr>
-<tr>
-<th>4</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>0FAA88C5-4850-2F45-9FD3-631544F9C7D0</td>
-<td>Male</td>
-<td>1961-05-07</td>
-<td>Married</td>
-<td>Active ART</td>
-<td>None</td>
-<td>...</td>
-<td>WINDHOEK</td>
-<td>Katutura Central</td>
-<td>ERF 54 WANAHEDA</td>
-<td>WINDHOEK</td>
-<td>Katutura Central</td>
-<td>ERF 54 WANAHEDA</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>OMWENE TUUDA</td>
-<td>None</td>
-<td>None</td>
-</tr>
-</tbody>
-</table>
-<p>5 rows × 26 columns</p>
-</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2024-09-04T14:15:32.166851] Jupyter Sample Data Task - INFO: Finished extracting client data
+&gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Finished extracting client data
+</pre>
 </div>
 </div>
 </div>
@@ -8028,6 +7871,8 @@ DUFT Config: duft-config
 <span class="n">fact_tsfr_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 
 <span class="n">fact_tsfr_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished extracting client transfer status data'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8037,103 +7882,12 @@ DUFT Config: duft-config
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>client_id</th>
-<th>transfer_status</th>
-<th>transfer_date</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>000150F9-2398-3047-8E7E-BBFFA6E1F4E1</td>
-<td>Out</td>
-<td>2018-01-05</td>
-</tr>
-<tr>
-<th>1</th>
-<td>0003CE1A-FDA7-0644-AC8A-6A2AC22F458C</td>
-<td>Out</td>
-<td>2009-06-01</td>
-</tr>
-<tr>
-<th>2</th>
-<td>000C0885-8782-1047-9575-2096412DF234</td>
-<td>Out</td>
-<td>2015-11-04</td>
-</tr>
-<tr>
-<th>3</th>
-<td>000FC632-25F4-F446-B53B-79332149CDE0</td>
-<td>Out</td>
-<td>2010-10-13</td>
-</tr>
-<tr>
-<th>4</th>
-<td>00148C55-3E2C-264B-86A9-213C01DBD15E</td>
-<td>Out Pending</td>
-<td>2024-01-22</td>
-</tr>
-<tr>
-<th>...</th>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr>
-<th>95</th>
-<td>02CB134D-12C7-9D43-A912-772007E0A5C2</td>
-<td>In</td>
-<td>2017-06-27</td>
-</tr>
-<tr>
-<th>96</th>
-<td>02CC9659-BC19-4B46-91C1-8D48653FC02E</td>
-<td>In</td>
-<td>2011-01-03</td>
-</tr>
-<tr>
-<th>97</th>
-<td>02CD8D38-5A84-124D-B51E-6E302BB7C5DE</td>
-<td>Out</td>
-<td>2007-05-15</td>
-</tr>
-<tr>
-<th>98</th>
-<td>02D07FE0-C4BE-924E-9936-F1F6F069AE54</td>
-<td>In</td>
-<td>2021-01-21</td>
-</tr>
-<tr>
-<th>99</th>
-<td>02D16C72-9762-B24B-9800-FB171476F4ED</td>
-<td>In</td>
-<td>2013-01-16</td>
-</tr>
-</tbody>
-</table>
-<p>100 rows × 3 columns</p>
-</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2024-09-04T14:15:34.125075] Jupyter Sample Data Task - INFO: Finished extracting client transfer status data
+&gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Finished extracting client transfer status data
+</pre>
 </div>
 </div>
 </div>
@@ -8538,6 +8292,8 @@ DUFT Config: duft-config
 <span class="n">fact_hiv_diagnosis_df</span> <span class="o">=</span> <span class="n">fact_hiv_diagnosis_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fact_hiv_diagnosis_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'client_id'</span><span class="p">)[</span><span class="s1">'hiv_confirmation_date'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">fact_hiv_diagnosis_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished extracting HIV diagnosis data'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8547,84 +8303,12 @@ DUFT Config: duft-config
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>client_id</th>
-<th>hiv_confirmation_date</th>
-<th>hiv_confirmatory_result_date</th>
-<th>hiv_confirmatory_result_type</th>
-<th>hiv_diagnosis_facility_id</th>
-<th>full_disclosure_date</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>000150F9-2398-3047-8E7E-BBFFA6E1F4E1</td>
-<td>2014-03-18</td>
-<td>NaT</td>
-<td>None</td>
-<td>DD2B5307-E5F8-484C-9E48-611A6BB41C1B</td>
-<td>None</td>
-</tr>
-<tr>
-<th>1</th>
-<td>0003CE1A-FDA7-0644-AC8A-6A2AC22F458C</td>
-<td>2005-07-15</td>
-<td>NaT</td>
-<td>None</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-</tr>
-<tr>
-<th>2</th>
-<td>00056F4E-16F0-6A4B-87BD-B3194199BB72</td>
-<td>2005-01-15</td>
-<td>NaT</td>
-<td>None</td>
-<td>B8A72A91-AF0F-4B25-A530-0CCF566FC0E3</td>
-<td>None</td>
-</tr>
-<tr>
-<th>3</th>
-<td>0006BF9C-D80B-2545-9978-AAF9E56604EC</td>
-<td>2009-08-19</td>
-<td>NaT</td>
-<td>None</td>
-<td>1B258671-AF7E-4872-A207-1C10E742A8F6</td>
-<td>None</td>
-</tr>
-<tr>
-<th>4</th>
-<td>000C0885-8782-1047-9575-2096412DF234</td>
-<td>2011-05-18</td>
-<td>NaT</td>
-<td>None</td>
-<td>7C92EA36-6301-46DB-8F2E-EC09CA1F1454</td>
-<td>None</td>
-</tr>
-</tbody>
-</table>
-</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2024-09-04T14:16:42.858833] Jupyter Sample Data Task - INFO: Finished extracting HIV diagnosis data
+&gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Finished extracting HIV diagnosis data
+</pre>
 </div>
 </div>
 </div>
@@ -8998,6 +8682,8 @@ DUFT Config: duft-config
 <span class="n">fact_hiv_enrolment_df</span> <span class="o">=</span> <span class="n">fact_hiv_enrolment_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fact_hiv_enrolment_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'client_id'</span><span class="p">)[</span><span class="s1">'hiv_enrollment_date'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">fact_hiv_enrolment_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished extracting HIV enrolment data'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9007,114 +8693,12 @@ DUFT Config: duft-config
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>client_id</th>
-<th>hiv_enrollment_facility_id</th>
-<th>hiv_enrollment_date</th>
-<th>hiv_disclosure_enrollment_date</th>
-<th>art_eligible_reason</th>
-<th>art_start_date</th>
-<th>quantum_number</th>
-<th>art_number</th>
-<th>art_number_legacy</th>
-<th>arv_initiating_facility</th>
-<th>tb_screen_result</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>000150F9-2398-3047-8E7E-BBFFA6E1F4E1</td>
-<td>DD2B5307-E5F8-484C-9E48-611A6BB41C1B</td>
-<td>2014-03-18</td>
-<td>2016-12-06</td>
-<td>CD4 only</td>
-<td>2014-09-24</td>
-<td>10476-0314-338</td>
-<td>10476-0314-338</td>
-<td>531031400052</td>
-<td>DD2B5307-E5F8-484C-9E48-611A6BB41C1B</td>
-<td>None</td>
-</tr>
-<tr>
-<th>1</th>
-<td>0003CE1A-FDA7-0644-AC8A-6A2AC22F458C</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>2005-08-17</td>
-<td>NaT</td>
-<td>CD4 # or %</td>
-<td>2006-08-15</td>
-<td>10310-0805-76717</td>
-<td>10310-0805-76717</td>
-<td>115080504458</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-</tr>
-<tr>
-<th>2</th>
-<td>00056F4E-16F0-6A4B-87BD-B3194199BB72</td>
-<td>B8A72A91-AF0F-4B25-A530-0CCF566FC0E3</td>
-<td>2005-01-04</td>
-<td>NaT</td>
-<td>Clinical &amp; CD4</td>
-<td>NaT</td>
-<td>12217-0105-91004</td>
-<td>12217-0105-91004</td>
-<td>134010500232</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<th>3</th>
-<td>0006BF9C-D80B-2545-9978-AAF9E56604EC</td>
-<td>1B258671-AF7E-4872-A207-1C10E742A8F6</td>
-<td>2009-08-31</td>
-<td>NaT</td>
-<td>CD4 # or %</td>
-<td>2013-07-12</td>
-<td>10488-0809-87180</td>
-<td>10488-0809-87180</td>
-<td>127080915833</td>
-<td>1B258671-AF7E-4872-A207-1C10E742A8F6</td>
-<td>None</td>
-</tr>
-<tr>
-<th>4</th>
-<td>000C0885-8782-1047-9575-2096412DF234</td>
-<td>7C92EA36-6301-46DB-8F2E-EC09CA1F1454</td>
-<td>2011-06-16</td>
-<td>NaT</td>
-<td>Clinical &amp; CD4</td>
-<td>2014-08-07</td>
-<td>10195-0611-74239</td>
-<td>10195-0611-74239</td>
-<td>105061101948</td>
-<td>7C92EA36-6301-46DB-8F2E-EC09CA1F1454</td>
-<td>None</td>
-</tr>
-</tbody>
-</table>
-</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2024-09-04T14:16:45.956877] Jupyter Sample Data Task - INFO: Finished extracting HIV enrolment data
+&gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Finished extracting HIV enrolment data
+</pre>
 </div>
 </div>
 </div>
@@ -9954,6 +9538,8 @@ DUFT Config: duft-config
 <span class="n">fact_sentinel_event_df</span><span class="p">[</span><span class="s1">'iit_duration'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">'today'</span><span class="p">)</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span> <span class="o">-</span> <span class="n">fact_sentinel_event_df</span><span class="p">[</span><span class="s1">'iit_date'</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span>
 
 <span class="n">fact_sentinel_event_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished extracting client visits data'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9967,178 +9553,9 @@ DUFT Config: duft-config
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>last_refresh_date: 2024-07-10 00:00:00
+[2024-09-04T14:19:10.622335] Jupyter Sample Data Task - INFO: Finished extracting client visits data
+&gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Finished extracting client visits data
 </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>region</th>
-<th>district</th>
-<th>current_facility</th>
-<th>facility_code</th>
-<th>client_id</th>
-<th>sex</th>
-<th>date_of_birth</th>
-<th>marital_status</th>
-<th>patient_status</th>
-<th>client_code</th>
-<th>...</th>
-<th>last_visit_facility_id</th>
-<th>last_cc_treatment_type</th>
-<th>last_cc_treatment_date</th>
-<th>last_cc_results</th>
-<th>last_oi</th>
-<th>last_oi_other</th>
-<th>last_regimen_line</th>
-<th>last_visit_duration</th>
-<th>iit_date</th>
-<th>iit_duration</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>EDC01C7E-D62B-574A-8A82-08E0182DC6E6</td>
-<td>Female</td>
-<td>1965-06-17</td>
-<td>Single</td>
-<td>Lost</td>
-<td>None</td>
-<td>...</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>0.0</td>
-<td>2018-01-24</td>
-<td>2415.0</td>
-</tr>
-<tr>
-<th>1</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>1E6B7D7F-DB85-8040-9574-B7C79FC3CD21</td>
-<td>Male</td>
-<td>1958-06-15</td>
-<td>None</td>
-<td>Lost</td>
-<td>None</td>
-<td>...</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>3.0</td>
-<td>2009-01-09</td>
-<td>5717.0</td>
-</tr>
-<tr>
-<th>2</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>BDB9DFE2-96DE-EC43-8727-591E32CFC64F</td>
-<td>Female</td>
-<td>1939-07-07</td>
-<td>Single</td>
-<td>Lost</td>
-<td>None</td>
-<td>...</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>Other</td>
-<td>general body weakness</td>
-<td>None</td>
-<td>1.0</td>
-<td>2003-10-10</td>
-<td>7635.0</td>
-</tr>
-<tr>
-<th>3</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>BF615CCF-0F6C-C144-AF1B-B1CE8003DFB5</td>
-<td>Male</td>
-<td>1975-03-03</td>
-<td>None</td>
-<td>Deceased</td>
-<td>None</td>
-<td>...</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>3.0</td>
-<td>2007-11-06</td>
-<td>6147.0</td>
-</tr>
-<tr>
-<th>4</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>0FAA88C5-4850-2F45-9FD3-631544F9C7D0</td>
-<td>Male</td>
-<td>1961-05-07</td>
-<td>Married</td>
-<td>Active ART</td>
-<td>None</td>
-<td>...</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>1A</td>
-<td>6.0</td>
-<td>2024-11-15</td>
-<td>-72.0</td>
-</tr>
-</tbody>
-</table>
-<p>5 rows × 64 columns</p>
-</div>
 </div>
 </div>
 </div>
@@ -10178,6 +9595,8 @@ DUFT Config: duft-config
 <span class="n">fact_tbt_df</span> <span class="o">=</span> <span class="n">fact_tbt_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fact_tbt_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'client_id'</span><span class="p">)[</span><span class="s1">'tbt_start_date'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()]</span>
 
 <span class="n">fact_tbt_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished extracting client tbt data'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -10187,114 +9606,12 @@ DUFT Config: duft-config
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>client_id</th>
-<th>tbt_facility_id</th>
-<th>tbt_category</th>
-<th>tbt_start_date</th>
-<th>tbt_duration</th>
-<th>tbt_expected_stop_date</th>
-<th>tbt_actual_stop_date</th>
-<th>tbt_registration_number</th>
-<th>tbt_site</th>
-<th>tbt_site_detail</th>
-<th>tbt_outcome</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>960</th>
-<td>0031A23C-555E-1D41-BBDF-B28FB95252F7</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>New</td>
-<td>2013-11-08</td>
-<td>6.0</td>
-<td>2014-05-08</td>
-<td>2014-07-03</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<th>845</th>
-<td>003BCB00-ECEA-E54C-B76B-7F3F5F3963E0</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>New</td>
-<td>2016-10-18</td>
-<td>6.0</td>
-<td>2017-04-18</td>
-<td>2017-04-16</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<th>1655</th>
-<td>006FFF74-9567-B14E-8FF6-CBA65DEF423C</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-<td>2020-01-29</td>
-<td>6.0</td>
-<td>2020-07-29</td>
-<td>2021-01-06</td>
-<td>None</td>
-<td>PTB</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<th>1186</th>
-<td>00B0A06B-0204-C54E-81B4-E3A496447896</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>New</td>
-<td>2016-11-24</td>
-<td>6.0</td>
-<td>2017-05-24</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<th>342</th>
-<td>00B34949-CA39-6E47-AD92-BE239C10480F</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>New</td>
-<td>2006-01-09</td>
-<td>6.0</td>
-<td>2006-07-09</td>
-<td>2006-09-18</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-</tbody>
-</table>
-</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2024-09-04T14:19:11.065271] Jupyter Sample Data Task - INFO: Finished extracting client tbt data
+&gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Finished extracting client tbt data
+</pre>
 </div>
 </div>
 </div>
@@ -10457,6 +9774,8 @@ DUFT Config: duft-config
 <span class="n">fact_tpt_df</span> <span class="o">=</span> <span class="n">fact_tpt_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fact_tpt_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'client_id'</span><span class="p">)[</span><span class="s1">'tpt_start_date'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()]</span>
 
 <span class="n">fact_tpt_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished extracting client tpt data'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -10466,114 +9785,12 @@ DUFT Config: duft-config
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>client_id</th>
-<th>tpt_facility_id</th>
-<th>tpt_regimen</th>
-<th>tpt_start_date</th>
-<th>tpt_duration</th>
-<th>tpt_expected_stop_date</th>
-<th>tpt_actual_stop_date</th>
-<th>tpt_stop_reason</th>
-<th>tpt_status</th>
-<th>tpt_adherance</th>
-<th>tpt_duration_two</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>9007</th>
-<td>000150F9-2398-3047-8E7E-BBFFA6E1F4E1</td>
-<td>DD2B5307-E5F8-484C-9E48-611A6BB41C1B</td>
-<td>None</td>
-<td>2014-09-24</td>
-<td>0.0</td>
-<td>2014-09-24</td>
-<td>2015-06-13</td>
-<td>Completed TPT</td>
-<td>Stopped</td>
-<td>None</td>
-<td>9.0</td>
-</tr>
-<tr>
-<th>5248</th>
-<td>000C0885-8782-1047-9575-2096412DF234</td>
-<td>7C92EA36-6301-46DB-8F2E-EC09CA1F1454</td>
-<td>None</td>
-<td>2013-06-13</td>
-<td>0.0</td>
-<td>2013-06-13</td>
-<td>2014-05-15</td>
-<td>Completed TPT</td>
-<td>Stopped</td>
-<td>None</td>
-<td>11.0</td>
-</tr>
-<tr>
-<th>7975</th>
-<td>00148C55-3E2C-264B-86A9-213C01DBD15E</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>3H</td>
-<td>2022-03-03</td>
-<td>0.0</td>
-<td>2022-03-03</td>
-<td>2022-03-03</td>
-<td>Completed TPT</td>
-<td>Stopped</td>
-<td>None</td>
-<td>0.0</td>
-</tr>
-<tr>
-<th>7651</th>
-<td>002D86C5-77BF-184E-A9E4-AFBD55EEA37A</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>6H</td>
-<td>2017-11-16</td>
-<td>6.0</td>
-<td>2018-05-16</td>
-<td>2018-04-30</td>
-<td>Completed TPT</td>
-<td>Stopped</td>
-<td>None</td>
-<td>5.0</td>
-</tr>
-<tr>
-<th>10116</th>
-<td>00327999-F20D-2743-85E0-E11277405059</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>None</td>
-<td>2019-06-28</td>
-<td>0.0</td>
-<td>2019-06-28</td>
-<td>2020-03-06</td>
-<td>Completed TPT</td>
-<td>Stopped</td>
-<td>None</td>
-<td>9.0</td>
-</tr>
-</tbody>
-</table>
-</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2024-09-04T14:19:13.090319] Jupyter Sample Data Task - INFO: Finished extracting client tpt data
+&gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Finished extracting client tpt data
+</pre>
 </div>
 </div>
 </div>
@@ -10888,6 +10105,8 @@ DUFT Config: duft-config
 
 
 <span class="n">fact_lab_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished extracting client lab data'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -10897,90 +10116,12 @@ DUFT Config: duft-config
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[28]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>client_id</th>
-<th>lab_facility_id</th>
-<th>order_date</th>
-<th>lab_result</th>
-<th>result_date</th>
-<th>test_name</th>
-<th>status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>ECF817DB-6F6F-4346-B06D-590F718C6FA4</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>2022-03-16</td>
-<td>196.0</td>
-<td>2022-03-16</td>
-<td>Viral Load</td>
-<td>Complete</td>
-</tr>
-<tr>
-<th>1</th>
-<td>BDB9DFE2-96DE-EC43-8727-591E32CFC64F</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>2003-08-14</td>
-<td>176.0</td>
-<td>2003-08-14</td>
-<td>CD4</td>
-<td>Complete</td>
-</tr>
-<tr>
-<th>2</th>
-<td>BDB9DFE2-96DE-EC43-8727-591E32CFC64F</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>2003-08-14</td>
-<td>12.6</td>
-<td>2003-08-14</td>
-<td>Hb</td>
-<td>Complete</td>
-</tr>
-<tr>
-<th>3</th>
-<td>BDB9DFE2-96DE-EC43-8727-591E32CFC64F</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>2003-08-14</td>
-<td>19.0</td>
-<td>2003-08-14</td>
-<td>ALT</td>
-<td>Complete</td>
-</tr>
-<tr>
-<th>4</th>
-<td>1E6B7D7F-DB85-8040-9574-B7C79FC3CD21</td>
-<td>D8CEB3C6-D4F4-45A8-B5C8-E44746D3757E</td>
-<td>2003-09-02</td>
-<td>63.0</td>
-<td>2003-09-02</td>
-<td>CD4</td>
-<td>Complete</td>
-</tr>
-</tbody>
-</table>
-</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2024-09-04T14:20:31.422179] Jupyter Sample Data Task - INFO: Finished extracting client lab data
+&gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Finished extracting client lab data
+</pre>
 </div>
 </div>
 </div>
@@ -13748,7 +12889,7 @@ DUFT Config: duft-config
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13775,113 +12916,7 @@ DUFT Config: duft-config
         <span class="k">return</span> <span class="kc">None</span>
 
 <span class="n">fact_sentinel_event_df</span><span class="p">[</span><span class="s1">'next_vl_date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">fact_sentinel_event_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">calculate_next_vl_date</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">fact_sentinel_event_df</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>       region  district                current_facility facility_code  \
-0      Khomas  Windhoek  Katutura Intermediate Hospital         10310   
-1      Khomas  Windhoek  Katutura Intermediate Hospital         10310   
-2      Khomas  Windhoek  Katutura Intermediate Hospital         10310   
-3      Khomas  Windhoek  Katutura Intermediate Hospital         10310   
-4      Khomas  Windhoek  Katutura Intermediate Hospital         10310   
-...       ...       ...                             ...           ...   
-23431  Khomas  Windhoek  Katutura Intermediate Hospital         10310   
-23432  Khomas  Windhoek  Katutura Intermediate Hospital         10310   
-23433  Khomas  Windhoek  Katutura Intermediate Hospital         10310   
-23434  Khomas  Windhoek  Katutura Intermediate Hospital         10310   
-23435  Khomas  Windhoek  Katutura Intermediate Hospital         10310   
-
-                                  client_id     sex date_of_birth  \
-0      EDC01C7E-D62B-574A-8A82-08E0182DC6E6  Female    1965-06-17   
-1      1E6B7D7F-DB85-8040-9574-B7C79FC3CD21    Male    1958-06-15   
-2      BDB9DFE2-96DE-EC43-8727-591E32CFC64F  Female    1939-07-07   
-3      BF615CCF-0F6C-C144-AF1B-B1CE8003DFB5    Male    1975-03-03   
-4      0FAA88C5-4850-2F45-9FD3-631544F9C7D0    Male    1961-05-07   
-...                                     ...     ...           ...   
-23431  9EE5416D-B546-7A4E-AC62-14340B23BA5F    Male    1959-07-10   
-23432  82D97047-83EB-6140-8641-AAAC426E0C6A  Female    2001-09-30   
-23433  AA275D9B-87D4-B745-9785-41B7DC1586D5  Female    2003-06-27   
-23434  AA65C727-C081-D444-A6B4-5C274C16DAB0  Female    1983-12-12   
-23435  9F2A7EAB-53F0-B446-80F5-C326FF80C583  Female    1972-01-01   
-
-      marital_status patient_status client_code  ... pepfar_age_group  \
-0             Single           Lost        None  ...            60-64   
-1               None           Lost        None  ...              65+   
-2             Single           Lost        None  ...              65+   
-3               None       Deceased        None  ...            50-54   
-4            Married     Active ART        None  ...            60-64   
-...              ...            ...         ...  ...              ...   
-23431        Married     Active ART        None  ...              65+   
-23432         Single           Lost        None  ...            20-24   
-23433         Single     Active ART        None  ...            20-24   
-23434         Single     Unassigned        None  ...            40-44   
-23435         Single           Lost        None  ...            50-54   
-
-      pepfar_age_group_val paeds_adult_age_group paeds_adult_age_group_val  \
-0                       13    19+ yr old (Adult)                       2.0   
-1                       14    19+ yr old (Adult)                       2.0   
-2                       14    19+ yr old (Adult)                       2.0   
-3                       11    19+ yr old (Adult)                       2.0   
-4                       13    19+ yr old (Adult)                       2.0   
-...                    ...                   ...                       ...   
-23431                   14    19+ yr old (Adult)                       2.0   
-23432                    5    19+ yr old (Adult)                       2.0   
-23433                    5    19+ yr old (Adult)                       2.0   
-23434                    9    19+ yr old (Adult)                       2.0   
-23435                   11    19+ yr old (Adult)                       2.0   
-
-      tri_pillar_age_group  tri_pillar_age_group_val  \
-0                      39+                       4.0   
-1                      39+                       4.0   
-2                      39+                       4.0   
-3                      39+                       4.0   
-4                      39+                       4.0   
-...                    ...                       ...   
-23431                  39+                       4.0   
-23432                20-39                       3.0   
-23433                20-39                       3.0   
-23434                  39+                       4.0   
-23435                  39+                       4.0   
-
-      months_since_last_viral_load             vl_eligibility  \
-0                              NaN               Unclassified   
-1                              NaN               Unclassified   
-2                              NaN               Unclassified   
-3                              NaN               Unclassified   
-4                             16.0  Recent (Slightly delayed)   
-...                            ...                        ...   
-23431                          NaN               Unclassified   
-23432                          NaN               Unclassified   
-23433                          NaN               Unclassified   
-23434                          NaN               Unclassified   
-23435                          NaN               Unclassified   
-
-                    reason_for_next_vl next_vl_date  
-0                           First Test          NaT  
-1                           First Test          NaT  
-2                           First Test          NaT  
-3                           First Test          NaT  
-4      Treatment Monitoring For Adults   2024-03-17  
-...                                ...          ...  
-23431                       First Test          NaT  
-23432                             None          NaT  
-23433                       First Test          NaT  
-23434                             None          NaT  
-23435                             None          NaT  
-
-[23436 rows x 121 columns]
-</pre>
 </div>
 </div>
 </div>
@@ -15427,6 +14462,8 @@ DUFT Config: duft-config
 <span class="n">fact_sentinel_event_df</span><span class="p">[</span><span class="s1">'art_outcomes'</span><span class="p">]</span> <span class="o">=</span> <span class="n">fact_sentinel_event_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">determine_art_outcomes</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="n">fact_sentinel_event_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished adding computed columns'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -15436,175 +14473,12 @@ DUFT Config: duft-config
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[52]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>region</th>
-<th>district</th>
-<th>current_facility</th>
-<th>facility_code</th>
-<th>client_id</th>
-<th>sex</th>
-<th>date_of_birth</th>
-<th>marital_status</th>
-<th>patient_status</th>
-<th>client_code</th>
-<th>...</th>
-<th>needs_vl_test</th>
-<th>mmp_status</th>
-<th>last_visit_month</th>
-<th>last_visit_year</th>
-<th>mmp_status_current</th>
-<th>mmp_status_adult</th>
-<th>mmp_status_paed</th>
-<th>six_mmp_eligible</th>
-<th>six_mmp_eligible_but_not_given</th>
-<th>art_outcomes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>EDC01C7E-D62B-574A-8A82-08E0182DC6E6</td>
-<td>Female</td>
-<td>1965-06-17</td>
-<td>Single</td>
-<td>Lost</td>
-<td>None</td>
-<td>...</td>
-<td>None</td>
-<td>&lt; 3 MMP</td>
-<td>12.0</td>
-<td>2017.0</td>
-<td>None</td>
-<td>Yes</td>
-<td>None</td>
-<td>None</td>
-<td>No</td>
-<td>Case Closed</td>
-</tr>
-<tr>
-<th>1</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>1E6B7D7F-DB85-8040-9574-B7C79FC3CD21</td>
-<td>Male</td>
-<td>1958-06-15</td>
-<td>None</td>
-<td>Lost</td>
-<td>None</td>
-<td>...</td>
-<td>None</td>
-<td>3-5 MMP</td>
-<td>9.0</td>
-<td>2008.0</td>
-<td>None</td>
-<td>Yes</td>
-<td>None</td>
-<td>None</td>
-<td>No</td>
-<td>Case Closed</td>
-</tr>
-<tr>
-<th>2</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>BDB9DFE2-96DE-EC43-8727-591E32CFC64F</td>
-<td>Female</td>
-<td>1939-07-07</td>
-<td>Single</td>
-<td>Lost</td>
-<td>None</td>
-<td>...</td>
-<td>None</td>
-<td>&lt; 3 MMP</td>
-<td>8.0</td>
-<td>2003.0</td>
-<td>None</td>
-<td>Yes</td>
-<td>None</td>
-<td>None</td>
-<td>No</td>
-<td>Case Closed</td>
-</tr>
-<tr>
-<th>3</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>BF615CCF-0F6C-C144-AF1B-B1CE8003DFB5</td>
-<td>Male</td>
-<td>1975-03-03</td>
-<td>None</td>
-<td>Deceased</td>
-<td>None</td>
-<td>...</td>
-<td>None</td>
-<td>3-5 MMP</td>
-<td>7.0</td>
-<td>2007.0</td>
-<td>None</td>
-<td>Yes</td>
-<td>None</td>
-<td>None</td>
-<td>No</td>
-<td>Case Closed</td>
-</tr>
-<tr>
-<th>4</th>
-<td>Khomas</td>
-<td>Windhoek</td>
-<td>Katutura Intermediate Hospital</td>
-<td>10310</td>
-<td>0FAA88C5-4850-2F45-9FD3-631544F9C7D0</td>
-<td>Male</td>
-<td>1961-05-07</td>
-<td>Married</td>
-<td>Active ART</td>
-<td>None</td>
-<td>...</td>
-<td>Yes</td>
-<td>6+ MMP</td>
-<td>4.0</td>
-<td>2024.0</td>
-<td>None</td>
-<td>Yes</td>
-<td>None</td>
-<td>None</td>
-<td>No</td>
-<td>Needs VL Test</td>
-</tr>
-</tbody>
-</table>
-<p>5 rows × 135 columns</p>
-</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2024-09-04T14:20:46.344655] Jupyter Sample Data Task - INFO: Finished adding computed columns
+&gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Finished adding computed columns
+</pre>
 </div>
 </div>
 </div>
@@ -16682,7 +15556,7 @@ DUFT Config: duft-config
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16703,7 +15577,23 @@ DUFT Config: duft-config
 <span class="k">del</span> <span class="n">fact_last_viral_load_tests_df</span>
 <span class="k">del</span> <span class="n">fact_tbt_df</span>
 <span class="k">del</span> <span class="n">fact_tsfr_df</span>
+
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished writing client data to database'</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2024-09-04T14:20:54.182653] Jupyter Sample Data Task - INFO: Finished writing client data to database
+&gt;&gt;&gt; Jupyter Sample Data Task UPDATE: Finished writing client data to database
+</pre>
 </div>
 </div>
 </div>
@@ -16740,7 +15630,7 @@ DUFT Config: duft-config
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[62]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Timestamp('2024-09-04 13:40:35.133008')</pre>
+<pre>Timestamp('2024-09-04 14:20:54.186073')</pre>
 </div>
 </div>
 </div>

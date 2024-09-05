@@ -4,7 +4,7 @@
     <Dashboard>
       <Grid>
         <Row  columns = "1"   largeColumns = "1" >
-                <DataContainer query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "Client Status", "TX Curr", "MMP Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "TPT Status Two" = 'Never initiated TPT' AND  ag.paeds_adult_age_group='19+ yr old (Adult)' LIMIT 100`}>
+                <DataContainer query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "Client Status", "TX Curr", "MMP Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "TPT Status Two" = 'Never initiated TPT' AND "TX Curr" = 'Yes' AND ag.paeds_adult_age_group='19+ yr old (Adult)' LIMIT 100`}>
                     <SmartDataTable header="Never initiated TPT"/>
                 </DataContainer>
             </Row>
@@ -16,7 +16,7 @@
     <Dashboard>
       <Grid>
         <Row  columns = "1"   largeColumns = "1">
-            <DataContainer query={`  SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "Client Status", "TX Curr", "MMP Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "TPT Status Two" = 'Have not completed TPT' AND  ag.paeds_adult_age_group='19+ yr old (Adult)'  LIMIT 100`}>
+            <DataContainer query={`  SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "Client Status", "TX Curr", "MMP Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "TPT Status Two" = 'Have not completed TPT' AND "TX Curr" = 'Yes' AND  ag.paeds_adult_age_group='19+ yr old (Adult)'  LIMIT 100`}>
                 <SmartDataTable header="Initiated but not completed" />
             </DataContainer>
         </Row>

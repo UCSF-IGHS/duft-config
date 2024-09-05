@@ -34,7 +34,7 @@
 
             <Row columns = "2"   largeColumns = "3" >
                 <DataContainer query={`SELECT * FROM analysis.score_card`}>
-                    <ScoreCardTable  header="Score Card" tableMaxHeight='200px' />
+                    <ScoreCardTable  header="Score Card" tableMaxHeight='900px' enableTopToolbar={false} enableBottomToolbar={false} />
                 </DataContainer>
 
                 <DataContainer query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "MMP Status" IS NOT NULL) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>

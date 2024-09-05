@@ -52,6 +52,38 @@
           "dashboard": "/dashboard/tpr-paed"
         }
       ]
+    },
+    {
+      "title": "VLM",
+      "icon": "dashboards-icon",
+      "dashboards": [
+        {
+          "title": "Delayed",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/vlm-delayed"
+        },
+        {
+          "title": "Slightly Delayed",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/vlm-slightly-delayed"
+        }
+      ]
+    },
+    {
+      "title": "VLS",
+      "icon": "dashboards-icon",
+      "dashboards": [
+        {
+          "title": "HLV",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/vls-hlv"
+        },
+        {
+          "title": "LLV",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/vls-llv"
+        }
+      ]
     }
   ],
   "dataTasks": [
