@@ -88,7 +88,7 @@
   ],
   "dataTasks": [
     {
-      "title": "NAMIBIA-NOTEBOOK",
+      "title": "Refresh Data",
       "icon": "update-icon",
       "task": "FM-SENTINEL-EVENT-NOTEBOOK",
       "dashboard": "refresh-data"
