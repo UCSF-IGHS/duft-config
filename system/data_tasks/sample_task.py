@@ -1,9 +1,7 @@
 import time
 import sys
 
-from data_task_helpers import something
 
-something()
 from api_data_task_executioner.data_task_tools import assert_dte_tools_available, get_resolved_parameters_for_connection, initialise_data_task, find_json_arg, DataTaskEnvironment  # noqa: E402
 
 params = {}
