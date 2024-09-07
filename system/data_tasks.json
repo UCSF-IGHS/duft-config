@@ -30,6 +30,24 @@
             }
         },
         {
+            "id": "ROOT-SAMPLE",
+            "name": "Sample Data Task executed from the Root",
+            "description": "A sample data task that does nothing but needs to be executed from the root",
+            "pythonFile": "sample_task_from_root.py",
+            "hideInUI": true,
+            "executeFromRoot": true,
+            "dataConnections": [
+                "ANA",
+                "MyOwnConnection"
+            ],
+            "params": {
+                "repo": "repo-git",
+                "name": "ROOT DATA TASK",
+                "destinationDirectory": "duft-config-test",
+                "sleep_time": 0.5
+            }
+        },        
+        {
             "id": "SAMPLE-NOTEBOOK",
             "name": "Sample Notebook Task",
             "description": "A sample notebook that does nothing",
