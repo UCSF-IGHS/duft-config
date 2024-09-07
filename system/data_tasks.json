@@ -61,6 +61,20 @@
                 "name": "Cersei",
                 "sleep_time": 0.5
             }
-        }        
+        },
+        {
+            "id": "UPDATE",
+            "name": "DUFT Report Update",
+            "description": "Updates the DUFT reports to the latest version. An Internet connection is required",
+            "pythonFile": "update.py",
+            "hideInUI": true,
+            "executeFromRoot": true,
+            "params": {
+                "repo_url": "https://github.com/UCSF-IGHS/duft-config",
+                "save_path": "",
+                "final_repo_name": "duft-config-namibia",
+                "branch": "main"
+            }
+        }                        
     ]
 }
