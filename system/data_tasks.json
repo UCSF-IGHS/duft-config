@@ -9,9 +9,21 @@
                 "ANA",
                 "EPMS"
             ],
-            "params": {
-                "name": "silent",
-                "value": "yes"
+            "supportedParameters": {
+                "name": {
+                    "title": "Name",
+                    "description": "The name of the parameter.",
+                    "defaultValue": "silent",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "value": {
+                    "title": "Value",
+                    "description": "The value of the parameter.",
+                    "defaultValue": "yes",
+                    "allowOverride": true,
+                    "promptUser": false
+                }
             }
         },
         {
@@ -24,10 +36,22 @@
                 "ANA",
                 "MyOwnConnection"
             ],
-            "params": {
-                "name": "Daenerys",
-                "sleep_time": 0.5
-            }
+            "supportedParameters": {
+                "name": {
+                    "title": "Name",
+                    "description": "The name you want to be displayed.",
+                    "defaultValue": "Daenerys",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "sleep_time": {
+                    "title": "Sleep Time",
+                    "description": "Time to wait between execution steps in seconds.",
+                    "defaultValue": 0.5,
+                    "allowOverride": false,
+                    "promptUser": true
+                }
+            }             
         },
         {
             "id": "ROOT-SAMPLE",
@@ -40,11 +64,35 @@
                 "ANA",
                 "MyOwnConnection"
             ],
-            "params": {
-                "repo": "repo-git",
-                "name": "ROOT DATA TASK",
-                "destinationDirectory": "duft-config-test",
-                "sleep_time": 0.5
+            "supportedParameters": {
+                "repo": {
+                    "title": "Repository",
+                    "description": "The git repository.",
+                    "defaultValue": "repo-git",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "name": {
+                    "title": "Name",
+                    "description": "The name of the data task.",
+                    "defaultValue": "ROOT DATA TASK",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "destinationDirectory": {
+                    "title": "Destination Directory",
+                    "description": "The directory where the data will be saved.",
+                    "defaultValue": "duft-config-test",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "sleep_time": {
+                    "title": "Sleep Time",
+                    "description": "Time to wait between execution steps in seconds.",
+                    "defaultValue": 0.5,
+                    "allowOverride": true,
+                    "promptUser": false
+                }
             }
         },        
         {
@@ -57,9 +105,21 @@
                 "ANA",
                 "MyOwnConnection"
             ],
-            "params": {
-                "name": "Cersei",
-                "sleep_time": 0.5
+            "supportedParameters": {
+                "name": {
+                    "title": "Name",
+                    "description": "The name you want to be displayed.",
+                    "defaultValue": "Cersei",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "sleep_time": {
+                    "title": "Sleep Time",
+                    "description": "Time to wait between execution steps in seconds.",
+                    "defaultValue": 0.5,
+                    "allowOverride": true,
+                    "promptUser": false
+                }
             }
         },
         {
@@ -69,12 +129,36 @@
             "pythonFile": "update.py",
             "hideInUI": true,
             "executeFromRoot": true,
-            "params": {
-                "repo_url": "https://github.com/UCSF-IGHS/duft-config",
-                "save_path": "",
-                "final_repo_name": "duft-config-namibia",
-                "branch": "main"
-            }
+            "supportedParameters": {
+                "repo_url": {
+                    "title": "Repository URL",
+                    "description": "The URL of the git repository.",
+                    "defaultValue": "https://github.com/UCSF-IGHS/duft-config",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "save_path": {
+                    "title": "Save Path",
+                    "description": "The path where the data will be saved.",
+                    "defaultValue": "",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "final_repo_name": {
+                    "title": "Final Repository Name",
+                    "description": "The final name of the repository.",
+                    "defaultValue": "duft-config-namibia",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "branch": {
+                    "title": "Branch",
+                    "description": "The branch of the repository to use.",
+                    "defaultValue": "main",
+                    "allowOverride": true,
+                    "promptUser": false
+                }                
+            }           
         }                        
     ]
 }
