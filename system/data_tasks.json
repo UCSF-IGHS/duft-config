@@ -54,6 +54,40 @@
             }             
         },
         {
+            "id": "SAMPLE-ERROR",
+            "name": "Sample Error Data Task",
+            "description": "A sample data task that does nothing but simulates an error",
+            "pythonFile": "sample_task.py",
+            "hideInUI": true,
+            "dataConnections": [
+                "ANA",
+                "MyOwnConnection"
+            ],
+            "supportedParameters": {
+                "name": {
+                    "title": "Name",
+                    "description": "The name you want to be displayed.",
+                    "defaultValue": "Daenerys",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "sleep_time": {
+                    "title": "Sleep Time",
+                    "description": "Time to wait between execution steps in seconds.",
+                    "defaultValue": 0.5,
+                    "allowOverride": false,
+                    "promptUser": true
+                },
+                "simulate_error": {
+                    "title": "Simulate Error",
+                    "description": "Whether to simulate an error during execution.",
+                    "defaultValue": true,
+                    "allowOverride": true,
+                    "promptUser": false
+                }
+            }             
+        },        
+        {
             "id": "ROOT-SAMPLE",
             "name": "Sample Data Task executed from the Root",
             "description": "A sample data task that does nothing but needs to be executed from the root",
