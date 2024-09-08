@@ -49,7 +49,7 @@
                     "description": "Time to wait between execution steps in seconds.",
                     "defaultValue": 0.5,
                     "allowOverride": false,
-                    "promptUser": true
+                    "promptUser": false
                 }
             }             
         },
