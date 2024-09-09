@@ -12,7 +12,7 @@
 
                 <DataContainer query={` SELECT COUNT(*) AS value, ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
                     <Tile title='TX_CURR All' >
-                    <DataContainer query={`SELECT  "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' LIMIT 500`}>
+                    <DataContainer query={`SELECT  "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') LIMIT 500`}>
                         <SmartDataTable header='TX_CURR All' variant='plain' />
                     </DataContainer>
                     </Tile>
