@@ -39,6 +39,7 @@ def sample_task():
             environment.log_error('A simulated error occurred!')
             environment.log_message('Could not complete SAMPLE as it raised an error. You may want to try again.')
             try:
+                sys.stdout.flush()
                 sys.exit(1)  # Exiting with error code
             except SystemExit as e:
                 print(f"SystemExit with code: {e.code}")
