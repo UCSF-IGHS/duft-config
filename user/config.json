@@ -13,7 +13,7 @@
             "password": "root",
             "port": "5433",
             "database": "duft",
-            "type": "PosgtresSQL"
+            "type": "PostgreSQL"
         },
         "NDR": {
             "server": "https://www.myndr.com/api/v2",
@@ -60,7 +60,7 @@
             "password": "root",
             "port": "5433",
             "database": "duft",
-            "type": "PosgtresSQL"
+            "type": "PostgreSQL"
         }
     }
 }

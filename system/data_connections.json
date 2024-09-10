@@ -8,9 +8,9 @@
 			"allowQueryEngine":"True",
 			"params":[
 				{
-					"name":"PosgtresSQL",
+					"name":"PostgreSQL",
 					"type":"text",
-					"label":"The type of connection (MSSQL | MySQL | PosgtresSQL | sqlite3)"
+					"label":"The type of connection (MSSQL | MySQL | PostgreSQL | sqlite3)"
 				},				
 				{
 					"name":"jdbc:filemaker://localhost/QuantumOuNickHealthCentre",
@@ -36,9 +36,9 @@
 			"allowQueryEngine":"True",
             "params":[
                 {
-					"name":"PosgtresSQL",
+					"name":"PostgreSQL",
 					"type":"text",
-					"label":"The type of connection (MSSQL | MySQL | PosgtresSQL | sqlite3)"
+					"label":"The type of connection (MSSQL | MySQL | PostgreSQL | sqlite3)"
 				},
 				{
 					"name":"localhost",
@@ -128,9 +128,9 @@
 			"allowQueryEngine":"True",
             "params":[
                 {
-					"name":"PosgtresSQL",
+					"name":"PostgreSQL",
 					"type":"text",
-					"label":"The type of connection (MSSQL | MySQL | PosgtresSQL | sqlite3)"
+					"label":"The type of connection (MSSQL | MySQL | PostgreSQL | sqlite3)"
 				},
 				{
 					"name":"localhost",
@@ -168,7 +168,7 @@
 				{
 					"name":"type",
 					"type":"text",
-					"label":"The type of connection (MSSQL | MySQL | PosgtresSQL | sqlite3)"
+					"label":"The type of connection (MSSQL | MySQL | PostgreSQL | sqlite3)"
 				},				
 				{
 					"name":"server",
