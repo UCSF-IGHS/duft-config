@@ -1,0 +1,13 @@
+<Dashboard>
+  <Grid>
+    <Row><Header>Preview query</Header></Row>
+    <DataContainer> //can we have a sample query here...
+      <Row>
+        <PreviewQuery /> //initialize with the sample query from the data set.
+      </Row>
+      <Row columns='2'>
+        <PivotTable />
+      </Row>
+    </DataContainer>
+  </Grid>
+</Dashboard>
