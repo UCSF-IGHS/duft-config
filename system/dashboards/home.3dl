@@ -198,8 +198,8 @@
                     <HeatmapChart header="Deceased by Gender Over the Years" subHeader="Heatmap: Deceased by Gender Over the Years"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT * FROM vw_longterm_retention WHERE category > 2005;`}>
-                    <StackedBarChart header="Longterm Retention" subHeader="Stacked Bar Chart: Active Clients vs Years on ART (Longterm Retention)"/>
+                    <DataContainer query={`SELECT category, "Active Clients" FROM vw_longterm_retention WHERE year > 2005;`}>
+                    <BarChart header="Longterm Retention" subHeader="Stacked Bar Chart: Active Clients vs Years on ART (Longterm Retention)"/>
                     </DataContainer>
 
                 </Row>
