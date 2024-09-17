@@ -47,8 +47,7 @@
           }
         },
         "stroke": {
-          "width": 0,
-          "colors": "#fff"
+          "width": 0
         },
         "xaxis": {
           "floating": false,

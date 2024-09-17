@@ -30,11 +30,27 @@
                     </DataContainer>
 
                 </Row>
+
                 <Row columns = "1" largeColumns = "1">
+
                     <DataContainer query={`SELECT * FROM vw_art_cascade;`}>
-                    <BarChart header="ART Cascade" subHeader="Smart Data Table: ART Cascade per Region"/>
+                    <BarChart header="ART Cascade" subHeader="Smart Data Table: ART Cascade"/>
                     </DataContainer>
+
                 </Row>
+
+                <Row columns = "2" largeColumns = "2">
+
+                    <DataContainer query={`SELECT * FROM vw_art_cascade;`}>
+                    <BarChart header="ART Cascade" subHeader="Smart Data Table: ART Cascade Per Gender"/>
+                    </DataContainer>
+
+                    <DataContainer query={`SELECT * FROM vw_art_cascade;`}>
+                        <ClusteredBarChart header="ART Cascade" subHeader="Smart Data Table: ART Cascade Per Age Group"/>
+                        </DataContainer>
+
+                </Row>
+
             </Grid>
         </Dashboard>
     </Tab>
@@ -72,7 +88,7 @@
                 <Row columns = "1" largeColumns = "2">
 
                     <DataContainer query={`SELECT * FROM vw_art_regimen_lines;`}>
-                    <DonutChart header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines"/>
+                    <DonutChart userOptions={{ stroke: { width: 0} }} header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines"/>
                     </DataContainer>
 
                     <DataContainer query={`SELECT * FROM vw_art_regimen_lines_per_age_group;`}>
@@ -128,7 +144,7 @@
                 <Row columns = "1" largeColumns = "3">
 
                     <DataContainer query={`SELECT * FROM vw_art_outcomes;`}>
-                    <PieChart header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
+                    <PieChart userOptions={{ colors: ["#9e0159", "#390099"], stroke: { width: 0 } }} header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
                     </DataContainer>
 
                     <DataContainer query={`SELECT * FROM vw_art_outcomes;`}>
@@ -182,13 +198,11 @@
                 <Row columns = "1" largeColumns = "2">
 
                     <DataContainer query={`SELECT category, "Not Initiated", Initiated FROM vw_diagnosed_vs_initiated_vs_exited WHERE year_month > 202301;`}>
-                    <AreaChart userOptions={{ colors: ["#9e0159", "#390099"] }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
+                    <AreaChart userOptions={{ colors: ["#9e0159", "#390099"], stroke: { width: 0 } }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
                     </DataContainer>
 
                     <DataContainer query={`SELECT * FROM vw_initiated_per_age_group;`}>
-                    <StackedBarChart header="Ever Initiated on ART By Age Group and Gender
-" subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender
-"/>
+                        <StackedBarChart header="Ever Initiated on ART By Age Group and Gender" subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender"/>
                     </DataContainer>
 
                 </Row>
