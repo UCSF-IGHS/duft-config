@@ -181,8 +181,8 @@
                 </Row>
                 <Row columns = "1" largeColumns = "2">
 
-                    <DataContainer query={`SELECT category, Initiated, Exited FROM vw_initiated_vs_exited WHERE year_month > 202301;`}>
-                    <AreaChart header="Ever Initiated on ART versus Exited" subHeader="Area Chart: Clients Ever Initiated on ART versus Exited"/>
+                    <DataContainer query={`SELECT category, "Not Initiated", Initiated FROM vw_diagnosed_vs_initiated_vs_exited WHERE year_month > 202301;`}>
+                    <AreaChart userOptions={{ colors: ["#9e0159", "#390099"] }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
                     </DataContainer>
 
                     <DataContainer query={`SELECT * FROM vw_initiated_per_age_group;`}>
