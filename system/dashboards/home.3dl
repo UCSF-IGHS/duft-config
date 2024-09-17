@@ -4,18 +4,18 @@
         <Grid>
             <Row><Header> Katutura Intermediate Hospital </Header></Row>
             <Filters>
-                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
-                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
+                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
+                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
                 </Filters>
             <Row columns = "2"   largeColumns = "4" >
             
 
                 <DataContainer query={` SELECT COUNT(*) AS value, ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
                     <Tile title='TX_CURR All' >
-                    <DataContainer pageSize={50} query={`SELECT  "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND concat("ART Outcomes", ' ',"Sex", ' ', to_char("Date Of Birth", 'YYYY-MM-DD'), ' ', to_char("ART Start Date", 'YYYY-MM-DD'), ' ',to_char("Last Visit Date", 'YYYY-MM-DD'), ' ', to_char("Last Next Visit Date", 'YYYY-MM-DD'), ' ', "MMP Status") LIKE {searchTextCondition}  AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') LIMIT {pageSize} OFFSET {offset}`}>
+                    <PaginatedSearchDataSet pageSize={50} query={`SELECT  "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND concat("ART Outcomes", ' ',"Sex", ' ', to_char("Date Of Birth", 'YYYY-MM-DD'), ' ', to_char("ART Start Date", 'YYYY-MM-DD'), ' ',to_char("Last Visit Date", 'YYYY-MM-DD'), ' ', to_char("Last Next Visit Date", 'YYYY-MM-DD'), ' ', "MMP Status") LIKE {searchTextCondition}  AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') LIMIT {pageSize} OFFSET {offset}`}>
                         <SmartDataTable header='TX_CURR All' variant='plain' />
-                    </DataContainer>
+                    </PaginatedSearchDataSet>
                     </Tile>
                 </DataContainer>
 

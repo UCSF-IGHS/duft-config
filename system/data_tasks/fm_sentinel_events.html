@@ -7600,7 +7600,7 @@ a.anchor-link {
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>DUFT Config: duft-config
 Init environment
-[2024-09-13T06:24:49.237568] Jupyter Sample Data Task - INFO: Jupyter Sample Data Task initialised running in interactive mode
+[2024-09-17T08:56:53.097970] Jupyter Sample Data Task - INFO: Jupyter Sample Data Task initialised running in interactive mode
 Jupyter Sample Data Task &gt;&gt;&gt;: Jupyter Sample Data Task initialised running in interactive mode
 </pre>
 </div>
@@ -7673,7 +7673,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Jupyter Sample Data Task initialised runn
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-09-13T06:24:51.525038] Jupyter Sample Data Task - INFO: Finished setting source and destination connections
+<pre>[2024-09-17T08:56:53.593054] Jupyter Sample Data Task - INFO: Finished setting source and destination connections
 Jupyter Sample Data Task &gt;&gt;&gt;: Finished setting source and destination connections
 </pre>
 </div>
@@ -7811,6 +7811,8 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished setting source and destination c
 <span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'last_name'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'LName'</span>
 <span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'contact_number'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'123456'</span>
 
+<span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'sex'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'sex'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">'Unknown'</span><span class="p">)</span>
+
 <span class="n">dim_pat_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 
 <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Finished extracting client data'</span><span class="p">)</span>
@@ -7826,7 +7828,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished setting source and destination c
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-09-13T06:25:06.158322] Jupyter Sample Data Task - INFO: Finished extracting client data
+<pre>[2024-09-17T08:57:07.507053] Jupyter Sample Data Task - INFO: Finished extracting client data
 Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client data
 </pre>
 </div>
@@ -7883,7 +7885,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-09-13T06:25:08.261762] Jupyter Sample Data Task - INFO: Finished extracting client transfer status data
+<pre>[2024-09-17T08:57:09.689939] Jupyter Sample Data Task - INFO: Finished extracting client transfer status data
 Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client transfer status data
 </pre>
 </div>
@@ -8304,7 +8306,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client transfer statu
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-09-13T06:26:09.021620] Jupyter Sample Data Task - INFO: Finished extracting HIV diagnosis data
+<pre>[2024-09-17T08:58:12.263800] Jupyter Sample Data Task - INFO: Finished extracting HIV diagnosis data
 Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting HIV diagnosis data
 </pre>
 </div>
@@ -8694,7 +8696,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting HIV diagnosis data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-09-13T06:26:12.166309] Jupyter Sample Data Task - INFO: Finished extracting HIV enrolment data
+<pre>[2024-09-17T08:58:15.328110] Jupyter Sample Data Task - INFO: Finished extracting HIV enrolment data
 Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting HIV enrolment data
 </pre>
 </div>
@@ -9303,6 +9305,8 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting HIV enrolment data
 <span class="n">fact_last_visit_df</span><span class="p">[</span><span class="s1">'visit_date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">fact_last_visit_df</span><span class="p">[</span><span class="s1">'visit_date'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
 <span class="n">fact_last_visit_df</span><span class="p">[</span><span class="s1">'next_visit_date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">fact_last_visit_df</span><span class="p">[</span><span class="s1">'next_visit_date'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
 
+<span class="n">fact_last_visit_df</span><span class="p">[</span><span class="s1">'care_model'</span><span class="p">]</span> <span class="o">=</span> <span class="n">fact_last_visit_df</span><span class="p">[</span><span class="s1">'care_model'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">'Unknown'</span><span class="p">)</span>
+
 <span class="n">fact_last_visit_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> 
 </pre></div>
 </div>
@@ -9389,7 +9393,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting HIV enrolment data
 <td>2009-05-19</td>
 <td>2009-08-11</td>
 <td>2009-05-19</td>
-<td>None</td>
+<td>Unknown</td>
 <td>None</td>
 <td>None</td>
 <td>None</td>
@@ -9413,7 +9417,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting HIV enrolment data
 <td>2014-01-29</td>
 <td>2014-02-26</td>
 <td>2014-01-29</td>
-<td>None</td>
+<td>Unknown</td>
 <td>None</td>
 <td>None</td>
 <td>None</td>
@@ -9437,7 +9441,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting HIV enrolment data
 <td>2020-07-13</td>
 <td>2020-11-13</td>
 <td>2019-06-07</td>
-<td>None</td>
+<td>Unknown</td>
 <td>None</td>
 <td>None</td>
 <td>None</td>
@@ -9461,7 +9465,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting HIV enrolment data
 <td>2010-08-24</td>
 <td>2010-10-19</td>
 <td>2010-08-24</td>
-<td>None</td>
+<td>Unknown</td>
 <td>None</td>
 <td>None</td>
 <td>None</td>
@@ -9552,7 +9556,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting HIV enrolment data
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>last_refresh_date: 2024-07-10 00:00:00
-[2024-09-13T06:28:36.238875] Jupyter Sample Data Task - INFO: Finished extracting client visits data
+[2024-09-17T09:01:16.888136] Jupyter Sample Data Task - INFO: Finished extracting client visits data
 Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client visits data
 </pre>
 </div>
@@ -9608,7 +9612,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client visits data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-09-13T06:28:36.828682] Jupyter Sample Data Task - INFO: Finished extracting client tbt data
+<pre>[2024-09-17T09:01:17.707737] Jupyter Sample Data Task - INFO: Finished extracting client tbt data
 Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client tbt data
 </pre>
 </div>
@@ -9787,7 +9791,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client tbt data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-09-13T06:28:39.412038] Jupyter Sample Data Task - INFO: Finished extracting client tpt data
+<pre>[2024-09-17T09:01:20.546638] Jupyter Sample Data Task - INFO: Finished extracting client tpt data
 Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client tpt data
 </pre>
 </div>
@@ -10118,7 +10122,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client tpt data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-09-13T06:30:05.516133] Jupyter Sample Data Task - INFO: Finished extracting client lab data
+<pre>[2024-09-17T09:03:03.995663] Jupyter Sample Data Task - INFO: Finished extracting client lab data
 Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client lab data
 </pre>
 </div>
@@ -14568,7 +14572,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished extracting client lab data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-09-13T06:30:38.705747] Jupyter Sample Data Task - INFO: Finished adding computed columns
+<pre>[2024-09-17T09:03:36.051797] Jupyter Sample Data Task - INFO: Finished adding computed columns
 Jupyter Sample Data Task &gt;&gt;&gt;: Finished adding computed columns
 </pre>
 </div>
@@ -15453,7 +15457,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished adding computed columns
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  last refresh date
-0        2024-09-13
+0        2024-09-17
 </pre>
 </div>
 </div>
@@ -15519,7 +15523,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished adding computed columns
 <tbody>
 <tr>
 <th>0</th>
-<td>2024-09-13</td>
+<td>2024-09-17</td>
 </tr>
 </tbody>
 </table>
@@ -15535,7 +15539,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished adding computed columns
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Create-Score-Card-View">Create Score Card View<a class="anchor-link" href="#Create-Score-Card-View">¶</a></h1>
+<h1 id="Create-Score-Card-Procedure">Create Score Card Procedure<a class="anchor-link" href="#Create-Score-Card-Procedure">¶</a></h1>
 </div>
 </div>
 </div>
@@ -15548,68 +15552,68 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished adding computed columns
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">view_score_card_creation_query</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">CREATE VIEW "analysis"."score_card" AS  </span>
-<span class="s2">    WITH ordered_data AS (</span>
-<span class="s2">         SELECT '6+ MMP' AS indicator,</span>
+<span class="s2">CREATE VIEW analysis.score_card AS</span>
+<span class="s2"> WITH ordered_data AS (</span>
+<span class="s2">         SELECT '6+ MMP'::text AS indicator,</span>
 <span class="s2">            sum(</span>
 <span class="s2">                CASE</span>
-<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes' AND fact_sentinel_event."MMP Status" = '6+ MMP' THEN 1</span>
+<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes'::text AND fact_sentinel_event."MMP Status" = '6+ MMP'::text THEN 1</span>
 <span class="s2">                    ELSE 0</span>
 <span class="s2">                END)::numeric * 100.0 / count(</span>
 <span class="s2">                CASE</span>
-<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes' THEN 1</span>
+<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes'::text THEN 1</span>
 <span class="s2">                    ELSE NULL::integer</span>
 <span class="s2">                END)::numeric AS score,</span>
 <span class="s2">            1 AS order_col</span>
 <span class="s2">           FROM analysis.fact_sentinel_event</span>
 <span class="s2">        UNION ALL</span>
-<span class="s2">         SELECT 'TPT' AS indicator,</span>
+<span class="s2">         SELECT 'TPT'::text AS indicator,</span>
 <span class="s2">            sum(</span>
 <span class="s2">                CASE</span>
-<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes' AND fact_sentinel_event."TPT Status" &lt;&gt; 'Never initiated TPT' THEN 1</span>
+<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes'::text AND fact_sentinel_event."TPT Status" &lt;&gt; 'Never initiated TPT'::text THEN 1</span>
 <span class="s2">                    ELSE 0</span>
 <span class="s2">                END)::numeric * 100.0 / count(</span>
 <span class="s2">                CASE</span>
-<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes' THEN 1</span>
+<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes'::text THEN 1</span>
 <span class="s2">                    ELSE NULL::integer</span>
 <span class="s2">                END)::numeric AS score,</span>
 <span class="s2">            2 AS order_col</span>
 <span class="s2">           FROM analysis.fact_sentinel_event</span>
 <span class="s2">        UNION ALL</span>
-<span class="s2">         SELECT 'Retention' AS indicator,</span>
+<span class="s2">         SELECT 'Retention'::text AS indicator,</span>
 <span class="s2">            sum(</span>
 <span class="s2">                CASE</span>
-<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes' AND (fact_sentinel_event."Client Status" = ANY (ARRAY['Active on ART', 'Active on ART: Missed Appointment'])) THEN 1</span>
+<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes'::text AND (fact_sentinel_event."Client Status" = ANY (ARRAY['Active on ART'::text, 'Active on ART: Missed Appointment'::text])) THEN 1</span>
 <span class="s2">                    ELSE 0</span>
 <span class="s2">                END)::numeric * 100.0 / count(</span>
 <span class="s2">                CASE</span>
-<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes' THEN 1</span>
+<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes'::text THEN 1</span>
 <span class="s2">                    ELSE NULL::integer</span>
 <span class="s2">                END)::numeric AS score,</span>
 <span class="s2">            3 AS order_col</span>
 <span class="s2">           FROM analysis.fact_sentinel_event</span>
 <span class="s2">        UNION ALL</span>
-<span class="s2">         SELECT 'VLM' AS indicator,</span>
+<span class="s2">         SELECT 'VLM'::text AS indicator,</span>
 <span class="s2">            sum(</span>
 <span class="s2">                CASE</span>
-<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes' AND (fact_sentinel_event."Viral Load Eligibility" = ANY (ARRAY['MonitoBad per guidelines', 'Recent (Slightly delayed)'])) THEN 1</span>
+<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes'::text AND (fact_sentinel_event."Viral Load Eligibility" = ANY (ARRAY['MonitoBad per guidelines'::text, 'Recent (Slightly delayed)'::text])) THEN 1</span>
 <span class="s2">                    ELSE 0</span>
 <span class="s2">                END)::numeric * 100.0 / count(</span>
 <span class="s2">                CASE</span>
-<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes' THEN 1</span>
+<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes'::text THEN 1</span>
 <span class="s2">                    ELSE NULL::integer</span>
 <span class="s2">                END)::numeric AS score,</span>
 <span class="s2">            4 AS order_col</span>
 <span class="s2">           FROM analysis.fact_sentinel_event</span>
 <span class="s2">        UNION ALL</span>
-<span class="s2">         SELECT 'VLS (VL&lt;40 CPS/ML)' AS indicator,</span>
+<span class="s2">         SELECT 'VLS (VL&lt;40 CPS/ML)'::text AS indicator,</span>
 <span class="s2">            sum(</span>
 <span class="s2">                CASE</span>
-<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes' AND fact_sentinel_event."Last Viral Load Result Category" = 'Suppressed' THEN 1</span>
+<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes'::text AND fact_sentinel_event."Last Viral Load Result Category" = 'Suppressed'::text THEN 1</span>
 <span class="s2">                    ELSE 0</span>
 <span class="s2">                END)::numeric * 100.0 / count(</span>
 <span class="s2">                CASE</span>
-<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes' THEN 1</span>
+<span class="s2">                    WHEN fact_sentinel_event."TX Curr" = 'Yes'::text THEN 1</span>
 <span class="s2">                    ELSE NULL::integer</span>
 <span class="s2">                END)::numeric AS score,</span>
 <span class="s2">            5 AS order_col</span>
@@ -15618,22 +15622,22 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished adding computed columns
 <span class="s2"> SELECT indicator,</span>
 <span class="s2">    round(score, 2) AS score,</span>
 <span class="s2">        CASE</span>
-<span class="s2">            WHEN indicator = '6+ MMP' AND score &lt; 50::numeric THEN 'Bad'</span>
-<span class="s2">            WHEN indicator = '6+ MMP' AND score &gt;= 50::numeric AND score &lt; 75::numeric THEN 'Average'</span>
-<span class="s2">            WHEN indicator = '6+ MMP' AND score &gt;= 75::numeric THEN 'Good'</span>
-<span class="s2">            WHEN indicator = 'TPT' AND score &lt; 85::numeric THEN 'Bad'</span>
-<span class="s2">            WHEN indicator = 'TPT' AND score &gt;= 85::numeric AND score &lt; 95::numeric THEN 'Average'</span>
-<span class="s2">            WHEN indicator = 'TPT' AND score &gt;= 95::numeric THEN 'Good'</span>
-<span class="s2">            WHEN indicator = 'Retention' AND score &lt; 90::numeric THEN 'Bad'</span>
-<span class="s2">            WHEN indicator = 'Retention' AND score &gt;= 90::numeric AND score &lt; 95::numeric THEN 'Average'</span>
-<span class="s2">            WHEN indicator = 'Retention' AND score &gt;= 95::numeric THEN 'Good'</span>
-<span class="s2">            WHEN indicator = 'VLM' AND score &lt; 80::numeric THEN 'Bad'</span>
-<span class="s2">            WHEN indicator = 'VLM' AND score &gt;= 80::numeric AND score &lt; 90::numeric THEN 'Average'</span>
-<span class="s2">            WHEN indicator = 'VLM' AND score &gt;= 90::numeric THEN 'Good'</span>
-<span class="s2">            WHEN indicator = 'VLS (VL&lt;40 CPS/ML)' AND score &lt; 85::numeric THEN 'Bad'</span>
-<span class="s2">            WHEN indicator = 'VLS (VL&lt;40 CPS/ML)' AND score &gt;= 85::numeric AND score &lt; 93::numeric THEN 'Average'</span>
-<span class="s2">            WHEN indicator = 'VLS (VL&lt;40 CPS/ML)' AND score &gt;= 93::numeric THEN 'Good'</span>
-<span class="s2">            ELSE 'Unknown'</span>
+<span class="s2">            WHEN indicator = '6+ MMP'::text AND score &lt; 50::numeric THEN 'Bad'::text</span>
+<span class="s2">            WHEN indicator = '6+ MMP'::text AND score &gt;= 50::numeric AND score &lt; 75::numeric THEN 'Average'::text</span>
+<span class="s2">            WHEN indicator = '6+ MMP'::text AND score &gt;= 75::numeric THEN 'Good'::text</span>
+<span class="s2">            WHEN indicator = 'TPT'::text AND score &lt; 85::numeric THEN 'Bad'::text</span>
+<span class="s2">            WHEN indicator = 'TPT'::text AND score &gt;= 85::numeric AND score &lt; 95::numeric THEN 'Average'::text</span>
+<span class="s2">            WHEN indicator = 'TPT'::text AND score &gt;= 95::numeric THEN 'Good'::text</span>
+<span class="s2">            WHEN indicator = 'Retention'::text AND score &lt; 90::numeric THEN 'Bad'::text</span>
+<span class="s2">            WHEN indicator = 'Retention'::text AND score &gt;= 90::numeric AND score &lt; 95::numeric THEN 'Average'::text</span>
+<span class="s2">            WHEN indicator = 'Retention'::text AND score &gt;= 95::numeric THEN 'Good'::text</span>
+<span class="s2">            WHEN indicator = 'VLM'::text AND score &lt; 80::numeric THEN 'Bad'::text</span>
+<span class="s2">            WHEN indicator = 'VLM'::text AND score &gt;= 80::numeric AND score &lt; 90::numeric THEN 'Average'::text</span>
+<span class="s2">            WHEN indicator = 'VLM'::text AND score &gt;= 90::numeric THEN 'Good'::text</span>
+<span class="s2">            WHEN indicator = 'VLS (VL&lt;40 CPS/ML)'::text AND score &lt; 85::numeric THEN 'Bad'::text</span>
+<span class="s2">            WHEN indicator = 'VLS (VL&lt;40 CPS/ML)'::text AND score &gt;= 85::numeric AND score &lt; 93::numeric THEN 'Average'::text</span>
+<span class="s2">            WHEN indicator = 'VLS (VL&lt;40 CPS/ML)'::text AND score &gt;= 93::numeric THEN 'Good'::text</span>
+<span class="s2">            ELSE 'Unknown'::text</span>
 <span class="s2">        END AS color</span>
 <span class="s2">   FROM ordered_data</span>
 <span class="s2">  ORDER BY order_col;</span>
@@ -15671,93 +15675,6 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished adding computed columns
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Create-Retention-View">Create Retention View<a class="anchor-link" href="#Create-Retention-View">¶</a></h1>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [62]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">view_retention_creation_query</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">CREATE VIEW "analysis"."vw_retention" AS  </span>
-<span class="s2">  SELECT category,</span>
-<span class="s2">    value,</span>
-<span class="s2">    ord</span>
-<span class="s2">   FROM ( SELECT 'Active on ART: All Clients' AS category,</span>
-<span class="s2">            count(*) AS value,</span>
-<span class="s2">            1 AS ord</span>
-<span class="s2">           FROM analysis.fact_sentinel_event</span>
-<span class="s2">          WHERE fact_sentinel_event."TX Curr" = 'Yes'</span>
-<span class="s2">        UNION ALL</span>
-<span class="s2">         SELECT 'Active on ART: Men (20-39)' AS category,</span>
-<span class="s2">            count(*) AS value,</span>
-<span class="s2">            2 AS ord</span>
-<span class="s2">           FROM analysis.fact_sentinel_event</span>
-<span class="s2">          WHERE fact_sentinel_event."TX Curr" = 'Yes' AND fact_sentinel_event."Sex" = 'Male' AND fact_sentinel_event."Current Age" &gt;= 20::double precision AND fact_sentinel_event."Current Age" &lt;= 39::double precision</span>
-<span class="s2">        UNION ALL</span>
-<span class="s2">         SELECT 'Active on ART: Paediatric (0-18)' AS category,</span>
-<span class="s2">            count(*) AS value,</span>
-<span class="s2">            3 AS ord</span>
-<span class="s2">           FROM analysis.fact_sentinel_event</span>
-<span class="s2">          WHERE fact_sentinel_event."TX Curr" = 'Yes' AND fact_sentinel_event."Current Age" &gt;= 0::double precision AND fact_sentinel_event."Current Age" &lt;= 18::double precision</span>
-<span class="s2">        UNION ALL</span>
-<span class="s2">         SELECT 'IIT: Missed 29-90 Days All Patients' AS category,</span>
-<span class="s2">            count(*) AS value,</span>
-<span class="s2">            4 AS ord</span>
-<span class="s2">           FROM analysis.fact_sentinel_event</span>
-<span class="s2">          WHERE fact_sentinel_event."TX Curr" = 'Yes' AND fact_sentinel_event."Client Status" = 'IIT: Missed Appointment'</span>
-<span class="s2">        UNION ALL</span>
-<span class="s2">         SELECT 'IIT: Missed 29-90 Days Men (20-39)' AS category,</span>
-<span class="s2">            count(*) AS value,</span>
-<span class="s2">            5 AS ord</span>
-<span class="s2">           FROM analysis.fact_sentinel_event</span>
-<span class="s2">          WHERE fact_sentinel_event."TX Curr" = 'Yes' AND fact_sentinel_event."Client Status" = 'IIT: Missed Appointment' AND fact_sentinel_event."Current Age" &gt;= 20::double precision AND fact_sentinel_event."Current Age" &lt;= 39::double precision</span>
-<span class="s2">        UNION ALL</span>
-<span class="s2">         SELECT 'IIT: Missed 29-90 Days PBFW' AS category,</span>
-<span class="s2">            count(*) AS value,</span>
-<span class="s2">            6 AS ord</span>
-<span class="s2">           FROM analysis.fact_sentinel_event</span>
-<span class="s2">          WHERE fact_sentinel_event."TX Curr" = 'Yes' AND fact_sentinel_event."Client Status" = 'IIT: Missed Appointment' AND (fact_sentinel_event."Last Pregnancy Status" = 'Yes' OR fact_sentinel_event."Last Breast Feeding" = 'Yes')) unnamed_subquery</span>
-<span class="s2">  ORDER BY ord;</span>
-<span class="s2">"""</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
-        <span class="k">with</span> <span class="n">conn</span><span class="o">.</span><span class="n">begin</span><span class="p">():</span>
-            <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="n">view_retention_creation_query</span><span class="p">))</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"Retention view created successfully."</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"An error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Retention view created successfully.
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Drop-dataframes">Drop dataframes<a class="anchor-link" href="#Drop-dataframes">¶</a></h1>
 </div>
 </div>
@@ -15767,7 +15684,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished adding computed columns
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [63]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [62]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">del</span> <span class="n">dim_pat_df</span>
@@ -15797,7 +15714,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished adding computed columns
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-09-13T06:30:55.379722] Jupyter Sample Data Task - INFO: Finished writing data to database
+<pre>[2024-09-17T09:03:48.106779] Jupyter Sample Data Task - INFO: Finished writing data to database
 Jupyter Sample Data Task &gt;&gt;&gt;: Finished writing data to database
 </pre>
 </div>
@@ -15820,7 +15737,7 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished writing data to database
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [64]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [63]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
@@ -15834,9 +15751,9 @@ Jupyter Sample Data Task &gt;&gt;&gt;: Finished writing data to database
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[64]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[63]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Timestamp('2024-09-13 06:30:55.384943')</pre>
+<pre>Timestamp('2024-09-17 09:03:48.112334')</pre>
 </div>
 </div>
 </div>
