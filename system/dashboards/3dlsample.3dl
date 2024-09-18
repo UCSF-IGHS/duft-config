@@ -6,9 +6,9 @@
         <Row columns="2" largeColumns="4">
           <DataContainer query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
             <Tile title="New Cases">
-              <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 GROUP BY year'>
-                <SmartDataTable header='Not Suppressed data' variant='plain' tableMaxHeight='400px' showToolbar={false} />
-              </DataContainer>
+              <PaginatedSearchDataSet query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art = 1 AND category LIKE {searchTextCondition} GROUP BY year ORDER BY year DESC LIMIT {pageSize} OFFSET {offset};'>
+                <SmartDataTable header='Not Suppressed data' variant='plain' tableMaxHeight='400px' showToolbar={true} />
+              </PaginatedSearchDataSet>
             </Tile>
           </DataContainer>
 
@@ -79,6 +79,11 @@
             </SmartDataTable>
           </Row>
         </DataContainer>
+        <PaginatedSearchDataSet query='SELECT * FROM dim_client WHERE client_id LIKE {searchTextCondition} LIMIT {pageSize} OFFSET {offset}'>
+          <Row columns='1'>
+            <SmartDataTable />
+          </Row>
+        </PaginatedSearchDataSet>
         <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
           <Row columns='1'>
             <PivotTable />
@@ -93,15 +98,13 @@
     </Dashboard>
   </Tab>
   <Tab title="Dashboard 2">
-    <Dashboard layout='single-layout'>
-      <Grid>
-        <Row><Header>Dashboard 2</Header></Row>
-        <Row columns='1'>
-          <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
-            <PivotTable />
-          </DataContainer>
-        </Row>
-      </Grid>
+    <Dashboard>
+      <Row><Header>Dashboard 2</Header></Row>
+      <SingleLayout>
+        <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+          <DataTable />
+        </DataContainer>
+      </SingleLayout>
     </Dashboard>
   </Tab>
 </TabSet>
