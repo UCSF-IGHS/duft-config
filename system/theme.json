@@ -47,7 +47,7 @@
           }
         },
         "stroke": {
-          "width": 0
+          "show": false
         },
         "xaxis": {
           "floating": false,

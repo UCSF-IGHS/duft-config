@@ -34,19 +34,19 @@
                 <Row columns = "1" largeColumns = "1">
 
                     <DataContainer query={`SELECT * FROM vw_art_cascade;`}>
-                    <BarChart header="ART Cascade" subHeader="Smart Data Table: ART Cascade"/>
+                    <BarChart header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
                     </DataContainer>
 
                 </Row>
 
                 <Row columns = "2" largeColumns = "2">
 
-                    <DataContainer query={`SELECT * FROM vw_art_cascade;`}>
-                    <BarChart header="ART Cascade" subHeader="Smart Data Table: ART Cascade Per Gender"/>
+                    <DataContainer query={`SELECT category, Male, Female FROM vw_art_cascade_per_gender;`}>
+                    <ClusteredBarChart header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender"/>
                     </DataContainer>
 
-                    <DataContainer query={`SELECT * FROM vw_art_cascade;`}>
-                        <ClusteredBarChart header="ART Cascade" subHeader="Smart Data Table: ART Cascade Per Age Group"/>
+                    <DataContainer query={`SELECT category, "0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79" FROM vw_art_cascade_per_age_group;`}>
+                    <ClusteredBarChart header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group"/>
                         </DataContainer>
 
                 </Row>
@@ -88,7 +88,7 @@
                 <Row columns = "1" largeColumns = "2">
 
                     <DataContainer query={`SELECT * FROM vw_art_regimen_lines;`}>
-                    <DonutChart userOptions={{ stroke: { width: 0} }} header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines"/>
+                    <DonutChart header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines"/>
                     </DataContainer>
 
                     <DataContainer query={`SELECT * FROM vw_art_regimen_lines_per_age_group;`}>
@@ -144,7 +144,7 @@
                 <Row columns = "1" largeColumns = "3">
 
                     <DataContainer query={`SELECT * FROM vw_art_outcomes;`}>
-                    <PieChart userOptions={{ colors: ["#9e0159", "#390099"], stroke: { width: 0 } }} header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
+                    <PieChart userOptions={{ colors: ["#9e0159", "#390099"] }} header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
                     </DataContainer>
 
                     <DataContainer query={`SELECT * FROM vw_art_outcomes;`}>
