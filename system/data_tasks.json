@@ -58,6 +58,44 @@
                 "name": "Cerseid",
                 "sleep_time": 0.5
             }
+        },
+        {
+            "id": "UPDATE",
+            "name": "DUFT Report Update",
+            "description": "Updates the DUFT reports to the latest version. An Internet connection is required",
+            "pythonFile": "update.py",
+            "hideInUI": true,
+            "executeFromRoot": true,
+            "supportedParameters": {
+                "repo_url": {
+                    "title": "Repository URL",
+                    "description": "The URL of the git repository.",
+                    "defaultValue": "https://github.com/UCSF-IGHS/duft-config",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "save_path": {
+                    "title": "Save Path",
+                    "description": "The path where the data will be saved.",
+                    "defaultValue": "",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "final_repo_name": {
+                    "title": "Final Repository Name",
+                    "description": "The final name of the repository.",
+                    "defaultValue": "duft-config-namibia",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "branch": {
+                    "title": "Branch",
+                    "description": "The branch of the repository to use.",
+                    "defaultValue": "main",
+                    "allowOverride": true,
+                    "promptUser": false
+                }                
+            }           
         }        
     ]
 }
