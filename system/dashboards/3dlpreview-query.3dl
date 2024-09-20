@@ -1,13 +1,13 @@
 <Dashboard>
   <Grid>
     <Row><Header>Preview query</Header></Row>
-    <DataSet query="SELECT * FROM dim_age_group LIMIT 20">
+    <Dataset query="SELECT * FROM dim_age_group LIMIT 20">
       <Row columns='1'>
         <PreviewQuery />
       </Row>
       <Row>
         <SmartDataTable />
       </ Row>
-    </DataSet>
+    </Dataset>
   </Grid>
 </Dashboard>
