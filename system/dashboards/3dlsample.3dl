@@ -4,61 +4,61 @@
       <Grid>
         <Row><Header>Dashboard 1</Header></Row>
         <Row columns="4">
-          <DataContainer staticData={[12500]}>
+          <Dataset staticData={[12500]}>
             <Tile title="sample tile"></Tile>
-          </DataContainer>
-          <DataContainer staticData={[12500]}>
+          </Dataset>
+          <Dataset staticData={[12500]}>
             <Tile title="sample tile"></Tile>
-          </DataContainer>
-          <DataContainer staticData={[12500]}>
+          </Dataset>
+          <Dataset staticData={[12500]}>
             <Tile title="sample tile"></Tile>
-          </DataContainer>
-          <DataContainer staticData={[12500]}>
+          </Dataset>
+          <Dataset staticData={[12500]}>
             <Tile title="sample tile"></Tile>
-          </DataContainer>
+          </Dataset>
         </Row>
         <Row>
-          <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2000 and 2007 GROUP BY year'>
+          <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2000 and 2007 GROUP BY year'>
             <BarChart header='fact_sentinel_event' subHeader='fact sentinel data' userOptions={{ xaxis: { categories: ["Jambo", "Habari", "Karibu", "Twende", "Shujaa", "Wapendwa", "Jemedari"] } }} />
-          </DataContainer>
-          <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2006 and 2010 GROUP BY year'>
+          </Dataset>
+          <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2006 and 2010 GROUP BY year'>
             <LineChart />
-          </DataContainer>
-          <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2001 and 2010 GROUP BY year'>
+          </Dataset>
+          <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2001 and 2010 GROUP BY year'>
             <RadarChart />
-          </DataContainer>
+          </Dataset>
         </Row>
         <Row><Header small="true">More visuals</Header></Row>
         <Row>
-          <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+          <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
             <HeatmapChart />
-          </DataContainer>
-          <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+          </Dataset>
+          <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
             <PolarAreaChart />
-          </DataContainer>
+          </Dataset>
         </Row>
-        <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2017 and 2022 GROUP BY year'>
+        <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2017 and 2022 GROUP BY year'>
           <Row>
             <PieChart />
             <DonutChart />
             <BarChart />
           </Row>
-        </DataContainer>
-        <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2005 and 2007 GROUP BY year'>
+        </Dataset>
+        <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2005 and 2007 GROUP BY year'>
           <Row>
             <SmartDataTable />
           </Row>
-        </DataContainer>
-        <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+        </Dataset>
+        <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
           <Row>
             <PivotTable />
           </Row>
-        </DataContainer>
-        <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+        </Dataset>
+        <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
           <Row>
             <DataTable />
           </Row>
-        </DataContainer>
+        </Dataset>
       </Grid>
     </Dashboard>
   </Tab>
@@ -67,12 +67,12 @@
       <Grid>
         <Row><Header>Dashboard 2</Header></Row>
         <Row>
-          <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+          <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
             <BarChart />
-          </DataContainer>
-          <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+          </Dataset>
+          <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
             <BarChart />
-          </DataContainer>
+          </Dataset>
         </Row>
       </Grid>
     </Dashboard>

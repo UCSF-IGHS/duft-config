@@ -4,9 +4,9 @@
       <Grid>
 
         <Row  columns = "1"   largeColumns = "1" >
-            <DataContainer query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "TX Curr", "IIT Duration", "Client Status" FROM analysis.fact_sentinel_event se WHERE "Client Status" = 'Active on ART: Missed Appointment' LIMIT 100`}>
+            <Dataset query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "TX Curr", "IIT Duration", "Client Status" FROM analysis.fact_sentinel_event se WHERE "Client Status" = 'Active on ART: Missed Appointment' LIMIT 100`}>
                 <SmartDataTable header="All" />
-            </DataContainer>
+            </Dataset>
             </Row>
       </Grid>
     </Dashboard>
@@ -16,9 +16,9 @@
     <Dashboard>
       <Grid>
         <Row columns = "1"   largeColumns = "1" >
-                <DataContainer query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "TX Curr", "IIT Duration", "Client Status" FROM analysis.fact_sentinel_event se WHERE "Client Status" = 'Active on ART: Missed Appointment'  AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39  LIMIT 100 `}>
+                <Dataset query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "TX Curr", "IIT Duration", "Client Status" FROM analysis.fact_sentinel_event se WHERE "Client Status" = 'Active on ART: Missed Appointment'  AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39  LIMIT 100 `}>
                     <SmartDataTable header="Men (20-39)" />
-                </DataContainer>
+                </Dataset>
                 
             </Row>
       </Grid>
@@ -30,9 +30,9 @@
     <Dashboard>
       <Grid>
         <Row  columns = "1"   largeColumns = "1" >
-            <DataContainer query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "TX Curr", "IIT Duration", "Client Status" FROM analysis.fact_sentinel_event se WHERE "Client Status" = 'Active on ART: Missed Appointment' AND "Current Age" BETWEEN 0 AND 19  LIMIT 100 `}>
+            <Dataset query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "TX Curr", "IIT Duration", "Client Status" FROM analysis.fact_sentinel_event se WHERE "Client Status" = 'Active on ART: Missed Appointment' AND "Current Age" BETWEEN 0 AND 19  LIMIT 100 `}>
                 <SmartDataTable header="Paeds (0-19)" />
-            </DataContainer>
+            </Dataset>
 
         </Row>
       </Grid>
@@ -44,9 +44,9 @@
     <Dashboard>
       <Grid>
         <Row  columns = "1"   largeColumns = "1">
-            <DataContainer query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "TX Curr", "IIT Duration", "Client Status" FROM analysis.fact_sentinel_event se WHERE "Client Status" = 'IIT: Missed Appointment' AND ("Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes')   LIMIT 100`}>
+            <Dataset query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start Date", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "TX Curr", "IIT Duration", "Client Status" FROM analysis.fact_sentinel_event se WHERE "Client Status" = 'IIT: Missed Appointment' AND ("Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes')   LIMIT 100`}>
                 <SmartDataTable header="PBFW" />
-            </DataContainer>
+            </Dataset>
         </Row>
       </Grid>
     </Dashboard>
