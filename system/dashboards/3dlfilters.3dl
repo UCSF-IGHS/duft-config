@@ -9,54 +9,54 @@
           <Filter caption="Age Group" name="age_group" values_query="SELECT DISTINCT five_year_interval from dim_age_group" />
         </Filters>
         <Row>
-          <DataContainer query="SELECT gender as category, COUNT(client_id) from dim_client WHERE gender='$gender' OR '$gender'='' GROUP BY gender">
+          <DataSet query="SELECT gender as category, COUNT(client_id) from dim_client WHERE gender='$gender' OR '$gender'='' GROUP BY gender">
             <BarChart header='fact_sentinel_event' subHeader='fact sentinel data' />
-          </DataContainer>
-          <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2006 and 2010 GROUP BY year'>
+          </DataSet>
+          <DataSet query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2006 and 2010 GROUP BY year'>
             <LineChart />
-          </DataContainer>
+          </DataSet>
 
         </Row>
         <Row>
-          <DataContainer staticData={[12500]}>
+          <DataSet staticData={[12500]}>
             <Tile label="sample tile"></Tile>
-          </DataContainer>
+          </DataSet>
         </Row>
         <Row><Header small="true">More visuals</Header></Row>
         <Row>
-          <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+          <DataSet query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
             <HeatmapChart />
-          </DataContainer>
-          <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+          </DataSet>
+          <DataSet query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
             <PolarAreaChart />
-          </DataContainer>
+          </DataSet>
         </Row>
-        <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2017 and 2022 GROUP BY year'>
+        <DataSet query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2017 and 2022 GROUP BY year'>
           <Row>
             <PieChart />
             <DonutChart />
             <BarChart />
           </Row>
-        </DataContainer>
-        <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2005 and 2007 GROUP BY year'>
+        </DataSet>
+        <DataSet query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2005 and 2007 GROUP BY year'>
           <Row>
             <SmartDataTable />
           </Row>
-        </DataContainer>
-        <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+        </DataSet>
+        <DataSet query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
           <Row>
             <PivotTable />
           </Row>
-        </DataContainer>
-        <DataContainer query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
+        </DataSet>
+        <DataSet query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
           <Row>
             <DataTable />
           </Row>
-        </DataContainer>
+        </DataSet>
         {/* <Row>
-          <DataContainer query={`WITH all_combinations AS (SELECT DISTINCT r.first_art_regimen,a.ten_year_interval,0 AS tot FROM (SELECT DISTINCT TRIM(ten_year_interval) AS ten_year_interval FROM dim_age_group) a CROSS JOIN (SELECT DISTINCT first_art_regimen FROM fact_sentinel_event) r),actual_results AS (SELECT TRIM(ag.ten_year_interval) AS ten_year_interval,se.first_art_regimen,COUNT(*) AS tot FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group ag ON c.current_age=ag.age GROUP BY ag.ten_year_interval,se.first_art_regimen) SELECT COALESCE(ar.first_art_regimen,ac.first_art_regimen) AS category,COALESCE(SUM(CASE WHEN ar.ten_year_interval='0-9' THEN ar.tot ELSE 0 END),0) AS '0-9',COALESCE(SUM(CASE WHEN ar.ten_year_interval='10-19' THEN ar.tot ELSE 0 END),0) AS '10-19',COALESCE(SUM(CASE WHEN ar.ten_year_interval='20-29' THEN ar.tot ELSE 0 END),0) AS '20-29',COALESCE(SUM(CASE WHEN ar.ten_year_interval='30-39' THEN ar.tot ELSE 0 END),0) AS '30-39',COALESCE(SUM(CASE WHEN ar.ten_year_interval='40-49' THEN ar.tot ELSE 0 END),0) AS '40-49',COALESCE(SUM(CASE WHEN ar.ten_year_interval='50-59' THEN ar.tot ELSE 0 END),0) AS '50-59',COALESCE(SUM(CASE WHEN ar.ten_year_interval='60-69' THEN ar.tot ELSE 0 END),0) AS '60-69',COALESCE(SUM(CASE WHEN ar.ten_year_interval='70+' THEN ar.tot ELSE 0 END),0) AS '70+' FROM all_combinations ac LEFT JOIN actual_results ar ON ar.first_art_regimen=ac.first_art_regimen AND ar.ten_year_interval=ac.ten_year_interval GROUP BY ac.first_art_regimen ORDER BY ac.first_art_regimen;`}>
+          <DataSet query={`WITH all_combinations AS (SELECT DISTINCT r.first_art_regimen,a.ten_year_interval,0 AS tot FROM (SELECT DISTINCT TRIM(ten_year_interval) AS ten_year_interval FROM dim_age_group) a CROSS JOIN (SELECT DISTINCT first_art_regimen FROM fact_sentinel_event) r),actual_results AS (SELECT TRIM(ag.ten_year_interval) AS ten_year_interval,se.first_art_regimen,COUNT(*) AS tot FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group ag ON c.current_age=ag.age GROUP BY ag.ten_year_interval,se.first_art_regimen) SELECT COALESCE(ar.first_art_regimen,ac.first_art_regimen) AS category,COALESCE(SUM(CASE WHEN ar.ten_year_interval='0-9' THEN ar.tot ELSE 0 END),0) AS '0-9',COALESCE(SUM(CASE WHEN ar.ten_year_interval='10-19' THEN ar.tot ELSE 0 END),0) AS '10-19',COALESCE(SUM(CASE WHEN ar.ten_year_interval='20-29' THEN ar.tot ELSE 0 END),0) AS '20-29',COALESCE(SUM(CASE WHEN ar.ten_year_interval='30-39' THEN ar.tot ELSE 0 END),0) AS '30-39',COALESCE(SUM(CASE WHEN ar.ten_year_interval='40-49' THEN ar.tot ELSE 0 END),0) AS '40-49',COALESCE(SUM(CASE WHEN ar.ten_year_interval='50-59' THEN ar.tot ELSE 0 END),0) AS '50-59',COALESCE(SUM(CASE WHEN ar.ten_year_interval='60-69' THEN ar.tot ELSE 0 END),0) AS '60-69',COALESCE(SUM(CASE WHEN ar.ten_year_interval='70+' THEN ar.tot ELSE 0 END),0) AS '70+' FROM all_combinations ac LEFT JOIN actual_results ar ON ar.first_art_regimen=ac.first_art_regimen AND ar.ten_year_interval=ac.ten_year_interval GROUP BY ac.first_art_regimen ORDER BY ac.first_art_regimen;`}>
             <PercentStackedBarChart />
-          </DataContainer>
+          </DataSet>
         </Row> */}
         {/* query not working */}
       </Grid>
@@ -71,9 +71,9 @@
           <Filter caption="Age Group" name="five_year_interval" values_query="SELECT DISTINCT five_year_interval from dim_age_group" />
         </Filters>
 
-        <DataContainer query="SELECT client_id, birth_date, current_age, gender FROM vw_client WHERE (gender='$gender' OR '$gender'='') AND (five_year_interval='$five_year_interval' OR '$five_year_interval'='') LIMIT 100">
+        <DataSet query="SELECT client_id, birth_date, current_age, gender FROM vw_client WHERE (gender='$gender' OR '$gender'='') AND (five_year_interval='$five_year_interval' OR '$five_year_interval'='') LIMIT 100">
           <SmartDataTable />
-        </DataContainer>
+        </DataSet>
 
       </SingleView>
     </Dashboard>

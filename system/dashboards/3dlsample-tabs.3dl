@@ -3,46 +3,46 @@
     <Dashboard >
       {/* <Filters>
         <Filter name="location" values="USA,Canada,UK" />
-        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
           <Filter name="location" values="USA,Canada,UK" />
-        </DataContainer>
+        </DataSet>
       </Filters> */}
       {/* <Grid> */}
       <DashboardRow>
-        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
           <Visual1 />
           <Visual3 />
-        </DataContainer>
+        </DataSet>
       </DashboardRow>
       <DashboardRow>
-        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
           <Visual1 />
           <Visual1 />
           <Visual1 />
-        </DataContainer>
+        </DataSet>
       </DashboardRow>
       <DashboardRow>
-        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
           <Visual3 />
-        </DataContainer>
+        </DataSet>
       </DashboardRow>
       <DashboardRow>
-        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
-        </DataContainer>
+        <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
+        </DataSet>
       </DashboardRow>
       <DashboardRow>
-        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
           <Visual1 />
           <Visual3 />
-        </DataContainer>
+        </DataSet>
       </DashboardRow>
-      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+      <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
         <Visual1 />
-      </DataContainer>
+      </DataSet>
       <DashboardRow>
-        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
           <Visual3 />
-        </DataContainer>
+        </DataSet>
       </DashboardRow>
       {/* </Grid> */}
     </Dashboard>
@@ -51,33 +51,33 @@
     <Dashboard >
       <Filters>
         <Filter name="location" values="USA,Canada,UK" />
-        <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+        <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
           <Filter name="location" values="USA,Canada,UK" />
-        </DataContainer>
+        </DataSet>
       </Filters>
-      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+      <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
         <Visual1 />
         <Visual3 />
-      </DataContainer>
-      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+      </DataSet>
+      <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
         <Visual1 />
-      </DataContainer>
-      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+      </DataSet>
+      <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
         <Visual3 />
-      </DataContainer>
-      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+      </DataSet>
+      <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
         <TabHeader>Tab title</TabHeader>
-      </DataContainer>
-      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+      </DataSet>
+      <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
         <Visual1 />
         <Visual3 />
-      </DataContainer>
-      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+      </DataSet>
+      <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
         <Visual1 />
-      </DataContainer>
-      <DataContainer staticData={['New York', 'Los Angeles', 'Toronto']}>
+      </DataSet>
+      <DataSet staticData={['New York', 'Los Angeles', 'Toronto']}>
         <Visual3 />
-      </DataContainer>
+      </DataSet>
     </Dashboard>
   </Tab>
 </TabSet>

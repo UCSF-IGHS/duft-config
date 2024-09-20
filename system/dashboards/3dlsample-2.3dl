@@ -5,41 +5,41 @@
       name="Drug regimen"
       values_query="SELECT art_regimen_drugs FROM dim_art_regimen"
     />
-    <DataContainer staticData={["Apple", "Banana", "Cherry"]}>
+    <DataSet staticData={["Apple", "Banana", "Cherry"]}>
       <Visual1 />
       <Visual3 />
       <Filters>
         <Filter name="occupation" values_query="SELECT * FROM dim_age_group" />
-        <DataContainer query="SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 GROUP BY year"></DataContainer>
+        <DataSet query="SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 GROUP BY year"></DataSet>
       </Filters>
-    </DataContainer>
+    </DataSet>
     <Section title="JSON Visual">
-      <DataContainer query="SELECT * FROM dim_age_group">
-      </DataContainer>
+      <DataSet query="SELECT * FROM dim_age_group">
+      </DataSet>
     </Section>
     <Section title="Tiles">
       <div style={{ display: "flex", flexWrap: "wrap", margin: "20px 0" }}>
-        <DataContainer staticData={[1200]}>
+        <DataSet staticData={[1200]}>
           <Visual5
             title="Total Users"
             backgroundColor="#e0f7fa"
             color="#00796b"
           />
-        </DataContainer>
-        <DataContainer staticData={[300]}>
+        </DataSet>
+        <DataSet staticData={[300]}>
           <Visual5
             title="Active Sessions"
             backgroundColor="#f3e5f5"
             color="#6a1b9a"
           />
-        </DataContainer>
-        <DataContainer staticData={[12500]}>
+        </DataSet>
+        <DataSet staticData={[12500]}>
           <Visual5 title="Revenue" backgroundColor="#fff3e0" color="#ef6c00" />
-        </DataContainer>
+        </DataSet>
       </div>
     </Section>
     <Section title="Charts">
-      <DataContainer
+      <DataSet
         staticData={[
           { category: "Apples", value: 30 },
           { category: "Bananas", value: 40 },
@@ -47,8 +47,8 @@
         ]}
       >
         <Visual4 colors={["#FF4560", "#775DD0", "#FEB019"]} />
-      </DataContainer>
-      <DataContainer
+      </DataSet>
+      <DataSet
         staticData={[
           { category: "Apples", value: 30 },
           { category: "Bananas", value: 40 },
@@ -56,10 +56,10 @@
         ]}
       >
         <DataTable />
-      </DataContainer>
+      </DataSet>
     </Section>
     <Section>
-      <DataContainer
+      <DataSet
         staticData={[
           { category: "Apples", type: "fruit", value: 30 },
           { category: "Bananas", type: "fruit", value: 40 },
@@ -69,12 +69,12 @@
         ]}
       >
         <PivotTable />
-      </DataContainer>
+      </DataSet>
     </Section>
     <Row columns="1">
-      <DataContainer query="SELECT client_id, birth_date, current_age, gender, marital_status, patient_source, facility_number, his_entry_type, education_level, residence_country from dim_client limit 5">
+      <DataSet query="SELECT client_id, birth_date, current_age, gender, marital_status, patient_source, facility_number, his_entry_type, education_level, residence_country from dim_client limit 5">
         <PivotTable header="Pivot table" pivotRows={["client_id"]} pivotCols={["birth_date", "current_age", "gender", "marital_status", "patient_source"]} />
-      </DataContainer>
+      </DataSet>
     </Row>
 
   </Filters>
