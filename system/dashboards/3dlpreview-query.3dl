@@ -1,7 +1,6 @@
 <Dashboard>
   <Grid>
     <Row><Header>Preview query</Header></Row>
-    {/* <QueryProvider> */}
     <DataSet query="SELECT * FROM dim_age_group LIMIT 20">
       <Row columns='1'>
         <PreviewQuery />
@@ -10,6 +9,5 @@
         <SmartDataTable />
       </ Row>
     </DataSet>
-    {/* </QueryProvider> */}
   </Grid>
 </Dashboard>
