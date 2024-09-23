@@ -34,7 +34,7 @@
                 <Row columns = "1" largeColumns = "1">
 
                     <Dataset query={`SELECT * FROM vw_art_cascade;`}>
-                    <BarChart header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
+                    <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
                     </Dataset>
 
                 </Row>
@@ -42,11 +42,11 @@
                 <Row columns = "2" largeColumns = "2">
 
                     <Dataset query={`SELECT category, Male, Female FROM vw_art_cascade_per_gender;`}>
-                    <ClusteredBarChart header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender"/>
+                    <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender"/>
                     </Dataset>
 
                     <Dataset query={`SELECT category, "0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79" FROM vw_art_cascade_per_age_group;`}>
-                    <ClusteredBarChart header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group"/>
+                    <ClusteredBarChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group"/>
                         </Dataset>
 
                 </Row>
@@ -68,20 +68,20 @@
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <Dataset query={`SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="New Cases"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art,printf ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Initiated"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, printf ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Suppressed"/>
+                    <Dataset query={`SELECT SUM(first_line) AS initiated_on_art, printf ('%.1f%%', SUM(first_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                        <Tile title="First Line"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, printf ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Not Suppressed"/>
+                    <Dataset query={`SELECT SUM(second_line) AS initiated_on_art, printf ('%.1f%%', SUM(second_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                        <Tile title="Second Line"/>
+                    </Dataset>
+
+                    <Dataset query={`SELECT SUM(unknown_line) AS initiated_on_art, printf ('%.1f%%', SUM(unknown_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                        <Tile title="Unknown Line"/>
                     </Dataset>
 
                 </Row>
@@ -92,18 +92,18 @@
                     </Dataset>
 
                     <Dataset query={`SELECT * FROM vw_art_regimen_lines_per_age_group;`}>
-                    <ClusteredBarChart header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines"/>
+                    <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines"/>
                     </Dataset>
 
                 </Row>
                 <Row columns = "1" largeColumns = "2">
 
                     <Dataset query={`SELECT * FROM vw_art_regimen_lines_per_age_group ;`}>
-                    <StackedBarChart header="ART Regimen Lines" subHeader="Stacked Bar Chart: Current ART Regimen Lines "/>
+                    <StackedBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Stacked Bar Chart: Current ART Regimen Lines "/>
                     </Dataset>
 
                     <Dataset query={`SELECT * FROM vw_art_initiation_regimens_per_age_group;`}>
-                    <PercentStackedBarChart header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation"/>
+                    <PercentStackedBarChart userOptions={{ xaxis: { title: { text: 'ART Regimens' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation"/>
                     </Dataset>
 
                 </Row>
@@ -148,11 +148,11 @@
                     </Dataset>
 
                     <Dataset query={`SELECT * FROM vw_art_outcomes;`}>
-                    <BarChart header="ART Outcomes" subHeader="Bar Chart: ART Outcomes"/>
+                    <BarChart userOptions={{ xaxis: { title: { text: 'Viral Load Result' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes"/>
                     </Dataset>
 
                     <Dataset query={`SELECT * FROM vw_art_outcomes_per_age_group;`}>
-                    <StackedBarChart header="ART Outcomes by Age Group" subHeader="Stacked Bar Chart: ART Outcomes"/>
+                    <StackedBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Outcomes by Age Group" subHeader="Stacked Bar Chart: ART Outcomes"/>
                     </Dataset>
 
                 </Row>
@@ -198,22 +198,22 @@
                 <Row columns = "1" largeColumns = "2">
 
                     <Dataset query={`SELECT category, "Not Initiated", Initiated FROM vw_diagnosed_vs_initiated_vs_exited WHERE year_month > 202301;`}>
-                    <AreaChart userOptions={{ colors: ["#9e0159", "#390099"], stroke: { width: 0 } }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
+                    <AreaChart userOptions={{ colors: ["#9e0159", "#390099"], xaxis: { title: { text: 'Months' }}, yaxis: { title: { text: 'Clients' }} }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
                     </Dataset>
 
                     <Dataset query={`SELECT * FROM vw_initiated_per_age_group;`}>
-                        <StackedBarChart header="Ever Initiated on ART By Age Group and Gender" subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender"/>
+                        <StackedBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="Ever Initiated on ART By Age Group and Gender" subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender"/>
                     </Dataset>
 
                 </Row>
                 <Row columns = "1" largeColumns = "2">
 
                     <Dataset query={`SELECT * FROM vw_exited_died_per_age_group;`}>
-                    <HeatmapChart header="Deceased by Gender Over the Years" subHeader="Heatmap: Deceased by Gender Over the Years"/>
+                    <HeatmapChart userOptions={{ xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Gender' }} }} header="Deceased by Gender Over the Years" subHeader="Heatmap: Deceased by Gender Over the Years"/>
                     </Dataset>
 
                     <Dataset query={`SELECT category, "Active Clients" FROM vw_longterm_retention WHERE year > 2005;`}>
-                    <BarChart header="Longterm Retention" subHeader="Stacked Bar Chart: Active Clients vs Years on ART (Longterm Retention)"/>
+                    <BarChart userOptions={{ xaxis: { title: { text: 'Number of Years' }}, yaxis: { title: { text: 'Clients' }} }} header="Longterm Retention" subHeader="Stacked Bar Chart: Active Clients vs Years on ART (Longterm Retention)"/>
                     </Dataset>
 
                 </Row>
