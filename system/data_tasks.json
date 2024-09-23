@@ -84,14 +84,14 @@
                 "final_repo_name": {
                     "title": "Final Repository Name",
                     "description": "The final name of the repository.",
-                    "defaultValue": "duft-config-namibia",
+                    "defaultValue": "duft-config-test",
                     "allowOverride": true,
                     "promptUser": false
                 },
                 "branch": {
                     "title": "Branch",
                     "description": "The branch of the repository to use.",
-                    "defaultValue": "main",
+                    "defaultValue": "namibia-3dl",
                     "allowOverride": true,
                     "promptUser": false
                 }                
