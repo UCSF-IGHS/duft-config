@@ -65,7 +65,7 @@
             "description": "Updates the DUFT reports to the latest version. An Internet connection is required",
             "pythonFile": "update.py",
             "hideInUI": true,
-            "executeFromRoot": true,
+            "executeFromRoot": false,
             "supportedParameters": {
                 "repo_url": {
                     "title": "Repository URL",
