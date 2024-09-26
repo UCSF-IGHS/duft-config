@@ -61,16 +61,6 @@
                 </Dataset>
             </Row>
             
-            <Row columns = "2"   largeColumns = "2" >
-            <Dataset query={` SELECT * FROM (SELECT "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",to_char("First Visit Date" , 'DD Mon YYYY') as "First Visit", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit" FROM analysis.fact_sentinel_event  WHERE "ART Outcomes"='Not initiated on ART' LIMIT 100 ) a `}>
-                    <SmartDataTable header="Not Initiated On ART" tableMaxHeight='200px'/>
-                </Dataset>
-                <Dataset query={`SELECT DATA as category, count (*) as value FROM (SELECT "Tri Pillar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END; `}>
-                    <PieChart userOptions={{ colors: ["#2a63c4","#ec6240", "#f3af3d"] }} header="Viral Load Suppression" />
-                </Dataset>
-
-            </Row>
-            
             
             
        
