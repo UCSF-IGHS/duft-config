@@ -46,7 +46,7 @@
         </Dataset>
         <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2005 and 2007 GROUP BY year'>
           <Row>
-            <SmartDataTable />
+            <InfiniteScrollTable />
           </Row>
         </Dataset>
         <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>

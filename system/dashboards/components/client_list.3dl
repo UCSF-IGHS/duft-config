@@ -1,1 +1,1 @@
-<SmartDataTable />
+<InfiniteScrollTable variant='plain' />

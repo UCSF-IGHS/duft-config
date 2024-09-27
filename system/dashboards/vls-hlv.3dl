@@ -5,7 +5,7 @@
 
         <Row  columns = "1"   largeColumns = "1" >
             <Dataset query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", to_char("Last Viral Load Order Date" , 'DD Mon YYYY') as "Last Viral Load Test Date", to_char("Last Viral Load Result Date" , 'DD Mon YYYY') as "Last Viral Load Result Date", "Last Viral Load Result Status" as "Result Status",  "Last Viral Load Result" as "VL Result",  "Last Viral Load Result Category" as "VL Status"  FROM analysis.fact_sentinel_event se WHERE "TX Curr" = 'Yes' AND "Last Viral Load Result Category" = 'Unsuppressed' LIMIT 100`}>
-                <SmartDataTable header="All" />
+                <InfiniteScrollTable variant='plain' header="All" />
             </Dataset>
             </Row>
       </Grid>
@@ -17,7 +17,7 @@
       <Grid>
         <Row columns = "1"   largeColumns = "1" >
                 <Dataset query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", to_char("Last Viral Load Order Date" , 'DD Mon YYYY') as "Last Viral Load Test Date", to_char("Last Viral Load Result Date" , 'DD Mon YYYY') as "Last Viral Load Result Date", "Last Viral Load Result Status" as "Result Status",  "Last Viral Load Result" as "VL Result",  "Last Viral Load Result Category" as "VL Status" FROM analysis.fact_sentinel_event se WHERE "TX Curr" = 'Yes' AND "Last Viral Load Result Category" = 'Unsuppressed'  AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39  LIMIT 100 `}>
-                    <SmartDataTable header="Men (20-39)" />
+                    <InfiniteScrollTable variant='plain' header="Men (20-39)" />
                 </Dataset>
                 
             </Row>
@@ -31,7 +31,7 @@
       <Grid>
         <Row  columns = "1"   largeColumns = "1" >
             <Dataset query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", to_char("Last Viral Load Order Date" , 'DD Mon YYYY') as "Last Viral Load Test Date", to_char("Last Viral Load Result Date" , 'DD Mon YYYY') as "Last Viral Load Result Date", "Last Viral Load Result Status" as "Result Status",  "Last Viral Load Result" as "VL Result",  "Last Viral Load Result Category" as "VL Status" FROM analysis.fact_sentinel_event se WHERE "TX Curr" = 'Yes' AND "Last Viral Load Result Category" = 'Unsuppressed' AND "Current Age" BETWEEN 0 AND 19  LIMIT 100 `}>
-                <SmartDataTable header="Paeds (0-19)" />
+                <InfiniteScrollTable variant='plain' header="Paeds (0-19)" />
             </Dataset>
 
         </Row>
@@ -45,7 +45,7 @@
       <Grid>
         <Row  columns = "1"   largeColumns = "1">
             <Dataset query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", to_char("Last Viral Load Order Date" , 'DD Mon YYYY') as "Last Viral Load Test Date", to_char("Last Viral Load Result Date" , 'DD Mon YYYY') as "Last Viral Load Result Date", "Last Viral Load Result Status" as "Result Status",  "Last Viral Load Result" as "VL Result",  "Last Viral Load Result Category" as "VL Status" FROM analysis.fact_sentinel_event se WHERE "TX Curr" = 'Yes' AND "Last Viral Load Result Category" = 'Unsuppressed' AND ("Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes')   LIMIT 100`}>
-                <SmartDataTable header="PBFW" />
+                <InfiniteScrollTable variant='plain' header="PBFW" />
             </Dataset>
         </Row>
       </Grid>
