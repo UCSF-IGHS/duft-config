@@ -84,7 +84,7 @@
           "show": false
         },
         "dataLabels": {
-          "enabled": false
+          "enabled": true
         },
         "legend": {
           "show": true,
