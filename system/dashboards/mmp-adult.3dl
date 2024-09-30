@@ -19,7 +19,7 @@
     <Dashboard>
       <Grid>
         <Row  columns = "1"   largeColumns = "1" >
-                <Dataset query={` SELECT "ART Number" as art_number, "Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "Client Status", "TX Curr", "MMP Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "MMP Status" = '< 3 MMP' AND "TX Curr" = 'Yes' AND  ag.paeds_adult_age_group='19+ yr old (Adult)' LIMIT 100`}>
+                <Dataset pageSize={50} query={` SELECT "ART Number" as art_number, "Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "Client Status", "TX Curr", "MMP Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "MMP Status" = '< 3 MMP' AND "TX Curr" = 'Yes' AND  ag.paeds_adult_age_group='19+ yr old (Adult)'`}>
                 <InfiniteScrollTable variant='plain' header="< 3months">
                       <DetailsView columnName="art_number">
                         <Dataset transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number"='{art_number}'`}>
@@ -38,7 +38,7 @@
     <Dashboard>
       <Grid>
         <Row  columns = "1"   largeColumns = "1">
-            <Dataset query={`  SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "Client Status", "TX Curr", "MMP Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "MMP Status" = '3-5 MMP' AND "TX Curr" = 'Yes' AND  ag.paeds_adult_age_group='19+ yr old (Adult)'  LIMIT 100`}>
+            <Dataset pageSize={50} query={`  SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "Client Status", "TX Curr", "MMP Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "MMP Status" = '3-5 MMP' AND "TX Curr" = 'Yes' AND  ag.paeds_adult_age_group='19+ yr old (Adult)'`}>
                 <InfiniteScrollTable variant='plain' header="3-5 months" />
             </Dataset>
         </Row>
@@ -50,7 +50,7 @@
     <Dashboard>
       <Grid>
         <Row  columns = "1"   largeColumns = "1" >
-            <Dataset query={`SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "Client Status", "TX Curr", "MMP Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "MMP Status" = '6+ MMP' AND "TX Curr" = 'Yes' AND  ag.paeds_adult_age_group='19+ yr old (Adult)'  LIMIT 100 `}>
+            <Dataset pageSize={50} query={`SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next FUP Date", "Patient Status", "Client Status", "TX Curr", "MMP Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "MMP Status" = '6+ MMP' AND "TX Curr" = 'Yes' AND  ag.paeds_adult_age_group='19+ yr old (Adult)'  `}>
                 <InfiniteScrollTable variant='plain' header="6+ months" />
             </Dataset>
 

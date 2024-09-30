@@ -4,7 +4,7 @@
       <Grid>
         <Row><Header>Client Line Lists</Header></Row>
         <Row  columns = "1"   largeColumns = "1" >
-            <Dataset query={` SELECT * FROM (SELECT "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event LIMIT 100) a `}>
+            <Dataset pageSize={50} query={` SELECT * FROM (SELECT "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event ) a `}>
                 <InfiniteScrollTable variant='plain' header="All Clients" />
             </Dataset>
             </Row>
@@ -16,7 +16,7 @@
       <Grid>
       <Row><Header>Client Line Lists</Header></Row>
         <Row  columns = "1"   largeColumns = "1" >
-                <Dataset query={` SELECT * FROM (SELECT "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",to_char("First Visit Date" , 'DD Mon YYYY') as "First Visit", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit" FROM analysis.fact_sentinel_event  WHERE "ART Outcomes"='Not initiated on ART' LIMIT 100 ) a `}>
+                <Dataset pageSize={50} query={` SELECT * FROM (SELECT "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",to_char("First Visit Date" , 'DD Mon YYYY') as "First Visit", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit" FROM analysis.fact_sentinel_event  WHERE "ART Outcomes"='Not initiated on ART'  ) a `}>
                     <InfiniteScrollTable variant='plain' header="Not Initiated On ART"/>
                 </Dataset>
             </Row>
@@ -29,7 +29,7 @@
       <Grid>
       <Row><Header>Client Line Lists</Header></Row>
         <Row columns = "1"   largeColumns = "1" >
-                <Dataset query={` SELECT*FROM (SELECT "ART Number","Sex",to_char("Date Of Birth",'DD Mon YYYY') AS "Birth Date",to_char("ART Start Date",'DD Mon YYYY') AS "ART Start",to_char("Last Visit Date",'DD Mon YYYY') AS "Last Visit",to_char("Last Next Visit Date",'DD Mon YYYY') AS "Next Visit","MMP Status",CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",to_char("Last Viral Load Result Date",'DD Mon YYYY') AS "Last Viral Load Result Date",to_char("Next Viral Load Date",'DD Mon YYYY') AS "Next Viral Load Date","Reason For Next Viral Load","MMP Status" FROM analysis.fact_sentinel_event WHERE "ART Outcomes"='Needs VL Test' LIMIT 100) a;`}>
+                <Dataset pageSize={50} query={` SELECT*FROM (SELECT "ART Number","Sex",to_char("Date Of Birth",'DD Mon YYYY') AS "Birth Date",to_char("ART Start Date",'DD Mon YYYY') AS "ART Start",to_char("Last Visit Date",'DD Mon YYYY') AS "Last Visit",to_char("Last Next Visit Date",'DD Mon YYYY') AS "Next Visit","MMP Status",CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",to_char("Last Viral Load Result Date",'DD Mon YYYY') AS "Last Viral Load Result Date",to_char("Next Viral Load Date",'DD Mon YYYY') AS "Next Viral Load Date","Reason For Next Viral Load","MMP Status" FROM analysis.fact_sentinel_event WHERE "ART Outcomes"='Needs VL Test' ) a;`}>
                     <InfiniteScrollTable variant='plain' header="Due For VL" />
                 </Dataset>
                 
@@ -43,7 +43,7 @@
       <Grid>
       <Row><Header>Client Line Lists</Header></Row>
         <Row  columns = "1"   largeColumns = "1">
-            <Dataset query={` SELECT*FROM (SELECT "ART Number","Sex",to_char("Date Of Birth",'DD Mon YYYY') AS "Birth Date",to_char("ART Start Date",'DD Mon YYYY') AS "ART Start",to_char("Last Visit Date",'DD Mon YYYY') AS "Last Visit",to_char("Last Next Visit Date",'DD Mon YYYY') AS "Next Visit","MMP Status",CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",to_char("Last Viral Load Result Date",'DD Mon YYYY') AS "Last Viral Load Result Date",to_char("Next Viral Load Date",'DD Mon YYYY') AS "Next Viral Load Date","MMP Status" FROM analysis.fact_sentinel_event WHERE "ART Outcomes"='VL Not Suppressed' LIMIT 100) a;`}>
+            <Dataset pageSize={50} query={` SELECT*FROM (SELECT "ART Number","Sex",to_char("Date Of Birth",'DD Mon YYYY') AS "Birth Date",to_char("ART Start Date",'DD Mon YYYY') AS "ART Start",to_char("Last Visit Date",'DD Mon YYYY') AS "Last Visit",to_char("Last Next Visit Date",'DD Mon YYYY') AS "Next Visit","MMP Status",CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",to_char("Last Viral Load Result Date",'DD Mon YYYY') AS "Last Viral Load Result Date",to_char("Next Viral Load Date",'DD Mon YYYY') AS "Next Viral Load Date","MMP Status" FROM analysis.fact_sentinel_event WHERE "ART Outcomes"='VL Not Suppressed' ) a;`}>
                 <InfiniteScrollTable variant='plain' header="Virally Unsuppressed" />
             </Dataset>
         </Row>
@@ -56,7 +56,7 @@
       <Grid>
       <Row><Header>Client Line Lists</Header></Row>
         <Row  columns = "1"   largeColumns = "1" >
-            <Dataset query={` SELECT*FROM (SELECT "ART Number","Sex",to_char("Date Of Birth",'DD Mon YYYY') AS "Date Of Birth",to_char("ART Start Date",'DD Mon YYYY') AS "ART Start Date",to_char("TPT Start Date",'DD Mon YYYY') AS "TPT Start Date","TPT Adherance", "TPT Stop Reason","TPT Regimen","TPT Status",to_char("TPT Expected Stop Date",'DD Mon YYYY') AS "TPT Expected Stop Date",to_char("TPT Actual Stop Date",'DD Mon YYYY') AS "TPT Actual Stop Date",to_char("Last Next Visit Date",'DD Mon YYYY') AS "Last Next Visit Date","MMP Status","ART Outcomes" FROM analysis.fact_sentinel_event WHERE "TPT Actual Stop Date" IS NULL ORDER BY "TPT Start Date" ASC LIMIT 100) A; `}>
+            <Dataset pageSize={50} query={` SELECT*FROM (SELECT "ART Number","Sex",to_char("Date Of Birth",'DD Mon YYYY') AS "Date Of Birth",to_char("ART Start Date",'DD Mon YYYY') AS "ART Start Date",to_char("TPT Start Date",'DD Mon YYYY') AS "TPT Start Date","TPT Adherance", "TPT Stop Reason","TPT Regimen","TPT Status",to_char("TPT Expected Stop Date",'DD Mon YYYY') AS "TPT Expected Stop Date",to_char("TPT Actual Stop Date",'DD Mon YYYY') AS "TPT Actual Stop Date",to_char("Last Next Visit Date",'DD Mon YYYY') AS "Last Next Visit Date","MMP Status","ART Outcomes" FROM analysis.fact_sentinel_event WHERE "TPT Actual Stop Date" IS NULL ORDER BY "TPT Start Date" ASC ) A; `}>
                 <InfiniteScrollTable variant='plain' header="TPT Not Comnpleted" />
             </Dataset>
 
