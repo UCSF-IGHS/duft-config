@@ -1,1 +1,1 @@
-<InfiniteScrollTable variant='plain' />
+<InfiniteScrollTable exportData="true" />
