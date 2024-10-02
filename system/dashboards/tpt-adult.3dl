@@ -5,7 +5,13 @@
       <Grid>
         <Row  columns = "1"   largeColumns = "1" >
                 <Dataset pageSize={50} query={` SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", "TPT Regimen", "TPT Start Date", "TPT Expected Stop Date", "TPT Actual Stop Date", "TPT Adherance", "TPT Status", "TPT Stop Reason" as "Stop Reason" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "TPT Status Two" = 'Never initiated TPT' AND "TX Curr" = 'Yes' AND ag.paeds_adult_age_group='19+ yr old (Adult)' `}>
-                    <InfiniteScrollTable variant='plain' header="Never initiated TPT"/>
+                    <InfiniteScrollTable exportData="true" header="Never initiated TPT">
+                      <DetailsView columnName="ART Number">
+                        <Dataset transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number"='{ART Number}'`}>
+                          <InfiniteScrollTable variant='plain' />
+                        </Dataset>
+                      </DetailsView>
+                    </InfiniteScrollTable>
                 </Dataset>
             </Row>
       </Grid>
@@ -17,7 +23,13 @@
       <Grid>
         <Row  columns = "1"   largeColumns = "1">
             <Dataset pageSize={50} query={`  SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start", "Months Since ART Start" as "ART Duration (months)", "TPT Regimen", "TPT Start Date", "TPT Expected Stop Date", "TPT Actual Stop Date", "TPT Adherance", "TPT Status", "TPT Stop Reason" as "Stop Reason" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Last Visit Age"=ag.age WHERE "TPT Status Two" = 'Have not completed TPT' AND "TX Curr" = 'Yes' AND  ag.paeds_adult_age_group='19+ yr old (Adult)'  `}>
-                <InfiniteScrollTable variant='plain' header="Initiated but not completed" />
+                <InfiniteScrollTable exportData="true" header="Initiated but not completed">
+                      <DetailsView columnName="ART Number">
+                        <Dataset transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number"='{ART Number}'`}>
+                          <InfiniteScrollTable variant='plain' />
+                        </Dataset>
+                      </DetailsView>
+                    </InfiniteScrollTable>
             </Dataset>
         </Row>
       </Grid>
