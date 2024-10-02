@@ -33,17 +33,17 @@
           </Dataset>
 
         </Row>
-        <Dataset pageSize={20} searchColumns='client_id' query='SELECT client_id, birth_date, emr_identifier, marital_status, gender from dim_client'>
+        <Dataset pageSize={20} searchColumns='client_id' query='SELECT client_id as "Client id", birth_date, emr_identifier, marital_status, gender from dim_client'>
           <Row columns='1'>
-            <InfiniteScrollTable header="Infinite scroll sample table" subHeader="A table to demo infinite scroll, search, sort, filtering" >
-              <DetailsView columnName='client_id'>
-                <Dataset query="SELECT client_id AS category, gender AS value from dim_client WHERE client_id=${client_id}">
+            <InfiniteScrollTable exportData="true" header="Infinite scroll sample table" subHeader="A table to demo infinite scroll, search, sort, filtering" >
+              <DetailsView columnName='Client id'>
+                <Dataset query="SELECT client_id AS category, gender AS value from dim_client WHERE client_id={Client id}">
                   <DataTable variant='plain' />
                 </Dataset>
               </DetailsView>
               <DetailsView columnName='marital_status'>
-                <Dataset query="SELECT client_id, gender, marital_status from dim_client WHERE marital_status=${marital_status}">
-                  <DataTable variant='plain' />
+                <Dataset pageSize="20" query="SELECT client_id, gender, marital_status from dim_client WHERE marital_status='{marital_status}'">
+                  <InfiniteScrollTable variant='plain' />
                 </Dataset>
               </DetailsView>
             </InfiniteScrollTable>
@@ -51,25 +51,27 @@
         </Dataset>
         <Row largeColumns='3' columns='3'>
           <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2000 and 2007 GROUP BY year'>
-            <BarChart header='fact_sentinel_event' subHeader='fact sentinel data' />
+            <BarChart header='fact_sentinel_event' subHeader='fact sentinel data' exportData="true" />
+          </Dataset>
+          <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2000 and 2007 GROUP BY year'>
           </Dataset>
           <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2006 and 2010 GROUP BY year'>
-            <LineChart />
+            <LineChart exportData="true" />
           </Dataset>
           <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2001 and 2010 GROUP BY year'>
-            <RadarChart />
+            <RadarChart exportData="true" />
           </Dataset>
         </Row>
         <Row><Header small="true">More visuals</Header></Row>
         <Row largeColumns='3' columns='3'>
           <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
-            <HeatmapChart />
+            <HeatmapChart exportData="true" />
           </Dataset>
           <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
-            <PolarAreaChart userOptions={{ colors: ["#17a2b8", "#ffc107", "#dc3545", "#f8f9fa"], dataLabels: { enabled: true } }} />
+            <PolarAreaChart exportData="true" userOptions={{ colors: ["#17a2b8", "#ffc107", "#dc3545", "#f8f9fa"], dataLabels: { enabled: true } }} />
           </Dataset>
           <Dataset query="WITH all_combinations AS (SELECT DISTINCT r.first_art_regimen,a.ten_year_interval,0 AS tot FROM (SELECT DISTINCT TRIM(ten_year_interval) AS ten_year_interval FROM dim_age_group) a CROSS JOIN (SELECT DISTINCT first_art_regimen FROM fact_sentinel_event) r),actual_results AS (SELECT TRIM(ag.ten_year_interval) AS ten_year_interval,se.first_art_regimen,COUNT(*) AS tot FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group ag ON c.current_age=ag.age GROUP BY ag.ten_year_interval,se.first_art_regimen) SELECT COALESCE(ar.first_art_regimen,ac.first_art_regimen) AS category,COALESCE(SUM(CASE WHEN ar.ten_year_interval='0-9' THEN ar.tot ELSE 0 END),0) AS '0-9',COALESCE(SUM(CASE WHEN ar.ten_year_interval='10-19' THEN ar.tot ELSE 0 END),0) AS '10-19',COALESCE(SUM(CASE WHEN ar.ten_year_interval='20-29' THEN ar.tot ELSE 0 END),0) AS '20-29',COALESCE(SUM(CASE WHEN ar.ten_year_interval='30-39' THEN ar.tot ELSE 0 END),0) AS '30-39',COALESCE(SUM(CASE WHEN ar.ten_year_interval='40-49' THEN ar.tot ELSE 0 END),0) AS '40-49',COALESCE(SUM(CASE WHEN ar.ten_year_interval='50-59' THEN ar.tot ELSE 0 END),0) AS '50-59',COALESCE(SUM(CASE WHEN ar.ten_year_interval='60-69' THEN ar.tot ELSE 0 END),0) AS '60-69',COALESCE(SUM(CASE WHEN ar.ten_year_interval='70+' THEN ar.tot ELSE 0 END),0) AS '70+' FROM all_combinations ac LEFT JOIN actual_results ar ON ar.first_art_regimen=ac.first_art_regimen AND ar.ten_year_interval=ac.ten_year_interval GROUP BY ac.first_art_regimen ORDER BY ac.first_art_regimen">
-            <PercentStackedBarChart header='Percentage stacked chart' />
+            <PercentStackedBarChart exportData="true" header='Percentage stacked chart' />
           </Dataset>
         </Row>
         <Row largeColumns='1' columns='1'>
@@ -115,8 +117,8 @@
   </Tab>
   <Tab title="Dashboard 2">
     <Dashboard>
-      <Row><Header>Dashboard 2</Header></Row>
       <SingleLayout>
+        <Header>Dashboard 2</Header>
         <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
           <DataTable />
         </Dataset>
