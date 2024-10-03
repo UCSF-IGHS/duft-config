@@ -4,15 +4,12 @@
       <Grid>
 
         <Row  columns = "1"   largeColumns = "1" >
-            <Dataset pageSize={50} query={`SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  "ART Start Date", "Months Since ART Start" as "ART Duration (months)", "Last Visit Date","Last Next Visit Date" as "Next FUP Visit", "Patient Status", "TX Curr", "IIT Duration", "Retention Status"  FROM analysis.fact_sentinel_event se WHERE "Retention Status" = 'IIT: Missed Appointment' `}>
-                <InfiniteScrollTable exportData="true" header="All">
-                      <DetailsView columnName="ART Number">
-                        <Dataset transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number"='{ART Number}'`}>
-                          <InfiniteScrollTable variant='plain' />
-                        </Dataset>
-                      </DetailsView>
-                    </InfiniteScrollTable>
-            </Dataset>
+        <Dataset  filters={{"Retention Status" : 'IIT: Missed Appointment'}} searchColumns="ART Number, Sex">
+            <Query>
+                <Include file="sql/retention.sql" />
+            </Query>
+            <Include file="components/client_list.3dl" />
+          </Dataset>
             </Row>
       </Grid>
     </Dashboard>
@@ -22,15 +19,12 @@
     <Dashboard>
       <Grid>
         <Row columns = "1"   largeColumns = "1" >
-                <Dataset pageSize={50} query={`SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  "ART Start Date", "Months Since ART Start" as "ART Duration (months)", "Last Visit Date","Last Next Visit Date" as "Next FUP Visit", "Patient Status", "TX Curr", "IIT Duration", "Retention Status"  FROM analysis.fact_sentinel_event se WHERE "Retention Status" = 'IIT: Missed Appointment'  AND "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39   `}>
-                    <InfiniteScrollTable exportData="true" header="Men (20-39)">
-                      <DetailsView columnName="ART Number">
-                        <Dataset transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number"='{ART Number}'`}>
-                          <InfiniteScrollTable variant='plain' />
-                        </Dataset>
-                      </DetailsView>
-                    </InfiniteScrollTable>
-                </Dataset>
+        <Dataset  filters={{"Retention Status" : 'IIT: Missed Appointment',"Sex":"Male", "Current Age": "BETWEEN 20 AND 39"}} searchColumns="ART Number, Sex">
+            <Query>
+                <Include file="sql/retention.sql" />
+            </Query>
+            <Include file="components/client_list.3dl" />
+          </Dataset>
                 
             </Row>
       </Grid>
@@ -42,15 +36,12 @@
     <Dashboard>
       <Grid>
         <Row  columns = "1"   largeColumns = "1" >
-            <Dataset pageSize={50} query={`SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  "ART Start Date", "Months Since ART Start" as "ART Duration (months)", "Last Visit Date","Last Next Visit Date" as "Next FUP Visit", "Patient Status", "TX Curr", "IIT Duration", "Retention Status"  FROM analysis.fact_sentinel_event se WHERE "Retention Status" = 'IIT: Missed Appointment' AND "Current Age" BETWEEN 0 AND 19   `}>
-                <InfiniteScrollTable exportData="true" header="Paeds (0-19)">
-                      <DetailsView columnName="ART Number">
-                        <Dataset transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number"='{ART Number}'`}>
-                          <InfiniteScrollTable variant='plain' />
-                        </Dataset>
-                      </DetailsView>
-                    </InfiniteScrollTable>
-            </Dataset>
+        <Dataset  filters={{"Retention Status" : 'IIT: Missed Appointment', "Current Age": "BETWEEN 0 AND 19"}} searchColumns="ART Number, Sex">
+            <Query>
+                <Include file="sql/retention.sql" />
+            </Query>
+            <Include file="components/client_list.3dl" />
+          </Dataset>
 
         </Row>
       </Grid>
@@ -62,15 +53,12 @@
     <Dashboard>
       <Grid>
         <Row  columns = "1"   largeColumns = "1">
-            <Dataset pageSize={50} query={`SELECT "ART Number","Sex", "Current Age", CASE WHEN "Last Pregnancy Status"='Yes' THEN 'Pregnant' WHEN "Last Breast Feeding"='Yes' THEN 'Breast Feeding' ELSE NULL END AS "PBF Status",  "ART Start Date", "Months Since ART Start" as "ART Duration (months)", "Last Visit Date","Last Next Visit Date" as "Next FUP Visit", "Patient Status", "TX Curr", "IIT Duration", "Retention Status"  FROM analysis.fact_sentinel_event se WHERE "Retention Status" = 'IIT: Missed Appointment' AND ("Last Pregnancy Status" = 'Yes' OR  "Last Breast Feeding" = 'Yes')   `}>
-                <InfiniteScrollTable exportData="true" header="PBFW">
-                      <DetailsView columnName="ART Number">
-                        <Dataset transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number"='{ART Number}'`}>
-                          <InfiniteScrollTable variant='plain' />
-                        </Dataset>
-                      </DetailsView>
-                    </InfiniteScrollTable>
-            </Dataset>
+        <Dataset  filters={{"Retention Status" : 'IIT: Missed Appointment', "Last PBFW": "Yes"}} searchColumns="ART Number, Sex">
+            <Query>
+                <Include file="sql/retention.sql" />
+            </Query>
+            <Include file="components/client_list.3dl" />
+          </Dataset>
         </Row>
       </Grid>
     </Dashboard>
