@@ -4,7 +4,7 @@
       <Grid>
         <Row><Header>Client Line Lists</Header></Row>
         <Row  columns = "1"   largeColumns = "1" >
-            <Dataset pageSize={50} query={` SELECT * FROM (SELECT "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",  to_char("ART Start Date" , 'DD Mon YYYY') as "ART Start",to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event ) a `}>
+            <Dataset pageSize={50} query={` SELECT * FROM (SELECT "ART Number","Sex", "Date Of Birth",  "ART Start Date","Last Visit Date","Last Next Visit Date" as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event ) a `}>
                 <InfiniteScrollTable variant='plain' header="All Clients" />
             </Dataset>
             </Row>
@@ -16,7 +16,7 @@
       <Grid>
       <Row><Header>Client Line Lists</Header></Row>
         <Row  columns = "1"   largeColumns = "1" >
-                <Dataset pageSize={50} query={` SELECT * FROM (SELECT "ART Number","Sex", to_char("Date Of Birth", 'DD Mon YYYY') as "Birth Date",to_char("First Visit Date" , 'DD Mon YYYY') as "First Visit", to_char("Last Visit Date" , 'DD Mon YYYY') as "Last Visit",to_char("Last Next Visit Date" , 'DD Mon YYYY') as "Next Visit" FROM analysis.fact_sentinel_event  WHERE "ART Outcomes"='Not initiated on ART'  ) a `}>
+                <Dataset pageSize={50} query={` SELECT * FROM (SELECT "ART Number","Sex", "Date Of Birth",to_char("First Visit Date" , 'DD Mon YYYY') as "First Visit", "Last Visit Date","Last Next Visit Date" as "Next Visit" FROM analysis.fact_sentinel_event  WHERE "ART Outcomes"='Not initiated on ART'  ) a `}>
                     <InfiniteScrollTable variant='plain' header="Not Initiated On ART"/>
                 </Dataset>
             </Row>
