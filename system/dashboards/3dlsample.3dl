@@ -2,7 +2,7 @@
   <Tab title="Dashboard 1">
     <Dashboard title="My Dashboard">
       <Grid>
-        <Row><Header>Dashboard 1</Header></Row>
+        <Row><Header>Developer playground</Header></Row>
         <Row columns="2" largeColumns="4">
           <Dataset query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
             <Tile title="New Cases">
@@ -118,9 +118,9 @@
   <Tab title="Dashboard 2">
     <Dashboard>
       <SingleLayout>
-        <Header>Dashboard 2</Header>
-        <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
-          <DataTable />
+        <Header>Single layout sample table</Header>
+        <Dataset pageSize={20} searchColumns='client_id' query='SELECT client_id as "Client id", birth_date, emr_identifier, marital_status, gender from dim_client'>
+          <InfiniteScrollTable />
         </Dataset>
       </SingleLayout>
     </Dashboard>
