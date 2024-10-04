@@ -1,36 +1,36 @@
 <TabSet>
-<Tab title="Eligible for 6+ MMP but not given">
+  <Tab title="Eligible for 6+ MMP but not given">
     <Dashboard>
-    <SingleLayout>
-      <Grid>
-        <Row><Header>Eligible for 6+ MMP but not given</Header></Row>
-        <Row  columns = "1"   largeColumns = "1" >
-        <Dataset  pageSize={50} filters={{"Six MMP Eligible But Not Given" : "Yes", "paeds_adult_age_group":"0-18 yr old (Pediatric)"}} searchColumns="ART Number, Sex">
-            <Query>
+      <SingleLayout>
+        <Grid>
+          <Row><Header>Eligible for 6+ MMP but not given</Header></Row>
+          <Row columns="1" largeColumns="1" >
+            <Dataset pageSize={50} filters={{ "Six MMP Eligible But Not Given": "Yes", "paeds_adult_age_group": "0-18 yr old (Pediatric)" }} searchColumns="ART Number, Sex">
+              <Query>
                 <Include file="sql/mmp.sql" />
-            </Query>
-            <Include file="components/client_list.3dl" />
-          </Dataset>    
-        </Row>
-      </Grid>
+              </Query>
+              <Include file="components/client_list.3dl" />
+            </Dataset>
+          </Row>
+        </Grid>
       </SingleLayout>
     </Dashboard>
   </Tab>
 
   <Tab title="< 3months">
     <Dashboard>
-    <SingleLayout>
-      <Grid>
-      <Row><Header>Less 3 Months MMP</Header></Row>
-        <Row columns = "1"   largeColumns = "1" >
-        <Dataset  pageSize={50}  filters={{"MMP Status" : "< 3 MMP", "paeds_adult_age_group":"0-18 yr old (Pediatric)"}} searchColumns="ART Number, Sex">
-            <Query>
+      <SingleLayout>
+        <Grid>
+          <Row><Header>Less 3 Months MMP</Header></Row>
+          <Row columns="1" largeColumns="1" >
+            <Dataset pageSize={50} filters={{ "MMP Status": "< 3 MMP", "paeds_adult_age_group": "0-18 yr old (Pediatric)" }} searchColumns="ART Number, Sex">
+              <Query>
                 <Include file="sql/mmp.sql" />
-            </Query>
-            <Include file="components/client_list.3dl" />
-          </Dataset>     
-            </Row>
-      </Grid>
+              </Query>
+              <Include file="components/client_list.3dl" />
+            </Dataset>
+          </Row>
+        </Grid>
       </SingleLayout>
     </Dashboard>
   </Tab>
@@ -38,19 +38,19 @@
 
   <Tab title="3-5 months">
     <Dashboard>
-    <SingleLayout>
-      <Grid>
-      <Row><Header>3-5 MMP</Header></Row>
-        <Row  columns = "1"   largeColumns = "1" >
-        <Dataset  pageSize={50}  filters={{"MMP Status" : "3-5 MMP", "paeds_adult_age_group":"0-18 yr old (Pediatric)"}} searchColumns="ART Number, Sex">
-            <Query>
+      <SingleLayout>
+        <Grid>
+          <Row><Header>3-5 MMP</Header></Row>
+          <Row columns="1" largeColumns="1" >
+            <Dataset pageSize={50} filters={{ "MMP Status": "3-5 MMP", "paeds_adult_age_group": "0-18 yr old (Pediatric)" }} searchColumns="ART Number, Sex">
+              <Query>
                 <Include file="sql/mmp.sql" />
-            </Query>
-            <Include file="components/client_list.3dl" />
-          </Dataset>
+              </Query>
+              <Include file="components/client_list.3dl" />
+            </Dataset>
 
-        </Row>
-      </Grid>
+          </Row>
+        </Grid>
       </SingleLayout>
     </Dashboard>
   </Tab>
@@ -58,18 +58,18 @@
 
   <Tab title="6+ months">
     <Dashboard>
-    <SingleLayout>
-      <Grid>
-      <Row><Header>6+ months</Header></Row>
-        <Row  columns = "1"   largeColumns = "1">
-        <Dataset  pageSize={50}  filters={{"MMP Status" : "6+ MMP", "paeds_adult_age_group":"0-18 yr old (Pediatric)"}} searchColumns="ART Number, Sex">
-            <Query>
+      <SingleLayout>
+        <Grid>
+          <Row><Header>6+ months</Header></Row>
+          <Row columns="1" largeColumns="1">
+            <Dataset pageSize={50} filters={{ "MMP Status": "6+ MMP", "paeds_adult_age_group": "0-18 yr old (Pediatric)" }} searchColumns="ART Number, Sex">
+              <Query>
                 <Include file="sql/mmp.sql" />
-            </Query>
-            <Include file="components/client_list.3dl" />
-          </Dataset>
-        </Row>
-      </Grid>
+              </Query>
+              <Include file="components/client_list.3dl" />
+            </Dataset>
+          </Row>
+        </Grid>
       </SingleLayout>
     </Dashboard>
   </Tab>

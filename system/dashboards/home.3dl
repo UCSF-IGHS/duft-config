@@ -71,7 +71,7 @@
 
 </Tab>
 
-<Tab title="Multi-Month Prescription (TX_CURR)">
+<Tab title="Multi-Month Prescription">
 <Dashboard>   
         <Grid>
             <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
@@ -92,32 +92,14 @@
                 </Dataset>
             </Row>
 
-
-            
-
-        </Grid>
-</Dashboard>
-
-</Tab>
-
-<Tab title="Multi-Month Prescription (This Month)">
-<Dashboard>   
-        <Grid>
-            <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
-            
-            <Filters>
-                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
-                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event`} />
-                </Filters>
             <Row columns = "2"   largeColumns = "2">
                 <Dataset query={`SELECT "MMP Status" as category, count(*) as value  FROM (SELECT "MMP Status Current" as "MMP Status" , "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 18  AND "MMP Status Current" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
-                    <PieChart userOptions={{ colors:  ["#ec6240","#f3af3d","#ed70f8"] }} header="Adults" />
+                    <PieChart userOptions={{ colors:  ["#ec6240","#f3af3d","#ed70f8"] }} header="Adults (This Month)" />
                 </Dataset>
 
 
                 <Dataset query={`SELECT "MMP Status" as category, count(*) as value  FROM ( SELECT "MMP Status Current" as "MMP Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 18 AND "MMP Status Current" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "MMP Status" ORDER BY CASE WHEN "MMP Status" = '< 3 MMP' THEN 1 WHEN "MMP Status" = '3-5 MMP' THEN 2 WHEN "MMP Status" = '6+ MMP' THEN 3 END;`}>
-                    <PieChart userOptions={{ colors:  ["#ec6240","#f3af3d","#ed70f8"] }} header="Paediatrics"/>
+                    <PieChart userOptions={{ colors:  ["#ec6240","#f3af3d","#ed70f8"] }} header="Paediatrics (This Month)"/>
                 </Dataset>
             </Row>
 
@@ -128,6 +110,8 @@
 </Dashboard>
 
 </Tab>
+
+
 
 <Tab title="TPT">
 <Dashboard>   

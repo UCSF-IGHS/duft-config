@@ -1,36 +1,36 @@
 <TabSet>
-<Tab title="All">
+  <Tab title="All">
     <Dashboard>
-    <SingleLayout>
-      <Grid>
+      <SingleLayout>
+        <Grid>
 
-        <Row  columns = "1"   largeColumns = "1" >
-        <Dataset  pageSize={50}  filters={{"Retention Status" : 'Active on ART: Missed Appointment'}} searchColumns="ART Number, Sex">
-            <Query>
+          <Row columns="1" largeColumns="1" >
+            <Dataset pageSize={50} filters={{ "Retention Status": 'Active on ART: Missed Appointment' }} searchColumns="ART Number, Sex">
+              <Query>
                 <Include file="sql/retention.sql" />
-            </Query>
-            <Include file="components/client_list.3dl" />
-          </Dataset>
-            </Row>
-      </Grid>
+              </Query>
+              <Include file="components/client_list.3dl" />
+            </Dataset>
+          </Row>
+        </Grid>
       </SingleLayout>
     </Dashboard>
   </Tab>
 
   <Tab title="Men (20-39)">
     <Dashboard>
-    <SingleLayout>
-      <Grid>
-        <Row columns = "1"   largeColumns = "1" >
-        <Dataset  pageSize={50}  filters={{"Retention Status" : 'Active on ART: Missed Appointment',"Sex":"Male", "tri_pillar_age_group": "20-39" }} searchColumns="ART Number, Sex">
-            <Query>
+      <SingleLayout>
+        <Grid>
+          <Row columns="1" largeColumns="1" >
+            <Dataset pageSize={50} filters={{ "Retention Status": 'Active on ART: Missed Appointment', "Sex": "Male", "tri_pillar_age_group": "20-39" }} searchColumns="ART Number, Sex">
+              <Query>
                 <Include file="sql/retention.sql" />
-            </Query>
-            <Include file="components/client_list.3dl" />
-          </Dataset>
-                
-            </Row>
-      </Grid>
+              </Query>
+              <Include file="components/client_list.3dl" />
+            </Dataset>
+
+          </Row>
+        </Grid>
       </SingleLayout>
     </Dashboard>
   </Tab>
@@ -38,18 +38,18 @@
 
   <Tab title="Paeds (0-19)">
     <Dashboard>
-    <SingleLayout>
-      <Grid>
-        <Row  columns = "1"   largeColumns = "1" >
-        <Dataset  pageSize={50}  filters={{"Retention Status" : 'Active on ART: Missed Appointment', "tri_pillar_age_group_nineteen": "0-19"}} searchColumns="ART Number, Sex">
-            <Query>
+      <SingleLayout>
+        <Grid>
+          <Row columns="1" largeColumns="1" >
+            <Dataset pageSize={50} filters={{ "Retention Status": 'Active on ART: Missed Appointment', "tri_pillar_age_group_nineteen": "0-19" }} searchColumns="ART Number, Sex">
+              <Query>
                 <Include file="sql/retention.sql" />
-            </Query>
-            <Include file="components/client_list.3dl" />
-          </Dataset>
+              </Query>
+              <Include file="components/client_list.3dl" />
+            </Dataset>
 
-        </Row>
-      </Grid>
+          </Row>
+        </Grid>
       </SingleLayout>
     </Dashboard>
   </Tab>
@@ -57,17 +57,17 @@
 
   <Tab title="PBFW">
     <Dashboard>
-    <SingleLayout>
-      <Grid>
-        <Row  columns = "1"   largeColumns = "1">
-        <Dataset  pageSize={50}  filters={{"Retention Status" : 'Active on ART: Missed Appointment', "Last PBFW Status": "Yes"}} searchColumns="ART Number, Sex">
-            <Query>
+      <SingleLayout>
+        <Grid>
+          <Row columns="1" largeColumns="1">
+            <Dataset pageSize={50} filters={{ "Retention Status": 'Active on ART: Missed Appointment', "Last PBFW Status": "Yes" }} searchColumns="ART Number, Sex">
+              <Query>
                 <Include file="sql/retention.sql" />
-            </Query>
-            <Include file="components/client_list.3dl" />
-          </Dataset>
-        </Row>
-      </Grid>
+              </Query>
+              <Include file="components/client_list.3dl" />
+            </Dataset>
+          </Row>
+        </Grid>
       </SingleLayout>
     </Dashboard>
   </Tab>
