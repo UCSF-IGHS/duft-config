@@ -42,7 +42,7 @@
                     <PieChart userOptions={{ colors: ["#ec6240","#f3af3d","#ed70f8"] }} header="MMP" />
                 </Dataset>
 
-                <Dataset query={`SELECT "TPT Status Two" as category, count(*) as value  FROM (SELECT "TPT Status Two", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "TPT Status Two" IS NOT NULL) a GROUP BY "TPT Status Two" ORDER BY CASE WHEN "TPT Status Two" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status Two" = 'Have not completed TPT' THEN 2 WHEN "TPT Status Two" = 'Never initiated TPT' THEN 3 END; `}>
+                <Dataset query={`SELECT "TPT Status Two" as category, count(*) as value  FROM (SELECT "TPT Status Two", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "TPT Status Two" IS NOT NULL) a GROUP BY "TPT Status Two" ORDER BY CASE WHEN "TPT Status Two" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status Two" = 'Have not completed TPT' THEN 2 WHEN "TPT Status Two" = 'Never Initiated TPT' THEN 3 END; `}>
                     <PieChart header="TPT" userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} />
                 </Dataset>
             </Row>
@@ -124,12 +124,12 @@
                 </Filters>
             
             <Row columns = "2"   largeColumns = "2">
-                <Dataset query={`SELECT "TPT Status" as category, count(*) as value  FROM (SELECT "TPT Status Two" as "TPT Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 18  AND "TPT Status Two" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "TPT Status" ORDER BY CASE WHEN "TPT Status" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status" = 'Have not completed TPT' THEN 2 WHEN "TPT Status" = 'Never initiated TPT' THEN 3 END;`}>
+                <Dataset query={`SELECT "TPT Status" as category, count(*) as value  FROM (SELECT "TPT Status Two" as "TPT Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 18  AND "TPT Status Two" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "TPT Status" ORDER BY CASE WHEN "TPT Status" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status" = 'Have not completed TPT' THEN 2 WHEN "TPT Status" = 'Never Initiated TPT' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} header="Adults" />
                 </Dataset>
 
 
-                <Dataset query={`SELECT "TPT Status" as category, count(*) as value  FROM ( SELECT "TPT Status Two" as "TPT Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 18 AND "TPT Status Two" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "TPT Status" ORDER BY CASE WHEN "TPT Status" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status" = 'Have not completed TPT' THEN 2 WHEN "TPT Status" = 'Never initiated TPT' THEN 3 END;`}>
+                <Dataset query={`SELECT "TPT Status" as category, count(*) as value  FROM ( SELECT "TPT Status Two" as "TPT Status", "Sex" as "Sex", "Tri Pillar Age Group" as age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 18 AND "TPT Status Two" IS NOT NULL AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY "TPT Status" ORDER BY CASE WHEN "TPT Status" = 'Up-to-date on TPT' THEN 1 WHEN "TPT Status" = 'Have not completed TPT' THEN 2 WHEN "TPT Status" = 'Never Initiated TPT' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} header="Paediatrics"/>
                 </Dataset>
             </Row>
