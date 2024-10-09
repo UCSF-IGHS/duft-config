@@ -2,10 +2,19 @@
   <Tab title="Dashboard 1">
     <Dashboard title="My Dashboard">
       <Grid>
-        <Row><Header>Developer playground</Header></Row>
+        <Dataset query="select strftime('%Y-%m-%d',last_refresh_date) as last_refresh_date, 'Wakanda Hospital' as facility_name FROM last_refresh_date">
+          <Row columns="2" smallColumns="1">
+            <Header>
+              <DataString>%facility_name%</DataString>
+            </Header>
+            <Subheader>
+              <DataString>Last updated on: %last_refresh_date%</DataString>
+            </Subheader>
+          </Row>
+        </Dataset>
         <Row columns="2" largeColumns="4">
           <Dataset query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
-            <Tile title="New Cases">
+            <Tile title="New Cases" modalWidth="medium" modalHeight="medium">
               <Dataset pageSize="20" searchColumns='client_id' query='SELECT client_id, birth_date, emr_identifier, marital_status, gender from dim_client'>
                 <InfiniteScrollTable header='dim client data' variant='plain' />
               </Dataset>
