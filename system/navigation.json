@@ -92,12 +92,6 @@
       "icon": "update-icon",
       "task": "FM-SENTINEL-EVENT-NOTEBOOK",
       "dashboard": "refresh-data"
-    },
-    {
-      "title": "DUFT Report Update",
-      "icon": "update-icon",
-      "task": "UPDATE",
-      "dashboard": "refresh-data"
     }
     
   ]
