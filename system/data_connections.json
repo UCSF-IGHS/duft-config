@@ -8,22 +8,22 @@
 			"allowQueryEngine":"True",
 			"params":[
 				{
-					"name":"PostgreSQL",
+					"name":"filemaker",
 					"type":"text",
 					"label":"The type of connection (MSSQL | MySQL | PostgreSQL | sqlite3)"
 				},				
 				{
-					"name":"jdbc:filemaker://localhost/QuantumOuNickHealthCentre",
+					"name":"server",
 					"type":"text",
 					"label":"Server name"
 				},			
 				{
-					"name":"Administrator",
+					"name":"username",
 					"type":"text",
 					"label":"User name"
 				},		
 				{
-					"name":"Qepms!@dmin",
+					"name":"password",
 					"type":"password",
 					"label":"Password"
 				}
@@ -40,38 +40,6 @@
 					"type":"text",
 					"label":"The type of connection (MSSQL | MySQL | PostgreSQL | sqlite3)"
 				},
-				{
-					"name":"localhost",
-					"type":"text",
-					"label":"Server name"
-				},
-				{
-					"name":"postgres",
-					"type":"text",
-					"label":"User name"
-				},		
-				{
-					"name":"root",
-					"type":"password",
-					"label":"Password"
-				},
-				{
-					"name":"5433",
-					"type":"integer",
-					"label":"Port"
-				},
-				{
-					"name":"duft",
-					"type":"text",
-					"label":"Database name"
-				}
-			]
-		},
-		{
-			"id":"EPMS",
-			"name":"EPMS",
-			"description":"The Quantum EPMS database that holds the patient records",
-			"params":[
 				{
 					"name":"server",
 					"type":"text",
@@ -89,66 +57,6 @@
 				},
 				{
 					"name":"port",
-					"type":"integer",
-					"label":"Port"
-				},
-				{
-					"name":"database",
-					"type":"text",
-					"label":"Database name"
-				}
-			]
-		},
-		{
-			"id":"NDR",
-			"name":"National Data Repository",
-			"description":"The server where CBS data should be sent to",
-			"params":[
-				{
-					"name":"server",
-					"type":"url",
-					"label":"Server URL"
-				},
-				{
-					"name":"username",
-					"type":"text",
-					"label":"User name"
-				},		
-				{
-					"name":"password",
-					"type":"password",
-					"label":"Password"
-				}		
-			]
-		},
-		{
-			"id":"EPMS_Destination",
-			"name":"EPMS Notebook",
-			"description":"The EPMS DUFT database that host the patient fact sentinel events records",
-			"allowQueryEngine":"True",
-            "params":[
-                {
-					"name":"PostgreSQL",
-					"type":"text",
-					"label":"The type of connection (MSSQL | MySQL | PostgreSQL | sqlite3)"
-				},
-				{
-					"name":"localhost",
-					"type":"text",
-					"label":"Server name"
-				},
-				{
-					"name":"postgres",
-					"type":"text",
-					"label":"User name"
-				},		
-				{
-					"name":"root",
-					"type":"password",
-					"label":"Password"
-				},
-				{
-					"name":"5433",
 					"type":"integer",
 					"label":"Port"
 				},
