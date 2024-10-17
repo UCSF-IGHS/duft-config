@@ -1,0 +1,107 @@
+<TabSet>
+
+    <Tab title="E. HIV Testing">
+        <Dashboard>
+            <Grid>
+                <Row>
+                    <Header>ART Cascade Tree</Header>
+                </Row>
+                <Filters>
+                    <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates, weekly_start_monday_end_date FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
+                </Filters>
+                <Row columns = "2" largeColumns = "4">
+
+                    <Dataset query={`SELECT COUNT(*) FROM final.fact_ctc_daily_facility_summary WHERE hts_tst = 1;`}>
+                        <Tile title="HTS TST"/>
+                    </Dataset>
+
+                    <Dataset query={`SELECT COUNT(*) FROM final.fact_ctc_daily_facility_summary WHERE hts_tst_neg = 1;`}>
+                        <Tile title="HTS TST NEG"/>
+                    </Dataset>
+
+                    <Dataset query={`SELECT COUNT(*) FROM final.fact_ctc_daily_facility_summary WHERE hts_tst_pos = 1;`}>
+                        <Tile title="HTS TST POS"/>
+                    </Dataset>
+
+                    <Dataset query={`SELECT COUNT(*) FROM final.fact_ctc_daily_facility_summary WHERE hts_tst_pos = 1;`}>
+                        <Tile title="Documented"/>
+                    </Dataset>
+
+                </Row>
+                <Row columns="1">
+                    <Dataset query="">
+                      <CascadeChart
+                        header="HIV Testing Tree"
+                        subHeader="HIV Testing Tree"
+                        cascadeObject={{
+                          id: "1",
+                          data: {
+                            label: "Clients Tested for HIV",
+                            query:
+                              "SELECT report_date, hts_tst FROM final.fact_ctc_daily_facility_summary f WHERE hts_tst = 1;",
+                          },
+                          options: {
+                              nodeBGColorHover: "#007bff",
+                              borderColorHover: "#0056b3",
+                              nodeBGColor: "#d1ecf1",
+                          },
+                          children: [
+                            {
+                                id: "11",
+                                data: {
+                                    label: "Clients Tested Positive",
+                                    query:
+                                    "SELECT report_date, hts_tst FROM final.fact_ctc_daily_facility_summary f WHERE hts_tst_pos = 1;",
+                                },
+                                children: [
+                                {
+                                    id: "111",
+                                    data: {
+                                        label: "With Documented CTC ID",
+                                        query:
+                                        "SELECT report_date, hts_tst FROM final.fact_ctc_daily_facility_summary f WHERE hts_tst_pos = 1;",
+                                    },
+                                    options: {
+                                        nodeBGColorHover: "#28a745",
+                                        borderColorHover: "#218838",
+                                        nodeBGColor: "#c3e6cb",
+                                    },
+                                },
+                                {
+                                    id: "112",
+                                    data: {
+                                        label: "Without Documented CTC ID",
+                                        query:
+                                        "SELECT report_date, hts_tst FROM final.fact_ctc_daily_facility_summary f WHERE hts_tst_pos = 1;",
+                                    },
+                                    options: {
+                                        nodeBGColorHover: "#ffc107",
+                                        borderColorHover: "#e0a800",
+                                        nodeBGColor: "#ffeeba",
+                                    },
+                                },
+                                ],
+                            },
+                            {
+                                id: "12",
+                                data: {
+                                    label: "Clients Tested Negative",
+                                    query:
+                                    "SELECT report_date, hts_tst FROM final.fact_ctc_daily_facility_summary f WHERE hts_tst_neg = 1;",
+                                },
+                                options: {
+                                    nodeBGColorHover: "#dc3545",
+                                    borderColorHover: "#c82333",
+                                    nodeBGColor: "#f8d7da",
+                              },
+                            },
+                          ],
+                        }}
+                      />
+                    </Dataset>
+                  </Row>
+            </Grid>
+        </Dashboard>
+    </Tab>
+
+</TabSet>

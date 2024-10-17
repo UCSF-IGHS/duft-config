@@ -2,7 +2,7 @@
   "home": {
     "title": "Home",
     "icon": "home-icon",
-    "dashboard": "/"
+    "dashboard": "/dashboard/home"
   },
   "menu": [
     {
@@ -12,7 +12,7 @@
         {
           "title": "HIV Testing",
           "icon": "dashboard-icon",
-          "dashboard": "/dashboard/3dlsample"
+          "dashboard": "/dashboard/hiv-testing"
         },
         {
           "title": "Viral Load Testing",
