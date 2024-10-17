@@ -1,7 +1,7 @@
 <Dashboard>
   <Grid>
     <Row><Header>Preview query</Header></Row>
-    <Dataset query="SELECT * FROM dim_age_group LIMIT 20">
+    <Dataset query="SELECT * FROM final.dim_facility;">
       <Row columns='1'>
         <PreviewQuery />
       </Row>

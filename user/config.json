@@ -1,5 +1,13 @@
 {
     "dataConnectionParameters": {
+        "CTCA": {
+            "server": "127.0.0.1",
+            "username": "bsiele",
+            "password": "Ec$LjcJuWvmq4&y2!e",
+            "port": "1437",
+            "database": "ctc_a_prod_analysis_test",
+            "type": "MSSQL"
+        },
         "EMPS": {
             "server": "127.0.0.1",
             "username": "user",

@@ -13,15 +13,11 @@
           </Row>
         </Dataset>
         <Row columns="2" largeColumns="4">
-          <Dataset query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
-            <Tile title="New Cases" modalWidth="medium" modalHeight="medium">
-              <Dataset pageSize="20" searchColumns='client_id' query='SELECT client_id, birth_date, emr_identifier, marital_status, gender from dim_client'>
-                <InfiniteScrollTable header='dim client data' variant='plain' />
-              </Dataset>
-            </Tile>
+          <Dataset query={`SELECT COUNT(*) FROM final.dim_facility`}>
+            <Tile title="Initiated" />
           </Dataset>
 
-          <Dataset query={`WITH counts AS (SELECT COUNT(CASE WHEN hiv_diagnosis_date IS NOT NULL THEN 1 END) AS new_cases,COUNT(CASE WHEN has_ever_been_initiated_on_art=1 THEN 1 END) AS initiated_on_art FROM fact_sentinel_event s INNER JOIN dim_client c ON c.client_id=s.client_id INNER JOIN dim_hiv_diagnosis_facility f ON f.facility_id=s.hiv_diagnosis_facility_id)SELECT initiated_on_art, CASE WHEN new_cases=0 THEN '0.0%' ELSE printf ('%.1f%%',(initiated_on_art*1.0/new_cases)*100) END AS percent_initiated_on_art FROM counts`}>
+          <Dataset query={``}>
             <Tile title="Initiated" />
           </Dataset>
 

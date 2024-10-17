@@ -1,9 +1,9 @@
 {
   "dataConnections": [
     {
-      "id": "MyOwnConnection",
-      "name": "My Own Project",
-      "description": "My own project",
+      "id": "CTCA",
+      "name": "CTC Analytics Database",
+      "description": "The connection to the CTC Analytics Database",
       "params": [
         {
           "name": "server",
