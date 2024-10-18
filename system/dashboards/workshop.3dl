@@ -1,0 +1,69 @@
+
+<CascadeChart
+header="HIV Case Identification Tree"
+subHeader="Visual representation of HIV case identification metrics."
+cascadeObject={{
+  id: "1",
+  data: {
+    label: "Clients Tested for HIV",
+    query:
+      "SELECT hts_date_of_birth, hts_age_at_test, hts_sex_code, f.hts_client_code, hiv_test_date, hiv_testing_point, hts_attendance_type, hts_referred_from, hts_ctc_id FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_valid_hiv_test = 1;",
+  },
+  options: {
+    nodeBGColorHover: "#007bff", // Bright Blue
+    borderColorHover: "#0056b3", // Darker Blue
+    nodeBGColor: "#d1ecf1", // Light Blue
+  },
+  children: [
+    {
+      id: "11",
+      data: {
+        label: "Clients Tested Positive",
+        query:
+          "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1;",
+      },
+      children: [
+        {
+          id: "111",
+          data: {
+            label: "With Documented CTC ID",
+            query:
+              "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1;",
+          },
+          options: {
+            nodeBGColorHover: "#28a745", // Green
+            borderColorHover: "#218838", // Darker Green
+            nodeBGColor: "#c3e6cb", // Light Green
+          },
+        },
+        {
+          id: "112",
+          data: {
+            label: "Without Documented CTC ID",
+            query:
+              "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1 AND hts_ctc_id IS NULL;",
+          },
+          options: {
+            nodeBGColorHover: "#ffc107", // Yellow
+            borderColorHover: "#e0a800", // Darker Yellow
+            nodeBGColor: "#ffeeba", // Light Yellow
+          },
+        },
+      ],
+    },
+    {
+      id: "12",
+      data: {
+        label: "Clients Tested Negative",
+        query:
+          "SELECT hts_date_of_birth, hts_age_at_test, hts_sex_code, f.hts_client_code, hiv_test_date, hiv_testing_point, hts_attendance_type, hts_referred_from, hts_ctc_id FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_negative = 1;",
+      },
+      options: {
+        nodeBGColorHover: "#dc3545", // Red
+        borderColorHover: "#c82333", // Darker Red
+        nodeBGColor: "#f8d7da", // Light Red
+      },
+    },
+  ],
+}}
+/>

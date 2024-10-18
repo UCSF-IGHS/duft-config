@@ -61,6 +61,11 @@
                                     query:
                                     "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1;",
                                 },
+                                options: {
+                                    nodeBGColorHover: "#FF4C6A",
+                                    borderColorHover: "#FF3E5E",
+                                    nodeBGColor: "#FAA6BD",
+                                },
                                 children: [
                                 {
                                     id: "111",
@@ -70,9 +75,9 @@
                                         "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1",
                                     },
                                     options: {
-                                        nodeBGColorHover: "#28a745",
-                                        borderColorHover: "#218838",
-                                        nodeBGColor: "#c3e6cb",
+                                        nodeBGColorHover: "#d92a3e",
+                                        borderColorHover: "#b71c28",
+                                        nodeBGColor: "#f8a3a8",
                                     },
                                 },
                                 {
@@ -83,9 +88,9 @@
                                         "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1 AND hts_ctc_id IS NULL;",
                                     },
                                     options: {
-                                        nodeBGColorHover: "#ffc107",
-                                        borderColorHover: "#e0a800",
-                                        nodeBGColor: "#ffeeba",
+                                        nodeBGColorHover: "#FF6F3C",
+                                        borderColorHover: "#FF4F2A",
+                                        nodeBGColor: "#FFB3A0",
                                     },
                                 },
                                 ],
@@ -98,9 +103,9 @@
                                     "SELECT hts_date_of_birth, hts_age_at_test, hts_sex_code, f.hts_client_code, hiv_test_date, hiv_testing_point, hts_attendance_type, hts_referred_from, hts_ctc_id FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_negative = 1;",
                                 },
                                 options: {
-                                    nodeBGColorHover: "#dc3545",
-                                    borderColorHover: "#c82333",
-                                    nodeBGColor: "#f8d7da",
+                                    nodeBGColorHover: "#28a745",
+                                    borderColorHover: "#218838",
+                                    nodeBGColor: "#c3e6cb",
                               },
                             },
                           ],
