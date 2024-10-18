@@ -1,6 +1,6 @@
 <TabSet>
 
-    <Tab title="E. HIV Testing">
+    <Tab title="HIV Testing">
         <Dashboard>
             <Grid>
                 <Row>
@@ -11,21 +11,29 @@
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <Dataset query={`SELECT COUNT(*) FROM final.fact_ctc_daily_facility_summary WHERE hts_tst = 1;`}>
+                    <Dataset query={`SELECT SUM(is_valid_hiv_test) FROM derived.fact_hiv_testing f;`}>
                         <Tile title="HTS TST"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT COUNT(*) FROM final.fact_ctc_daily_facility_summary WHERE hts_tst_neg = 1;`}>
+                    <Dataset query={`SELECT SUM(is_hiv_negative) FROM derived.fact_hiv_testing f;`}>
                         <Tile title="HTS TST NEG"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT COUNT(*) FROM final.fact_ctc_daily_facility_summary WHERE hts_tst_pos = 1;`}>
-                        <Tile title="HTS TST POS"/>
-                    </Dataset>
+                    <Dataset query={`SELECT SUM(is_hiv_positive) FROM derived.fact_hiv_testing f;`}>
+                        <Tile title="HTS TST POS">
+                          <Dataset query='SELECT f.hts_client_code AS "HTS Client Code", hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS "HIV Test Date", hiv_testing_point AS "HIV Testing Point", hts_attendance_type AS "HTS Attendance Type", hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1;'>
+                            <InfiniteScrollTable header='HIV Positive Clients' variant='plain' />
+                          </Dataset>
+                        </Tile>
+                      </Dataset>
 
-                    <Dataset query={`SELECT COUNT(*) FROM final.fact_ctc_daily_facility_summary WHERE hts_tst_pos = 1;`}>
-                        <Tile title="Documented"/>
-                    </Dataset>
+                    <Dataset query={`SELECT ISNULL(SUM(is_hiv_positive), 0) FROM derived.fact_hiv_testing f WHERE hts_ctc_id IS NOT NULL;`}>
+                        <Tile title="HTS TST POS">
+                            <Dataset query='SELECT f.hts_client_code AS "HTS Client Code", hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS "HIV Test Date", hiv_testing_point AS "HIV Testing Point", hts_attendance_type AS "HTS Attendance Type", hts_ctc_id AS "CTC ID" FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1 AND hts_ctc_id IS NOT NULL;'>
+                              <InfiniteScrollTable header='HIV Positive Clients' variant='plain' />
+                            </Dataset>
+                          </Tile>
+                        </Dataset>
 
                 </Row>
                 <Row columns="1">
@@ -38,7 +46,7 @@
                           data: {
                             label: "Clients Tested for HIV",
                             query:
-                              "SELECT report_date, hts_tst FROM final.fact_ctc_daily_facility_summary f WHERE hts_tst = 1;",
+                              "SELECT hts_date_of_birth, hts_age_at_test, hts_sex_code, f.hts_client_code, hiv_test_date, hiv_testing_point, hts_attendance_type, hts_referred_from, hts_ctc_id FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_valid_hiv_test = 1;",
                           },
                           options: {
                               nodeBGColorHover: "#007bff",
@@ -51,7 +59,7 @@
                                 data: {
                                     label: "Clients Tested Positive",
                                     query:
-                                    "SELECT report_date, hts_tst FROM final.fact_ctc_daily_facility_summary f WHERE hts_tst_pos = 1;",
+                                    "SELECT hts_date_of_birth, hts_age_at_test, hts_sex_code, f.hts_client_code, hiv_test_date, hiv_testing_point, hts_attendance_type, hts_referred_from, hts_ctc_id FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1;",
                                 },
                                 children: [
                                 {
@@ -59,7 +67,7 @@
                                     data: {
                                         label: "With Documented CTC ID",
                                         query:
-                                        "SELECT report_date, hts_tst FROM final.fact_ctc_daily_facility_summary f WHERE hts_tst_pos = 1;",
+                                        "SELECT hts_date_of_birth, hts_age_at_test, hts_sex_code, f.hts_client_code, hiv_test_date, hiv_testing_point, hts_attendance_type, hts_referred_from, hts_ctc_id FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1;",
                                     },
                                     options: {
                                         nodeBGColorHover: "#28a745",
@@ -72,7 +80,7 @@
                                     data: {
                                         label: "Without Documented CTC ID",
                                         query:
-                                        "SELECT report_date, hts_tst FROM final.fact_ctc_daily_facility_summary f WHERE hts_tst_pos = 1;",
+                                        "SELECT hts_date_of_birth, hts_age_at_test, hts_sex_code, f.hts_client_code, hiv_test_date, hiv_testing_point, hts_attendance_type, hts_referred_from, hts_ctc_id FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1;",
                                     },
                                     options: {
                                         nodeBGColorHover: "#ffc107",
@@ -87,7 +95,7 @@
                                 data: {
                                     label: "Clients Tested Negative",
                                     query:
-                                    "SELECT report_date, hts_tst FROM final.fact_ctc_daily_facility_summary f WHERE hts_tst_neg = 1;",
+                                    "SELECT hts_date_of_birth, hts_age_at_test, hts_sex_code, f.hts_client_code, hiv_test_date, hiv_testing_point, hts_attendance_type, hts_referred_from, hts_ctc_id FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_negative = 1;",
                                 },
                                 options: {
                                     nodeBGColorHover: "#dc3545",
