@@ -1,6 +1,6 @@
 <TabSet>
 
-    <Tab title="HIV Testing">
+    <Tab title="HIV Testing Tree">
         <Dashboard>
             <Grid>
                 <Row>
@@ -86,6 +86,25 @@
                       />
                     </Dataset>
                   </Row>
+            </Grid>
+        </Dashboard>
+    </Tab>
+
+    <Tab title="HIV Testing Table">
+        <Dashboard>
+            <Grid>
+                <Row>
+                    <Header>HIV Case Identification</Header>
+                </Row>
+                <Filters>
+                    <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates, weekly_start_monday_end_date FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
+                </Filters>
+
+                <Row columns="1" largeColumns="1">
+                    <Dataset query={`SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hiv_test_result AS [HIV Test Result], hts_attendance_type AS [HTS Attendance Type], visit_type AS [Visit Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_valid_hiv_test = 1`}>
+                        <InfiniteScrollTable header="HIV Case Identification Table" subHeader="Tabular representation of HIV case identification metrics."/>
+                    </Dataset>
+                </Row>
             </Grid>
         </Dashboard>
     </Tab>

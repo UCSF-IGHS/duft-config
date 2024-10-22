@@ -1,7 +1,9 @@
 <Dashboard>
   <Grid>
-    <Row><Header>Preview query</Header></Row>
-    <Dataset query="SELECT * FROM final.dim_facility;">
+    <Row>
+      <Header>Preview query</Header>
+    </Row>
+    <Dataset query="SELECT TOP 20 * FROM derived.dim_client;">
       <Row columns='1'>
         <PreviewQuery />
       </Row>

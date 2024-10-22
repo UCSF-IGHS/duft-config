@@ -13,3 +13,5 @@ SELECT SUM(is_hiv_negative) AS total_hiv_negative, CAST(CAST((SUM(is_hiv_negativ
 
 SELECT SUM(is_hiv_negative), CAST(SUM(is_hiv_negative) AS FLOAT) / SUM(is_valid_hiv_test) * 100 FROM derived.fact_hiv_testing f;
 
+SELECT TOP 10 * FROM derived.fact_hiv_testing;
+
