@@ -92,6 +92,12 @@
       "icon": "update-icon",
       "task": "FM-SENTINEL-EVENT-NOTEBOOK",
       "dashboard": "refresh-data"
+    },
+    {
+      "title": "QE Update",
+      "icon": "update-icon",
+      "task": "UPDATE",
+      "dashboard": "refresh-data"
     }
     
   ]
