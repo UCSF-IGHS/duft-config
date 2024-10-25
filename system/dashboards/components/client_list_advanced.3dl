@@ -1,0 +1,10 @@
+<Dataset pageSize={50} filters={{ "MMP Status": "< 3 MMP", "paeds_adult_age_group": "19+ yr old (Adult)" }} searchColumns="ART Number, Sex, ART Number Legacy">
+    <Query>SELECT "ART Number Legacy","Sex", "Current Age", "Last PBFW",  "ART Start Date", "Months Since ART Start" as "ART Duration (months)", "Last Visit Date","Last Next Visit Date" as "Next FUP Visit", "Patient Status", "Client Status", "TX Curr", "MMP Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Current Age"=ag.age WHERE "TX Curr" = 'Yes'</Query>
+    <InfiniteScrollTable id="table1" exportData="true" >
+        <DetailsView columnName="ART Number Legacy">
+            <Dataset transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='{ART Number Legacy}'`}>
+                <InfiniteScrollTable variant='plain' />
+            </Dataset>
+        </DetailsView>
+    </InfiniteScrollTable>
+</Dataset>
