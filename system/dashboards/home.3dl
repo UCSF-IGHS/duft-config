@@ -20,7 +20,7 @@
             <Row columns = "2"   largeColumns = "4" >
             
 
-                <Dataset query={`SELECT COUNT(*) AS value, ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
+                <Dataset query={`SELECT COUNT(*) AS value FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
                     <Tile title='TX_CURR All' >
                     <Dataset searchColumns="ART Outcomes, Sex" pageSize={15} query={`SELECT  "ART Number","Sex", "Date Of Birth",  "ART Start Date","Last Visit Date","Last Next Visit Date" as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'  AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
                         <InfiniteScrollTable header='TX_CURR All' variant='plain' />
@@ -28,15 +28,15 @@
                     </Tile>
                 </Dataset>
 
-                <Dataset query={`SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" > 19 AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
+                <Dataset query={`SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 1) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" > 19 AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
                     <Tile title='Adults (>19)' />
                 </Dataset>
 
-                <Dataset query={`SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Sex"='Male' AND "Current Age" BETWEEN 20 AND 39 AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
-                    <Tile title='Men (20-39)' />
+                <Dataset query={`SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 1) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Last PBFW Status"='Yes' AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
+                    <Tile title='PBFW' />
                 </Dataset>
 
-                <Dataset query={`SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 2) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" BETWEEN 0 AND 19 AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
+                <Dataset query={`SELECT COUNT(*) AS value,ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 1) || '%' AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" BETWEEN 0 AND 19 AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
                     <Tile title='Paediatrics (0-19)' />
                 </Dataset>
 
@@ -65,8 +65,8 @@
                     <PieChart userOptions={{ colors: ["#52b5d5","#ec6240","#f3af3d"] }} header="Viral Load Monitoring" />
                 </Dataset>
 
-                <Dataset query={`SELECT DATA as category, count (*) as value FROM (SELECT "Tri Pillar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL AND "Is Last Viral Load Valid" = 'Yes' AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END; `}>
-                    <PieChart userOptions={{ colors: ["#2a63c4","#ec6240", "#f3af3d"] }} header="Viral Load Suppression" />
+                <Dataset query={`SELECT DATA as category, count (*) as value, ROUND((COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event   WHERE "Last Viral Load Result Category" IS NOT NULL  AND "Is Last Viral Load Valid" = 'Yes'   AND "TX Curr" = 'Yes')), 2) AS percentage FROM (SELECT "Tri Pillar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL AND "Is Last Viral Load Valid" = 'Yes' AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END; `}>
+                    <PieChart detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#2a63c4","#ec6240", "#f3af3d"] }} header="Viral Load Suppression" />
                 </Dataset>
             </Row>
             
