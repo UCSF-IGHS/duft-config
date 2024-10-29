@@ -61,13 +61,14 @@
                     <PieChart userOptions={{ colors: [ "#c6cdd4","#f3af3d","#ec6240"] }}  header="Retention" />
                 </Dataset>
 
+                <Dataset query={`SELECT DATA as category, count (*) as value, CONCAT(ROUND((COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event   WHERE "Last Viral Load Result Category" IS NOT NULL  AND "Is Last Viral Load Valid" = 'Yes'   AND "TX Curr" = 'Yes')), 2), '%') AS percentage FROM (SELECT "Tri Pillar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL AND "Is Last Viral Load Valid" = 'Yes' AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END; `}>
+                    <PieChart detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#2a63c4", "#f3af3d", "#ec6240"] }} header="Viral Load Suppression" />
+                </Dataset>
+
                 <Dataset query={`SELECT DATA as category,COUNT (*) AS value FROM (SELECT "Sex" AS "Sex","Tri Pillar Age Group" AS age_group, "Viral Load Eligibility" AS DATA,"__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Recent (Slightly delayed)') ) A GROUP BY DATA ORDER BY CASE WHEN DATA = 'Monitored per Guidelines' THEN 1 WHEN DATA = 'Recent (Slightly delayed)' THEN 2 WHEN DATA = 'Delayed' THEN 3 END;`}>
                     <PieChart userOptions={{ colors: ["#52b5d5","#f3af3d","#ec6240"] }} header="Viral Load Monitoring" />
                 </Dataset>
 
-                <Dataset query={`SELECT DATA as category, count (*) as value, CONCAT(ROUND((COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event   WHERE "Last Viral Load Result Category" IS NOT NULL  AND "Is Last Viral Load Valid" = 'Yes'   AND "TX Curr" = 'Yes')), 2), '%') AS percentage FROM (SELECT "Tri Pillar Age Group" as age_group,"Last Viral Load Result Category"  AS DATA, "Sex" as sex FROM  analysis.fact_sentinel_event WHERE "Last Viral Load Result Category" IS NOT NULL AND "Is Last Viral Load Valid" = 'Yes' AND "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')) a GROUP BY data ORDER BY CASE WHEN DATA = 'Suppressed' THEN 1 WHEN DATA = 'LLV' THEN 2 WHEN DATA = 'Unsuppressed' THEN 3 END; `}>
-                    <PieChart detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#2a63c4", "#f3af3d", "#ec6240"] }} header="Viral Load Suppression" />
-                </Dataset>
             </Row>
             
             
