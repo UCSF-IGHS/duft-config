@@ -1,76 +1,16 @@
-<TabSet>
-  <Tab title="All">
-    <Dashboard>
-      <SingleLayout>
-        <Grid>
-
-          <Row columns="1" largeColumns="1" >
-
-            <Dataset pageSize={50} filters={{ "Last Viral Load Result Category": "Unsuppressed" }} searchColumns="ART Number, Sex, ART Number Legacy">
-              <Query>
-                <Include file="sql/vls.sql" />
-              </Query>
-              <Include file="components/client_list.3dl" />
-            </Dataset>
-          </Row>
-        </Grid>
-      </SingleLayout>
-    </Dashboard>
-  </Tab>
-
-  <Tab title="Men (20-39)">
-    <Dashboard>
-      <SingleLayout>
-        <Grid>
-          <Row columns="1" largeColumns="1" >
-
-            <Dataset pageSize={50} filters={{ "Last Viral Load Result Category": "Unsuppressed", "Sex": "Male", "tri_pillar_age_group": "20-39" }} searchColumns="ART Number, Sex, ART Number Legacy">
-              <Query>
-                <Include file="sql/vls.sql" />
-              </Query>
-              <Include file="components/client_list.3dl" />
-            </Dataset>
-
-          </Row>
-        </Grid>
-      </SingleLayout>
-    </Dashboard>
-  </Tab>
-
-
-  <Tab title="Paeds (0-19)">
-    <Dashboard>
-      <SingleLayout>
-        <Grid>
-          <Row columns="1" largeColumns="1" >
-            <Dataset pageSize={50} filters={{ "Last Viral Load Result Category": "Unsuppressed", "tri_pillar_age_group_nineteen": "0-19" }} searchColumns="ART Number, Sex, ART Number Legacy">
-              <Query>
-                <Include file="sql/vls.sql" />
-              </Query>
-              <Include file="components/client_list.3dl" />
-            </Dataset>
-
-          </Row>
-        </Grid>
-      </SingleLayout>
-    </Dashboard>
-  </Tab>
-
-
-  <Tab title="PBFW">
-    <Dashboard>
-      <SingleLayout>
-        <Grid>
-          <Row columns="1" largeColumns="1">
-            <Dataset pageSize={50} filters={{ "Last Viral Load Result Category": "Unsuppressed", "Last PBFW Status": "Yes" }} searchColumns="ART Number, Sex, ART Number Legacy">
-              <Query>
-                <Include file="sql/vls.sql" />
-              </Query>
-              <Include file="components/client_list.3dl" />
-            </Dataset>
-          </Row>
-        </Grid>
-      </SingleLayout>
-    </Dashboard>
-  </Tab>
-</TabSet>
+<Dashboard>
+  <SingleLayout>
+    <Grid>
+      <Row columns="1" largeColumns="1" >
+      <Row><Header>Unsuppressed: Greater or equal to than 1000</Header></Row>
+        <Dataset pageSize={50} filters={{ "Last Viral Load Result Category": "Unsuppressed" }} searchColumns="ART Number, Sex, ART Number Legacy">
+          <Query>
+            <Include file="sql/vls.sql" />
+          </Query>
+          <Include file="components/client_list.3dl" />
+        </Dataset>
+      </Row>
+    </Grid>
+  </SingleLayout>
+</Dashboard>
+  

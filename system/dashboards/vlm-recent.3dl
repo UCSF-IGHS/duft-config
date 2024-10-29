@@ -1,9 +1,9 @@
 <Dashboard>
   <SingleLayout>
     <Grid>
-    <Row><Header>Delayed</Header></Row>
+    <Row><Header>Recent</Header></Row>
       <Row columns="1" largeColumns="1" >
-        <Dataset pageSize={50} filters={{ "Viral Load Eligibility": "Delayed" }} searchColumns="ART Number, Sex, ART Number Legacy">
+        <Dataset pageSize={50} filters={{ "Viral Load Eligibility": "Recent (Slightly delayed)" }} searchColumns="ART Number, Sex, ART Number Legacy">
           <Query>
             <Include file="sql/vlm.sql" />
           </Query>

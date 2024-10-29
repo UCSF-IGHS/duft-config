@@ -1,0 +1,12 @@
+<Dashboard>
+  <SingleLayout>
+    <Grid>
+      <Row><Header>Less 3 Months MMP</Header></Row>
+      <Row columns="1" largeColumns="1">
+      
+      <Include file="components/client_list_advanced.3dl" InfiniteScrollTable-table1:initialColumns="ART Number Legacy,Sex, Current Age, Last PBFW,  ART Start Date, ART Duration (months), Last Visit Date,Next FUP Visit, Patient Status, Client Status, TX Curr, MMP Status" />
+      
+    </Row>
+    </Grid>
+  </SingleLayout>
+</Dashboard>

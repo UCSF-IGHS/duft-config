@@ -10,14 +10,14 @@
       "icon": "dashboards-icon",
       "dashboards": [
         {
-          "title": "Adult",
+          "title": "< 3months",
           "icon": "dashboard-icon",
-          "dashboard": "/dashboard/mmp-adult"
+          "dashboard": "/dashboard/mmp-less-3"
         },
         {
-          "title": "Paed",
+          "title": "3-5 months",
           "icon": "dashboard-icon",
-          "dashboard": "/dashboard/mmp-paed"
+          "dashboard": "/dashboard/mmp-3-5"
         }
       ]
     },
@@ -26,14 +26,14 @@
       "icon": "dashboards-icon",
       "dashboards": [
         {
-          "title": "IIT",
+          "title": "1-28 days",
           "icon": "dashboard-icon",
-          "dashboard": "/dashboard/retention-iit"
+          "dashboard": "/dashboard/retention-1-28"
         },
         {
-          "title": "Active",
+          "title": "29-90 days",
           "icon": "dashboard-icon",
-          "dashboard": "/dashboard/retention-active"
+          "dashboard": "/dashboard/retention-29-90"
         }
       ]
     },
@@ -42,14 +42,14 @@
       "icon": "dashboards-icon",
       "dashboards": [
         {
-          "title": "Adult",
+          "title": "Never initiated",
           "icon": "dashboard-icon",
-          "dashboard": "/dashboard/tpt-adult"
+          "dashboard": "/dashboard/tpt-never"
         },
         {
-          "title": "Paed",
+          "title": "Not completed",
           "icon": "dashboard-icon",
-          "dashboard": "/dashboard/tpt-paed"
+          "dashboard": "/dashboard/tpt-not"
         }
       ]
     },
@@ -63,9 +63,9 @@
           "dashboard": "/dashboard/vlm-delayed"
         },
         {
-          "title": "Slightly Delayed",
+          "title": "Recent",
           "icon": "dashboard-icon",
-          "dashboard": "/dashboard/vlm-slightly-delayed"
+          "dashboard": "/dashboard/vlm-recent"
         }
       ]
     },
