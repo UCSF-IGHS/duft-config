@@ -15,7 +15,7 @@
                 </Dataset>
 
                 <Filters>
-                    <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates, weekly_start_monday_end_date FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
+                    <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
                 </Filters>
 
                 <Row columns="1">
@@ -23,6 +23,7 @@
                       <CascadeChart
                         header="HIV Treatment and Retention Tree"
                         subHeader="Visual representation of HIV treatment and retention metrics."
+                        direction="top"
                         cascadeObject={{
                           id: "1",
                           data: {
@@ -211,11 +212,11 @@
                     <Header>HIV Case Identification</Header>
                 </Row>
                 <Filters>
-                    <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates, weekly_start_monday_end_date FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
+                    <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
                 </Filters>
 
                 <Row columns="1" largeColumns="1">
-                    <Dataset searchColumns="current_age, c.gender, c.ctc_id" query={`SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_tx_curr_28 = 1 AND report_date = '2024-06-02';`}>
+                    <Dataset debug="true" pageSize='20' searchColumns="current_age, c.gender, c.ctc_id" query={`SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_tx_curr_28 = 1 AND (report_date='$week' OR '$week'='') ORDER BY report_date`}>
                         <InfiniteScrollTable header="HIV Case Identification Table" subHeader="Tabular representation of HIV case identification metrics." searchHint="age, sex, CTC ID"/>
                     </Dataset>
                 </Row>
