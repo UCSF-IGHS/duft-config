@@ -1,4 +1,7 @@
 {
+    "settings":{
+      "appName":"Quantum Extension"
+    },
     "home": {
         "title": "Home",
         "icon": "home-icon",
