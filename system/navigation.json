@@ -38,7 +38,7 @@
       "icon": "update-icon",
       "task": "SAMPLE-NOTEBOOK",
       "dashboard": "refresh-data",
-      "prompt": "Sample prompting message"
+      "prompt": "Are you sure you want to refresh the data?"
     }
   ]
 }
