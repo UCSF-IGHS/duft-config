@@ -1,80 +1,34 @@
 <TabSet>
 
-    <Tab title="A. ART Cascade">
+    <Tab title="HIV Treatment and Retention">
         <Dashboard>
             <Grid>
-                <Row>
-                    <Header>ART Cascade</Header>
-                </Row>
-                <Filters>
-                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
-                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
-                </Filters>
-                <Row columns = "2" largeColumns = "4">
+                <Dataset query="SELECT 'May 27, 24 - Jun 02, 24' AS week_dates, 'Ngomamtimba Hospital' AS facility_name">
+                    <Row columns="2" smallColumns="1">
+                        <Header>
+                            <DataString>%facility_name%</DataString>
+                        </Header>
+                        <Subheader>
+                            <DataString>Data for week of: %week_dates%</DataString>
+                        </Subheader>
+                    </Row>
+                </Dataset>
 
-                    <Dataset query={`SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="New Cases"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Initiated"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Suppressed"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Not Suppressed"/>
-                    </Dataset>
-
-                </Row>
-
-                <Row columns = "1" largeColumns = "1">
-
-                    <Dataset query={`SELECT * FROM vw_art_cascade;`}>
-                    <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
-                    </Dataset>
-
-                </Row>
-
-                <Row columns = "2" largeColumns = "2">
-
-                    <Dataset query={`SELECT category, Male, Female FROM vw_art_cascade_per_gender;`}>
-                    <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT category, "0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79" FROM vw_art_cascade_per_age_group;`}>
-                    <ClusteredBarChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group"/>
-                        </Dataset>
-
-                </Row>
-
-            </Grid>
-        </Dashboard>
-    </Tab>
-
-    <Tab title="HIV Testing Tree">
-        <Dashboard>
-            <Grid>
-                <Row>
-                    <Header>HIV Case Identification</Header>
-                </Row>
                 <Filters>
                     <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates, weekly_start_monday_end_date FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
                 </Filters>
+
                 <Row columns="1">
                     <Dataset query="">
                       <CascadeChart
-                        header="HIV Case Identification Tree"
-                        subHeader="Visual representation of HIV case identification metrics."
+                        header="HIV Treatment and Retention Tree"
+                        subHeader="Visual representation of HIV treatment and retention metrics."
                         cascadeObject={{
                           id: "1",
                           data: {
-                            label: "Clients Tested for HIV",
+                            label: "Clients currently on ART (TX_CURR)",
                             query:
-                              "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_valid_hiv_test = 1",
+                              "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_tx_curr_28 = 1 AND report_date = '2024-06-02';",
                           },
                           options: {
                               nodeBGColorHover: "#007bff",
@@ -85,56 +39,161 @@
                             {
                                 id: "11",
                                 data: {
-                                    label: "Clients Tested Positive",
+                                    label: "Clients newly initiated on ART (TX_NEW)",
                                     query:
-                                    "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1;",
+                                    "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_mer_tx_new AS [Is Newly on Treatment] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_mer_tx_new = 1 AND d.weekly_start_monday_end_date = '2024-06-02';",
                                 },
                                 options: {
                                     nodeBGColorHover: "#FF4C6A",
                                     borderColorHover: "#FF3E5E",
                                     nodeBGColor: "#FAA6BD",
                                 },
-                                children: [
-                                {
-                                    id: "111",
-                                    data: {
-                                        label: "With Documented CTC ID",
-                                        query:
-                                        "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1",
-                                    },
-                                    options: {
-                                        nodeBGColorHover: "#d92a3e",
-                                        borderColorHover: "#b71c28",
-                                        nodeBGColor: "#f8a3a8",
-                                    },
-                                },
-                                {
-                                    id: "112",
-                                    data: {
-                                        label: "Without Documented CTC ID",
-                                        query:
-                                        "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_positive = 1 AND hts_ctc_id IS NULL;",
-                                    },
-                                    options: {
-                                        nodeBGColorHover: "#FF6F3C",
-                                        borderColorHover: "#FF4F2A",
-                                        nodeBGColor: "#FFB3A0",
-                                    },
-                                },
-                                ],
                             },
                             {
                                 id: "12",
                                 data: {
-                                    label: "Clients Tested Negative",
+                                    label: "Clients transferred in (TI)",
                                     query:
-                                    "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_hiv_negative = 1;",
+                                    "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_transferred_in AS [Is Transferred In] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_transferred_in = 1 AND d.weekly_start_monday_end_date = '2024-06-02';;",
                                 },
                                 options: {
                                     nodeBGColorHover: "#28a745",
                                     borderColorHover: "#218838",
                                     nodeBGColor: "#c3e6cb",
                               },
+                            },
+                            {
+                                id: "13",
+                                data: {
+                                    label: "Clients who returned to treatment (TX_RTT)",
+                                    query:
+                                    "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], traced_back_lost_in_previous_weeks AS [TX_RTT] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE traced_back_lost_in_previous_weeks = 1 AND d.weekly_start_monday_end_date = '2024-06-02';;",
+                                },
+                                options: {
+                                    nodeBGColorHover: "#28a745",
+                                    borderColorHover: "#218838",
+                                    nodeBGColor: "#c3e6cb",
+                              },
+                            },
+                            {
+                                id: "14",
+                                data: {
+                                    label: "Clients transferred out (TO)",
+                                    query:
+                                    "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], has_transferred_out AS [Transferred Out] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE has_transferred_out = 1 AND d.weekly_start_monday_end_date = '2024-06-02';",
+                                },
+                                options: {
+                                    nodeBGColorHover: "#28a745",
+                                    borderColorHover: "#218838",
+                                    nodeBGColor: "#c3e6cb",
+                              },
+                            },
+                            {
+                                id: "15",
+                                data: {
+                                    label: "Clients who died",
+                                    query:
+                                    "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], has_died AS [Has Died] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE has_died = 1 AND d.weekly_start_monday_end_date = '2024-06-02';",
+                                },
+                                options: {
+                                    nodeBGColorHover: "#28a745",
+                                    borderColorHover: "#218838",
+                                    nodeBGColor: "#c3e6cb",
+                              },
+                            },
+                            {
+                                id: "16",
+                                data: {
+                                    label: "Cumulative number of clients who experienced interruption in treatment (IIT)",
+                                    query:
+                                    "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period AS [Missed Drugs for More than 28 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_29_and_90_days = 1 AND report_date = '2024-06-02';",
+                                },
+                                options: {
+                                    nodeBGColorHover: "#28a745",
+                                    borderColorHover: "#218838",
+                                    nodeBGColor: "#c3e6cb",
+                              },
+                              children: [
+                              {
+                                  id: "161",
+                                  data: {
+                                      label: "New IIT this week",
+                                      query:
+                                      "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period AS [Missed Drugs for More than 28 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND weekly_start_monday_end_date = '2024-06-02';",
+                                  },
+                                  options: {
+                                      nodeBGColorHover: "#d92a3e",
+                                      borderColorHover: "#b71c28",
+                                      nodeBGColor: "#f8a3a8",
+                                  },
+                              },]
+                            },
+                            {
+                                id: "17",
+                                data: {
+                                    label: "Missed appt/refill by zero month TX_CURR (1 - 28 days)",
+                                    query:
+                                    "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_missed_drugs_between_1_to_28_days AS [Missed Drugs for 1 to 28 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_1_to_28_days = 1 AND report_date = '2024-06-02';",
+                                },
+                                options: {
+                                    nodeBGColorHover: "#28a745",
+                                    borderColorHover: "#218838",
+                                    nodeBGColor: "#c3e6cb",
+                              },
+                              children: [
+                              {
+                                  id: "171",
+                                  data: {
+                                      label: "Missed appt/refill 1 to 7 days",
+                                      query:
+                                      "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_missed_drugs_between_1_to_7_days AS [Missed Drugs for 1 to 7 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_1_to_7_days = 1 AND report_date = '2024-06-02';",
+                                  },
+                                  options: {
+                                      nodeBGColorHover: "#d92a3e",
+                                      borderColorHover: "#b71c28",
+                                      nodeBGColor: "#f8a3a8",
+                                  },
+                              },
+                              {
+                                  id: "172",
+                                  data: {
+                                      label: "Missed appt/refill 8 to 14 days",
+                                      query:
+                                      "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_missed_drugs_between_8_to_14_days AS [Missed Drugs for 8 to 14 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_8_to_14_days = 1 AND report_date = '2024-06-02';",
+                                  },
+                                  options: {
+                                      nodeBGColorHover: "#d92a3e",
+                                      borderColorHover: "#b71c28",
+                                      nodeBGColor: "#f8a3a8",
+                                  },
+                              },
+                              {
+                                  id: "173",
+                                  data: {
+                                      label: "Missed appt/refill 15 to 21 days",
+                                      query:
+                                      "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_missed_drugs_between_15_to_21_days AS [Missed Drugs for 15 to 21 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_15_to_21_days = 1 AND report_date = '2024-06-02';",
+                                  },
+                                  options: {
+                                      nodeBGColorHover: "#d92a3e",
+                                      borderColorHover: "#b71c28",
+                                      nodeBGColor: "#f8a3a8",
+                                  },
+                              },
+                              {
+                                  id: "174",
+                                  data: {
+                                      label: "Missed appt/refill 22 to 28 days",
+                                      query:
+                                      "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_missed_drugs_between_22_to_28_days AS [Missed Drugs for 22 to 28 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_22_to_28_days = 1 AND report_date = '2024-06-02';",
+                                  },
+                                  options: {
+                                      nodeBGColorHover: "#d92a3e",
+                                      borderColorHover: "#b71c28",
+                                      nodeBGColor: "#f8a3a8",
+                                  },
+                              },
+                              ]
                             },
                           ],
                         }}
@@ -145,7 +204,7 @@
         </Dashboard>
     </Tab>
 
-    <Tab title="HIV Testing Table">
+    <Tab title="HIV Treatment and Retention Table">
         <Dashboard>
             <Grid>
                 <Row>
@@ -156,8 +215,8 @@
                 </Filters>
 
                 <Row columns="1" largeColumns="1">
-                    <Dataset query={`SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hiv_test_result AS [HIV Test Result], hts_attendance_type AS [HTS Attendance Type], visit_type AS [Visit Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id WHERE is_valid_hiv_test = 1`}>
-                        <InfiniteScrollTable header="HIV Case Identification Table" subHeader="Tabular representation of HIV case identification metrics."/>
+                    <Dataset searchColumns="current_age, c.gender, c.ctc_id" query={`SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_tx_curr_28 = 1 AND report_date = '2024-06-02';`}>
+                        <InfiniteScrollTable header="HIV Case Identification Table" subHeader="Tabular representation of HIV case identification metrics." searchHint="age, sex, CTC ID"/>
                     </Dataset>
                 </Row>
             </Grid>

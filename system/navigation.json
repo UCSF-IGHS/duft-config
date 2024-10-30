@@ -22,7 +22,7 @@
         {
           "title": "Tx Retention",
           "icon": "dashboard-icon",
-          "dashboard": "/dashboard/3dlsample-tabs"
+          "dashboard": "/dashboard/retention"
         },
         {
           "title": "Preview query",
