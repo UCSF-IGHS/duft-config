@@ -2,9 +2,9 @@
     <Dashboard>
       <SingleLayout>
         <Grid>
-        <Row><Header>Never initiated</Header></Row>
+        <Row><Header>Incomplete TPT or never initiated TPT</Header></Row>
           <Row columns="1" largeColumns="1" >
-            <Dataset pageSize={50} filters={{ "TPT Status Two": "Never Initiated TPT"}} searchColumns="ART Number, Sex, ART Number Legacy">
+            <Dataset pageSize={50} filters={{ "TPT Status Two": "Incomplete TPT"}} searchColumns="ART Number, Sex, ART Number Legacy">
               <Query>
                 <Include file="sql/tpt.sql" />
               </Query>

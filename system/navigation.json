@@ -22,34 +22,34 @@
       ]
     },
     {
-      "title": "Retention",
-      "icon": "dashboards-icon",
-      "dashboards": [
-        {
-          "title": "1-28 days",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/retention-1-28"
-        },
-        {
-          "title": "29-90 days",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/retention-29-90"
-        }
-      ]
-    },
-    {
       "title": "TPT",
       "icon": "dashboards-icon",
       "dashboards": [
         {
-          "title": "Never initiated",
+          "title": "Incomplete TPT",
           "icon": "dashboard-icon",
           "dashboard": "/dashboard/tpt-never"
         },
         {
-          "title": "Not completed",
+          "title": "Still on TPT",
           "icon": "dashboard-icon",
           "dashboard": "/dashboard/tpt-not"
+        }
+      ]
+    },
+    {
+      "title": "Retention",
+      "icon": "dashboards-icon",
+      "dashboards": [
+        {
+          "title": "Not in Care (29-90 days)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/retention-29-90"
+        },
+        {
+          "title": "Not in Care (1-28 days)",
+          "icon": "dashboard-icon",
+          "dashboard": "/dashboard/retention-1-28"
         }
       ]
     },
@@ -74,12 +74,12 @@
       "icon": "dashboards-icon",
       "dashboards": [
         {
-          "title": "HLV",
+          "title": "Unsuppressed",
           "icon": "dashboard-icon",
           "dashboard": "/dashboard/vls-hlv"
         },
         {
-          "title": "LLV",
+          "title": "Low level viremia",
           "icon": "dashboard-icon",
           "dashboard": "/dashboard/vls-llv"
         }
