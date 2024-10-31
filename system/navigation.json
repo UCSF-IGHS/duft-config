@@ -1,6 +1,7 @@
 {
     "settings":{
-      "appName":"Quantum Extension"
+      "appName":"Quantum Extension",
+      "footer": "Supported at Global Programs Office, Namibia"
     },
     "home": {
         "title": "Home",
