@@ -4,7 +4,7 @@
         <Grid>
         <Row><Header>Currently on TPT or TB treatment</Header></Row>
           <Row columns="1" largeColumns="1">
-            <Dataset pageSize={50} filters={{ "TPT Status Two": "Currently on TPT" }} searchColumns="ART Number, Sex, ART Number Legacy">
+            <Dataset pageSize={50} filters={{ "TPT Status Two": "Currently on TPT" }} searchColumns="Sex, ART Number Legacy">
               <Query>
                 <Include file="sql/tpt.sql" />
               </Query>

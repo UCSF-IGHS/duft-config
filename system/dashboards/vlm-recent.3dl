@@ -3,7 +3,7 @@
     <Grid>
     <Row><Header>Recent</Header></Row>
       <Row columns="1" largeColumns="1" >
-        <Dataset pageSize={50} filters={{ "Viral Load Eligibility": "Recent (Slightly delayed)" }} searchColumns="ART Number, Sex, ART Number Legacy">
+        <Dataset pageSize={50} filters={{ "Viral Load Eligibility": "Recent (Slightly delayed)" }} searchColumns="Sex, ART Number Legacy">
           <Query>
             <Include file="sql/vlm.sql" />
           </Query>

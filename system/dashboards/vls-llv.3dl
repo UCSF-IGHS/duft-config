@@ -3,7 +3,7 @@
     <Grid>
       <Row columns="1" largeColumns="1" >
       <Row><Header>Low level viremia: 40-999 copies/ml</Header></Row>
-        <Dataset pageSize={50} filters={{ "Last Viral Load Result Category": "LLV" }} searchColumns="ART Number, Sex, ART Number Legacy">
+        <Dataset pageSize={50} filters={{ "Last Viral Load Result Category": "LLV" }} searchColumns="Sex, ART Number Legacy">
           <Query>
             <Include file="sql/vls.sql" />
           </Query>

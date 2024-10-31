@@ -3,7 +3,7 @@
     <Grid>
       <Row columns="1" largeColumns="1" >
       <Row><Header>Unsuppressed: ≥ 1000 copies/ml</Header></Row>
-        <Dataset pageSize={50} filters={{ "Last Viral Load Result Category": "Unsuppressed" }} searchColumns="ART Number, Sex, ART Number Legacy">
+        <Dataset pageSize={50} filters={{ "Last Viral Load Result Category": "Unsuppressed" }} searchColumns="Sex, ART Number Legacy">
           <Query>
             <Include file="sql/vls.sql" />
           </Query>
