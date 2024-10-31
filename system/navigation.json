@@ -7,88 +7,91 @@
         "icon": "home-icon",
         "dashboard": "/dashboard/home"
     },
-  "menu": [
-    {
-      "title": "MMP",
-      "icon": "dashboards-icon",
-      "dashboards": [
-        {
-          "title": "< 3months",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/mmp-less-3"
-        },
-        {
-          "title": "3-5 months",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/mmp-3-5"
-        }
-      ]
-    },
-    {
-      "title": "TPT",
-      "icon": "dashboards-icon",
-      "dashboards": [
-        {
-          "title": "Incomplete TPT",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/tpt-never"
-        },
-        {
-          "title": "Still on TPT",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/tpt-not"
-        }
-      ]
-    },
-    {
-      "title": "Retention",
-      "icon": "dashboards-icon",
-      "dashboards": [
-        {
-          "title": "Not in Care (29-90 days)",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/retention-29-90"
-        },
-        {
-          "title": "Not in Care (1-28 days)",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/retention-1-28"
-        }
-      ]
-    },
-    {
-      "title": "VLM",
-      "icon": "dashboards-icon",
-      "dashboards": [
-        {
-          "title": "Delayed",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/vlm-delayed"
-        },
-        {
-          "title": "Recent",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/vlm-recent"
-        }
-      ]
-    },
-    {
-      "title": "VLS",
-      "icon": "dashboards-icon",
-      "dashboards": [
-        {
-          "title": "Unsuppressed",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/vls-hlv"
-        },
-        {
-          "title": "Low level viremia",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/vls-llv"
-        }
-      ]
-    }
-  ],
+  "menu": {
+    "header":"Patients Needing Attention",
+    "items": [
+      {
+        "title": "MMP",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "< 3months",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/mmp-less-3"
+          },
+          {
+            "title": "3-5 months",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/mmp-3-5"
+          }
+        ]
+      },
+      {
+        "title": "TPT",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "Incomplete TPT",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/tpt-never"
+          },
+          {
+            "title": "Still on TPT",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/tpt-not"
+          }
+        ]
+      },
+      {
+        "title": "Retention",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "Not in Care (29-90 days)",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/retention-29-90"
+          },
+          {
+            "title": "Not in Care (1-28 days)",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/retention-1-28"
+          }
+        ]
+      },
+      {
+        "title": "VLM",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "Delayed",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/vlm-delayed"
+          },
+          {
+            "title": "Recent",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/vlm-recent"
+          }
+        ]
+      },
+      {
+        "title": "VLS",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "Unsuppressed",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/vls-hlv"
+          },
+          {
+            "title": "Low level viremia",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/vls-llv"
+          }
+        ]
+      }
+    ]
+  },
   "dataTasks": [
     {
       "title": "Refresh Data",
