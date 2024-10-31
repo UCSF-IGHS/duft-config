@@ -93,7 +93,9 @@
       }
     ]
   },
-  "dataTasks": [
+  "dataTasks": {
+    "header": "actions",
+    "items": [
     {
       "title": "Refresh Data",
       "icon": "update-icon",
@@ -108,4 +110,5 @@
     }
     
   ]
+  }
 }
