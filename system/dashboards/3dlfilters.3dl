@@ -7,8 +7,8 @@
         <Filters>
           <Filter caption="Gender" name="gender" values_query="SELECT 
               CASE 
-                  WHEN ROW_NUMBER() OVER () = 1 THEN 'label 1'
-                  ELSE 'label 2'
+                  WHEN ROW_NUMBER() OVER () = 1 THEN 'XX'
+                  ELSE 'XY'
               END AS label,
               gender AS value
           FROM (
