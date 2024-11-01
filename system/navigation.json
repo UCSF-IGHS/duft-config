@@ -1,44 +1,79 @@
 {
+  "settings": {
+    "appName": "DUFT CTCA",
+    "footer": "Powered by DUFT"
+  },
   "home": {
     "title": "Home",
     "icon": "home-icon",
     "dashboard": "/dashboard/home"
   },
-  "menu": [
-    {
-      "title": "Tanzania CTC-A",
-      "icon": "dashboards-icon",
-      "dashboards": [
-        {
-          "title": "HIV Testing",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/hiv-testing"
-        },
-        {
-          "title": "Viral Load Testing",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/3dlsample-2"
-        },
-        {
-          "title": "Tx Retention",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/retention"
-        },
-        {
-          "title": "Preview query",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/3dlpreview-query"
-        }
-      ]
-    }
-  ],
-  "dataTasks": [
-    {
-      "title": "Refresh data",
-      "icon": "update-icon",
-      "task": "SAMPLE-NOTEBOOK",
-      "dashboard": "refresh-data",
-      "prompt": "Are you sure you want to refresh the data?"
-    }
-  ]
+  "menu": {
+    "header": "Dashboards",
+    "items": [
+      {
+        "title": "Weekly Summary",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "HIV Testing",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/hiv-testing"
+          },
+          {
+            "title": "Tx Retention",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/retention"
+          },
+          {
+            "title": "Viral Load Testing",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/viral-load"
+          },
+          {
+            "title": "Preview query",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/3dlpreview-query"
+          }
+        ]
+      },
+      {
+        "title": "Need Attention",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "HIV Testing",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/hiv-testing"
+          },
+          {
+            "title": "Tx Retention",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/retention"
+          },
+          {
+            "title": "Viral Load Testing",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/3dlsample-2"
+          },
+          {
+            "title": "Preview query",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/3dlpreview-query"
+          }
+        ]
+      }
+    ]
+  },
+  "dataTasks": {
+    "items": [
+      {
+        "title": "Refresh data",
+        "icon": "update-icon",
+        "task": "SAMPLE-NOTEBOOK",
+        "dashboard": "refresh-data",
+        "prompt": "Are you sure you want to refresh the data?"
+      }
+    ]
+  }
 }

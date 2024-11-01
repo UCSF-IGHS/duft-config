@@ -23,7 +23,6 @@
                       <CascadeChart
                         header="HIV Treatment and Retention Tree"
                         subHeader="Visual representation of HIV treatment and retention metrics."
-                        direction="top"
                         cascadeObject={{
                           id: "1",
                           data: {

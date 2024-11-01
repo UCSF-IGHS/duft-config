@@ -3,9 +3,17 @@
     <Tab title="HIV Testing Tree">
         <Dashboard>
             <Grid>
-                <Row>
-                    <Header>HIV Case Identification</Header>
-                </Row>
+                <Dataset query="SELECT 'May 27, 24 - Jun 02, 24' AS week_dates, 'Ngomamtimba Hospital' AS facility_name">
+                    <Row columns="2" smallColumns="1">
+                        <Header>
+                            <DataString>%facility_name%</DataString>
+                        </Header>
+                        <Subheader>
+                            <DataString>Data for week of: %week_dates%</DataString>
+                        </Subheader>
+                    </Row>
+                </Dataset>
+
                 <Filters>
                     <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
                 </Filters>

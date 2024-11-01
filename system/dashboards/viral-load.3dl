@@ -1,267 +1,33 @@
 <TabSet>
 
-    <Tab title="A. ART Cascade">
+    <Tab title="Viral Load Tree">
         <Dashboard>
             <Grid>
-                <Row>
-                    <Header>ART Cascade</Header>
-                </Row>
+                <Dataset query="SELECT 'May 27, 24 - Jun 02, 24' AS week_dates, 'Ngomamtimba Hospital' AS facility_name">
+                    <Row columns="2" smallColumns="1">
+                        <Header>
+                            <DataString>%facility_name%</DataString>
+                        </Header>
+                        <Subheader>
+                            <DataString>Data for week of: %week_dates%</DataString>
+                        </Subheader>
+                    </Row>
+                </Dataset>
+
                 <Filters>
-                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
-                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
+                    <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
                 </Filters>
-                <Row columns = "2" largeColumns = "4">
-
-                    <Dataset query={`SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="New Cases"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Initiated"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Suppressed"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Not Suppressed"/>
-                    </Dataset>
-
-                </Row>
-
-                <Row columns = "1" largeColumns = "1">
-
-                    <Dataset query={`SELECT * FROM vw_art_cascade;`}>
-                    <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
-                    </Dataset>
-
-                </Row>
-
-                <Row columns = "2" largeColumns = "2">
-
-                    <Dataset query={`SELECT category, Male, Female FROM vw_art_cascade_per_gender;`}>
-                    <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT category, "0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79" FROM vw_art_cascade_per_age_group;`}>
-                    <ClusteredBarChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group"/>
-                        </Dataset>
-
-                </Row>
-
-            </Grid>
-        </Dashboard>
-    </Tab>
-
-    <Tab title="B. Regimen Analysis">
-        <Dashboard>
-            <Grid>
-                <Row>
-                    <Header>Regimen Analysis</Header>
-                </Row>
-                <Filters>
-                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
-                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
-                </Filters>
-                <Row columns = "2" largeColumns = "4">
-
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Initiated"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(first_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(first_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="First Line"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(second_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(second_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Second Line"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(unknown_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(unknown_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Unknown Line"/>
-                    </Dataset>
-
-                </Row>
-                <Row columns = "1" largeColumns = "2">
-
-                    <Dataset query={`SELECT * FROM vw_art_regimen_lines;`}>
-                    <DonutChart header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT * FROM vw_art_regimen_lines_per_age_group;`}>
-                    <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines"/>
-                    </Dataset>
-
-                </Row>
-                <Row columns = "1" largeColumns = "2">
-
-                    <Dataset query={`SELECT * FROM vw_art_regimen_lines_per_age_group ;`}>
-                    <StackedBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Stacked Bar Chart: Current ART Regimen Lines "/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT * FROM vw_art_initiation_regimens_per_age_group;`}>
-                    <PercentStackedBarChart userOptions={{ xaxis: { title: { text: 'ART Regimens' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation"/>
-                    </Dataset>
-
-                </Row>
-            </Grid>
-        </Dashboard>
-    </Tab>
-
-    <Tab title="C. ART Outcome">
-        <Dashboard>
-            <Grid>
-                <Row>
-                    <Header>ART Outcome</Header>
-                </Row>
-                <Filters>
-                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
-                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
-                </Filters>
-                <Row columns = "2" largeColumns = "4">
-
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Initiated"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Suppressed"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Not Suppressed"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(needs_viral_load_test) AS needs_viral_load_test, PRINTF ('%.1f%%', SUM(needs_viral_load_test) * 100.0 / SUM(initiated_on_art)) AS percentage_need_vl_test FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Need VL Test"/>
-                    </Dataset>
-
-                </Row>
-                <Row columns = "1" largeColumns = "3">
-
-                    <Dataset query={`SELECT * FROM vw_art_outcomes;`}>
-                    <PieChart userOptions={{ colors: ["#9e0159", "#390099"] }} header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT * FROM vw_art_outcomes;`}>
-                    <BarChart userOptions={{ xaxis: { title: { text: 'Viral Load Result' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT * FROM vw_art_outcomes_per_age_group;`}>
-                    <StackedBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Outcomes by Age Group" subHeader="Stacked Bar Chart: ART Outcomes"/>
-                    </Dataset>
-
-                </Row>
-                <Row columns="1" largeColumns="1">
-                    <Dataset query={`SELECT * FROM vw_sentinel_event_line_list ORDER BY RANDOM() LIMIT 100`}>
-                        <SmartDataTable header="ART Outcomes Line List" subHeader="Smart Data Table: ART Outcomes Line List"/>
-                    </Dataset>
-                </Row>
-            </Grid>
-        </Dashboard>
-    </Tab>
-
-    <Tab title="D. ART Retention">
-        <Dashboard>
-            <Grid>
-                <Row>
-                    <Header>ART Retention</Header>
-                </Row>
-                <Filters>
-                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
-                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
-                </Filters>
-                <Row columns = "2" largeColumns = "4">
-
-                    <Dataset query={`SELECT SUM(ever_on_art) FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Ever Initiated On ART"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(on_art) AS on_art, PRINTF ('%.1f%%',SUM(on_art) * 100.0 / SUM(ever_on_art)) AS percentage_initiated FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Currently On ART"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(exited) AS exited, PRINTF ('%.1f%%', SUM(exited) * 100.0 / SUM(ever_on_art)) AS percentage_exited FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Exited"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(died) AS died, PRINTF ('%.1f%%', SUM(died) * 100.0 / SUM(ever_on_art)) AS percentage_died FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Died"/>
-                    </Dataset>
-
-                </Row>
-                <Row columns = "1" largeColumns = "2">
-
-                    <Dataset query={`SELECT category, "Not Initiated", Initiated FROM vw_diagnosed_vs_initiated_vs_exited WHERE year_month > 202301;`}>
-                    <AreaChart userOptions={{ colors: ["#9e0159", "#390099"], xaxis: { title: { text: 'Months' }}, yaxis: { title: { text: 'Clients' }} }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT * FROM vw_initiated_per_age_group;`}>
-                        <StackedBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="Ever Initiated on ART By Age Group and Gender" subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender"/>
-                    </Dataset>
-
-                </Row>
-                <Row columns = "1" largeColumns = "2">
-
-                    <Dataset query={`SELECT * FROM vw_exited_died_per_age_group;`}>
-                    <HeatmapChart userOptions={{ xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Gender' }} }} header="Deceased by Gender Over the Years" subHeader="Heatmap: Deceased by Gender Over the Years"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT category, "Active Clients" FROM vw_longterm_retention WHERE year > 2005;`}>
-                    <BarChart userOptions={{ xaxis: { title: { text: 'Number of Years' }}, yaxis: { title: { text: 'Clients' }} }} header="Longterm Retention" subHeader="Stacked Bar Chart: Active Clients vs Years on ART (Longterm Retention)"/>
-                    </Dataset>
-
-                </Row>
-            </Grid>
-        </Dashboard>
-    </Tab>
-
-    <Tab title="E. ART Cascade Tree">
-        <Dashboard>
-            <Grid>
-                <Row>
-                    <Header>ART Cascade Tree</Header>
-                </Row>
-                <Filters>
-                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
-                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
-                </Filters>
-                <Row columns = "2" largeColumns = "4">
-
-                    <Dataset query={`SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="New Cases"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Initiated"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Suppressed"/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Not Suppressed"/>
-                    </Dataset>
-
-                </Row>
                 <Row columns="1">
                     <Dataset query="">
                       <CascadeChart
-                        header="ART Cascade Tree"
-                        subHeader="ART Cascade Tree"
+                        header="Viral Load Testing Tree"
+                        subHeader="Visual representation of HIV case identification metrics."
                         cascadeObject={{
                           id: "1",
                           data: {
-                            label: "New Positive Cases",
+                            label: "Clients eligible for viral load testing",
                             query:
-                              "SELECT dc.client_id , birth_date , current_age , gender , marital_status FROM fact_sentinel_event fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';",
+                              "SELECT report_date AS [Report Date], f.gender AS Sex, current_age AS Age, v.viral_load_test_date AS [VL Test Date], viral_load_test_result_numeric AS [VL Result], v.viral_load_test_result_text AS [Result Text], v.next_viral_load_test_date AS [Next VL Date], clients_eligible_for_viral_load_testing AS [Eligible for VL], has_visited AS [Attended] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] INNER JOIN derived.fact_viral_load_test v ON f.client_id = v.client_id AND v.viral_load_test_date = ( SELECT MAX(viral_load_test_date) FROM derived.fact_viral_load_test v WHERE v.viral_load_test_date <= f.report_date AND v.client_id = f.client_id ) WHERE clients_eligible_for_viral_load_testing = 1 AND weekly_start_monday_end_date = '2024-06-02' ORDER BY f.report_date",
                           },
                           options: {
                               nodeBGColorHover: "#007bff",
@@ -272,35 +38,40 @@
                             {
                                 id: "11",
                                 data: {
-                                    label: "Initiated on ART",
+                                    label: "Clients eligible for VL with no documented sample taken",
                                     query:
-                                    "SELECT dc.client_id , birth_date , current_age , gender , marital_status FROM fact_sentinel_event fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022' AND has_ever_been_initiated_on_art = 1;",
+                                    "SELECT report_date AS [Report Date], f.gender AS Sex, current_age AS Age, v.viral_load_test_date AS [VL Test Date], viral_load_test_result_numeric AS [VL Result], v.viral_load_test_result_text AS [Result Text], v.next_viral_load_test_date AS [Next VL Date], clients_eligible_for_viral_load_testing_with_sample_not_taken AS [Eligible for VL], has_visited AS [Attended] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] INNER JOIN derived.fact_viral_load_test v ON f.client_id = v.client_id AND v.viral_load_test_date = ( SELECT MAX(viral_load_test_date) FROM derived.fact_viral_load_test v WHERE v.viral_load_test_date <= f.report_date AND v.client_id = f.client_id ) WHERE clients_eligible_for_viral_load_testing_with_sample_not_taken = 1 AND weekly_start_monday_end_date = '2024-06-02' ORDER BY f.report_date;",
+                                },
+                                options: {
+                                    nodeBGColorHover: "#FF4C6A",
+                                    borderColorHover: "#FF3E5E",
+                                    nodeBGColor: "#FAA6BD",
                                 },
                                 children: [
                                 {
                                     id: "111",
                                     data: {
-                                        label: "Suppressed",
+                                        label: "Clients eligible for VL and attended with no sample taken",
                                         query:
-                                        "SELECT dc.client_id , birth_date , current_age , gender , marital_status FROM fact_sentinel_event fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022' AND has_ever_been_initiated_on_art = 1 AND last_viral_load_result_is_suppressed = 1;",
+                                        "SELECT report_date AS [Report Date], f.gender AS Sex, current_age AS Age, v.viral_load_test_date AS [VL Test Date], viral_load_test_result_numeric AS [VL Result], v.viral_load_test_result_text AS [Result Text], v.next_viral_load_test_date AS [Next VL Date], clients_eligible_for_viral_load_testing_attend_clinic_sample_not_taken AS [Eligible for VL], has_visited AS [Attended] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] INNER JOIN derived.fact_viral_load_test v ON f.client_id = v.client_id AND v.viral_load_test_date = ( SELECT MAX(viral_load_test_date) FROM derived.fact_viral_load_test v WHERE v.viral_load_test_date <= f.report_date AND v.client_id = f.client_id ) WHERE clients_eligible_for_viral_load_testing_attend_clinic_sample_not_taken = 1 AND weekly_start_monday_end_date = '2024-06-02' ORDER BY f.report_date",
                                     },
                                     options: {
-                                        nodeBGColorHover: "#28a745",
-                                        borderColorHover: "#218838",
-                                        nodeBGColor: "#c3e6cb",
+                                        nodeBGColorHover: "#d92a3e",
+                                        borderColorHover: "#b71c28",
+                                        nodeBGColor: "#f8a3a8",
                                     },
                                 },
                                 {
                                     id: "112",
                                     data: {
-                                        label: "Not Suppressed",
+                                        label: "Clients eligible for VL, not attended and no sample taken",
                                         query:
-                                        "SELECT dc.client_id , birth_date , current_age , gender , marital_status FROM fact_sentinel_event fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022' AND has_ever_been_initiated_on_art = 1 AND last_viral_load_result_is_not_suppressed = 1;",
+                                        "SELECT report_date AS [Report Date], f.gender AS Sex, current_age AS Age, v.viral_load_test_date AS [VL Test Date], viral_load_test_result_numeric AS [VL Result], v.viral_load_test_result_text AS [Result Text], v.next_viral_load_test_date AS [Next VL Date], clients_eligible_for_viral_load_testing_not_attend_clinic_sample_not_taken AS [Eligible for VL], has_visited AS [Attended] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] INNER JOIN derived.fact_viral_load_test v ON f.client_id = v.client_id AND v.viral_load_test_date = ( SELECT MAX(viral_load_test_date) FROM derived.fact_viral_load_test v WHERE v.viral_load_test_date <= f.report_date AND v.client_id = f.client_id ) WHERE clients_eligible_for_viral_load_testing_not_attend_clinic_sample_not_taken = 1 AND weekly_start_monday_end_date = '2024-06-02' ORDER BY f.report_date;",
                                     },
                                     options: {
-                                        nodeBGColorHover: "#ffc107",
-                                        borderColorHover: "#e0a800",
-                                        nodeBGColor: "#ffeeba",
+                                        nodeBGColorHover: "#FF6F3C",
+                                        borderColorHover: "#FF4F2A",
+                                        nodeBGColor: "#FFB3A0",
                                     },
                                 },
                                 ],
@@ -308,14 +79,27 @@
                             {
                                 id: "12",
                                 data: {
-                                    label: "Not Initiated on ART",
+                                    label: "Clients eligible for VL with documented sample taken",
                                     query:
-                                    "SELECT dc.client_id , birth_date , current_age , gender , marital_status FROM fact_sentinel_event fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022' AND has_ever_been_initiated_on_art = 0;",
+                                    "SELECT report_date AS [Report Date], f.gender AS Sex, current_age AS Age, v.viral_load_test_date AS [VL Test Date], viral_load_test_result_numeric AS [VL Result], v.viral_load_test_result_text AS [Result Text], v.next_viral_load_test_date AS [Next VL Date], clients_eligible_for_viral_load_testing_with_documented_sample_taken AS [Eligible for VL], has_visited AS [Attended] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] INNER JOIN derived.fact_viral_load_test v ON f.client_id = v.client_id AND v.viral_load_test_date = ( SELECT MAX(viral_load_test_date) FROM derived.fact_viral_load_test v WHERE v.viral_load_test_date <= f.report_date AND v.client_id = f.client_id ) WHERE clients_eligible_for_viral_load_testing_with_documented_sample_taken = 1 AND weekly_start_monday_end_date = '2024-06-02' ORDER BY f.report_date",
                                 },
                                 options: {
-                                    nodeBGColorHover: "#dc3545",
-                                    borderColorHover: "#c82333",
-                                    nodeBGColor: "#f8d7da",
+                                    nodeBGColorHover: "#28a745",
+                                    borderColorHover: "#218838",
+                                    nodeBGColor: "#c3e6cb",
+                              },
+                            },
+                            {
+                                id: "13",
+                                data: {
+                                    label: "Cumulative clients eligible for viral load testing",
+                                    query:
+                                    "SELECT report_date AS [Report Date], f.gender AS Sex, current_age AS Age, v.viral_load_test_date AS [VL Test Date], viral_load_test_result_numeric AS [VL Result], v.viral_load_test_result_text AS [Result Text], v.next_viral_load_test_date AS [Next VL Date], is_clients_eligible_for_viral_load_testing AS [Eligible for VL], has_visited AS [Attended] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] INNER JOIN derived.fact_viral_load_test v ON f.client_id = v.client_id AND v.viral_load_test_date = ( SELECT MAX(viral_load_test_date) FROM derived.fact_viral_load_test v WHERE v.viral_load_test_date <= f.report_date AND v.client_id = f.client_id ) WHERE is_clients_eligible_for_viral_load_testing = 1 AND weekly_start_monday_end_date = '2024-06-02' ORDER BY f.report_date",
+                                },
+                                options: {
+                                    nodeBGColorHover: "#28a745",
+                                    borderColorHover: "#218838",
+                                    nodeBGColor: "#c3e6cb",
                               },
                             },
                           ],
@@ -323,6 +107,25 @@
                       />
                     </Dataset>
                   </Row>
+            </Grid>
+        </Dashboard>
+    </Tab>
+
+    <Tab title="Viral Load Testing Table">
+        <Dashboard>
+            <Grid>
+                <Row>
+                    <Header>Viral Load Testing</Header>
+                </Row>
+                <Filters>
+                    <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
+                </Filters>
+
+                <Row columns="1" largeColumns="1">
+                    <Dataset pageSize='20' searchColumns="hts_age_at_test, hts_sex_code" query={`SELECT report_date AS [Report Date], f.gender AS Sex, current_age AS Age, v.viral_load_test_date AS [VL Test Date], viral_load_test_result_numeric AS [VL Result], v.viral_load_test_result_text AS [Result Text], v.next_viral_load_test_date AS [Next VL Date], is_clients_eligible_for_viral_load_testing AS [Eligible for VL], has_visited AS [Attended] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] INNER JOIN derived.fact_viral_load_test v ON f.client_id = v.client_id AND v.viral_load_test_date = ( SELECT MAX(viral_load_test_date) FROM derived.fact_viral_load_test v WHERE v.viral_load_test_date <= f.report_date AND v.client_id = f.client_id ) AND is_clients_eligible_for_viral_load_testing = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02') ORDER BY f.report_date`}>
+                        <InfiniteScrollTable header="HIV Case Identification Table" subHeader="Tabular representation of clients eligigle for viral load testing." variant="plain" searchHint="age, sex" />
+                    </Dataset>
+                </Row>
             </Grid>
         </Dashboard>
     </Tab>
