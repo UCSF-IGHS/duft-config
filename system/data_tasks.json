@@ -77,14 +77,14 @@
                 "save_path": {
                     "title": "Save Path",
                     "description": "The path where the data will be saved.",
-                    "defaultValue": "",
+                    "defaultValue": "/",
                     "allowOverride": true,
                     "promptUser": false
                 },
                 "final_repo_name": {
                     "title": "Final Repository Name",
                     "description": "The final name of the repository.",
-                    "defaultValue": "duft-config-test",
+                    "defaultValue": "duft-config",
                     "allowOverride": true,
                     "promptUser": false
                 },
