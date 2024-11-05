@@ -81,7 +81,7 @@
                                 data: {
                                     label: "Clients Tested Negative",
                                     query:
-                                    "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_hiv_negative = 1 AND d.weekly_start_monday_end_date = '2024-06-02'",
+                                    "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_hiv_negative = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02')",
                                 },
                                 options: {
                                     nodeBGColorHover: "#28a745",
