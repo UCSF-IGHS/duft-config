@@ -18,7 +18,7 @@ if __name__ == "__main__":
     environment = initialise_data_task("DUFT Config Updater", params=json_args)
     
     params["repo_url"] = json_args.get("repo_url")
-    params["save_path"] = json_args.get("save_path")
+    params["save_path"] = os.path.join(os.path.expanduser("~"), "duft_resources",json_args.get("save_path") )
     params["final_repo_name"] = json_args.get("final_repo_name")
     params["branch"] = json_args.get("branch")
     params["user_dir"] = "user"
