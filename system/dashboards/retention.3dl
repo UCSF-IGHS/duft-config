@@ -31,9 +31,9 @@
                               "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_tx_curr_28 = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                           },
                           options: {
-                              nodeBGColorHover: "#007bff",
-                              borderColorHover: "#0056b3",
-                              nodeBGColor: "#d1ecf1",
+                            nodeBGColorHover: "#6699cc",
+                            borderColorHover: "#517ca1",
+                            nodeBGColor: "#cce7ff",
                           },
                           children: [
                             {
@@ -44,9 +44,9 @@
                                     "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_mer_tx_new AS [Is Newly on Treatment] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_mer_tx_new = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                 },
                                 options: {
-                                    nodeBGColorHover: "#FF4C6A",
-                                    borderColorHover: "#FF3E5E",
-                                    nodeBGColor: "#FAA6BD",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                                 },
                             },
                             {
@@ -57,9 +57,9 @@
                                     "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_transferred_in AS [Is Transferred In] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_transferred_in = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');;",
                                 },
                                 options: {
-                                    nodeBGColorHover: "#28a745",
-                                    borderColorHover: "#218838",
-                                    nodeBGColor: "#c3e6cb",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                               },
                             },
                             {
@@ -70,9 +70,9 @@
                                     "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], traced_back_lost_in_previous_weeks AS [TX_RTT] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE traced_back_lost_in_previous_weeks = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');;",
                                 },
                                 options: {
-                                    nodeBGColorHover: "#28a745",
-                                    borderColorHover: "#218838",
-                                    nodeBGColor: "#c3e6cb",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                               },
                             },
                             {
@@ -83,9 +83,9 @@
                                     "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], has_transferred_out AS [Transferred Out] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE has_transferred_out = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                 },
                                 options: {
-                                    nodeBGColorHover: "#28a745",
-                                    borderColorHover: "#218838",
-                                    nodeBGColor: "#c3e6cb",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                               },
                             },
                             {
@@ -96,9 +96,9 @@
                                     "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], has_died AS [Has Died] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE has_died = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                 },
                                 options: {
-                                    nodeBGColorHover: "#28a745",
-                                    borderColorHover: "#218838",
-                                    nodeBGColor: "#c3e6cb",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                               },
                             },
                             {
@@ -109,9 +109,9 @@
                                     "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period AS [Missed Drugs for More than 28 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_29_and_90_days = 1 AND report_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                 },
                                 options: {
-                                    nodeBGColorHover: "#28a745",
-                                    borderColorHover: "#218838",
-                                    nodeBGColor: "#c3e6cb",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                               },
                               children: [
                               {
@@ -122,9 +122,9 @@
                                       "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period AS [Missed Drugs for More than 28 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                   },
                                   options: {
-                                      nodeBGColorHover: "#d92a3e",
-                                      borderColorHover: "#b71c28",
-                                      nodeBGColor: "#f8a3a8",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                                   },
                               },]
                             },
@@ -136,9 +136,9 @@
                                     "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_missed_drugs_between_1_to_28_days AS [Missed Drugs for 1 to 28 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_1_to_28_days = 1 AND report_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                 },
                                 options: {
-                                    nodeBGColorHover: "#28a745",
-                                    borderColorHover: "#218838",
-                                    nodeBGColor: "#c3e6cb",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                               },
                               children: [
                               {
@@ -149,9 +149,9 @@
                                       "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_missed_drugs_between_1_to_7_days AS [Missed Drugs for 1 to 7 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_1_to_7_days = 1 AND report_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                   },
                                   options: {
-                                      nodeBGColorHover: "#d92a3e",
-                                      borderColorHover: "#b71c28",
-                                      nodeBGColor: "#f8a3a8",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                                   },
                               },
                               {
@@ -162,9 +162,9 @@
                                       "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_missed_drugs_between_8_to_14_days AS [Missed Drugs for 8 to 14 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_8_to_14_days = 1 AND report_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                   },
                                   options: {
-                                      nodeBGColorHover: "#d92a3e",
-                                      borderColorHover: "#b71c28",
-                                      nodeBGColor: "#f8a3a8",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                                   },
                               },
                               {
@@ -175,9 +175,9 @@
                                       "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_missed_drugs_between_15_to_21_days AS [Missed Drugs for 15 to 21 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_15_to_21_days = 1 AND report_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                   },
                                   options: {
-                                      nodeBGColorHover: "#d92a3e",
-                                      borderColorHover: "#b71c28",
-                                      nodeBGColor: "#f8a3a8",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                                   },
                               },
                               {
@@ -188,9 +188,9 @@
                                       "SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs], is_missed_drugs_between_22_to_28_days AS [Missed Drugs for 22 to 28 Days] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_missed_drugs_between_22_to_28_days = 1 AND report_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                   },
                                   options: {
-                                      nodeBGColorHover: "#d92a3e",
-                                      borderColorHover: "#b71c28",
-                                      nodeBGColor: "#f8a3a8",
+                                    nodeBGColorHover: "#6699cc",
+                                    borderColorHover: "#517ca1",
+                                    nodeBGColor: "#cce7ff",
                                   },
                               },
                               ]
@@ -216,7 +216,7 @@
 
                 <Row columns="1" largeColumns="1">
                     <Dataset debug="true" pageSize='20' searchColumns="current_age, c.gender, c.ctc_id" query={`SELECT report_date AS [Report Date], f.ctc_id AS [Patient ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Number of Drug Days Left], days_missed_drugs AS [Number of Days Missed Drugs] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_tx_curr_28 = 1 AND (report_date='$week' OR '$week'='') ORDER BY report_date`}>
-                        <InfiniteScrollTable header="HIV Case Identification Table" subHeader="Tabular representation of HIV case identification metrics." searchHint="age, sex, CTC ID"/>
+                        <InfiniteScrollTable header="HIV Case Identification Table" subHeader="Tabular representation of HIV case identification metrics." searchHint="age, sex, CTC ID" exportData="true" />
                     </Dataset>
                 </Row>
             </Grid>
