@@ -51,8 +51,8 @@
             "pythonFile": "fm_sentinel_events.ipynb",
             "hideInUI": true,
             "dataConnections": [
-                "ANA",
-                "MyOwnConnection"
+                "EPMS_Source",
+                "EPMS_Destination"
             ],
             "params": {
                 "name": "Cerseid",

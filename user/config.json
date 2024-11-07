@@ -9,7 +9,7 @@
             "type": "PostgreSQL"
         },
         "EPMS_Source": {
-            "server": "jdbc:filemaker://localhost/QuantumKatuturaIntermediateHospital",
+            "server": "jdbc:filemaker://localhost/QuantumKhomasdalHealthCentre",
             "username": "Administrator",
             "password": "Qepms!@dmin",
             "type": "filemaker"
