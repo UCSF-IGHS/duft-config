@@ -39,6 +39,11 @@
             "title": "Preview query",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/3dlpreview-query"
+          },
+          {
+            "title": "Sliding Dashboard",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/sliding-dashboard"
           }
         ]
       },
