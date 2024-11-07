@@ -4,7 +4,7 @@
       <Row><Header>Less 3 Months MMP</Header></Row>
       <Row columns="1" largeColumns="1">
       
-      <Include file="components/client_list_advanced.3dl" InfiniteScrollTable-table1:initialColumns="ART Number Legacy,	Date Of Birth,	Current Age,	Sex,	Last PBFW,	Last appt date,	Next appt date,	Last VL order date,	Last VL result date,	Current Regime,	Current regimen start date,	ART Restart Date,	Retention Status,	Client Status" />
+      <Include file="components/client_list_advanced.3dl" InfiniteScrollTable-table1:initialColumns="ART Number Legacy,	Date Of Birth,	Current Age,	Sex,	Last PBFW,	Last appt date,	Next appt date,	Last VL order date,	Last VL result date,	Current Regimen,	Current regimen start date,	ART Restart Date,	Retention Status,	Client Status" />
       
     </Row>
     </Grid>
