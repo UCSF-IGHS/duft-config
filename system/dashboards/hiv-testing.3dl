@@ -1,6 +1,6 @@
 <TabSet>
 
-    <Tab title="HIV Testing Tree">
+    <Tab title="Testing Cascade">
         <Dashboard>
             <Grid>
                 <Dataset query="SELECT 'May 27, 24 - Jun 02, 24' AS week_dates, 'Ngomamtimba Hospital' AS facility_name">
@@ -20,14 +20,14 @@
                 <Row columns="1">
                     <Dataset query="">
                       <CascadeChart
-                        header="HIV Case Identification Tree"
+                        header="HIV Case Identification Cascade"
                         subHeader="Visual representation of HIV case identification metrics."
                         cascadeObject={{
                           id: "1",
                           data: {
                             label: "Clients Tested for HIV",
                             query:
-                              "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_valid_hiv_test = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
+                              "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [Test Date], hiv_testing_point AS [Testing Point], hts_attendance_type AS [Attendance Type], hts_ctc_id AS [CTC ID] FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_valid_hiv_test = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                           },
                           options: {
                                 nodeBGColorHover: "#6699cc",
@@ -40,7 +40,7 @@
                                 data: {
                                     label: "Clients Tested Positive",
                                     query:
-                                    "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_hiv_positive = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
+                                    "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [Test Date], hiv_testing_point AS [Testing Point], hts_attendance_type AS [Attendance Type], hts_ctc_id AS [CTC ID] FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_hiv_positive = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                 },
                                 options: {
                                     nodeBGColorHover: "#6699cc",
@@ -53,7 +53,7 @@
                                     data: {
                                         label: "With Documented CTC ID",
                                         query:
-                                        "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_hiv_positive = 1 AND hts_ctc_id IS NOT NULL AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
+                                        "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [Test Date], hiv_testing_point AS [Testing Point], hts_attendance_type AS [Attendance Type], hts_ctc_id AS [CTC ID] FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_hiv_positive = 1 AND hts_ctc_id IS NOT NULL AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                     },
                                     options: {
                                         nodeBGColorHover: "#6699cc",
@@ -66,7 +66,7 @@
                                     data: {
                                         label: "Without Documented CTC ID",
                                         query:
-                                        "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_hiv_positive = 1 AND hts_ctc_id IS NULL AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
+                                        "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [Test Date], hiv_testing_point AS [Testing Point], hts_attendance_type AS [Attendance Type], hts_ctc_id AS [CTC ID] FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_hiv_positive = 1 AND hts_ctc_id IS NULL AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02');",
                                     },
                                     options: {
                                         nodeBGColorHover: "#6699cc",
@@ -81,7 +81,7 @@
                                 data: {
                                     label: "Clients Tested Negative",
                                     query:
-                                    "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hts_attendance_type AS [HTS Attendance Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_hiv_negative = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02')",
+                                    "SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [Test Date], hiv_testing_point AS [Testing Point], hts_attendance_type AS [Attendance Type], hts_ctc_id AS [CTC ID] FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_hiv_negative = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02')",
                                 },
                                 options: {
                                     nodeBGColorHover: "#6699cc",
@@ -98,7 +98,7 @@
         </Dashboard>
     </Tab>
 
-    <Tab title="HIV Testing Table">
+    <Tab title="Testing Table">
         <Dashboard>
             <Grid>
                 <Row>
@@ -109,7 +109,7 @@
                 </Filters>
 
                 <Row columns="1" largeColumns="1">
-                    <Dataset pageSize='20' searchColumns="hts_age_at_test, hts_sex_code" query={`SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [HIV Test Date], hiv_testing_point AS [HIV Testing Point], hiv_test_result AS [HIV Test Result], hts_attendance_type AS [HTS Attendance Type], visit_type AS [Visit Type], hts_date_of_birth AS DOB FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_valid_hiv_test = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02') ORDER BY f.hts_client_code`}>
+                    <Dataset pageSize='20' searchColumns="hts_age_at_test, hts_sex_code" query={`SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [Test Date], hiv_testing_point AS [Testing Point], hiv_test_result AS [Test Result], hts_attendance_type AS [Attendance Type], visit_type AS [Visit Type], hts_ctc_id AS [CTC ID] FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_valid_hiv_test = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02') ORDER BY f.hts_client_code`}>
                         <InfiniteScrollTable header="HIV Case Identification Table" subHeader="Tabular representation of HIV case identification metrics." variant="plain" searchHint="age, sex" exportData="true" />
                     </Dataset>
                 </Row>

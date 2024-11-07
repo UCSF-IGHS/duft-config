@@ -21,7 +21,7 @@
                 <Row columns="1">
                     <Dataset query="">
                       <CascadeChart
-                        header="HIV Treatment and Retention Tree"
+                        header="HIV Treatment and Retention Cascade"
                         subHeader="Visual representation of HIV treatment and retention metrics."
                         cascadeObject={{
                           id: "1",

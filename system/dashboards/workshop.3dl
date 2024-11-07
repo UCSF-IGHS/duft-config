@@ -1,6 +1,6 @@
 <TabSet>
 
-  <Tab title="Viral Load Tree">
+  <Tab title="Viral Load Cascade">
       <Dashboard>
           <Grid>
               <Dataset query="SELECT 'May 27, 24 - Jun 02, 24' AS week_dates, 'Ngomamtimba Hospital' AS facility_name">
@@ -20,7 +20,7 @@
               <Row columns="1">
                   <Dataset query="">
                     <CascadeChart
-                      header="Viral Load Testing Tree"
+                      header="Viral Load Testing Cascade"
                       subHeader="Visual representation of HIV case identification metrics."
                       cascadeObject={{
                         id: "1",

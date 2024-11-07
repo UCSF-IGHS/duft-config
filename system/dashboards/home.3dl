@@ -221,11 +221,11 @@
         </Dashboard>
     </Tab>
 
-    <Tab title="E. ART Cascade Tree">
+    <Tab title="E. ART Cascade Cascade">
         <Dashboard>
             <Grid>
                 <Row>
-                    <Header>ART Cascade Tree</Header>
+                    <Header>ART Cascade Cascade</Header>
                 </Row>
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
@@ -254,8 +254,8 @@
                 <Row columns="1">
                     <Dataset query="">
                       <CascadeChart
-                        header="ART Cascade Tree"
-                        subHeader="ART Cascade Tree"
+                        header="ART Cascade Cascade"
+                        subHeader="ART Cascade Cascade"
                         cascadeObject={{
                           id: "1",
                           data: {
