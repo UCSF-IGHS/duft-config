@@ -1,1 +1,1 @@
-SELECT * FROM dim_client LIMIT 500
+SELECT * FROM derived.dim_client ORDER BY ctc_id

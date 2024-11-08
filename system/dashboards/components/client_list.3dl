@@ -1,1 +1,7 @@
-<SmartDataTable />
+<InfiniteScrollTable exportData="true" searchHint="Marital Status, Gender" variant="plain" >
+    <DetailsView columnName="ctc_id">
+        <Dataset transpose='true' query={`SELECT TOP 1 * from derived.dim_client WHERE "ctc_id" = '{ctc_id}'`}>
+            <InfiniteScrollTable variant='plain' exportData="true" />
+        </Dataset>
+    </DetailsView>
+</InfiniteScrollTable>

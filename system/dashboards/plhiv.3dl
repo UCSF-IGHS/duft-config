@@ -1,0 +1,24 @@
+<Dashboard>
+    <SingleLayout>
+      <Grid>
+
+      <Row>
+        <Header> List of PLHIV Clients </Header>
+      </Row>
+
+      <Row>
+        <SubHeader> Tabular representation of PLHIV clients. </SubHeader>
+      </Row>
+
+      <Row columns="1" largeColumns="1" >
+        <Dataset pageSize={50} searchColumns="gender, date_of_birth" >
+            <Query>
+                <Include file="sql/sample.sql" />
+            </Query>
+          <Include file="components/client_list.3dl" />
+        </Dataset>
+      </Row>
+
+      </Grid>
+    </SingleLayout>
+  </Dashboard>
