@@ -42,19 +42,19 @@
         "icon": "dashboards-icon",
         "dashboards": [
           {
-            "title": "HIV Testing",
+            "title": "Overview",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/hiv-testing"
+            "dashboard": "/dashboard/overview"
           },
           {
-            "title": "Tx Retention",
+            "title": "PLHIV",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/retention"
+            "dashboard": "/dashboard/plhiv"
           },
           {
-            "title": "Viral Load Testing",
+            "title": "HEI",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlsample-2"
+            "dashboard": "/dashboard/hei"
           },
           {
             "title": "Preview query",
