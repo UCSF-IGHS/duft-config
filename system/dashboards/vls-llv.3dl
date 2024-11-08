@@ -7,7 +7,7 @@
           <Query>
             <Include file="sql/vls.sql" />
           </Query>
-          <Include file="components/client_list.3dl" />
+          <Include file="components/client_list.3dl" InfiniteScrollTable-table1:initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last appt date, Next appt date, Last VL order date, Last VL result date, Current Regimen, Current regimen start date, ART Restart Date, Last VL Result, Last VL category, Client Status" />
         </Dataset>
       </Row>
     </Grid>

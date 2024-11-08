@@ -3,11 +3,11 @@
     <Grid>
     <Row><Header>Recent</Header></Row>
       <Row columns="1" largeColumns="1" >
-        <Dataset pageSize={50} filters={{ "Viral Load Eligibility": "Recent (Slightly delayed)" }} searchColumns="Sex, ART Number Legacy">
+        <Dataset pageSize={50} filters={{ "Viral Load Eligibility": "Slightly Delayed" }} searchColumns="Sex, ART Number Legacy">
           <Query>
             <Include file="sql/vlm.sql" />
           </Query>
-          <Include file="components/client_list.3dl" />
+          <Include file="components/client_list.3dl" InfiniteScrollTable-table1:initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last appt date, Next appt date, Last VL order date, Last VL result date, Current Regimen, Current regimen start date, ART Restart Date, Last VL Result, Retention Status, VL Eligibility, Client Status" />
         </Dataset>
       </Row>
     </Grid>
