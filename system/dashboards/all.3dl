@@ -1,0 +1,12 @@
+<Dashboard>
+  <SingleLayout>
+    <Grid>
+      <Row><Header>All Patients</Header></Row>
+      <Row columns="1" largeColumns="1">
+      
+      <Include file="components/client_list_all.3dl" InfiniteScrollTable-table1:initialColumns="Patient category , ART Number Legacy,	Date Of Birth,	Current Age,	Sex,	Last PBFW,	Last appt date,	Next appt date,	Last VL order date,	Last VL result date,	Current Regimen,	MMP Status, Last VL Result,	Retention Status, TPT Status Two, VL Eligibility, Last VL category,	Client Status" />
+      
+    </Row>
+    </Grid>
+  </SingleLayout>
+</Dashboard>

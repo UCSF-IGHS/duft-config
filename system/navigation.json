@@ -90,6 +90,17 @@
             "dashboard": "/dashboard/vls-llv"
           }
         ]
+      },
+      {
+        "title": "All",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "Patients",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/all"
+          }
+        ]
       }
     ]
   },
