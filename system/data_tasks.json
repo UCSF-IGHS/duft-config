@@ -193,6 +193,18 @@
                     "promptUser": false
                 }                
             }           
-        }                        
+        },
+        {
+            "id": "UPLOAD",
+            "name": "DUFT Report Uploader",
+            "description": "This will send your report data to the DUFT Server.",
+            "pythonFile": "sample_data_upload.ipynb",
+            "hideInUI": false,
+            "executeFromRoot": false,
+            "dataConnections": [
+                "ANA",
+                "DUFT-SERVER-API"
+            ]                  
+        }                                 
     ]
 }

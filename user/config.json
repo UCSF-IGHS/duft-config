@@ -16,6 +16,11 @@
             "sqlite3file": "wakanda.sqlite",
             "type": "sqlite3"
         },
+        "DUFT-SERVER-API": {
+            "server": "http://127.0.0.1:8000",
+            "username": "advanced_dashboard_user",
+            "password": "--------"
+        },        
         "NDR": {
             "server": "https://www.myndr.com/api/v2",
             "username": "user",
