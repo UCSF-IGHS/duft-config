@@ -2,21 +2,20 @@
   <Tab title="Dashboard 2">
     <Dashboard title="HIV Viral Load (HVL) - Overview of samples received and tested for last week">
       <Grid>
-        <Dataset query="">
+        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay;">
           <Row columns="2" smallColumns="1">
-            <Header>
-              <DataString>
-                HIV Viral Load (HVL) - Overview of samples received and tested
-                for last week
-              </DataString>
-            </Header>
-            <Subheader>
-              <DataString></DataString>
-            </Subheader>
-          </Row>
+             <Header>
+                <DataString>
+                  HIV Viral Load (HVL) - Overview of samples received and tested for last week
+                </DataString>
+              </Header>
+              <Subheader>
+                <DataString>Data from %firstDay% to %lastDay%</DataString>
+              </Subheader>
+            </Row>
         </Dataset>
         <Row largeColumns="2" columns="1">
-          <Dataset query="WITH LatestWeek AS (SELECT MAX(d.weekly_start_monday_period) AS latest_week FROM derived.dim_date d WHERE d.[date] >= FORMAT(DATEADD(DAY, -26, DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE())), GETDATE())), 'yyyy-MM-dd') AND d.[date] <= FORMAT(DATEADD(DAY, 1 - (DATEPART(WEEKDAY, GETDATE())), GETDATE()), 'yyyy-MM-dd')) SELECT d.weekly_start_monday_period AS week_name, 'Sample Received' AS category, SUM(s.hvl_sample_received) AS value, 1 AS sort_order FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date CROSS JOIN LatestWeek lw WHERE d.weekly_start_monday_period = lw.latest_week GROUP BY d.weekly_start_monday_period UNION ALL SELECT d.weekly_start_monday_period AS week_name, 'Sample Tested' AS category, SUM(s.hvl_sample_tested) AS value, 2 AS sort_order FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date CROSS JOIN LatestWeek lw WHERE d.weekly_start_monday_period = lw.latest_week GROUP BY d.weekly_start_monday_period UNION ALL SELECT d.weekly_start_monday_period AS week_name, 'Sample Rejected' AS category, SUM(s.hvl_sample_rejected) AS value, 3 AS sort_order FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date CROSS JOIN LatestWeek lw WHERE d.weekly_start_monday_period = lw.latest_week GROUP BY d.weekly_start_monday_period UNION ALL SELECT d.weekly_start_monday_period AS week_name, 'Sample Results Dispatched' AS category, SUM(s.hvl_result_dispatched) AS value, 4 AS sort_order FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date CROSS JOIN LatestWeek lw WHERE d.weekly_start_monday_period = lw.latest_week GROUP BY d.weekly_start_monday_period ORDER BY week_name ASC, sort_order;">
+          <Dataset query="WITH LatestWeek AS (SELECT MAX(d.weekly_start_monday_period) AS latest_week FROM derived.dim_date d WHERE d.[date] >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 25), GETDATE()) AND d.[date] <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE())), SamplesDataAgreggates AS (SELECT d.weekly_start_monday_period AS week_name, SUM(s.hvl_sample_received) AS sample_received, SUM(s.hvl_sample_tested) AS sample_tested, SUM(s.hvl_sample_rejected) AS sample_rejected, SUM(s.hvl_result_dispatched) AS result_dispatched FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.weekly_start_monday_period = (SELECT latest_week FROM LatestWeek) GROUP BY d.weekly_start_monday_period) SELECT week_name, category, value, ROW_NUMBER() OVER (ORDER BY CASE category WHEN 'Sample Received' THEN 1 WHEN 'Sample Tested' THEN 2 WHEN 'Sample Rejected' THEN 3 WHEN 'Sample Results Dispatched' THEN 4 END) AS sort_order FROM SamplesDataAgreggates UNPIVOT (value FOR category IN (sample_received, sample_tested, sample_rejected, result_dispatched)) AS unpvt ORDER BY week_name ASC, sort_order;">
             <BarChart
               detailsComponent="infinite-scroll-table"
               header="HVL - Number of Samples received, tested, rejected and results authorized for last week"
@@ -25,18 +24,18 @@
               userOptions={{ colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500"], dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } } }}
             />
           </Dataset>
-          <Dataset query="SELECT 'Wholeblood' AS category, SUM(s.hvl_sample_wholeblood_received) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= FORMAT(DATEADD(DAY, -5, DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE())), GETDATE())), 'yyyy-MM-dd') AND s.report_date <= FORMAT(DATEADD(DAY, 1-(DATEPART(WEEKDAY, GETDATE())), GETDATE()), 'yyyy-MM-dd') UNION ALL SELECT 'Plasma' AS category, SUM(s.hvl_sample_plasma_received) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= FORMAT(DATEADD(DAY, -5, DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE())), GETDATE())), 'yyyy-MM-dd') AND s.report_date <= FORMAT(DATEADD(DAY, 1-(DATEPART(WEEKDAY, GETDATE())), GETDATE()), 'yyyy-MM-dd');">
+          <Dataset query="WITH DateRange AS (SELECT DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AS firstDay, DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) AS lastDay) SELECT CASE WHEN category = 'hvl_sample_wholeblood_received' THEN 'Wholeblood' WHEN category = 'hvl_sample_plasma_received' THEN 'Plasma' END AS category, SUM(value) AS value FROM (SELECT s.report_date, s.hvl_sample_wholeblood_received, s.hvl_sample_plasma_received FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date CROSS JOIN DateRange WHERE s.report_date >= firstDay AND s.report_date <= lastDay) AS SampleData UNPIVOT (value FOR category IN (hvl_sample_wholeblood_received, hvl_sample_plasma_received)) AS unpvt GROUP BY CASE WHEN category = 'hvl_sample_wholeblood_received' THEN 'Wholeblood' WHEN category = 'hvl_sample_plasma_received' THEN 'Plasma' END;">
             <PieChart
               header="HVL - Samples Received last week, by type"
               Subheader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ colors: ["#e97132", "#156082"], legend: { show: true, position: "bottom" }, dataLabels: { enabled: true } }}
+              userOptions={{ colors: [ "#156082", "#e97132"], legend: { show: true, position: "bottom" }, dataLabels: { enabled: true } }}
             />
           </Dataset>
         </Row>
         <Row largeColumns="2" columns="1">
-          <Dataset query="SELECT ds.clean_rejection_reason AS category, dd.weekly_start_monday_period AS week_name, COUNT(*) AS value FROM derived.dim_sample ds LEFT JOIN derived.dim_date dd ON dd.date = ds.lab_received_date WHERE dd.date >= FORMAT(DATEADD(DAY, -5, DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE())), GETDATE())), 'yyyy-MM-dd') AND dd.date <= FORMAT(DATEADD(DAY, 1-(DATEPART(WEEKDAY, GETDATE())), GETDATE()), 'yyyy-MM-dd') AND ds.test_name = 'HIVVL' AND ds.sample_quality_status = 'RejectedLab' AND ds.clean_rejection_reason <> '' GROUP BY dd.weekly_start_monday_period, ds.clean_rejection_reason ORDER BY value DESC;">
+          <Dataset query="SELECT ds.clean_rejection_reason AS category, dd.weekly_start_monday_period AS week_name, COUNT(*) AS value FROM [derived].dim_sample ds LEFT JOIN [derived].dim_date dd ON dd.date = ds.lab_received_date WHERE dd.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()) AND dd.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) AND ds.test_name = 'HIVVL' AND ds.sample_quality_status = 'RejectedLab' AND ds.clean_rejection_reason <> '' GROUP BY dd.weekly_start_monday_period, ds.clean_rejection_reason ORDER BY value DESC;">
             <PieChart
               header="HVL - Reasons for sample rejection for last week"
               Subheader=""
@@ -45,7 +44,7 @@
               userOptions={{ legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, colors: ['#008000', '#FFFF00', '#FF0000', '#FFA500', '#808080', '#FFC0CB', '#0000FF', '#FF00FF', '#00FF00', '#EE82EE', '#7FFFD4'] }}
             />
           </Dataset>
-          <Dataset query="SELECT TRIM(f.region) AS category, SUM(s.hvl_sample_received) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date INNER JOIN derived.dim_facility f ON s.hfr_id_for_HUB_sample_is_coming_from = f.hfr_code WHERE s.report_date >= FORMAT(DATEADD(DAY, -5, DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE())), GETDATE())), 'yyyy-MM-dd') AND s.report_date <= FORMAT(DATEADD(DAY, 1-(DATEPART(WEEKDAY, GETDATE())), GETDATE()), 'yyyy-MM-dd') GROUP BY d.weekly_start_monday_period, TRIM(f.region) HAVING SUM(s.hvl_sample_received) <> 0 ORDER BY category ASC;">
+          <Dataset query="WITH LatestWeek AS (SELECT MAX(d.weekly_start_monday_period) AS latest_week FROM derived.dim_date d WHERE d.[date] >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 25), GETDATE()) AND d.[date] <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE())), SampleReceivedData AS (SELECT d.weekly_start_monday_period AS week_name, TRIM(f.region) AS category, SUM(s.hvl_sample_received) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date INNER JOIN derived.dim_facility f ON s.hfr_id_for_HUB_sample_is_coming_from = f.hfr_code CROSS JOIN LatestWeek WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 25), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) AND d.weekly_start_monday_period = (SELECT latest_week FROM LatestWeek) GROUP BY d.weekly_start_monday_period, TRIM(f.region) HAVING SUM(s.hvl_sample_received) <> 0) SELECT category, value FROM SampleReceivedData ORDER BY category ASC;">
             <BarChart
               header="HVL - Number of samples received last week, by region"
               Subheader=""
