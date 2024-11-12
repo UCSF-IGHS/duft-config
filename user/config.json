@@ -43,22 +43,6 @@
             "username": "user",
             "password": "mysecretword",
             "unitTested": "2024-06-02 18:08:18.036720"
-        },
-        "MYSQL_TEST": {
-            "server": "127.0.0.1",
-            "username": "root",
-            "password": "Namibia23",
-            "port": "3306",
-            "database": "ptracker",
-            "type": "mysql"
-        },
-        "POSTGRRESQL_TEST": {
-            "server": "127.0.0.1",
-            "username": "postgres",
-            "password": "mysecretpassword",
-            "port": "5432",
-            "database": "mydatabase",
-            "type": "postgresql"
         }
     },
     "djangoDatabases": {
