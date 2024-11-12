@@ -2,12 +2,11 @@
     "dataConnectionParameters": {
         "ANA": {
             "server": "127.0.0.1",
-            "username": "user",
-            "password": "mysecretword",
-            "port": "5432",
-            "database": "analysis",
-            "sqlite3file": "wakanda.sqlite",
-            "type": "sqlite3"
+            "username": "postgres",
+            "password": "root",
+            "port": "5433",
+            "database": "duft",
+            "type": "PostgreSQL"
         },
         "EPMS_Source": {
             "server": "jdbc:filemaker://localhost/QuantumKhomasdalHealthCentre",
