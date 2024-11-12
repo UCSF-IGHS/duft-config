@@ -28,7 +28,7 @@
                     </Tile>
                 </Dataset>
 
-                <Dataset query={`SELECT COUNT(*) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') = 0 THEN '0%' ELSE ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 1) || '%' END AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" > 19 AND "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '');`}>
+                <Dataset query={`SELECT COUNT(*) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') = 0 THEN '0%' ELSE ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 1) || '%' END AS proportion FROM analysis.fact_sentinel_event WHERE "Tri Pillar Age Group" IN ('20-39','40+') AND "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '');`}>
                     <Tile title='Adults' />
                 </Dataset>
 
@@ -36,7 +36,7 @@
                     <Tile title='PBFW' />
                 </Dataset>
 
-                <Dataset query={`SELECT COUNT(*) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') = 0 THEN '0%' ELSE ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 1) || '%' END AS proportion FROM analysis.fact_sentinel_event WHERE "Current Age" BETWEEN 0 AND 18 AND "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '');`}>
+                <Dataset query={`SELECT COUNT(*) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') = 0 THEN '0%' ELSE ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 1) || '%' END AS proportion FROM analysis.fact_sentinel_event WHERE "Tri Pillar Age Group" = '0-19' AND "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '');`}>
                     <Tile title='Paediatrics' />
                 </Dataset>
 
