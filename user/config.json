@@ -2,12 +2,11 @@
     "dataConnectionParameters": {
         "ANA": {
             "server": "127.0.0.1",
-            "username": "user",
-            "password": "mysecretword",
-            "port": "5432",
-            "database": "analysis",
-            "sqlite3file": "wakanda.sqlite",
-            "type": "sqlite3"
+            "username": "postgres",
+            "password": "root",
+            "port": "5433",
+            "database": "duft",
+            "type": "PostgreSQL"
         },
         "EPMS_Source": {
             "server": "jdbc:filemaker://localhost/QuantumKhomasdalHealthCentre",
@@ -22,28 +21,6 @@
             "port": "5433",
             "database": "duft",
             "type": "PostgreSQL"
-        },
-        "DUFT-SERVER-API": {
-            "server": "http://127.0.0.1:8000",
-            "username": "advanced_dashboard_user",
-            "password": "--------"
-        },        
-        "NDR": {
-            "server": "https://www.myndr.com/api/v2",
-            "username": "user",
-            "password": "mysecretword"
-        },
-        "UNITTEST": {
-            "server": "test://self3333",
-            "username": "user",
-            "password": "mysecretword333",
-            "unitTested": "2024-06-23 12:47:11.625553"
-        },
-        "UNITTEST_SAFECOPY": {
-            "server": "test://self",
-            "username": "user",
-            "password": "mysecretword",
-            "unitTested": "2024-06-02 18:08:18.036720"
         }
     },
     "djangoDatabases": {
