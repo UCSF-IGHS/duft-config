@@ -205,6 +205,17 @@
                 "ANA",
                 "DUFT-SERVER-API"
             ]                  
-        }                                 
+        },
+        {
+            "id": "NON-EXISTING",
+            "name": "(Unit Test Non Existing)",
+            "description": "Script file doesn't exist.",
+            "pythonFile": "does_not_exist.ipynb",
+            "hideInUI": false,
+            "executeFromRoot": false,
+            "dataConnections": [
+                "ANA"
+            ]                  
+        }                                        
     ]
 }
