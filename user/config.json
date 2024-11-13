@@ -1,18 +1,10 @@
 {
     "dataConnectionParameters": {
-        "CTCA": {
+        "ANA": {
             "server": "10.211.55.4",
             "username": "bsiele",
             "password": "u#+(Z*C@?4~M(vye-nn5",
             "port": "1433",
-            "database": "ctc_a_prod_analysis_test",
-            "type": "MSSQL"
-        },
-        "CTCA_": {
-            "server": "127.0.0.1",
-            "username": "bsiele",
-            "password": "Ec$LjcJuWvmq4&y2!e",
-            "port": "1437",
             "database": "ctc_a_prod_analysis_test",
             "type": "MSSQL"
         },
@@ -23,15 +15,6 @@
             "port": "5432",
             "database": "production"
         },
-        "ANA": {
-            "server": "127.0.0.1",
-            "username": "user",
-            "password": "mysecretword",
-            "port": "5432",
-            "database": "analysis",
-            "sqlite3file": "wakanda.sqlite",
-            "type": "sqlite3"
-        },
         "NDR": {
             "server": "https://www.myndr.com/api/v2",
             "username": "user",
@@ -41,7 +24,7 @@
             "server": "test://self3333",
             "username": "user",
             "password": "mysecretword333",
-            "unitTested": "2024-06-23 12:47:11.625553"
+            "unitTested": "2024-11-13 07:39:34.727824"
         },
         "UNITTEST_SAFECOPY": {
             "server": "test://self",

@@ -7,7 +7,7 @@ WITH limits AS (
         derived.fact_ctc_daily_client_status AS result
     INNER JOIN
         derived.dim_date d ON d.date = result.report_date
-    WHERE
+    AND
         result.has_cd4_less_than_200 = 1
 )
 

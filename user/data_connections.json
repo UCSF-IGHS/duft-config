@@ -1,7 +1,7 @@
 {
   "dataConnections": [
     {
-      "id": "CTCA",
+      "id": "ANA",
       "name": "CTC Analytics Database",
       "description": "The connection to the CTC Analytics Database",
       "allowQueryEngine":"True",
