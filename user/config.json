@@ -62,9 +62,8 @@
     }
   },
 
- "scheduledDataTasks": [
-    {
-      "data_task_id": "SAMPLE",
+  "scheduledDataTasks": {
+    "SAMPLE": {
       "description": "Scheduled sample task",
       "schedule": {
         "cron": {
@@ -77,6 +76,6 @@
         }
       }
     }
-  ],
+  },
   "test": {}
 }
