@@ -9,7 +9,7 @@
         "dashboard": "/dashboard/home"
     },
   "menu": {
-    "header":"Patients Needing Attention",
+    "header":"Line Lists",
     "items": [
       {
         "title": "MMP",
