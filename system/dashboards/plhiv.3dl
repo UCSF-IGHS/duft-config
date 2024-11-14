@@ -1,6 +1,6 @@
 <TabSet>
 
-    <Tab title="Need Viral Load">
+    <Tab title="Unsuppressed Clients">
         <Dashboard>
             <SingleLayout>
             <Grid>
@@ -14,13 +14,13 @@
             </Filters>
 
             <Row>
-                <SubHeader> Table of clients who need viral load test. </SubHeader>
+                <SubHeader> Table of clients whose viral load result was &gt;= 50 copies/ml. </SubHeader>
             </Row>
 
             <Row columns="1" largeColumns="1" >
                 <Dataset pageSize={50} searchColumns="f.ctc_id, f.current_age, f.gender" >
                     <Query>
-                       <Include file="sql/ahd_clients.sql" />
+                        <Include file="sql/plhiv/unsuppressed_clients.sql" />
                     </Query>
                 <Include file="components/client_list.3dl" />
                 </Dataset>
@@ -51,7 +51,7 @@
             <Row columns="1" largeColumns="1" >
                 <Dataset pageSize={50} searchColumns="f.ctc_id, f.current_age, f.gender" >
                     <Query>
-                       <Include file="sql/iit_clients.sql" />
+                        <Include file="sql/plhiv/iit_clients.sql" />
                     </Query>
                 <Include file="components/client_list.3dl" />
                 </Dataset>
@@ -82,7 +82,7 @@
             <Row columns="1" largeColumns="1" >
                 <Dataset pageSize={50} searchColumns="f.ctc_id, f.current_age, f.gender" >
                     <Query>
-                       <Include file="sql/ahd_clients.sql" />
+                        <Include file="sql/plhiv/ahd_clients.sql" />
                     </Query>
                 <Include file="components/client_list.3dl" />
                 </Dataset>
@@ -93,7 +93,7 @@
         </Dashboard>
     </Tab>
 
-    <Tab title="Unsuppressed Clients">
+    <Tab title="Need Viral Load">
         <Dashboard>
             <SingleLayout>
             <Grid>
@@ -102,14 +102,18 @@
                 <Header> List of PLHIV Clients </Header>
             </Row>
 
+            <Filters>
+                <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
+            </Filters>
+
             <Row>
-                <SubHeader> Tabular representation of PLHIV clients. </SubHeader>
+                <SubHeader> Table of clients who need viral load test. </SubHeader>
             </Row>
 
             <Row columns="1" largeColumns="1" >
-                <Dataset pageSize={50} searchColumns="gender, date_of_birth" >
+                <Dataset pageSize={50} searchColumns="f.ctc_id, f.current_age, f.gender" >
                     <Query>
-                        <Include file="sql/sample.sql" />
+                        <Include file="sql/plhiv/need_vl_clients.sql" />
                     </Query>
                 <Include file="components/client_list.3dl" />
                 </Dataset>

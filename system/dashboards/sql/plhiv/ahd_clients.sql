@@ -2,6 +2,7 @@ WITH limits AS (
     SELECT
         client_id,
         result.report_date AS cd4_result_date,
+        result.cd4_count_result AS cd4_count_result,
         weekly_start_monday_end_date AS cd4_week_end_date
     FROM
         derived.fact_ctc_daily_client_status AS result
@@ -18,8 +19,9 @@ SELECT
     f._date_of_birth AS DOB,
     f.gender AS Sex,
     l.cd4_result_date AS [CD4 Test Date],
-    f.has_no_cd4_tst_who_stage_3_4_exclusively_weekly AS [WHO Stage 3/4],
+    l.cd4_count_result AS [CD4 Result],
     f.had_cd4_less_than_200 AS [CD4 < 200],
+    f.has_no_cd4_tst_who_stage_3_4_exclusively_weekly AS [WHO Stage 3/4],
     'Y' AS [AHD Suspect]
 FROM
     derived.fact_ctc_daily_client_status f

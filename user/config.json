@@ -48,11 +48,28 @@
             "database": "mydatabase",
             "type": "postgresql"
         }
-    },
-    "djangoDatabases": {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": "%BASE_DIR%/db.sqlite3"
-        }
     }
+  ,
+  "djangoDatabases": {
+    "default": {
+      "ENGINE": "django.db.backends.sqlite3",
+      "NAME": "%BASE_DIR%/db.sqlite3"
+    }
+  },
+  "scheduledDataTasks": {
+    "SAMPLE": {
+      "description": "Scheduled sample task",
+      "schedule": {
+        "cron": {
+          "second": "*/30",
+          "minute": "*",
+          "hour": "*",
+          "day_of_month": "*",
+          "month": "*",
+          "day_of_week": "*"
+        }
+      }
+    }
+  },
+  "test": {}
 }
