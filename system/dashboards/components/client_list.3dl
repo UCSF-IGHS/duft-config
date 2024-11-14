@@ -1,6 +1,6 @@
-<InfiniteScrollTable exportData="true" searchHint="CTC ID, Age, Sex" variant="plain" >
-    <DetailsView columnName="ctc_id">
-        <Dataset transpose='true' query={`SELECT TOP 1 * from derived.dim_client WHERE "ctc_id" = '{ctc_id}'`}>
+<InfiniteScrollTable id="table1" exportData="true" searchHint="CTC ID, Age, Sex" variant="plain" >
+    <DetailsView columnName="CTC ID">
+        <Dataset transpose='true' query={`SELECT * from derived.dim_client WHERE ctc_id = '{CTC ID}'`}>
             <InfiniteScrollTable variant='plain' exportData="true" />
         </Dataset>
     </DetailsView>
