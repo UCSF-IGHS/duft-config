@@ -1,1 +1,1 @@
-SELECT * FROM derived.dim_client ORDER BY ctc_id
+SELECT * FROM derived.dim_client WHERE date_of_birth LIKE '1977%' AND date_created LIKE '2016%' ORDER BY ctc_id

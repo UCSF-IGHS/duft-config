@@ -1,6 +1,6 @@
 <TabSet>
 
-    <Tab title="AHD Suspects">
+    <Tab title="Need Viral Load">
         <Dashboard>
             <SingleLayout>
             <Grid>
@@ -14,7 +14,7 @@
             </Filters>
 
             <Row>
-                <SubHeader> Table of clients who are suspected to have Advanced HIV Disease (AHD). </SubHeader>
+                <SubHeader> Table of clients who need viral load test. </SubHeader>
             </Row>
 
             <Row columns="1" largeColumns="1" >
@@ -62,22 +62,34 @@
         </Dashboard>
     </Tab>
 
-    <Tab title="Need Viral Load">
+    <Tab title="AHD Suspects">
         <Dashboard>
+            <SingleLayout>
             <Grid>
-                <Row>
-                    <Header>HIV Case Identification</Header>
-                </Row>
-                <Filters>
-                    <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
-                </Filters>
 
-                <Row columns="1" largeColumns="1">
-                    <Dataset pageSize='20' searchColumns="hts_age_at_test, hts_sex_code" query={`SELECT f.hts_client_code AS [HTS Client Code], hts_age_at_test AS Age, hts_sex_code AS Sex, hiv_test_date AS [Test Date], hiv_testing_point AS [Testing Point], hiv_test_result AS [Test Result], hts_attendance_type AS [Attendance Type], visit_type AS [Visit Type], hts_ctc_id AS [CTC ID] FROM derived.fact_hiv_testing f INNER JOIN derived.dim_hts_client c ON f.hts_client_id = c.hts_client_id INNER JOIN derived.dim_date d ON f.hiv_test_date = d.[date] WHERE is_valid_hiv_test = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02') ORDER BY f.hts_client_code`}>
-                        <InfiniteScrollTable header="HIV Case Identification Table" subHeader="Tabular representation of HIV case identification metrics." variant="plain" searchHint="age, sex" exportData="true" />
-                    </Dataset>
-                </Row>
+            <Row>
+                <Header> List of PLHIV Clients </Header>
+            </Row>
+
+            <Filters>
+                <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
+            </Filters>
+
+            <Row>
+                <SubHeader> Table of clients who are suspected to have Advanced HIV Disease (AHD). </SubHeader>
+            </Row>
+
+            <Row columns="1" largeColumns="1" >
+                <Dataset pageSize={50} searchColumns="f.ctc_id, f.current_age, f.gender" >
+                    <Query>
+                       <Include file="sql/ahd_clients.sql" />
+                    </Query>
+                <Include file="components/client_list.3dl" />
+                </Dataset>
+            </Row>
+
             </Grid>
+            </SingleLayout>
         </Dashboard>
     </Tab>
 
