@@ -19,7 +19,7 @@
             <BarChart
               detailsComponent="infinite-scroll-table"
               header="HVL - Number of Samples received, tested, rejected and results authorized for last week"
-              Subheader=""
+              subHeader=""
               exportData="true"
               userOptions={{ colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500"], dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } } }}
             />
@@ -27,7 +27,7 @@
           <Dataset query="WITH DateRange AS (SELECT DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AS firstDay, DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) AS lastDay) SELECT CASE WHEN category = 'hvl_sample_wholeblood_received' THEN 'Wholeblood' WHEN category = 'hvl_sample_plasma_received' THEN 'Plasma' END AS category, SUM(value) AS value FROM (SELECT s.report_date, s.hvl_sample_wholeblood_received, s.hvl_sample_plasma_received FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date CROSS JOIN DateRange WHERE s.report_date >= firstDay AND s.report_date <= lastDay) AS SampleData UNPIVOT (value FOR category IN (hvl_sample_wholeblood_received, hvl_sample_plasma_received)) AS unpvt GROUP BY CASE WHEN category = 'hvl_sample_wholeblood_received' THEN 'Wholeblood' WHEN category = 'hvl_sample_plasma_received' THEN 'Plasma' END;">
             <PieChart
               header="HVL - Samples Received last week, by type"
-              Subheader=""
+              subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
               userOptions={{ colors: [ "#156082", "#e97132"], legend: { show: true, position: "bottom" }, dataLabels: { enabled: true } }}
@@ -38,7 +38,7 @@
           <Dataset query="SELECT ds.clean_rejection_reason AS category, dd.weekly_start_monday_period AS week_name, COUNT(*) AS value FROM [derived].dim_sample ds LEFT JOIN [derived].dim_date dd ON dd.date = ds.lab_received_date WHERE dd.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()) AND dd.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) AND ds.test_name = 'HIVVL' AND ds.sample_quality_status = 'RejectedLab' AND ds.clean_rejection_reason <> '' GROUP BY dd.weekly_start_monday_period, ds.clean_rejection_reason ORDER BY value DESC;">
             <PieChart
               header="HVL - Reasons for sample rejection for last week"
-              Subheader=""
+              subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
               userOptions={{ legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, colors: ['#008000', '#FFFF00', '#FF0000', '#FFA500', '#808080', '#FFC0CB', '#0000FF', '#FF00FF', '#00FF00', '#EE82EE', '#7FFFD4'] }}
@@ -47,7 +47,7 @@
           <Dataset query="WITH LatestWeek AS (SELECT MAX(d.weekly_start_monday_period) AS latest_week FROM derived.dim_date d WHERE d.[date] >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 25), GETDATE()) AND d.[date] <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE())), SampleReceivedData AS (SELECT d.weekly_start_monday_period AS week_name, TRIM(f.region) AS category, SUM(s.hvl_sample_received) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date INNER JOIN derived.dim_facility f ON s.hfr_id_for_HUB_sample_is_coming_from = f.hfr_code CROSS JOIN LatestWeek WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 25), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) AND d.weekly_start_monday_period = (SELECT latest_week FROM LatestWeek) GROUP BY d.weekly_start_monday_period, TRIM(f.region) HAVING SUM(s.hvl_sample_received) <> 0) SELECT category, value FROM SampleReceivedData ORDER BY category ASC;">
             <BarChart
               header="HVL - Number of samples received last week, by region"
-              Subheader=""
+              subHeader=""
               detailsComponent="infinite-scroll-table"
               exportData="true"
               userOptions={{ colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500"], dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Region" } } }}
