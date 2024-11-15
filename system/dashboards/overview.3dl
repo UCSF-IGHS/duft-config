@@ -22,24 +22,66 @@
                         </Query>
                         <Tile title="IIT (28-90 Days)">
                             <Dataset pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    Clients with IIT (28-90)
+                                </Header>
                                 <Query>
                                     SELECT * FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '') ORDER BY c.ctc_id
                                 </Query>
-                                <InfiniteScrollTable initialColumns="ctc_id, gender, marital_status, current_age, days_missed_drugs" exportData="true" header='IIT (28-90 Days) clients' variant='plain' />
+                                <InfiniteScrollTable initialColumns="ctc_id, gender, marital_status, current_age, days_missed_drugs" exportData="true" variant='plain' />
                             </Dataset>
                         </Tile>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Initiated"/>
+                    <Dataset>
+                        <Query>
+                            SELECT COUNT(*) AS client_count FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '')
+                        </Query>
+                        <Tile title="AHD Suspects">
+                            <Dataset pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    AHD suspect clients
+                                </Header>
+                                <Query>
+                                    SELECT * FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '') ORDER BY c.ctc_id
+                                </Query>
+                                <InfiniteScrollTable initialColumns="ctc_id, gender, marital_status, current_age, days_missed_drugs" exportData="true" variant='plain' />
+                            </Dataset>
+                        </Tile>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Suppressed"/>
+                    <Dataset>
+                        <Query>
+                            SELECT COUNT(*) AS client_count FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '')
+                        </Query>
+                        <Tile title="AHD Suspects">
+                            <Dataset pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    AHD suspect clients
+                                </Header>
+                                <Query>
+                                    SELECT * FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '') ORDER BY c.ctc_id
+                                </Query>
+                                <InfiniteScrollTable initialColumns="ctc_id, gender, marital_status, current_age, days_missed_drugs" exportData="true" variant='plain' />
+                            </Dataset>
+                        </Tile>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Not Suppressed"/>
+                    <Dataset>
+                        <Query>
+                            SELECT COUNT(*) AS client_count FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '')
+                        </Query>
+                        <Tile title="AHD Suspects">
+                            <Dataset pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    AHD suspect clients
+                                </Header>
+                                <Query>
+                                    SELECT * FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '') ORDER BY c.ctc_id
+                                </Query>
+                                <InfiniteScrollTable initialColumns="ctc_id, gender, marital_status, current_age, days_missed_drugs" exportData="true" variant='plain' />
+                            </Dataset>
+                        </Tile>
                     </Dataset>
 
                 </Row>
