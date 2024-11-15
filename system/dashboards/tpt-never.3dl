@@ -8,7 +8,7 @@
               <Query>
                 <Include file="sql/tpt.sql" />
               </Query>
-              <Include file="components/client_list.3dl" InfiniteScrollTable-table1:initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last Visit Date, Next Follow-up Date, Last VL order date, Last VL result date, TPT Start Date, TPT Regimen, TPT Actual Stop Date, TPT Expected Stop Date, TB Regimen, TB Start Date, TB Expected Stop Date, Last TB Outcome, Current ART Regimen, Current ART Regimen start date, TPT Status Two, Client Status" />
+              <Include file="components/client_list.3dl" InfiniteScrollTable-table1:initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last Visit Date, Next Follow-up Date, Last VL order date, Last VL result date, TPT Start Date, TPT Regimen, TPT Actual Stop Date, TPT Expected Stop Date, TB Regimen, TB Start Date, TB Expected Stop Date, Last TB Outcome, Last TB Outcome Date, Current ART Regimen, Current ART Regimen start date, TPT Status Two, Client Status" />
             </Dataset>
 
           </Row>
