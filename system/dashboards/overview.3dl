@@ -35,7 +35,7 @@
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) AS client_count FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '')
+                            SELECT COUNT(*) FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON d.[date] = f.report_date AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '') LEFT JOIN derived.fact_ctc_daily_client_status result ON result.client_id = f.client_id AND result.has_cd4_less_than_200 = 1 LEFT JOIN derived.dim_date d2 ON d2.date = result.report_date AND d2.weekly_start_monday_end_date = d.weekly_start_monday_end_date WHERE (f.report_date = d.weekly_start_monday_end_date AND f.has_no_cd4_tst_who_stage_3_4_exclusively_weekly = 1) OR (f.has_cd4_less_than_200 = 1 AND f.report_date BETWEEN result.report_date AND d2.weekly_start_monday_end_date)
                         </Query>
                         <Tile title="AHD Suspects">
                             <Dataset pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
@@ -43,9 +43,9 @@
                                     AHD suspect clients
                                 </Header>
                                 <Query>
-                                    SELECT * FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '') ORDER BY c.ctc_id
+                                    SELECT c.*, f.has_no_cd4_tst_who_stage_3_4_exclusively_weekly, f.has_cd4_less_than_200 FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON d.[date] = f.report_date AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '') LEFT JOIN derived.fact_ctc_daily_client_status result ON result.client_id = f.client_id AND result.has_cd4_less_than_200 = 1 LEFT JOIN derived.dim_date d2 ON d2.date = result.report_date AND d2.weekly_start_monday_end_date = d.weekly_start_monday_end_date WHERE (f.report_date = d.weekly_start_monday_end_date AND f.has_no_cd4_tst_who_stage_3_4_exclusively_weekly = 1) OR (f.has_cd4_less_than_200 = 1 AND f.report_date BETWEEN result.report_date AND d2.weekly_start_monday_end_date) ORDER BY c.ctc_id
                                 </Query>
-                                <InfiniteScrollTable initialColumns="ctc_id, gender, marital_status, current_age, days_missed_drugs" exportData="true" variant='plain' />
+                                <InfiniteScrollTable initialColumns="ctc_id, gender, marital_status, current_age " exportData="true" variant='plain' />
                             </Dataset>
                         </Tile>
                     </Dataset>

@@ -3,7 +3,7 @@ WITH limits AS (
         client_id,
         result.report_date AS cd4_result_date,
         result.cd4_count_result AS cd4_count_result,
-        weekly_start_monday_end_date AS cd4_week_end_date
+        d.weekly_start_monday_end_date AS cd4_week_end_date
     FROM
         derived.fact_ctc_daily_client_status AS result
     INNER JOIN
