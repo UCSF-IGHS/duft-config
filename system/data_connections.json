@@ -8,7 +8,7 @@
 			"allowQueryEngine":"True",
 			"params":[
 				{
-					"name":"filemaker",
+					"name":"type",
 					"type":"text",
 					"label":"The type of connection (MSSQL | MySQL | PostgreSQL | sqlite3)"
 				},				

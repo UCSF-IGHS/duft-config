@@ -9,10 +9,10 @@
             "type": "PostgreSQL"
         },
         "EPMS_Source": {
+            "type": "filemaker",
             "server": "jdbc:filemaker://localhost/QuantumKhomasdalHealthCentre",
             "username": "Administrator",
-            "password": "Qepms!@dmin",
-            "type": "filemaker"
+            "password": "Qepms!@dmin"
         },
         "EPMS_Destination": {
             "server": "127.0.0.1",
@@ -29,11 +29,11 @@
             "NAME": "duft",
             "USER": "postgres",
             "PASSWORD": "root",
-            "HOST": "127.0.0.1",  
+            "HOST": "127.0.0.1",
             "PORT": "5433",
             "OPTIONS": {
                 "options": "-c search_path=analysis"
-            }    
+            }
         }
-    }    
+    }
 }
