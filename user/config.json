@@ -16,6 +16,14 @@
             "sqlite3file": "wakanda.sqlite",
             "type": "sqlite3"
         },
+        "LAB": {
+            "server": "192.168.16.1",
+            "username": "{username}",
+            "password": "{password}",
+            "port": "1454",
+            "database": "lab_visual_analysis",
+            "type": "MSSQL"
+        },
         "NDR": {
             "server": "https://www.myndr.com/api/v2",
             "username": "user",

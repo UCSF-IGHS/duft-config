@@ -84,7 +84,19 @@
           "show": false
         },
         "dataLabels": {
-          "enabled": false
+          "enabled": false,
+          "background": {
+              "enabled": false,
+              "foreColor": "#000",
+              "borderColor": "transparent"
+            },
+            "style": {
+              "fontSize": "14px",
+              "colors": ["#000"]
+            },
+            "dropShadow": {
+              "enabled": false
+            }
         },
         "legend": {
           "show": false
