@@ -52,7 +52,7 @@
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) AS client_count FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '')
+                            SELECT DISTINCT COUNT(*) FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_date d ON d.[date] = f.report_date WHERE f.clients_eligible_for_viral_load_testing = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '')
                         </Query>
                         <Tile title="Need VL Test">
                             <Dataset pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
@@ -60,9 +60,9 @@
                                     Clients needing VL test
                                 </Header>
                                 <Query>
-                                    SELECT * FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 ORDER BY c.ctc_id
+                                    SELECT DISTINCT f.ctc_id, f.current_age AS Age, c.marital_status AS "Marital Status", f.gender AS Gender, f.clients_eligible_for_viral_load_testing AS "VL Eligible?" FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_date d ON d.[date] = f.report_date INNER JOIN derived.dim_client c ON c.client_id = f.client_id WHERE f.clients_eligible_for_viral_load_testing = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('', ''), '2024-06-02') ORDER BY ctc_id
                                 </Query>
-                                <InfiniteScrollTable initialColumns="ctc_id, gender, marital_status, current_age, days_missed_drugs" exportData="true" variant='plain' />
+                                <InfiniteScrollTable initialColumns="ctc_id, Gender, Marital Status, Age" exportData="true" variant='plain' />
                             </Dataset>
                         </Tile>
                     </Dataset>
