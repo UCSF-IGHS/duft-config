@@ -94,7 +94,14 @@
         "task": "SAMPLE-NOTEBOOK",
         "dashboard": "refresh-data",
         "prompt": "Are you sure you want to refresh the data?"
-      }
+      },
+      {
+        "title": "Upload data",
+        "icon": "update-icon",
+        "task": "UPLOAD",
+        "dashboard": "upload-data",
+        "prompt": "Are you sure you want to upload the data?"
+      }      
     ]
   }
 }
