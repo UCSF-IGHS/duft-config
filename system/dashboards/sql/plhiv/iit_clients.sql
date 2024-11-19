@@ -43,5 +43,4 @@ AND
 AND
     d.weekly_start_monday_end_date = COALESCE(NULLIF('$week', ''), '2024-06-02')
 ORDER BY
-    f.report_date ASC,
-    f.days_missed_drugs DESC
+    f.report_date ASC
