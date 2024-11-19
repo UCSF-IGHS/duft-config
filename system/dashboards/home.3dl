@@ -89,7 +89,7 @@
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
                 </Filters>
             
             <Row columns = "2"   largeColumns = "2">
@@ -131,7 +131,7 @@
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
                 </Filters>
             
             <Row columns = "2"   largeColumns = "2">
@@ -160,7 +160,7 @@
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
                 </Filters>
             
             <Row columns = "2"   largeColumns = "2">
@@ -195,7 +195,7 @@
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
                 </Filters>
             
             <Row columns = "2"   largeColumns = "2">
@@ -232,7 +232,7 @@
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event`} />
+                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
                 </Filters>
             
             <Row columns = "2"   largeColumns = "2">
