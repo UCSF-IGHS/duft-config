@@ -47,15 +47,16 @@
         "title": "Retention",
         "icon": "dashboards-icon",
         "dashboards": [
-          {
-            "title": "Not in Care (1-28 days)",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/retention-1-28"
-          },
+          
           {
             "title": "Not in Care (29-90 days)",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/retention-29-90"
+          },
+          {
+            "title": "Not in Care (1-28 days)",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/retention-1-28"
           }
         ]
       },
