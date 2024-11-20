@@ -1,85 +1,55 @@
 {
   "settings": {
-    "appName": "DUFT (configurable)",
+    "appName": "PCR Lab Visual",
     "footer": "Configurable footer text"
   },
-  "home": {
-    "title": "Home",
-    "icon": "home-icon",
-    "dashboard": "/"
-  },
   "menu": {
-    "header": "dashboards (configurable)",
+    "header": "",
     "items": [
       {
-        "title": "3DL Dashboards",
+        "title": "Sliding Dashboard",
+        "icon": "dashboard-icon",
+        "dashboard": "/dashboard/sliding-dashboard"
+      },
+      {
+        "title": "Interactive Dashboard",
+        "icon": "dashboard-icon",
+        "dashboard": ""
+      },
+      {
+        "title": "Reports",
         "icon": "dashboards-icon",
         "dashboards": [
           {
-            "title": "3DL Dashboard 1",
+            "title": "HVL & EID Report",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlsample"
+            "dashboard": ""
           },
           {
-            "title": "Sub Dashboard 2",
+            "title": "Sample Tracking Report",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlsample-2"
-          },
-          {
-            "title": "Tab Dashboard",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlsample-tabs"
-          },
-          {
-            "title": "Filter Dashboard",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlfilters"
-          },
-          {
-            "title": "Preview query",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlpreview-query"
-          },
-          {
-            "title": "Sliding Dashboard",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/sliding-dashboard"
+            "dashboard": ""
           }
         ]
       },
       {
-        "title": "{API} DB 1",
+        "title": "Data Management",
         "icon": "dashboard-icon",
-        "dashboard": "/dashboard"
+        "dashboard": ""
       },
       {
-        "title": "{API} More",
+        "title": "User Management",
         "icon": "dashboards-icon",
         "dashboards": [
           {
-            "title": "Sub Dashboard 1",
+            "title": "Add User",
             "icon": "dashboard-icon",
-            "dashboard": "/a"
+            "dashboard": ""
           },
           {
-            "title": "Sub Dashboard 2",
+            "title": "Edit/Activate User",
             "icon": "dashboard-icon",
-            "dashboard": "/b"
-          },
-          {
-            "title": "Sub Dashboard 3",
-            "icon": "dashboard-icon",
-            "dashboard": "/c"
-          },
-          {
-            "title": "Sub Dashboard 4",
-            "icon": "dashboard-icon",
-            "dashboard": "/d"
-          },
-          {
-            "title": "APIs",
-            "icon": "hashtag-icon",
-            "dashboard": "/api"
+            "dashboard": ""
           }
         ]
       }
