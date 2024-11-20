@@ -86,23 +86,24 @@
 
                 </Row>
 
-                <Row columns = "1" largeColumns = "1">
-
-                    <Dataset query={`SELECT * FROM vw_art_cascade;`}>
-                    <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
-                    </Dataset>
-
+                <Row columns = "2" largeColumns = "2">
+                    <Dataset>
+                        <Query>
+                            <Include file="sql/need_attention/iit_pie.sql" />
+                        </Query>
+                        <PieChart
+                            exportData="true"
+                            detailsComponent="infinite-scroll-table"
+                            header="Contribution of MMD clients on IIT"
+                        />
+                        </Dataset>
                 </Row>
 
-                <Row columns = "2" largeColumns = "2">
+                <Row columns = "1" largeColumns = "1">
 
-                    <Dataset query={`SELECT category, Male, Female FROM vw_art_cascade_per_gender;`}>
-                    <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender"/>
+                    <Dataset query={`SELECT TOP 10 * FROM derived.dim_client`}>
+                    <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
                     </Dataset>
-
-                    <Dataset query={`SELECT category, "0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79" FROM vw_art_cascade_per_age_group;`}>
-                    <ClusteredBarChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group"/>
-                        </Dataset>
 
                 </Row>
 
