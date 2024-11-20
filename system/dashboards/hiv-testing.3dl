@@ -3,7 +3,7 @@
     <Tab title="Testing Cascade">
         <Dashboard>
             <Grid>
-                <Dataset query="SELECT 'May 27, 24 - Jun 02, 24' AS week_dates, 'Ngomamtimba Hospital' AS facility_name">
+                <Dataset query="SELECT 'May 27, 24 - Jun 02, 24' AS week_dates, 'Bariadi Town Council Hospital' AS facility_name">
                     <Row columns="2" smallColumns="1">
                         <Header>
                             <DataString>Key Performance Indicators</DataString>
