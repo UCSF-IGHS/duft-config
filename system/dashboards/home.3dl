@@ -1,0 +1,25 @@
+<TabSet>
+  <Tab title="Dashboard 1">
+    <Dashboard title="My Dashboard">
+      <Grid>
+
+        <Row columns="2" largeColumns="4">
+
+
+          <Dataset query={`SELECT COUNT(DISTINCT  client_id) as value FROM mamba_dim_client`}>
+            <Tile title="Initiated" />
+          </Dataset>
+
+
+
+
+
+        </Row>
+
+
+
+      </Grid>
+    </Dashboard>
+  </Tab>
+
+</TabSet>

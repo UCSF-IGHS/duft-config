@@ -16,6 +16,11 @@
         "icon": "dashboards-icon",
         "dashboards": [
           {
+           "title": "3DL Home",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/home" 
+          },
+          {
             "title": "3DL Dashboard 1",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/3dlsample"
