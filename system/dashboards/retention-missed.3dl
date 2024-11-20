@@ -1,9 +1,9 @@
 <Dashboard>
   <SingleLayout>
     <Grid>
-      <Row><Header>Not in care for 1-28 days</Header></Row>
+      <Row><Header>Missed Appointments</Header></Row>
       <Row columns="1" largeColumns="1" >
-        <Dataset pageSize={50} filters={{ "Retention Status": 'Not in care for 1-28 days' }} searchColumns="Sex, ART Number Legacy">
+        <Dataset pageSize={50} filters={{ "Retention Status": 'Missed Appointments' }} searchColumns="Sex, ART Number Legacy">
           <Query>
             <Include file="sql/retention.sql" />
           </Query>

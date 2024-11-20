@@ -49,14 +49,14 @@
         "dashboards": [
           
           {
-            "title": "Not in Care (29-90 days)",
+            "title": "Treatment Interruptions",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/retention-29-90"
+            "dashboard": "/dashboard/retention-interruption"
           },
           {
-            "title": "Not in Care (1-28 days)",
+            "title": "Missed Appointments",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/retention-1-28"
+            "dashboard": "/dashboard/retention-missed"
           }
         ]
       },
