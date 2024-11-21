@@ -142,7 +142,7 @@
         "ART Outcomes"
         FROM 
             analysis.fact_sentinel_event se 
-        INNER JOIN 
+        LEFT JOIN 
             analysis.dim_age_group ag ON se."Current Age"=ag.age 
         WHERE 
             "TX Curr" = 'Yes'
