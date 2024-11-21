@@ -57,6 +57,62 @@
       </Grid>
     </Dashboard>
   </Tab>
+  <Tab title="Dashboard 3">
+    <Dashboard title="HIV Viral Load (HVL) trends in samples received, tested, and results authorized for last 4 weeks">
+      <Grid>
+        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
+          <Row columns="2" smallColumns="1">
+            <Header>
+              <DataString>HIV Viral Load (HVL) trends in samples received, tested, and results authorized for last 4 weeks</DataString>
+            </Header>
+            <Subheader>
+              <DataString>%week_name% (Data from %firstDay% to %lastDay%)</DataString>
+            </Subheader>
+          </Row>
+        </Dataset>
+        <Row largeColumns="2" columns="1">
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_sample_wholeblood_received) AS wholeblood, SUM(s.hvl_sample_plasma_received) AS plasma FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
+            <ClusteredLineChart
+              header="HVL: Trend of Samples Received, by Sample Type"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ colors: ["#008000", "#FFA500"], dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+            </Dataset>
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_samples_received_by_entry_modality_lab) AS [Entered in the Lab], SUM(s.hvl_samples_received_by_entry_modality_hub) AS [Entered in the Hub] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period ASC;">
+            <ClusteredLineChart
+              header="HVL: Trend of Samples Received, by Entry Modality"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ colors: ["#008000", "#FFA500"], dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+          </Dataset>
+        </Row>
+        <Row largeColumns="2" columns="1">
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_sample_plasma_tested + s.hvl_sample_wholeblood_tested) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY category ASC;">
+            <LineChart
+              header="HVL: Trend of Samples Tested"
+              subHeader=""
+              detailsComponent="infinite-scroll-table"
+              exportData="true"
+              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+          </Dataset>
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_sample_plasma_dispatched + s.hvl_sample_wholeblood_dispatched) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period ASC;">
+            <LineChart
+              header="HVL - Trend of Results Dispatched"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+          </Dataset>
+        </Row>
+      </Grid>
+    </Dashboard>
+  </Tab>
   <Tab title="Dashboard 4">
     <Dashboard title="HIV Viral Load (HVL) Trends- Turn Around Time">
       <Grid>
