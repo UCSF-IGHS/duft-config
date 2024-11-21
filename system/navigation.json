@@ -1,6 +1,6 @@
 {
   "settings": {
-    "appName": "DUFT CTCA",
+    "appName": "CTCA",
     "footer": "Powered by DUFT"
   },
   "home": {
@@ -80,7 +80,7 @@
         "task": "UPLOAD",
         "dashboard": "upload-data",
         "prompt": "Are you sure you want to upload the data?"
-      }      
+      }
     ]
   }
 }
