@@ -85,7 +85,7 @@
 <Tab title="Multi-Month Prescription">
 <Dashboard>   
         <Grid>
-            <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
+            <Row><Header>Multi-Month Prescription</Header></Row>
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
@@ -127,7 +127,7 @@
 <Tab title="TPT">
 <Dashboard>   
         <Grid>
-            <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
+            <Row><Header>TPT</Header></Row>
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
@@ -156,7 +156,7 @@
 <Tab title="Retention">
 <Dashboard>   
         <Grid>
-            <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
+            <Row><Header>Retention</Header></Row>
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
@@ -191,7 +191,7 @@
 <Tab title="VLM">
 <Dashboard>   
         <Grid>
-            <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
+            <Row><Header>Viral Load Monitoring</Header></Row>
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
@@ -228,7 +228,7 @@
 <Tab title="VLS">
 <Dashboard>   
         <Grid>
-            <Row><Header>Monthly Tri-Pillar Indicators</Header></Row>
+            <Row><Header>Viral Load Suppression</Header></Row>
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query="SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val" />
