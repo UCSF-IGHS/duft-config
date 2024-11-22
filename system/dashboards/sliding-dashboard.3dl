@@ -2,7 +2,7 @@
   <Tab title="Dashboard 2">
     <Dashboard title="HIV Viral Load (HVL) - Overview of samples received and tested for last week">
       <Grid>
-        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
+        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
           <Row columns="2" smallColumns="1">
              <Header>
                 <DataString>
@@ -60,7 +60,7 @@
   <Tab title="Dashboard 3">
     <Dashboard title="HIV Viral Load (HVL) trends in samples received, tested, and results authorized for last 4 weeks">
       <Grid>
-        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
+        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
           <Row columns="2" smallColumns="1">
             <Header>
               <DataString>HIV Viral Load (HVL) trends in samples received, tested, and results authorized for last 4 weeks</DataString>
@@ -116,7 +116,7 @@
   <Tab title="Dashboard 4">
     <Dashboard title="HIV Viral Load (HVL) Trends- Turn Around Time">
       <Grid>
-        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
+        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
           <Row columns="2" smallColumns="1">
             <Header>
               <DataString>
@@ -165,6 +165,64 @@
               exportData="true"
               detailsComponent="infinite-scroll-table"
               userOptions={{ tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+          </Dataset>
+        </Row>
+      </Grid>
+    </Dashboard>
+  </Tab>
+  <Tab title="Dashboard 5">
+    <Dashboard title="HIV Viral Load (HVL) Trends- Laboratory Testing Point page">
+      <Grid>
+        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
+          <Row columns="2" smallColumns="1">
+            <Header>
+              <DataString>
+                HIV Viral Load (HVL) Trends- Laboratory Testing Point page
+              </DataString>
+            </Header>
+            <Subheader>
+              <DataString>%week_name% (Data from %firstDay% to %lastDay%)</DataString>
+            </Subheader>
+            </Row>
+        </Dataset>
+        <Row largeColumns="2" columns="1">
+          <Dataset query="SELECT category, SUM(value) AS value FROM (SELECT s.report_date, s.hvl_samples_with_results_equal_or_above_1000 AS [>=1000 copies], s.hvl_samples_with_results_less_than_1000_or_above_50 AS [<=999 copies], s.hvl_result_invalid AS [Invalid], s.hvl_result_tnd AS [TND] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE())) AS SampleData UNPIVOT (value FOR category IN ([>=1000 copies], [<=999 copies], [Invalid], [TND])) AS unpvt GROUP BY category ORDER BY category;">
+            <PieChart
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              header="HVL: Test outcomes for last week"
+              subHeader=""
+              userOptions={{ legend: { show: true, position: "right" }, dataLabels: { enabled: true }, colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500"] }}
+            />
+          </Dataset>
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, CAST(COALESCE(SUM(s.hvl_result_invalid) * 100.0/NULLIF(SUM(s.hvl_sample_tested), 0), 0) AS DECIMAL(5, 2)) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
+          <LineChart
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              header="HVL: Trend of invalid test results"
+              subHeader=""
+              userOptions={{ legend: { show: true }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#1e3799"] }}
+            />
+          </Dataset>
+        </Row>
+        <Row largeColumns="2" columns="1">
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, CAST(COALESCE(SUM(s.hvl_sample_rejected) * 100.0/NULLIF(SUM(s.hvl_sample_received), 0), 0) AS DECIMAL(5,2)) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
+            <LineChart
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              header="HVL: Trend of rejected samples"
+              subHeader=""
+              userOptions={{ legend: { show: true }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#1e3799"] }}
+            />
+          </Dataset>
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_samples_aging_less_or_equal_1_week) AS [1 week], SUM(s.hvl_samples_aging_less_or_equal_2_week) AS [2 weeks], SUM(s.hvl_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks) AS [3 weeks], SUM(s.hvl_samples_aging_greater_than_3_weeks) AS [>3 weeks and above] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
+          <ClusteredBarChart
+              header="HVL: Sample age for samples still in the lab at the end of reporting week"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Week" } }, xaxis: { title: { text: "Number of Samples" } }, tooltip: { shared: true } }}
             />
           </Dataset>
         </Row>
