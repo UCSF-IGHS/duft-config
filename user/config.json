@@ -10,7 +10,7 @@
         },
         "EPMS_Source": {
             "type": "filemaker",
-            "server": "jdbc:filemaker://localhost/QuantumKhomasdalHealthCentre",
+            "server": "jdbc:filemaker://localhost/QuantumLuderitzDistrictHospital",
             "username": "Administrator",
             "password": "Qepms!@dmin"
         },

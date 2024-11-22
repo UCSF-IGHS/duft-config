@@ -70,9 +70,9 @@
             "dashboard": "/dashboard/vlm-delayed"
           },
           {
-            "title": "Recent",
+            "title": "Slightly Delayed",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/vlm-recent"
+            "dashboard": "/dashboard/vlm-slightly-delayed"
           }
         ]
       },
