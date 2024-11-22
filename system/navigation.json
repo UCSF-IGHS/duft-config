@@ -37,9 +37,9 @@
             "dashboard": "/dashboard/tpt-never"
           },
           {
-            "title": "Still on TPT",
+            "title": "Currently on TPT/TBT",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/tpt-not"
+            "dashboard": "/dashboard/tpt-currently"
           }
         ]
       },
