@@ -19,7 +19,7 @@
     "MAMBA": {
       "server": "127.0.0.1",
       "username": "root",
-      "password": "Wag523hers185!",
+      "password": "mysecretword",
       "port": "3306",
       "database": "analysis_db_ethiopia",
       "type": "MySQL"
