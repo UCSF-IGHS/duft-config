@@ -85,7 +85,14 @@
 <Tab title="MMP">
 <Dashboard>   
         <Grid>
-            <Row><Header>Multi-Month Prescription</Header></Row>
+            <Dataset query="select last_refresh_date, facility_name FROM analysis.dim_last_refresh">
+                <Row columns="2" smallColumns="1">
+                    <Header>Multi-Month Prescription</Header>
+                    <Subheader>
+                    <DataString>Last updated on: %last_refresh_date%</DataString>
+                    </Subheader>
+                </Row>
+            </Dataset>
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
@@ -127,7 +134,14 @@
 <Tab title="TPT">
 <Dashboard>   
         <Grid>
-            <Row><Header>TB Preventative Therapy</Header></Row>
+            <Dataset query="select last_refresh_date, facility_name FROM analysis.dim_last_refresh">
+                <Row columns="2" smallColumns="1">
+                    <Header>TB Preventative Therapy</Header>
+                    <Subheader>
+                    <DataString>Last updated on: %last_refresh_date%</DataString>
+                    </Subheader>
+                </Row>
+            </Dataset>
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
@@ -156,7 +170,14 @@
 <Tab title="Retention">
 <Dashboard>   
         <Grid>
-            <Row><Header>Retention</Header></Row>
+            <Dataset query="select last_refresh_date, facility_name FROM analysis.dim_last_refresh">
+                <Row columns="2" smallColumns="1">
+                    <Header>Retention</Header>
+                    <Subheader>
+                    <DataString>Last updated on: %last_refresh_date%</DataString>
+                    </Subheader>
+                </Row>
+            </Dataset>
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
@@ -191,7 +212,14 @@
 <Tab title="VLM">
 <Dashboard>   
         <Grid>
-            <Row><Header>Viral Load Monitoring</Header></Row>
+            <Dataset query="select last_refresh_date, facility_name FROM analysis.dim_last_refresh">
+                <Row columns="2" smallColumns="1">
+                    <Header>Viral Load Monitoring</Header>
+                    <Subheader>
+                    <DataString>Last updated on: %last_refresh_date%</DataString>
+                    </Subheader>
+                </Row>
+            </Dataset>
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
@@ -228,7 +256,14 @@
 <Tab title="VLS">
 <Dashboard>   
         <Grid>
-            <Row><Header>Viral Load Suppression</Header></Row>
+            <Dataset query="select last_refresh_date, facility_name FROM analysis.dim_last_refresh">
+                <Row columns="2" smallColumns="1">
+                    <Header>Viral Load Suppression</Header>
+                    <Subheader>
+                    <DataString>Last updated on: %last_refresh_date%</DataString>
+                    </Subheader>
+                </Row>
+            </Dataset>
             <Filters>
                     <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
                     <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
