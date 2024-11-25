@@ -6,7 +6,7 @@
     "home": {
         "title": "Home",
         "icon": "home-icon",
-        "dashboard": "/dashboard/home"
+        "dashboard": "/"
     },
   "menu": {
     "header":"Line Lists",
