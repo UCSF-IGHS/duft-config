@@ -1,22 +1,22 @@
 {
-    "name": "DUFT Basic 3DL",
+    "name": "Quantum Extension",
     "appName": "Quantum Extension",
     "footer": "Supported at Global Programs Office, Namibia",
     "custom": "Custom setting",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "logoURL": "https://duft.app/logo.png",
-    "repository": "github.com/duftapp/duft-basic-3dl",
+    "repository": "https://github.com/UCSF-IGHS/duft-config/tree/namibia-3dl",
     "credits": {
-        "organisaton": "DUFT Core Team",
-        "department": "Department",
+        "organisaton": "GP Namibia",
+        "department": "HIS",
         "website": "https://duft.app",
         "productOwners": [
-            "Product Owner 1",
-            "Product Owner 2"
+            "Rosaline Hendricks",
+            "Praise Zimunya"
         ],
         "developers": [
-            "Developer 1",
-            "Developer 2"
+            "Herobiam Heita",
+            "Davidson Gikandi"
         ]
     },
     "additionalInfo": "An additional line of information can go here."
