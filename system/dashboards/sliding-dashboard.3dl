@@ -97,7 +97,7 @@
               subHeader=""
               detailsComponent="infinite-scroll-table"
               exportData="true"
-              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_sample_plasma_dispatched + s.hvl_sample_wholeblood_dispatched) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period ASC;">
@@ -223,6 +223,64 @@
               exportData="true"
               detailsComponent="infinite-scroll-table"
               userOptions={{ dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Week" } }, xaxis: { title: { text: "Number of Samples" } }, tooltip: { shared: true } }}
+            />
+          </Dataset>
+        </Row>
+      </Grid>
+    </Dashboard>
+  </Tab>
+  <Tab title="Dashboard 6">
+    <Dashboard title="HIV Viral Load (HVL) trends in samples received, tested, and results authorized for last 4 weeks">
+      <Grid>
+        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
+          <Row columns="2" smallColumns="1">
+            <Header>
+              <DataString>
+                EID - Overview of samples received and testing for last week
+              </DataString>
+            </Header>
+            <Subheader>
+              <DataString>%week_name% (Data from %firstDay% to %lastDay%)</DataString>
+            </Subheader>
+          </Row>
+        </Dataset>
+        <Row largeColumns="2" columns="1">
+          <Dataset query="SELECT week_name, category, value, ROW_NUMBER() OVER (ORDER BY CASE category WHEN 'Sample Received' THEN 1 WHEN 'Sample Tested' THEN 2 WHEN 'Sample Rejected' THEN 3 WHEN 'Sample Results Dispatched' THEN 4 END) AS sort_order FROM (SELECT d.weekly_start_monday_period AS week_name, SUM(s.eid_sample_dbs_received) AS [Sample Received], SUM(s.eid_sample_tested) AS [Sample Tested], SUM(s.eid_sample_rejected) AS [Sample Rejected], SUM(s.eid_result_dispatched) AS [Sample Results Dispatched] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.[date] >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND d.[date] <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period) AS SamplesDataAggregates UNPIVOT (value FOR category IN ([Sample Received], [Sample Tested], [Sample Rejected], [Sample Results Dispatched])) AS unpvt ORDER BY week_name ASC, sort_order;">
+            <BarChart
+              header="EID - Number of samples received, tested, rejected and results authorized for last week"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } } }}
+            />
+            </Dataset>
+          <Dataset query="SELECT d.weekly_start_monday_period AS week_name, TRIM(f.region) AS category, SUM(s.eid_sample_dbs_received) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date INNER JOIN derived.dim_facility f ON s.hfr_id_for_HUB_sample_is_coming_from = f.hfr_code WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period, TRIM(f.region) HAVING SUM(s.hvl_sample_received) <> 0 ORDER BY category ASC;">
+            <BarChart
+              header="EID - Number of samples received last week, by region"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Region" } } }}
+            />
+          </Dataset>
+        </Row>
+        <Row largeColumns="2" columns="1">
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_samples_received_by_entry_modality_lab) AS [Entered in the Lab], SUM(s.eid_samples_received_by_entry_modality_hub) AS [Entered in the Hub] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period ASC;">
+            <ClusteredLineChart
+              header="EID - Trend of Samples Received by Entry Modality"
+              subHeader=""
+              detailsComponent="infinite-scroll-table"
+              exportData="true"
+              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#008000", "#FFA500"] }}
+            />
+          </Dataset>
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_dbs_received) AS [Samples Received], SUM(s.eid_sample_tested) AS [Samples Tested], SUM(s.eid_result_dispatched) AS [Samples Dispatched] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period ASC;">
+            <ClusteredLineChart
+              header="EID - Trend of Samples Received, Tested $ Dispatched"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#008000", "#FFA500", "#FF0000"] }}
             />
           </Dataset>
         </Row>
