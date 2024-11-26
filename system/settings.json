@@ -11,7 +11,12 @@
         "department": "HIS",
         "website": "https://duft.app",
         "productOwners": [
+            "Fitti Weissglas",
             "Rosaline Hendricks",
+            "Ifeoma Ndozi-Okia"
+        ],
+        "implementers": [
+            "Asen Mwandemele",
             "Praise Zimunya"
         ],
         "developers": [
