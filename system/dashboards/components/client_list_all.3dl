@@ -144,8 +144,8 @@
             analysis.fact_sentinel_event se 
         LEFT JOIN 
             analysis.dim_age_group ag ON se."Current Age"=ag.age 
-        WHERE 
-            "TX Curr" = 'Yes'
+        ORDER BY 
+            "TX Curr" DESC
     </Query>
     <InfiniteScrollTable id="table1" exportData="true" >
         <DetailsView columnName="ART Number Legacy">
