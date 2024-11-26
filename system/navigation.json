@@ -29,12 +29,7 @@
             "title": "Tab Dashboard",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/3dlsample-tabs"
-          },
-          {
-            "title": "HTML Snippet",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/html-snippet"
-          },          
+          },       
           {
             "title": "Filter Dashboard",
             "icon": "dashboard-icon",
@@ -46,11 +41,6 @@
             "dashboard": "/dashboard/3dlpreview-query"
           }
         ]
-      },
-      {
-        "title": "{API} DB 1",
-        "icon": "dashboard-icon",
-        "dashboard": "/dashboard/new"
       },
       {
         "title": "{API} More",
