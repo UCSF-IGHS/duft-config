@@ -1,5 +1,5 @@
 {
-    "name": "DUFT Basic 3DL",
+    "name": "Quantum Extenstion",
     "appName": "DUFT (configurable)",
     "footer": "Configurable footer text",
     "custom": "Custom setting",
@@ -8,7 +8,7 @@
     "repository": "github.com/duftapp/duft-basic-3dl",
     "credits": {
         "organisaton": "DUFT Core Team",
-        "department": "Department",
+        "department": "UCSF Department",
         "website": "https://duft.app",
         "productOwners": [
             "Product Owner 1",

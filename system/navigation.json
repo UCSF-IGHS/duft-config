@@ -21,7 +21,7 @@
             "dashboard": "/dashboard/3dlsample"
           },
           {
-            "title": "Sub Dashboard 2",
+            "title": "XXXXX 2",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/3dlsample-2"
           },
@@ -30,6 +30,11 @@
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/3dlsample-tabs"
           },
+          {
+            "title": "HTML Snippet",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/html-snippet"
+          },          
           {
             "title": "Filter Dashboard",
             "icon": "dashboard-icon",
@@ -45,7 +50,7 @@
       {
         "title": "{API} DB 1",
         "icon": "dashboard-icon",
-        "dashboard": "/dashboard"
+        "dashboard": "/dashboard/new"
       },
       {
         "title": "{API} More",
