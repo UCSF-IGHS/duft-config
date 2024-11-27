@@ -6,7 +6,7 @@
   "home": {
     "title": "Home",
     "icon": "home-icon",
-    "dashboard": "/"
+    "dashboard": "/dashboard/home"
   },
   "menu": {
     "header": "dashboards (configurable)",
