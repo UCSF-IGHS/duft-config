@@ -9,10 +9,6 @@
                 <Header> List of PLHIV Clients </Header>
             </Row>
 
-            <Filters>
-                <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
-            </Filters>
-
             <Row>
                 <SubHeader> Tabular representation of clients who had interruption in treatment. </SubHeader>
             </Row>
