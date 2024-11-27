@@ -21,9 +21,9 @@
             "dashboard": "/dashboard/home"
           },
           {
-            "title": "Patients",
+            "title": "Preview query",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlsample"
+            "dashboard": "/dashboard/3dlpreview-query"
           }
         ]
       }
