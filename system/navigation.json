@@ -1,12 +1,14 @@
 {
   "settings": {
     "appName": "DUFT (configurable)",
-    "footer": "Configurable footer text"
+    "footer": "Configurable footer text",
+    "showSettings": "authenticatedOnly",
+    "showAbout": "true"
   },
   "home": {
     "title": "Home",
     "icon": "home-icon",
-    "dashboard": "/"
+    "dashboard": "/dashboard/home"
   },
   "menu": {
     "header": "dashboards (configurable)",
@@ -26,7 +28,7 @@
             "dashboard": "/dashboard/3dlsample"
           },
           {
-            "title": "Sub Dashboard 2",
+            "title": "XXXXX 2",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/3dlsample-2"
           },
@@ -34,7 +36,7 @@
             "title": "Tab Dashboard",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/3dlsample-tabs"
-          },
+          },       
           {
             "title": "Filter Dashboard",
             "icon": "dashboard-icon",
@@ -46,11 +48,6 @@
             "dashboard": "/dashboard/3dlpreview-query"
           }
         ]
-      },
-      {
-        "title": "{API} DB 1",
-        "icon": "dashboard-icon",
-        "dashboard": "/dashboard"
       },
       {
         "title": "{API} More",
