@@ -36,10 +36,6 @@
                 <Header> List of PLHIV Clients </Header>
             </Row>
 
-            <Filters>
-                <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
-            </Filters>
-
             <Row>
                 <SubHeader> Table of clients who are suspected to have Advanced HIV Disease (AHD). </SubHeader>
             </Row>
@@ -67,10 +63,6 @@
                 <Header> List of PLHIV Clients </Header>
             </Row>
 
-            <Filters>
-                <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
-            </Filters>
-
             <Row>
                 <SubHeader> Table of clients who need viral load test. </SubHeader>
             </Row>
@@ -97,10 +89,6 @@
             <Row>
                 <Header> List of PLHIV Clients </Header>
             </Row>
-
-            <Filters>
-                <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
-            </Filters>
 
             <Row>
                 <SubHeader> Table of clients whose viral load result was &gt;= 50 copies/ml. </SubHeader>
