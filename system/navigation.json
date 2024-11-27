@@ -30,7 +30,7 @@
     ]
   },
   "dataTasks": {
-    "header": "actions (configurable)",
+    "header": "actions",
     "items": [
       {
         "title": "Refresh data",
