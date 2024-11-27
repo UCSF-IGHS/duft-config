@@ -1,7 +1,9 @@
 {
   "settings": {
     "appName": "DUFT (configurable)",
-    "footer": "Configurable footer text"
+    "footer": "Configurable footer text",
+    "showSettings": "authenticatedOnly",
+    "showAbout": "true"
   },
   "home": {
     "title": "Home",
