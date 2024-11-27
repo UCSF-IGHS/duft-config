@@ -20,14 +20,15 @@ if __name__ == "__main__":
     params["save_path"] = json_args.get("save_path")
     params["final_repo_name"] = json_args.get("final_repo_name")
     params["branch"] = json_args.get("branch")
+    params["user_dir"] = "user"
     
     if not json_args:
         environment.log_error("No parameters given!")
         
-def update_config(repo_url, save_path, final_repo_name, branch):
+def update_config(repo_url, save_path, final_repo_name, branch, user_dir):
     environment.log_message('Updating DUFT Reports Configuration')
     environment.log_message(f'Updating { final_repo_name } from { repo_url }')
-    download_github_repo(repo_url, save_path, final_repo_name=final_repo_name, branch=branch)
+    download_github_repo(repo_url, save_path, final_repo_name=final_repo_name, branch=branch, user_dir=user_dir)
     environment.log_message('Update complete. Please exit and restart DUFT.')
 
 
@@ -35,7 +36,8 @@ def update_config(repo_url, save_path, final_repo_name, branch):
 update_config(params["repo_url"], 
               params["save_path"], 
               params["final_repo_name"], 
-              params["branch"])
+              params["branch"],
+              params["user_dir"])
 
 
 # {

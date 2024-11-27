@@ -5,7 +5,17 @@
       <Grid>
         <Row><Header>Dashboard 1</Header></Row>
         <Filters>
-          <Filter caption="Gender" name="gender" values_query="SELECT DISTINCT gender from dim_client" />
+          <Filter caption="Gender" name="gender" values_query="SELECT 
+              CASE 
+                  WHEN ROW_NUMBER() OVER () = 1 THEN 'XX'
+                  ELSE 'XY'
+              END AS label,
+              gender AS value
+          FROM (
+              SELECT DISTINCT gender
+              FROM dim_client
+          ) AS distinct_genders;
+          " />
           <Filter caption="Age Group" name="age_group" values_query="SELECT DISTINCT five_year_interval from dim_age_group" />
         </Filters>
         <Row>

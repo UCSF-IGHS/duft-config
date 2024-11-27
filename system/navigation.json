@@ -1,25 +1,51 @@
 {
+  "settings": {
+    "appName": "DUFT (configurable)",
+    "footer": "Configurable footer text"
+  },
   "home": {
       "title": "Home",
       "icon": "home-icon",
       "dashboard": "/dashboard/home"
   },
-  "menu": [
-    {
-      "title": "Wakanda",
-      "icon": "dashboards-icon",
-      "dashboards": [
-        {
-          "title": "Overview",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/home"
-        },
-        {
-          "title": "Patients",
-          "icon": "dashboard-icon",
-          "dashboard": "/dashboard/3dlsample"
-        }
-      ]
-    }
-]
+  "menu": {
+    "header": "dashboards",
+    "items": [
+      {
+        "title": "Wakanda",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "Overview",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/home"
+          },
+          {
+            "title": "Patients",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/3dlsample"
+          }
+        ]
+      }
+    ]
+  },
+  "dataTasks": {
+    "header": "actions (configurable)",
+    "items": [
+      {
+        "title": "Refresh data",
+        "icon": "update-icon",
+        "task": "SAMPLE-NOTEBOOK",
+        "dashboard": "refresh-data",
+        "prompt": "Are you sure you want to refresh the data?"
+      },
+      {
+        "title": "Upload data",
+        "icon": "update-icon",
+        "task": "UPLOAD",
+        "dashboard": "upload-data",
+        "prompt": "Are you sure you want to upload the data?"
+      }
+    ]
+  }
 }
