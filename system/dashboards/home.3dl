@@ -21,11 +21,11 @@
                         <Tile title="Initiated"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Suppressed"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Not Suppressed"/>
                     </Dataset>
 
@@ -72,15 +72,15 @@
                         <Tile title="Initiated"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(first_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(first_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(first_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(first_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="First Line"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(second_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(second_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(second_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(second_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Second Line"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(unknown_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(unknown_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(unknown_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(unknown_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Unknown Line"/>
                     </Dataset>
 
@@ -128,15 +128,15 @@
                         <Tile title="Initiated"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Suppressed"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Not Suppressed"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(needs_viral_load_test) AS needs_viral_load_test, PRINTF ('%.1f%%', SUM(needs_viral_load_test) * 100.0 / SUM(initiated_on_art)) AS percentage_need_vl_test FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(needs_viral_load_test) AS needs_viral_load_test, PRINTF ('%.1f%%', SUM(needs_viral_load_test) * 100.0 /SUM(initiated_on_art)) AS percentage_need_vl_test FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Need VL Test"/>
                     </Dataset>
 
@@ -182,15 +182,15 @@
                         <Tile title="Ever Initiated On ART"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(on_art) AS on_art, PRINTF ('%.1f%%',SUM(on_art) * 100.0 / SUM(ever_on_art)) AS percentage_initiated FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(on_art) AS on_art, PRINTF ('%.1f%%',SUM(on_art) * 100.0 /SUM(ever_on_art)) AS percentage_initiated FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Currently On ART"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(exited) AS exited, PRINTF ('%.1f%%', SUM(exited) * 100.0 / SUM(ever_on_art)) AS percentage_exited FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(exited) AS exited, PRINTF ('%.1f%%', SUM(exited) * 100.0 /SUM(ever_on_art)) AS percentage_exited FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Exited"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(died) AS died, PRINTF ('%.1f%%', SUM(died) * 100.0 / SUM(ever_on_art)) AS percentage_died FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(died) AS died, PRINTF ('%.1f%%', SUM(died) * 100.0 /SUM(ever_on_art)) AS percentage_died FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Died"/>
                     </Dataset>
 
@@ -242,11 +242,11 @@
                         <Tile title="Initiated"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Suppressed"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 / SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
                         <Tile title="Not Suppressed"/>
                     </Dataset>
 
