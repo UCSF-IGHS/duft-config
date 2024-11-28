@@ -178,7 +178,7 @@
           <Row columns="2" smallColumns="1">
             <Header>
               <DataString>
-                HIV Viral Load (HVL) Trends- Laboratory Testing Point page
+                HIV Viral Load (HVL) Trends- Laboratory Testing Point
               </DataString>
             </Header>
             <Subheader>
@@ -229,14 +229,130 @@
       </Grid>
     </Dashboard>
   </Tab>
-   <Tab title="Dashboard 6">
+  <Tab title="Dashboard 6">
+    <Dashboard title="EID - Overview of samples received and testing for last week">
+      <Grid>
+        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
+          <Row columns="2" smallColumns="1">
+            <Header>
+              <DataString>
+                EID - Overview of samples received and testing for last week
+              </DataString>
+            </Header>
+            <Subheader>
+              <DataString>%week_name% (Data from %firstDay% to %lastDay%)</DataString>
+            </Subheader>
+          </Row>
+        </Dataset>
+        <Row largeColumns="2" columns="1">
+          <Dataset query="SELECT week_name, category, value, ROW_NUMBER() OVER (ORDER BY CASE category WHEN 'Sample Received' THEN 1 WHEN 'Sample Tested' THEN 2 WHEN 'Sample Rejected' THEN 3 WHEN 'Sample Results Dispatched' THEN 4 END) AS sort_order FROM (SELECT d.weekly_start_monday_period AS week_name, SUM(s.eid_sample_dbs_received) AS [Sample Received], SUM(s.eid_sample_tested) AS [Sample Tested], SUM(s.eid_sample_rejected) AS [Sample Rejected], SUM(s.eid_result_dispatched) AS [Sample Results Dispatched] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.[date] >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND d.[date] <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period) AS SamplesDataAggregates UNPIVOT (value FOR category IN ([Sample Received], [Sample Tested], [Sample Rejected], [Sample Results Dispatched])) AS unpvt ORDER BY week_name ASC, sort_order;">
+            <BarChart
+              header="EID - Number of samples received, tested, rejected and results authorized for last week"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } } }}
+            />
+          </Dataset>
+          <Dataset query="SELECT d.weekly_start_monday_period AS week_name, TRIM(f.region) AS category, SUM(s.eid_sample_dbs_received) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date INNER JOIN derived.dim_facility f ON s.hfr_id_for_HUB_sample_is_coming_from = f.hfr_code WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period, TRIM(f.region) HAVING SUM(s.hvl_sample_received) <> 0 ORDER BY category ASC;">
+            <BarChart
+              header="EID - Number of samples received last week, by region"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Region" } } }}
+            />
+          </Dataset>
+        </Row>
+        <Row largeColumns="2" columns="1">
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_samples_received_by_entry_modality_lab) AS [Entered in the Lab], SUM(s.eid_samples_received_by_entry_modality_hub) AS [Entered in the Hub] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period ASC;">
+            <ClusteredLineChart
+              header="EID - Trend of Samples Received by Entry Modality"
+              subHeader=""
+              detailsComponent="infinite-scroll-table"
+              exportData="true"
+              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#008000", "#FFA500"] }}
+            />
+          </Dataset>
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_dbs_received) AS [Samples Received], SUM(s.eid_sample_tested) AS [Samples Tested], SUM(s.eid_result_dispatched) AS [Samples Dispatched] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period ASC;">
+            <ClusteredLineChart
+              header="EID - Trend of Samples Received, Tested & Dispatched"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#008000", "#FFA500", "#FF0000"] }}
+            />
+          </Dataset>
+        </Row>
+      </Grid>
+    </Dashboard>
+  </Tab>
+  <Tab title="Dashboard 7">
+    <Dashboard title="Early Infant HIV Diagnosis  (EID) Trends- Turn Around Time">
+      <Grid>
+        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
+          <Row columns="2" smallColumns="1">
+            <Header>
+              <DataString>
+                Early Infant HIV Diagnosis (EID) Trends- Turn Around Time
+              </DataString>
+            </Header>
+            <Subheader>
+              <DataString>%week_name% (Data from %firstDay% to %lastDay%)</DataString>
+            </Subheader>
+          </Row>
+        </Dataset>
+        <Row largeColumns="2" columns="1">
+        <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_collected_and_authorised_date_in_less_or_equal_7_days) AS [<=7 days], SUM(s.eid_sample_collected_and_authorised_date_between_8_to_14_days) AS [8 to 14 days], SUM(s.eid_sample_collected_and_authorised_date_between_15_to_21_days) AS [15 to 21 days], SUM(s.eid_sample_collected_and_authorised_date_greater_than_21_days) AS [>21 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
+            <StackedBarChart
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
+              subHeader=""
+              userOptions={{ tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+          </Dataset>
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_received_and_authorised_date_in_less_or_equal_5_days) AS [<=5 days], SUM(s.eid_sample_received_and_authorised_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.eid_sample_received_and_authorised_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.eid_sample_received_and_authorised_date_greater_than_15_days) AS [>15 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
+          <StackedBarChart
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
+              subHeader=""
+              userOptions={{ tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+          </Dataset>
+        </Row>
+        <Row largeColumns="2" columns="1">
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_collected_and_received_date_in_less_or_equal_5_days) AS [<=5 days], SUM(s.eid_sample_collected_and_received_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.eid_sample_collected_and_received_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.eid_sample_collected_and_received_date_greater_than_15_days) AS [>15 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
+            <StackedBarChart
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              header="For Samples received in the reporting week, number of days from sample collection to lab reception"
+              subHeader=""
+              userOptions={{ tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+          </Dataset>
+          <Dataset query="">
+          <StackedBarChart
+              header="For Samples received in the reporting week, number of days from receipt of sample to testing"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+          </Dataset>
+        </Row>
+      </Grid>
+    </Dashboard>
+  </Tab>
+  <Tab title="Dashboard 8">
     <Dashboard title="EID - Laboratory Testing Quality">
       <Grid>
         <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 15), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
           <Row columns="2" smallColumns="1">
             <Header>
               <DataString>
-                EID - Laboratory Testing Quality page
+                EID - Laboratory Testing Quality
               </DataString>
             </Header>
             <Subheader>
@@ -245,17 +361,17 @@
             </Row>
         </Dataset>
         <Row largeColumns="2" columns="1">
-          <Dataset query="SELECT category, SUM(value) AS value FROM (SELECT s.report_date, s.eid_sample_tested_positive AS Positive, s.eid_sample_tested_negative AS Negative, s.eid_sample_tested_result_not_detected AS Failed FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE())) AS SampleData UNPIVOT (value FOR category IN (Positive, Negative, Failed)) AS unpvt GROUP BY category ORDER BY category;">
+          <Dataset query="SELECT category, SUM(value) AS value FROM (SELECT s.report_date, s.eid_sample_tested_positive AS Positive, s.eid_sample_tested_negative AS Negative, s.eid_sample_tested_result_not_detected AS Failed FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE())) AS SampleData UNPIVOT (value FOR category IN (Positive, Negative, Failed)) AS unpvt GROUP BY category ORDER BY CASE category WHEN 'Positive' THEN 1 WHEN 'Negative' THEN 2 WHEN 'Failed' THEN 3 ELSE 4 END;">
             <PieChart
               exportData="true"
               detailsComponent="infinite-scroll-table"
               header="EID: Test outcomes for last week"
               subHeader=""
-              userOptions={{ legend: { show: true, position: "right" }, dataLabels: { enabled: true }, colors: ["#FFFF00", "#008000", "#FFA500"] }}
+              userOptions={{ legend: { show: true, position: "right" }, dataLabels: { enabled: true }, colors: [ "#008000", "#FFFF00", "#FFA500"] }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS category, CAST(COALESCE(SUM(s.eid_result_invalid) * 100.0/NULLIF(SUM(s.eid_sample_tested), 0), 0) AS DECIMAL(5, 2)) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
-          <LineChart
+            <LineChart
               exportData="true"
               detailsComponent="infinite-scroll-table"
               header="EID: Trend of invalid test results"
@@ -274,13 +390,13 @@
               userOptions={{ legend: { show: true }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#1e3799"] }}
             />
           </Dataset>
-          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_samples_aging_less_or_equal_1_week) AS [1 week], SUM(s.eid_samples_aging_less_or_equal_2_week) AS [2 weeks], SUM(s.eid_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks) AS [3 weeks], SUM(s.eid_samples_aging_greater_than_3_weeks) AS [>3 weeks and above] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_samples_aging_less_or_equal_1_week) AS [1 week], SUM(s.eid_samples_aging_less_or_equal_2_week) AS [2 weeks], SUM(s.eid_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks) AS [3 weeks], SUM(s.eid_samples_aging_greater_than_3_weeks) AS [4 weeks and above] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
           <ClusteredBarChart
               header="EID: Sample age for samples still in the lab at the end of reporting week"
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Week" } }, xaxis: { title: { text: "Sample age" } }, tooltip: { shared: true } }}
+              userOptions={{ dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Week" } }, tooltip: { shared: true } }}
             />
           </Dataset>
         </Row>
