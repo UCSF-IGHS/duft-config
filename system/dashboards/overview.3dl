@@ -10,76 +10,72 @@
                     <Header small="true">Key HIV Indicators Needing Attention</Header>
                 </Row>
 
-                <Filters>
-                    <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
-                </Filters>
-
                 <Row columns = "2" largeColumns = "4">
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) AS client_count FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '')
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Missed Drugs 29-90 Days" = 1
                         </Query>
                         <Tile title="IIT (28-90 Days)">
-                            <Dataset pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                            <Dataset pageSize={50} sort_column={ DOB } searchColumns = "c.ctc_id, f.current_age" >
                                 <Header small="true">
-                                    Clients with IIT (28-90)
+                                    Clients With IIT (28-90)
                                 </Header>
                                 <Query>
-                                    SELECT * FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE f.has_missed_drugs_for_more_than_28_days_up_to_end_of_reporting_period = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '') ORDER BY c.ctc_id
+                                    <Include file="sql/plhiv/iit_clients.sql" />
                                 </Query>
-                                <InfiniteScrollTable initialColumns="ctc_id, gender, marital_status, current_age, days_missed_drugs" exportData="true" variant='plain' />
+                                <InfiniteScrollTable exportData="true" variant='plain' />
                             </Dataset>
                         </Tile>
                     </Dataset>
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON d.[date] = f.report_date AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '') LEFT JOIN derived.fact_ctc_daily_client_status result ON result.client_id = f.client_id AND result.has_cd4_less_than_200 = 1 LEFT JOIN derived.dim_date d2 ON d2.date = result.report_date AND d2.weekly_start_monday_end_date = d.weekly_start_monday_end_date WHERE (f.report_date = d.weekly_start_monday_end_date AND f.has_no_cd4_tst_who_stage_3_4_exclusively_weekly = 1) OR (f.has_cd4_less_than_200 = 1 AND f.report_date BETWEEN result.report_date AND d2.weekly_start_monday_end_date)
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE [Last CD4 &lt; 200] = 1 OR [WHO Stage 3/4 With No CD4 Test] = 1
                         </Query>
                         <Tile title="AHD Suspects">
                             <Dataset pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
                                 <Header small="true">
-                                    AHD suspect clients
+                                    AHD Suspect Clients
                                 </Header>
                                 <Query>
-                                    SELECT c.*, f.has_no_cd4_tst_who_stage_3_4_exclusively_weekly, f.has_cd4_less_than_200 FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON d.[date] = f.report_date AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '') LEFT JOIN derived.fact_ctc_daily_client_status result ON result.client_id = f.client_id AND result.has_cd4_less_than_200 = 1 LEFT JOIN derived.dim_date d2 ON d2.date = result.report_date AND d2.weekly_start_monday_end_date = d.weekly_start_monday_end_date WHERE (f.report_date = d.weekly_start_monday_end_date AND f.has_no_cd4_tst_who_stage_3_4_exclusively_weekly = 1) OR (f.has_cd4_less_than_200 = 1 AND f.report_date BETWEEN result.report_date AND d2.weekly_start_monday_end_date) ORDER BY c.ctc_id
+                                    <Include file="sql/plhiv/ahd_clients.sql" />
                                 </Query>
-                                <InfiniteScrollTable initialColumns="ctc_id, gender, marital_status, current_age " exportData="true" variant='plain' />
+                                <InfiniteScrollTable exportData="true" variant='plain' />
                             </Dataset>
                         </Tile>
                     </Dataset>
 
                     <Dataset>
                         <Query>
-                            SELECT DISTINCT COUNT(*) FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_date d ON d.[date] = f.report_date WHERE f.clients_eligible_for_viral_load_testing = 1 AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '')
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Needs VL Test" = 1
                         </Query>
                         <Tile title="Need VL Test">
                             <Dataset pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
                                 <Header small="true">
-                                    Clients needing VL test
+                                    Clients Needing VL test
                                 </Header>
                                 <Query>
-                                    SELECT DISTINCT f.ctc_id, f.current_age AS Age, c.marital_status AS "Marital Status", f.gender AS Gender, f.clients_eligible_for_viral_load_testing AS "VL Eligible?" FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_date d ON d.[date] = f.report_date INNER JOIN derived.dim_client c ON c.client_id = f.client_id WHERE f.clients_eligible_for_viral_load_testing = 1 AND d.weekly_start_monday_end_date = COALESCE(NULLIF('', ''), '2024-06-02') ORDER BY ctc_id
+                                    <Include file="sql/plhiv/need_vl_clients.sql" />
                                 </Query>
-                                <InfiniteScrollTable initialColumns="ctc_id, Gender, Marital Status, Age" exportData="true" variant='plain' />
+                                <InfiniteScrollTable exportData="true" variant='plain' />
                             </Dataset>
                         </Tile>
                     </Dataset>
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) AS [Client Count] FROM (SELECT DISTINCT f.client_id, lv.viral_load_test_ranking FROM derived.fact_ctc_daily_client_status f INNER JOIN (SELECT client_id, ROW_NUMBER() OVER (PARTITION BY client_id ORDER BY viral_load_result_date DESC) AS rn, viral_load_test_date, ISNULL(is_viral_load_suppressed_50, 0) AS is_viral_load_suppressed_50, viral_load_test_ranking AS viral_load_test_ranking FROM derived.fact_viral_load_test) lv ON f.client_id = lv.client_id INNER JOIN derived.dim_date d ON d.[date] = lv.viral_load_test_date WHERE lv.is_viral_load_suppressed_50 = 0 AND lv.rn = 1 AND lv.viral_load_test_date &lt; f.report_date AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '')) AS sub_query
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Last VL Is Unsuppressed" = 1
                         </Query>
                         <Tile title="Unsuppressed VL">
                             <Dataset pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
                                 <Header small="true">
-                                    Clients with unsuppressed VL
+                                    Clients With Unsuppressed VL
                                 </Header>
                                 <Query>
-                                    SELECT * FROM (SELECT DISTINCT f.ctc_id, f.current_age AS Age, c.marital_status AS "Marital Status", f.gender AS Gender, lv.viral_load_test_date AS "VL Date", lv.viral_load_test_result_numeric AS "VL Result" FROM derived.fact_ctc_daily_client_status f INNER JOIN (SELECT client_id, ROW_NUMBER() OVER (PARTITION BY client_id ORDER BY viral_load_result_date DESC) AS rn, viral_load_test_date, ISNULL(is_viral_load_suppressed_50, 0) AS is_viral_load_suppressed_50, viral_load_test_ranking, viral_load_test_result_numeric FROM derived.fact_viral_load_test) lv ON f.client_id = lv.client_id INNER JOIN derived.dim_client c ON c.client_id = lv.client_id INNER JOIN derived.dim_date d ON d.[date] = lv.viral_load_test_date WHERE lv.is_viral_load_suppressed_50 = 0 AND lv.rn = 1 AND lv.viral_load_test_date &lt; f.report_date AND (d.weekly_start_monday_end_date = '$week' OR '$week' = '')) AS s ORDER BY ctc_id
+                                    <Include file="sql/plhiv/unsuppressed_clients.sql" />
                                 </Query>
-                                <InfiniteScrollTable initialColumns="ctc_id, Gender, Marital Status, Age, VL Date, VL Result" exportData="true" variant='plain' />
+                                <InfiniteScrollTable exportData="true" variant='plain' />
                             </Dataset>
                         </Tile>
                     </Dataset>

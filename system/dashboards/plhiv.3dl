@@ -6,7 +6,7 @@
             <Grid>
 
             <Row>
-                <Header> List of PLHIV Clients </Header>
+                <Header> List of IIT Clients </Header>
             </Row>
 
             <Row>
@@ -33,7 +33,7 @@
             <Grid>
 
             <Row>
-                <Header> List of PLHIV Clients </Header>
+                <Header> List of AHD Suspects </Header>
             </Row>
 
             <Row>
@@ -60,7 +60,7 @@
             <Grid>
 
             <Row>
-                <Header> List of PLHIV Clients </Header>
+                <Header> List of Clients Needing VL </Header>
             </Row>
 
             <Row>
@@ -87,7 +87,7 @@
             <Grid>
 
             <Row>
-                <Header> List of PLHIV Clients </Header>
+                <Header> List of Unsuppressed Clients </Header>
             </Row>
 
             <Row>
