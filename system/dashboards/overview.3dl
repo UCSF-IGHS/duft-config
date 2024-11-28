@@ -111,54 +111,105 @@
         <Dashboard>
             <Grid>
                 <Row>
-                    <Header>Regimen Analysis</Header>
+                    <Header>Clients Needing Attention</Header>
                 </Row>
-                <Filters>
-                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
-                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
-                </Filters>
+                <Row>
+                    <Header small="true">Key HIV Indicators Needing Attention</Header>
+                </Row>
+
                 <Row columns = "2" largeColumns = "4">
 
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Initiated"/>
+                    <Dataset>
+                        <Query>
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Missed Drugs 29-90 Days" = 1
+                        </Query>
+                        <Tile title="IIT (28-90 Days)">
+                            <Dataset pageSize={50} sort_column={ DOB } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    Clients With IIT (28-90)
+                                </Header>
+                                <Query>
+                                    <Include file="sql/plhiv/iit_clients.sql" />
+                                </Query>
+                                <InfiniteScrollTable exportData="true" variant='plain' />
+                            </Dataset>
+                        </Tile>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(first_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(first_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="First Line"/>
+                    <Dataset>
+                        <Query>
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE [Last CD4 &lt; 200] = 1 OR [WHO Stage 3/4 With No CD4 Test] = 1
+                        </Query>
+                        <Tile title="AHD Suspects">
+                            <Dataset pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    AHD Suspect Clients
+                                </Header>
+                                <Query>
+                                    <Include file="sql/plhiv/ahd_clients.sql" />
+                                </Query>
+                                <InfiniteScrollTable exportData="true" variant='plain' />
+                            </Dataset>
+                        </Tile>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(second_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(second_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Second Line"/>
+                    <Dataset>
+                        <Query>
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Needs VL Test" = 1
+                        </Query>
+                        <Tile title="Need VL Test">
+                            <Dataset pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    Clients Needing VL test
+                                </Header>
+                                <Query>
+                                    <Include file="sql/plhiv/need_vl_clients.sql" />
+                                </Query>
+                                <InfiniteScrollTable exportData="true" variant='plain' />
+                            </Dataset>
+                        </Tile>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(unknown_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(unknown_line) * 100.0 / SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
-                        <Tile title="Unknown Line"/>
+                    <Dataset>
+                        <Query>
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Last VL Is Unsuppressed" = 1
+                        </Query>
+                        <Tile title="Unsuppressed VL">
+                            <Dataset pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    Clients With Unsuppressed VL
+                                </Header>
+                                <Query>
+                                    <Include file="sql/plhiv/unsuppressed_clients.sql" />
+                                </Query>
+                                <InfiniteScrollTable exportData="true" variant='plain' />
+                            </Dataset>
+                        </Tile>
                     </Dataset>
 
                 </Row>
-                <Row columns = "1" largeColumns = "2">
 
-                    <Dataset query={`SELECT * FROM vw_art_regimen_lines;`}>
-                    <DonutChart header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines"/>
-                    </Dataset>
+                <Row columns = "2" largeColumns = "2">
+                    <Dataset>
+                        <Query>
+                            <Include file="sql/need_attention/iit_pie.sql" />
+                        </Query>
+                        <PieChart
+                            exportData="true"
+                            detailsComponent="infinite-scroll-table"
+                            header="Contribution of MMD clients on IIT"
+                        />
+                        </Dataset>
+                </Row>
 
-                    <Dataset query={`SELECT * FROM vw_art_regimen_lines_per_age_group;`}>
-                    <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines"/>
+                <Row columns = "1" largeColumns = "1">
+
+                    <Dataset query={`SELECT TOP 10 * FROM derived.dim_client`}>
+                    <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
                     </Dataset>
 
                 </Row>
-                <Row columns = "1" largeColumns = "2">
 
-                    <Dataset query={`SELECT * FROM vw_art_regimen_lines_per_age_group ;`}>
-                    <StackedBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Stacked Bar Chart: Current ART Regimen Lines "/>
-                    </Dataset>
-
-                    <Dataset query={`SELECT * FROM vw_art_initiation_regimens_per_age_group;`}>
-                    <PercentStackedBarChart userOptions={{ xaxis: { title: { text: 'ART Regimens' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation"/>
-                    </Dataset>
-
-                </Row>
             </Grid>
         </Dashboard>
     </Tab>
