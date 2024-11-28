@@ -1,4 +1,4 @@
-<InfiniteScrollTable id="table1" exportData="true" >
+<InfiniteScrollTable detailsTitle="Patient Details" id="table1" exportData="true" >
     <DetailsView columnName="ART Number Legacy">
         <Dataset transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='{ART Number Legacy}'`}>
             <InfiniteScrollTable variant='plain' />
