@@ -14,7 +14,7 @@
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Missed Drugs 29-90 Days" = 1
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Missed Drugs 29-90 Days" = 'Yes'
                         </Query>
                         <Tile title="IIT (28-90 Days)">
                             <Dataset pageSize={50} sort_column={ DOB } searchColumns = "c.ctc_id, f.current_age" >
@@ -31,7 +31,7 @@
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE [Last CD4 &lt; 200] = 1 OR [WHO Stage 3/4 With No CD4 Test] = 1
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE [Last CD4 &lt; 200] = 'Yes' OR [WHO Stage 3/4 With No CD4 Test] = 'Yes'
                         </Query>
                         <Tile title="AHD Suspects">
                             <Dataset pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
@@ -48,7 +48,7 @@
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Needs VL Test" = 1
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Needs VL Test" = 'Yes'
                         </Query>
                         <Tile title="Need VL Test">
                             <Dataset pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
@@ -65,7 +65,7 @@
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Last VL Is Unsuppressed" = 1
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Last VL Is Unsuppressed" = 'Yes'
                         </Query>
                         <Tile title="Unsuppressed VL">
                             <Dataset pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
@@ -121,7 +121,7 @@
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Missed Drugs 29-90 Days" = 1
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Missed Drugs 29-90 Days" = 'Yes'
                         </Query>
                         <Tile title="IIT (28-90 Days)">
                             <Dataset pageSize={50} sort_column={ DOB } searchColumns = "c.ctc_id, f.current_age" >
@@ -138,7 +138,7 @@
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE [Last CD4 &lt; 200] = 1 OR [WHO Stage 3/4 With No CD4 Test] = 1
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE [Last CD4 &lt; 200] = 'Yes' OR [WHO Stage 3/4 With No CD4 Test] = 'Yes'
                         </Query>
                         <Tile title="AHD Suspects">
                             <Dataset pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
@@ -155,7 +155,7 @@
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Needs VL Test" = 1
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Needs VL Test" = 'Yes'
                         </Query>
                         <Tile title="Need VL Test">
                             <Dataset pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
@@ -172,7 +172,7 @@
 
                     <Dataset>
                         <Query>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Last VL Is Unsuppressed" = 1
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Last VL Is Unsuppressed" = 'Yes'
                         </Query>
                         <Tile title="Unsuppressed VL">
                             <Dataset pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >

@@ -14,6 +14,6 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    [Needs VL Test] = 1
+    [Needs VL Test] = 'Yes'
 ORDER BY
     [CTC ID] ASC

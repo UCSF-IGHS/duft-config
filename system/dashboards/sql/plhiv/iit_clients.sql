@@ -16,6 +16,6 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    [Missed Drugs 29-90 Days] = 1
+    [Missed Drugs 29-90 Days] = 'Yes'
 ORDER BY
     [Days Missed Drugs] ASC

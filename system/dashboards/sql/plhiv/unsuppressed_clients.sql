@@ -12,6 +12,6 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    [Last VL Is Unsuppressed] = 1
+    [Last VL Is Unsuppressed] = 'Yes'
 ORDER BY
     [CTC ID] ASC
