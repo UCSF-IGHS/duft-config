@@ -4,6 +4,7 @@ SELECT
     [DOB],
     [Sex],
     [Last VL Test Date],
+    [Last VL Result Numeric],
     [Last VL Result Text],
     [Last VL Is Suppressed],
     [VL Eligible PGBF],
