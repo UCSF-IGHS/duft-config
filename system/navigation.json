@@ -102,6 +102,17 @@
             "dashboard": "/dashboard/all"
           }
         ]
+      },
+      {
+        "title": "Indicator",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "Definitions",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/indicator"
+          }
+        ]
       }
     ]
   },
