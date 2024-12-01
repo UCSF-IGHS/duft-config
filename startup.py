@@ -1,5 +1,4 @@
 print("Custom startup loaded")
-from django.conf import settings
 
 # # Override the database engine
 # settings.DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
@@ -14,3 +13,8 @@ from django.conf import settings
 # print("Custom database settings applied!")
 
 # print(settings.DATABASES)
+
+
+CUSTOM_PERMISSIONS = [
+    {"codename": "config_specific", "name": "Config specific permission"},
+]

@@ -1,0 +1,221 @@
+{
+    "dataTasks": [
+        {
+            "id": "EPMS_ETL",
+            "name": "EPMS ETL",
+            "description": "Runs the daily EPMS Data Analysis Scripts",
+            "pythonFile": "EPMS ETL.ipynb",
+            "dataConnections": [
+                "ANA",
+                "EPMS"
+            ],
+            "supportedParameters": {
+                "name": {
+                    "title": "Name",
+                    "description": "The name of the parameter.",
+                    "defaultValue": "silent",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "value": {
+                    "title": "Value",
+                    "description": "The value of the parameter.",
+                    "defaultValue": "yes",
+                    "allowOverride": true,
+                    "promptUser": false
+                }
+            }
+        },
+        {
+            "id": "SAMPLE",
+            "name": "Sample Data Task",
+            "description": "A sample data task that does nothing",
+            "pythonFile": "sample_task.py",
+            "hideInUI": true,
+            "dataConnections": [
+                "ANA",
+                "MyOwnConnection"
+            ],
+            "supportedParameters": {
+                "name": {
+                    "title": "Name",
+                    "description": "The name you want to be displayed.",
+                    "defaultValue": "Daenerys",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "sleep_time": {
+                    "title": "Sleep Time",
+                    "description": "Time to wait between execution steps in seconds.",
+                    "defaultValue": 0.5,
+                    "allowOverride": false,
+                    "promptUser": false
+                }
+            }             
+        },
+        {
+            "id": "SAMPLE-ERROR",
+            "name": "Sample Error Data Task",
+            "description": "A sample data task that does nothing but simulates an error",
+            "pythonFile": "sample_task.py",
+            "hideInUI": true,
+            "dataConnections": [
+                "ANA",
+                "MyOwnConnection"
+            ],
+            "supportedParameters": {
+                "name": {
+                    "title": "Name",
+                    "description": "The name you want to be displayed.",
+                    "defaultValue": "Daenerys",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "sleep_time": {
+                    "title": "Sleep Time",
+                    "description": "Time to wait between execution steps in seconds.",
+                    "defaultValue": 0.5,
+                    "allowOverride": false,
+                    "promptUser": true
+                },
+                "simulate_error": {
+                    "title": "Simulate Error",
+                    "description": "Whether to simulate an error during execution.",
+                    "defaultValue": true,
+                    "allowOverride": true,
+                    "promptUser": false
+                }
+            }             
+        },        
+        {
+            "id": "ROOT-SAMPLE",
+            "name": "Sample Data Task executed from the Root",
+            "description": "A sample data task that does nothing but needs to be executed from the root",
+            "pythonFile": "sample_task_from_root.py",
+            "hideInUI": true,
+            "executeFromRoot": true,
+            "dataConnections": [
+                "ANA",
+                "MyOwnConnection"
+            ],
+            "supportedParameters": {
+                "repo": {
+                    "title": "Repository",
+                    "description": "The git repository.",
+                    "defaultValue": "repo-git",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "name": {
+                    "title": "Name",
+                    "description": "The name of the data task.",
+                    "defaultValue": "ROOT DATA TASK",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "destinationDirectory": {
+                    "title": "Destination Directory",
+                    "description": "The directory where the data will be saved.",
+                    "defaultValue": "duft-config-test",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "sleep_time": {
+                    "title": "Sleep Time",
+                    "description": "Time to wait between execution steps in seconds.",
+                    "defaultValue": 0.5,
+                    "allowOverride": true,
+                    "promptUser": false
+                }
+            }
+        },        
+        {
+            "id": "SAMPLE-NOTEBOOK",
+            "name": "Sample Notebook Task",
+            "description": "A sample notebook that does nothing",
+            "pythonFile": "sample_notebook.ipynb",
+            "hideInUI": true,
+            "dataConnections": [
+                "ANA",
+                "MyOwnConnection"
+            ],
+            "supportedParameters": {
+                "name": {
+                    "title": "Name",
+                    "description": "The name you want to be displayed.",
+                    "defaultValue": "Cersei",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "sleep_time": {
+                    "title": "Sleep Time",
+                    "description": "Time to wait between execution steps in seconds.",
+                    "defaultValue": 0.5,
+                    "allowOverride": true,
+                    "promptUser": false
+                }
+            }
+        },
+        {
+            "id": "UPDATE",
+            "name": "DUFT Report Update",
+            "description": "Updates the DUFT reports to the latest version. An Internet connection is required",
+            "pythonFile": "update.py",
+            "hideInUI": true,
+            "executeFromRoot": true,
+            "supportedParameters": {
+                "repo_url": {
+                    "title": "Repository URL",
+                    "description": "The URL of the git repository.",
+                    "defaultValue": "https://github.com/UCSF-IGHS/duft-config",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "save_path": {
+                    "title": "Save Path",
+                    "description": "The path where the data will be saved.",
+                    "defaultValue": "",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "final_repo_name": {
+                    "title": "Final Repository Name",
+                    "description": "The final name of the repository.",
+                    "defaultValue": "duft-config-namibia",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "branch": {
+                    "title": "Branch",
+                    "description": "The branch of the repository to use.",
+                    "defaultValue": "main",
+                    "allowOverride": true,
+                    "promptUser": false
+                }                
+            }           
+        },
+        {
+            "id": "UPLOAD",
+            "name": "DUFT Report Uploader",
+            "description": "This will send your report data to the DUFT Server.",
+            "pythonFile": "sample_data_upload.ipynb",
+            "hideInUI": false,
+            "executeFromRoot": false,
+            "dataConnections": [
+                "ANA",
+                "DUFT-SERVER-API"
+            ]                  
+        },
+        {
+            "id": "NON-EXISTING",
+            "name": "(Unit Test Non Existing)",
+            "description": "Script file doesn't exist.",
+            "pythonFile": "does_not_exist.ipynb",
+            "hideInUI": false,
+            "executeFromRoot": false,
+            "dataConnections": [
+                "ANA"
+            ]                  
+        }                                        
+    ]
+}
