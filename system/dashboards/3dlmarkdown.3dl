@@ -1,0 +1,16 @@
+<TabSet>
+  <Tab title="Dashboard 1">
+    <Dashboard title="My Markdown">
+      <Grid>
+        <Row><Header>Markdown 1</Header></Row>
+        <Row columns="3" largeColumns="3">
+          <Dataset>
+            <Markdown subHeader="This is a sub header">
+              <Include file="components/markdown_sample.md" />
+            </Markdown>
+          </Dataset>
+        </Row>
+      </Grid>
+    </Dashboard>
+  </Tab>
+</TabSet>
