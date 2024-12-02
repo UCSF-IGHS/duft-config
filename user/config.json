@@ -9,12 +9,11 @@
     },
     "ANA": {
       "server": "127.0.0.1",
-      "username": "user",
-      "password": "mysecretword",
-      "port": "5432",
-      "database": "analysis",
-      "sqlite3file": "wakanda.sqlite",
-      "type": "sqlite3"
+      "username": "root",
+      "password": "Wag523hers185!",
+      "port": "3306",
+      "database": "analysis_db_ethiopia",
+      "type": "MySQL"
     },
     "MAMBA": {
       "server": "127.0.0.1",
