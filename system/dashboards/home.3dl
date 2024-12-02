@@ -1,36 +1,31 @@
 <TabSet>
-  	<Tab title="Dashboard 1">
+  	<Tab title="HIV Cascade">
     	<Dashboard title="HIV Cascade">
       	<Grid>
-			
+			<Row />
         	<Row columns="2" smallColumns="1">
 				<Filters>
 					<Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT dc.Gender from mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE tx_curr = 1`} />
 				</Filters>
 			</Row>
 
-			<Row columns="2" largeColumns="4">
+			<Row columns="2" largeColumns="3">
 
-				<Dataset query={`SELECT COUNT(DISTINCT  client_id) as value FROM mamba_dim_client`}>
+				<Dataset query={`SELECT COUNT(DISTINCT  client_id) as value FROM mamba_dim_client WHERE (Gender ='$gender' OR '$gender'='')  `}>
 				<Tile title="Positive" />
 				</Dataset>
 
-				<Dataset query={`SELECT COUNT(DISTINCT  client_id) as value FROM mamba_fact_sentinel_event WHERE first_art_date IS NOT NULL `}>
+				<Dataset query={`SELECT COUNT(DISTINCT  fse.client_id) as value FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE first_art_date IS NOT NULL AND (Gender ='$gender' OR '$gender'='') `}>
 				<Tile title="Initiated on ART" />
 				</Dataset>
 
 				<Dataset query={`SELECT COUNT(*) AS value FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE tx_curr = 1 AND (Gender ='$gender' OR '$gender'='') `}>
 					<Tile title='Tx Curr' >
-					<Dataset searchColumns="ART Outcomes, Gender" pageSize={15} query={`SELECT gender, birth_date, first_art_date,last_seen_date,last_appointment_date as "Next Visit",last_encounter_is_receiving_differentiated_care as "MMP Status", retention "ART Outcomes" FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE tx_curr = 1  AND (Gender='$gender' OR '$gender'='') `}>
+					<Dataset searchColumns="ART Outcomes, Gender" pageSize={15} query={`SELECT Gender, birth_date, first_art_date,last_seen_date,last_appointment_date as "Next Visit",last_encounter_is_receiving_differentiated_care as "MMP Status", retention "ART Outcomes" FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE tx_curr = 1  AND (Gender='$gender' OR '$gender'='') `}>
 						<InfiniteScrollTable exportData="true" header='TX_CURR All' variant='plain' />
 					</Dataset>
 					</Tile>
 				</Dataset> 
-
-				<Dataset query={`SELECT COUNT(DISTINCT  client_id) as value FROM mamba_dim_client`}>
-				<Tile title="VL suppressed" />
-				</Dataset>
-			
 			</Row>
 
 			<Row largeColumns='3' columns='2'>
