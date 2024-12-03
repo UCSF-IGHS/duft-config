@@ -7,7 +7,7 @@
       </Row>
       <Row>
         <SmartDataTable />
-      </ Row>
+      </Row>
     </Dataset>
   </Grid>
 </Dashboard>
