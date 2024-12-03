@@ -10,7 +10,7 @@
         },
         "EPMS_Source": {
             "type": "filemaker",
-            "server": "jdbc:filemaker://localhost/QuantumWanahedaClinic",
+            "server": "jdbc:filemaker://localhost/QuantumOtjomuiseClinic",
             "username": "Administrator",
             "password": "Qepms!@dmin"
         },
