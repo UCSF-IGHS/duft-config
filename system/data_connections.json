@@ -31,7 +31,7 @@
 		},
 		{
 			"id":"EPMS_Destination",
-			"name":"EPMS Notebook",
+			"name":"EPMS_Destination",
 			"description":"The EPMS DUFT database that host the patient fact sentinel events records",
 			"allowQueryEngine":"True",
             "params":[
@@ -61,7 +61,7 @@
 					"label":"Port"
 				},
 				{
-					"name":"duft",
+					"name":"database",
 					"type":"text",
 					"label":"Database name"
 				}
