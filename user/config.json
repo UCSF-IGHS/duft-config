@@ -23,7 +23,7 @@
             "type": "PostgreSQL"
         }
     },
-    "djangoDatabases": {
+    "djangoDatabases2": {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": "duft",
