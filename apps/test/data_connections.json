@@ -1,0 +1,124 @@
+{
+	"dataConnections": 
+	[
+		{
+			"id":"EPMS",
+			"name":"EPMS",
+			"description":"The Quantum EPMS database that holds the patient records",
+			"params":[
+				{
+					"name":"server",
+					"type":"text",
+					"label":"Server name"
+				},
+				{
+					"name":"username",
+					"type":"text",
+					"label":"User name"
+				},		
+				{
+					"name":"password",
+					"type":"password",
+					"label":"Password"
+				},
+				{
+					"name":"port",
+					"type":"integer",
+					"label":"Port"
+				},
+				{
+					"name":"database",
+					"type":"text",
+					"label":"Database name"
+				}
+			]
+		},
+		{
+			"id":"NDR",
+			"name":"National Data Repository",
+			"description":"The server where CBS data should be sent to",
+			"params":[
+				{
+					"name":"server",
+					"type":"url",
+					"label":"Server URL"
+				},
+				{
+					"name":"username",
+					"type":"text",
+					"label":"User name"
+				},		
+				{
+					"name":"password",
+					"type":"password",
+					"label":"Password"
+				}		
+			]
+		},
+		{
+			"id":"ANA",
+			"name":"Analysis Database",
+			"description":"The database where all analysis data will be stored.",
+			"allowQueryEngine":"True",
+			"params":[
+				{
+					"name":"type",
+					"type":"text",
+					"label":"The type of connection (MSSQL | MySQL | PosgtresSQL | sqlite3)"
+				},				
+				{
+					"name":"server",
+					"type":"text",
+					"label":"Server name"
+				},
+				{
+					"name":"sqlite3file",
+					"type":"text",
+					"label":"Name of the SQLite file"
+				},				
+				{
+					"name":"username",
+					"type":"text",
+					"label":"User name"
+				},		
+				{
+					"name":"password",
+					"type":"password",
+					"label":"Password"
+				},
+				{
+					"name":"port",
+					"type":"integer",
+					"label":"Port"
+				},
+				{
+					"name":"database",
+					"type":"text",
+					"label":"Database name"
+				}
+			]
+		},
+		{
+			"id":"DUFT-SERVER-API",
+			"name":"DUFT Server Location",
+			"description":"The server where remote reports are to be uploaded to.",
+			"allowQueryEngine":"True",
+			"params":[
+				{
+					"name":"serverURL",
+					"type":"text",
+					"label":"The URL of the remote DUFT Server, e.g. api.duft.app"
+				},				
+				{
+					"name":"username",
+					"type":"text",
+					"label":"User name"
+				},		
+				{
+					"name":"password",
+					"type":"password",
+					"label":"Password"
+				}			]
+		}				
+	]
+}

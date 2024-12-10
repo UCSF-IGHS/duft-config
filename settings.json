@@ -1,7 +1,6 @@
 {
-    "appName": "DUFT (configurable)",
+    "name": "Quantum Extenstion",
     "footer": "Configurable footer text",
-    "custom": "Custom setting",
     "version": "1.0.0",
     "logoURL": "https://duft.app/logo.png",
     "repository": "github.com/duftapp/duft-basic-3dl",
@@ -18,5 +17,19 @@
             "Developer 2"
         ]
     },
-    "additionalInfo": "An additional line of information can go here."
+    "additionalInfo": "An additional line of information can go here.",
+    "apps": {
+        "default": {
+            "name": "Default App",
+            "description": "Description of App 1",
+            "url": "/",
+            "icon": ""
+        },
+        "test": {
+            "name": "Test App",
+            "description": "Description of App 1",
+            "url": "/test",
+            "icon": ""
+        }        
+    }
 }

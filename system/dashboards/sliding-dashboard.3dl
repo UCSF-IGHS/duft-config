@@ -222,7 +222,7 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Week" } }, xaxis: { title: { text: "Number of Samples" } }, tooltip: { shared: true } }}
+              userOptions={{ dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Week" } }, xaxis: { title: { text: "Number of Samples" } }, tooltip: { shared: true }, stroke: { width: 2 } }}
             />
           </Dataset>
         </Row>
@@ -338,7 +338,7 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Week" } }, tooltip: { shared: true } }}
+              userOptions={{ dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, tooltip: { shared: true }, stroke: { width: 2 } }}
             />
           </Dataset>
         </Row>
