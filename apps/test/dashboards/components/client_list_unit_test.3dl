@@ -1,0 +1,6 @@
+<Dataset>
+    <Query>SELECT * FROM dim_client</Query>
+    <InfiniteScrollTable id="table1">
+    </InfiniteScrollTable>
+    <InfiniteScrollTable />
+</Dataset>

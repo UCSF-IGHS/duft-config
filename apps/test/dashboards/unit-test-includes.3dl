@@ -1,0 +1,16 @@
+<TabSet>
+  <Tab title="Dashboard 1">
+    <Dashboard title="My Dashboard">
+      <Grid>
+        <Row><Header>Dashboard 1</Header></Row>
+        <Row columns="1" largeColumns="1">
+          <Dataset>
+            <Query>SELECT * FROM dim_client</Query>
+            <Include file="components/client_list_unit_test.3dl" InfiniteScrollTable-table1:columns="name, gender" Dataset-0:allowPaging="true" />            
+            <Include file="components/client_list_unit_test.3dl" InfiniteScrollTable-1:empty="empty2" />            
+          </Dataset>
+        </Row>
+      </Grid>
+    </Dashboard>
+  </Tab>
+</TabSet>
