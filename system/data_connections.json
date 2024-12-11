@@ -3,7 +3,7 @@
 	[
 		{
 			"id":"EPMS_Source",
-			"name":"EPMS_Source",
+			"name":"EPMS Source",
 			"description":"The Quantum EPMS database that hosts the patient records",
 			"allowQueryEngine":"True",
 			"params":[
@@ -31,12 +31,12 @@
 		},
 		{
 			"id":"EPMS_Destination",
-			"name":"EPMS_Destination",
+			"name":"EPMS Destination",
 			"description":"The EPMS DUFT database that host the patient fact sentinel events records",
 			"allowQueryEngine":"True",
             "params":[
                 {
-					"name":"PostgreSQL",
+					"name":"type",
 					"type":"text",
 					"label":"The type of connection (MSSQL | MySQL | PostgreSQL | sqlite3)"
 				},

@@ -15,12 +15,12 @@
             "password": "Qepms!@dmin"
         },
         "EPMS_Destination": {
+            "type": "PostgreSQL",
             "server": "127.0.0.1",
             "username": "postgres",
             "password": "root",
             "port": "5433",
-            "database": "duft",
-            "type": "PostgreSQL"
+            "database": "duft"
         }
     },
     "djangoDatabases2": {
