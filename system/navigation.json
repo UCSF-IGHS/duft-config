@@ -1,6 +1,6 @@
 {
   "settings": {
-    "appName": "DUFT (configurable)",
+    "appName": "DUFT",
     "footer": "Configurable footer text",
     "showSettings": "authenticatedOnly",
     "showAbout": "true"
@@ -21,62 +21,6 @@
            "title": "3DL Home",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/home" 
-          },
-          {
-            "title": "3DL Dashboard 1",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlsample"
-          },
-          {
-            "title": "XXXXX 2",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlsample-2"
-          },
-          {
-            "title": "Tab Dashboard",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlsample-tabs"
-          },       
-          {
-            "title": "Filter Dashboard",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlfilters"
-          },
-          {
-            "title": "Preview query",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlpreview-query"
-          }
-        ]
-      },
-      {
-        "title": "{API} More",
-        "icon": "dashboards-icon",
-        "dashboards": [
-          {
-            "title": "Sub Dashboard 1",
-            "icon": "dashboard-icon",
-            "dashboard": "/a"
-          },
-          {
-            "title": "Sub Dashboard 2",
-            "icon": "dashboard-icon",
-            "dashboard": "/b"
-          },
-          {
-            "title": "Sub Dashboard 3",
-            "icon": "dashboard-icon",
-            "dashboard": "/c"
-          },
-          {
-            "title": "Sub Dashboard 4",
-            "icon": "dashboard-icon",
-            "dashboard": "/d"
-          },
-          {
-            "title": "APIs",
-            "icon": "hashtag-icon",
-            "dashboard": "/api"
           }
         ]
       }

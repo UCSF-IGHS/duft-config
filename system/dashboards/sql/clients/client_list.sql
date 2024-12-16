@@ -1,3 +1,3 @@
-SELECT * FROM dim_client 
+SELECT * FROM mamba_dim_client 
 -- FILTERS
 LIMIT 20

@@ -1,1 +1,1 @@
-SELECT * FROM dim_client WHERE age < 5 LIMIT 100
+SELECT * FROM mamba_dim_client WHERE mamba_dim_client.current_age < 5 LIMIT 100
