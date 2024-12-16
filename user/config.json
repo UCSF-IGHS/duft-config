@@ -3,14 +3,14 @@
         "ANA": {
             "server": "127.0.0.1",
             "username": "postgres",
-            "password": "root",
-            "port": "5433",
-            "database": "duft",
+            "password": "postgres",
+            "port": "5432",
+            "database": "qe_data",
             "type": "PostgreSQL"
         },
         "EPMS_Source": {
             "type": "filemaker",
-            "server": "jdbc:filemaker://localhost/QuantumOtjomuiseClinic",
+            "server": "jdbc:filemaker://localhost/QuantumWanahedaClinic",
             "username": "Administrator",
             "password": "Qepms!@dmin"
         },
@@ -18,19 +18,19 @@
             "type": "PostgreSQL",
             "server": "127.0.0.1",
             "username": "postgres",
-            "password": "root",
-            "port": "5433",
-            "database": "duft"
+            "password": "postgres",
+            "port": "5432",
+            "database": "qe_data"
         }
     },
     "djangoDatabases2": {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": "duft",
+            "NAME": "qe_data",
             "USER": "postgres",
-            "PASSWORD": "root",
+            "PASSWORD": "postgres",
             "HOST": "127.0.0.1",
-            "PORT": "5433",
+            "PORT": "5432",
             "OPTIONS": {
                 "options": "-c search_path=analysis"
             }

@@ -7600,7 +7600,7 @@ Init environment
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T13:59:26.206208] QE Data Task Running - INFO: QE Data Task Running initialised running in interactive mode
+<pre>[2024-12-16T06:04:19.892920] QE Data Task Running - INFO: QE Data Task Running initialised running in interactive mode
 QE Data Task Running &gt;&gt;&gt;: QE Data Task Running initialised running in interactive mode
 </pre>
 </div>
@@ -7673,7 +7673,7 @@ QE Data Task Running &gt;&gt;&gt;: QE Data Task Running initialised running in i
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T13:59:26.674264] QE Data Task Running - INFO: Finished setting source and destination connections
+<pre>[2024-12-16T06:04:20.330359] QE Data Task Running - INFO: Finished setting source and destination connections
 QE Data Task Running &gt;&gt;&gt;: Finished setting source and destination connections
 </pre>
 </div>
@@ -7807,14 +7807,6 @@ QE Data Task Running &gt;&gt;&gt;: Finished setting source and destination conne
 <span class="n">dim_pat_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">patient_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">patient_cols</span><span class="p">)</span>
 
 <span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'date_of_birth'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'date_of_birth'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
-<span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'first_name'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'FName'</span>
-<span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'last_name'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'LName'</span>
-<span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'contact_number'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'123456'</span>
-<span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'alt_contact_number'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'123456'</span>
-<span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'ts_name'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'TS_Name'</span>
-<span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'ts_second_name'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'TS_Second_Name'</span>
-<span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'ts_cell_phone_number'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'TS_Phone'</span>
-<span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'ts_second_cell_phone_number'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'TS_Second_Phone'</span>
 
 <span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'sex'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'sex'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">'Unknown'</span><span class="p">)</span>
 
@@ -7833,7 +7825,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished setting source and destination conne
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T13:59:29.129132] QE Data Task Running - INFO: Finished extracting client data
+<pre>[2024-12-16T06:04:22.455099] QE Data Task Running - INFO: Finished extracting client data
 QE Data Task Running &gt;&gt;&gt;: Finished extracting client data
 </pre>
 </div>
@@ -7890,7 +7882,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T13:59:29.479095] QE Data Task Running - INFO: Finished extracting client transfer status data
+<pre>[2024-12-16T06:04:22.923895] QE Data Task Running - INFO: Finished extracting client transfer status data
 QE Data Task Running &gt;&gt;&gt;: Finished extracting client transfer status data
 </pre>
 </div>
@@ -7987,10 +7979,10 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client transfer status da
 <td>None</td>
 <td>...</td>
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
-<td>TS_Name</td>
-<td>TS_Phone</td>
-<td>TS_Second_Name</td>
-<td>TS_Second_Phone</td>
+<td>Guadian1</td>
+<td>081–230–263</td>
+<td>None</td>
+<td>None</td>
 <td>None</td>
 <td>None</td>
 <td>None</td>
@@ -8011,10 +8003,10 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client transfer status da
 <td>None</td>
 <td>...</td>
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
-<td>TS_Name</td>
-<td>TS_Phone</td>
-<td>TS_Second_Name</td>
-<td>TS_Second_Phone</td>
+<td>Guadian2</td>
+<td>081–230–264</td>
+<td>None</td>
+<td>None</td>
 <td>None</td>
 <td>None</td>
 <td>None</td>
@@ -8035,10 +8027,10 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client transfer status da
 <td>None</td>
 <td>...</td>
 <td>78E205A8-063F-415E-96A4-BA5A243465CA</td>
-<td>TS_Name</td>
-<td>TS_Phone</td>
-<td>TS_Second_Name</td>
-<td>TS_Second_Phone</td>
+<td>Guadian3</td>
+<td>081–230–265</td>
+<td>None</td>
+<td>None</td>
 <td>None</td>
 <td>None</td>
 <td>None</td>
@@ -8059,10 +8051,10 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client transfer status da
 <td>None</td>
 <td>...</td>
 <td>BAB4BE36-5FF2-4B98-89F5-28CDFCADF169</td>
-<td>TS_Name</td>
-<td>TS_Phone</td>
-<td>TS_Second_Name</td>
-<td>TS_Second_Phone</td>
+<td>Guadian4</td>
+<td>081–230–266</td>
+<td>None</td>
+<td>None</td>
 <td>None</td>
 <td>None</td>
 <td>None</td>
@@ -8083,10 +8075,10 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client transfer status da
 <td>None</td>
 <td>...</td>
 <td>580F3F69-578C-4090-8E11-9D31C7663C16</td>
-<td>TS_Name</td>
-<td>TS_Phone</td>
-<td>TS_Second_Name</td>
-<td>TS_Second_Phone</td>
+<td>Guadian5</td>
+<td>081–230–267</td>
+<td>None</td>
+<td>None</td>
 <td>None</td>
 <td>None</td>
 <td>None</td>
@@ -8266,7 +8258,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client transfer status da
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T13:59:39.028361] QE Data Task Running - INFO: Finished extracting HIV diagnosis data
+<pre>[2024-12-16T06:04:31.594426] QE Data Task Running - INFO: Finished extracting HIV diagnosis data
 QE Data Task Running &gt;&gt;&gt;: Finished extracting HIV diagnosis data
 </pre>
 </div>
@@ -8656,7 +8648,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting HIV diagnosis data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T13:59:39.361972] QE Data Task Running - INFO: Finished extracting HIV enrolment data
+<pre>[2024-12-16T06:04:31.948586] QE Data Task Running - INFO: Finished extracting HIV enrolment data
 QE Data Task Running &gt;&gt;&gt;: Finished extracting HIV enrolment data
 </pre>
 </div>
@@ -9534,14 +9526,8 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting HIV enrolment data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>last_refresh_date: 2024-11-28 00:00:00
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T13:59:52.809141] QE Data Task Running - INFO: Finished extracting client visits data
+<pre>last_refresh_date: 2024-12-16 00:00:00
+[2024-12-16T06:04:44.791575] QE Data Task Running - INFO: Finished extracting client visits data
 QE Data Task Running &gt;&gt;&gt;: Finished extracting client visits data
 </pre>
 </div>
@@ -9599,7 +9585,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client visits data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T13:59:54.799019] QE Data Task Running - INFO: Finished extracting client regimen data
+<pre>[2024-12-16T06:04:46.978575] QE Data Task Running - INFO: Finished extracting client regimen data
 QE Data Task Running &gt;&gt;&gt;: Finished extracting client regimen data
 </pre>
 </div>
@@ -9708,8 +9694,8 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client regimen data
 <td>Negative</td>
 <td>8.0</td>
 <td>2025-05-02</td>
-<td>99.0</td>
-<td>-155.0</td>
+<td>100.0</td>
+<td>-137.0</td>
 <td>None</td>
 <td>No</td>
 <td>1A</td>
@@ -9732,8 +9718,8 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client regimen data
 <td>Negative</td>
 <td>5.0</td>
 <td>2025-03-20</td>
-<td>100.0</td>
-<td>-112.0</td>
+<td>101.0</td>
+<td>-94.0</td>
 <td>None</td>
 <td>No</td>
 <td>1A</td>
@@ -9756,8 +9742,8 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client regimen data
 <td>Incomplete</td>
 <td>3.0</td>
 <td>2018-01-31</td>
-<td>99.0</td>
-<td>2493.0</td>
+<td>100.0</td>
+<td>2511.0</td>
 <td>None</td>
 <td>No</td>
 <td>1</td>
@@ -9780,8 +9766,8 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client regimen data
 <td>Incomplete</td>
 <td>3.0</td>
 <td>2017-03-30</td>
-<td>99.0</td>
-<td>2800.0</td>
+<td>100.0</td>
+<td>2818.0</td>
 <td>None</td>
 <td>No</td>
 <td>1</td>
@@ -9804,8 +9790,8 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client regimen data
 <td>Incomplete</td>
 <td>6.0</td>
 <td>2018-05-31</td>
-<td>99.0</td>
-<td>2373.0</td>
+<td>100.0</td>
+<td>2391.0</td>
 <td>None</td>
 <td>No</td>
 <td>NaN</td>
@@ -9840,7 +9826,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client regimen data
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">fact_ti_confs</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"query"</span><span class="p">:</span> <span class="s2">"SELECT idpatient, idfacilitycreate, interruptionDate,interruptionReason, interruptionReasonOther, restartDate,duration FROM ti"</span><span class="p">,</span>
+    <span class="s2">"query"</span><span class="p">:</span> <span class="s2">"SELECT idpatient, idfacilitycreate, interruptionDate,CAST(interruptionReason AS VARCHAR) AS interruptionReason, interruptionReasonOther, restartDate,duration FROM ti"</span><span class="p">,</span>
     <span class="s2">"cols"</span><span class="p">:</span> <span class="p">[</span><span class="s1">'client_id'</span><span class="p">,</span> <span class="s1">'ti_facility_id'</span><span class="p">,</span> <span class="s1">'art_interruption_date'</span><span class="p">,</span> <span class="s1">'art_interruption_reason'</span><span class="p">,</span> <span class="s1">'art_interruption_reason_other'</span> <span class="p">,</span><span class="s1">'art_restart_date'</span><span class="p">,</span> <span class="s1">'interruption_duration'</span><span class="p">]</span>
 <span class="p">}</span>
 
@@ -9871,7 +9857,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client regimen data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T13:59:54.867472] QE Data Task Running - INFO: Finished extracting client treatment interruption data
+<pre>[2024-12-16T06:04:47.057571] QE Data Task Running - INFO: Finished extracting client treatment interruption data
 QE Data Task Running &gt;&gt;&gt;: Finished extracting client treatment interruption data
 </pre>
 </div>
@@ -9970,7 +9956,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client treatment interrup
 <td>Active ART</td>
 <td>None</td>
 <td>...</td>
-<td>-155.0</td>
+<td>-137.0</td>
 <td>None</td>
 <td>No</td>
 <td>1A</td>
@@ -9994,7 +9980,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client treatment interrup
 <td>Active ART</td>
 <td>None</td>
 <td>...</td>
-<td>-112.0</td>
+<td>-94.0</td>
 <td>None</td>
 <td>No</td>
 <td>1A</td>
@@ -10018,7 +10004,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client treatment interrup
 <td>Transferred Out</td>
 <td>None</td>
 <td>...</td>
-<td>2493.0</td>
+<td>2511.0</td>
 <td>None</td>
 <td>No</td>
 <td>1</td>
@@ -10042,7 +10028,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client treatment interrup
 <td>Transferred Out</td>
 <td>None</td>
 <td>...</td>
-<td>2800.0</td>
+<td>2818.0</td>
 <td>None</td>
 <td>No</td>
 <td>1</td>
@@ -10066,7 +10052,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client treatment interrup
 <td>Transferred Out</td>
 <td>None</td>
 <td>...</td>
-<td>2373.0</td>
+<td>2391.0</td>
 <td>None</td>
 <td>No</td>
 <td>NaN</td>
@@ -10140,7 +10126,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client treatment interrup
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T13:59:55.105398] QE Data Task Running - INFO: Finished extracting client tbt data
+<pre>[2024-12-16T06:04:47.168193] QE Data Task Running - INFO: Finished extracting client tbt data
 QE Data Task Running &gt;&gt;&gt;: Finished extracting client tbt data
 </pre>
 </div>
@@ -10429,7 +10415,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client tbt data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T13:59:55.711612] QE Data Task Running - INFO: Finished extracting client tpt data
+<pre>[2024-12-16T06:04:47.924118] QE Data Task Running - INFO: Finished extracting client tpt data
 QE Data Task Running &gt;&gt;&gt;: Finished extracting client tpt data
 </pre>
 </div>
@@ -11280,7 +11266,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client tpt data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T14:00:02.875344] QE Data Task Running - INFO: Finished extracting client lab data
+<pre>[2024-12-16T06:04:55.754433] QE Data Task Running - INFO: Finished extracting client lab data
 QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 </pre>
 </div>
@@ -11914,7 +11900,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 </tr>
 <tr>
@@ -11938,7 +11924,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 </tr>
 <tr>
@@ -11962,7 +11948,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>LLV</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 </tr>
 <tr>
@@ -11986,7 +11972,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 </tr>
 <tr>
@@ -12156,7 +12142,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 <td>Active ART</td>
 <td>Yes</td>
@@ -12180,7 +12166,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 <td>Active ART</td>
 <td>Yes</td>
@@ -12204,7 +12190,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>LLV</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 <td>Transferred Out</td>
 <td>No</td>
@@ -12228,7 +12214,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 <td>Transferred Out</td>
 <td>No</td>
@@ -12378,7 +12364,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 <td>Active ART</td>
 <td>Yes</td>
@@ -12402,7 +12388,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 <td>Active ART</td>
 <td>Yes</td>
@@ -12426,7 +12412,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>LLV</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 <td>Transferred Out</td>
 <td>No</td>
@@ -12450,7 +12436,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 <td>Transferred Out</td>
 <td>No</td>
@@ -12605,7 +12591,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 <td>Active ART</td>
 <td>Yes</td>
@@ -12629,7 +12615,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 <td>Active ART</td>
 <td>Yes</td>
@@ -12653,7 +12639,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>LLV</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 <td>Transferred Out</td>
 <td>No</td>
@@ -12677,7 +12663,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 <td>Transferred Out</td>
 <td>No</td>
@@ -12854,7 +12840,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 <td>Active ART</td>
 <td>Yes</td>
@@ -12878,7 +12864,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 <td>Active ART</td>
 <td>Yes</td>
@@ -12902,7 +12888,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>22EE64B5-6A63-4FFE-9413-AE421220D884</td>
 <td>LLV</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 <td>Transferred Out</td>
 <td>No</td>
@@ -12926,7 +12912,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 <td>Transferred Out</td>
 <td>No</td>
@@ -13065,7 +13051,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>...</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 <td>Active ART</td>
 <td>Yes</td>
@@ -13089,7 +13075,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>...</td>
 <td>Undetectable</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 <td>Active ART</td>
 <td>Yes</td>
@@ -13113,7 +13099,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>...</td>
 <td>LLV</td>
 <td>Complete</td>
-<td>99.0</td>
+<td>100.0</td>
 <td>NaN</td>
 <td>Transferred Out</td>
 <td>No</td>
@@ -13137,7 +13123,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>...</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>98.0</td>
+<td>99.0</td>
 <td>NaN</td>
 <td>Transferred Out</td>
 <td>No</td>
@@ -13208,7 +13194,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
         <span class="k">elif</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_next_visit_date'</span><span class="p">])</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s1">'last_next_visit_date'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">last_refresh_date</span> <span class="ow">and</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">days_missed</span> <span class="o">&lt;=</span> <span class="mi">28</span><span class="p">:</span>
             <span class="k">return</span> <span class="s1">'Missed Appointments'</span>
 
-    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">'tx_curr'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'No'</span> <span class="ow">and</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'art_start_date'</span><span class="p">])</span> <span class="ow">and</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_regimen'</span><span class="p">]):</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">'tx_curr'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'No'</span> <span class="ow">and</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'art_start_date'</span><span class="p">]):</span>
         <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_next_visit_date'</span><span class="p">])</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s1">'last_next_visit_date'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">last_refresh_date</span><span class="p">:</span>
             <span class="k">return</span> <span class="s1">'In Care'</span>
         <span class="k">elif</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_next_visit_date'</span><span class="p">])</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s1">'last_next_visit_date'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">last_refresh_date</span> <span class="ow">and</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">days_missed</span> <span class="o">&lt;=</span> <span class="mi">28</span><span class="p">:</span>
@@ -13742,7 +13728,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>55.0</td>
 <td>55.0</td>
 <td>8.0</td>
-<td>98.0</td>
+<td>116.0</td>
 <td>0.0</td>
 </tr>
 <tr>
@@ -13766,7 +13752,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>56.0</td>
 <td>56.0</td>
 <td>8.0</td>
-<td>85.0</td>
+<td>103.0</td>
 <td>0.0</td>
 </tr>
 <tr>
@@ -13790,7 +13776,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>49.0</td>
 <td>56.0</td>
 <td>8.0</td>
-<td>2607.0</td>
+<td>2625.0</td>
 <td>7.0</td>
 </tr>
 <tr>
@@ -13814,7 +13800,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>29.0</td>
 <td>37.0</td>
 <td>8.0</td>
-<td>2892.0</td>
+<td>2910.0</td>
 <td>7.0</td>
 </tr>
 <tr>
@@ -13838,7 +13824,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>29.0</td>
 <td>36.0</td>
 <td>NaN</td>
-<td>2570.0</td>
+<td>2588.0</td>
 <td>7.0</td>
 </tr>
 </tbody>
@@ -13872,7 +13858,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'0-4'</span><span class="p">,</span> <span class="s1">'5-9'</span><span class="p">,</span> <span class="s1">'10-14'</span><span class="p">,</span><span class="s1">'15-19'</span><span class="p">,</span><span class="s1">'20-24'</span><span class="p">,</span><span class="s1">'25-29'</span><span class="p">,</span><span class="s1">'30-34'</span><span class="p">,</span><span class="s1">'35-39'</span><span class="p">,</span><span class="s1">'40-44'</span><span class="p">,</span><span class="s1">'45-49'</span><span class="p">,</span><span class="s1">'50-54'</span><span class="p">,</span><span class="s1">'55-59'</span><span class="p">,</span><span class="s1">'60-64'</span><span class="p">,</span> <span class="s1">'65+'</span><span class="p">]</span>
 
 <span class="n">dim_age_group_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">'age'</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+    <span class="s1">'age'</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
 <span class="p">})</span>
 
 <span class="n">dim_age_group_df</span><span class="p">[</span><span class="s1">'pepfar_age_group'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">dim_age_group_df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -14367,7 +14353,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>None</td>
 <td>...</td>
 <td>8.0</td>
-<td>98.0</td>
+<td>116.0</td>
 <td>0.0</td>
 <td>55</td>
 <td>55-59</td>
@@ -14391,7 +14377,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>None</td>
 <td>...</td>
 <td>8.0</td>
-<td>85.0</td>
+<td>103.0</td>
 <td>0.0</td>
 <td>56</td>
 <td>55-59</td>
@@ -14415,7 +14401,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>None</td>
 <td>...</td>
 <td>8.0</td>
-<td>2607.0</td>
+<td>2625.0</td>
 <td>7.0</td>
 <td>56</td>
 <td>55-59</td>
@@ -14439,7 +14425,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>None</td>
 <td>...</td>
 <td>8.0</td>
-<td>2892.0</td>
+<td>2910.0</td>
 <td>7.0</td>
 <td>37</td>
 <td>35-39</td>
@@ -14463,7 +14449,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>None</td>
 <td>...</td>
 <td>NaN</td>
-<td>2570.0</td>
+<td>2588.0</td>
 <td>7.0</td>
 <td>36</td>
 <td>35-39</td>
@@ -14584,9 +14570,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>35.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>53.0</td>
 </tr>
 <tr>
 <th>1</th>
@@ -14608,9 +14594,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>15.0</td>
-<td>15.0</td>
-<td>477.0</td>
+<td>16.0</td>
+<td>16.0</td>
+<td>495.0</td>
 </tr>
 <tr>
 <th>2</th>
@@ -14632,9 +14618,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>88.0</td>
-<td>88.0</td>
-<td>2704.0</td>
+<td>89.0</td>
+<td>89.0</td>
+<td>2722.0</td>
 </tr>
 <tr>
 <th>3</th>
@@ -14680,9 +14666,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>20-39</td>
 <td>2</td>
-<td>89.0</td>
-<td>89.0</td>
-<td>2730.0</td>
+<td>90.0</td>
+<td>90.0</td>
+<td>2748.0</td>
 </tr>
 </tbody>
 </table>
@@ -14845,9 +14831,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>35.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>53.0</td>
 <td>Monitored per Guidelines</td>
 </tr>
 <tr>
@@ -14869,9 +14855,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>15.0</td>
-<td>15.0</td>
-<td>477.0</td>
+<td>16.0</td>
+<td>16.0</td>
+<td>495.0</td>
 <td>Delayed</td>
 </tr>
 <tr>
@@ -14893,9 +14879,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>88.0</td>
-<td>88.0</td>
-<td>2704.0</td>
+<td>89.0</td>
+<td>89.0</td>
+<td>2722.0</td>
 <td>None</td>
 </tr>
 <tr>
@@ -14941,9 +14927,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>20-39</td>
 <td>2</td>
-<td>89.0</td>
-<td>89.0</td>
-<td>2730.0</td>
+<td>90.0</td>
+<td>90.0</td>
+<td>2748.0</td>
 <td>None</td>
 </tr>
 </tbody>
@@ -15064,9 +15050,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>35.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>53.0</td>
 <td>Monitored per Guidelines</td>
 <td>None</td>
 </tr>
@@ -15088,9 +15074,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>15.0</td>
-<td>15.0</td>
-<td>477.0</td>
+<td>16.0</td>
+<td>16.0</td>
+<td>495.0</td>
 <td>Delayed</td>
 <td>Treatment Monitoring For Adults</td>
 </tr>
@@ -15112,9 +15098,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>88.0</td>
-<td>88.0</td>
-<td>2704.0</td>
+<td>89.0</td>
+<td>89.0</td>
+<td>2722.0</td>
 <td>None</td>
 <td>Low Level Viraemia</td>
 </tr>
@@ -15160,9 +15146,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>20-39</td>
 <td>2</td>
-<td>89.0</td>
-<td>89.0</td>
-<td>2730.0</td>
+<td>90.0</td>
+<td>90.0</td>
+<td>2748.0</td>
 <td>None</td>
 <td>Treatment Monitoring For Adults</td>
 </tr>
@@ -15312,9 +15298,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>35.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>53.0</td>
 <td>Monitored per Guidelines</td>
 <td>None</td>
 <td>NaT</td>
@@ -15336,9 +15322,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>15.0</td>
-<td>15.0</td>
-<td>477.0</td>
+<td>16.0</td>
+<td>16.0</td>
+<td>495.0</td>
 <td>Delayed</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2024-08-24</td>
@@ -15360,9 +15346,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>40+</td>
 <td>3</td>
-<td>88.0</td>
-<td>88.0</td>
-<td>2704.0</td>
+<td>89.0</td>
+<td>89.0</td>
+<td>2722.0</td>
 <td>None</td>
 <td>Low Level Viraemia</td>
 <td>2018-01-04</td>
@@ -15408,9 +15394,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>2</td>
 <td>20-39</td>
 <td>2</td>
-<td>89.0</td>
-<td>89.0</td>
-<td>2730.0</td>
+<td>90.0</td>
+<td>90.0</td>
+<td>2748.0</td>
 <td>None</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2018-06-08</td>
@@ -15445,6 +15431,11 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">is_last_viral_load_valid</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
     <span class="n">row</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_viral_load_result_date'</span><span class="p">])</span> <span class="ow">and</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'art_restart_date'</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_viral_load_result_date'</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'art_restart_date'</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="s1">'No'</span>
+        
     <span class="k">if</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'tx_curr'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Yes'</span> <span class="ow">and</span>
         <span class="n">row</span><span class="p">[</span><span class="s1">'last_PBFW_status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Yes'</span> <span class="ow">and</span>
         <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_viral_load_result'</span><span class="p">])</span> <span class="ow">and</span>
@@ -15454,30 +15445,11 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
         <span class="k">return</span> <span class="s1">'Yes'</span>
 
     <span class="k">elif</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'tx_curr'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Yes'</span> <span class="ow">and</span>
-          <span class="n">row</span><span class="p">[</span><span class="s1">'last_PBFW_status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Yes'</span> <span class="ow">and</span>
-          <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_viral_load_result'</span><span class="p">])</span> <span class="ow">and</span>
-          <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'art_start_date'</span><span class="p">])</span> <span class="ow">and</span>
-          <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'hiv_confirmation_date'</span><span class="p">])</span> <span class="ow">and</span>
-          <span class="p">(</span><span class="n">last_refresh_date</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'hiv_confirmation_date'</span><span class="p">]))</span><span class="o">.</span><span class="n">days</span> <span class="o">&gt;=</span> <span class="mi">90</span> <span class="ow">and</span>
-          <span class="n">row</span><span class="p">[</span><span class="s1">'vl_eligibility'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Monitored per Guidelines'</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">'Yes'</span>
-
-    <span class="k">elif</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'tx_curr'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Yes'</span> <span class="ow">and</span>
           <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_PBFW_status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'No'</span> <span class="ow">or</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_PBFW_status'</span><span class="p">]))</span> <span class="ow">and</span>
           <span class="n">row</span><span class="p">[</span><span class="s1">'current_age'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">20</span> <span class="ow">and</span>
           <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_viral_load_result'</span><span class="p">])</span> <span class="ow">and</span>
           <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'art_start_date'</span><span class="p">])</span> <span class="ow">and</span>
           <span class="p">(</span><span class="n">last_refresh_date</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'art_start_date'</span><span class="p">]))</span><span class="o">.</span><span class="n">days</span> <span class="o">&gt;=</span> <span class="mi">182</span> <span class="ow">and</span>
-          <span class="n">row</span><span class="p">[</span><span class="s1">'vl_eligibility'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Monitored per Guidelines'</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">'Yes'</span>
-
-    <span class="k">elif</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'tx_curr'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Yes'</span> <span class="ow">and</span>
-          <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_PBFW_status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'No'</span> <span class="ow">or</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_PBFW_status'</span><span class="p">]))</span> <span class="ow">and</span>
-          <span class="n">row</span><span class="p">[</span><span class="s1">'current_age'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">20</span> <span class="ow">and</span>
-          <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_viral_load_result'</span><span class="p">])</span> <span class="ow">and</span>
-          <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'art_start_date'</span><span class="p">])</span> <span class="ow">and</span>
-          <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'hiv_confirmation_date'</span><span class="p">])</span> <span class="ow">and</span>
-          <span class="p">(</span><span class="n">last_refresh_date</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'hiv_confirmation_date'</span><span class="p">]))</span><span class="o">.</span><span class="n">days</span> <span class="o">&gt;=</span> <span class="mi">182</span> <span class="ow">and</span>
           <span class="n">row</span><span class="p">[</span><span class="s1">'vl_eligibility'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Monitored per Guidelines'</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">'Yes'</span>
 
@@ -15489,20 +15461,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
           <span class="p">(</span><span class="n">last_refresh_date</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'art_start_date'</span><span class="p">]))</span><span class="o">.</span><span class="n">days</span> <span class="o">&gt;=</span> <span class="mi">182</span> <span class="ow">and</span>
           <span class="n">row</span><span class="p">[</span><span class="s1">'vl_eligibility'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Monitored per Guidelines'</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">'Yes'</span>
-
-    <span class="k">elif</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'tx_curr'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Yes'</span> <span class="ow">and</span>
-          <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_PBFW_status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'No'</span> <span class="ow">or</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_PBFW_status'</span><span class="p">]))</span> <span class="ow">and</span>
-          <span class="n">row</span><span class="p">[</span><span class="s1">'current_age'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">19</span> <span class="ow">and</span>
-          <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'last_viral_load_result'</span><span class="p">])</span> <span class="ow">and</span>
-          <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'art_start_date'</span><span class="p">])</span> <span class="ow">and</span>
-          <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'hiv_confirmation_date'</span><span class="p">])</span> <span class="ow">and</span>
-          <span class="p">(</span><span class="n">last_refresh_date</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'hiv_confirmation_date'</span><span class="p">]))</span><span class="o">.</span><span class="n">days</span> <span class="o">&gt;=</span> <span class="mi">182</span> <span class="ow">and</span>
-          <span class="n">row</span><span class="p">[</span><span class="s1">'vl_eligibility'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Monitored per Guidelines'</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">'Yes'</span>
-
+        
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">'No'</span>
-
     
 <span class="n">fact_sentinel_event_df</span><span class="p">[</span><span class="s1">'is_last_viral_load_valid'</span><span class="p">]</span> <span class="o">=</span> <span class="n">fact_sentinel_event_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">is_last_viral_load_valid</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">fact_sentinel_event_df</span><span class="p">)</span>
 
@@ -15576,9 +15537,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>...</td>
 <td>40+</td>
 <td>3</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>35.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>53.0</td>
 <td>Monitored per Guidelines</td>
 <td>None</td>
 <td>NaT</td>
@@ -15600,9 +15561,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>...</td>
 <td>40+</td>
 <td>3</td>
-<td>15.0</td>
-<td>15.0</td>
-<td>477.0</td>
+<td>16.0</td>
+<td>16.0</td>
+<td>495.0</td>
 <td>Delayed</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2024-08-24</td>
@@ -15624,9 +15585,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>...</td>
 <td>40+</td>
 <td>3</td>
-<td>88.0</td>
-<td>88.0</td>
-<td>2704.0</td>
+<td>89.0</td>
+<td>89.0</td>
+<td>2722.0</td>
 <td>None</td>
 <td>Low Level Viraemia</td>
 <td>2018-01-04</td>
@@ -15672,9 +15633,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>...</td>
 <td>20-39</td>
 <td>2</td>
-<td>89.0</td>
-<td>89.0</td>
-<td>2730.0</td>
+<td>90.0</td>
+<td>90.0</td>
+<td>2748.0</td>
 <td>None</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2018-06-08</td>
@@ -15786,9 +15747,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>None</td>
 <td>...</td>
 <td>3</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>35.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>53.0</td>
 <td>Monitored per Guidelines</td>
 <td>None</td>
 <td>NaT</td>
@@ -15810,9 +15771,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>None</td>
 <td>...</td>
 <td>3</td>
-<td>15.0</td>
-<td>15.0</td>
-<td>477.0</td>
+<td>16.0</td>
+<td>16.0</td>
+<td>495.0</td>
 <td>Delayed</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2024-08-24</td>
@@ -15834,9 +15795,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>None</td>
 <td>...</td>
 <td>3</td>
-<td>88.0</td>
-<td>88.0</td>
-<td>2704.0</td>
+<td>89.0</td>
+<td>89.0</td>
+<td>2722.0</td>
 <td>None</td>
 <td>Low Level Viraemia</td>
 <td>2018-01-04</td>
@@ -15882,9 +15843,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>None</td>
 <td>...</td>
 <td>2</td>
-<td>89.0</td>
-<td>89.0</td>
-<td>2730.0</td>
+<td>90.0</td>
+<td>90.0</td>
+<td>2748.0</td>
 <td>None</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2018-06-08</td>
@@ -15996,9 +15957,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Active ART</td>
 <td>None</td>
 <td>...</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>35.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>53.0</td>
 <td>Monitored per Guidelines</td>
 <td>None</td>
 <td>NaT</td>
@@ -16020,9 +15981,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Active ART</td>
 <td>None</td>
 <td>...</td>
-<td>15.0</td>
-<td>15.0</td>
-<td>477.0</td>
+<td>16.0</td>
+<td>16.0</td>
+<td>495.0</td>
 <td>Delayed</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2024-08-24</td>
@@ -16044,9 +16005,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Transferred Out</td>
 <td>None</td>
 <td>...</td>
-<td>88.0</td>
-<td>88.0</td>
-<td>2704.0</td>
+<td>89.0</td>
+<td>89.0</td>
+<td>2722.0</td>
 <td>None</td>
 <td>Low Level Viraemia</td>
 <td>2018-01-04</td>
@@ -16092,9 +16053,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Transferred Out</td>
 <td>None</td>
 <td>...</td>
-<td>89.0</td>
-<td>89.0</td>
-<td>2730.0</td>
+<td>90.0</td>
+<td>90.0</td>
+<td>2748.0</td>
 <td>None</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2018-06-08</td>
@@ -16217,8 +16178,8 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Active ART</td>
 <td>None</td>
 <td>...</td>
-<td>1.0</td>
-<td>35.0</td>
+<td>2.0</td>
+<td>53.0</td>
 <td>Monitored per Guidelines</td>
 <td>None</td>
 <td>NaT</td>
@@ -16241,8 +16202,8 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Active ART</td>
 <td>None</td>
 <td>...</td>
-<td>15.0</td>
-<td>477.0</td>
+<td>16.0</td>
+<td>495.0</td>
 <td>Delayed</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2024-08-24</td>
@@ -16265,8 +16226,8 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Transferred Out</td>
 <td>None</td>
 <td>...</td>
-<td>88.0</td>
-<td>2704.0</td>
+<td>89.0</td>
+<td>2722.0</td>
 <td>None</td>
 <td>Low Level Viraemia</td>
 <td>2018-01-04</td>
@@ -16313,8 +16274,8 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Transferred Out</td>
 <td>None</td>
 <td>...</td>
-<td>89.0</td>
-<td>2730.0</td>
+<td>90.0</td>
+<td>2748.0</td>
 <td>None</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2018-06-08</td>
@@ -16444,7 +16405,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Active ART</td>
 <td>None</td>
 <td>...</td>
-<td>35.0</td>
+<td>53.0</td>
 <td>Monitored per Guidelines</td>
 <td>None</td>
 <td>NaT</td>
@@ -16468,7 +16429,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Active ART</td>
 <td>None</td>
 <td>...</td>
-<td>477.0</td>
+<td>495.0</td>
 <td>Delayed</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2024-08-24</td>
@@ -16492,7 +16453,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Transferred Out</td>
 <td>None</td>
 <td>...</td>
-<td>2704.0</td>
+<td>2722.0</td>
 <td>None</td>
 <td>Low Level Viraemia</td>
 <td>2018-01-04</td>
@@ -16540,7 +16501,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <td>Transferred Out</td>
 <td>None</td>
 <td>...</td>
-<td>2730.0</td>
+<td>2748.0</td>
 <td>None</td>
 <td>Treatment Monitoring For Adults</td>
 <td>2018-06-08</td>
@@ -17053,7 +17014,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished extracting client lab data
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T14:00:08.762526] QE Data Task Running - INFO: Finished adding computed columns
+<pre>[2024-12-16T06:05:01.402374] QE Data Task Running - INFO: Finished adding computed columns
 QE Data Task Running &gt;&gt;&gt;: Finished adding computed columns
 </pre>
 </div>
@@ -17784,7 +17745,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished adding computed columns
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T14:00:09.013425] QE Data Task Running - INFO: Database 'duft' already exists.
+<pre>[2024-12-16T06:05:01.714255] QE Data Task Running - INFO: Database 'duft' already exists.
 QE Data Task Running &gt;&gt;&gt;: Database 'duft' already exists.
 </pre>
 </div>
@@ -17911,7 +17872,7 @@ QE Data Task Running &gt;&gt;&gt;: Database 'duft' already exists.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T14:00:09.191240] QE Data Task Running - INFO: Data replaced successfully in table 'dim_age_group'.
+<pre>[2024-12-16T06:05:01.864429] QE Data Task Running - INFO: Data replaced successfully in table 'dim_age_group'.
 QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'dim_age_group'.
 </pre>
 </div>
@@ -18065,7 +18026,7 @@ QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'dim_age_
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Write-sentinel-event-to-table">Write sentinel event to table<a class="anchor-link" href="#Write-sentinel-event-to-table">¶</a></h1>
+<h1 id="Remove-NULL-Characters">Remove NULL Characters<a class="anchor-link" href="#Remove-NULL-Characters">¶</a></h1>
 </div>
 </div>
 </div>
@@ -18075,6 +18036,50 @@ QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'dim_age_
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [72]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">problematic_columns</span> <span class="o">=</span> <span class="n">fact_sentinel_event_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span>
+    <span class="n">fact_sentinel_event_df</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="ow">in</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">problematic_columns</span><span class="p">:</span>
+    <span class="n">fact_sentinel_event_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">fact_sentinel_event_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>/var/folders/7n/6w4wxjw926j1m_nd0s8jqbfc0000gn/T/ipykernel_76751/2257906214.py:2: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
+  fact_sentinel_event_df.applymap(lambda x: isinstance(x, str) and '\x00' in x).any()
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Write-sentinel-event-to-table">Write sentinel event to table<a class="anchor-link" href="#Write-sentinel-event-to-table">¶</a></h1>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [73]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">table_name</span> <span class="o">=</span> <span class="s1">'fact_sentinel_event'</span>
@@ -18095,13 +18100,13 @@ QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'dim_age_
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T14:00:10.272927] QE Data Task Running - INFO: Data replaced successfully in table 'fact_sentinel_event'.
+<pre>[2024-12-16T06:05:03.040405] QE Data Task Running - INFO: Data replaced successfully in table 'fact_sentinel_event'.
 QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'fact_sentinel_event'.
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[72]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[73]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -18289,7 +18294,7 @@ QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'fact_sen
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [73]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [74]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">facility_counts</span> <span class="o">=</span> <span class="n">dim_pat_df</span><span class="p">[</span><span class="s1">'current_facility'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
@@ -18315,7 +18320,7 @@ QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'fact_sen
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [74]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [75]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
@@ -18339,7 +18344,7 @@ QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'fact_sen
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  last_refresh_date    facility_name
-0        2024-11-28  Wanaheda Clinic
+0        2024-12-16  Wanaheda Clinic
 </pre>
 </div>
 </div>
@@ -18361,7 +18366,7 @@ QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'fact_sen
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [75]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [76]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">table_name</span> <span class="o">=</span> <span class="s1">'dim_last_refresh'</span>
@@ -18383,13 +18388,13 @@ QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'fact_sen
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T14:00:10.361675] QE Data Task Running - INFO: Data replaced successfully in table 'dim_last_refresh'.
+<pre>[2024-12-16T06:05:03.129668] QE Data Task Running - INFO: Data replaced successfully in table 'dim_last_refresh'.
 QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'dim_last_refresh'.
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[75]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[76]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -18416,7 +18421,7 @@ QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'dim_last
 <tbody>
 <tr>
 <th>0</th>
-<td>2024-11-28</td>
+<td>2024-12-16</td>
 <td>Wanaheda Clinic</td>
 </tr>
 </tbody>
@@ -18442,7 +18447,7 @@ QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'dim_last
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [76]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [77]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">view_score_card_creation_query</span> <span class="o">=</span> <span class="s2">"""</span>
@@ -18556,7 +18561,7 @@ QE Data Task Running &gt;&gt;&gt;: Data replaced successfully in table 'dim_last
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T14:00:10.379365] QE Data Task Running - INFO: Score Card view created successfully.
+<pre>[2024-12-16T06:05:03.147256] QE Data Task Running - INFO: Score Card view created successfully.
 QE Data Task Running &gt;&gt;&gt;: Score Card view created successfully.
 </pre>
 </div>
@@ -18579,7 +18584,7 @@ QE Data Task Running &gt;&gt;&gt;: Score Card view created successfully.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [77]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [78]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">del</span> <span class="n">dim_pat_df</span>
@@ -18609,7 +18614,7 @@ QE Data Task Running &gt;&gt;&gt;: Score Card view created successfully.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2024-11-28T14:00:10.390097] QE Data Task Running - INFO: Finished writing data to database
+<pre>[2024-12-16T06:05:03.155485] QE Data Task Running - INFO: Finished writing data to database
 QE Data Task Running &gt;&gt;&gt;: Finished writing data to database
 </pre>
 </div>
@@ -18632,7 +18637,7 @@ QE Data Task Running &gt;&gt;&gt;: Finished writing data to database
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [78]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [79]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
@@ -18646,9 +18651,9 @@ QE Data Task Running &gt;&gt;&gt;: Finished writing data to database
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[78]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[79]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Timestamp('2024-11-28 14:00:10.395720')</pre>
+<pre>Timestamp('2024-12-16 06:05:03.160505')</pre>
 </div>
 </div>
 </div>
