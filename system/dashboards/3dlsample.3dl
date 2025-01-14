@@ -86,12 +86,19 @@
           </Row>
         </Dataset>
 
+        <Row columns="1">
+          <DataProvider pageSize="15">
+            <ServerQueryData queryName="filters/age_group" />
+            <BarChart header='age group (server query)' subHeader='fact sentinel data' detailsComponent='infinite-scroll-table' exportData="true" />
+          </DataProvider>
+        </Row>
+
         <Row largeColumns='3' columns='2'>
           <DataProvider>
             <QueryData>
               SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2000 and 2007 GROUP BY year
             </QueryData>
-            <BarChart header='fact_sentinel_event' subHeader='fact sentinel data' detailsComponent='infinite-scroll-table' exportData="true" />
+            <BarChart header='fact_sentinel_event (query)' subHeader='fact sentinel data' detailsComponent='infinite-scroll-table' exportData="true" />
           </DataProvider>
 
           <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2006 and 2010 GROUP BY year'>
