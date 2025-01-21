@@ -45,6 +45,21 @@
 
         <Row columns="1">
           <DataProvider pageSize="20" searchColumns='client_id, marital_status'>
+            <OpenmrsData
+              resource="appointments/search"
+              method="POST"
+              body={{
+                startDate: "2025-01-20T00:00:00.000+0300",
+                endDate: "2025-01-20T23:59:59.999+0300",
+              }}
+              adapter="patientsFromAppointments"
+            />
+            <InfiniteScrollTable header="PATIENTS FROM APPOINTMENTS">
+            </InfiniteScrollTable>
+          </DataProvider>
+        </Row>
+        <Row columns="1">
+          <DataProvider pageSize="20" searchColumns='client_id, marital_status'>
             <QueryData>
               SELECT client_id as "Client id", birth_date, emr_identifier, marital_status, gender from dim_client
             </QueryData>
