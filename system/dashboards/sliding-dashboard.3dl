@@ -21,7 +21,7 @@
               header="HVL - Number of Samples received, tested, rejected and results authorized for last week"
               subHeader=""
               exportData="true"
-              userOptions={{ dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } } }}
+              userOptions={{ chart: { id: 1 }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } } }}
             />
           </Dataset>
           <Dataset query="WITH DateRange AS (SELECT DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AS firstDay, DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) AS lastDay) SELECT category, SUM(value) AS value FROM (SELECT s.report_date, s.hvl_sample_wholeblood_received AS Wholeblood, s.hvl_sample_plasma_received AS Plasma FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date CROSS JOIN DateRange WHERE s.report_date >= firstDay AND s.report_date <= lastDay) AS SampleData UNPIVOT (value FOR category IN (Wholeblood, Plasma)) AS unpvt GROUP BY category;">
@@ -30,7 +30,7 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ colors: [ "#156082", "#e97132"], legend: { show: true, position: "bottom" }, dataLabels: { enabled: true } }}
+              userOptions={{ chart: { id: 2 }, colors: [ "#156082", "#e97132"], legend: { show: true, position: "bottom" }, dataLabels: { enabled: true } }}
             />
           </Dataset>
         </Row>
@@ -41,7 +41,7 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ legend: { show: true, position: "bottom" }, dataLabels: { enabled: true } }}
+              userOptions={{ chart: { id: 3 }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true } }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS week_name, TRIM(f.region) AS category, SUM(s.hvl_sample_received) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date INNER JOIN derived.dim_facility f ON s.hfr_id_for_HUB_sample_is_coming_from = f.hfr_code WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period, TRIM(f.region) HAVING SUM(s.hvl_sample_received) <> 0 ORDER BY category ASC;">
@@ -50,7 +50,7 @@
               subHeader=""
               detailsComponent="infinite-scroll-table"
               exportData="true"
-              userOptions={{ dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Region" } } }}
+              userOptions={{ chart: { id: 4 }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Region" } } }}
             />
           </Dataset>
         </Row>
@@ -77,7 +77,7 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ colors: ["#008000", "#FFA500"], dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+              userOptions={{ chart: { id: 5 }, colors: ["#008000", "#FFA500"], dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, markers: { size: 5, hover: { size: 7 } } }}
             />
             </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_samples_received_by_entry_modality_lab) AS [Entered in the Lab], SUM(s.hvl_samples_received_by_entry_modality_hub) AS [Entered in the Hub] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period ASC;">
@@ -86,7 +86,7 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ colors: ["#008000", "#FFA500"], dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+              userOptions={{ chart: { id: 6 }, colors: ["#008000", "#FFA500"], dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, markers: { size: 5, hover: { size: 7 } } }}
             />
           </Dataset>
         </Row>
@@ -97,7 +97,7 @@
               subHeader=""
               detailsComponent="infinite-scroll-table"
               exportData="true"
-              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+              userOptions={{ chart: { id: 7 }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, legend: { show: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, markers: { size: 5, hover: { size: 5 } } }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_sample_plasma_dispatched + s.hvl_sample_wholeblood_dispatched) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period ASC;">
@@ -106,7 +106,7 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+              userOptions={{ chart: { id: 8 }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, legend: { show: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, markers: { size: 5, hover: { size: 5 } } }}
             />
           </Dataset>
         </Row>
@@ -135,7 +135,7 @@
               detailsComponent="infinite-scroll-table"
               header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
               SubHeader=""
-              userOptions={{ colors: ['#92d14f', '#81cbf0', '#c9ffc8', '#fec000'], tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+              userOptions={{ chart: { id: 9 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_sample_received_and_authorised_date_in_less_or_equal_5_days) AS [<=5 days], SUM(s.hvl_sample_received_and_authorised_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.hvl_sample_received_and_authorised_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.hvl_sample_received_and_authorised_date_greater_than_15_days) AS [>15 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
@@ -144,7 +144,7 @@
               detailsComponent="infinite-scroll-table"
               header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
               SubHeader=""
-              userOptions={{ tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+              userOptions={{ chart: { id: 10 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
             />
           </Dataset>
         </Row>
@@ -155,7 +155,7 @@
               detailsComponent="infinite-scroll-table"
               header="For Samples received in the reporting week, number of days from sample collection to lab reception"
               SubHeader=""
-              userOptions={{ tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+              userOptions={{ chart: { id: 11 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_sample_received_and_tested_date_in_less_or_equal_5_days) AS [<=5 days], SUM(s.hvl_sample_received_and_tested_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.hvl_sample_received_and_tested_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.hvl_sample_received_and_tested_date_greater_than_15_days) AS [>15 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
@@ -164,7 +164,7 @@
               SubHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+              userOptions={{ chart: { id: 12 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
             />
           </Dataset>
         </Row>
@@ -193,7 +193,7 @@
               detailsComponent="infinite-scroll-table"
               header="HVL: Test outcomes for last week"
               subHeader=""
-              userOptions={{ legend: { show: true, position: "right" }, dataLabels: { enabled: true }, colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500"] }}
+              userOptions={{ chart: { id: 13 }, legend: { show: true, position: "right" }, dataLabels: { enabled: true }, colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500"] }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS category, CAST(COALESCE(SUM(s.hvl_result_invalid) * 100.0/NULLIF(SUM(s.hvl_sample_tested), 0), 0) AS DECIMAL(5, 2)) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
@@ -202,7 +202,7 @@
               detailsComponent="infinite-scroll-table"
               header="HVL: Trend of invalid test results"
               subHeader=""
-              userOptions={{ legend: { show: true }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#1e3799"] }}
+              userOptions={{ chart: { id: 14 }, legend: { show: true }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#1e3799"], markers: { size: 5, hover: { size: 7 } } }}
             />
           </Dataset>
         </Row>
@@ -213,7 +213,7 @@
               detailsComponent="infinite-scroll-table"
               header="HVL: Trend of rejected samples"
               subHeader=""
-              userOptions={{ legend: { show: true }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#1e3799"] }}
+              userOptions={{ chart: { id: 15 }, legend: { show: true }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, markers: { size: 5, hover: { size: 7 } } , yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#1e3799"] }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_samples_aging_less_or_equal_1_week) AS [1 week], SUM(s.hvl_samples_aging_less_or_equal_2_week) AS [2 weeks], SUM(s.hvl_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks) AS [3 weeks], SUM(s.hvl_samples_aging_greater_than_3_weeks) AS [>3 weeks and above] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
@@ -222,7 +222,7 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Week" } }, xaxis: { title: { text: "Number of Samples" } }, tooltip: { shared: true }, stroke: { width: 2 } }}
+              userOptions={{ chart: { id: 16 }, dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Week" } }, xaxis: { title: { text: "Number of Samples" } }, tooltip: { shared: true }, stroke: { width: 2 } }}
             />
           </Dataset>
         </Row>
@@ -251,7 +251,7 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } } }}
+              userOptions={{ chart: { id: 17 }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } } }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS week_name, TRIM(f.region) AS category, SUM(s.eid_sample_dbs_received) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date INNER JOIN derived.dim_facility f ON s.hfr_id_for_HUB_sample_is_coming_from = f.hfr_code WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period, TRIM(f.region) HAVING SUM(s.hvl_sample_received) <> 0 ORDER BY category ASC;">
@@ -260,7 +260,7 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Region" } } }}
+              userOptions={{ chart: { id: 18 }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Region" } } }}
             />
           </Dataset>
         </Row>
@@ -271,7 +271,7 @@
               subHeader=""
               detailsComponent="infinite-scroll-table"
               exportData="true"
-              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#008000", "#FFA500"] }}
+              userOptions={{ chart: { id: 19 }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, markers: { size: 5, hover: { size: 7 } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#008000", "#FFA500"] }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_dbs_received) AS [Samples Received], SUM(s.eid_sample_tested) AS [Samples Tested], SUM(s.eid_result_dispatched) AS [Samples Dispatched] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE d.date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND d.date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period ASC;">
@@ -280,7 +280,65 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#008000", "#FFA500", "#FF0000"] }}
+              userOptions={{ chart: { id: 20 }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, markers: { size: 5, hover: { size: 7 } }, legend: { show: true, position: "bottom" }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#008000", "#FFA500", "#FF0000"] }}
+            />
+          </Dataset>
+        </Row>
+      </Grid>
+    </Dashboard>
+  </Tab>
+  <Tab title="Dashboard 7">
+    <Dashboard title="Early Infant HIV Diagnosis  (EID) Trends- Turn Around Time">
+      <Grid>
+        <Dataset query="SELECT FORMAT(DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 5), GETDATE()), 'yyyy-MM-dd') AS firstDay, FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') AS lastDay, MAX(d.weekly_start_monday_period) AS week_name FROM derived.dim_date d WHERE d.date BETWEEN DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE());">
+          <Row columns="2" smallColumns="1">
+            <Header>
+              <DataString>
+                Early Infant HIV Diagnosis (EID) Trends- Turn Around Time
+              </DataString>
+            </Header>
+            <Subheader>
+              <DataString>%week_name% (Data from %firstDay% to %lastDay%)</DataString>
+            </Subheader>
+          </Row>
+        </Dataset>
+        <Row largeColumns="2" columns="1">
+        <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_collected_and_authorised_date_in_less_or_equal_10_days) AS [<=10 days], SUM(s.eid_sample_collected_and_authorised_date_between_11_to_14_days) AS [11 to 14 days], SUM(s.eid_sample_collected_and_authorised_date_between_15_to_21_days) AS [15 to 21 days], SUM(s.eid_sample_collected_and_authorised_date_greater_than_21_days) AS [>21 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
+            <StackedBarChart
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
+              subHeader=""
+              userOptions={{ chart: { id: 21 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+          </Dataset>
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_received_and_authorised_date_in_less_or_equal_5_days) AS [<=5 days], SUM(s.eid_sample_received_and_authorised_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.eid_sample_received_and_authorised_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.eid_sample_received_and_authorised_date_greater_than_15_days) AS [>15 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
+          <StackedBarChart
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
+              subHeader=""
+              userOptions={{ chart: { id: 22 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+          </Dataset>
+        </Row>
+        <Row largeColumns="2" columns="1">
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_collected_and_received_date_in_less_or_equal_5_days) AS [<=5 days], SUM(s.eid_sample_collected_and_received_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.eid_sample_collected_and_received_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.eid_sample_collected_and_received_date_greater_than_15_days) AS [>15 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
+            <StackedBarChart
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              header="For Samples received in the reporting week, number of days from sample collection to lab reception"
+              subHeader=""
+              userOptions={{ chart: { id: 23 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
+            />
+          </Dataset>
+          <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_received_and_tested_date_in_less_or_equal_5_days) AS [<=5 days], SUM(s.eid_sample_received_and_tested_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.eid_sample_received_and_tested_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.eid_sample_received_and_tested_date_greater_than_15_days) AS [>15 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
+          <StackedBarChart
+              header="For Samples received in the reporting week, number of days from receipt of sample to testing"
+              subHeader=""
+              exportData="true"
+              detailsComponent="infinite-scroll-table"
+              userOptions={{ chart: { id: 24 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } } }}
             />
           </Dataset>
         </Row>
@@ -309,7 +367,7 @@
               detailsComponent="infinite-scroll-table"
               header="EID: Test outcomes for last week"
               subHeader=""
-              userOptions={{ legend: { show: true, position: "right" }, dataLabels: { enabled: true }, colors: [ "#008000", "#FFFF00", "#FFA500"] }}
+              userOptions={{ chart: { id: 25 }, legend: { show: true, position: "right" }, dataLabels: { enabled: true }, colors: [ "#008000", "#FFFF00", "#FFA500"] }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS category, CAST(COALESCE(SUM(s.eid_result_invalid) * 100.0/NULLIF(SUM(s.eid_sample_tested), 0), 0) AS DECIMAL(5, 2)) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
@@ -318,7 +376,7 @@
               detailsComponent="infinite-scroll-table"
               header="EID: Trend of invalid test results"
               subHeader=""
-              userOptions={{ legend: { show: true }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#1e3799"] }}
+              userOptions={{ chart: { id: 26 }, legend: { show: true }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, markers: { size: 5, hover: { size: 7 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#1e3799"] }}
             />
           </Dataset>
         </Row>
@@ -329,7 +387,7 @@
               detailsComponent="infinite-scroll-table"
               header="EID: Trend of rejected samples"
               subHeader=""
-              userOptions={{ legend: { show: true }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#1e3799"] }}
+              userOptions={{ chart: { id: 27 }, legend: { show: true }, dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, markers: { size: 5, hover: { size: 7 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Weeks" } }, colors: ["#1e3799"] }}
             />
           </Dataset>
           <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_samples_aging_less_or_equal_1_week) AS [1 week], SUM(s.eid_samples_aging_less_or_equal_2_week) AS [2 weeks], SUM(s.eid_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks) AS [3 weeks], SUM(s.eid_samples_aging_greater_than_3_weeks) AS [4 weeks and above] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
@@ -338,7 +396,7 @@
               subHeader=""
               exportData="true"
               detailsComponent="infinite-scroll-table"
-              userOptions={{ dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, tooltip: { shared: true }, stroke: { width: 2 } }}
+              userOptions={{ chart: { id: 28 }, dataLabels: { enabled: true }, plotOptions: { bar: { horizontal: true } }, legend: { show: true, position: "bottom" }, tooltip: { shared: true }, stroke: { width: 2 } }}
             />
           </Dataset>
         </Row>
@@ -376,7 +434,7 @@
               detailsComponent="infinite-scroll-table"
               header="Equipment utilization (Actual Sample Tested) within the Lab"
               subHeader=""
-              userOptions={{ chart: { id: "25" }, tooltip: { shared: true }, dataLabels: { enabled: true } }}
+              userOptions={{ chart: { id: 29 }, tooltip: { shared: true }, dataLabels: { enabled: true } }}
             />
           </Dataset>
         </Row>

@@ -86,16 +86,18 @@
         "dataLabels": {
           "enabled": false,
           "background": {
-              "enabled": false,
-              "foreColor": "#000",
-              "borderColor": "transparent"
-            },
+            "enabled": true,
+            "foreColor": "#000",
+            "borderRadius": 1,
+            "padding": 2,
+            "opacity": 0.9,
+            "borderWidth": 1,
+            "borderColor": "#fff"
+          },
             "style": {
               "fontSize": "14px",
-              "colors": ["#000"]
-            },
-            "dropShadow": {
-              "enabled": false
+              "fontWeight": "bold",
+              "colors": ["#fff"]
             }
         },
         "legend": {
