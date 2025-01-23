@@ -1,0 +1,161 @@
+<TabSet>
+    <Tab title="HVL Weekly Reporting">
+        <Dashboard>
+            <Grid>
+                <Filters>
+                    <Row columns="1" largeColumns="2">
+                        <Row columns="1">
+                            <Row columns="1">
+                                <Header>Week:</Header>
+                            </Row>
+                            <Row columns="1">
+                                <Filter caption="Select Week:" name="week" values_query="SELECT CONCAT(weekly_start_monday_period, ': ', weekly_start_monday_day_dates) AS week FROM derived.dim_date GROUP BY weekly_start_monday_period, weekly_start_monday_day_dates ORDER BY weekly_start_monday_period DESC;" />
+                            </Row>
+                        </Row>
+                    </Row>
+                </Filters>
+
+                <Row columns="1">
+                   <Header>HVL Report Transformation Table</Header>
+                </Row>
+
+                <Row columns="1">
+                    <Dataset query="WITH pending_hvl_results AS (SELECT week_name, hvl_pending_results FROM (SELECT FORMAT(CAST(SUBSTRING(d.weekly_start_monday_day_dates, 1, CHARINDEX('-', d.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' + FORMAT(CAST(SUBSTRING(d.weekly_start_monday_day_dates, CHARINDEX('-', d.weekly_start_monday_day_dates) + 2, LEN(d.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week_name, SUM(fdss.hvl_result_pending) AS hvl_pending_results, RANK() OVER (PARTITION BY d.weekly_start_monday_day_dates ORDER BY d.date) AS day_number FROM [final].fact_daily_sample_summary fdss INNER JOIN [derived].dim_date d ON fdss.report_date = d.date WHERE d.date BETWEEN DATEADD(WEEK, -3, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) AND DATEADD(DAY, 6, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) GROUP BY d.weekly_start_monday_day_dates, d.date) AS subquery WHERE day_number = 7), hvl_transformation_table AS (SELECT FORMAT(CAST(SUBSTRING(d.weekly_start_monday_day_dates, 1, CHARINDEX('-', d.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' + FORMAT(CAST(SUBSTRING(d.weekly_start_monday_day_dates, CHARINDEX('-', d.weekly_start_monday_day_dates) + 2, LEN(d.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week_name, SUM(fdss.hvl_sample_collected) AS [Sample Collected], SUM(fdss.hvl_sample_received) AS [Sample Received], SUM(fdss.hvl_sample_accepted) AS [Sample Accepted], SUM(fdss.hvl_sample_rejected) AS [Sample Rejected], SUM(fdss.hvl_sample_tested) AS [Sample Tested], SUM(fdss.hvl_result_authorized) AS [Authorized Results], SUM(fdss.hvl_result_accepted) AS [Accepted Results], SUM(fdss.hvl_result_rejected) AS [Rejected Results], SUM(fdss.hvl_result_failed) AS [Failed Results], SUM(fdss.hvl_result_invalid) AS [Invalid Results] FROM [final].fact_daily_sample_summary fdss INNER JOIN [derived].dim_date d ON fdss.report_date = d.date WHERE d.date BETWEEN DATEADD(WEEK, -3, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) AND DATEADD(DAY, 6, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) GROUP BY d.weekly_start_monday_day_dates) SELECT ps.week_name AS [Week], ss.[Sample Collected], ss.[Sample Received], ss.[Sample Accepted], ss.[Sample Rejected], ss.[Sample Tested], ps.hvl_pending_results AS [Pending Results], ss.[Authorized Results], ss.[Accepted Results], ss.[Rejected Results], ss.[Failed Results], ss.[Invalid Results] FROM pending_hvl_results ps JOIN hvl_transformation_table ss ON ps.week_name = ss.week_name ORDER BY ps.week_name DESC;">
+                        <InfiniteScrollTable
+                            header=""
+                            subHeader=""
+                            exportData="true"
+                        />
+                    </Dataset>
+                </Row>
+
+                <Row columns="1">
+                   <Header>HVL Weekly Reports</Header>
+                </Row>
+
+                <Row columns="1" largeColumns="2">
+                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(hvl_samples_with_results_less_than_1000_or_above_50) + SUM(hvl_samples_with_results_less_than_50) AS [suppressed], SUM(hvl_samples_with_results_less_than_1000_or_above_50) AS [unsuppressed] FROM [final].fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
+                        <StackedBarChart
+                            header="Viral Load Suppression & Unsuppression Result on Weekly Basis"
+                            subHeader=""
+                            exportData="true"
+                            detailsComponent="infinite-scroll-table"
+                            userOptions={{ chart: { id: 31 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } }, colors: ["#00BFFF", "#FFA500"] }}
+                        />
+                    </Dataset>
+                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_sample_collected_and_received_date_in_less_or_equal_5_days) AS [<= 5 days], SUM(s.hvl_sample_collected_and_received_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.hvl_sample_collected_and_received_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.hvl_sample_collected_and_received_date_greater_than_15_days) AS [> 15 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d on s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period;">
+                        <StackedBarChart
+                            header="For Samples received in the reporting week, number of days from the sample collection to lab reception"
+                            subHeader=""
+                            exportData="true"
+                            detailsComponent="infinite-scroll-table"
+                            userOptions={{ chart: { id: 32 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
+                        />
+                    </Dataset>
+                </Row>
+
+                <Row columns="1" largeColumns="2">
+                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_sample_received_and_authorised_date_in_less_or_equal_5_days) AS [<= 5 days], SUM(s.hvl_sample_received_and_authorised_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.hvl_sample_received_and_authorised_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.hvl_sample_received_and_authorised_date_greater_than_15_days) AS [> 15 days] FROM final.fact_daily_sample_summary s LEFT JOIN derived.dim_date d on s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period;">
+                        <StackedBarChart
+                            header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
+                            subHeader=""
+                            exportData="true"
+                            detailsComponent="infinite-scroll-table"
+                            userOptions={{ chart: { id: 33 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
+                        />
+                    </Dataset>
+                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days) AS [<= 10 days], SUM(s.hvl_sample_collected_and_authorised_date_between_11_to_14_days) AS [11 to 14 days], SUM(s.hvl_sample_collected_and_authorised_date_between_15_to_21_days) AS [15 to 21 days], SUM(s.hvl_sample_collected_and_authorised_date_greater_than_21_days) AS [> 21 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d on s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period;">
+                        <StackedBarChart
+                            header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
+                            subHeader=""
+                            exportData="true"
+                            detailsComponent="infinite-scroll-table"
+                            userOptions={{ chart: { id: 34 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
+                        />
+                    </Dataset>
+                </Row>
+
+            </Grid>
+        </Dashboard>
+    </Tab>
+
+    <Tab title="EID Weekly Reporting">
+        <Dashboard>
+            <Grid>
+                <Filters>
+                    <Row columns="1" largeColumns="2">
+                        <Row columns="1">
+                            <Row columns="1">
+                                <Header>Week:</Header>
+                            </Row>
+                            <Row columns="1">
+                                <Filter caption="Select Week:" name="week" values_query="SELECT CONCAT(weekly_start_monday_period, ': ', weekly_start_monday_day_dates) AS week FROM derived.dim_date GROUP BY weekly_start_monday_period, weekly_start_monday_day_dates ORDER BY weekly_start_monday_period DESC;" />
+                            </Row>
+                        </Row>
+                    </Row>
+                </Filters>
+
+                <Row columns="1">
+                   <Header>EID Report Transformation Table</Header>
+                </Row>
+
+                <Row columns="1">
+                    <Dataset query="WITH pending_eid_results AS (SELECT week_name, eid_pending_results FROM (SELECT FORMAT(CAST(SUBSTRING(d.weekly_start_monday_day_dates, 1, CHARINDEX('-', d.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' + FORMAT(CAST(SUBSTRING(d.weekly_start_monday_day_dates, CHARINDEX('-', d.weekly_start_monday_day_dates) + 2, LEN(d.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week_name, SUM(fdss.eid_result_pending) AS eid_pending_results, RANK() OVER (PARTITION BY d.weekly_start_monday_day_dates ORDER BY d.date) AS day_number FROM [final].fact_daily_sample_summary fdss INNER JOIN [derived].dim_date d ON fdss.report_date = d.date WHERE d.date BETWEEN DATEADD(WEEK, -3, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) AND DATEADD(DAY, 6, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) GROUP BY d.weekly_start_monday_day_dates, d.date) AS subquery WHERE day_number = 7), eid_transformation_table AS (SELECT FORMAT(CAST(SUBSTRING(d.weekly_start_monday_day_dates, 1, CHARINDEX('-', d.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' + FORMAT(CAST(SUBSTRING(d.weekly_start_monday_day_dates, CHARINDEX('-', d.weekly_start_monday_day_dates) + 2, LEN(d.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week_name, SUM(fdss.eid_sample_collected) AS [Sample Collected], SUM(fdss.eid_sample_dbs_received) AS [Sample Received], SUM(fdss.eid_sample_accepted) AS [Sample Accepted], SUM(fdss.eid_sample_rejected) AS [Sample Rejected], SUM(fdss.eid_sample_tested) AS [Sample Tested], SUM(fdss.eid_result_authorized) AS [Authorized Results], SUM(fdss.eid_result_accepted) AS [Accepted Results], SUM(fdss.eid_result_rejected) AS [Rejected Results], SUM(fdss.eid_result_failed) AS [Failed Results], SUM(fdss.eid_result_invalid) AS [Invalid Results] FROM [final].fact_daily_sample_summary fdss INNER JOIN [derived].dim_date d ON fdss.report_date = d.date WHERE d.date BETWEEN DATEADD(WEEK, -3, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) AND DATEADD(DAY, 6, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) GROUP BY d.weekly_start_monday_day_dates) SELECT ps.week_name AS [Week], ss.[Sample Collected], ss.[Sample Received], ss.[Sample Accepted], ss.[Sample Rejected], ss.[Sample Tested], ps.eid_pending_results AS [Pending Results], ss.[Authorized Results], ss.[Accepted Results], ss.[Rejected Results], ss.[Failed Results], ss.[Invalid Results] FROM pending_eid_results ps JOIN eid_transformation_table ss ON ps.week_name = ss.week_name ORDER BY ps.week_name DESC;">
+                        <InfiniteScrollTable
+                            header=""
+                            subHeader=""
+                            exportData="true"
+                        />
+                    </Dataset>
+                </Row>
+
+                <Row columns="1">
+                   <Header>EID Weekly Reports</Header>
+                </Row>
+
+                <Row columns="1" largeColumns="2">
+                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(eid_sample_tested_positive) AS Positive, SUM(eid_sample_tested_negative) AS Negative, SUM(eid_sample_tested_result_not_detected) AS Undermined FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period;">
+                        <StackedBarChart
+                            header="Sample Test Outcome for EID"
+                            subHeader=""
+                            exportData="true"
+                            detailsComponent="infinite-scroll-table"
+                            userOptions={{ chart: { id: 35 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } }, colors: ["#0000FF", "#FFA500", "#808080"] }}
+                        />
+                    </Dataset>
+                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_collected_and_received_date_in_less_or_equal_5_days) AS [<= 5 days], SUM(s.eid_sample_collected_and_received_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.eid_sample_collected_and_received_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.eid_sample_collected_and_received_date_greater_than_15_days) AS [> 15 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d on s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period;">
+                        <StackedBarChart
+                            header="For Samples received in the reporting week, number of days from the sample collection to lab reception"
+                            subHeader=""
+                            exportData="true"
+                            detailsComponent="infinite-scroll-table"
+                            userOptions={{ chart: { id: 36 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
+                        />
+                    </Dataset>
+                </Row>
+
+                <Row columns="1" largeColumns="2">
+                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_received_and_authorised_date_in_less_or_equal_5_days) AS [<= 5 days], SUM(s.eid_sample_received_and_authorised_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.eid_sample_received_and_authorised_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.eid_sample_received_and_authorised_date_greater_than_15_days) AS [> 15 days] FROM final.fact_daily_sample_summary s LEFT JOIN derived.dim_date d on s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period;">
+                        <StackedBarChart
+                            header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
+                            subHeader=""
+                            exportData="true"
+                            detailsComponent="infinite-scroll-table"
+                            userOptions={{ chart: { id: 37 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
+                        />
+                    </Dataset>
+                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_collected_and_authorised_date_in_less_or_equal_10_days) AS [<= 10 days], SUM(s.eid_sample_collected_and_authorised_date_between_11_to_14_days) AS [11 to 14 days], SUM(s.eid_sample_collected_and_authorised_date_between_15_to_21_days) AS [15 to 21 days], SUM(s.eid_sample_collected_and_authorised_date_greater_than_21_days) AS [> 21 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d on s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period;">
+                        <StackedBarChart
+                            header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
+                            subHeader=""
+                            exportData="true"
+                            detailsComponent="infinite-scroll-table"
+                            userOptions={{ chart: { id: 38 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
+                        />
+                    </Dataset>
+                </Row>
+
+            </Grid>
+        </Dashboard>
+    </Tab>
+</TabSet>
