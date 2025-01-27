@@ -3,7 +3,7 @@
         <Dashboard>
             <Grid>
                 <Filters>
-                    <Row columns="1" largeColumns="2">
+                    <Row columns="1" largeColumns="4">
                         <Row columns="1">
                             <Row columns="1">
                                 <Header>Week:</Header>
@@ -21,7 +21,7 @@
 
                 <Row columns="1">
                     <Dataset query="SELECT FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' + FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week, SUM(fd.hvl_sample_collected) AS [Sample Collected], SUM(fd.hvl_sample_received) AS [Sample Received], SUM(fd.hvl_sample_accepted) AS [Sample Accepted], SUM(fd.hvl_sample_rejected) AS [Sample Rejected], SUM(fd.hvl_sample_tested) AS [Sample Tested], SUM(fd.hvl_result_pending) AS [Pending Results], SUM(fd.hvl_result_authorized) AS [Authorized results], SUM(fd.hvl_result_accepted) AS [Accepted Results], SUM(fd.hvl_result_rejected) AS [Rejected Results], SUM(fd.hvl_result_failed) AS [Failed results], SUM(fd.hvl_result_invalid) AS [Invalid Results] FROM [final].fact_daily_sample_summary fd INNER JOIN [derived].dim_date dd ON fd.report_date = dd.[date] WHERE dd.date BETWEEN DATEADD(WEEK, -3, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) AND DATEADD(DAY, 6, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) GROUP BY dd.weekly_start_monday_day_dates;">
-                        <InfiniteScrollTable
+                        <DataTable
                             header=""
                             subHeader=""
                             exportData="true"
@@ -83,7 +83,7 @@
         <Dashboard>
             <Grid>
                 <Filters>
-                    <Row columns="1" largeColumns="2">
+                    <Row columns="1" largeColumns="4">
                         <Row columns="1">
                             <Row columns="1">
                                 <Header>Week:</Header>
@@ -101,7 +101,7 @@
 
                 <Row columns="1">
                     <Dataset query="SELECT FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' + FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week, SUM(fd.eid_sample_collected) AS [Sample Collected], SUM(fd.eid_sample_dbs_received) AS [Sample Received], SUM(fd.eid_sample_accepted) AS [Sample Accepted], SUM(fd.eid_sample_rejected) AS [Sample Rejected], SUM(fd.eid_sample_tested) AS [Sample Tested], SUM(fd.eid_result_pending) AS [Pending Results], SUM(fd.eid_result_authorized) AS [Authorized results], SUM(fd.eid_result_accepted) AS [Accepted Results], SUM(fd.eid_result_rejected) AS [Rejected Results], SUM(fd.eid_result_failed) AS [Failed results], SUM(fd.eid_result_invalid) AS [Invalid Results] FROM [final].fact_daily_sample_summary fd INNER JOIN [derived].dim_date dd ON fd.report_date = dd.[date] WHERE dd.date BETWEEN DATEADD(WEEK, -3, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) AND DATEADD(DAY, 6, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) GROUP BY dd.weekly_start_monday_day_dates;">
-                        <InfiniteScrollTable
+                        <DataTable
                             header=""
                             subHeader=""
                             exportData="true"
