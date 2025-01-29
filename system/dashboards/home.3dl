@@ -9,48 +9,68 @@
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
+                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <Dataset query={`SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <DataProvider>
+                        <QueryData>
+                            SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
+                        </QueryData>
                         <Tile title="New Cases"/>
-                    </Dataset>
+                    </DataProvider>
 
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <DataProvider>
+                        <QueryData>
+                            SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
+                        </QueryData>
                         <Tile title="Initiated"/>
-                    </Dataset>
+                    </DataProvider>
 
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                   
+                    <DataProvider>
+                        <QueryData>
+                            SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
+                        </QueryData>
                         <Tile title="Suppressed"/>
-                    </Dataset>
+                    </DataProvider>
 
-                    <Dataset>
-                        <Query>
-                            SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');
-                        </Query>
+                    
+
+                    <DataProvider>
+                        <QueryData>
+                            SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
+                        </QueryData>
                         <Tile title="Not Suppressed"/>
-                    </Dataset>
+                    </DataProvider>
 
                 </Row>
 
                 <Row columns = "1" largeColumns = "1">
-
-                    <Dataset query={`SELECT * FROM vw_art_cascade;`}>
-                    <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
-                    </Dataset>
+                    <DataProvider>
+                        <QueryData>
+                            SELECT category, sum(value) as value FROM vw_art_cascade WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021')) GROUP BY category ORDER BY CASE WHEN category = 'New Cases' THEN 1 WHEN category = 'Initiated on ART' THEN 2 WHEN category = 'Suppressed' THEN 3 WHEN category = 'Not Suppressed' THEN 4 END;
+                        </QueryData>
+                        <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
+                    </DataProvider>
 
                 </Row>
 
                 <Row columns = "2" largeColumns = "2">
 
-                    <Dataset query={`SELECT category, Male, Female FROM vw_art_cascade_per_gender;`}>
-                    <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender"/>
-                    </Dataset>
+                    <DataProvider>
+                        <QueryData>
+                            <Include file="sql/home/art_cascade_per_gender.sql" />
+                        </QueryData>
+                        <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender"/>
+                    </DataProvider>
 
-                    <Dataset query={`SELECT category, "0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79" FROM vw_art_cascade_per_age_group;`}>
-                    <ClusteredBarChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group"/>
-                        </Dataset>
+                    <DataProvider>
+                        <QueryData>
+                            <Include file="sql/home/art_cascade_per_age_group.sql" />
+                        </QueryData>
+                        <ClusteredBarChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group"/>
+                    </DataProvider>
 
                 </Row>
 
@@ -67,43 +87,58 @@
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
+                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <DataProvider>
+                        <QueryData>
+                            SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
+                        </QueryData>
                         <Tile title="Initiated"/>
-                    </Dataset>
+                    </DataProvider>
 
-                    <Dataset query={`SELECT SUM(first_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(first_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <DataProvider>
+                        <QueryData>
+                            SELECT SUM(first_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(first_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
+                        </QueryData>
                         <Tile title="First Line"/>
-                    </Dataset>
+                    </DataProvider>
 
-                    <Dataset query={`SELECT SUM(second_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(second_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <DataProvider>
+                        <QueryData>
+                            SELECT SUM(second_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(second_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
+                        </QueryData>
                         <Tile title="Second Line"/>
-                    </Dataset>
+                    </DataProvider>
 
-                    <Dataset query={`SELECT SUM(unknown_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(unknown_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <DataProvider>
+                        <QueryData>
+                            SELECT SUM(unknown_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(unknown_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
+                        </QueryData>
                         <Tile title="Unknown Line"/>
-                    </Dataset>
+                    </DataProvider>
+
 
                 </Row>
                 <Row columns = "1" largeColumns = "2">
 
-                    <Dataset query={`SELECT * FROM vw_art_regimen_lines;`}>
-                    <DonutChart header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines"/>
-                    </Dataset>
+                    <DataProvider>
+                        <QueryData>
+                            SELECT category, sum(value) as value FROM vw_art_regimen_lines WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021')) GROUP BY category;
+                        </QueryData>
+                        <DonutChart header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines"/>
+                    </DataProvider>
 
-                    <Dataset query={`SELECT * FROM vw_art_regimen_lines_per_age_group;`}>
-                    <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines"/>
-                    </Dataset>
+                    <DataProvider>
+                        <QueryData>
+                            <Include file="sql/home/art_regimen_per_age_group.sql" />
+                        </QueryData>
+                        <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines"/>
+                    </DataProvider>
 
                 </Row>
-                <Row columns = "1" largeColumns = "2">
-
-                    <Dataset query={`SELECT * FROM vw_art_regimen_lines_per_age_group ;`}>
-                    <StackedBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Stacked Bar Chart: Current ART Regimen Lines "/>
-                    </Dataset>
+                <Row columns = "1" largeColumns = "1">
 
                     <Dataset query={`SELECT * FROM vw_art_initiation_regimens_per_age_group;`}>
                     <PercentStackedBarChart userOptions={{ xaxis: { title: { text: 'ART Regimens' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation"/>
@@ -123,23 +158,23 @@
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
+                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="Initiated"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="Suppressed"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="Not Suppressed"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(needs_viral_load_test) AS needs_viral_load_test, PRINTF ('%.1f%%', SUM(needs_viral_load_test) * 100.0 /SUM(initiated_on_art)) AS percentage_need_vl_test FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(needs_viral_load_test) AS needs_viral_load_test, PRINTF ('%.1f%%', SUM(needs_viral_load_test) * 100.0 /SUM(initiated_on_art)) AS percentage_need_vl_test FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="Need VL Test"/>
                     </Dataset>
 
@@ -177,23 +212,23 @@
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
+                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <Dataset query={`SELECT SUM(ever_on_art) FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(ever_on_art) FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="Ever Initiated On ART"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(on_art) AS on_art, PRINTF ('%.1f%%',SUM(on_art) * 100.0 /SUM(ever_on_art)) AS percentage_initiated FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(on_art) AS on_art, PRINTF ('%.1f%%',SUM(on_art) * 100.0 /SUM(ever_on_art)) AS percentage_initiated FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="Currently On ART"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(exited) AS exited, PRINTF ('%.1f%%', SUM(exited) * 100.0 /SUM(ever_on_art)) AS percentage_exited FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(exited) AS exited, PRINTF ('%.1f%%', SUM(exited) * 100.0 /SUM(ever_on_art)) AS percentage_exited FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="Exited"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(died) AS died, PRINTF ('%.1f%%', SUM(died) * 100.0 /SUM(ever_on_art)) AS percentage_died FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(died) AS died, PRINTF ('%.1f%%', SUM(died) * 100.0 /SUM(ever_on_art)) AS percentage_died FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="Died"/>
                     </Dataset>
 
@@ -233,23 +268,23 @@
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT ten_year_interval FROM dim_age_group`}/>
+                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
-                    <Dataset query={`SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="New Cases"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="Initiated"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="Suppressed"/>
                     </Dataset>
 
-                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = '$year' OR '$year' = '');`}>
+                    <Dataset query={`SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));`}>
                         <Tile title="Not Suppressed"/>
                     </Dataset>
 
