@@ -211,22 +211,24 @@
                         <QueryData>
                             SELECT category, sum(value) as value FROM vw_art_regimen_lines WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021')) GROUP BY category;
                         </QueryData>
-                        <DonutChart header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines"/>
+                        <DonutChart exportData="true" header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines" detailsComponent='infinite-scroll-table'/>
                     </DataProvider>
 
                     <DataProvider>
                         <QueryData>
                             <Include file="sql/home/art_regimen_per_age_group.sql" />
                         </QueryData>
-                        <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines"/>
+                        <ClusteredBarChart detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines"/>
                     </DataProvider>
 
                 </Row>
                 <Row columns = "1" largeColumns = "1">
-
-                    <Dataset query={`SELECT * FROM vw_art_initiation_regimens_per_age_group;`}>
-                    <PercentStackedBarChart userOptions={{ xaxis: { title: { text: 'ART Regimens' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation"/>
-                    </Dataset>
+                    <DataProvider>
+                        <QueryData>
+                            <Include file="sql/home/art_regimen_at_initiation.sql" />
+                        </QueryData>
+                        <PercentStackedBarChart detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimens' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation"/>
+                    </DataProvider>
 
                 </Row>
             </Grid>
