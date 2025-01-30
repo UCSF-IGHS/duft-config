@@ -9,7 +9,7 @@ SELECT
 		SUM(CASE WHEN a.age_group = '60-69' THEN value ELSE 0 END) AS '60-69', 
 		SUM(CASE WHEN a.age_group = '70+' THEN value ELSE 0 END) AS '70+'
 FROM (SELECT DISTINCT TRIM(ten_year_interval) as age_group FROM dim_age_group) a
-LEFT JOIN vw_art_regimen_lines v 
+INNER JOIN vw_art_regimen_lines v 
     ON a.age_group = v.age_group 
     AND (gender = '$gender' OR '$gender' = '') 
     AND (v.age_group = '$age_group' OR '$age_group' = '') 
