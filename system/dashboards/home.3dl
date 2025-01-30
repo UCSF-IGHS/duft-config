@@ -17,14 +17,28 @@
                         <QueryData>
                             SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
                         </QueryData>
-                        <Tile title="New Cases"/>
+                        <Tile title="New Cases">
+                            <DataProvider pageSize="15" searchColumns='client_id'>
+                                <QueryData>
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE hiv_diagnosis_date IS NOT NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                </QueryData>
+                                <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' />
+                            </DataProvider>
+                        </Tile>
                     </DataProvider>
 
                     <DataProvider>
                         <QueryData>
                             SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
                         </QueryData>
-                        <Tile title="Initiated"/>
+                        <Tile title="Initiated">
+                            <DataProvider pageSize="15" searchColumns='client_id'>
+                                <QueryData>
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                </QueryData>
+                                <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' />
+                            </DataProvider>
+                        </Tile>
                     </DataProvider>
 
                    
@@ -51,7 +65,7 @@
                         <QueryData>
                             SELECT category, sum(value) as value FROM vw_art_cascade WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021')) GROUP BY category ORDER BY CASE WHEN category = 'New Cases' THEN 1 WHEN category = 'Initiated on ART' THEN 2 WHEN category = 'Suppressed' THEN 3 WHEN category = 'Not Suppressed' THEN 4 END;
                         </QueryData>
-                        <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
+                        <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade" detailsComponent='infinite-scroll-table'/>
                     </DataProvider>
 
                 </Row>
@@ -62,14 +76,14 @@
                         <QueryData>
                             <Include file="sql/home/art_cascade_per_gender.sql" />
                         </QueryData>
-                        <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender"/>
+                        <ClusteredBarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender" detailsComponent='infinite-scroll-table'/>
                     </DataProvider>
 
                     <DataProvider>
                         <QueryData>
                             <Include file="sql/home/art_cascade_per_age_group.sql" />
                         </QueryData>
-                        <ClusteredBarChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group"/>
+                        <ClusteredBarChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group" detailsComponent='infinite-scroll-table'/>
                     </DataProvider>
 
                 </Row>
