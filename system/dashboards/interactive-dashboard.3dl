@@ -21,7 +21,7 @@
 
                 <Row columns="1">
                     <Dataset query="SELECT FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' + FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week, SUM(fd.hvl_sample_collected) AS [Sample Collected], SUM(fd.hvl_sample_received) AS [Sample Received], SUM(fd.hvl_sample_accepted) AS [Sample Accepted], SUM(fd.hvl_sample_rejected) AS [Sample Rejected], SUM(fd.hvl_sample_tested) AS [Sample Tested], SUM(fd.hvl_result_pending) AS [Pending Results], SUM(fd.hvl_result_authorized) AS [Authorized results], SUM(fd.hvl_result_accepted) AS [Accepted Results], SUM(fd.hvl_result_rejected) AS [Rejected Results], SUM(fd.hvl_result_failed) AS [Failed results], SUM(fd.hvl_result_invalid) AS [Invalid Results] FROM [final].fact_daily_sample_summary fd INNER JOIN [derived].dim_date dd ON fd.report_date = dd.[date] WHERE dd.date BETWEEN DATEADD(WEEK, -3, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) AND DATEADD(DAY, 6, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) GROUP BY dd.weekly_start_monday_day_dates;">
-                        <DataTable
+                        <InfiniteScrollTable
                             header=""
                             subHeader=""
                             exportData="true"
@@ -39,6 +39,7 @@
                             header="Viral Load Suppression & Unsuppression Result on Weekly Basis"
                             subHeader=""
                             exportData="true"
+                            downloadVisual="true"
                             detailsComponent="infinite-scroll-table"
                             userOptions={{ chart: { id: 31 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } }, colors: ["#00BFFF", "#FFA500"] }}
                         />
@@ -48,6 +49,7 @@
                             header="For Samples received in the reporting week, number of days from the sample collection to lab reception"
                             subHeader=""
                             exportData="true"
+                            downloadVisual="true"
                             detailsComponent="infinite-scroll-table"
                             userOptions={{ chart: { id: 32 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
                         />
@@ -60,6 +62,7 @@
                             header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
                             subHeader=""
                             exportData="true"
+                            downloadVisual="true"
                             detailsComponent="infinite-scroll-table"
                             userOptions={{ chart: { id: 33 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
                         />
@@ -69,6 +72,7 @@
                             header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
                             subHeader=""
                             exportData="true"
+                            downloadVisual="true"
                             detailsComponent="infinite-scroll-table"
                             userOptions={{ chart: { id: 34 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
                         />
@@ -101,7 +105,7 @@
 
                 <Row columns="1">
                     <Dataset query="SELECT FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' + FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week, SUM(fd.eid_sample_collected) AS [Sample Collected], SUM(fd.eid_sample_dbs_received) AS [Sample Received], SUM(fd.eid_sample_accepted) AS [Sample Accepted], SUM(fd.eid_sample_rejected) AS [Sample Rejected], SUM(fd.eid_sample_tested) AS [Sample Tested], SUM(fd.eid_result_pending) AS [Pending Results], SUM(fd.eid_result_authorized) AS [Authorized results], SUM(fd.eid_result_accepted) AS [Accepted Results], SUM(fd.eid_result_rejected) AS [Rejected Results], SUM(fd.eid_result_failed) AS [Failed results], SUM(fd.eid_result_invalid) AS [Invalid Results] FROM [final].fact_daily_sample_summary fd INNER JOIN [derived].dim_date dd ON fd.report_date = dd.[date] WHERE dd.date BETWEEN DATEADD(WEEK, -3, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) AND DATEADD(DAY, 6, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) GROUP BY dd.weekly_start_monday_day_dates;">
-                        <DataTable
+                        <InfiniteScrollTable
                             header=""
                             subHeader=""
                             exportData="true"
@@ -119,6 +123,7 @@
                             header="Sample Test Outcome for EID"
                             subHeader=""
                             exportData="true"
+                            downloadVisual="true"
                             detailsComponent="infinite-scroll-table"
                             userOptions={{ chart: { id: 35 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } }, colors: ["#0000FF", "#FFA500", "#808080"] }}
                         />
@@ -128,6 +133,7 @@
                             header="For Samples received in the reporting week, number of days from the sample collection to lab reception"
                             subHeader=""
                             exportData="true"
+                            downloadVisual="true"
                             detailsComponent="infinite-scroll-table"
                             userOptions={{ chart: { id: 36 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
                         />
@@ -140,6 +146,7 @@
                             header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
                             subHeader=""
                             exportData="true"
+                            downloadVisual="true"
                             detailsComponent="infinite-scroll-table"
                             userOptions={{ chart: { id: 37 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
                         />
@@ -149,6 +156,7 @@
                             header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
                             subHeader=""
                             exportData="true"
+                            downloadVisual="true"
                             detailsComponent="infinite-scroll-table"
                             userOptions={{ chart: { id: 38 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } } }}
                         />
