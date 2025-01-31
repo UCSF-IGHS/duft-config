@@ -484,13 +484,19 @@
                 </Row>
                 <Row columns = "1" largeColumns = "2">
 
-                    <Dataset query={`SELECT category, "Not Initiated", Initiated FROM vw_diagnosed_vs_initiated_vs_exited WHERE year_month > 202301;`}>
-                    <AreaChart userOptions={{ colors: ["#9e0159", "#390099"], xaxis: { title: { text: 'Months' }}, yaxis: { title: { text: 'Clients' }} }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
-                    </Dataset>
+                    <DataProvider>
+                        <QueryData>
+                            SELECT category, sum("Not Initiated") as "Not Initiated", sum(Initiated)  as Initiated FROM vw_diagnosed_vs_initiated_vs_exited WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021')) GROUP BY category ORDER BY parsed_date;
+                        </QueryData>
+                        <AreaChart userOptions={{ colors: ["#9e0159", "#390099"], xaxis: { title: { text: 'Months' }}, yaxis: { title: { text: 'Clients' }} }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
+                    </DataProvider>
 
-                    <Dataset query={`SELECT * FROM vw_initiated_per_age_group;`}>
+                    <DataProvider>
+                        <QueryData>
+                            <Include file="sql/home/art_nitiated_per_age_group.sql" />
+                        </QueryData>
                         <StackedBarChart userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="Ever Initiated on ART By Age Group and Gender" subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender"/>
-                    </Dataset>
+                    </DataProvider>
 
                 </Row>
                 <Row columns = "1" largeColumns = "2">
