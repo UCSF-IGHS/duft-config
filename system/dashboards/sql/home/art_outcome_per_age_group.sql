@@ -9,7 +9,7 @@ SELECT
 FROM (SELECT DISTINCT TRIM(ten_year_interval) as age_group FROM dim_age_group) a
 LEFT JOIN vw_art_outcomes v 
     ON a.age_group = v.age_group 
-WHERE (gender = '$gender' OR '$gender' = '') 
+    AND (gender = '$gender' OR '$gender' = '') 
     AND (v.age_group = '$age_group' OR '$age_group' = '') 
-    AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+    AND (year = COALESCE(NULLIF('$year', ''), '2021')) 
 GROUP BY a.age_group
