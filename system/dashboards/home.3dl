@@ -379,11 +379,7 @@
                     </DataProvider>
 
                 </Row>
-                <Row columns="1" largeColumns="1">
-                    <Dataset query={`SELECT * FROM vw_sentinel_event_line_list ORDER BY RANDOM() LIMIT 100`}>
-                        <SmartDataTable header="ART Outcomes Line List" subHeader="Smart Data Table: ART Outcomes Line List"/>
-                    </Dataset>
-                </Row>
+                
             </Grid>
         </Dashboard>
     </Tab>

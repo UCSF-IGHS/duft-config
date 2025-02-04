@@ -1,0 +1,15 @@
+<Dashboard>
+  <SingleLayout>
+    <Grid>
+      <Row><Header>Initiated on ART : Second line</Header></Row>
+      <Row columns="1" largeColumns="1" >
+        <Dataset pageSize={50} searchColumns="client_id" filters={{ "first_art_regimen_line": 'Second line' }}>
+          <Query>
+            <Include file="sql/clients/client_list_initiated.sql" />
+          </Query>
+          <Include file="components/client_list.3dl" />
+        </Dataset>
+      </Row>
+    </Grid>
+  </SingleLayout>
+</Dashboard>

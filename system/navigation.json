@@ -9,24 +9,61 @@
       "dashboard": "/dashboard/home"
   },
   "menu": {
-    "header": "dashboards",
+    "header": "Data",
     "items": [
       {
-        "title": "Wakanda",
+        "title": "New Cases",
+        "icon": "dashboard-icon",
+        "dashboard": "/dashboard/new"
+      },
+      {
+        "title": "ART",
         "icon": "dashboards-icon",
         "dashboards": [
           {
-            "title": "Overview",
+            "title": "Initiated",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/home"
+            "dashboard": "/dashboard/initiated"
           },
           {
-            "title": "Preview query",
+            "title": "1st Line",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlpreview-query"
+            "dashboard": "/dashboard/initiated_first"
+          },
+          {
+            "title": "2nd Line",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/initiated_second"
+          },
+          {
+            "title": "Unknown Line",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/initiated_unknown"
           }
         ]
+      },
+      {
+        "title": "VL",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "Suppressed",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/suppressed"
+          },
+          {
+            "title": "Not Suppressed",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/not-suppressed"
+          }
+        ]
+      },
+      {
+        "title": "Preview query",
+        "icon": "dashboard-icon",
+        "dashboard": "/dashboard/3dlpreview-query"
       }
+      
     ]
   },
   "dataTasks": {
