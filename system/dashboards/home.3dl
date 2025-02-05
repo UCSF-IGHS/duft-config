@@ -3,7 +3,10 @@
     <Tab title="A. ART Cascade">
         <Dashboard>
             <Grid>
-                <Dataset query="select CURRENT_DATE as today">
+                <DataProvider>
+                    <QueryData>
+                        SELECT CURRENT_DATE as today
+                    </QueryData>
                     <Row columns="2" smallColumns="1">
                         <Header>
                         <DataString>Wakanda Hospital</DataString>
@@ -12,7 +15,7 @@
                         <DataString>Last updated on: %today%</DataString>
                         </Subheader>
                     </Row>
-                </Dataset>
+                </DataProvider>
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
@@ -143,7 +146,10 @@
     <Tab title="B. Regimen Analysis">
         <Dashboard>
             <Grid>
-                <Dataset query="select CURRENT_DATE as today">
+                <DataProvider>
+                    <QueryData>
+                        SELECT CURRENT_DATE as today
+                    </QueryData>
                     <Row columns="2" smallColumns="1">
                         <Header>
                         <DataString>Wakanda Hospital</DataString>
@@ -152,7 +158,7 @@
                         <DataString>Last updated on: %today%</DataString>
                         </Subheader>
                     </Row>
-                </Dataset>
+                </DataProvider>
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
@@ -275,7 +281,10 @@
     <Tab title="C. ART Outcome">
         <Dashboard>
             <Grid>
-                <Dataset query="select CURRENT_DATE as today">
+                <DataProvider>
+                    <QueryData>
+                        SELECT CURRENT_DATE as today
+                    </QueryData>
                     <Row columns="2" smallColumns="1">
                         <Header>
                         <DataString>Wakanda Hospital</DataString>
@@ -284,7 +293,7 @@
                         <DataString>Last updated on: %today%</DataString>
                         </Subheader>
                     </Row>
-                </Dataset>
+                </DataProvider>
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
@@ -408,7 +417,10 @@
     <Tab title="D. ART Retention">
         <Dashboard>
             <Grid>
-                <Dataset query="select CURRENT_DATE as today">
+                <DataProvider>
+                    <QueryData>
+                        SELECT CURRENT_DATE as today
+                    </QueryData>
                     <Row columns="2" smallColumns="1">
                         <Header>
                         <DataString>Wakanda Hospital</DataString>
@@ -417,7 +429,7 @@
                         <DataString>Last updated on: %today%</DataString>
                         </Subheader>
                     </Row>
-                </Dataset>
+                </DataProvider>
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
@@ -548,7 +560,10 @@
     <Tab title="E. ART Cascade">
         <Dashboard>
             <Grid>
-                <Dataset query="select CURRENT_DATE as today">
+                <DataProvider>
+                    <QueryData>
+                        SELECT CURRENT_DATE as today
+                    </QueryData>
                     <Row columns="2" smallColumns="1">
                         <Header>
                         <DataString>Wakanda Hospital</DataString>
@@ -557,7 +572,7 @@
                         <DataString>Last updated on: %today%</DataString>
                         </Subheader>
                     </Row>
-                </Dataset>
+                </DataProvider>
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
