@@ -3,9 +3,16 @@
     <Tab title="A. ART Cascade">
         <Dashboard>
             <Grid>
-                <Row>
-                    <Header>ART Cascade</Header>
-                </Row>
+                <Dataset query="select CURRENT_DATE as today">
+                    <Row columns="2" smallColumns="1">
+                        <Header>
+                        <DataString>Wakanda Hospital</DataString>
+                        </Header>
+                        <Subheader>
+                        <DataString>Last updated on: %today%</DataString>
+                        </Subheader>
+                    </Row>
+                </Dataset>
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
@@ -136,9 +143,16 @@
     <Tab title="B. Regimen Analysis">
         <Dashboard>
             <Grid>
-                <Row>
-                    <Header>Regimen Analysis</Header>
-                </Row>
+                <Dataset query="select CURRENT_DATE as today">
+                    <Row columns="2" smallColumns="1">
+                        <Header>
+                        <DataString>Wakanda Hospital</DataString>
+                        </Header>
+                        <Subheader>
+                        <DataString>Last updated on: %today%</DataString>
+                        </Subheader>
+                    </Row>
+                </Dataset>
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
@@ -261,9 +275,16 @@
     <Tab title="C. ART Outcome">
         <Dashboard>
             <Grid>
-                <Row>
-                    <Header>ART Outcome</Header>
-                </Row>
+                <Dataset query="select CURRENT_DATE as today">
+                    <Row columns="2" smallColumns="1">
+                        <Header>
+                        <DataString>Wakanda Hospital</DataString>
+                        </Header>
+                        <Subheader>
+                        <DataString>Last updated on: %today%</DataString>
+                        </Subheader>
+                    </Row>
+                </Dataset>
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
@@ -387,9 +408,16 @@
     <Tab title="D. ART Retention">
         <Dashboard>
             <Grid>
-                <Row>
-                    <Header>ART Retention</Header>
-                </Row>
+                <Dataset query="select CURRENT_DATE as today">
+                    <Row columns="2" smallColumns="1">
+                        <Header>
+                        <DataString>Wakanda Hospital</DataString>
+                        </Header>
+                        <Subheader>
+                        <DataString>Last updated on: %today%</DataString>
+                        </Subheader>
+                    </Row>
+                </Dataset>
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
@@ -517,12 +545,19 @@
         </Dashboard>
     </Tab>
 
-    <Tab title="E. ART Cascade Tree">
+    <Tab title="E. ART Cascade">
         <Dashboard>
             <Grid>
-                <Row>
-                    <Header>ART Cascade Tree</Header>
-                </Row>
+                <Dataset query="select CURRENT_DATE as today">
+                    <Row columns="2" smallColumns="1">
+                        <Header>
+                        <DataString>Wakanda Hospital</DataString>
+                        </Header>
+                        <Subheader>
+                        <DataString>Last updated on: %today%</DataString>
+                        </Subheader>
+                    </Row>
+                </Dataset>
                 <Filters>
                     <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
@@ -614,8 +649,8 @@
                 <Row columns="1">
                     <Dataset query="">
                       <CascadeChart
-                        header="ART Cascade Tree"
-                        subHeader="ART Cascade Tree"
+                        header="ART Cascade"
+                        subHeader="ART Cascade"
                         cascadeObject={{
                           id: "1",
                           data: {
