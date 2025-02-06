@@ -182,22 +182,7 @@
 
                 </Row>
 
-                <Row columns = "1" largeColumns = "2">
-                    <DataProvider>
-                        <QueryData>
-                            select SUBSTR(hiv_diagnosis_date, -4) AS category, count(*) as value from fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group ) ag ON c.current_age = ag.age where hiv_diagnosis_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') GROUP BY SUBSTR(hiv_diagnosis_date, -4)
-                        </QueryData>
-                        <LineChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} detailsComponent='infinite-scroll-table' exportData="true" header="ART Enrolments Per Year" subHeader="ART Enrolments Per Year" />
-                    </DataProvider>
-
-                    <DataProvider>
-                        <QueryData>
-                            select SUBSTR(first_art_date, -4) AS category, count(*) as value from fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group ) ag ON c.current_age = ag.age where first_art_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') GROUP BY SUBSTR(first_art_date, -4)
-                        </QueryData>
-                        <LineChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} detailsComponent='infinite-scroll-table' exportData="true" header="ART Initiations Per Year" subHeader="ART Initiations Per Year" />
-                    </DataProvider>
-
-                </Row>
+              
 
                 <Row columns = "2" largeColumns = "2">
 
