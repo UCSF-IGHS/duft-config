@@ -202,14 +202,26 @@
                         <QueryData>
                             <Include file="sql/home/art_cascade_per_gender.sql" />
                         </QueryData>
-                        <ClusteredBarChart exportData="true" userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender" detailsComponent='infinite-scroll-table'/>
+                        <ClusteredBarChart exportData="true" userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender" detailsComponent='infinite-scroll-table'>
+                            <InfoTag>
+                                <Markdown header="ART Cascade">
+                                    HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
+                                </Markdown>
+                            </InfoTag>
+                        </ClusteredBarChart>
                     </DataProvider>
 
                     <DataProvider>
                         <QueryData>
                             <Include file="sql/home/art_cascade_per_age_group.sql" />
                         </QueryData>
-                        <ClusteredBarChart exportData="true" userOptions={{stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group" detailsComponent='infinite-scroll-table'/>
+                        <ClusteredBarChart exportData="true" userOptions={{stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group" detailsComponent='infinite-scroll-table'>
+                            <InfoTag>
+                                <Markdown header="ART Cascade">
+                                    HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
+                                </Markdown>
+                            </InfoTag>
+                        </ClusteredBarChart>
                     </DataProvider>
 
                 </Row>
