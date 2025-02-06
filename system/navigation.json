@@ -5,11 +5,6 @@
     "showSettings": "authenticatedOnly",
     "showAbout": "false"
   },
-  "home": {
-    "title": "Home",
-    "icon": "home-icon",
-    "dashboard": "/dashboard/home"
-  },
   "menu": {
     "header": "",
     "items": [
@@ -21,7 +16,7 @@
       {
         "title": "Interactive Dashboard",
         "icon": "dashboard-icon",
-        "dashboard": ""
+        "dashboard": "/dashboard/interactive-dashboard"
       },
       {
         "title": "Reports",
@@ -63,7 +58,7 @@
     ]
   },
   "dataTasks": {
-    "header": "actions (configurable)",
+    "header": "actions",
     "items": [
       {
         "title": "Refresh data",
@@ -71,14 +66,7 @@
         "task": "SAMPLE-NOTEBOOK",
         "dashboard": "refresh-data",
         "prompt": "Are you sure you want to refresh the data?"
-      },
-      {
-        "title": "Upload data",
-        "icon": "update-icon",
-        "task": "UPLOAD",
-        "dashboard": "upload-data",
-        "prompt": "Are you sure you want to upload the data?"
-      }      
+      }
     ]
   }
 }
