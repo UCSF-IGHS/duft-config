@@ -106,7 +106,7 @@
                 </Row>
 
                 <Row columns = "1" largeColumns = "1">
-                    <CascadeChart
+                    <CascadeChart 
                         header="Cascade chart"
                         direction="left" // direction="top | right | left"
                         cascadeScale="standard" // cascadeScale="standard | medium | large"
