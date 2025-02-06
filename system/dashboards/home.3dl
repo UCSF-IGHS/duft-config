@@ -518,9 +518,9 @@
                 <Row columns = "1" largeColumns = "2">
                     <DataProvider>
                         <QueryData>
-                            SELECT CASE WHEN current_cascade_status = '' THEN 'Case Closed' ELSE current_cascade_status END AS category, COUNT( * ) AS value FROM ( SELECT client_id, current_cascade_status, SUBSTR(hiv_diagnosis_date, -4) AS year from fact_sentinel_event) se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) a ON c.current_age = a.age WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021')) GROUP BY current_cascade_status 
+                            select SUBSTR(first_art_date, -4) AS category, count(*) as value from fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group ) ag ON c.current_age = ag.age where first_art_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '')  GROUP BY SUBSTR(first_art_date, -4)
                         </QueryData>
-                        <RadarChart detailsComponent='infinite-scroll-table' exportData="true"  header="ART Outcomes" subHeader="Radar Chart: ART Outcomes"/>
+                        <RadarChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} detailsComponent='infinite-scroll-table' exportData="true" header="ART Initiations Per Year" subHeader="ART Initiations Per Year" />
                     </DataProvider>
                     <DataProvider>
                         <QueryData>
