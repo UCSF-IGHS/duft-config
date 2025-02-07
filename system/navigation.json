@@ -1,12 +1,12 @@
 {
   "settings": {
     "appName": "CTCA",
-    "footer": "Developed for CDCTZ/NASHCOP"
+    "footer": "Developed for CDCTZ/NASHCOP",
   },
   "home": {
     "title": "Home",
     "icon": "home-icon",
-    "dashboard": "/dashboard/overview"
+    "dashboard": "/dashboard/plhiv"
   },
   "menu": {
     "header": "Dashboards",

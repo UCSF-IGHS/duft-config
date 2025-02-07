@@ -107,6 +107,62 @@
         </Dashboard>
     </Tab>
 
+	<Tab title="HEI Not Registered">
+		<Dashboard>
+
+			<SingleLayout>
+				<Grid>
+
+				<Row>
+					<Header> List of HEI Not Registered </Header>
+				</Row>
+
+				<Row>
+					<SubHeader> Tabular representation of HEI clients who are not registered. </SubHeader>
+				</Row>
+
+				<Row columns="1" largeColumns="1" >
+					<Dataset pageSize={50} searchColumns="gender, date_of_birth" >
+						<Query>
+							<Include file="sql/hei/not_registered.sql" />
+						</Query>
+						<Include file="components/client_list.3dl" />
+					</Dataset>
+				</Row>
+
+				</Grid>
+			</SingleLayout>
+		</Dashboard>
+	</Tab>
+
+	<Tab title="HEI Need EID Test">
+		<Dashboard>
+
+			<SingleLayout>
+				<Grid>
+
+				<Row>
+					<Header> List of HEI Needing EID Test </Header>
+				</Row>
+
+				<Row>
+					<SubHeader> Tabular representation of HEI clients requiring EID Test. </SubHeader>
+				</Row>
+
+				<Row columns="1" largeColumns="1" >
+					<Dataset pageSize={50} searchColumns="gender, date_of_birth" >
+						<Query>
+							<Include file="sql/hei/not_registered.sql" />
+						</Query>
+						<Include file="components/client_list.3dl" />
+					</Dataset>
+				</Row>
+
+				</Grid>
+			</SingleLayout>
+		</Dashboard>
+	</Tab>
+
 	<Tab title="HEI Clients">
 		<Dashboard>
 
@@ -124,7 +180,7 @@
 				<Row columns="1" largeColumns="1" >
 					<Dataset pageSize={50} searchColumns="gender, date_of_birth" >
 						<Query>
-							<Include file="sql/sample.sql" />
+							<Include file="sql/hei/not_registered.sql" />
 						</Query>
 						<Include file="components/client_list.3dl" />
 					</Dataset>
@@ -134,4 +190,5 @@
 			</SingleLayout>
 		</Dashboard>
 	</Tab>
+
 </TabSet>
