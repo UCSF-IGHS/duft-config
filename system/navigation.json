@@ -58,12 +58,12 @@
     ]
   },
   "dataTasks": {
-    "header": "actions",
+    "header": "ETL",
     "items": [
       {
         "title": "Refresh data",
         "icon": "update-icon",
-        "task": "SAMPLE-NOTEBOOK",
+        "task": "LAB-VISUAL-ETL",
         "dashboard": "refresh-data",
         "prompt": "Are you sure you want to refresh the data?"
       }
