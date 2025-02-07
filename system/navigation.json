@@ -16,11 +16,6 @@
         "icon": "dashboards-icon",
         "dashboards": [
           {
-            "title": "Overview",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/overview"
-          },
-          {
             "title": "PLHIV",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/plhiv"

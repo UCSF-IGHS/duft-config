@@ -1,24 +1,137 @@
-<Dashboard>
-	<SingleLayout>
-		<Grid>
+<TabSet>
 
-		<Row>
-			<Header> List of HEI Clients </Header>
-		</Row>
+	<Tab title="HEI Overview">
+        <Dashboard>
+            <Grid>
+                <Row>
+                    <Header>Clients Needing Attention</Header>
+                </Row>
+                <Row>
+                    <Header small="true">Key HIV Indicators Needing Attention</Header>
+                </Row>
 
-		<Row>
-			<SubHeader> Tabular representation of HEI clients. </SubHeader>
-		</Row>
+                <Row columns = "2" largeColumns = "4">
 
-		<Row columns="1" largeColumns="1" >
-			<Dataset pageSize={50} searchColumns="gender, date_of_birth" >
-				<Query>
-					<Include file="sql/sample.sql" />
-				</Query>
-				<Include file="components/client_list.3dl" />
-			</Dataset>
-		</Row>
+                    <Dataset>
+                        <Query>
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Missed Drugs 29-90 Days" = 'Yes'
+                        </Query>
+                        <Tile title="IIT (28-90 Days)">
+                            <Dataset pageSize={50} sort_column={ DOB } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    Clients With IIT (28-90)
+                                </Header>
+                                <Query>
+                                    <Include file="sql/plhiv/iit_clients.sql" />
+                                </Query>
+                                <InfiniteScrollTable exportData="true" variant='plain' />
+                            </Dataset>
+                        </Tile>
+                    </Dataset>
 
-		</Grid>
-	</SingleLayout>
-</Dashboard>
+                    <Dataset>
+                        <Query>
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE [Last CD4 &lt; 200] = 'Yes' OR [WHO Stage 3/4 With No CD4 Test] = 'Yes'
+                        </Query>
+                        <Tile title="AHD Suspects">
+                            <Dataset pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    AHD Suspect Clients
+                                </Header>
+                                <Query>
+                                    <Include file="sql/plhiv/ahd_clients.sql" />
+                                </Query>
+                                <InfiniteScrollTable exportData="true" variant='plain' />
+                            </Dataset>
+                        </Tile>
+                    </Dataset>
+
+                    <Dataset>
+                        <Query>
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Needs VL Test" = 'Yes'
+                        </Query>
+                        <Tile title="Need VL Test">
+                            <Dataset pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    Clients Needing VL test
+                                </Header>
+                                <Query>
+                                    <Include file="sql/plhiv/need_vl_clients.sql" />
+                                </Query>
+                                <InfiniteScrollTable exportData="true" variant='plain' />
+                            </Dataset>
+                        </Tile>
+                    </Dataset>
+
+                    <Dataset>
+                        <Query>
+                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Last VL Is Unsuppressed" = 'Yes'
+                        </Query>
+                        <Tile title="Unsuppressed VL">
+                            <Dataset pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                                <Header small="true">
+                                    Clients With Unsuppressed VL
+                                </Header>
+                                <Query>
+                                    <Include file="sql/plhiv/unsuppressed_clients.sql" />
+                                </Query>
+                                <InfiniteScrollTable exportData="true" variant='plain' />
+                            </Dataset>
+                        </Tile>
+                    </Dataset>
+
+                </Row>
+
+                <Row columns = "2" largeColumns = "2">
+                    <Dataset>
+                        <Query>
+                            <Include file="sql/need_attention/iit_pie.sql" />
+                        </Query>
+                        <PieChart
+                            exportData="true"
+                            detailsComponent="infinite-scroll-table"
+                            header="Contribution of MMD clients on IIT"
+                        />
+                        </Dataset>
+                </Row>
+
+                <Row columns = "1" largeColumns = "1">
+
+                    <Dataset query={`SELECT TOP 10 * FROM derived.dim_client`}>
+                    <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
+                    </Dataset>
+
+                </Row>
+
+            </Grid>
+        </Dashboard>
+    </Tab>
+
+	<Tab title="HEI Clients">
+		<Dashboard>
+
+			<SingleLayout>
+				<Grid>
+
+				<Row>
+					<Header> List of HEI Clients </Header>
+				</Row>
+
+				<Row>
+					<SubHeader> Tabular representation of HEI clients. </SubHeader>
+				</Row>
+
+				<Row columns="1" largeColumns="1" >
+					<Dataset pageSize={50} searchColumns="gender, date_of_birth" >
+						<Query>
+							<Include file="sql/sample.sql" />
+						</Query>
+						<Include file="components/client_list.3dl" />
+					</Dataset>
+				</Row>
+
+				</Grid>
+			</SingleLayout>
+		</Dashboard>
+	</Tab>
+</TabSet>
