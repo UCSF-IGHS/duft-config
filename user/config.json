@@ -18,7 +18,7 @@
     },
     "DUFT-SERVER-API": {
       "server": "http://127.0.0.1:8000",
-      "username": "advanced_dashboard_user",
+      "username": "admin",
       "password": "--------"
     },
     "NDR": {

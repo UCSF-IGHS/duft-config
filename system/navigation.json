@@ -74,7 +74,7 @@
         "icon": "update-icon",
         "task": "SAMPLE-NOTEBOOK",
         "dashboard": "refresh-data",
-        "prompt": "Are you sure you want to refresh the data?"
+        "prompt": "Note this will update the wakanda data on display"
       },
       {
         "title": "Upload data",
