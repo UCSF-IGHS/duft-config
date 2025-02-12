@@ -245,7 +245,8 @@
                             waterfallType = "minimal" //| "cumulative" | "bridged" | "minimal"
                             waterfallOptions = {{
                                summaryXLabel: "Total",
-                               barWidth: 9,
+                               xaxis: "Total",
+                               barWidth: 17,
                                positiveBarColor: "#4CAF50",
                                negativeBarColor: "#F44336",
                                summaryBarColor: "#FFC107",
