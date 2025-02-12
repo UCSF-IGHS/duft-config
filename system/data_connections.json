@@ -59,6 +59,7 @@
 			"id":"ANA",
 			"name":"Analysis Database",
 			"description":"The database where all analysis data will be stored.",
+			"testquery":"SELECT COUNT (*) FROM fact_sentinel_event",
 			"allowQueryEngine":"True",
 			"params":[
 				{
