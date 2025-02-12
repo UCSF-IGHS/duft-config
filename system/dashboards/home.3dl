@@ -222,19 +222,35 @@
 
               
 
-                <Row columns = "2" largeColumns = "2">
+                <Row columns = "2" largeColumns = "3">
 
                     <DataProvider>
                         <QueryData>
-                            <Include file="sql/home/art_cascade_per_gender.sql" />
+                            <Include file="sql/home/art_cascade.sql" />
                         </QueryData>
-                        <ClusteredBarChart exportData="true" userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender" detailsComponent='infinite-scroll-table'>
+                        <RadarChart exportData="true" userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Radar Chart: ART Cascade" detailsComponent='infinite-scroll-table'>
                             <InfoTag>
                                 <Markdown header="ART Cascade">
                                     HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
                                 </Markdown>
                             </InfoTag>
-                        </ClusteredBarChart>
+                        </RadarChart>
+                    </DataProvider>
+
+                    <DataProvider>
+                        <QueryData>
+                            <Include file="sql/home/art_diagnosed_vs_died.sql" />
+                        </QueryData>
+                        <WaterFallChart exportData="true" userOptions={{ xaxis: { title: { text: 'Diagnosis Vs Death' }}, yaxis: { title: { text: 'Clients' }} }} header="Diagnosis Vs Death" subHeader="Waterfall Chart: Diagnosis Vs Death" detailsComponent='infinite-scroll-table'
+                            waterfallType = "minimal" //| "cumulative" | "bridged" | "minimal"
+                            waterfallOptions = {{
+                               summaryXLabel: "Total",
+                               barWidth: 9,
+                               positiveBarColor: "#4CAF50",
+                               negativeBarColor: "#F44336",
+                               summaryBarColor: "#FFC107",
+                             }}
+                        />
                     </DataProvider>
 
                     <DataProvider>
@@ -518,9 +534,9 @@
                 <Row columns = "1" largeColumns = "2">
                     <DataProvider>
                         <QueryData>
-                            select SUBSTR(first_art_date, -4) AS category, count(*) as value from fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group ) ag ON c.current_age = ag.age where first_art_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '')  GROUP BY SUBSTR(first_art_date, -4)
+                            SELECT CASE WHEN current_cascade_status = '' THEN 'Case Closed' ELSE current_cascade_status END AS category, COUNT( * ) AS value FROM ( SELECT client_id, current_cascade_status, SUBSTR(hiv_diagnosis_date, -4) AS year from fact_sentinel_event) se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) a ON c.current_age = a.age WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))  GROUP BY current_cascade_status 
                         </QueryData>
-                        <RadarChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} detailsComponent='infinite-scroll-table' exportData="true" header="ART Initiations Per Year" subHeader="ART Initiations Per Year" />
+                        <DonutChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} detailsComponent='infinite-scroll-table' exportData="true" header="Donut Chart: ART Outcomes" subHeader="Donut Chart: ART Outcomes" />
                     </DataProvider>
                     <DataProvider>
                         <QueryData>
