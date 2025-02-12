@@ -1,15 +1,23 @@
 <Dashboard>
-  <Grid>
-    <Row>
-      <Header>Preview query</Header>
-    </Row>
-    <Dataset query="SELECT TOP 20 * FROM derived.dim_client;">
-      <Row columns='1'>
-        <PreviewQuery />
-      </Row>
-      <Row>
-        <SmartDataTable />
-      </ Row>
-    </Dataset>
-  </Grid>
+	<Grid>
+		<Row>
+			<Header>Preview query</Header>
+		</Row>
+		<Dataset>
+			<Query>SELECT TOP 20 * FROM derived.dim_client;</Query>
+			<Row>
+				<Markdown>
+					<Query>
+						<Include file="components/sql/table_list.3dl" />
+					</Query>
+				</Markdown>
+			</Row>
+			<Row columns='1'>
+				<PreviewQuery />
+			</Row>
+			<Row>
+				<SmartDataTable />
+			</Row>
+		</Dataset>
+	</Grid>
 </Dashboard>

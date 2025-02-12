@@ -163,7 +163,35 @@
 		</Dashboard>
 	</Tab>
 
-	<Tab title="HEI Clients">
+	<Tab title="HEI 18-24 Months Without FO">
+		<Dashboard>
+
+			<SingleLayout>
+				<Grid>
+
+				<Row>
+					<Header> List of HEI Clients </Header>
+				</Row>
+
+				<Row>
+					<SubHeader> Tabular representation of HEI clients. </SubHeader>
+				</Row>
+
+				<Row columns="1" largeColumns="1" >
+					<Dataset pageSize={50} searchColumns="gender, date_of_birth" >
+						<Query>
+							<Include file="sql/hei/not_registered.sql" />
+						</Query>
+						<Include file="components/client_list.3dl" />
+					</Dataset>
+				</Row>
+
+				</Grid>
+			</SingleLayout>
+		</Dashboard>
+	</Tab>
+
+	<Tab title="HEI_POS Not Initiated on ART">
 		<Dashboard>
 
 			<SingleLayout>
