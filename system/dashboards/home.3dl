@@ -34,10 +34,13 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                            <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
-                                                <InfiniteScrollTable variant='plain' />
-                                            </Dataset>
-                                        </DetailsView>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
+                                            <InfiniteScrollTable variant='plain' />
+                                        </DataProvider>
+                                    </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
                         </Tile>
@@ -54,9 +57,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -75,9 +81,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Suppressed' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -95,9 +104,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Not Suppressed' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -187,9 +199,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -207,9 +222,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -227,9 +245,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -247,9 +268,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -322,9 +346,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -342,9 +369,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Suppressed' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -362,9 +392,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Not Suppressed' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -382,9 +415,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Need VL Test' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -464,9 +500,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -484,9 +523,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Currently On ART' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -504,9 +546,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Exited' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -524,9 +569,12 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Died' variant='plain' >
                                     <DetailsView columnName="client_id">
-                                        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
+                                        <DataProvider>
+                                            <QueryData>
+                                            SELECT * from fact_sentinel_event WHERE client_id='{client_id}'
+                                            </QueryData>
                                             <InfiniteScrollTable variant='plain' />
-                                        </Dataset>
+                                        </DataProvider>
                                     </DetailsView>
                                 </InfiniteScrollTable>
                             </DataProvider>
@@ -536,7 +584,7 @@
                 </Row>
                 <Row columns = "1" largeColumns = "1">
                     <CascadeChart 
-                        header="Cascade chart"
+                        header="ART Cascade"
                         direction="left" // direction="top | right | left"
                         cascadeScale="standard" // cascadeScale="standard | medium | large"
                         cascadeSearchColumn="client_id"
