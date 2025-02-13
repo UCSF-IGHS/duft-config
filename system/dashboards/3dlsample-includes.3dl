@@ -4,12 +4,12 @@
       <Grid>
         <Row><Header>Dashboard 1</Header></Row>
         <Row columns="1" largeColumns="1">
-          <Dataset>
-            <Query>
+          <DataProvider>
+            <QueryData>
                 <Include file="sql/sample.sql" />
-            </Query>
+            </QueryData>
             <Include file="components/client_list.3dl" />
-          </Dataset>
+          </DataProvider>
         </Row>
       </Grid>
     </Dashboard>

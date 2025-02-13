@@ -3,7 +3,7 @@
     <Tab title="HIV Treatment">
         <Dashboard>
             <Grid>
-                <Dataset query="SELECT 'May 27, 24 - Jun 02, 24' AS week_dates, 'Bariadi Town Council Hospital' AS facility_name">
+                <DataProvider query="SELECT 'May 27, 24 - Jun 02, 24' AS week_dates, 'Bariadi Town Council Hospital' AS facility_name">
                     <Row columns="2" smallColumns="1">
                         <Header>
                             <DataString>Key Performance Indicators</DataString>
@@ -12,14 +12,14 @@
                             <DataString>%facility_name%</DataString>
                         </Header>
                     </Row>
-                </Dataset>
+                </DataProvider>
 
                 <Filters>
                     <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
                 </Filters>
 
                 <Row columns="1">
-                    <Dataset query="">
+                    <DataProvider query="">
                         <CascadeChart
                             header="HIV Treatment Cascade"
                             subHeader="Visual representation of HIV treatment metrics."
@@ -140,7 +140,7 @@
                                 ]
                             }}
                         />
-                    </Dataset>
+                    </DataProvider>
                 </Row>
 
             </Grid>
@@ -150,7 +150,7 @@
     <Tab title="HIV Retention">
         <Dashboard>
             <Grid>
-                <Dataset query="SELECT 'May 27, 24 - Jun 02, 24' AS week_dates, 'Bariadi Town Council Hospital' AS facility_name">
+                <DataProvider query="SELECT 'May 27, 24 - Jun 02, 24' AS week_dates, 'Bariadi Town Council Hospital' AS facility_name">
                     <Row columns="2" smallColumns="1">
                         <Header>
                             <DataString>%facility_name%</DataString>
@@ -159,14 +159,14 @@
                             <DataString>Data for week of: %week_dates%</DataString>
                         </Subheader>
                     </Row>
-                </Dataset>
+                </DataProvider>
 
                 <Filters>
                     <Filter caption="Reporting Week" name="week" values_query={`SELECT DISTINCT weekly_start_monday_day_dates AS label, weekly_start_monday_end_date AS value FROM derived.dim_date ORDER BY weekly_start_monday_end_date DESC;`}/>
                 </Filters>
 
                 <Row columns="1">
-                    <Dataset query="">
+                    <DataProvider query="">
                         <CascadeChart
                             header="HIV Retention Cascade"
                             subHeader="Visual representation of HIV retention metrics."
@@ -239,7 +239,7 @@
                                 ]
                             }}
                         />
-                    </Dataset>
+                    </DataProvider>
                 </Row>
 
             </Grid>
@@ -257,9 +257,9 @@
                 </Filters>
 
                 <Row columns="1" largeColumns="1">
-                    <Dataset debug="true" pageSize='20' searchColumns="current_age, c.gender, c.ctc_id" query={`SELECT weekly_start_monday_end_date AS [Week End Date], f.ctc_id AS [CTC ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Drug Days Left], days_missed_drugs AS [Days Missed Drugs] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_tx_curr_28 = 1 AND (report_date='$week' OR '$week'='') ORDER BY report_date`}>
+                    <DataProvider debug="true" pageSize='20' searchColumns="current_age, c.gender, c.ctc_id" query={`SELECT weekly_start_monday_end_date AS [Week End Date], f.ctc_id AS [CTC ID], f.gender AS Sex, current_age AS Age, _date_of_birth AS DOB, has_drugs AS [Has Drugs], number_of_drug_days_left AS [Drug Days Left], days_missed_drugs AS [Days Missed Drugs] FROM derived.fact_ctc_daily_client_status f INNER JOIN derived.dim_client c ON f.client_id = c.client_id INNER JOIN derived.dim_date d ON f.report_date = d.[date] WHERE is_tx_curr_28 = 1 AND (report_date='$week' OR '$week'='') ORDER BY report_date`}>
                         <InfiniteScrollTable header="HIV Case Identification Table" subHeader="Tabular representation of HIV case identification metrics." searchHint="age, sex, CTC ID" exportData="true" />
-                    </Dataset>
+                    </DataProvider>
                 </Row>
             </Grid>
         </Dashboard>

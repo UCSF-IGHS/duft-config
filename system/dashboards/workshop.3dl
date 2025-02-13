@@ -6,15 +6,15 @@
 
 		<Row columns = "1" largeColumns = "3">
 
-			<Dataset pageSize={50} sort_column={ s.name } searchColumns = "t.name" >
+			<DataProvider pageSize={50} sort_column={ s.name } searchColumns = "t.name" >
 				<Header small="true">
 					Available Database Tables
 				</Header>
-				<Query>
+				<QueryData>
 					<Include file="sql/table_list.sql" />
-				</Query>
+				</QueryData>
 				<InfiniteScrollTable exportData="true" variant='plain' />
-			</Dataset>
+			</DataProvider>
 		</Row>
 	</Grid>
 </Dashboard>

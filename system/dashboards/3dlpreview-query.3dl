@@ -7,12 +7,12 @@
 					<Header>Preview query</Header>
 				</Row>
 
-				<Row columns = "1" largeColumns = "1">
-					<Dataset>
-						<Query>SELECT TOP 20 * FROM derived.dim_client;</Query>
+				<Row columns = "1">
+					<DataProvider pageSize="50">
+						<QueryData>SELECT * FROM derived.dim_client ORDER BY client_id</QueryData>
 							<PreviewQuery />
 							<SmartDataTable />
-					</Dataset>
+					</DataProvider>
 				</Row>
 
 			</Grid>
@@ -26,13 +26,13 @@
 					<Header>Available Database Tables</Header>
 				</Row>
 
-				<Row columns = "1" largeColumns = "2">
-					<Dataset pageSize={50} sort_column={ s.name } searchColumns = "t.name">
-						<Query>
+				<Row columns = "1" largeColumns = "1">
+					<DataProvider pageSize="50" sort_column='s.name' searchColumns = 't.name'>
+						<QueryData>
 							<Include file="sql/table_list.sql" />
-						</Query>
+						</QueryData>
 						<InfiniteScrollTable exportData="true" variant='plain' />
-					</Dataset>
+					</DataProvider>
 				</Row>
 			</Grid>
 		</Dashboard>
