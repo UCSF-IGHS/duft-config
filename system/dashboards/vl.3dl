@@ -1,0 +1,39 @@
+<TabSet>
+    <Tab title="VL Suppressed">
+      <Dashboard>
+        <SingleLayout>
+          <Grid>
+            <Row><Header>VL Suppressed</Header></Row>
+            <Row columns="1" largeColumns="1" >
+              <DataProvider pageSize="50" searchColumns='client_id' >
+                <QueryData filters={{ "last_viral_load_result_is_suppressed": '1' }}>
+                    <Include file="sql/clients/client_list_vl.sql" />
+                </QueryData>
+                <Include file="components/client_list.3dl" />
+              </DataProvider>
+            </Row>
+          </Grid>
+        </SingleLayout>
+      </Dashboard>
+
+    </Tab>
+    <Tab title="VL Not Suppressed">
+      <Dashboard>
+        <SingleLayout>
+          <Grid>
+            <Row><Header>VL Not Suppressed</Header></Row>
+            <Row columns="1" largeColumns="1" >
+              <DataProvider pageSize="50" searchColumns='client_id' >
+                <QueryData filters={{ "last_viral_load_result_is_not_suppressed": '1' }}>
+                    <Include file="sql/clients/client_list_vl.sql" />
+                </QueryData>
+                <Include file="components/client_list.3dl" />
+              </DataProvider>
+            </Row>
+          </Grid>
+        </SingleLayout>
+      </Dashboard>
+      
+    </Tab>
+  </TabSet>
+
