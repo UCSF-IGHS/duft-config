@@ -1,23 +1,41 @@
-<Dashboard>
-	<Grid>
-		<Row>
-			<Header>Preview query</Header>
-		</Row>
-		<Dataset>
-			<Query>SELECT TOP 20 * FROM derived.dim_client;</Query>
-			<Row>
-				<Markdown>
-					<Query>
-						<Include file="components/sql/table_list.3dl" />
-					</Query>
-				</Markdown>
-			</Row>
-			<Row columns='1'>
-				<PreviewQuery />
-			</Row>
-			<Row>
-				<SmartDataTable />
-			</Row>
-		</Dataset>
-	</Grid>
-</Dashboard>
+<TabSet>
+
+    <Tab title="Preview Query">
+		<Dashboard>
+			<Grid>
+				<Row>
+					<Header>Preview query</Header>
+				</Row>
+
+				<Row columns = "1" largeColumns = "1">
+					<Dataset>
+						<Query>SELECT TOP 20 * FROM derived.dim_client;</Query>
+							<PreviewQuery />
+							<SmartDataTable />
+					</Dataset>
+				</Row>
+
+			</Grid>
+		</Dashboard>
+    </Tab>
+
+    <Tab title="Database Tables">
+		<Dashboard>
+			<Grid>
+				<Row>
+					<Header>Available Database Tables</Header>
+				</Row>
+
+				<Row columns = "1" largeColumns = "2">
+					<Dataset pageSize={50} sort_column={ s.name } searchColumns = "t.name">
+						<Query>
+							<Include file="sql/table_list.sql" />
+						</Query>
+						<InfiniteScrollTable exportData="true" variant='plain' />
+					</Dataset>
+				</Row>
+			</Grid>
+		</Dashboard>
+    </Tab>
+
+</TabSet>
