@@ -146,7 +146,7 @@
 				<Row columns="1" largeColumns="1" >
 					<DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
 						<QueryData>
-							<Include file="sql/hei/not_registered.sql" />
+							<Include file="sql/hei/need_eid_test.sql" />
 						</QueryData>
 						<Include file="components/client_list.3dl" />
 					</DataProvider>

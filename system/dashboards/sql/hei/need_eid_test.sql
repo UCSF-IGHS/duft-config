@@ -1,32 +1,54 @@
-WITH first_visit AS (
+WITH first_eid_test AS (
     SELECT
-        client_id,
-        visit_date,
-        ROW_NUMBER() OVER (PARTITION BY client_id ORDER BY visit_date ASC) AS rn
-    FROM derived.fact_visit
+        fet.exposed_infant_id,
+        fet.mother_ctc_number,
+        fet.exposed_infant_number,
+        fet.eid_test_date,
+        fet.eid_test_type,
+        fet.eid_result_date,
+        fet.eid_result,
+        ROW_NUMBER() OVER (PARTITION BY fet.exposed_infant_number ORDER BY fet.eid_test_date ASC) AS rn
+    FROM
+         base.fact_eid_test fet
+    WHERE
+        eid_test_type = 'D'
+), last_eid_visit AS (
+    SELECT
+        lev.exposed_infant_id,
+        lev.eid_visit_date,
+        ROW_NUMBER() OVER (PARTITION BY lev.exposed_infant_id ORDER BY lev.eid_visit_date DESC) AS rn
+    FROM
+        base.fact_eid_visits lev
 )
 
 SELECT
-    dc.client_id AS [Client ID],
-    expected_delivery_date AS [Due Date],
-    expected_delivery_date AS [EDD],
-    delivery_date AS [Delivery Date],
+    dc.ctc_id AS [CTC ID],
+    fet.mother_ctc_number AS [Mother CTC Number],
+    fet.exposed_infant_number AS [Exposed Infant Number],
     gender AS [Sex],
-    pregnancy_outcome AS [Pregnancy Outcome],
-    date_of_birth AS [DOB],
+    exposed_infant_date_of_birth AS [DOB],
+    dbo.fn_staging_calculate_age(exposed_infant_date_of_birth, GETDATE()) AS [Current Age],
+    lev.eid_visit_date AS [Last EID Visit Date],
     CASE
-        WHEN date_of_death IS NULL
-            THEN dbo.fn_staging_calculate_age(date_of_birth, GETDATE())
-    END AS [Current Age],
-    visit_date AS [Registration Date],
-    date_of_death AS [Date of Death]
-FROM base.fact_pregnancy fp
-INNER JOIN
-    derived.dim_client dc
-    ON fp.ctc_client_id = dc.client_id
-INNER JOIN
-    first_visit fv
-    ON fp.ctc_client_id = fv.client_id
-    AND fv.rn = 1
+        WHEN eid_test_date IS NULL
+            THEN 'Yes'
+        ELSE 'No'
+    END AS [Eligible for EID?],
+    fet.eid_test_date AS [First EID Test Date],
+    fet.eid_test_type AS [First EID Test Type],
+    fet.eid_result_date AS [First EID Result Date],
+    fet.eid_result AS [First EID Result]
+FROM
+    derived.dim_exposed_infant dei
+INNER JOIN derived.dim_client dc
+    ON dei.mother_ctc_number = dc.ctc_id
+LEFT JOIN
+    first_eid_test fet
+    ON dei.exposed_infant_id = fet.exposed_infant_id
+    AND fet.rn = 1
+LEFT JOIN
+    last_eid_visit lev
+    ON dei.exposed_infant_id = lev.exposed_infant_id
+    AND lev.rn = 1
 ORDER BY
     dc.client_id
