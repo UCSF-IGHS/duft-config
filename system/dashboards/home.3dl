@@ -719,7 +719,33 @@
                         <QueryData>
                             <Include file="sql/home/art_exited_died_per_age_group.sql" />
                         </QueryData>
-                        <HeatmapChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#9e0159", "#390099"],  xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Age Group' }} }} header="Deceased by Age Group Over the Years" subHeader="Heatmap: Deceased by Age Group Over the Years"/>
+                        <HeatmapChart exportData="true" detailsComponent='infinite-scroll-table' 
+                            userOptions={
+                                { plotOptions: {
+                                    heatmap: {
+                                        colorScale: {
+                                        ranges: [{
+                                            from: 0,
+                                            to: 20,
+                                            color: '#cb92ba',
+                                            name: 'Low',
+                                            },
+                                            {
+                                            from: 21,
+                                            to: 40,
+                                            color: '#a17dba',
+                                            name: 'Medium',
+                                            },
+                                            {
+                                            from: 41,
+                                            to: 60,
+                                            color: '#922157',
+                                            name: 'High',
+                                            }
+                                        ]
+                                        }
+                                    }
+                                }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Age Group' }} }} header="Deceased by Age Group Over the Years" subHeader="Heatmap: Deceased by Age Group Over the Years"/>
                     </DataProvider>
 
                     <DataProvider>
