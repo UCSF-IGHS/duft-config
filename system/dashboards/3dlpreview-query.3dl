@@ -7,13 +7,15 @@
 					<Header>Preview query</Header>
 				</Row>
 
-				<Row columns = "1">
-					<DataProvider pageSize="50">
-						<QueryData>SELECT * FROM derived.dim_client ORDER BY client_id</QueryData>
-							<PreviewQuery />
-							<SmartDataTable />
-					</DataProvider>
-				</Row>
+				<DataProvider pageSize="10">
+					<QueryData>SELECT * FROM derived.dim_client ORDER BY client_id</QueryData>
+					<Row columns = "1">
+						<PreviewQuery />
+					</Row>
+					<Row>
+						<SmartDataTable />
+					</Row>
+				</DataProvider>
 
 			</Grid>
 		</Dashboard>
