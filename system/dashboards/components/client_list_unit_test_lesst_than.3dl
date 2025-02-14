@@ -1,6 +1,6 @@
-<Dataset>
-    <Query>SELECT * FROM dim_client WHERE age < 5</Query>
+<DataProvider>
+    <QueryData>SELECT * FROM dim_client WHERE age < 5</QueryData>
     <InfiniteScrollTable id="table1">
     </InfiniteScrollTable>
     <InfiniteScrollTable />
-</Dataset>
+</DataProvider>

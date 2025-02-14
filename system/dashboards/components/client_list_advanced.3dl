@@ -1,12 +1,12 @@
-<Dataset pageSize={50} filters={{ "MMP Status": "< 3 MMP", "paeds_adult_age_group": "19+ yr old (Adult)" }} searchColumns="Sex, ART Number Legacy">
-    <Query>
+<DataProvider pageSize={50} filters={{ "MMP Status": "< 3 MMP", "paeds_adult_age_group": "19+ yr old (Adult)" }} searchColumns="Sex, ART Number Legacy">
+    <QueryData>
         SELECT "ART Number Legacy", "Date Of Birth","Current Age","Sex", "Last PBFW", "Last Visit Date" as "Last appt date", "Last Next Visit Date" as "Next appt date", "Last Viral Load Order Date" as "Last VL order date", "Last Viral Load Result Date" as "Last VL result date" ,"Last Regimen" as "Current Regimen", "Last Regimen Date" as "Current regimen start date","ART Restart Date", "Client Status" FROM analysis.fact_sentinel_event se INNER JOIN analysis.dim_age_group ag ON se."Current Age"=ag.age WHERE "TX Curr" = 'Yes'
-    </Query>
+    </QueryData>
     <InfiniteScrollTable id="table1" exportData="true" >
-        <DetailsView columnName="ART Number Legacy">
-            <Dataset transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='{ART Number Legacy}'`}>
+        <DetailsView2 columnName="ART Number Legacy">
+            <DataProvider transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='{ART Number Legacy}'`}>
                 <InfiniteScrollTable variant='plain' />
-            </Dataset>
-        </DetailsView>
+            </DataProvider>
+        </DetailsView2>
     </InfiniteScrollTable>
-</Dataset>
+</DataProvider>
