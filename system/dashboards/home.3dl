@@ -719,7 +719,7 @@
                         <QueryData>
                             <Include file="sql/home/art_exited_died_per_age_group.sql" />
                         </QueryData>
-                        <HeatmapChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Gender' }} }} header="Deceased by Gender Over the Years" subHeader="Heatmap: Deceased by Gender Over the Years"/>
+                        <HeatmapChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#9e0159", "#390099"],  xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Age Group' }} }} header="Deceased by Age Group Over the Years" subHeader="Heatmap: Deceased by Age Group Over the Years"/>
                     </DataProvider>
 
                     <DataProvider>
@@ -731,6 +731,28 @@
 
 
                 </Row>
+                <Row columns = "1" largeColumns = "1">
+                <DataProvider>
+                        <QueryData>
+                            <Include file="sql/home/art_diagnosed_vs_died.sql" />
+                        </QueryData>
+                        <WaterFallChart exportData="true" userOptions={{ xaxis: { title: { text: 'PLHIV' }}, yaxis: { title: { text: 'Clients' }} }} header="People Livng with HIV (PLHIV)" subHeader="Waterfall Chart: People Livng with HIV (PLHIV)" detailsComponent='infinite-scroll-table'
+                            waterfallType = "minimal" //| "cumulative" | "bridged" | "minimal"
+                            waterfallOptions = {{
+                               summaryXLabel: "Total",
+                               xaxis: "Total",
+                               barWidth: 60,
+                               positiveBarColor: "#4CAF50",
+                               negativeBarColor: "#F44336",
+                               summaryBarColor: "#FFC107",
+                             }}
+                        />
+                    </DataProvider>
+
+                </Row>
+
+                
+
             </Grid>
         </Dashboard>
     </Tab>

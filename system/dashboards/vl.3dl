@@ -1,9 +1,9 @@
 <TabSet>
-    <Tab title="VL Suppressed">
+    <Tab title="Viral Load Suppressed">
       <Dashboard>
         <SingleLayout>
           <Grid>
-            <Row><Header>VL Suppressed</Header></Row>
+            <Row><Header>Viral Load Suppressed</Header></Row>
             <Row columns="1" largeColumns="1" >
               <DataProvider pageSize="50" searchColumns='client_id' >
                 <QueryData filters={{ "last_viral_load_result_is_suppressed": '1' }}>
@@ -17,11 +17,11 @@
       </Dashboard>
 
     </Tab>
-    <Tab title="VL Not Suppressed">
+    <Tab title="Viral Load Not Suppressed">
       <Dashboard>
         <SingleLayout>
           <Grid>
-            <Row><Header>VL Not Suppressed</Header></Row>
+            <Row><Header>Viral Load Not Suppressed</Header></Row>
             <Row columns="1" largeColumns="1" >
               <DataProvider pageSize="50" searchColumns='client_id' >
                 <QueryData filters={{ "last_viral_load_result_is_not_suppressed": '1' }}>

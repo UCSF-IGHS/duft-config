@@ -22,7 +22,7 @@
         "dashboard": "/dashboard/initiated"
       },
       {
-        "title": "VL",
+        "title": "Viral Load",
         "icon": "dashboards-icon",
         "dashboard": "/dashboard/vl"
       },
