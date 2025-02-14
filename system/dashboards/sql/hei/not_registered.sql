@@ -12,6 +12,7 @@ WITH first_visit_after_delivery AS (
 )
 
 SELECT
+    dc.ctc_id AS [CTC ID],
     dc.client_id AS [Client ID],
     expected_delivery_date AS [Due Date],
     delivery_date AS [Delivery Date],

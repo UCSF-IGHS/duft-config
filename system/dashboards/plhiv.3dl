@@ -125,7 +125,7 @@
                     <QueryData>
                         <Include file="sql/plhiv/iit_clients.sql" />
                     </QueryData>
-                <Include file="components/client_list.3dl" />
+                    <Include file="components/client_list.3dl" />
                 </DataProvider>
             </Row>
 

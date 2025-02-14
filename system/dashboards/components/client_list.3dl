@@ -2,7 +2,7 @@
     <DetailsView2 columnName="CTC ID">
         <DataProvider transpose='true'>
             <QueryData>
-                SELECT * from derived.dim_client WHERE ctc_id = '05-04-0100-000507'
+                SELECT * from derived.dim_client WHERE ctc_id='&#123;CTC ID&#125;'
             </QueryData>
             <InfiniteScrollTable variant='plain' exportData="true" />
         </DataProvider>
