@@ -1,8 +1,12 @@
 <InfiniteScrollTable detailsTitle="Patient Details" id="table1" exportData="true" >
-    <DetailsView columnName="client_id">
-        <Dataset transpose='true' query={`SELECT * from fact_sentinel_event WHERE client_id='{client_id}'`}>
-            <InfiniteScrollTable variant='plain' />
-        </Dataset>
-    </DetailsView>
+
+    <DetailsView2 columnName='client_id'>
+        <DataProvider>
+        <QueryData transpose='true'>
+            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
+        </QueryData>
+        <InfiniteScrollTable variant='plain' />
+        </DataProvider>
+    </DetailsView2>
 
 </InfiniteScrollTable>
