@@ -150,7 +150,7 @@
                 "sleep_time": {
                     "title": "Sleep Time",
                     "description": "Time to wait between execution steps in seconds.",
-                    "defaultValue": 0.5,
+                    "defaultValue": 2.0,
                     "allowOverride": true,
                     "promptUser": false
                 }
