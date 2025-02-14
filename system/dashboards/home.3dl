@@ -24,7 +24,7 @@
                                 <QueryData>
                                     <Include file="sql/plhiv/iit_clients.sql" />
                                 </QueryData>
-                                <InfiniteScrollTable exportData="true" variant='plain' />
+                                <Include file="components/client_list.3dl" />
                             </DataProvider>
                         </Tile>
                     </DataProvider>
@@ -41,7 +41,7 @@
                                 <QueryData>
                                     <Include file="sql/plhiv/ahd_clients.sql" />
                                 </QueryData>
-                                <InfiniteScrollTable exportData="true" variant='plain' />
+                                <Include file="components/client_list.3dl" />
                             </DataProvider>
                         </Tile>
                     </DataProvider>
@@ -58,7 +58,7 @@
                                 <QueryData>
                                     <Include file="sql/plhiv/need_vl_clients.sql" />
                                 </QueryData>
-                                <InfiniteScrollTable exportData="true" variant='plain' />
+                                <Include file="components/client_list.3dl" />
                             </DataProvider>
                         </Tile>
                     </DataProvider>
@@ -75,7 +75,7 @@
                                 <QueryData>
                                     <Include file="sql/plhiv/unsuppressed_clients.sql" />
                                 </QueryData>
-                                <InfiniteScrollTable exportData="true" variant='plain' />
+                                <Include file="components/client_list.3dl" />
                             </DataProvider>
                         </Tile>
                     </DataProvider>
