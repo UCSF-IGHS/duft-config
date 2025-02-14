@@ -34,8 +34,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -57,8 +57,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -81,8 +81,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Suppressed' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -104,8 +104,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Not Suppressed' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -199,8 +199,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -222,8 +222,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -245,8 +245,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -268,8 +268,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -346,8 +346,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -369,8 +369,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Suppressed' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -392,8 +392,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Not Suppressed' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -415,8 +415,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Need VL Test' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -500,8 +500,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -523,8 +523,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Currently On ART' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -546,8 +546,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Exited' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
@@ -569,8 +569,8 @@
                                 </QueryData>
                                 <InfiniteScrollTable exportData="true" header='Died' variant='plain' >
                                     <DetailsView2 columnName='client_id'>
-                                        <DataProvider transpose='true'>
-                                        <QueryData>
+                                        <DataProvider>
+                                        <QueryData transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </QueryData>
                                         <InfiniteScrollTable variant='plain' />
