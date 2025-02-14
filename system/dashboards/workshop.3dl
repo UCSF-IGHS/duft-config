@@ -1,20 +1,75 @@
-<Dashboard>
-	<Grid>
-		<Row>
-			<Header>Preview query</Header>
-		</Row>
+<TabSet>
 
-		<Row columns = "1" largeColumns = "3">
+    <Tab title="Initiated on ART">
+      <Dashboard>
+        <SingleLayout>
+          <Grid>
+            <Row><Header>Initiated on ART</Header></Row>
+            <Row columns="1" largeColumns="1" >
+              <Dataset pageSize={50} searchColumns="client_id" filters={{ "has_ever_been_initiated_on_art": '1' }}>
+                <Query>
+                  <Include file="sql/clients/client_list_initiated.sql" />
+                </Query>
+                <Include file="components/client_list.3dl" />
+              </Dataset>
+            </Row>
+          </Grid>
+        </SingleLayout>
+      </Dashboard>
+    </Tab>
 
-			<DataProvider pageSize={50} sort_column={ s.name } searchColumns = "t.name" >
-				<Header small="true">
-					Available Database Tables
-				</Header>
-				<QueryData>
-					<Include file="sql/table_list.sql" />
-				</QueryData>
-				<InfiniteScrollTable exportData="true" variant='plain' />
-			</DataProvider>
-		</Row>
-	</Grid>
-</Dashboard>
+    <Tab title="Initiated on 1st Line">
+      <Dashboard>
+        <SingleLayout>
+          <Grid>
+            <Row><Header>Initiated on ART : First line</Header></Row>
+            <Row columns="1" largeColumns="1" >
+              <DataProvider pageSize="50" searchColumns='client_id' >
+                <QueryData filters={{ "has_ever_been_initiated_on_art": '1', "first_art_regimen_line": 'First line' }}>
+                    <Include file="sql/clients/client_list_initiated.sql" />
+                </QueryData>
+                <Include file="components/client_list.3dl" />
+              </DataProvider>
+            </Row>
+          </Grid>
+        </SingleLayout>
+      </Dashboard>
+    </Tab>
+
+    <Tab title="Initiated on 2nd Line">
+      <Dashboard>
+        <SingleLayout>
+          <Grid>
+            <Row><Header>Initiated on ART : Second line</Header></Row>
+            <Row columns="1" largeColumns="1" >
+              <DataProvider pageSize="50" searchColumns='client_id' >
+                <QueryData filters={{ "first_art_regimen_line": 'Second line' }}>
+                    <Include file="sql/clients/client_list_initiated.sql" />
+                </QueryData>
+                <Include file="components/client_list.3dl" />
+              </DataProvider>
+            </Row>
+          </Grid>
+        </SingleLayout>
+      </Dashboard>
+    </Tab>
+
+    <Tab title="Initiated on Unknown Line">
+      <Dashboard>
+        <SingleLayout>
+          <Grid>
+            <Row><Header>Initiated on ART : Unknown line</Header></Row>
+            <Row columns="1" largeColumns="1" >
+              <DataProvider pageSize="50" searchColumns='client_id' >
+                <QueryData filters={{ "first_art_regimen_line": 'Unknown line' }}>
+                    <Include file="sql/clients/client_list_initiated.sql" />
+                </QueryData>
+                <Include file="components/client_list.3dl" />
+              </DataProvider>
+            </Row>
+          </Grid>
+        </SingleLayout>
+      </Dashboard>
+    </Tab>
+
+  </TabSet>

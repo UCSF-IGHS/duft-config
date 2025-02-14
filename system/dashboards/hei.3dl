@@ -109,27 +109,22 @@
 
 	<Tab title="HEI Not Registered">
 		<Dashboard>
-
 			<SingleLayout>
 				<Grid>
-
-				<Row>
-					<Header> List of HEI Not Registered </Header>
-				</Row>
-
-				<Row>
-					<SubHeader> Tabular representation of HEI clients who are not registered. </SubHeader>
-				</Row>
-
-				<Row columns="1" largeColumns="1" >
-					<DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
-						<QueryData>
-							<Include file="sql/hei/not_registered.sql" />
-						</QueryData>
-						<Include file="components/client_list.3dl" />
-					</DataProvider>
-				</Row>
-
+                    <Row>
+                        <Header> List of HEI Not Registered </Header>
+                    </Row>
+                    <Row>
+                        <SubHeader> Tabular representation of HEI clients who are not registered. </SubHeader>
+                    </Row>
+                    <Row columns="1" largeColumns="1" >
+                        <DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
+                            <QueryData>
+                                <Include file="sql/hei/not_registered.sql" />
+                            </QueryData>
+                            <Include file="components/client_list.3dl" />
+                        </DataProvider>
+                    </Row>
 				</Grid>
 			</SingleLayout>
 		</Dashboard>
