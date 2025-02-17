@@ -1,0 +1,1 @@
+SELECT COUNT(*) AS value FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id LEFT JOIN mamba_dim_agegroup ag ON ag.age = dc.current_age  WHERE tx_curr = 1 AND (Gender ='$gender' OR '$gender'='') AND (datim_agegroup='$agegroup' OR '$agegroup'='') 

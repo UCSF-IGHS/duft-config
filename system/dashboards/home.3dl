@@ -1,167 +1,149 @@
 <TabSet>
   	<Tab title="HIV Cascade">
     	<Dashboard title="HIV Cascade">
-      	<Grid>
-		  <Row>Filters</Row>
-        	<Row columns="2" smallColumns="1">
-				<Filters>
-					<Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT Gender from mamba_dim_client`} />
-					<Filter caption="Agegroup" name="agegroup" values_query={`SELECT DISTINCT datim_agegroup from mamba_dim_agegroup `} />
-					<Filter caption="ART CLient" name="artoutcome" values_query={`SELECT DISTINCT ART_clients FROM (SELECT CASE WHEN  retention = 'Active' THEN 'Currently on ART' ELSE 'ALL' END AS ART_clients from mamba_fact_sentinel_event WHERE first_art_date IS NOT NULL)a;`} />
-				</Filters>
-			</Row>
+      		<Grid>
+				<Row>Filters</Row>
 
-			<Row columns="2" largeColumns="3">
-
-				<Dataset query={`SELECT COUNT(DISTINCT  client_id) as value FROM mamba_dim_client  dc LEFT JOIN mamba_dim_agegroup ag ON ag.age = dc.current_age WHERE (Gender ='$gender' OR '$gender'='')  AND (datim_agegroup='$agegroup' OR '$agegroup'='')`}>
-				<Tile title="Positive" />
-				</Dataset>
-
-				<Dataset query={`SELECT COUNT(DISTINCT  fse.client_id) as value FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id LEFT JOIN mamba_dim_agegroup ag ON ag.age = dc.current_age WHERE first_art_date IS NOT NULL AND (Gender ='$gender' OR '$gender'='') AND (datim_agegroup='$agegroup' OR '$agegroup'='')`}>
-				<Tile title="Initiated on ART" />
-				</Dataset>
-
-				<Dataset query={`SELECT COUNT(*) AS value FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id LEFT JOIN mamba_dim_agegroup ag ON ag.age = dc.current_age  WHERE tx_curr = 1 AND (Gender ='$gender' OR '$gender'='') AND (datim_agegroup='$agegroup' OR '$agegroup'='') `}>
-					<Tile title='Tx Curr' >
-					<Dataset searchColumns="ART Outcomes, Gender" pageSize={15} query={`SELECT Gender, birth_date, first_art_date,last_seen_date,last_appointment_date as "Next Visit",last_encounter_is_receiving_differentiated_care as "MMP Status", retention "ART Outcomes" FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE tx_curr = 1  AND (Gender='$gender' OR '$gender'='') `}>
-						<InfiniteScrollTable exportData="true" header='TX_CURR All' variant='plain' />
-					</Dataset>
-					</Tile>
-				</Dataset> 
-			</Row>
-
-			<Row largeColumns='3' columns='2'>
-				<Dataset query="SELECT d.year AS category, COUNT(se.first_art_date) AS value 
-					FROM mamba_fact_sentinel_event se 
-					INNER JOIN mamba_dim_client c ON se.client_id = c.client_id 
-					INNER JOIN mamba_dim_date d ON se.first_art_date = d.full_date 
-					LEFT JOIN mamba_dim_agegroup ag ON ag.age = c.current_age 
-					WHERE (Gender ='$gender' OR '$gender'='')  AND (datim_agegroup='$agegroup' OR '$agegroup'='')
-					GROUP BY d.year;">
-					<BarChart header="ART Initiation by Year" 
-							subHeader="Individuals started on ART by year" 
-							detailsComponent="infinite-scroll-table" 
-							exportData="true" />
-				</Dataset>
-
-				<Dataset query="SELECT COUNT(DISTINCT dc.client_id) AS value, datim_agegroup AS category 
-					FROM mamba_fact_sentinel_event fse 
-					INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id
-					LEFT JOIN mamba_dim_agegroup ag ON ag.age = dc.current_age 
-					WHERE first_art_date IS NOT NULL AND  (Gender ='$gender' OR '$gender'='')  AND (datim_agegroup='$agegroup' OR '$agegroup'='')
-					GROUP BY datim_agegroup;">
-						<BarChart header="ART Initiation by Age Group" 
-							subHeader="Individuals started on ART by age group" 
-							detailsComponent="infinite-scroll-table" 
-							exportData="true" />
-				</Dataset>
-
-				<Dataset query="SELECT c.gender as category, COUNT(c.client_id) as value 
-					FROM mamba_fact_sentinel_event e 
-					INNER JOIN mamba_dim_client c ON e.client_id=c.client_id 
-					LEFT JOIN mamba_dim_agegroup ag ON ag.age = c.current_age 
-					WHERE e.first_art_date IS NOT NULL AND  (Gender ='$gender' OR '$gender'='')  AND (datim_agegroup='$agegroup' OR '$agegroup'='')
-					GROUP BY c.gender">
-					<PieChart header='ART Initiation by sex' subHeader='Individuals started on ART by sex' userOptions={{ dataLabels: { enabled: true } }} />
-				</Dataset>
-			</Row>
-			<Row><Header>Client Line Lists </Header></Row>
-				<Row columns="1" largeColumns="1" >
-					<Dataset searchColumns="Client_id, Gender, DSD" pageSize={50} query={`SELECT DISTINCT dc.Client_id,Gender, birth_date "DOB", current_age 'Age',dc.marital_status,first_art_date "ART Start Date",last_encounter_is_receiving_differentiated_care as 'DSD', Retention,last_encounter_date "Last Follow Up Date",last_appointment_date "Next Visit Date" FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id LEFT JOIN mamba_dim_agegroup ag ON ag.age = dc.current_age WHERE first_art_date IS NOT NULL AND  (Gender='$gender' OR '$gender'='') AND (datim_agegroup='$agegroup' OR '$agegroup'='')`}>
-						<InfiniteScrollTable exportData="true" variant='plain' header="ART Clients" />
-					</Dataset>
+				<Row columns="2" smallColumns="1">
+					<Filters>
+						<Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT Gender from mamba_dim_client`} />
+						<Filter caption="Agegroup" name="agegroup" values_query={`SELECT DISTINCT datim_agegroup from mamba_dim_agegroup `} />
+						<Filter caption="ART CLient" name="artoutcome" values_query={`SELECT DISTINCT ART_clients FROM (SELECT CASE WHEN  retention = 'Active' THEN 'Currently on ART' ELSE 'ALL' END AS ART_clients from mamba_fact_sentinel_event WHERE first_art_date IS NOT NULL)a;`} />
+					</Filters>
 				</Row>
 
-      </Grid>
-    </Dashboard>
+				<Row columns="2" largeColumns="3">
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/hiv_cascade/hiv_positive.sql" />
+						</QueryData>
+						<Tile title="Positive" />
+					</DataProvider>
+
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/hiv_cascade/art_initiation.sql" />
+						</QueryData>
+						<Tile title="Initiated on ART" />
+					</DataProvider>
+
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/hiv_cascade/tx_curr.sql" />
+						</QueryData>
+						<Tile title="Tx Curr" />
+					</DataProvider>
+				</Row>
+
+				<Row largeColumns='3' columns='2'>
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/hiv_cascade/art_start_by_year.sql" />
+						</QueryData>
+						<BarChart header="ART Initiation by Year" subHeader="Individuals started on ART by year" detailsComponent="infinite-scroll-table" exportData="true" />
+					</DataProvider>
+					<DataProvider>
+						<QueryData> 
+							<Include file="sql/hiv_cascade/art_initiation_by_agegroup.sql" />
+						</QueryData>
+						<BarChart header="ART Initiation by Age Group" subHeader="Individuals started on ART by age group" detailsComponent="infinite-scroll-table" exportData="true" />	
+					</DataProvider>
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/hiv_cascade/art_initiation_by_sex.sql" />
+						</QueryData>
+						<PieChart header='ART Initiation by Sex' subHeader='Individuals started on ART by sex' userOptions={{ dataLabels: { enabled: true } }} />
+					</DataProvider>
+				</Row>
+
+				<Row><Header>Client Line Lists </Header></Row>
+
+				<Row columns="1" largeColumns="1" >
+					<DataProvider searchColumns="client_id" pageSize="50">
+						<QueryData>
+							<Include file="sql/hiv_cascade/client_linelist.sql" />
+						</QueryData>
+						<InfiniteScrollTable exportData="true" variant='plain' header="ART Clients" />
+					</DataProvider>
+				</Row>
+    		</Grid>
+    	</Dashboard>
   	</Tab>
-	  <Tab title="Care and Treatment">
+
+	<Tab title="Care and Treatment">
 		<Dashboard title="Care and Treatment">
 			<Grid>
 				<Row>Filters</Row>
+
 				<Row columns="2" smallColumns="1">
 					<Filters>
 						<Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT Gender from mamba_dim_client `} />
 						<Filter caption="Agegroup" name="agegroup" values_query={`SELECT DISTINCT datim_agegroup  Agegroup from mamba_dim_agegroup `} />
 					</Filters>
 				</Row>
+
 				<Row columns="2" largeColumns="4">
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/care_and_treatment/active_clients.sql" />
+						</QueryData>
+						<Tile title="Active Clients" />
+					</DataProvider>
 
-					<Dataset query={`SELECT COUNT(DISTINCT  fse.client_id) as value FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE retention =  'Active' AND (Gender ='$gender' OR '$gender'='')  `}>
-						<Tile title="Active Clients" >
-							<Dataset searchColumns="Retention, Gender" pageSize={15} query={`SELECT Gender, birth_date, first_art_date,last_seen_date,last_appointment_date as "Next Visit",last_encounter_is_receiving_differentiated_care as "MMP Status", Retention FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE retention =  'Active'  AND  (Gender='$gender' OR '$gender'='') `}>
-								<InfiniteScrollTable exportData="true" header='Active Clients' variant='plain' />
-							</Dataset>
-						</Tile>
-					</Dataset>
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/care_and_treatment/missed_appointments.sql" />
+						</QueryData>
+						<Tile title="Missed Appointments" />
+					</DataProvider>
 
-					<Dataset query={`SELECT COUNT(DISTINCT  fse.client_id) as value FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE retention =  'Missed Appointment' AND (Gender ='$gender' OR '$gender'='') `}>
-						<Tile title="Missed Appointments" >
-							<Dataset searchColumns="Retention, Gender" pageSize={15} query={`SELECT Gender, birth_date, first_art_date,last_seen_date,last_appointment_date as "Next Visit",last_encounter_is_receiving_differentiated_care as "MMP Status", Retention FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE retention =  'Missed Appointment'  AND  (Gender='$gender' OR '$gender'='') `}>
-								<InfiniteScrollTable exportData="true" header='Missed Appointments' variant='plain' />
-							</Dataset>
-						</Tile>
-					</Dataset>
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/care_and_treatment/suspected_ltfu.sql" />
+						</QueryData>
+						<Tile title="Suspected LTFU" />
+					</DataProvider>
 
-					<Dataset query={`SELECT COUNT(DISTINCT  fse.client_id) as value FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE retention =  'LTFU'  AND (Gender ='$gender' OR '$gender'='') `}>
-						<Tile title='Suspected LTFU' >
-							<Dataset searchColumns="Retention, Gender" pageSize={15} query={`SELECT Gender, birth_date, first_art_date,last_seen_date,last_appointment_date as "Next Visit",last_encounter_is_receiving_differentiated_care as "MMP Status", Retention FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE retention =  'LTFU'  AND  (Gender='$gender' OR '$gender'='') `}>
-								<InfiniteScrollTable exportData="true" header='Suspected LTFU' variant='plain' />
-							</Dataset>
-						</Tile>
-					</Dataset> 
-
-					<Dataset query={`SELECT COUNT(DISTINCT  fse.client_id) as value FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE retention IS NULL  AND (Gender ='$gender' OR '$gender'='') `}>
-						<Tile title='Unknown' >
-							<Dataset searchColumns="Retention, Gender" pageSize={15} query={`SELECT Gender, birth_date, first_art_date,last_seen_date,last_appointment_date as "Next Visit",last_encounter_is_receiving_differentiated_care as "MMP Status", Retention FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE retention IS NULL AND  (Gender='$gender' OR '$gender'='') `}>
-								<InfiniteScrollTable exportData="true" header='Unknown' variant='plain' />
-							</Dataset>
-						</Tile>
-					</Dataset> 
-
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/care_and_treatment/unknown_client_outcomes.sql" />
+						</QueryData>
+						<Tile title="Unknown" />
+					</DataProvider>
 				</Row>
+
 				<Row largeColumns='3' columns='2'>
-					<Dataset query="SELECT last_encounter_is_receiving_differentiated_care AS category, COUNT(DISTINCT fse.client_id) AS value 
-						FROM mamba_fact_sentinel_event fse 
-						INNER JOIN mamba_dim_client dc ON dc.client_id = fse.client_id 
-						WHERE retention = 'Active' 
-						AND (Gender = '$gender' OR '$gender' = '')  
-						GROUP BY last_encounter_is_receiving_differentiated_care;">
-						<BarChart header="Active by MMP" 
-						subHeader="Individuals started active by MMP" 
-						detailsComponent="infinite-scroll-table" 
-						exportData="true" />
-					</Dataset>
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/care_and_treatment/active_by_mmp.sql" />
+						</QueryData>
+						<BarChart header="Active by MMP" subHeader="Individuals started active by MMP" detailsComponent="infinite-scroll-table" exportData="true" />
+					</DataProvider>
 
-					<Dataset query="SELECT last_encounter_is_receiving_differentiated_care AS category, COUNT(DISTINCT fse.client_id) AS value 
-						FROM mamba_fact_sentinel_event fse 
-						INNER JOIN mamba_dim_client dc ON dc.client_id = fse.client_id 
-						WHERE retention = 'Missed Appointment' 
-						AND (Gender = '$gender' OR '$gender' = '')  
-						GROUP BY last_encounter_is_receiving_differentiated_care;">
-						<BarChart header="Missed Appointment by MMP" 
-						subHeader="Individuals started Missed Appointments by MMP" 
-						detailsComponent="infinite-scroll-table" 
-						exportData="true" />
-					</Dataset>
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/care_and_treatment/missed_appointment_by_mmp.sql" />
+						</QueryData>
+						<BarChart header="Missed Appointment by MMP" subHeader="Individuals started Missed Appointments by MMP" detailsComponent="infinite-scroll-table" exportData="true" />
+					</DataProvider>
 
-					<Dataset query="SELECT last_encounter_is_receiving_differentiated_care AS category, COUNT(DISTINCT fse.client_id) AS value 
-						FROM mamba_fact_sentinel_event fse 
-						INNER JOIN mamba_dim_client dc ON dc.client_id = fse.client_id 
-						WHERE retention = 'LTFU' 
-						AND (Gender = '$gender' OR '$gender' = '')  
-						GROUP BY last_encounter_is_receiving_differentiated_care;">
-						<BarChart header="Suspected LTFU by MMP" 
-						subHeader="Individuals started Suspected LTFU by MMP" 
-						detailsComponent="infinite-scroll-table" 
-						exportData="true" />
-					</Dataset>
+					<DataProvider>
+						<QueryData>
+							<Include file="sql/care_and_treatment/suspected_ltfu_by_mmp.sql" />
+						</QueryData>
+						<BarChart header="Suspected LTFU by MMP" subHeader="Individuals started Suspected LTFU by MMP" detailsComponent="infinite-scroll-table" exportData="true" />
+					</DataProvider>					
 				</Row>
+
 				<Row><Header>Client Line Lists Unknown Status</Header></Row>
+
 				<Row columns="1" largeColumns="1" >
-					<Dataset pageSize={50} query={`SELECT Gender, birth_date, first_art_date,last_seen_date,last_appointment_date as "Next Visit",last_encounter_is_receiving_differentiated_care as "MMP Status", Retention FROM mamba_fact_sentinel_event fse INNER JOIN mamba_dim_client dc on dc.client_id = fse.client_id WHERE retention IS NULL AND  (Gender='$gender' OR '$gender'='') AND (datim_agegroup='$agegroup' OR '$agegroup'='')`}>
-						<InfiniteScrollTable variant='plain' header="Unknown Status" />
-					</Dataset>
+					<DataProvider searchColumns="client_id" pageSize="50">
+						<QueryData>
+							<Include file="sql/care_and_treatment/unknown_status.sql" />
+						</QueryData>
+						<InfiniteScrollTable exportData="true" variant='plain' header="Unknown Status" />
+					</DataProvider>
 				</Row>
 			</Grid>
 		</Dashboard>
