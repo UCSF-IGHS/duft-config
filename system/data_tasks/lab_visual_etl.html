@@ -7509,7 +7509,7 @@ a.anchor-link {
 </style>
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<main><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=2d13ca78">
+<main><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=b67a6eed">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7552,13 +7552,15 @@ a.anchor-link {
 <span class="kn">import</span> <span class="nn">nest_asyncio</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 <span class="n">nest_asyncio</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
 <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">environment</span><span class="p">:</span> <span class="n">DataTaskEnvironment</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"</span><span class="si">%d</span><span class="s2">/%m/%Y %H:%M:%S"</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
-    <span class="n">environment</span> <span class="o">=</span> <span class="n">initialise_data_task</span><span class="p">(</span><span class="s2">"Tille Lab Transformation Task"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">environment</span> <span class="o">=</span> <span class="n">initialise_data_task</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting Tille Lab transformation </span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
     <span class="n">json_args</span> <span class="o">=</span> <span class="n">find_json_arg</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
     <span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">json_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sleep_time"</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
 
@@ -7585,8 +7587,8 @@ a.anchor-link {
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>DUFT Config: duft-config
 Init environment
-[2025-02-14T16:23:02.053178] Tille Lab Transformation Task - INFO: Tille Lab Transformation Task initialised running in active mode
-Tille Lab Transformation Task &gt;&gt;&gt;: Tille Lab Transformation Task initialised running in active mode
+[2025-02-17T11:50:22.536457] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Starting Tille Lab transformation 17/02/2025 11:50:22 initialised running in active mode
+Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Starting Tille Lab transformation 17/02/2025 11:50:22 initialised running in active mode
 </pre>
 </div>
 </div>
@@ -7611,7 +7613,7 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Tille Lab Transformation Task initia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">default_mysql_config</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">mysql_config</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"MYSQL_USER"</span><span class="p">:</span> <span class="s2">"root"</span><span class="p">,</span>
     <span class="s2">"MYSQL_PASSWORD"</span><span class="p">:</span> <span class="s2">"root"</span><span class="p">,</span>
     <span class="s2">"MYSQL_HOST"</span><span class="p">:</span> <span class="s2">"localhost"</span><span class="p">,</span>
@@ -7619,11 +7621,11 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Tille Lab Transformation Task initia
     <span class="s2">"MYSQL_PORT"</span><span class="p">:</span> <span class="s2">"3306"</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">mysql_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"mysql+pymysql://</span><span class="si">{</span><span class="n">default_mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_USER'</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">default_mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_PASSWORD'</span><span class="p">]</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">default_mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_HOST'</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">default_mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_PORT'</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">default_mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_DATABASE_NAME'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">mysql_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"mysql+pymysql://</span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_USER'</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_PASSWORD'</span><span class="p">]</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_HOST'</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_PORT'</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_DATABASE_NAME'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="n">mysql_conn</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">mysql_url</span><span class="p">)</span>
-    <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Connected to MySQL database: </span><span class="si">{</span><span class="n">default_mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_DATABASE_NAME'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"connected successfully to tille lab database: </span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_DATABASE_NAME'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error connecting to MySQL: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -7641,8 +7643,8 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Tille Lab Transformation Task initia
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-14T16:23:03.830544] Tille Lab Transformation Task - INFO: Connected to MySQL database: labdashdb
-Tille Lab Transformation Task &gt;&gt;&gt;: Connected to MySQL database: labdashdb
+<pre>[2025-02-17T11:50:24.264752] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: connected successfully to tille lab database: labdashdb
+Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: connected successfully to tille lab database: labdashdb
 </pre>
 </div>
 </div>
@@ -7668,10 +7670,10 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Connected to MySQL database: labdash
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">mssql_config</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"server"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"GPTZ-DARWKS027\SQLEXPRESS"</span><span class="p">,</span>
+    <span class="s2">"server"</span><span class="p">:</span> <span class="s2">"localhost"</span><span class="p">,</span>
     <span class="s2">"database"</span><span class="p">:</span> <span class="s2">"master"</span><span class="p">,</span>
     <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"sa"</span><span class="p">,</span>
-    <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"root.R00T"</span>
+    <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"root.R00T"</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">mssql_conn</span> <span class="o">=</span> <span class="n">pyodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
@@ -7679,73 +7681,13 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Connected to MySQL database: labdash
     <span class="sa">f</span><span class="s2">"SERVER=</span><span class="si">{</span><span class="n">mssql_config</span><span class="p">[</span><span class="s1">'server'</span><span class="p">]</span><span class="si">}</span><span class="s2">;"</span>
     <span class="sa">f</span><span class="s2">"DATABASE=</span><span class="si">{</span><span class="n">mssql_config</span><span class="p">[</span><span class="s1">'database'</span><span class="p">]</span><span class="si">}</span><span class="s2">;"</span>
     <span class="sa">f</span><span class="s2">"UID=</span><span class="si">{</span><span class="n">mssql_config</span><span class="p">[</span><span class="s1">'username'</span><span class="p">]</span><span class="si">}</span><span class="s2">;"</span>
-    <span class="sa">f</span><span class="s2">"PWD=</span><span class="si">{</span><span class="n">mssql_config</span><span class="p">[</span><span class="s1">'password'</span><span class="p">]</span><span class="si">}</span><span class="s2">;"</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">"PWD=</span><span class="si">{</span><span class="n">mssql_config</span><span class="p">[</span><span class="s1">'password'</span><span class="p">]</span><span class="si">}</span><span class="s2">;"</span>
+    <span class="sa">f</span><span class="s2">"TrustServerCertificate=yes;"</span><span class="p">,</span>
     <span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 
 <span class="n">mssql_cursor</span> <span class="o">=</span> <span class="n">mssql_conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d4be9a5e">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Create-lab_visual_analysis-database">Create lab_visual_analysis database<a class="anchor-link" href="#Create-lab_visual_analysis-database">¶</a></h2>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=afc10249">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_lab_visual_analysis_database</span><span class="p">():</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"""</span>
-<span class="s2">                IF EXISTS (SELECT * FROM sys.databases WHERE name = 'lab_visual_analysis') </span>
-<span class="s2">                BEGIN</span>
-<span class="s2">                    DROP DATABASE lab_visual_analysis;</span>
-<span class="s2">                END</span>
-<span class="s2">                CREATE DATABASE lab_visual_analysis;</span>
-<span class="s2">            """</span>
-        <span class="p">)</span>
-
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-        <span class="n">mssql_config</span><span class="p">[</span><span class="s2">"database"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"lab_visual_analysis"</span>
-        <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"MSSQL database lab_visual_analysis Created."</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error creating database: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">create_lab_visual_analysis_database</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-14T16:23:05.907098] Tille Lab Transformation Task - INFO: MSSQL database lab_visual_analysis Created.
-Tille Lab Transformation Task &gt;&gt;&gt;: MSSQL database lab_visual_analysis Created.
-</pre>
 </div>
 </div>
 </div>
@@ -7761,59 +7703,37 @@ Tille Lab Transformation Task &gt;&gt;&gt;: MSSQL database lab_visual_analysis C
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f7885bb2">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f7885bb2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_schemas</span><span class="p">():</span>
-    <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Creating Schemas..."</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">schemas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'source'</span><span class="p">,</span> <span class="s1">'derived'</span><span class="p">,</span> <span class="s1">'final'</span><span class="p">,</span> <span class="s1">'z'</span><span class="p">,</span> <span class="s1">'dbo'</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">schema</span> <span class="ow">in</span> <span class="n">schemas</span><span class="p">:</span>
             <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"""</span>
-<span class="s2">                USE lab_visual_analysis;</span>
+<span class="s2">                    USE lab_visual_analysis;</span>
 
-<span class="s2">                IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = '</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">')</span>
-<span class="s2">                BEGIN</span>
-<span class="s2">                    EXEC('CREATE SCHEMA </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">');</span>
-<span class="s2">                END</span>
-
-<span class="s2">                -- Grant CONTROL permission on the schema to the user</span>
-<span class="s2">                GRANT CONTROL ON SCHEMA::</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2"> TO [</span><span class="si">{</span><span class="n">mssql_config</span><span class="p">[</span><span class="s1">'username'</span><span class="p">]</span><span class="si">}</span><span class="s2">];</span>
-
-<span class="s2">                -- Optional: Grant db_ddladmin role to allow the user to create/modify schemas</span>
-<span class="s2">                EXEC sp_addrolemember 'db_ddladmin', '</span><span class="si">{</span><span class="n">mssql_config</span><span class="p">[</span><span class="s1">'username'</span><span class="p">]</span><span class="si">}</span><span class="s2">';</span>
+<span class="s2">                    IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = '</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">')</span>
+<span class="s2">                    BEGIN</span>
+<span class="s2">                        EXEC('CREATE SCHEMA </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">');</span>
+<span class="s2">                    END</span>
 <span class="s2">                """</span>
             <span class="p">)</span>
         <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
+        
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error creating schemas: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">create_schemas</span><span class="p">()</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-14T16:23:07.442848] Tille Lab Transformation Task - INFO: Creating Schemas...
-Tille Lab Transformation Task &gt;&gt;&gt;: Creating Schemas...
-</pre>
 </div>
 </div>
 </div>
@@ -7829,16 +7749,15 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Creating Schemas...
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ef4cee3d">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ef4cee3d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_tables</span><span class="p">():</span>
-    <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Creating Tables..."</span><span class="p">)</span>
     <span class="n">table_creation_queries</span> <span class="o">=</span> <span class="p">[</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">            IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'tbl_Facilities' AND schema_id = SCHEMA_ID('source'))</span>
@@ -7908,8 +7827,73 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Creating Schemas...
 
     <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5ef8274b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Create-lab_visual_analysis-database">Create lab_visual_analysis database<a class="anchor-link" href="#Create-lab_visual_analysis-database">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9000c5e5">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_lab_visual_analysis_database</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Preparing Lab Visual Database"</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
+        
+        <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT name FROM sys.databases WHERE name = 'lab_visual_analysis'"</span><span class="p">)</span>
+        <span class="n">db_exists</span> <span class="o">=</span> <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
 
-<span class="n">create_tables</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">db_exists</span><span class="p">:</span>
+            <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Truncating LabVisual database tables"</span><span class="p">)</span>
+            <span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"tbl_Facilities"</span><span class="p">,</span> <span class="s2">"tbl_Device_Logs"</span><span class="p">,</span> <span class="s2">"tbl_Commodity_Transactions"</span><span class="p">,</span> <span class="s2">"tbl_Sample"</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">"TRUNCATE TABLE source.</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error truncating table </span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Lab Visual Database preparation complete"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"CREATE DATABASE lab_visual_analysis"</span><span class="p">)</span>
+            <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">mssql_config</span><span class="p">[</span><span class="s2">"database"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"lab_visual_analysis"</span>
+
+            <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Create Schemas"</span><span class="p">)</span>
+            <span class="n">create_schemas</span><span class="p">()</span>
+
+            <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Create Tables"</span><span class="p">)</span>
+            <span class="n">create_tables</span><span class="p">()</span>
+
+            <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Lab Visual Database preparation complete"</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to prepare database: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">create_lab_visual_analysis_database</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -7922,8 +7906,18 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Creating Schemas...
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-14T16:23:09.107113] Tille Lab Transformation Task - INFO: Creating Tables...
-Tille Lab Transformation Task &gt;&gt;&gt;: Creating Tables...
+<pre>[2025-02-17T11:50:25.923584] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Preparing Lab Visual Database
+Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Preparing Lab Visual Database
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2025-02-17T11:50:27.448120] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Truncating LabVisual database tables
+Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Truncating LabVisual database tables
+[2025-02-17T11:50:27.464152] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Lab Visual Database preparation complete
+Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Lab Visual Database preparation complete
 </pre>
 </div>
 </div>
@@ -7953,48 +7947,56 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Creating Tables...
     
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">excel_file</span><span class="p">):</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Excel file '</span><span class="si">{</span><span class="n">excel_file</span><span class="si">}</span><span class="s2">' not found."</span><span class="p">)</span>
-        <span class="k">return</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">excel_file</span><span class="p">)</span>
+    <span class="n">df_excel</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">excel_file</span><span class="p">)</span>
+    <span class="n">df_excel</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"Facility Number"</span><span class="p">:</span> <span class="s2">"HfrCode"</span><span class="p">,</span> <span class="s2">"Facility Name"</span><span class="p">:</span> <span class="s2">"Name"</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_excel</span> <span class="o">=</span> <span class="n">df_excel</span><span class="p">[[</span><span class="s1">'HfrCode'</span><span class="p">,</span> <span class="s1">'Name'</span><span class="p">,</span> <span class="s1">'Region'</span><span class="p">,</span> <span class="s1">'District'</span><span class="p">,</span> <span class="s1">'Council'</span><span class="p">]]</span>
+    <span class="n">df_excel</span><span class="p">[</span><span class="s1">'Region'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_excel</span><span class="p">[</span><span class="s1">'Region'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"Region"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    
+    <span class="n">mysql_query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">        SELECT</span>
+<span class="s2">            mohswid AS HfrCode,</span>
+<span class="s2">            facilityname AS Name,</span>
+<span class="s2">            regionname AS Region,</span>
+<span class="s2">            districtname AS District,</span>
+<span class="s2">            council AS Council</span>
+<span class="s2">        FROM hubfacilities</span>
+<span class="s2">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df_mysql</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">mysql_query</span><span class="p">,</span> <span class="n">mysql_conn</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error fetching data from MySQL: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Merge the two datasets</span>
+    <span class="n">df_combined</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_excel</span><span class="p">,</span> <span class="n">df_mysql</span><span class="p">])</span>
+    
+    <span class="c1"># Remove duplicates based on HfrCode</span>
+    <span class="n">df_combined</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'HfrCode'</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s1">'first'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"Facility Number"</span><span class="p">:</span> <span class="s2">"HfrCode"</span><span class="p">,</span> <span class="s2">"Facility Name"</span><span class="p">:</span> <span class="s2">"Name"</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">'HfrCode'</span><span class="p">,</span> <span class="s1">'Name'</span><span class="p">,</span> <span class="s1">'Region'</span><span class="p">,</span> <span class="s1">'District'</span><span class="p">,</span> <span class="s1">'Council'</span><span class="p">]]</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'Region'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Region'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"Region"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    
-    <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'HfrCode'</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s1">'first'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="s1">'HfrCode'</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="s2">"Duplicate HfrCode values detected in DataFrame. Cleaning..."</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'HfrCode'</span><span class="p">])</span>
-    
     <span class="n">insert_query</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">        MERGE INTO source.tbl_Facilities AS target</span>
-<span class="s2">        USING (VALUES (?, ?, ?, ?, ?)) AS src (HfrCode, Name, Region, District, Council)</span>
-<span class="s2">        ON target.HfrCode = src.HfrCode</span>
-<span class="s2">        WHEN MATCHED THEN </span>
-<span class="s2">            UPDATE SET Name = src.Name, Region = src.Region, District = src.District, Council = src.Council</span>
-<span class="s2">        WHEN NOT MATCHED THEN </span>
-<span class="s2">            INSERT (HfrCode, Name, Region, District, Council) VALUES (src.HfrCode, src.Name, src.Region, src.District, src.Council);</span>
+<span class="s2">        INSERT INTO source.tbl_Facilities (HfrCode, Name, Region, District, Council)</span>
+<span class="s2">        VALUES (?, ?, ?, ?, ?);</span>
 <span class="s2">    """</span>
     
-    <span class="n">inserted_rows</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># params = list(df.itertuples(index=False, name=None))</span>
-        <span class="c1"># mssql_cursor.executemany(insert_query, params)</span>
-        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_combined</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
             <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">insert_query</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">'HfrCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Name'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Region'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'District'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Council'</span><span class="p">])</span>
+            
         <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-        <span class="n">inserted_rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-        <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">inserted_rows</span><span class="si">}</span><span class="s2"> rows inserted into tbl_Facilities."</span><span class="p">)</span>
+        <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_combined</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows inserted into tbl_Facilities."</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error inserting data: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
+
 <span class="n">extract_and_insert_facility_data</span><span class="p">()</span>
-<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -8007,8 +8009,8 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Creating Tables...
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-14T16:24:19.693628] Tille Lab Transformation Task - INFO: 9884 rows inserted into tbl_Facilities.
-Tille Lab Transformation Task &gt;&gt;&gt;: 9884 rows inserted into tbl_Facilities.
+<pre>[2025-02-17T11:50:44.843626] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: 11401 rows inserted into tbl_Facilities.
+Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: 11401 rows inserted into tbl_Facilities.
 </pre>
 </div>
 </div>
@@ -8035,36 +8037,37 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 9884 rows inserted into tbl_Faciliti
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">extract_and_insert_sample_data</span><span class="p">():</span>
     <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">    SELECT DISTINCT trackingID as sampletrackingid, </span>
-<span class="s2">                    facilityHfrID, </span>
-<span class="s2">                    sampleType as SampleType, </span>
-<span class="s2">                    testName as TestName, </span>
-<span class="s2">                    sampleQuality as SampleQualityStatus, </span>
-<span class="s2">                    rejectionReason as SampleRejectionReason, </span>
-<span class="s2">                    sampleCollectionDate as CollectionDate, </span>
-<span class="s2">                    dateReceivedLab as ReceivedDate, </span>
-<span class="s2">                    results as Results, </span>
-<span class="s2">                    testedDate as TestDate, </span>
-<span class="s2">                    resultAuthorisedDate as AuthorisedDate, </span>
-<span class="s2">                    resultAuthorisedDate as DispatchDate,</span>
-<span class="s2">                    testInstrument as DeviceName,</span>
-<span class="s2">                    NULL as DeviceCode,</span>
-<span class="s2">                    IF(SUBSTR(trackingID, 1, 4) = 'BC03', 'lab', 'hub') as EntryModality</span>
-<span class="s2">    FROM tbl_labtests</span>
-<span class="s2">    WHERE sampleCollectionDate &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
-<span class="s2">    OR dateSentLab &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
-<span class="s2">    OR dateReceivedLab &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
-<span class="s2">    OR registeredDate &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
-<span class="s2">    OR testedDate &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
-<span class="s2">    OR resultAuthorisedDate &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
-<span class="s2">    OR dateResultSentHub &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
+<span class="s2">        SELECT DISTINCT trackingID as sampletrackingid, </span>
+<span class="s2">                        facilityHfrID, </span>
+<span class="s2">                        sampleType as SampleType, </span>
+<span class="s2">                        testName as TestName, </span>
+<span class="s2">                        sampleQuality as SampleQualityStatus, </span>
+<span class="s2">                        rejectionReason as SampleRejectionReason, </span>
+<span class="s2">                        sampleCollectionDate as CollectionDate, </span>
+<span class="s2">                        dateReceivedLab as ReceivedDate, </span>
+<span class="s2">                        results as Results, </span>
+<span class="s2">                        testedDate as TestDate, </span>
+<span class="s2">                        resultAuthorisedDate as AuthorisedDate, </span>
+<span class="s2">                        resultAuthorisedDate as DispatchDate,</span>
+<span class="s2">                        testInstrument as DeviceName,</span>
+<span class="s2">                        NULL as DeviceCode,</span>
+<span class="s2">                        IF(SUBSTR(trackingID, 1, 4) = 'BC03', 'lab', 'hub') as EntryModality</span>
+<span class="s2">        FROM tbl_labtests</span>
+<span class="s2">        WHERE sampleCollectionDate &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
+<span class="s2">        OR dateSentLab &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
+<span class="s2">        OR dateReceivedLab &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
+<span class="s2">        OR registeredDate &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
+<span class="s2">        OR testedDate &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
+<span class="s2">        OR resultAuthorisedDate &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
+<span class="s2">        OR dateResultSentHub &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
 <span class="s2">    """</span>
     
     <span class="k">try</span><span class="p">:</span>
         <span class="n">sample_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">mysql_conn</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sample_data</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
             <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="s2">"No sample data found."</span><span class="p">)</span>
-            <span class="k">return</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">extract_hfr_code</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">'EntryModality'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'lab'</span><span class="p">:</span>
@@ -8076,10 +8079,10 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 9884 rows inserted into tbl_Faciliti
 
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">sample_data</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
             <span class="n">insert_query</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">            INSERT INTO source.tbl_Sample (sampletrackingid, LabHfrCode, HubHfrCode, EntryModality, SampleType, </span>
-<span class="s2">                                        TestName, SampleQualityStatus, Results, SampleRejectionReason, DeviceName, </span>
-<span class="s2">                                        DeviceCode, CollectionDate, ReceivedDate, TestDate, AuthorisedDate, DispatchDate)</span>
-<span class="s2">            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)</span>
+<span class="s2">                INSERT INTO source.tbl_Sample (sampletrackingid, LabHfrCode, HubHfrCode, EntryModality, SampleType, </span>
+<span class="s2">                                            TestName, SampleQualityStatus, Results, SampleRejectionReason, DeviceName, </span>
+<span class="s2">                                            DeviceCode, CollectionDate, ReceivedDate, TestDate, AuthorisedDate, DispatchDate)</span>
+<span class="s2">                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)</span>
 <span class="s2">            """</span>
             <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">insert_query</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">'sampletrackingid'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'LabHfrCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'HubHfrCode'</span><span class="p">],</span> 
                                 <span class="n">row</span><span class="p">[</span><span class="s1">'EntryModality'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'SampleType'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'TestName'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'SampleQualityStatus'</span><span class="p">],</span> 
@@ -8087,8 +8090,9 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 9884 rows inserted into tbl_Faciliti
                                 <span class="n">row</span><span class="p">[</span><span class="s1">'ReceivedDate'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'TestDate'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'AuthorisedDate'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DispatchDate'</span><span class="p">])</span>
         
         <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-        <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows inserted into tbl_Sample."</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span><span class="si">}</span><span class="s2"> row inserted into tbl_Sample."</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
 
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
@@ -8108,8 +8112,8 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 9884 rows inserted into tbl_Faciliti
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-14T16:24:32.126911] Tille Lab Transformation Task - INFO: 7970 rows inserted into tbl_Sample.
-Tille Lab Transformation Task &gt;&gt;&gt;: 7970 rows inserted into tbl_Sample.
+<pre>[2025-02-17T11:50:55.964117] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: 6861 row inserted into tbl_Sample.
+Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: 6861 row inserted into tbl_Sample.
 </pre>
 </div>
 </div>
@@ -8126,7 +8130,7 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 7970 rows inserted into tbl_Sample.
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=13fdf122">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=13fdf122">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8159,7 +8163,6 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 7970 rows inserted into tbl_Sample.
             <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">insert_query</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DeviceName'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DeviceCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DateBrokenDown'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DateReported'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DateFixed'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'BreakDownReason'</span><span class="p">])</span>
         
         <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-        <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">device_logs</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows inserted into tbl_Device_Logs."</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error fetching or inserting device logs: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
@@ -8169,20 +8172,6 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 7970 rows inserted into tbl_Sample.
 <span class="n">extract_and_insert_device_log_data</span><span class="p">()</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-14T16:24:35.197386] Tille Lab Transformation Task - INFO: 0 rows inserted into tbl_Device_Logs.
-Tille Lab Transformation Task &gt;&gt;&gt;: 0 rows inserted into tbl_Device_Logs.
-</pre>
 </div>
 </div>
 </div>
@@ -8198,7 +8187,7 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 0 rows inserted into tbl_Device_Logs
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d05e2b0b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=d05e2b0b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8223,7 +8212,9 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 0 rows inserted into tbl_Device_Logs
                                 <span class="n">row</span><span class="p">[</span><span class="s1">'ExpireDate'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'TransactionType'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'TransactionQuantity'</span><span class="p">])</span>
         
         <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-        <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">commodity_transactions</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows inserted into tbl_Commodity_Transactions."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">commodity_transactions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">commodity_transactions</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows inserted into tbl_Commodity_Transactions."</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
     
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error fetching or inserting commodity transactions: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -8234,20 +8225,6 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 0 rows inserted into tbl_Device_Logs
 <span class="n">extract_and_insert_commodity_transaction_data</span><span class="p">()</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-14T16:24:36.761113] Tille Lab Transformation Task - INFO: 0 rows inserted into tbl_Commodity_Transactions.
-Tille Lab Transformation Task &gt;&gt;&gt;: 0 rows inserted into tbl_Commodity_Transactions.
-</pre>
 </div>
 </div>
 </div>
@@ -8272,14 +8249,17 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 0 rows inserted into tbl_Commodity_T
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">extract_stored_procedures_from_file</span><span class="p">():</span>
+    <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Running ETL"</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
+
     <span class="n">stored_procedures_file</span> <span class="o">=</span> <span class="s2">"./create-stored-procedures.sql"</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">stored_procedures_file</span><span class="p">):</span>
-        <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Adding SP..."</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">stored_procedures_file</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">sql_commands</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
         <span class="n">sql_batches</span> <span class="o">=</span> <span class="n">sql_commands</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"GO"</span><span class="p">)</span>
-
+        <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Add SP"</span><span class="p">)</span>
+        
         <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">sql_batches</span><span class="p">:</span>
             <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
@@ -8313,8 +8293,16 @@ Tille Lab Transformation Task &gt;&gt;&gt;: 0 rows inserted into tbl_Commodity_T
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-14T16:24:38.307115] Tille Lab Transformation Task - INFO: Adding SP...
-Tille Lab Transformation Task &gt;&gt;&gt;: Adding SP...
+<pre>[2025-02-17T11:51:02.093823] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Running ETL
+Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Running ETL
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2025-02-17T11:51:03.609295] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Add SP
+Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Add SP
 </pre>
 </div>
 </div>
@@ -8331,7 +8319,7 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Adding SP...
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=0d304190-cc10-42ae-9386-1cfce4aa9874">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0d304190-cc10-42ae-9386-1cfce4aa9874">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8361,8 +8349,23 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Adding SP...
             <span class="n">mssql_conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="n">mysql_conn</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span>
 
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"ETL complete"</span><span class="p">)</span>
 <span class="n">execute_stored_procedures</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[2025-02-17T11:51:04.521806] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: ETL complete
+Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: ETL complete
+</pre>
 </div>
 </div>
 </div>
@@ -8376,7 +8379,7 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Adding SP...
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
-<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s1">'Tille Lab Transformation completed!'</span><span class="p">)</span>
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Completed Tille Lab Transformation </span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8389,8 +8392,8 @@ Tille Lab Transformation Task &gt;&gt;&gt;: Adding SP...
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-14T16:29:13.204558] Tille Lab Transformation Task - INFO: Tille Lab Transformation completed!
-Tille Lab Transformation Task &gt;&gt;&gt;: Tille Lab Transformation completed!
+<pre>[2025-02-17T11:57:02.579985] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Completed Tille Lab Transformation 17/02/2025 11:50:22
+Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Completed Tille Lab Transformation 17/02/2025 11:50:22
 </pre>
 </div>
 </div>
