@@ -23,8 +23,8 @@ WITH first_eid_test AS (
 
 SELECT
     dc.ctc_id AS [CTC ID],
-    fet.mother_ctc_number AS [Mother CTC Number],
-    fet.exposed_infant_number AS [Exposed Infant Number],
+    dei.mother_ctc_number AS [Mother CTC Number],
+    dei.exposed_infant_number AS [Exposed Infant Number],
     gender AS [Sex],
     exposed_infant_date_of_birth AS [DOB],
     dbo.fn_staging_calculate_age(exposed_infant_date_of_birth, GETDATE()) AS [Current Age],

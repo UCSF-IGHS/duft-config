@@ -129,7 +129,7 @@
 		</Dashboard>
 	</Tab>
 
-	<Tab title="HEI Need EID Test">
+	<Tab title="HEI Needing EID Test">
 		<Dashboard>
 
 			<SingleLayout>
@@ -164,17 +164,17 @@
 				<Grid>
 
 				<Row>
-					<Header> List of HEI Clients </Header>
+					<Header> List of HEI Clients Without Final Outcome </Header>
 				</Row>
 
 				<Row>
-					<SubHeader> Tabular representation of HEI clients. </SubHeader>
+					<SubHeader> Tabular representation of HEI clients without final outcome. </SubHeader>
 				</Row>
 
 				<Row columns="1" largeColumns="1" >
 					<DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
 						<QueryData>
-							<Include file="sql/hei/not_registered.sql" />
+							<Include file="sql/hei/without_final_outcome.sql" />
 						</QueryData>
 						<Include file="components/client_list.3dl" />
 					</DataProvider>
