@@ -7509,7 +7509,7 @@ a.anchor-link {
 </style>
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<main><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=b67a6eed">
+<main><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c666e33f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7587,8 +7587,8 @@ a.anchor-link {
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>DUFT Config: duft-config
 Init environment
-[2025-02-17T11:50:22.536457] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Starting Tille Lab transformation 17/02/2025 11:50:22 initialised running in active mode
-Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Starting Tille Lab transformation 17/02/2025 11:50:22 initialised running in active mode
+[2025-02-18T12:41:36.039582] Starting Tille Lab transformation 18/02/2025 12:41:36 - INFO: Starting Tille Lab transformation 18/02/2025 12:41:36 initialised running in active mode
+Starting Tille Lab transformation 18/02/2025 12:41:36 &gt;&gt;&gt;: Starting Tille Lab transformation 18/02/2025 12:41:36 initialised running in active mode
 </pre>
 </div>
 </div>
@@ -7627,6 +7627,7 @@ Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Starting Til
     <span class="n">mysql_conn</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">mysql_url</span><span class="p">)</span>
     <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"connected successfully to tille lab database: </span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_DATABASE_NAME'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
+    
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error connecting to MySQL: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
@@ -7643,8 +7644,8 @@ Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Starting Til
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-17T11:50:24.264752] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: connected successfully to tille lab database: labdashdb
-Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: connected successfully to tille lab database: labdashdb
+<pre>[2025-02-18T12:41:38.355393] Starting Tille Lab transformation 18/02/2025 12:41:36 - INFO: connected successfully to tille lab database: labdashdb
+Starting Tille Lab transformation 18/02/2025 12:41:36 &gt;&gt;&gt;: connected successfully to tille lab database: labdashdb
 </pre>
 </div>
 </div>
@@ -7714,6 +7715,7 @@ Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: connected su
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_schemas</span><span class="p">():</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">schemas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'source'</span><span class="p">,</span> <span class="s1">'derived'</span><span class="p">,</span> <span class="s1">'final'</span><span class="p">,</span> <span class="s1">'z'</span><span class="p">,</span> <span class="s1">'dbo'</span><span class="p">]</span>
+        
         <span class="k">for</span> <span class="n">schema</span> <span class="ow">in</span> <span class="n">schemas</span><span class="p">:</span>
             <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"""</span>
@@ -7906,18 +7908,18 @@ Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: connected su
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-17T11:50:25.923584] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Preparing Lab Visual Database
-Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Preparing Lab Visual Database
+<pre>[2025-02-18T12:41:40.454197] Starting Tille Lab transformation 18/02/2025 12:41:36 - INFO: Preparing Lab Visual Database
+Starting Tille Lab transformation 18/02/2025 12:41:36 &gt;&gt;&gt;: Preparing Lab Visual Database
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-17T11:50:27.448120] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Truncating LabVisual database tables
-Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Truncating LabVisual database tables
-[2025-02-17T11:50:27.464152] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Lab Visual Database preparation complete
-Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Lab Visual Database preparation complete
+<pre>[2025-02-18T12:41:41.978885] Starting Tille Lab transformation 18/02/2025 12:41:36 - INFO: Truncating LabVisual database tables
+Starting Tille Lab transformation 18/02/2025 12:41:36 &gt;&gt;&gt;: Truncating LabVisual database tables
+[2025-02-18T12:41:42.000643] Starting Tille Lab transformation 18/02/2025 12:41:36 - INFO: Lab Visual Database preparation complete
+Starting Tille Lab transformation 18/02/2025 12:41:36 &gt;&gt;&gt;: Lab Visual Database preparation complete
 </pre>
 </div>
 </div>
@@ -8009,8 +8011,8 @@ Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Lab Visual D
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-17T11:50:44.843626] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: 11401 rows inserted into tbl_Facilities.
-Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: 11401 rows inserted into tbl_Facilities.
+<pre>[2025-02-18T12:42:16.906548] Starting Tille Lab transformation 18/02/2025 12:41:36 - INFO: 11401 rows inserted into tbl_Facilities.
+Starting Tille Lab transformation 18/02/2025 12:41:36 &gt;&gt;&gt;: 11401 rows inserted into tbl_Facilities.
 </pre>
 </div>
 </div>
@@ -8037,21 +8039,22 @@ Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: 11401 rows i
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">extract_and_insert_sample_data</span><span class="p">():</span>
     <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">        SELECT DISTINCT trackingID as sampletrackingid, </span>
-<span class="s2">                        facilityHfrID, </span>
-<span class="s2">                        sampleType as SampleType, </span>
-<span class="s2">                        testName as TestName, </span>
-<span class="s2">                        sampleQuality as SampleQualityStatus, </span>
-<span class="s2">                        rejectionReason as SampleRejectionReason, </span>
-<span class="s2">                        sampleCollectionDate as CollectionDate, </span>
-<span class="s2">                        dateReceivedLab as ReceivedDate, </span>
-<span class="s2">                        results as Results, </span>
-<span class="s2">                        testedDate as TestDate, </span>
-<span class="s2">                        resultAuthorisedDate as AuthorisedDate, </span>
-<span class="s2">                        resultAuthorisedDate as DispatchDate,</span>
-<span class="s2">                        testInstrument as DeviceName,</span>
-<span class="s2">                        NULL as DeviceCode,</span>
-<span class="s2">                        IF(SUBSTR(trackingID, 1, 4) = 'BC03', 'lab', 'hub') as EntryModality</span>
+<span class="s2">        SELECT </span>
+<span class="s2">            DISTINCT trackingID as sampletrackingid, </span>
+<span class="s2">            facilityHfrID, </span>
+<span class="s2">            sampleType as SampleType, </span>
+<span class="s2">            testName as TestName, </span>
+<span class="s2">            sampleQuality as SampleQualityStatus, </span>
+<span class="s2">            rejectionReason as SampleRejectionReason, </span>
+<span class="s2">            sampleCollectionDate as CollectionDate, </span>
+<span class="s2">            dateReceivedLab as ReceivedDate, </span>
+<span class="s2">            results as Results, </span>
+<span class="s2">            testedDate as TestDate, </span>
+<span class="s2">            resultAuthorisedDate as AuthorisedDate, </span>
+<span class="s2">            resultAuthorisedDate as DispatchDate,</span>
+<span class="s2">            testInstrument as DeviceName,</span>
+<span class="s2">            NULL as DeviceCode,</span>
+<span class="s2">            IF(SUBSTR(trackingID, 1, 4) = 'BC03', 'lab', 'hub') as EntryModality</span>
 <span class="s2">        FROM tbl_labtests</span>
 <span class="s2">        WHERE sampleCollectionDate &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
 <span class="s2">        OR dateSentLab &gt;= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)</span>
@@ -8112,8 +8115,8 @@ Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: 11401 rows i
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-17T11:50:55.964117] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: 6861 row inserted into tbl_Sample.
-Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: 6861 row inserted into tbl_Sample.
+<pre>[2025-02-18T12:42:29.888602] Starting Tille Lab transformation 18/02/2025 12:41:36 - INFO: 6853 row inserted into tbl_Sample.
+Starting Tille Lab transformation 18/02/2025 12:41:36 &gt;&gt;&gt;: 6853 row inserted into tbl_Sample.
 </pre>
 </div>
 </div>
@@ -8293,16 +8296,16 @@ Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: 6861 row ins
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-17T11:51:02.093823] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Running ETL
-Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Running ETL
+<pre>[2025-02-18T12:42:36.077189] Starting Tille Lab transformation 18/02/2025 12:41:36 - INFO: Running ETL
+Starting Tille Lab transformation 18/02/2025 12:41:36 &gt;&gt;&gt;: Running ETL
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-17T11:51:03.609295] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Add SP
-Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Add SP
+<pre>[2025-02-18T12:42:37.606786] Starting Tille Lab transformation 18/02/2025 12:41:36 - INFO: Add SP
+Starting Tille Lab transformation 18/02/2025 12:41:36 &gt;&gt;&gt;: Add SP
 </pre>
 </div>
 </div>
@@ -8363,8 +8366,8 @@ Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Add SP
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-17T11:51:04.521806] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: ETL complete
-Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: ETL complete
+<pre>[2025-02-18T12:42:39.212814] Starting Tille Lab transformation 18/02/2025 12:41:36 - INFO: ETL complete
+Starting Tille Lab transformation 18/02/2025 12:41:36 &gt;&gt;&gt;: ETL complete
 </pre>
 </div>
 </div>
@@ -8392,8 +8395,8 @@ Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: ETL complete
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-02-17T11:57:02.579985] Starting Tille Lab transformation 17/02/2025 11:50:22 - INFO: Completed Tille Lab Transformation 17/02/2025 11:50:22
-Starting Tille Lab transformation 17/02/2025 11:50:22 &gt;&gt;&gt;: Completed Tille Lab Transformation 17/02/2025 11:50:22
+<pre>[2025-02-18T12:52:10.261265] Starting Tille Lab transformation 18/02/2025 12:41:36 - INFO: Completed Tille Lab Transformation 18/02/2025 12:41:36
+Starting Tille Lab transformation 18/02/2025 12:41:36 &gt;&gt;&gt;: Completed Tille Lab Transformation 18/02/2025 12:41:36
 </pre>
 </div>
 </div>
