@@ -17,7 +17,7 @@
                     </Row>
                 </DataProvider>
                 <Filters>
-                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
+                    <Filter caption="2021" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
                     <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
                 </Filters>
@@ -122,7 +122,7 @@
                         <QueryData>
                             SELECT category, sum(value) as value FROM vw_art_cascade WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021')) GROUP BY category ORDER BY CASE WHEN category = 'New Cases' THEN 1 WHEN category = 'Initiated on ART' THEN 2 WHEN category = 'Suppressed' THEN 3 WHEN category = 'Not Suppressed' THEN 4 END;
                         </QueryData>
-                        <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
+                        <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes'  }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
                     </DataProvider>
 
                 </Row>
@@ -182,7 +182,7 @@
                     </Row>
                 </DataProvider>
                 <Filters>
-                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
+                    <Filter caption="2021" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
                     <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
                 </Filters>
@@ -329,7 +329,7 @@
                     </Row>
                 </DataProvider>
                 <Filters>
-                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
+                    <Filter caption="2021" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
                     <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
                 </Filters>
@@ -483,7 +483,7 @@
                     </Row>
                 </DataProvider>
                 <Filters>
-                    <Filter caption="Year" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
+                    <Filter caption="2021" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
                     <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
                     <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
                 </Filters>
@@ -780,7 +780,7 @@
                         <QueryData>
                             SELECT category, "Active Clients" FROM vw_longterm_retention WHERE year &gt; 2005;
                         </QueryData>
-                        <BarChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Number of Years' }}, yaxis: { title: { text: 'Clients' }} }} header="Longterm Retention" subHeader="Stacked Bar Chart: Active Clients vs Years on ART (Longterm Retention)"/>
+                        <BarChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Number of Years' }}, yaxis: { title: { text: 'Clients' }} }} header="Longterm Retention" subHeader="Bar Chart: Active Clients vs Years on ART (Longterm Retention)"/>
                     </DataProvider>
 
 
