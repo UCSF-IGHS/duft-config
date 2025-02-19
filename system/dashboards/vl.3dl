@@ -5,12 +5,12 @@
           <Grid>
             <Row><Header>Viral Load Suppressed</Header></Row>
             <Row columns="1" largeColumns="1" >
-              <DataProvider pageSize="50" searchColumns='client_id' >
-                <QueryData filters={{ "last_viral_load_result_is_suppressed": '1' }}>
+              <Data pageSize="50" searchColumns='client_id' >
+                <Query filters={{ "last_viral_load_result_is_suppressed": '1' }}>
                     <Include file="sql/clients/client_list_vl.sql" />
-                </QueryData>
+                </Query>
                 <Include file="components/client_list.3dl" />
-              </DataProvider>
+              </Data>
             </Row>
           </Grid>
         </SingleLayout>
@@ -23,12 +23,12 @@
           <Grid>
             <Row><Header>Viral Load Not Suppressed</Header></Row>
             <Row columns="1" largeColumns="1" >
-              <DataProvider pageSize="50" searchColumns='client_id' >
-                <QueryData filters={{ "last_viral_load_result_is_not_suppressed": '1' }}>
+              <Data pageSize="50" searchColumns='client_id' >
+                <Query filters={{ "last_viral_load_result_is_not_suppressed": '1' }}>
                     <Include file="sql/clients/client_list_vl.sql" />
-                </QueryData>
+                </Query>
                 <Include file="components/client_list.3dl" />
-              </DataProvider>
+              </Data>
             </Row>
           </Grid>
         </SingleLayout>

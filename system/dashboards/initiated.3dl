@@ -5,12 +5,12 @@
           <Grid>
             <Row><Header>Initiated on ART</Header></Row>
             <Row columns="1" largeColumns="1" >
-              <Dataset pageSize={50} searchColumns="client_id" filters={{ "has_ever_been_initiated_on_art": '1' }}>
+              <Data pageSize={50} searchColumns="client_id" filters={{ "has_ever_been_initiated_on_art": '1' }}>
                 <Query>
                   <Include file="sql/clients/client_list_initiated.sql" />
                 </Query>
                 <Include file="components/client_list.3dl" />
-              </Dataset>
+              </Data>
             </Row>
           </Grid>
         </SingleLayout>
