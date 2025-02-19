@@ -30,6 +30,11 @@
           "name": "database",
           "type": "text",
           "label": "Database name"
+        },
+        {
+          "name": "type",
+          "type": "text",
+          "label": "Driver type"
         }
       ]
     },

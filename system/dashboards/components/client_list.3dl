@@ -1,7 +1,7 @@
 <InfiniteScrollTable id="table1" exportData="true" searchHint="CTC ID, Age, Sex" variant="plain" >
     <DetailsView2 columnName="CTC ID">
-        <DataProvider transpose='true'>
-            <QueryData>
+        <DataProvider>
+            <QueryData transpose='true'>
                 SELECT * from derived.dim_client WHERE ctc_id='&#123;CTC ID&#125;'
             </QueryData>
             <InfiniteScrollTable variant='plain' exportData="true" />

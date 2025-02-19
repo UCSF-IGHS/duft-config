@@ -4,7 +4,10 @@
     </QueryData>
     <InfiniteScrollTable id="table1" exportData="true" >
         <DetailsView2 columnName="ART Number Legacy">
-            <DataProvider transpose='true' query={`SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='{ART Number Legacy}'`}>
+            <DataProvider>
+                <QueryData transpose='true'>
+                    SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='{ART Number Legacy}'
+                </QueryData>
                 <InfiniteScrollTable variant='plain' />
             </DataProvider>
         </DetailsView2>

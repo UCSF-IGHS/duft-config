@@ -66,7 +66,7 @@
             <InfiniteScrollTable detailsComponent='infinite-scroll-table' header="Infinite scroll sample table" subHeader="A table to demo infinite scroll, search, sort, filtering" initialColumns="birth_date, emr_identifier, Client id">
               <DetailsView2 columnName='Client id'>
                 <DataProvider>
-                  <QueryData>
+                  <QueryData transpose='true'>
                     SELECT client_id AS category, gender AS value FROM dim_client WHERE client_id=&#123;Client id&#125;
                   </QueryData>
                   <InfiniteScrollTable variant='plain' />
@@ -74,7 +74,7 @@
               </DetailsView2>
               <DetailsView2 columnName='marital_status'>
                 <DataProvider>
-                  <QueryData>
+                  <QueryData transpose='true'>
                     SELECT client_id, gender, marital_status from dim_client WHERE marital_status='&#123;marital_status&#125;'
                   </QueryData>
                   <InfiniteScrollTable variant='plain' />
