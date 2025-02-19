@@ -44,8 +44,8 @@
         </Row>
 
         <Row columns="1">
-          <DataProvider pageSize="20" searchColumns='client_id, marital_status'>
-            <OpenmrsData
+          <Data pageSize="20" searchColumns='client_id, marital_status'>
+            <OpenMRS
               resource="appointments/search"
               method="POST"
               body={{
@@ -56,32 +56,32 @@
             />
             <InfiniteScrollTable header="PATIENTS FROM APPOINTMENTS">
             </InfiniteScrollTable>
-          </DataProvider>
+          </Data>
         </Row>
         <Row columns="1">
-          <DataProvider pageSize="20" searchColumns='client_id, marital_status'>
-            <QueryData>
+          <Data pageSize="20" searchColumns='client_id, marital_status'>
+            <Query>
               SELECT client_id as "Client id", birth_date, emr_identifier, marital_status, gender from dim_client
-            </QueryData>
+            </Query>
             <InfiniteScrollTable detailsComponent='infinite-scroll-table' header="Infinite scroll sample table" subHeader="A table to demo infinite scroll, search, sort, filtering" initialColumns="birth_date, emr_identifier, Client id">
-              <DetailsView2 columnName='Client id'>
-                <DataProvider>
-                  <QueryData>
+              <ContextDetailsView columnName='Client id'>
+                <Data>
+                  <Query>
                     SELECT client_id AS category, gender AS value FROM dim_client WHERE client_id=&#123;Client id&#125;
-                  </QueryData>
+                  </Query>
                   <InfiniteScrollTable variant='plain' />
-                </DataProvider>
-              </DetailsView2>
-              <DetailsView2 columnName='marital_status'>
-                <DataProvider>
-                  <QueryData>
+                </Data>
+              </ContextDetailsView>
+              <ContextDetailsView columnName='marital_status'>
+                <Data>
+                  <Query>
                     SELECT client_id, gender, marital_status from dim_client WHERE marital_status='&#123;marital_status&#125;'
-                  </QueryData>
+                  </Query>
                   <InfiniteScrollTable variant='plain' />
-                </DataProvider>
-              </DetailsView2>
+                </Data>
+              </ContextDetailsView>
             </InfiniteScrollTable>
-          </DataProvider>
+          </Data>
         </Row>
 
         <Dataset pageSize="20" searchColumns='client_id, marital_status' query='SELECT client_id as "Client id", birth_date, emr_identifier, marital_status, gender from dim_client'>
@@ -102,19 +102,19 @@
         </Dataset>
 
         <Row columns="1">
-          <DataProvider pageSize="15">
-            <ServerQueryData queryName="filters/age_group" />
+          <Data pageSize="15">
+            <Query queryName="filters/age_group" />
             <BarChart header='age group (server query)' subHeader='fact sentinel data' detailsComponent='infinite-scroll-table' exportData="true" />
-          </DataProvider>
+          </Data>
         </Row>
 
         <Row largeColumns='3' columns='2'>
-          <DataProvider>
-            <QueryData>
+          <Data>
+            <Query>
               SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2000 and 2007 GROUP BY year
-            </QueryData>
+            </Query>
             <BarChart header='fact_sentinel_event (query)' subHeader='fact sentinel data' detailsComponent='infinite-scroll-table' exportData="true" />
-          </DataProvider>
+          </Data>
 
           <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2006 and 2010 GROUP BY year'>
             <LineChart detailsComponent='infinite-scroll-table' exportData="true" />
