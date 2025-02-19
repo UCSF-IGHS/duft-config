@@ -1,0 +1,16 @@
+<Dashboard>
+  <Grid>
+    <Row><Header>Preview query</Header></Row>
+    <Data>
+        <Query>
+          SELECT * FROM dim_age_group LIMIT 20
+        </Query>
+      <Row columns='1'>
+        <PreviewQuery />
+      </Row>
+      <Row>
+        <SmartDataTable />
+      </ Row>
+    </Data>
+  </Grid>
+</Dashboard>
