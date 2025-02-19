@@ -1,0 +1,11 @@
+{
+    "aiModels": [
+        {
+            "id": "aphrc",
+            "name": "aphrc",
+            "description": "Sample model for interacting with wakanda sample dataset",
+            "engineURL": "http://localhost:11434/api/generate",
+            "maximumTokens": 2022
+        }                              
+    ]
+}
