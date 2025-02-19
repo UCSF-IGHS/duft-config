@@ -33,14 +33,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE hiv_diagnosis_date IS NOT NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -56,14 +56,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -80,14 +80,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Suppressed' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -103,14 +103,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Not Suppressed' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -198,14 +198,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -221,14 +221,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'First line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -244,14 +244,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'Second line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -267,14 +267,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'Unknown line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -345,14 +345,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -368,14 +368,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Suppressed' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -391,14 +391,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Not Suppressed' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -414,14 +414,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, needs_viral_load_test, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE needs_viral_load_test = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Need VL Test' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -499,14 +499,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -522,14 +522,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, has_exited, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited != 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Currently On ART' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -545,14 +545,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, exit_reason, exit_date FROM (SELECT se.client_id,hiv_diagnosis_date, exit_reason, exit_date, has_ever_been_initiated_on_art, has_exited, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Exited' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>
@@ -568,14 +568,14 @@
                                     SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, exit_date FROM (SELECT se.client_id,hiv_diagnosis_date, exit_date, has_ever_been_initiated_on_art, has_exited_died, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited_died = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Died' variant='plain' >
-                                    <DetailsView2 columnName='client_id'>
+                                    <ContextDetailsView columnName='client_id'>
                                         <Data>
                                         <Query transpose='true'>
                                             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
                                         </Query>
                                         <InfiniteScrollTable variant='plain' />
                                         </Data>
-                                    </DetailsView2>
+                                    </ContextDetailsView>
                                 </InfiniteScrollTable>
                             </Data>
                         </Tile>

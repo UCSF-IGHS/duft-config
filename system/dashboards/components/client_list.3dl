@@ -1,12 +1,12 @@
 <InfiniteScrollTable detailsTitle="Patient Details" id="table1" exportData="true" >
 
-    <DetailsView2 columnName='client_id'>
+    <ContextDetailsView columnName='client_id'>
         <DataProvider>
         <QueryData transpose='true'>
             SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
         </QueryData>
         <InfiniteScrollTable variant='plain' />
         </DataProvider>
-    </DetailsView2>
+    </ContextDetailsView>
 
 </InfiniteScrollTable>
