@@ -2,31 +2,39 @@
   <Tab title="Dashboard 1">
     <Dashboard title="My Dashboard">
       <Grid>
-        <Row>
-          <Header>Dashboard 1</Header>
-        </Row>
-        <Filters>
-          <Filter
-            caption="Gender"
-            name="gender"
-            values_query="SELECT 
-              CASE 
-                  WHEN ROW_NUMBER() OVER () = 1 THEN 'XX'
-                  ELSE 'XY'
-              END AS label,
-              gender AS value
-          FROM (
-              SELECT DISTINCT gender
-              FROM dim_client
-          ) AS distinct_genders;
-          "
-          />
-          <Filter
-            caption="Age Group"
-            name="age_group"
-            values_query="SELECT DISTINCT five_year_interval from dim_age_group"
-          />
-        </Filters>
+        <DashboardLayout>
+          <Row columns="2" smallColumns="1">
+            <Data stateId='genderData'>
+              <Query queryName="gender" />
+            </Data>
+            <Data stateId='ageGroupData'>
+              <Query queryName="five_year_interval" />
+            </Data>
+            <Data>
+              <Query>
+                select strftime('%Y-%m-%d',last_refresh_date) as last_refresh_date, 'Wakanda Hospital' as facility_name FROM last_refresh_date
+              </Query>
+              <Header>
+                <DataString>%facility_name%</DataString>
+              </Header>
+              <Subheader>
+                <DataString>Last updated on: %last_refresh_date%</DataString>
+              </Subheader>
+            </Data>
+            <Filters>
+              <Filter
+                caption="Gender"
+                name="gender"
+                data="genderData"
+              />
+              <Filter
+                caption="Age Group"
+                name="age_group"
+                data="ageGroupData"
+              />
+            </Filters>
+          </Row>
+        </DashboardLayout>
         <Row>
           <Dataset query="SELECT gender as category, COUNT(client_id) from dim_client WHERE gender='$gender' OR '$gender'='' GROUP BY gender">
             <BarChart
@@ -85,4 +93,4 @@
       </SingleView>
     </Dashboard>
   </Tab>
-</TabSet>;
+</TabSet>
