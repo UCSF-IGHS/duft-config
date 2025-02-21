@@ -1,1 +1,2 @@
-SELECT * FROM dim_age_group
+SELECT DISTINCT ten_year_interval
+FROM dim_age_group

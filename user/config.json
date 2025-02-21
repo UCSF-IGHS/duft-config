@@ -79,7 +79,7 @@
     "test": {},
     "settings": {
         "debug": true,
-        "oobe": false,
+        "oobe": true,
         "unittest": false
     }
 }
