@@ -84,23 +84,6 @@
           </Data>
         </Row>
 
-        <Dataset pageSize="20" searchColumns='client_id, marital_status' query='SELECT client_id as "Client id", birth_date, emr_identifier, marital_status, gender from dim_client'>
-          <Row columns='1'>
-            <InfiniteScrollTable detailsComponent='infinite-scroll-table' header="Infinite scroll sample table" subHeader="A table to demo infinite scroll, search, sort, filtering" initialColumns="birth_date, emr_identifier, Client id">
-              <DetailsView columnName='Client id'>
-                <Dataset query="SELECT client_id AS category, gender AS value from dim_client WHERE client_id={Client id}">
-                  <InfiniteScrollTable variant='plain' />
-                </Dataset>
-              </DetailsView>
-              <DetailsView columnName='marital_status'>
-                <Dataset pageSize="20" query="SELECT client_id, gender, marital_status from dim_client WHERE marital_status='{marital_status}'">
-                  <InfiniteScrollTable variant='plain' />
-                </Dataset>
-              </DetailsView>
-            </InfiniteScrollTable>
-          </Row>
-        </Dataset>
-
         <Row columns="1">
           <Data pageSize="15">
             <Query queryName="filters/age_group" />
@@ -162,6 +145,24 @@
             <DataTable />
           </Row>
         </Dataset>
+
+        <Dataset pageSize="20" searchColumns='client_id, marital_status' query='SELECT client_id as "Client id", birth_date, emr_identifier, marital_status, gender from dim_client'>
+          <Row columns='1'>
+            <InfiniteScrollTable detailsComponent='infinite-scroll-table' header="Infinite scroll sample table" subHeader="A table to demo infinite scroll, search, sort, filtering" initialColumns="birth_date, emr_identifier, Client id">
+              <DetailsView columnName='Client id'>
+                <Dataset query="SELECT client_id AS category, gender AS value from dim_client WHERE client_id={Client id}">
+                  <InfiniteScrollTable variant='plain' />
+                </Dataset>
+              </DetailsView>
+              <DetailsView columnName='marital_status'>
+                <Dataset pageSize="20" query="SELECT client_id, gender, marital_status from dim_client WHERE marital_status='{marital_status}'">
+                  <InfiniteScrollTable variant='plain' />
+                </Dataset>
+              </DetailsView>
+            </InfiniteScrollTable>
+          </Row>
+        </Dataset>
+
       </Grid>
     </Dashboard>
   </Tab>

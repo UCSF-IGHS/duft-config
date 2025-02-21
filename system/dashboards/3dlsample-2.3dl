@@ -1,81 +1,12 @@
 <Dashboard>
-  <Filters>
-    <Filter name="gender" values="Male,Female" />
-    <Filter
-      name="Drug regimen"
-      values_query="SELECT art_regimen_drugs FROM dim_art_regimen"
-    />
-    <Dataset staticData={["Apple", "Banana", "Cherry"]}>
-      <Visual1 />
-      <Visual3 />
-      <Filters>
-        <Filter name="occupation" values_query="SELECT * FROM dim_age_group" />
-        <Dataset query="SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 GROUP BY year"></Dataset>
-      </Filters>
-    </Dataset>
-    <Section title="JSON Visual">
-      <Dataset query="SELECT * FROM dim_age_group">
-      </Dataset>
-    </Section>
-    <Section title="Tiles">
-      <div style={{ display: "flex", flexWrap: "wrap", margin: "20px 0" }}>
-        <Dataset staticData={[1200]}>
-          <Visual5
-            title="Total Users"
-            backgroundColor="#e0f7fa"
-            color="#00796b"
-          />
-        </Dataset>
-        <Dataset staticData={[300]}>
-          <Visual5
-            title="Active Sessions"
-            backgroundColor="#f3e5f5"
-            color="#6a1b9a"
-          />
-        </Dataset>
-        <Dataset staticData={[12500]}>
-          <Visual5 title="Revenue" backgroundColor="#fff3e0" color="#ef6c00" />
-        </Dataset>
-      </div>
-    </Section>
-    <Section title="Charts">
-      <Dataset
-        staticData={[
-          { category: "Apples", value: 30 },
-          { category: "Bananas", value: 40 },
-          { category: "Cherries", value: 25 },
-        ]}
-      >
-        <Visual4 colors={["#FF4560", "#775DD0", "#FEB019"]} />
-      </Dataset>
-      <Dataset
-        staticData={[
-          { category: "Apples", value: 30 },
-          { category: "Bananas", value: 40 },
-          { category: "Cherries", value: 25 },
-        ]}
-      >
-        <DataTable />
-      </Dataset>
-    </Section>
-    <Section>
-      <Dataset
-        staticData={[
-          { category: "Apples", type: "fruit", value: 30 },
-          { category: "Bananas", type: "fruit", value: 40 },
-          { category: "Cherries", type: "fruit", value: 25 },
-          { category: "Chocolate", type: "vice", value: 16 },
-          { category: "Coffee", type: "vice", value: 49 },
-        ]}
-      >
-        <PivotTable />
-      </Dataset>
-    </Section>
-    <Row columns="1">
-      <Dataset query="SELECT client_id, birth_date, current_age, gender, marital_status, patient_source, facility_number, his_entry_type, education_level, residence_country from dim_client limit 5">
-        <PivotTable header="Pivot table" pivotRows={["client_id"]} pivotCols={["birth_date", "current_age", "gender", "marital_status", "patient_source"]} />
-      </Dataset>
-    </Row>
-
-  </Filters>
+  <Grid>
+    <Header>Sample header</Header>
+    <Filters>
+      <Filter name="gender" values="Male,Female" />
+      <Filter
+        name="Drug regimen"
+        values_query="SELECT art_regimen_drugs FROM dim_art_regimen"
+      />
+    </Filters>
+  </Grid>
 </Dashboard>
