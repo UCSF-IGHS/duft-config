@@ -590,7 +590,7 @@
                         cascadeSearchColumn="client_id"
                         nodeWidth="500"
                         nodeHeight="180">
-                        <Data pageSize="15" searchColumns='client_id'>
+                        <Data>
                             <Query>
                                 SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                             </Query>
@@ -604,7 +604,7 @@
                                 nodeBGColorHover: "#ffafcc",
                                 }}
                             >
-                                <Data pageSize="15" searchColumns='client_id'>
+                                <Data>
                                     <Query>
                                         SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, enrolment_date, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
@@ -619,7 +619,7 @@
                                         }}
                                     />
                                 </Data>
-                                <Data pageSize="15" searchColumns='client_id'>
+                                <Data>
                                     <Query>
                                         SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date ='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
@@ -635,7 +635,7 @@
                                     />
                                 </Data>
 
-                                <Data pageSize="15" searchColumns='client_id'>
+                                <Data>
                                     <Query>
                                         SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
@@ -652,7 +652,7 @@
                                     />
                                 </Data>
 
-                                <Data pageSize="15" searchColumns='client_id'>
+                                <Data>
                                     <Query>
                                         SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 0 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
@@ -669,7 +669,7 @@
                                     />
                                 </Data>
 
-                                <Data pageSize="15" searchColumns='client_id'>
+                                <Data>
                                     <Query>
                                         SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
@@ -686,7 +686,7 @@
                                 />
                                 </Data>
 
-                                <Data pageSize="15" searchColumns='client_id'>
+                                <Data>
                                     <Query>
                                         SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_not_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
@@ -703,7 +703,7 @@
                                 />
                                 </Data>
 
-                                <Data pageSize="15" searchColumns='client_id'>
+                                <Data>
                                     <Query>
                                         SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_not_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art AND last_viral_load_result_is_not_suppressed = '' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
