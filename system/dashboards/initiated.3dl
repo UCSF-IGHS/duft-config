@@ -6,7 +6,7 @@
             <Row><Header>Initiated on ART</Header></Row>
             <Row columns="1" largeColumns="1" >
               <Data pageSize={50} searchColumns="client_id" filters={{ "has_ever_been_initiated_on_art": '1' }}>
-                <Query>
+                <Query filters={{ "has_ever_been_initiated_on_art": '1' }}>
                   <Include file="sql/clients/client_list_initiated.sql" />
                 </Query>
                 <Include file="components/client_list.3dl" />
@@ -22,12 +22,12 @@
           <Grid>
             <Row><Header>Initiated on ART : First line</Header></Row>
             <Row columns="1" largeColumns="1" >
-              <DataProvider pageSize="50" searchColumns='client_id' >
-                <QueryData filters={{ "has_ever_been_initiated_on_art": '1', "first_art_regimen_line": 'First line' }}>
+              <Data pageSize="50" searchColumns='client_id' >
+                <Query filters={{ "has_ever_been_initiated_on_art": '1', "first_art_regimen_line": 'First line' }}>
                     <Include file="sql/clients/client_list_initiated.sql" />
-                </QueryData>
+                </Query>
                 <Include file="components/client_list.3dl" />
-              </DataProvider>
+              </Data>
             </Row>
           </Grid>
         </SingleLayout>
@@ -39,12 +39,12 @@
           <Grid>
             <Row><Header>Initiated on ART : Second line</Header></Row>
             <Row columns="1" largeColumns="1" >
-              <DataProvider pageSize="50" searchColumns='client_id' >
-                <QueryData filters={{ "first_art_regimen_line": 'Second line' }}>
+              <Data pageSize="50" searchColumns='client_id' >
+                <Query filters={{ "first_art_regimen_line": 'Second line' }}>
                     <Include file="sql/clients/client_list_initiated.sql" />
-                </QueryData>
+                </Query>
                 <Include file="components/client_list.3dl" />
-              </DataProvider>
+              </Data>
             </Row>
           </Grid>
         </SingleLayout>
@@ -57,12 +57,12 @@
           <Grid>
             <Row><Header>Initiated on ART : Unknown line</Header></Row>
             <Row columns="1" largeColumns="1" >
-              <DataProvider pageSize="50" searchColumns='client_id' >
-                <QueryData filters={{ "first_art_regimen_line": 'Unknown line' }}>
+              <Data pageSize="50" searchColumns='client_id' >
+                <Query filters={{ "first_art_regimen_line": 'Unknown line' }}>
                     <Include file="sql/clients/client_list_initiated.sql" />
-                </QueryData>
+                </Query>
                 <Include file="components/client_list.3dl" />
-              </DataProvider>
+              </Data>
             </Row>
           </Grid>
         </SingleLayout>
