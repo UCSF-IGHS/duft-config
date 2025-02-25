@@ -22,18 +22,21 @@
                         </Subheader>
                     </Row>
                 </Data>
-                <Filters>
-                    <Filter 
-                      caption="Gender" 
-                      name="gender" 
-                      data="genderData"
-                    />
-                    <Filter 
-                      caption="Age Group" 
-                      name="age_group" 
-                      data="ageGroupData"
-                    />
-                </Filters>
+                <Row columns="2" smallColumns="1">
+                  <Filters>
+                      <Filter 
+                        caption="Gender" 
+                        name="gender" 
+                        data="genderData"
+                      />
+                      <Filter 
+                        caption="Age Group" 
+                        name="age_group" 
+                        data="ageGroupData"
+                      />
+                  </Filters>
+                </Row>
+                
                 <Row columns = "2" largeColumns = "4">
 
                     <Data>

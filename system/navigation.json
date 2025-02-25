@@ -28,6 +28,11 @@
             "dashboard": "/dashboard/3dlsample-2"
           },
           {
+            "title": "Reference 3DL ",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/reference3dl"
+          },
+          {
             "title": "Tab Dashboard",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/3dlsample-tabs"
