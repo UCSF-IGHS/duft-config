@@ -18,12 +18,8 @@ SELECT
     delivery_date AS [Delivery Date],
     gender AS [Sex],
     pregnancy_outcome AS [Pregnancy Outcome],
-    date_of_birth AS [DOB],
-    CASE
-        WHEN date_of_death IS NULL
-            THEN dbo.fn_staging_calculate_age(date_of_birth, GETDATE())
-        ELSE dbo.fn_staging_calculate_age(date_of_birth, date_of_death)
-    END AS [Current Age],
+    dei.exposed_infant_date_of_birth AS [DOB],
+    dbo.fn_calculate_months_between_dates(dei.exposed_infant_date_of_birth, GETDATE()) AS [Age in Months],
     fv.visit_date AS [Registration Date],
     date_of_death AS [Date of Death]
 FROM
@@ -31,6 +27,10 @@ FROM
 INNER JOIN
     derived.dim_client dc
     ON fp.ctc_client_id = dc.client_id
+INNER JOIN derived.dim_exposed_infant dei
+    ON dei.mother_ctc_number = dc.ctc_id
+INNER JOIN ctc_a_source.dbo.tblExposedInfants tei
+    ON dei.exposed_infant_number = tei.ExposedInfantID
 LEFT JOIN
     first_visit_after_delivery fv
     ON fp.ctc_client_id = fv.client_id

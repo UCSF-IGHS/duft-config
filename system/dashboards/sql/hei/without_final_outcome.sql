@@ -1,13 +1,12 @@
 SELECT
     dc.ctc_id AS [CTC ID],
-    dei.mother_ctc_number AS [Mother CTC Number],
     dei.exposed_infant_number AS [Exposed Infant Number],
     gender AS [Sex],
     exposed_infant_date_of_birth AS [DOB],
     dbo.fn_staging_calculate_age(exposed_infant_date_of_birth, GETDATE()) AS [Current Age],
-    dbo.fn_calculate_months_between_dates(exposed_infant_date_of_birth, GETDATE()) AS [Age in Months],
-    feic.exposed_infant_outcome AS [Final Outcome],
-    feic.exposed_infant_outcome_date AS [Final Outcome Date]
+    dbo.fn_calculate_months_between_dates(exposed_infant_date_of_birth, GETDATE()) AS [Age in Months]
+    -- feic.exposed_infant_outcome AS [Final Outcome],
+    -- feic.exposed_infant_outcome_date AS [Final Outcome Date]
 FROM
     derived.dim_exposed_infant dei
 INNER JOIN derived.dim_client dc

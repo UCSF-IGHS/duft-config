@@ -23,11 +23,10 @@ WITH last_antibody_test AS (
 
 SELECT
     dc.ctc_id AS [CTC ID],
-    dei.mother_ctc_number AS [Mother CTC Number],
     dei.exposed_infant_number AS [Exposed Infant Number],
     gender AS [Sex],
     exposed_infant_date_of_birth AS [DOB],
-    dbo.fn_staging_calculate_age(exposed_infant_date_of_birth, GETDATE()) AS [Current Age],
+    dbo.fn_calculate_months_between_dates(exposed_infant_date_of_birth, GETDATE()) AS [Age in Months],
     lev.eid_visit_date AS [Last EID Visit Date],
     lat.eid_test_date AS [Last Antibody Test Date],
     lat.eid_test_type AS [Last Antibody Test Type],
