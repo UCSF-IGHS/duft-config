@@ -15,7 +15,6 @@
       <Query transpose='true'>
         SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
       </Query>
-      <Table variant='plain' />
     </Data>
     <Data name='tile_new_data'>
       <Query>
