@@ -1,42 +1,64 @@
 <Dashboards>
+
+  <Filters>
+    <Filter
+      caption="Gender"
+      name="filter_gender"
+      data="gender_data"
+    />
+    <Filter
+      caption="Age Group"
+      name="filter_age_group"
+      data="age_group_data"
+    />
+  </Filters>
+
+  <Actions>
+    <Action dataTask="SAMPLE-NOTEBOOK" date="2024-01-01">
+      Refresh data
+    </Action>
+    <Action dataTask="UPLOAD-DATA">Upload data</Action>
+  </Actions>
+
   <Dataset>
-    <Data name='gender_data' queryName="gender_raw" />
+    <SQLData name='gender_data' queryName="gender_raw" filterFrom="filter_gender, filter_age_group" />
 
-    <Data name='age_group_data'>
-      <Query queryName="age_group" />
-    </Data>
+    <SQLData name='age_group_data'>
+      <Query queryName="age_group" filterFrom="filter_gender, filter_age_group" />
+    </SQLData>
 
-    <Data name='current_date_data' queryName="current_date" />
+    <SQLData name='current_date_data' queryName="current_date" />
 
-    <Data name='client_data'>
+    <SQLData name='client_data'>
       <Query transpose='true'>
         SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
       </Query>
-    </Data>
-    <Data name='tile_new_data' queryName="tile/new" />
+    </SQLData>
 
-    <StaticData name='static_gender_data'>
+    <StaticData name='static_gender_data' filterFrom="filter_gender">
       {[
         { category: "Male", value: 30 },
         { category: "Female", value: 40 },
       ]}
     </StaticData>
 
-    <Data name='tile_initiated_data' queryName="tile/initited" />
+    <Data name='tile_new_data' queryName="tile/new" filterFrom="filter_gender, filter_age_group" />
 
-    <Data name='tile_suppressed_data' queryName="tile/suppressed" />
+    <SQLData name='tile_initiated_data' queryName="tile/initited" filterFrom="filter_gender, filter_age_group" />
 
-    <Data name='tile_not_suppressed_data' queryName="tile/not_suppressed" />
+    <SQLData name='tile_suppressed_data' queryName="tile/suppressed" filterFrom="filter_gender, filter_age_group" />
 
-    <Data name='tile_detailed_data' queryName="tile/detailed" pageSize="15" searchColumns='client_id' />
+    <SQLData name='tile_not_suppressed_data' queryName="tile/not_suppressed" filterFrom="filter_gender, filter_age_group" />
 
-    <Data name='art_cascade_data' queryName="clients/art_cascade" />
+    <SQLData name='tile_detailed_data' queryName="tile/detailed" pageSize="15" searchColumns='client_id' filterFrom="filter_gender, filter_age_group" />
 
-    <Data name='art_start_data' queryName="clients/art_start" />
+    <SQLData name='art_cascade_data' queryName="clients/art_cascade" filterFrom="filter_gender, filter_age_group" />
 
-    <Data name='regimen_age_group_data' queryName="percentage_stack" />
+    <SQLData name='art_start_data' queryName="clients/art_start" filterFrom="filter_gender, filter_age_group" />
 
-    <Data name='openmrs_data' pageSize="20" searchColumns='OpenMRSID, name'>
+    <SQLData name='regimen_age_group_data' queryName="percentage_stack" filterFrom="filter_gender, filter_age_group" />
+
+    <OpenMRSData name='openmrs_data' pageSize="20" searchColumns='OpenMRSID, name'>
       <OpenMRS
         resource="appointments/search"
         method="POST"
@@ -46,33 +68,13 @@
         }}
         adapter="patientsFromAppointments"
       />
-    </Data>
+    </OpenMRSData>
 
-    <Data pageSize="20" name='sentinel_event_data' queryName="clients/client_list_all" searchColumns='client_id, marital_status' />
+    <SQLData pageSize="20" name='sentinel_event_data' queryName="clients/client_list_all" filterFrom="filter_gender, filter_age_group" searchColumns='client_id, marital_status' />
   </Dataset>
   <TabSet>
     <Tab title="Dashboard 1">
       <Dashboard data="current_date_data" title="Dashboard 1" subTitle="My Dashboard 1" lastRefresh="Last updated on:">
-        <Filters>
-          <Filter
-            caption="Gender"
-            name="gender"
-            data="gender_data"
-          />
-          <Filter
-            caption="Age Group"
-            name="age_group"
-            data="age_group_data"
-          />
-        </Filters>
-
-        <Actions>
-          <Action dataTask="SAMPLE-NOTEBOOK" date="2024-01-01">
-            Refresh data
-          </Action>
-          <Action dataTask="UPLOAD-DATA">Upload data</Action>
-        </Actions>
-
         <Grid>
           <Row columns="2" largeColumns="4">
             <Tile data="tile_new_data" title="New Cases">
@@ -141,26 +143,6 @@
     </Tab>
     <Tab title="Dashboard 2">
       <Dashboard data="current_date_data" title="Dashboard 2" subTitle="My Dashboard 2" lastRefresh="Last updated on:">
-        <Filters>
-          <Filter
-            caption="Gender"
-            name="gender"
-            data="gender_data"
-          />
-          <Filter
-            caption="Age Group"
-            name="age_group"
-            data="age_group_data"
-          />
-        </Filters>
-
-        <Actions>
-          <Action dataTask="SAMPLE-NOTEBOOK" date="2024-01-01">
-            Refresh data
-          </Action>
-          <Action dataTask="UPLOAD-DATA">Upload data</Action>
-        </Actions>
-
         <Grid>
           <SingleLayout>
             <Header>Single layout sample table</Header>

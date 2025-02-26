@@ -23,6 +23,5 @@ SELECT
     COALESCE(SUM(CASE WHEN ar.age_group='70+' THEN ar.tot ELSE 0 END),0) AS '70+' 
 FROM all_combinations ac 
 LEFT JOIN actual_results ar ON ar.first_art_regimen=ac.first_art_regimen AND ar.age_group=ac.age_group 
-WHERE (gender = '$gender' OR '$gender' = '') AND (ar.age_group = '$age_group' OR '$age_group' = '')
 GROUP BY ac.first_art_regimen ORDER BY ac.first_art_regimen
                   
