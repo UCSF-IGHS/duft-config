@@ -7,28 +7,35 @@
     </Data>
 
     <Data name='current_date_data' queryName="current_date" />
-      
+
     <Data name='client_data'>
       <Query transpose='true'>
         SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
       </Query>
     </Data>
-    <Data name='tile_new_data' queryName="tile/new"/>
-      
-    <Data name='tile_initiated_data' queryName="tile/initited"/>
-      
-    <Data name='tile_suppressed_data' queryName="tile/suppressed"/>
-      
-    <Data name='tile_not_suppressed_data' queryName="tile/not_suppressed"/>
-      
-    <Data name='tile_detailed_data' queryName="tile/detailed" pageSize="15" searchColumns='client_id'/>
-      
+    <Data name='tile_new_data' queryName="tile/new" />
+
+    <StaticData name='static_gender_data'>
+      {[
+        { category: "Male", value: 30 },
+        { category: "Female", value: 40 },
+      ]}
+    </StaticData>
+
+    <Data name='tile_initiated_data' queryName="tile/initited" />
+
+    <Data name='tile_suppressed_data' queryName="tile/suppressed" />
+
+    <Data name='tile_not_suppressed_data' queryName="tile/not_suppressed" />
+
+    <Data name='tile_detailed_data' queryName="tile/detailed" pageSize="15" searchColumns='client_id' />
+
     <Data name='art_cascade_data' queryName="clients/art_cascade" />
-      
+
     <Data name='art_start_data' queryName="clients/art_start" />
-    
-    <Data name='regimen_age_group_data' queryName="percentage_stack"/>
-    
+
+    <Data name='regimen_age_group_data' queryName="percentage_stack" />
+
     <Data name='openmrs_data' pageSize="20" searchColumns='OpenMRSID, name'>
       <OpenMRS
         resource="appointments/search"
@@ -114,8 +121,9 @@
             <PercentStackedBarChart data="regimen_age_group_data" header='Percentage stacked chart' > <DetailsView><Table /></DetailsView> </PercentStackedBarChart>
           </Row>
 
-          <Row largeColumns='1' columns='1'>
+          <Row largeColumns='2' columns='2'>
             <PolarAreaChart data="art_start_data" />
+            <BarChart data="static_gender_data" />
           </Row>
 
           <Row largeColumns='3' columns='2'>
