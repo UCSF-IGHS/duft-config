@@ -6,54 +6,29 @@
       <Query queryName="age_group" />
     </Data>
 
-    <Data name='current_date_data'>
-      <Query>
-        SELECT CURRENT_DATE as today
-      </Query>
-    </Data>
+    <Data name='current_date_data' queryName="current_date" />
+      
     <Data name='client_data'>
       <Query transpose='true'>
         SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
       </Query>
     </Data>
-    <Data name='tile_new_data'>
-      <Query>
-        SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '');
-      </Query>
-    </Data>
-    <Data name='tile_initiated_data'>
-      <Query>
-        SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '');
-      </Query>
-    </Data>
-    <Data name='tile_suppressed_data'>
-      <Query>
-        SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '');
-      </Query>
-    </Data>
-    <Data name='tile_not_suppressed_data'>
-      <Query>
-        SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '');
-      </Query>
-    </Data>
-    <Data name='tile_detailed_data' pageSize="15" searchColumns='client_id'>
-      <Query>
-        SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '')
-      </Query>
-    </Data>
-    <Data name='art_cascade_data'>
-      <Query>
-        SELECT category, sum(value) as value FROM vw_art_cascade WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') GROUP BY category ORDER BY CASE WHEN category = 'New Cases' THEN 1 WHEN category = 'Initiated on ART' THEN 2 WHEN category = 'Suppressed' THEN 3 WHEN category = 'Not Suppressed' THEN 4 END;
-      </Query>
-    </Data>
-    <Data name='art_start_data'>
-      <Query>
-        SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN (SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND is_currently_on_art=1 AND year BETWEEN 2000 and 2007 GROUP BY year
-      </Query>
-    </Data>
-    <Data name='regimen_age_group_data'>
-      <Query queryName="percentage_stack" />
-    </Data>
+    <Data name='tile_new_data' queryName="tile/new"/>
+      
+    <Data name='tile_initiated_data' queryName="tile/initited"/>
+      
+    <Data name='tile_suppressed_data' queryName="tile/suppressed"/>
+      
+    <Data name='tile_not_suppressed_data' queryName="tile/not_suppressed"/>
+      
+    <Data name='tile_detailed_data' queryName="tile/detailed" pageSize="15" searchColumns='client_id'/>
+      
+    <Data name='art_cascade_data' queryName="clients/art_cascade" />
+      
+    <Data name='art_start_data' queryName="clients/art_start" />
+    
+    <Data name='regimen_age_group_data' queryName="percentage_stack"/>
+    
     <Data name='openmrs_data' pageSize="20" searchColumns='OpenMRSID, name'>
       <OpenMRS
         resource="appointments/search"
