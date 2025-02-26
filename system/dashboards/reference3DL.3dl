@@ -14,7 +14,7 @@
   </Filters>
 
   <Actions>
-    <Action dataTask="SAMPLE-NOTEBOOK" date="2024-01-01">
+    <Action dataTask="SAMPLE-NOTEBOOK" param="filter_gender">
       Refresh data
     </Action>
     <Action dataTask="UPLOAD-DATA">Upload data</Action>
