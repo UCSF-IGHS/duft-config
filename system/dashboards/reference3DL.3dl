@@ -47,12 +47,9 @@
         adapter="patientsFromAppointments"
       />
     </Data>
-    <Data pageSize="20" name='sentinel_event_data' searchColumns='client_id, marital_status'>
-      <Query>
-        SELECT client_id, birth_date, emr_identifier, marital_status, gender from dim_client
-      </Query>
-    </Data>
-  </Dataset>
+    
+    <Data pageSize="20" name='sentinel_event_data' queryName="clients/client_list_all" searchColumns='client_id, marital_status'/>
+
   <TabSet>
     <Tab title="Dashboard 1">
       <Dashboard data="current_date_data" title="Dashboard 1" subTitle="My Dashboard 1" lastRefresh="Last updated on:">

@@ -1,0 +1,1 @@
+SELECT client_id, birth_date, emr_identifier, marital_status, gender from dim_client
