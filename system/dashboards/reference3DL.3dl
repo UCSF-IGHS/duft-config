@@ -47,9 +47,9 @@
         adapter="patientsFromAppointments"
       />
     </Data>
-    
-    <Data pageSize="20" name='sentinel_event_data' queryName="clients/client_list_all" searchColumns='client_id, marital_status'/>
 
+    <Data pageSize="20" name='sentinel_event_data' queryName="clients/client_list_all" searchColumns='client_id, marital_status' />
+  </Dataset>
   <TabSet>
     <Tab title="Dashboard 1">
       <Dashboard data="current_date_data" title="Dashboard 1" subTitle="My Dashboard 1" lastRefresh="Last updated on:">
