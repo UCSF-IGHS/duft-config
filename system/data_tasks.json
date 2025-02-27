@@ -130,10 +130,10 @@
             }
         },        
         {
-            "id": "SAMPLE-NOTEBOOK",
-            "name": "Sample Notebook Task",
-            "description": "A sample notebook that does nothing",
-            "pythonFile": "sample_notebook.ipynb",
+            "id": "LAB-VISUAL-ETL",
+            "name": "Lab Visual ETL Transformation Task",
+            "description": "A notebook that runs the Lab Visual ETL Transformation Task",
+            "pythonFile": "lab_visual_etl.ipynb",
             "hideInUI": true,
             "dataConnections": [
                 "ANA",
@@ -141,8 +141,8 @@
             ],
             "supportedParameters": {
                 "name": {
-                    "title": "Name",
-                    "description": "The name you want to be displayed.",
+                    "title": "Lab Visual ETL",
+                    "description": "Lab Visual ETL.",
                     "defaultValue": "Cersei",
                     "allowOverride": true,
                     "promptUser": false
@@ -150,7 +150,7 @@
                 "sleep_time": {
                     "title": "Sleep Time",
                     "description": "Time to wait between execution steps in seconds.",
-                    "defaultValue": 0.5,
+                    "defaultValue": 2.0,
                     "allowOverride": true,
                     "promptUser": false
                 }
