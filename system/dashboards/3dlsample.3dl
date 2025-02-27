@@ -13,7 +13,7 @@
           </Row>
         </Dataset>
         <Row columns="2" largeColumns="4">
-          <Dataset query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+          <Dataset query={`SELECT COUNT(hiv_diagnosis_date) AS value FROM fact_sentinel_event WHERE SUBSTR(hiv_diagnosis_date, 1, 4) = '2022';`}>
             <Tile title="New Cases" modalWidth="medium" modalHeight="medium">
               <Dataset pageSize="20" searchColumns='client_id' query='SELECT client_id, birth_date, emr_identifier, marital_status, gender from dim_client'>
                 <InfiniteScrollTable header='dim client data' variant='plain' />
@@ -25,7 +25,7 @@
             <Tile title="Initiated" />
           </Dataset>
 
-          <Dataset query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+          <Dataset query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, 1, 4) = '2022';`}>
             <Tile title="Suppressed">
               <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
                 <InfiniteScrollTable header='Not Suppressed data' variant='plain' />
@@ -33,7 +33,7 @@
             </Tile>
           </Dataset>
 
-          <Dataset query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, -4) = '2022';`}>
+          <Dataset query={`SELECT COUNT(client_id) AS value FROM fact_sentinel_event WHERE last_viral_load_result_is_not_suppressed = 1 AND SUBSTR(hiv_diagnosis_date, 1, 4) = '2022';`}>
             <Tile title="Not Suppressed">
               <Dataset query='SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2020 and 2023 GROUP BY year'>
                 <SmartDataTable header='Not Suppressed data' variant='plain' />
