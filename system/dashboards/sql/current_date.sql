@@ -1,2 +1,1 @@
-SELECT DISTINCT gender
-FROM dim_client
+SELECT CURRENT_DATE as today
