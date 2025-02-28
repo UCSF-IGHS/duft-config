@@ -1,0 +1,27 @@
+<Dashboards>
+  
+  <Datasets>
+    <SQLData name='gender_data' queryName="gender" />
+    <SQLData name='current_date_data' queryName="current_date" />
+    <SQLData pageSize="20" name='sentinel_event_data' queryName="clients/client_list_all" filterFrom="filter_gender" searchColumns='client_id, marital_status' />
+  </Datasets>
+
+
+  <Dashboard data="current_date_data" title="Dashboard" subTitle="My Dashboard" lastRefresh="Last updated on: %today%">
+
+    <Filters>
+      <Filter
+        caption="Gender"
+        name="filter_gender"
+        data="gender_data"
+      />
+    </Filters>
+
+    <Grid>
+      <Row columns='1'>
+        <TestVisual data="sentinel_event_data" title="Infinite scroll sample table" subTitle="A table to demo infinite scroll, search, sort, filtering" />
+      </Row>
+    </Grid>
+  </Dashboard>
+
+</Dashboards>
