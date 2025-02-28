@@ -3,6 +3,16 @@
     <Tab title="A. ART Cascade">
         <Dashboard>
             <Grid>
+                <Data stateId='genderData'>
+                  <Query>SELECT DISTINCT UPPER(SUBSTR(gender, 1, 1)) || LOWER(SUBSTR(gender, 2)) as label, gender as value FROM dim_client</Query>
+                </Data>
+                <Data stateId='ageGroupData'>
+                  <Query>SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group</Query>
+                </Data>
+                <Data stateId='yearData'>
+                  <Query>SELECT DISTINCT strftime('%Y', full_date) AS year FROM dim_hiv_diagnosis_date WHERE strftime('%Y', full_date) &lt;= strftime('%Y', 'now')   ORDER BY year DESC;</Query>
+                </Data>
+
                 <Data>
                     <Query>
                         SELECT CURRENT_DATE as today
@@ -17,9 +27,9 @@
                     </Row>
                 </Data>
                 <Filters>
-                    <Filter caption="2021" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
-                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
+                    <Filter caption="2021" name="year" data="yearData"/>
+                    <Filter caption="Gender" name="gender" data="genderData"/>
+                    <Filter caption="Age Group" name="age_group" data="ageGroupData"/>
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
@@ -30,7 +40,7 @@
                         <Tile title="New Cases">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE hiv_diagnosis_date IS NOT NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE hiv_diagnosis_date IS NOT NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -53,7 +63,7 @@
                         <Tile title="Initiated">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -77,7 +87,7 @@
                         <Tile title="Suppressed">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Suppressed' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -100,7 +110,7 @@
                         <Tile title="Not Suppressed">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Not Suppressed' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -168,6 +178,15 @@
     <Tab title="B. Regimen Analysis">
         <Dashboard>
             <Grid>
+                <Data stateId='genderData'>
+                  <Query>SELECT DISTINCT UPPER(SUBSTR(gender, 1, 1)) || LOWER(SUBSTR(gender, 2)) as label, gender as value FROM dim_client</Query>
+                </Data>
+                <Data stateId='ageGroupData'>
+                  <Query>SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group</Query>
+                </Data>
+                <Data stateId='yearData'>
+                  <Query>SELECT DISTINCT strftime('%Y', full_date) AS year FROM dim_hiv_diagnosis_date WHERE strftime('%Y', full_date) &lt;= strftime('%Y', 'now')   ORDER BY year DESC;</Query>
+                </Data>
                 <Data>
                     <Query>
                         SELECT CURRENT_DATE as today
@@ -182,9 +201,9 @@
                     </Row>
                 </Data>
                 <Filters>
-                    <Filter caption="2021" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
-                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
+                    <Filter caption="2021" name="year" data="yearData"/>
+                    <Filter caption="Gender" name="gender" data="genderData"/>
+                    <Filter caption="Age Group" name="age_group" data="ageGroupData"/>
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
@@ -195,7 +214,7 @@
                         <Tile title="Initiated">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -218,7 +237,7 @@
                         <Tile title="First Line">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'First line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'First line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -241,7 +260,7 @@
                         <Tile title="Second Line">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'Second line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'Second line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -264,7 +283,7 @@
                         <Tile title="Unknown Line">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'Unknown line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'Unknown line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -315,6 +334,15 @@
     <Tab title="C. ART Outcome">
         <Dashboard>
             <Grid>
+                <Data stateId='genderData'>
+                  <Query>SELECT DISTINCT UPPER(SUBSTR(gender, 1, 1)) || LOWER(SUBSTR(gender, 2)) as label, gender as value FROM dim_client</Query>
+                </Data>
+                <Data stateId='ageGroupData'>
+                  <Query>SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group</Query>
+                </Data>
+                <Data stateId='yearData'>
+                  <Query>SELECT DISTINCT strftime('%Y', full_date) AS year FROM dim_hiv_diagnosis_date WHERE strftime('%Y', full_date) &lt;= strftime('%Y', 'now')   ORDER BY year DESC;</Query>
+                </Data>
                 <Data>
                     <Query>
                         SELECT CURRENT_DATE as today
@@ -329,9 +357,9 @@
                     </Row>
                 </Data>
                 <Filters>
-                    <Filter caption="2021" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
-                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
+                    <Filter caption="2021" name="year" data="yearData"/>
+                    <Filter caption="Gender" name="gender" data="genderData"/>
+                    <Filter caption="Age Group" name="age_group" data="ageGroupData"/>
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
@@ -342,7 +370,7 @@
                         <Tile title="Initiated">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group,  strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -365,7 +393,7 @@
                         <Tile title="Suppressed">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Suppressed' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -388,7 +416,7 @@
                         <Tile title="Not Suppressed">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Not Suppressed' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -411,7 +439,7 @@
                         <Tile title="Need VL Test">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, needs_viral_load_test, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE needs_viral_load_test = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, needs_viral_load_test, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE needs_viral_load_test = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Need VL Test' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -432,14 +460,14 @@
 
                     <Data>
                         <Query>
-                            SELECT CASE WHEN current_cascade_status = '' THEN 'Case Closed' ELSE current_cascade_status END AS category, COUNT( * ) AS value FROM ( SELECT client_id, current_cascade_status, SUBSTR(hiv_diagnosis_date, -4) AS year from fact_sentinel_event) se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) a ON c.current_age = a.age WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))  GROUP BY current_cascade_status 
+                            SELECT CASE WHEN current_cascade_status = '' THEN 'Case Closed' ELSE current_cascade_status END AS category, COUNT( * ) AS value FROM ( SELECT client_id, current_cascade_status, strftime('%Y', hiv_diagnosis_date) AS year from fact_sentinel_event) se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) a ON c.current_age = a.age WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))  GROUP BY current_cascade_status 
                         </Query>
                         <PieChart detailsComponent='infinite-scroll-table' exportData="true"  header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
                     </Data>
 
                     <Data>
                         <Query>
-                            SELECT CASE WHEN ds.current_cascade_status='' THEN 'Case Closed' ELSE ds.current_cascade_status END AS category,COALESCE(COUNT(fd.client_id),0) AS value FROM (SELECT DISTINCT COALESCE(current_cascade_status,'') AS current_cascade_status FROM fact_sentinel_event) ds LEFT JOIN (SELECT se.client_id,COALESCE(se.current_cascade_status,'') AS current_cascade_status,SUBSTR(se.hiv_diagnosis_date, -4) AS year FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN (SELECT age,TRIM(ten_year_interval) AS age_group FROM dim_age_group) a ON c.current_age=a.age WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))) fd ON ds.current_cascade_status=fd.current_cascade_status GROUP BY ds.current_cascade_status;
+                            SELECT CASE WHEN ds.current_cascade_status='' THEN 'Case Closed' ELSE ds.current_cascade_status END AS category,COALESCE(COUNT(fd.client_id),0) AS value FROM (SELECT DISTINCT COALESCE(current_cascade_status,'') AS current_cascade_status FROM fact_sentinel_event) ds LEFT JOIN (SELECT se.client_id,COALESCE(se.current_cascade_status,'') AS current_cascade_status,strftime('%Y', se.hiv_diagnosis_date) AS year FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN (SELECT age,TRIM(ten_year_interval) AS age_group FROM dim_age_group) a ON c.current_age=a.age WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))) fd ON ds.current_cascade_status=fd.current_cascade_status GROUP BY ds.current_cascade_status;
                         </Query>
                         <BarChart detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes"/>
                     </Data>
@@ -449,7 +477,7 @@
                 <Row columns = "1" largeColumns = "2">
                     <Data>
                         <Query>
-                            SELECT CASE WHEN current_cascade_status = '' THEN 'Case Closed' ELSE current_cascade_status END AS category, COUNT( * ) AS value FROM ( SELECT client_id, current_cascade_status, SUBSTR(hiv_diagnosis_date, -4) AS year from fact_sentinel_event) se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) a ON c.current_age = a.age WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))  GROUP BY current_cascade_status 
+                            SELECT CASE WHEN current_cascade_status = '' THEN 'Case Closed' ELSE current_cascade_status END AS category, COUNT( * ) AS value FROM ( SELECT client_id, current_cascade_status, strftime('%Y', hiv_diagnosis_date) AS year from fact_sentinel_event) se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) a ON c.current_age = a.age WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))  GROUP BY current_cascade_status 
                         </Query>
                         <DonutChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} detailsComponent='infinite-scroll-table' exportData="true" header="Donut Chart: ART Outcomes" subHeader="Donut Chart: ART Outcomes" />
                     </Data>
@@ -469,6 +497,15 @@
     <Tab title="D. ART Retention">
         <Dashboard>
             <Grid>
+                <Data stateId='genderData'>
+                  <Query>SELECT DISTINCT UPPER(SUBSTR(gender, 1, 1)) || LOWER(SUBSTR(gender, 2)) as label, gender as value FROM dim_client</Query>
+                </Data>
+                <Data stateId='ageGroupData'>
+                  <Query>SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group</Query>
+                </Data>
+                <Data stateId='yearData'>
+                  <Query>SELECT DISTINCT strftime('%Y', full_date) AS year FROM dim_hiv_diagnosis_date WHERE strftime('%Y', full_date) &lt;= strftime('%Y', 'now')   ORDER BY year DESC;</Query>
+                </Data>
                 <Data>
                     <Query>
                         SELECT CURRENT_DATE as today
@@ -483,9 +520,9 @@
                     </Row>
                 </Data>
                 <Filters>
-                    <Filter caption="2021" name="year" values_query={`SELECT DISTINCT SUBSTR(full_date, -4) AS year FROM dim_hiv_diagnosis_date WHERE SUBSTR(full_date, -4) <= strftime('%Y', 'now') ORDER BY year DESC;`}/>
-                    <Filter caption="Gender" name="gender" values_query={`SELECT DISTINCT gender from dim_client`}/>
-                    <Filter caption="Age Group" name="age_group" values_query={`SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group`}/>
+                    <Filter caption="2021" name="year" data="yearData"/>
+                    <Filter caption="Gender" name="gender" data="genderData"/>
+                    <Filter caption="Age Group" name="age_group" data="ageGroupData"/>
                 </Filters>
                 <Row columns = "2" largeColumns = "4">
 
@@ -496,7 +533,7 @@
                         <Tile title="Initiated">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -519,7 +556,7 @@
                         <Tile title="Currently On ART">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, has_exited, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited != 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, has_exited, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited != 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Currently On ART' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -542,7 +579,7 @@
                         <Tile title="Exited">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, exit_reason, exit_date FROM (SELECT se.client_id,hiv_diagnosis_date, exit_reason, exit_date, has_ever_been_initiated_on_art, has_exited, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, exit_reason, exit_date FROM (SELECT se.client_id,hiv_diagnosis_date, exit_reason, exit_date, has_ever_been_initiated_on_art, has_exited, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Exited' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -565,7 +602,7 @@
                         <Tile title="Died">
                             <Data pageSize="15" searchColumns='client_id'>
                                 <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, exit_date FROM (SELECT se.client_id,hiv_diagnosis_date, exit_date, has_ever_been_initiated_on_art, has_exited_died, age_group, SUBSTR(hiv_diagnosis_date, -4) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited_died = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, exit_date FROM (SELECT se.client_id,hiv_diagnosis_date, exit_date, has_ever_been_initiated_on_art, has_exited_died, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited_died = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                 </Query>
                                 <InfiniteScrollTable exportData="true" header='Died' variant='plain' >
                                     <ContextDetailsView columnName='client_id'>
@@ -592,13 +629,13 @@
                         nodeHeight="180">
                         <Data>
                             <Query>
-                                SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                             </Query>
                             <CascadeNode
                                 id="1"
                                 label="New Cases"
                                 parentId=""
-                                detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
+                                detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                                 options={{
                                 nodeBGColor: "#ffafcc",
                                 nodeBGColorHover: "#ffafcc",
@@ -606,13 +643,13 @@
                             >
                                 <Data>
                                     <Query>
-                                        SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, enrolment_date, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
                                     <CascadeNode
                                         id="2"
                                         parentId="1"
                                         label="Enroled into Care"
-                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, enrolment_date, first_art_drugs,last_art_date,last_art_drugs FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
+                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, enrolment_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NOT NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                                         options={{
                                         nodeBGColor: "#ffafcc",
                                         nodeBGColorHover: "#ffafcc",
@@ -621,13 +658,13 @@
                                 </Data>
                                 <Data>
                                     <Query>
-                                        SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date ='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
                                     <CascadeNode
                                         id="3"
                                         parentId="1"
                                         label="Not Enroled into Care"
-                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date ='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
+                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                                         options={{
                                         nodeBGColor: "#fff5fa",
                                         nodeBGColorHover: "#fff5fa",
@@ -637,14 +674,14 @@
 
                                 <Data>
                                     <Query>
-                                        SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NOT NULL AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
 
                                     <CascadeNode
                                         id="11"
                                         parentId="2"
                                         label="Initiated on ART"
-                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
+                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                                         options={{
                                         nodeBGColor: "#ffafcc",
                                         nodeBGColorHover: "#ffafcc",
@@ -654,14 +691,14 @@
 
                                 <Data>
                                     <Query>
-                                        SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 0 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 0 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
 
                                     <CascadeNode
                                         id="12"
                                         parentId="2"
                                         label="Not initiated on ART"
-                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 0 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
+                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 0 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                                         options={{
                                         nodeBGColor: "#fff5fa",
                                         nodeBGColorHover: "#fff5fa",
@@ -671,14 +708,14 @@
 
                                 <Data>
                                     <Query>
-                                        SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
 
                                 <CascadeNode
                                     id="110"
                                     parentId="11"
                                     label="VL Suppressed"
-                                    detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
+                                    detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                                     options={{
                                     nodeBGColor: "#fff5fa",
                                     nodeBGColorHover: "#fff5fa",
@@ -688,14 +725,14 @@
 
                                 <Data>
                                     <Query>
-                                        SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_not_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_not_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
                                 
                                 <CascadeNode
                                     id="111"
                                     parentId="11"
                                     label="VL Not Suppressed"
-                                    detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
+                                    detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                                     options={{
                                     nodeBGColor: "#ffafcc",
                                     nodeBGColorHover: "#ffafcc",
@@ -705,14 +742,14 @@
 
                                 <Data>
                                     <Query>
-                                        SELECT COUNT(*) as value FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_not_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art AND last_viral_load_result_is_not_suppressed = '' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
+                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_not_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art AND last_viral_load_result_is_not_suppressed = '' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
                                     </Query>
 
                                 <CascadeNode
                                     id="112"
                                     parentId="11"
                                     label="Due for VL"
-                                    detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select SUBSTR(hiv_diagnosis_date, -4) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art AND  last_viral_load_result_is_not_suppressed = '' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
+                                    detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art AND  last_viral_load_result_is_not_suppressed = '' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                                     options={{
                                     nodeBGColor: "#f9fafb",
                                     nodeBGColorHover: "#f9fafb",

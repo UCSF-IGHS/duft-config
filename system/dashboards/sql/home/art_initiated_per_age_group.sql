@@ -17,7 +17,7 @@ LEFT JOIN
             has_ever_been_initiated_on_art = 1 
             AND (gender = '$gender' OR '$gender' = '') AND 
 			(TRIM(ag.ten_year_interval) = '$age_group' OR '$age_group' = '') AND 
-			(SUBSTR(hiv_diagnosis_date, -4) = COALESCE(NULLIF('$year', ''), '2021'))
+			(strftime('%Y', hiv_diagnosis_date) = COALESCE(NULLIF('$year', ''), '2021'))
         GROUP BY TRIM(ag.ten_year_interval)
     ) b
 ON a.age_group = b.age_group

@@ -11,7 +11,7 @@ SELECT
 	 'Diagnosed' || ' - ' || month_name AS category_month,
 		gender, 
 		TRIM(ten_year_interval) AS age_group, 
-		SUBSTR(hiv_diagnosis_date, -4) AS year
+		strftime('%Y', hiv_diagnosis_date) AS year
 FROM
 		fact_sentinel_event s
 		INNER JOIN dim_client c ON c.client_id = s.client_id
@@ -30,7 +30,7 @@ SELECT
 	 'Died' || ' - ' || month_name AS category_month,
 		gender, 
 		TRIM(ten_year_interval) AS age_group, 
-		SUBSTR(hiv_diagnosis_date, -4) AS year
+		strftime('%Y', hiv_diagnosis_date) AS year
 FROM
 		fact_sentinel_event s
 		INNER JOIN dim_client c ON c.client_id = s.client_id
