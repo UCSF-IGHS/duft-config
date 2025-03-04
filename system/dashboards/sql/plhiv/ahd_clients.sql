@@ -1,12 +1,10 @@
 SELECT
     [CTC ID],
     [Current Age],
-    [DOB],
     [Sex],
     [Last CD4 Result Date],
     [Last CD4 Result Count],
     [Last CD4 < 200],
-    [WHO Stage 3/4 Date],
     [WHO Stage 3/4 With No CD4 Test],
     [AHD Suspect]
 FROM

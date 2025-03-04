@@ -1,7 +1,6 @@
 SELECT
     [CTC ID],
     [Current Age],
-    [DOB],
     [Sex],
     [Last VL Test Date],
     [Last VL Result Numeric],

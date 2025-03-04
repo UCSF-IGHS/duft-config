@@ -1,7 +1,6 @@
 SELECT
     [CTC ID],
     [Current Age],
-    [DOB],
     [Sex],
     [Last Visit Date],
     [Last Prescription Date],
