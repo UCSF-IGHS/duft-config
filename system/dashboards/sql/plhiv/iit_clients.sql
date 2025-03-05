@@ -3,15 +3,10 @@ SELECT
     [Current Age],
     [Sex],
     [Last Visit Date],
-    [Last Prescription Date],
     [Number of Days Prescribed],
+    [Next Appointment Date],
     [Days Since Last Visit],
-    [Drug Days Left],
-    [Should Have Drugs],
-    [Days Missed Drugs],
-    [Missed Drugs 1+ Days],
-    [Missed Drugs 29+ Days],
-    [Missed Drugs 29-90 Days]
+    [Days Missed Drugs]
 FROM
     duft.fact_duft_sentinel_event
 WHERE
