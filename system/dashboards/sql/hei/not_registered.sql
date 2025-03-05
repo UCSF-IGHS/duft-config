@@ -1,5 +1,5 @@
 SELECT
-    [Mother CTC ID],
+    [CTC ID],
     [Exposed Infant Number],
     [Child CTC ID],
     [Sex],
@@ -17,4 +17,4 @@ WHERE
 AND
     ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
 ORDER BY
-    [Mother CTC ID]
+    [CTC ID]

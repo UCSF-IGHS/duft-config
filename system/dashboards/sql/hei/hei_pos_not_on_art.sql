@@ -1,5 +1,5 @@
 SELECT
-    [Mother CTC ID],
+    [CTC ID],
     [Exposed Infant Number],
     [Child CTC ID],
     [Sex],
@@ -16,4 +16,4 @@ FROM
 WHERE
     [Last Antibody Result] = 'POS'
 ORDER BY
-    [Mother CTC ID]
+    [CTC ID]
