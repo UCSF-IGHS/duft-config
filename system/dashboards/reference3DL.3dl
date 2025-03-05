@@ -1,9 +1,9 @@
 <Dashboards>
 
   <Dataset>
-    <SQLData name='gender_data' queryName="gender_raw" filterFrom="filter_gender, filter_age_group" />
+    <SQLData name='gender_data' queryName="gender_raw" />
 
-    <SQLData name='age_group_data' queryName="age_group"  filterFrom="filter_gender, filter_age_group" />
+    <SQLData name='age_group_data' queryName="age_group" />
 
     <SQLData name='current_date_data' queryName="current_date" />
 
