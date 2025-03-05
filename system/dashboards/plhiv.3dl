@@ -7,7 +7,7 @@
                     <Header>Clients Needing Attention</Header>
                 </Row>
                 <Row>
-                    <Header small="true">Key HIV Indicators Needing Attention</Header>
+                    <Header small="true">Key HIV Indicators: Needing Attention</Header>
                 </Row>
 
                 <Row columns = "2" largeColumns = "4">
