@@ -3,16 +3,12 @@
   <Dataset>
     <SQLData name='gender_data' queryName="gender_raw" filterFrom="filter_gender, filter_age_group" />
 
-    <SQLData name='age_group_data'>
-      <Query queryName="age_group" filterFrom="filter_gender, filter_age_group" />
-    </SQLData>
+    <SQLData name='age_group_data' queryName="age_group"  filterFrom="filter_gender, filter_age_group" />
 
     <SQLData name='current_date_data' queryName="current_date" />
 
-    <SQLData name='client_data'>
-      <Query transpose='true'>
-        SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-      </Query>
+    <SQLData name='client_data' transpose='true'>
+        SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
     </SQLData>
 
     <StaticData name='static_gender_data' filterFrom="filter_gender">
