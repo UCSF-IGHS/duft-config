@@ -1,6 +1,6 @@
 {
   "settings": {
-    "appName": "DUFT (configurable)",
+    "appName": "DUFT",
     "footer": "Configurable footer text",
     "showSettings": "authenticatedOnly",
     "showAbout": "true"
@@ -11,7 +11,7 @@
     "dashboard": "/dashboard/home"
   },
   "menu": {
-    "header": "dashboards (configurable)",
+    "header": "Dashboards",
     "items": [
       {
         "title": "3DL Dashboards",
@@ -50,7 +50,7 @@
         ]
       },
       {
-        "title": "{API} More",
+        "title": "More Dashboards",
         "icon": "dashboards-icon",
         "dashboards": [
           {
@@ -83,7 +83,7 @@
     ]
   },
   "dataTasks": {
-    "header": "actions (configurable)",
+    "header": "Actions",
     "items": [
       {
         "title": "Refresh data",
