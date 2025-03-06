@@ -6,7 +6,15 @@
 
     <SQLData name="current_date_data" queryName="current_date" />
 
-    <SQLData name="client_data" queryName="tile/detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
+    <SQLData name="client_data" queryName="detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
+
+    <SQLData name="new_detailed_data" queryName="tile/new_detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
+
+    <SQLData name="initiated_detailed_data" queryName="tile/initiated_detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
+
+    <SQLData name="vl_suppressed_detailed_data" queryName="tile/vl_suppressed_detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
+
+    <SQLData name="vl_not_suppressed_detailed_data" queryName="tile/vl_not_suppressed_detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
 
     <StaticData name="static_gender_data" filterFrom="gender">
       {[
@@ -36,14 +44,6 @@
     <SQLData
       name="tile_not_suppressed_data"
       queryName="tile/not_suppressed"
-      filterFrom="gender"
-    />
-
-    <SQLData
-      name="tile_detailed_data"
-      queryName="tile/detailed"
-      pageSize="50"
-      searchColumns="client_id"
       filterFrom="gender"
     />
 
@@ -126,7 +126,7 @@
       <Row columns="2" largeColumns="4">
         <Tile data="tile_new_data" title="New Cases">
           <InfiniteScrollTable
-            data="client_data"
+            data="new_detailed_data"
             exportData="true"
             header="New Cases"
             variant="plain"
@@ -138,7 +138,7 @@
 
         <Tile data="tile_initiated_data" title="Initiated">
           <InfiniteScrollTable
-            data="client_data"
+            data="initiated_detailed_data"
             exportData="true"
             header="Initiated"
             variant="plain"
@@ -150,7 +150,7 @@
 
         <Tile data="tile_suppressed_data" title="Suppressed">
           <InfiniteScrollTable
-            data="client_data"
+            data="vl_suppressed_detailed_data"
             exportData="true"
             header="Suppressed"
             variant="plain"
@@ -162,7 +162,7 @@
 
         <Tile data="tile_not_suppressed_data" title="Not Suppressed">
           <InfiniteScrollTable
-            data="client_data"
+            data="vl_not_suppressed_detailed_data"
             exportData="true"
             header="Not Suppressed"
             variant="plain"
