@@ -121,6 +121,7 @@
             exportData="true"
             header="New Cases"
             variant="plain"
+            initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
           >
             <RowDetails columnName="client_id" />
           </InfiniteScrollTable>
@@ -132,6 +133,7 @@
             exportData="true"
             header="Initiated"
             variant="plain"
+            initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
           >
             <RowDetails columnName="client_id" />
           </InfiniteScrollTable>
@@ -143,6 +145,7 @@
             exportData="true"
             header="Suppressed"
             variant="plain"
+            initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
           >
             <RowDetails columnName="client_id" />
           </InfiniteScrollTable>
@@ -154,6 +157,7 @@
             exportData="true"
             header="Not Suppressed"
             variant="plain"
+            initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
           >
             <RowDetails columnName="client_id" />
           </InfiniteScrollTable>
