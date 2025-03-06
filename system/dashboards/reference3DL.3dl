@@ -6,9 +6,7 @@
 
     <SQLData name="current_date_data" queryName="current_date" />
 
-    <SQLData name="client_data" transpose="true" pageSize="1">
-      SELECT * FROM dim_age_group
-    </SQLData>
+    <SQLData name="client_data" queryName="tile/detailed" pageSize="15" filterFrom="filter_gender, filter_age_group"/>
 
     <StaticData name="static_gender_data" filterFrom="filter_gender">
       {[
@@ -94,10 +92,10 @@
 
   <Dashboard
     data="current_date_data"
-    tabName="Tab 1"
+    //tabName="Tab 1"
     title="Dashboard 1"
-    subTitle="My Dashboard 1"
-    lastRefresh="Last updated on:"
+    //subTitle="My Dashboard 1"
+    //lastRefresh="Last updated on:"
   >
     <Filters>
       <Filter caption="Gender" name="filter_gender" data="gender_data" />
