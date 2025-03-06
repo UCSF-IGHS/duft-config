@@ -90,8 +90,8 @@
     />
 
     <SQLData
-      name={sentinel_event_details_data}
-      detailsViewData={sentinel_event_data}
+      name="sentinel_event_details_data"
+      detailsViewData="sentinel_event_data"
       detailsViewColumn="client_id"
     >
       SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
@@ -273,7 +273,7 @@
           subHeader="A table to demo infinite scroll, search, sort, filtering"
           initialColumns="birth_date, emr_identifier, client_id, gender"
         >
-          <TestVisual data={sentinel_event_details_data} />
+          <InfiniteScrollTable data="sentinel_event_details_data" />
         </InfiniteScrollTable>
       </Row>
     </Grid>
