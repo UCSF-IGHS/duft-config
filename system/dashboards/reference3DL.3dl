@@ -92,10 +92,10 @@
 
   <Dashboard
     data="current_date_data"
-    //tabName="Tab 1"
+    tabName="Tab 1"
     title="Dashboard 1"
-    //subTitle="My Dashboard 1"
-    //lastRefresh="Last updated on:"
+    subTitle="My Dashboard 1"
+    lastRefresh="Last updated on:"
   >
     <Filters>
       <Filter caption="Gender" name="filter_gender" data="gender_data" />
