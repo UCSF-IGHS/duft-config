@@ -1,1 +1,1 @@
-SELECT SUM(new_cases) as new FROM vw_art_cascade_for_tiles;
+SELECT SUM(new_cases) as new FROM vw_art_cascade_for_tiles
