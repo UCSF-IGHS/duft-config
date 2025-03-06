@@ -1,5 +1,5 @@
 <Dashboards>
-  <Dataset>
+  <Datasets>
     <SQLData name="gender_data" queryName="gender_raw" />
 
     <SQLData name="age_group_data" queryName="age_group" />
@@ -88,7 +88,8 @@
       filterFrom="gender"
       searchColumns="client_id, emr_identifier"
     />
-  </Dataset>
+    
+  </Datasets>
 
   <Dashboard
     data="current_date_data"
