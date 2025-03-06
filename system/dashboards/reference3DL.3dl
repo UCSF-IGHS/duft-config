@@ -17,7 +17,7 @@
       ]}
     </StaticData>
 
-    <Data
+    <SQLData
       name="tile_new_data"
       queryName="tile/new"
       filterFrom="filter_gender, filter_age_group"
