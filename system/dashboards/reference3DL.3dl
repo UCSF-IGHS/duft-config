@@ -88,6 +88,14 @@
       filterFrom="gender"
       searchColumns="client_id, emr_identifier"
     />
+
+    <SQLData
+      name={sentinel_event_details_data}
+      detailsViewData={sentinel_event_data}
+      detailsViewColumn="client_id"
+    >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
     
   </Datasets>
 
@@ -265,9 +273,7 @@
           subHeader="A table to demo infinite scroll, search, sort, filtering"
           initialColumns="birth_date, emr_identifier, client_id, gender"
         >
-          <RowDetails columnName="client_id">
-            <Table data="client_data" variant="plain" />
-          </RowDetails>
+          <TestVisual data={sentinel_event_details_data} />
         </InfiniteScrollTable>
       </Row>
     </Grid>
