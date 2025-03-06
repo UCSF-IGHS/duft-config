@@ -6,15 +6,45 @@
 
     <SQLData name="current_date_data" queryName="current_date" />
 
-    <SQLData name="client_data" queryName="detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
+    <SQLData
+      name="client_data"
+      queryName="detailed"
+      pageSize="15"
+      searchColumns="client_id"
+      filterFrom="gender"
+    />
 
-    <SQLData name="new_detailed_data" queryName="tile/new_detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
+    <SQLData
+      name="new_detailed_data"
+      queryName="tile/new_detailed"
+      pageSize="15"
+      searchColumns="client_id"
+      filterFrom="gender"
+    />
 
-    <SQLData name="initiated_detailed_data" queryName="tile/initiated_detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
+    <SQLData
+      name="initiated_detailed_data"
+      queryName="tile/initiated_detailed"
+      pageSize="15"
+      searchColumns="client_id"
+      filterFrom="gender"
+    />
 
-    <SQLData name="vl_suppressed_detailed_data" queryName="tile/vl_suppressed_detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
+    <SQLData
+      name="vl_suppressed_detailed_data"
+      queryName="tile/vl_suppressed_detailed"
+      pageSize="15"
+      searchColumns="client_id"
+      filterFrom="gender"
+    />
 
-    <SQLData name="vl_not_suppressed_detailed_data" queryName="tile/vl_not_suppressed_detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
+    <SQLData
+      name="vl_not_suppressed_detailed_data"
+      queryName="tile/vl_not_suppressed_detailed"
+      pageSize="15"
+      searchColumns="client_id"
+      filterFrom="gender"
+    />
 
     <StaticData name="static_gender_data" filterFrom="gender">
       {[
@@ -23,11 +53,7 @@
       ]}
     </StaticData>
 
-    <SQLData
-      name="tile_new_data"
-      queryName="tile/new"
-      filterFrom="gender"
-    />
+    <SQLData name="tile_new_data" queryName="tile/new" filterFrom="gender" />
 
     <SQLData
       name="tile_initiated_data"
@@ -96,7 +122,6 @@
     >
       SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
     </SQLData>
-    
   </Datasets>
 
   <Dashboard
@@ -108,19 +133,15 @@
   >
     <Filters>
       <Filter caption="Gender" name="gender" data="gender_data" />
-      <Filter
-        caption="Age Group"
-        name="age_group"
-        data="age_group_data"
-      />
+      <Filter caption="Age Group" name="age_group" data="age_group_data" />
     </Filters>
 
-    {/* <Actions>
+    <Actions>
       <Action dataTask="SAMPLE-PARAM-NOTEBOOK" param="gender">
         Display Parameter
       </Action>
       <Action dataTask="UPLOAD-DATA">Upload data</Action>
-    </Actions> */}
+    </Actions>
 
     <Grid>
       <Row columns="2" largeColumns="4">
@@ -288,19 +309,15 @@
   >
     <Filters>
       <Filter caption="Gender" name="gender" data="gender_data" />
-      <Filter
-        caption="Age Group"
-        name="age_group"
-        data="age_group_data"
-      />
+      <Filter caption="Age Group" name="age_group" data="age_group_data" />
     </Filters>
 
-    {/* <Actions>
+    <Actions>
       <Action dataTask="SAMPLE-PARAM-NOTEBOOK" param="gender">
         Display Parameter
       </Action>
       <Action dataTask="UPLOAD-DATA">Upload data</Action>
-    </Actions> */}
+    </Actions>
     <Grid>
       <SingleLayout>
         <Header>Single layout sample table</Header>
