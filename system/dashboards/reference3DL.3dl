@@ -88,7 +88,7 @@
       name="sentinel_event_data"
       queryName="clients/client_list_all"
       filterFrom="filter_gender, filter_age_group"
-      searchColumns="client_id, marital_status"
+      searchColumns="client_id, emr_identifier"
     />
   </Dataset>
 
@@ -140,25 +140,25 @@
         </Tile>
 
         <Tile data="tile_suppressed_data" title="Suppressed">
-          <Table
+          <InfiniteScrollTable
             data="client_data"
             exportData="true"
             header="Suppressed"
             variant="plain"
           >
             <RowDetails columnName="client_id" />
-          </Table>
+          </InfiniteScrollTable>
         </Tile>
 
         <Tile data="tile_not_suppressed_data" title="Not Suppressed">
-          <Table
+          <InfiniteScrollTable
             data="client_data"
             exportData="true"
             header="Not Suppressed"
             variant="plain"
           >
             <RowDetails columnName="client_id" />
-          </Table>
+          </InfiniteScrollTable>
         </Tile>
       </Row>
 
@@ -257,9 +257,10 @@
       <Row columns="1">
         <InfiniteScrollTable
           data="sentinel_event_data"
+          exportData="true"
           header="Infinite scroll sample table"
           subHeader="A table to demo infinite scroll, search, sort, filtering"
-          initialColumns="birth_date, emr_identifier, client_id"
+          initialColumns="birth_date, emr_identifier, client_id, gender"
         >
           <RowDetails columnName="client_id">
             <Table data="client_data" variant="plain" />
