@@ -6,9 +6,9 @@
 
     <SQLData name="current_date_data" queryName="current_date" />
 
-    <SQLData name="client_data" queryName="tile/detailed" pageSize="15" filterFrom="filter_gender, filter_age_group"/>
+    <SQLData name="client_data" queryName="tile/detailed" pageSize="15" filterFrom="gender"/>
 
-    <StaticData name="static_gender_data" filterFrom="filter_gender">
+    <StaticData name="static_gender_data" filterFrom="gender">
       {[
         { category: "Male", value: 30 },
         { category: "Female", value: 40 },
@@ -18,25 +18,25 @@
     <SQLData
       name="tile_new_data"
       queryName="tile/new"
-      filterFrom="filter_gender, filter_age_group"
+      filterFrom="gender"
     />
 
     <SQLData
       name="tile_initiated_data"
       queryName="tile/initiated"
-      filterFrom="filter_gender, filter_age_group"
+      filterFrom="gender"
     />
 
     <SQLData
       name="tile_suppressed_data"
       queryName="tile/suppressed"
-      filterFrom="filter_gender, filter_age_group"
+      filterFrom="gender"
     />
 
     <SQLData
       name="tile_not_suppressed_data"
       queryName="tile/not_suppressed"
-      filterFrom="filter_gender, filter_age_group"
+      filterFrom="gender"
     />
 
     <SQLData
@@ -44,25 +44,25 @@
       queryName="tile/detailed"
       pageSize="15"
       searchColumns="client_id"
-      filterFrom="filter_gender, filter_age_group"
+      filterFrom="gender"
     />
 
     <SQLData
       name="art_cascade_data"
       queryName="clients/art_cascade"
-      filterFrom="filter_gender, filter_age_group"
+      filterFrom="gender"
     />
 
     <SQLData
       name="art_start_data"
       queryName="clients/art_start"
-      filterFrom="filter_gender, filter_age_group"
+      filterFrom="gender"
     />
 
     <SQLData
       name="regimen_age_group_data"
       queryName="percentage_stack"
-      filterFrom="filter_gender, filter_age_group"
+      filterFrom="gender"
     />
 
     <OpenMRSData
@@ -85,7 +85,7 @@
       pageSize="20"
       name="sentinel_event_data"
       queryName="clients/client_list_all"
-      filterFrom="filter_gender, filter_age_group"
+      filterFrom="gender"
       searchColumns="client_id, emr_identifier"
     />
   </Dataset>
@@ -98,16 +98,16 @@
     lastRefresh="Last updated on:"
   >
     <Filters>
-      <Filter caption="Gender" name="filter_gender" data="gender_data" />
+      <Filter caption="Gender" name="gender" data="gender_data" />
       <Filter
         caption="Age Group"
-        name="filter_age_group"
+        name="age_group"
         data="age_group_data"
       />
     </Filters>
 
     {/* <Actions>
-      <Action dataTask="SAMPLE-PARAM-NOTEBOOK" param="filter_gender">
+      <Action dataTask="SAMPLE-PARAM-NOTEBOOK" param="gender">
         Display Parameter
       </Action>
       <Action dataTask="UPLOAD-DATA">Upload data</Action>
@@ -280,16 +280,16 @@
     lastRefresh="Last updated on:"
   >
     <Filters>
-      <Filter caption="Gender" name="filter_gender" data="gender_data" />
+      <Filter caption="Gender" name="gender" data="gender_data" />
       <Filter
         caption="Age Group"
-        name="filter_age_group"
+        name="age_group"
         data="age_group_data"
       />
     </Filters>
 
     {/* <Actions>
-      <Action dataTask="SAMPLE-PARAM-NOTEBOOK" param="filter_gender">
+      <Action dataTask="SAMPLE-PARAM-NOTEBOOK" param="gender">
         Display Parameter
       </Action>
       <Action dataTask="UPLOAD-DATA">Upload data</Action>
