@@ -6,7 +6,7 @@
 
     <SQLData name="current_date_data" queryName="current_date" />
 
-    <SQLData name="client_data" queryName="tile/detailed" pageSize="15" filterFrom="gender"/>
+    <SQLData name="client_data" queryName="tile/detailed" pageSize="15" searchColumns="client_id" filterFrom="gender"/>
 
     <StaticData name="static_gender_data" filterFrom="gender">
       {[
@@ -42,7 +42,7 @@
     <SQLData
       name="tile_detailed_data"
       queryName="tile/detailed"
-      pageSize="15"
+      pageSize="50"
       searchColumns="client_id"
       filterFrom="gender"
     />
