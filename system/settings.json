@@ -1,22 +1,30 @@
 {
-    "name": "Quantum Extenstion",
-    "appName": "DUFT (configurable)",
-    "footer": "Configurable footer text",
+    "name": "Web Extenstion",
+    "appName": "CTCA Web Extension",
+    "footer": "Supported at UCSF Global Programs Office, Tanzania",
     "custom": "Custom setting",
-    "version": "1.0.0",
-    "logoURL": "https://duft.app/logo.png",
-    "repository": "github.com/duftapp/duft-basic-3dl",
+    "version": "1.0.1",
+    "logoURL": "https://duft.app/CTCA.png",
+    "repository": "https://github.com/UCSF-IGHS/duft-config/tree/tanzania-ctca-3dl",
     "credits": {
-        "organisaton": "DUFT Core Team",
-        "department": "UCSF Department",
-        "website": "https://duft.app",
+        "organisaton": "UCSF GP Tanzania",
+        "department": "HIS",
+        "website": "https://demo.duft.app",
         "productOwners": [
-            "Product Owner 1",
-            "Product Owner 2"
+            "Beatrice Octavian",
+            "Fitti Weissglas",
+            "Peter Lubambi",
+            "Immaculata Kessy"
+        ],
+        "implementers": [
+            "Beatrice Octavian",
+            "Ayubu Masasi"
         ],
         "developers": [
-            "Developer 1",
-            "Developer 2"
+            "Ian Manyama",
+            "Eric Mwailunga",
+            "Bernard Siele",
+            "Ayubu Masasi"
         ]
     },
     "additionalInfo": "An additional line of information can go here."
