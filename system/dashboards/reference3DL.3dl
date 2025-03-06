@@ -255,7 +255,7 @@
       </Row>
 
       <Row columns="1">
-        <Table
+        <InfiniteScrollTable
           data="sentinel_event_data"
           header="Infinite scroll sample table"
           subHeader="A table to demo infinite scroll, search, sort, filtering"
@@ -264,7 +264,7 @@
           <RowDetails columnName="client_id">
             <Table data="client_data" variant="plain" />
           </RowDetails>
-        </Table>
+        </InfiniteScrollTable>
       </Row>
     </Grid>
   </Dashboard>
