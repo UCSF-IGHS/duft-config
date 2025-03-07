@@ -129,7 +129,7 @@
     tabName="Tab 1"
     title="Dashboard 1"
     subTitle="My Dashboard 1"
-    lastRefresh="Last updated on:"
+    lastRefresh="Last updated on : %today%"
   >
     <Filters>
       <Filter caption="Gender" name="gender" data="gender_data" />
@@ -305,7 +305,7 @@
     tabName="Tab 2"
     title="Dashboard 2"
     subTitle="My Dashboard 2"
-    lastRefresh="Last updated on:"
+    lastRefresh="Last updated on : %today%"
   >
     <Filters>
       <Filter caption="Gender" name="gender" data="gender_data" />
