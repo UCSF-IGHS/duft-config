@@ -6,10 +6,28 @@
         <SQLData name="age_group_data" queryName="filters/age_group_wk" />
         <SQLData name="year_data" queryName="filters/year_wk" />
 
-        <SQLData 
-            name="tile_new_data" 
-            queryName="tile/new_wk" 
-            filterFrom="gender, age_group, year" 
+        <SQLData
+            name="art_cascade_data"
+            queryName="clients/art_cascade_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="art_cascade_by_gender_data"
+            queryName="clients/art_cascade_by_gender_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="art_cascade_by_age_group_data"
+            queryName="clients/art_cascade_by_age_group_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="tile_new_data"
+            queryName="tile/new_wk"
+            filterFrom="gender, age_group, year"
         />
 
         <SQLData
@@ -275,59 +293,93 @@
         </Filters>
 
         <Grid>
-        <Row columns="2" largeColumns="4">
-            <Tile data="tile_new_data" title="New Cases">
-            <Table
-                data="new_detailed_data"
-                exportData="true"
-                header="New Cases"
-                variant="plain"
-                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
-                detailsViewColumn="client_id"
-            >
-                <Table data="new_detailed_details_data" />
-            </Table>
-            </Tile>
+            <Row columns="2" largeColumns="4">
+                <Tile data="tile_new_data" title="New Cases">
+                    <Table
+                        data="new_detailed_data"
+                        exportData="true"
+                        header="New Cases"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="new_detailed_details_data" />
+                    </Table>
+                </Tile>
 
-            <Tile data="tile_initiated_data" title="Initiated">
-            <Table
-                data="initiated_detailed_data"
-                exportData="true"
-                header="Initiated"
-                variant="plain"
-                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
-                detailsViewColumn="client_id"
-            >
-                <Table data="initiated_detailed_details_data" />
-            </Table>
-            </Tile>
+                <Tile data="tile_initiated_data" title="Initiated">
+                    <Table
+                        data="initiated_detailed_data"
+                        exportData="true"
+                        header="Initiated"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="initiated_detailed_details_data" />
+                    </Table>
+                </Tile>
 
-            <Tile data="tile_suppressed_data" title="Suppressed">
-            <Table
-                data="suppressed_detailed_data"
-                exportData="true"
-                header="Suppressed"
-                variant="plain"
-                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
-                detailsViewColumn="client_id"
-            >
-                <Table data="suppressed_detailed_details_data" />
-            </Table>
-            </Tile>
+                <Tile data="tile_suppressed_data" title="Suppressed">
+                    <Table
+                        data="suppressed_detailed_data"
+                        exportData="true"
+                        header="Suppressed"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="suppressed_detailed_details_data" />
+                    </Table>
+                </Tile>
 
-            <Tile data="tile_not_suppressed_data" title="Not Suppressed">
-            <Table
-                data="not_suppressed_detailed_data"
-                exportData="true"
-                header="Not Suppressed"
-                variant="plain"
-                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
-                detailsViewColumn="client_id"
-            >
-                <Table data="not_suppressed_detailed_details_data" />
-            </Table>
-            </Tile>
-        </Row>
+                <Tile data="tile_not_suppressed_data" title="Not Suppressed">
+                    <Table
+                        data="not_suppressed_detailed_data"
+                        exportData="true"
+                        header="Not Suppressed"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="not_suppressed_detailed_details_data" />
+                    </Table>
+                </Tile>
+            </Row>
+
+            <Row columns="1" largeColumns="1">
+                <BarChart
+                    data="art_cascade_data"
+                    userOptions={{
+                        xaxis: { title: { text: "ART Outcomes" } },
+                        yaxis: { title: { text: "Clients" } },
+                    }}
+                    header="ART Cascade"
+                    subHeader="Bar Chart: ART Cascade"
+                />
+            </Row>
+
+            <Row columns="2" largeColumns="2">
+
+                <ClusteredBarChart data="art_cascade_by_gender_data" exportData="true" userOptions={{ xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender" detailsComponent='infinite-scroll-table'>
+                    <InfoTag>
+                        <Markdown header="ART Cascade">
+                            HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
+                        </Markdown>
+                    </InfoTag>
+                </ClusteredBarChart>
+                
+                
+                <ClusteredBarChart data="art_cascade_by_age_group_data" exportData="true" userOptions={{ stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group" detailsComponent='infinite-scroll-table'>
+                    <InfoTag>
+                        <Markdown header="ART Cascade">
+                            HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
+                        </Markdown>
+                    </InfoTag>
+                </ClusteredBarChart>
+                
+
+            </Row>
 
         </Grid>
 
@@ -347,64 +399,64 @@
         </Filters>
 
         <Grid>
-        <Row columns="2" largeColumns="4">
-            <Tile data="tile_initiated_data" title="Initiated">
-            <Table
-                data="initiated_detailed_data"
-                exportData="true"
-                header="Initiated"
-                variant="plain"
-                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
-                detailsViewColumn="client_id"
-            >
-                <Table data="initiated_detailed_details_data" />
-            </Table>
-            </Tile>
+            <Row columns="2" largeColumns="4">
+                <Tile data="tile_initiated_data" title="Initiated">
+                    <Table
+                        data="initiated_detailed_data"
+                        exportData="true"
+                        header="Initiated"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="initiated_detailed_details_data" />
+                    </Table>
+                </Tile>
 
-            <Tile data="tile_initiated_fl_data" title="First Line">
-            <Table
-                data="initiated_detailed_fl_data"
-                exportData="true"
-                header="First Line"
-                variant="plain"
-                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
-                detailsViewColumn="client_id"
-            >
-                <Table data="initiated_detailed_fl_details_data" />
-            </Table>
-            </Tile>
+                <Tile data="tile_initiated_fl_data" title="First Line">
+                    <Table
+                        data="initiated_detailed_fl_data"
+                        exportData="true"
+                        header="First Line"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="initiated_detailed_fl_details_data" />
+                    </Table>
+                </Tile>
 
-            <Tile data="tile_initiated_sl_data" title="Second Line">
-            <Table
-                data="initiated_detailed_sl_data"
-                exportData="true"
-                header="Second Line"
-                variant="plain"
-                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
-                detailsViewColumn="client_id"
-            >
-                <Table data="initiated_detailed_sl_details_data" />
-            </Table>
-            </Tile>
+                <Tile data="tile_initiated_sl_data" title="Second Line">
+                    <Table
+                        data="initiated_detailed_sl_data"
+                        exportData="true"
+                        header="Second Line"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="initiated_detailed_sl_details_data" />
+                    </Table>
+                </Tile>
 
-            <Tile data="tile_initiated_uk_data" title="Unknown Line">
-            <Table
-                data="initiated_detailed_uk_data"
-                exportData="true"
-                header="Unknown Line"
-                variant="plain"
-                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
-                detailsViewColumn="client_id"
-            >
-                <Table data="initiated_detailed_uk_details_data" />
-            </Table>
-            </Tile>
-        </Row>
+                <Tile data="tile_initiated_uk_data" title="Unknown Line">
+                    <Table
+                        data="initiated_detailed_uk_data"
+                        exportData="true"
+                        header="Unknown Line"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="initiated_detailed_uk_details_data" />
+                    </Table>
+                </Tile>
+            </Row>
 
         </Grid>
 
     </Dashboard>
-        
+
 
     <Dashboard
         data="current_date_data"
@@ -421,62 +473,62 @@
 
         <Grid>
             <Row columns="2" largeColumns="4">
-                
+
                 <Tile data="tile_initiated_fl_data" title="First Line">
-                <Table
-                    data="initiated_detailed_fl_data"
-                    exportData="true"
-                    header="First Line"
-                    variant="plain"
-                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
-                    detailsViewColumn="client_id"
-                >
-                    <Table data="initiated_detailed_fl_details_data" />
-                </Table>
+                    <Table
+                        data="initiated_detailed_fl_data"
+                        exportData="true"
+                        header="First Line"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="initiated_detailed_fl_details_data" />
+                    </Table>
                 </Tile>
 
                 <Tile data="tile_initiated_sl_data" title="Second Line">
-                <Table
-                    data="initiated_detailed_sl_data"
-                    exportData="true"
-                    header="Second Line"
-                    variant="plain"
-                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
-                    detailsViewColumn="client_id"
-                >
-                    <Table data="initiated_detailed_sl_details_data" />
-                </Table>
+                    <Table
+                        data="initiated_detailed_sl_data"
+                        exportData="true"
+                        header="Second Line"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="initiated_detailed_sl_details_data" />
+                    </Table>
                 </Tile>
 
                 <Tile data="tile_initiated_uk_data" title="Unknown Line">
-                <Table
-                    data="initiated_detailed_uk_data"
-                    exportData="true"
-                    header="Unknown Line"
-                    variant="plain"
-                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
-                    detailsViewColumn="client_id"
-                >
-                    <Table data="initiated_detailed_uk_details_data" />
-                </Table>
+                    <Table
+                        data="initiated_detailed_uk_data"
+                        exportData="true"
+                        header="Unknown Line"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="initiated_detailed_uk_details_data" />
+                    </Table>
                 </Tile>
 
                 <Tile data="tile_needs_vl_data" title="Needs VL">
-                <Table
-                    data="needs_vl_detailed_data"
-                    exportData="true"
-                    header="Needs VL"
-                    variant="plain"
-                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text"
-                    detailsViewColumn="client_id"
-                >
-                    <Table data="needs_vl_detailed_details_data" />
-                </Table>
+                    <Table
+                        data="needs_vl_detailed_data"
+                        exportData="true"
+                        header="Needs VL"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="needs_vl_detailed_details_data" />
+                    </Table>
                 </Tile>
             </Row>
         </Grid>
 
-        
+
 
     </Dashboard>
 
@@ -496,53 +548,53 @@
         <Grid>
             <Row columns="2" largeColumns="4">
                 <Tile data="tile_initiated_data" title="Initiated">
-                <Table
-                    data="initiated_detailed_data"
-                    exportData="true"
-                    header="Initiated"
-                    variant="plain"
-                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
-                    detailsViewColumn="client_id"
-                >
-                    <Table data="initiated_detailed_details_data" />
-                </Table>
+                    <Table
+                        data="initiated_detailed_data"
+                        exportData="true"
+                        header="Initiated"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="initiated_detailed_details_data" />
+                    </Table>
                 </Tile>
 
                 <Tile data="tile_on_art_data" title="On ART">
-                <Table
-                    data="on_art_detailed_data"
-                    exportData="true"
-                    header="On ART"
-                    variant="plain"
-                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
-                    detailsViewColumn="client_id"
-                >
-                    <Table data="on_art_detailed_details_data" />
-                </Table>
+                    <Table
+                        data="on_art_detailed_data"
+                        exportData="true"
+                        header="On ART"
+                        variant="plain"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="on_art_detailed_details_data" />
+                    </Table>
                 </Tile>
 
                 <Tile data="tile_exited_data" title="Exited">
-                <Table
-                    data="exited_detailed_data"
-                    exportData="true"
-                    header="Exited"
-                    variant="plain"
-                    detailsViewColumn="client_id"
-                >
-                    <Table data="exited_detailed_details_data" />
-                </Table>
+                    <Table
+                        data="exited_detailed_data"
+                        exportData="true"
+                        header="Exited"
+                        variant="plain"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="exited_detailed_details_data" />
+                    </Table>
                 </Tile>
 
                 <Tile data="tile_died_data" title="Died">
-                <Table
-                    data="died_detailed_data"
-                    exportData="true"
-                    header="Died"
-                    variant="plain"
-                    detailsViewColumn="client_id"
-                >
-                    <Table data="died_detailed_details_data" />
-                </Table>
+                    <Table
+                        data="died_detailed_data"
+                        exportData="true"
+                        header="Died"
+                        variant="plain"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="died_detailed_details_data" />
+                    </Table>
                 </Tile>
             </Row>
 
