@@ -23,12 +23,30 @@
     />
 
     <SQLData
+        name="new_detailed_details_data"
+        detailsViewData="new_detailed_data"
+        detailsViewColumn="client_id"
+        transpose="true"
+      >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
+
+    <SQLData
       name="initiated_detailed_data"
       queryName="tile/initiated_detailed"
       pageSize="15"
       searchColumns="client_id"
       filterFrom="gender"
     />
+
+    <SQLData
+        name="initiated_detailed_details_data"
+        detailsViewData="initiated_detailed_data"
+        detailsViewColumn="client_id"
+        transpose="true"
+      >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
 
     <SQLData
       name="vl_suppressed_detailed_data"
@@ -39,12 +57,30 @@
     />
 
     <SQLData
+        name="vl_suppressed_detailed_details_data"
+        detailsViewData="vl_suppressed_detailed_data"
+        detailsViewColumn="client_id"
+        transpose="true"
+      >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
+
+    <SQLData
       name="vl_not_suppressed_detailed_data"
       queryName="tile/vl_not_suppressed_detailed"
       pageSize="15"
       searchColumns="client_id"
       filterFrom="gender"
     />
+
+    <SQLData
+        name="vl_not_suppressed_detailed_details_data"
+        detailsViewData="vl_not_suppressed_detailed_data"
+        detailsViewColumn="client_id"
+        transpose="true"
+      >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
 
     <StaticData name="static_gender_data" filterFrom="gender">
       {[
@@ -119,6 +155,7 @@
       name="sentinel_event_details_data"
       detailsViewData="sentinel_event_data"
       detailsViewColumn="client_id"
+      transpose="true"
     >
       SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
     </SQLData>
@@ -152,7 +189,9 @@
             header="New Cases"
             variant="plain"
             initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
+            detailsViewColumn="client_id"
           >
+            <Table data="new_detailed_details_data" />
           </Table>
         </Tile>
 
@@ -163,7 +202,9 @@
             header="Initiated"
             variant="plain"
             initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+            detailsViewColumn="client_id"
           >
+            <Table data="initiated_detailed_details_data" />
           </Table>
         </Tile>
 
@@ -174,7 +215,9 @@
             header="Suppressed"
             variant="plain"
             initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
+            detailsViewColumn="client_id"
           >
+            <Table data="vl_suppressed_detailed_details_data" />
           </Table>
         </Tile>
 
@@ -185,7 +228,9 @@
             header="Not Suppressed"
             variant="plain"
             initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
+            detailsViewColumn="client_id"
           >
+            <Table data="vl_not_suppressed_detailed_details_data" />
           </Table>
         </Tile>
       </Row>
