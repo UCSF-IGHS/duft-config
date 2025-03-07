@@ -1,0 +1,1 @@
+SELECT SUM(needs_viral_load_test) AS needs_viral_load_test, PRINTF ('%.1f%%', SUM(needs_viral_load_test) * 100.0 /SUM(initiated_on_art)) AS percentage_need_vl_test FROM vw_art_cascade_for_tiles

@@ -1,0 +1,1 @@
+SELECT SUM(on_art) AS on_art, PRINTF ('%.1f%%',SUM(on_art) * 100.0 /SUM(ever_on_art)) AS percentage_initiated FROM vw_art_retention_for_tiles

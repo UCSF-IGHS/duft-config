@@ -1,846 +1,552 @@
-<TabSet>
+<Dashboards>
 
-    <Tab title="A. ART Cascade">
-        <Dashboard>
-            <Grid>
-                <Data stateId='genderData'>
-                  <Query>SELECT DISTINCT UPPER(SUBSTR(gender, 1, 1)) || LOWER(SUBSTR(gender, 2)) as label, gender as value FROM dim_client</Query>
-                </Data>
-                <Data stateId='ageGroupData'>
-                  <Query>SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group</Query>
-                </Data>
-                <Data stateId='yearData'>
-                  <Query>SELECT DISTINCT strftime('%Y', full_date) AS year FROM dim_hiv_diagnosis_date WHERE strftime('%Y', full_date) &lt;= strftime('%Y', 'now')   ORDER BY year DESC;</Query>
-                </Data>
+    <Datasets>
+        <SQLData name="current_date_data" queryName="current_date" />
+        <SQLData name="gender_data" queryName="filters/gender_wk" />
+        <SQLData name="age_group_data" queryName="filters/age_group_wk" />
+        <SQLData name="year_data" queryName="filters/year_wk" />
 
-                <Data>
-                    <Query>
-                        SELECT CURRENT_DATE as today
-                    </Query>
-                    <Row columns="2" smallColumns="1">
-                        <Header>
-                        <DataString>Wakanda Hospital</DataString>
-                        </Header>
-                        <Subheader>
-                        <DataString>Last updated on: %today%</DataString>
-                        </Subheader>
-                    </Row>
-                </Data>
-                <Filters>
-                    <Filter caption="2021" name="year" data="yearData"/>
-                    <Filter caption="Gender" name="gender" data="genderData"/>
-                    <Filter caption="Age Group" name="age_group" data="ageGroupData"/>
-                </Filters>
-                <Row columns = "2" largeColumns = "4">
+        <SQLData 
+            name="tile_new_data" 
+            queryName="tile/new_wk" 
+            filterFrom="gender, age_group, year" 
+        />
 
-                    <Data>
-                        <Query>
-                            SELECT SUM(new_cases) FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="New Cases">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE hiv_diagnosis_date IS NOT NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
+        <SQLData
+            name="new_detailed_data"
+            queryName="tile/new_detailed_wk"
+            pageSize="15"
+            searchColumns="client_id"
+            filterFrom="gender, age_group, year"
+        />
 
-                    <Data>
-                        <Query>
-                            SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Initiated">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
+        <SQLData
+            name="new_detailed_details_data"
+            detailsViewData="new_detailed_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+            SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
 
-                   
-                    <Data>
-                        <Query>
-                            SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Suppressed">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Suppressed' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
+        <SQLData
+            name="tile_initiated_data"
+            queryName="tile/initiated_wk"
+            filterFrom="gender, age_group, year"
+        />
 
-                    <Data>
-                        <Query>
-                            SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Not Suppressed">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Not Suppressed' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
-                </Row>
+        <SQLData
+            name="initiated_detailed_data"
+            queryName="tile/initiated_detailed_wk"
+            pageSize="15"
+            searchColumns="client_id"
+            filterFrom="gender, age_group, year"
+        />
 
-                <Row columns = "1" largeColumns = "1">
-                    <Data>
-                        <Query>
-                            SELECT category, sum(value) as value FROM vw_art_cascade WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021')) GROUP BY category ORDER BY CASE WHEN category = 'New Cases' THEN 1 WHEN category = 'Initiated on ART' THEN 2 WHEN category = 'Suppressed' THEN 3 WHEN category = 'Not Suppressed' THEN 4 END;
-                        </Query>
-                        <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes'  }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
-                    </Data>
+        <SQLData
+            name="initiated_detailed_details_data"
+            detailsViewData="initiated_detailed_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+            SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
 
-                </Row>
+        <SQLData
+            name="tile_suppressed_data"
+            queryName="tile/suppressed_wk"
+            filterFrom="gender, age_group, year"
+        />
 
-              
+        <SQLData
+            name="suppressed_detailed_data"
+            queryName="tile/suppressed_detailed_wk"
+            pageSize="15"
+            searchColumns="client_id"
+            filterFrom="gender, age_group, year"
+        />
 
-                <Row columns = "2" largeColumns = "2">
+        <SQLData
+            name="suppressed_detailed_details_data"
+            detailsViewData="suppressed_detailed_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+            SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
 
-                    <Data>
-                        <Query>
-                            <Include file="sql/home/art_cascade_per_gender.sql" />
-                        </Query>
-                        <ClusteredBarChart exportData="true" userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender" detailsComponent='infinite-scroll-table'>
-                            <InfoTag>
-                                <Markdown header="ART Cascade">
-                                    HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
-                                </Markdown>
-                            </InfoTag>
-                        </ClusteredBarChart>
-                    </Data>
+        <SQLData
+            name="tile_not_suppressed_data"
+            queryName="tile/not_suppressed_wk"
+            filterFrom="gender, age_group, year"
+        />
 
-                    <Data>
-                        <Query>
-                            <Include file="sql/home/art_cascade_per_age_group.sql" />
-                        </Query>
-                        <ClusteredBarChart exportData="true" userOptions={{stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group" detailsComponent='infinite-scroll-table'>
-                            <InfoTag>
-                                <Markdown header="ART Cascade">
-                                    HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
-                                </Markdown>
-                            </InfoTag>
-                        </ClusteredBarChart>
-                    </Data>
+        <SQLData
+            name="not_suppressed_detailed_data"
+            queryName="tile/not_suppressed_detailed_wk"
+            pageSize="15"
+            searchColumns="client_id"
+            filterFrom="gender, age_group, year"
+        />
 
-                </Row>
+        <SQLData
+            name="not_suppressed_detailed_details_data"
+            detailsViewData="not_suppressed_detailed_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+            SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
 
+        <SQLData
+            name="tile_needs_vl_data"
+            queryName="tile/needs_vl_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="needs_vl_detailed_data"
+            queryName="tile/needs_vl_detailed_wk"
+            pageSize="15"
+            searchColumns="client_id"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="needs_vl_detailed_details_data"
+            detailsViewData="needs_vl_detailed_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+            SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
+
+
+        <SQLData
+            name="tile_initiated_fl_data"
+            queryName="tile/initiated_fl_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="initiated_detailed_fl_data"
+            queryName="tile/initiated_fl_detailed_wk"
+            pageSize="15"
+            searchColumns="client_id"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="initiated_detailed_fl_details_data"
+            detailsViewData="initiated_detailed_fl_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+            SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
+
+        <SQLData
+            name="tile_initiated_sl_data"
+            queryName="tile/initiated_sl_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="initiated_detailed_sl_data"
+            queryName="tile/initiated_sl_detailed_wk"
+            pageSize="15"
+            searchColumns="client_id"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="initiated_detailed_sl_details_data"
+            detailsViewData="initiated_detailed_sl_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+            SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
+
+        <SQLData
+            name="tile_initiated_uk_data"
+            queryName="tile/initiated_uk_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="initiated_detailed_uk_data"
+            queryName="tile/initiated_uk_detailed_wk"
+            pageSize="15"
+            searchColumns="client_id"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="initiated_detailed_uk_details_data"
+            detailsViewData="initiated_detailed_uk_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+            SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
+
+        <SQLData
+            name="tile_on_art_data"
+            queryName="tile/on_art_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="on_art_detailed_data"
+            queryName="tile/on_art_detailed_wk"
+            pageSize="15"
+            searchColumns="client_id"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="on_art_detailed_details_data"
+            detailsViewData="on_art_detailed_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+            SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
+
+        <SQLData
+            name="tile_exited_data"
+            queryName="tile/exited_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="exited_detailed_data"
+            queryName="tile/exited_detailed_wk"
+            pageSize="15"
+            searchColumns="client_id"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="exited_detailed_details_data"
+            detailsViewData="exited_detailed_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+            SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
+
+        <SQLData
+            name="tile_died_data"
+            queryName="tile/died_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="died_detailed_data"
+            queryName="tile/died_detailed_wk"
+            pageSize="15"
+            searchColumns="client_id"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="died_detailed_details_data"
+            detailsViewData="died_detailed_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+            SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
+
+    </Datasets>
+    <Dashboard
+        data="current_date_data"
+        tabName="ART Cascade"
+        title="Wakanda Hospital"
+        subTitle="ART Cascade"
+        lastRefresh="Last updated on : %today%"
+    >
+        <Filters>
+            <Filter caption="Gender" name="gender" data="gender_data" />
+            <Filter caption="Age Group" name="age_group" data="age_group_data" />
+            <Filter caption="Year" name="year" data="year_data" />
+        </Filters>
+
+        <Grid>
+        <Row columns="2" largeColumns="4">
+            <Tile data="tile_new_data" title="New Cases">
+            <Table
+                data="new_detailed_data"
+                exportData="true"
+                header="New Cases"
+                variant="plain"
+                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
+                detailsViewColumn="client_id"
+            >
+                <Table data="new_detailed_details_data" />
+            </Table>
+            </Tile>
+
+            <Tile data="tile_initiated_data" title="Initiated">
+            <Table
+                data="initiated_detailed_data"
+                exportData="true"
+                header="Initiated"
+                variant="plain"
+                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                detailsViewColumn="client_id"
+            >
+                <Table data="initiated_detailed_details_data" />
+            </Table>
+            </Tile>
+
+            <Tile data="tile_suppressed_data" title="Suppressed">
+            <Table
+                data="suppressed_detailed_data"
+                exportData="true"
+                header="Suppressed"
+                variant="plain"
+                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
+                detailsViewColumn="client_id"
+            >
+                <Table data="suppressed_detailed_details_data" />
+            </Table>
+            </Tile>
+
+            <Tile data="tile_not_suppressed_data" title="Not Suppressed">
+            <Table
+                data="not_suppressed_detailed_data"
+                exportData="true"
+                header="Not Suppressed"
+                variant="plain"
+                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
+                detailsViewColumn="client_id"
+            >
+                <Table data="not_suppressed_detailed_details_data" />
+            </Table>
+            </Tile>
+        </Row>
+
+        </Grid>
+
+    </Dashboard>
+
+    <Dashboard
+        data="current_date_data"
+        tabName="Regimen Analysis"
+        title="Wakanda Hospital"
+        subTitle="Regimen Analysis"
+        lastRefresh="Last updated on : %today%"
+    >
+        <Filters>
+            <Filter caption="Gender" name="gender" data="gender_data" />
+            <Filter caption="Age Group" name="age_group" data="age_group_data" />
+            <Filter caption="Year" name="year" data="year_data" />
+        </Filters>
+
+        <Grid>
+        <Row columns="2" largeColumns="4">
+            <Tile data="tile_initiated_data" title="Initiated">
+            <Table
+                data="initiated_detailed_data"
+                exportData="true"
+                header="Initiated"
+                variant="plain"
+                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                detailsViewColumn="client_id"
+            >
+                <Table data="initiated_detailed_details_data" />
+            </Table>
+            </Tile>
+
+            <Tile data="tile_initiated_fl_data" title="First Line">
+            <Table
+                data="initiated_detailed_fl_data"
+                exportData="true"
+                header="First Line"
+                variant="plain"
+                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                detailsViewColumn="client_id"
+            >
+                <Table data="initiated_detailed_fl_details_data" />
+            </Table>
+            </Tile>
+
+            <Tile data="tile_initiated_sl_data" title="Second Line">
+            <Table
+                data="initiated_detailed_sl_data"
+                exportData="true"
+                header="Second Line"
+                variant="plain"
+                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                detailsViewColumn="client_id"
+            >
+                <Table data="initiated_detailed_sl_details_data" />
+            </Table>
+            </Tile>
+
+            <Tile data="tile_initiated_uk_data" title="Unknown Line">
+            <Table
+                data="initiated_detailed_uk_data"
+                exportData="true"
+                header="Unknown Line"
+                variant="plain"
+                initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                detailsViewColumn="client_id"
+            >
+                <Table data="initiated_detailed_uk_details_data" />
+            </Table>
+            </Tile>
+        </Row>
+
+        </Grid>
+
+    </Dashboard>
+        
+
+    <Dashboard
+        data="current_date_data"
+        tabName="ART Outcome"
+        title="Wakanda Hospital"
+        subTitle="ART Outcome"
+        lastRefresh="Last updated on : %today%"
+    >
+        <Filters>
+            <Filter caption="Gender" name="gender" data="gender_data" />
+            <Filter caption="Age Group" name="age_group" data="age_group_data" />
+            <Filter caption="Year" name="year" data="year_data" />
+        </Filters>
+
+        <Grid>
+            <Row columns="2" largeColumns="4">
                 
+                <Tile data="tile_initiated_fl_data" title="First Line">
+                <Table
+                    data="initiated_detailed_fl_data"
+                    exportData="true"
+                    header="First Line"
+                    variant="plain"
+                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                    detailsViewColumn="client_id"
+                >
+                    <Table data="initiated_detailed_fl_details_data" />
+                </Table>
+                </Tile>
 
-            </Grid>
-        </Dashboard>
-    </Tab>
+                <Tile data="tile_initiated_sl_data" title="Second Line">
+                <Table
+                    data="initiated_detailed_sl_data"
+                    exportData="true"
+                    header="Second Line"
+                    variant="plain"
+                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                    detailsViewColumn="client_id"
+                >
+                    <Table data="initiated_detailed_sl_details_data" />
+                </Table>
+                </Tile>
 
-    <Tab title="B. Regimen Analysis">
-        <Dashboard>
-            <Grid>
-                <Data stateId='genderData'>
-                  <Query>SELECT DISTINCT UPPER(SUBSTR(gender, 1, 1)) || LOWER(SUBSTR(gender, 2)) as label, gender as value FROM dim_client</Query>
-                </Data>
-                <Data stateId='ageGroupData'>
-                  <Query>SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group</Query>
-                </Data>
-                <Data stateId='yearData'>
-                  <Query>SELECT DISTINCT strftime('%Y', full_date) AS year FROM dim_hiv_diagnosis_date WHERE strftime('%Y', full_date) &lt;= strftime('%Y', 'now')   ORDER BY year DESC;</Query>
-                </Data>
-                <Data>
-                    <Query>
-                        SELECT CURRENT_DATE as today
-                    </Query>
-                    <Row columns="2" smallColumns="1">
-                        <Header>
-                        <DataString>Wakanda Hospital</DataString>
-                        </Header>
-                        <Subheader>
-                        <DataString>Last updated on: %today%</DataString>
-                        </Subheader>
-                    </Row>
-                </Data>
-                <Filters>
-                    <Filter caption="2021" name="year" data="yearData"/>
-                    <Filter caption="Gender" name="gender" data="genderData"/>
-                    <Filter caption="Age Group" name="age_group" data="ageGroupData"/>
-                </Filters>
-                <Row columns = "2" largeColumns = "4">
+                <Tile data="tile_initiated_uk_data" title="Unknown Line">
+                <Table
+                    data="initiated_detailed_uk_data"
+                    exportData="true"
+                    header="Unknown Line"
+                    variant="plain"
+                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                    detailsViewColumn="client_id"
+                >
+                    <Table data="initiated_detailed_uk_details_data" />
+                </Table>
+                </Tile>
 
-                    <Data>
-                        <Query>
-                            SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Initiated">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
+                <Tile data="tile_needs_vl_data" title="Needs VL">
+                <Table
+                    data="needs_vl_detailed_data"
+                    exportData="true"
+                    header="Needs VL"
+                    variant="plain"
+                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text"
+                    detailsViewColumn="client_id"
+                >
+                    <Table data="needs_vl_detailed_details_data" />
+                </Table>
+                </Tile>
+            </Row>
+        </Grid>
 
-                    <Data>
-                        <Query>
-                            SELECT SUM(first_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(first_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="First Line">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'First line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
+        
 
-                    <Data>
-                        <Query>
-                            SELECT SUM(second_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(second_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Second Line">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'Second line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
+    </Dashboard>
 
-                    <Data>
-                        <Query>
-                            SELECT SUM(unknown_line) AS initiated_on_art, PRINTF ('%.1f%%', SUM(unknown_line) * 100.0 /SUM(initiated_on_art)) AS percentage_initiated FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Unknown Line">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_regimen_line, first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE first_art_regimen_line = 'Unknown line'  AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
+    <Dashboard
+        data="current_date_data"
+        tabName="ART Retention"
+        title="Wakanda Hospital"
+        subTitle="ART Retention"
+        lastRefresh="Last updated on : %today%"
+    >
+        <Filters>
+            <Filter caption="Gender" name="gender" data="gender_data" />
+            <Filter caption="Age Group" name="age_group" data="age_group_data" />
+            <Filter caption="Year" name="year" data="year_data" />
+        </Filters>
 
+        <Grid>
+            <Row columns="2" largeColumns="4">
+                <Tile data="tile_initiated_data" title="Initiated">
+                <Table
+                    data="initiated_detailed_data"
+                    exportData="true"
+                    header="Initiated"
+                    variant="plain"
+                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                    detailsViewColumn="client_id"
+                >
+                    <Table data="initiated_detailed_details_data" />
+                </Table>
+                </Tile>
 
-                </Row>
-                <Row columns = "1" largeColumns = "2">
+                <Tile data="tile_on_art_data" title="On ART">
+                <Table
+                    data="on_art_detailed_data"
+                    exportData="true"
+                    header="On ART"
+                    variant="plain"
+                    initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                    detailsViewColumn="client_id"
+                >
+                    <Table data="on_art_detailed_details_data" />
+                </Table>
+                </Tile>
 
-                    <Data>
-                        <Query>
-                            SELECT category, sum(value) as value FROM vw_art_regimen_lines WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021')) GROUP BY category;
-                        </Query>
-                        <DonutChart exportData="true" header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines" detailsComponent='infinite-scroll-table'/>
-                    </Data>
+                <Tile data="tile_exited_data" title="Exited">
+                <Table
+                    data="exited_detailed_data"
+                    exportData="true"
+                    header="Exited"
+                    variant="plain"
+                    detailsViewColumn="client_id"
+                >
+                    <Table data="exited_detailed_details_data" />
+                </Table>
+                </Tile>
 
-                    <Data>
-                        <Query>
-                            <Include file="sql/home/art_regimen_per_age_group.sql" />
-                        </Query>
-                        <ClusteredBarChart detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines"/>
-                    </Data>
+                <Tile data="tile_died_data" title="Died">
+                <Table
+                    data="died_detailed_data"
+                    exportData="true"
+                    header="Died"
+                    variant="plain"
+                    detailsViewColumn="client_id"
+                >
+                    <Table data="died_detailed_details_data" />
+                </Table>
+                </Tile>
+            </Row>
 
-                </Row>
-                <Row columns = "1" largeColumns = "1">
-                    <Data>
-                        <Query>
-                            <Include file="sql/home/art_regimen_at_initiation.sql" />
-                        </Query>
-                        <PercentStackedBarChart detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimens' }}, yaxis: { title: { text: 'Percentage' }} }} header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation"/>
-                    </Data>
+        </Grid>
 
-                </Row>
-            </Grid>
-        </Dashboard>
-    </Tab>
-
-    <Tab title="C. ART Outcome">
-        <Dashboard>
-            <Grid>
-                <Data stateId='genderData'>
-                  <Query>SELECT DISTINCT UPPER(SUBSTR(gender, 1, 1)) || LOWER(SUBSTR(gender, 2)) as label, gender as value FROM dim_client</Query>
-                </Data>
-                <Data stateId='ageGroupData'>
-                  <Query>SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group</Query>
-                </Data>
-                <Data stateId='yearData'>
-                  <Query>SELECT DISTINCT strftime('%Y', full_date) AS year FROM dim_hiv_diagnosis_date WHERE strftime('%Y', full_date) &lt;= strftime('%Y', 'now')   ORDER BY year DESC;</Query>
-                </Data>
-                <Data>
-                    <Query>
-                        SELECT CURRENT_DATE as today
-                    </Query>
-                    <Row columns="2" smallColumns="1">
-                        <Header>
-                        <DataString>Wakanda Hospital</DataString>
-                        </Header>
-                        <Subheader>
-                        <DataString>Last updated on: %today%</DataString>
-                        </Subheader>
-                    </Row>
-                </Data>
-                <Filters>
-                    <Filter caption="2021" name="year" data="yearData"/>
-                    <Filter caption="Gender" name="gender" data="genderData"/>
-                    <Filter caption="Age Group" name="age_group" data="ageGroupData"/>
-                </Filters>
-                <Row columns = "2" largeColumns = "4">
-
-                    <Data>
-                        <Query>
-                            SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Initiated">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group,  strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
-
-                    <Data>
-                        <Query>
-                            SELECT SUM(suppressed) AS suppressed, PRINTF ('%.1f%%',SUM(suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Suppressed">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Suppressed' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
-
-                    <Data>
-                        <Query>
-                            SELECT SUM(not_suppressed) AS not_suppressed, PRINTF ('%.1f%%',SUM(not_suppressed) * 100.0 /SUM(initiated_on_art)) AS percentage_not_suppressed FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Not Suppressed">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Not Suppressed' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
-
-                    <Data>
-                        <Query>
-                            SELECT SUM(needs_viral_load_test) AS needs_viral_load_test, PRINTF ('%.1f%%', SUM(needs_viral_load_test) * 100.0 /SUM(initiated_on_art)) AS percentage_need_vl_test FROM vw_art_cascade_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Need VL Test">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs, needs_viral_load_test, last_viral_load_date, last_viral_load_result_text FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE needs_viral_load_test = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Need VL Test' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
-
-                </Row>
-                <Row columns = "1" largeColumns = "2">
-
-                    <Data>
-                        <Query>
-                            SELECT CASE WHEN current_cascade_status = '' THEN 'Case Closed' ELSE current_cascade_status END AS category, COUNT( * ) AS value FROM ( SELECT client_id, current_cascade_status, strftime('%Y', hiv_diagnosis_date) AS year from fact_sentinel_event) se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) a ON c.current_age = a.age WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))  GROUP BY current_cascade_status 
-                        </Query>
-                        <PieChart detailsComponent='infinite-scroll-table' exportData="true"  header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
-                    </Data>
-
-                    <Data>
-                        <Query>
-                            SELECT CASE WHEN ds.current_cascade_status='' THEN 'Case Closed' ELSE ds.current_cascade_status END AS category,COALESCE(COUNT(fd.client_id),0) AS value FROM (SELECT DISTINCT COALESCE(current_cascade_status,'') AS current_cascade_status FROM fact_sentinel_event) ds LEFT JOIN (SELECT se.client_id,COALESCE(se.current_cascade_status,'') AS current_cascade_status,strftime('%Y', se.hiv_diagnosis_date) AS year FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN (SELECT age,TRIM(ten_year_interval) AS age_group FROM dim_age_group) a ON c.current_age=a.age WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))) fd ON ds.current_cascade_status=fd.current_cascade_status GROUP BY ds.current_cascade_status;
-                        </Query>
-                        <BarChart detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes"/>
-                    </Data>
-
-                </Row>
-
-                <Row columns = "1" largeColumns = "2">
-                    <Data>
-                        <Query>
-                            SELECT CASE WHEN current_cascade_status = '' THEN 'Case Closed' ELSE current_cascade_status END AS category, COUNT( * ) AS value FROM ( SELECT client_id, current_cascade_status, strftime('%Y', hiv_diagnosis_date) AS year from fact_sentinel_event) se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) a ON c.current_age = a.age WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))  GROUP BY current_cascade_status 
-                        </Query>
-                        <DonutChart userOptions={{stroke: { show: true }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} detailsComponent='infinite-scroll-table' exportData="true" header="Donut Chart: ART Outcomes" subHeader="Donut Chart: ART Outcomes" />
-                    </Data>
-                    <Data>
-                        <Query>
-                            <Include file="sql/home/art_outcome_per_age_group.sql" />
-                        </Query>
-                        <StackedBarChart detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Outcomes by Age Group" subHeader="Stacked Bar Chart: ART Outcomes"/>
-                    </Data>
-
-                </Row>
-                
-            </Grid>
-        </Dashboard>
-    </Tab>
-
-    <Tab title="D. ART Retention">
-        <Dashboard>
-            <Grid>
-                <Data stateId='genderData'>
-                  <Query>SELECT DISTINCT UPPER(SUBSTR(gender, 1, 1)) || LOWER(SUBSTR(gender, 2)) as label, gender as value FROM dim_client</Query>
-                </Data>
-                <Data stateId='ageGroupData'>
-                  <Query>SELECT DISTINCT TRIM(ten_year_interval) FROM dim_age_group</Query>
-                </Data>
-                <Data stateId='yearData'>
-                  <Query>SELECT DISTINCT strftime('%Y', full_date) AS year FROM dim_hiv_diagnosis_date WHERE strftime('%Y', full_date) &lt;= strftime('%Y', 'now')   ORDER BY year DESC;</Query>
-                </Data>
-                <Data>
-                    <Query>
-                        SELECT CURRENT_DATE as today
-                    </Query>
-                    <Row columns="2" smallColumns="1">
-                        <Header>
-                        <DataString>Wakanda Hospital</DataString>
-                        </Header>
-                        <Subheader>
-                        <DataString>Last updated on: %today%</DataString>
-                        </Subheader>
-                    </Row>
-                </Data>
-                <Filters>
-                    <Filter caption="2021" name="year" data="yearData"/>
-                    <Filter caption="Gender" name="gender" data="genderData"/>
-                    <Filter caption="Age Group" name="age_group" data="ageGroupData"/>
-                </Filters>
-                <Row columns = "2" largeColumns = "4">
-
-                    <Data>
-                        <Query>
-                            SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_regimen_lines_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Initiated">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Initiated' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
-
-                    <Data>
-                        <Query>
-                            SELECT SUM(on_art) AS on_art, PRINTF ('%.1f%%',SUM(on_art) * 100.0 /SUM(ever_on_art)) AS percentage_initiated FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Currently On ART">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (SELECT se.client_id,hiv_diagnosis_date, has_ever_been_initiated_on_art, has_exited, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited != 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Currently On ART' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
-
-                    <Data>
-                        <Query>
-                            SELECT SUM(exited) AS exited, PRINTF ('%.1f%%', SUM(exited) * 100.0 /SUM(ever_on_art)) AS percentage_exited FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Exited">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, exit_reason, exit_date FROM (SELECT se.client_id,hiv_diagnosis_date, exit_reason, exit_date, has_ever_been_initiated_on_art, has_exited, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Exited' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
-
-                    <Data>
-                        <Query>
-                            SELECT SUM(died) AS died, PRINTF ('%.1f%%', SUM(died) * 100.0 /SUM(ever_on_art)) AS percentage_died FROM vw_art_retention_for_tiles WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'));
-                        </Query>
-                        <Tile title="Died">
-                            <Data pageSize="15" searchColumns='client_id'>
-                                <Query>
-                                    SELECT client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, exit_date FROM (SELECT se.client_id,hiv_diagnosis_date, exit_date, has_ever_been_initiated_on_art, has_exited_died, age_group, strftime('%Y', hiv_diagnosis_date) AS year, enrolment_date,gender,first_art_date,first_art_drugs,last_art_date,last_art_drugs FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id = c.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON c.current_age = ag.age) a  WHERE has_ever_been_initiated_on_art = 1 AND has_exited_died = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                </Query>
-                                <InfiniteScrollTable exportData="true" header='Died' variant='plain' >
-                                    <ContextDetailsView columnName='client_id'>
-                                        <Data>
-                                        <Query transpose='true'>
-                                            SELECT * from fact_sentinel_event WHERE client_id=&#123;client_id&#125;
-                                        </Query>
-                                        <InfiniteScrollTable variant='plain' />
-                                        </Data>
-                                    </ContextDetailsView>
-                                </InfiniteScrollTable>
-                            </Data>
-                        </Tile>
-                    </Data>
-
-                </Row>
-                <Row columns = "1" largeColumns = "1">
-                    <CascadeChart 
-                        header="ART Cascade"
-                        direction="left" // direction="top | right | left"
-                        cascadeScale="standard" // cascadeScale="standard | medium | large"
-                        cascadeSearchColumn="client_id"
-                        nodeWidth="500"
-                        nodeHeight="180">
-                        <Data>
-                            <Query>
-                                SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                            </Query>
-                            <CascadeNode
-                                id="1"
-                                label="New Cases"
-                                parentId=""
-                                detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
-                                options={{
-                                nodeBGColor: "#ffafcc",
-                                nodeBGColorHover: "#ffafcc",
-                                }}
-                            >
-                                <Data>
-                                    <Query>
-                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                    </Query>
-                                    <CascadeNode
-                                        id="2"
-                                        parentId="1"
-                                        label="Enroled into Care"
-                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, enrolment_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NOT NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
-                                        options={{
-                                        nodeBGColor: "#ffafcc",
-                                        nodeBGColorHover: "#ffafcc",
-                                        }}
-                                    />
-                                </Data>
-                                <Data>
-                                    <Query>
-                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                    </Query>
-                                    <CascadeNode
-                                        id="3"
-                                        parentId="1"
-                                        label="Not Enroled into Care"
-                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
-                                        options={{
-                                        nodeBGColor: "#fff5fa",
-                                        nodeBGColorHover: "#fff5fa",
-                                        }}
-                                    />
-                                </Data>
-
-                                <Data>
-                                    <Query>
-                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NOT NULL AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                    </Query>
-
-                                    <CascadeNode
-                                        id="11"
-                                        parentId="2"
-                                        label="Initiated on ART"
-                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
-                                        options={{
-                                        nodeBGColor: "#ffafcc",
-                                        nodeBGColorHover: "#ffafcc",
-                                        }}
-                                    />
-                                </Data>
-
-                                <Data>
-                                    <Query>
-                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 0 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                    </Query>
-
-                                    <CascadeNode
-                                        id="12"
-                                        parentId="2"
-                                        label="Not initiated on ART"
-                                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 0 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
-                                        options={{
-                                        nodeBGColor: "#fff5fa",
-                                        nodeBGColorHover: "#fff5fa",
-                                        }}
-                                    />
-                                </Data>
-
-                                <Data>
-                                    <Query>
-                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                    </Query>
-
-                                <CascadeNode
-                                    id="110"
-                                    parentId="11"
-                                    label="VL Suppressed"
-                                    detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
-                                    options={{
-                                    nodeBGColor: "#fff5fa",
-                                    nodeBGColorHover: "#fff5fa",
-                                    }}
-                                />
-                                </Data>
-
-                                <Data>
-                                    <Query>
-                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_not_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                    </Query>
-                                
-                                <CascadeNode
-                                    id="111"
-                                    parentId="11"
-                                    label="VL Not Suppressed"
-                                    detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_not_suppressed = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
-                                    options={{
-                                    nodeBGColor: "#ffafcc",
-                                    nodeBGColorHover: "#ffafcc",
-                                    }}
-                                />
-                                </Data>
-
-                                <Data>
-                                    <Query>
-                                        SELECT COUNT(*) as value FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, has_ever_been_initiated_on_art , last_viral_load_result_is_not_suppressed from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art AND last_viral_load_result_is_not_suppressed = '' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))
-                                    </Query>
-
-                                <CascadeNode
-                                    id="112"
-                                    parentId="11"
-                                    label="Due for VL"
-                                    detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art AND  last_viral_load_result_is_not_suppressed = '' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
-                                    options={{
-                                    nodeBGColor: "#f9fafb",
-                                    nodeBGColorHover: "#f9fafb",
-                                    }}
-                                />
-                                </Data>
-                            </CascadeNode>
-                        </Data>
-                    </CascadeChart>  
-
-                </Row>
-                <Row columns = "1" largeColumns = "2">
-
-                    <Data>
-                        <Query>
-                            SELECT category, sum("Not Initiated") as "Not Initiated", sum(Initiated)  as Initiated FROM vw_diagnosed_vs_initiated_vs_exited WHERE (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021')) GROUP BY category ORDER BY parsed_date;
-                        </Query>
-                        <AreaChart exportData="true" detailsComponent='infinite-scroll-table'  userOptions={{ colors: ["#9e0159", "#390099"], xaxis: { title: { text: 'Months' }}, yaxis: { title: { text: 'Clients' }} }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
-                    </Data>
-
-                    <Data>
-                        <Query>
-                            <Include file="sql/home/art_initiated_per_age_group.sql" />
-                        </Query>
-                        <StackedBarChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="Ever Initiated on ART By Age Group and Gender" subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender"/>
-                    </Data>
-
-                </Row>
-                <Row columns = "1" largeColumns = "2">
-
-                    <Data>
-                        <Query>
-                            <Include file="sql/home/art_exited_died_per_age_group.sql" />
-                        </Query>
-                        <HeatmapChart exportData="true" detailsComponent='infinite-scroll-table' 
-                            userOptions={
-                                { plotOptions: {
-                                    heatmap: {
-                                        colorScale: {
-                                        ranges: [{
-                                            from: 0,
-                                            to: 20,
-                                            color: '#cb92ba',
-                                            name: 'Low',
-                                            },
-                                            {
-                                            from: 21,
-                                            to: 40,
-                                            color: '#a17dba',
-                                            name: 'Medium',
-                                            },
-                                            {
-                                            from: 41,
-                                            to: 60,
-                                            color: '#922157',
-                                            name: 'High',
-                                            }
-                                        ]
-                                        }
-                                    }
-                                }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Age Group' }} }} header="Deceased by Age Group Over the Years" subHeader="Heatmap: Deceased by Age Group Over the Years"/>
-                    </Data>
-
-                    <Data>
-                        <Query>
-                            SELECT category, "Active Clients" FROM vw_longterm_retention WHERE year &gt; 2005;
-                        </Query>
-                        <BarChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Number of Years' }}, yaxis: { title: { text: 'Clients' }} }} header="Longterm Retention" subHeader="Bar Chart: Active Clients vs Years on ART (Longterm Retention)"/>
-                    </Data>
-
-
-                </Row>
-                <Row columns = "1" largeColumns = "1">
-                <Data>
-                        <Query>
-                            <Include file="sql/home/art_diagnosed_vs_died.sql" />
-                        </Query>
-                        <WaterFallChart exportData="true" userOptions={{ xaxis: { title: { text: 'PLHIV' }}, yaxis: { title: { text: 'Clients' }} }} header="People Livng with HIV (PLHIV)" subHeader="Waterfall Chart: People Livng with HIV (PLHIV)" detailsComponent='infinite-scroll-table'
-                            waterfallOptions = {{
-                               positiveBarColor: "#ab547d",
-                               negativeBarColor: "#390099",
-                             }}
-                        />
-                    </Data>
-
-                </Row>
-
-                
-
-            </Grid>
-        </Dashboard>
-    </Tab>
-
-</TabSet>
+    </Dashboard>
+</Dashboards>

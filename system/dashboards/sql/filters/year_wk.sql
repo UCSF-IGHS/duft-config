@@ -1,0 +1,1 @@
+SELECT DISTINCT strftime('%Y', full_date) AS year FROM dim_hiv_diagnosis_date WHERE strftime('%Y', full_date) BETWEEN '2011' AND strftime('%Y', 'now')   ORDER BY year DESC;
