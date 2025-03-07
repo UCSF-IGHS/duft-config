@@ -1,0 +1,1 @@
+SELECT category, sum(value) as value FROM vw_art_regimen_lines GROUP BY category;
