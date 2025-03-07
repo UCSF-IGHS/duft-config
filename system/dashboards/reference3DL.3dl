@@ -146,47 +146,47 @@
     <Grid>
       <Row columns="2" largeColumns="4">
         <Tile data="tile_new_data" title="New Cases">
-          <InfiniteScrollTable
+          <Table
             data="new_detailed_data"
             exportData="true"
             header="New Cases"
             variant="plain"
             initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
           >
-          </InfiniteScrollTable>
+          </Table>
         </Tile>
 
         <Tile data="tile_initiated_data" title="Initiated">
-          <InfiniteScrollTable
+          <Table
             data="initiated_detailed_data"
             exportData="true"
             header="Initiated"
             variant="plain"
             initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
           >
-          </InfiniteScrollTable>
+          </Table>
         </Tile>
 
         <Tile data="tile_suppressed_data" title="Suppressed">
-          <InfiniteScrollTable
+          <Table
             data="vl_suppressed_detailed_data"
             exportData="true"
             header="Suppressed"
             variant="plain"
             initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
           >
-          </InfiniteScrollTable>
+          </Table>
         </Tile>
 
         <Tile data="tile_not_suppressed_data" title="Not Suppressed">
-          <InfiniteScrollTable
+          <Table
             data="vl_not_suppressed_detailed_data"
             exportData="true"
             header="Not Suppressed"
             variant="plain"
             initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
           >
-          </InfiniteScrollTable>
+          </Table>
         </Tile>
       </Row>
 
@@ -209,9 +209,7 @@
           subHeader="fact sentinel data"
           exportData="true"
         >
-          <DetailsView>
-            <Table />
-          </DetailsView>
+          <Table />
         </BarChart>
         <LineChart data="art_start_data" exportData="true">
           <DetailsView>
@@ -283,7 +281,7 @@
       </Row>
 
       <Row columns="1">
-        <InfiniteScrollTable
+        <Table
           data="sentinel_event_data"
           exportData="true"
           header="Infinite scroll sample table"
@@ -291,8 +289,8 @@
           initialColumns="birth_date, emr_identifier, client_id, gender"
           detailsViewColumn="client_id"
         >
-          <InfiniteScrollTable data="sentinel_event_details_data" />
-        </InfiniteScrollTable>
+          <Table data="sentinel_event_details_data" />
+        </Table>
       </Row>
     </Grid>
   </Dashboard>
