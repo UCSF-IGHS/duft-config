@@ -25,6 +25,18 @@
         />
 
         <SQLData
+            name="art_outcome_data"
+            queryName="clients/art_outcome_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
+            name="art_outcome_stacked_data"
+            queryName="clients/art_outcome_stacked_wk"
+            filterFrom="gender, age_group, year"
+        />
+
+        <SQLData
             name="art_regimen_by_age_group_data"
             queryName="clients/art_regimen_by_age_group_wk"
             filterFrom="gender, age_group, year"
@@ -514,29 +526,29 @@
                     </Table>
                 </Tile>
 
-                <Tile data="tile_initiated_sl_data" title="Second Line">
+                <Tile data="tile_suppressed_data" title="Suppressed">
                     <Table
-                        data="initiated_detailed_sl_data"
+                        data="suppressed_detailed_data"
                         exportData="true"
-                        header="Second Line"
+                        header="Suppressed"
                         variant="plain"
-                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
                         detailsViewColumn="client_id"
                     >
-                        <Table data="initiated_detailed_sl_details_data" />
+                        <Table data="suppressed_detailed_details_data" />
                     </Table>
                 </Tile>
 
-                <Tile data="tile_initiated_uk_data" title="Unknown Line">
+                <Tile data="tile_not_suppressed_data" title="Not Suppressed">
                     <Table
-                        data="initiated_detailed_uk_data"
+                        data="not_suppressed_detailed_data"
                         exportData="true"
-                        header="Unknown Line"
+                        header="Not Suppressed"
                         variant="plain"
-                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
+                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs,last_viral_load_date, last_viral_load_result_text"
                         detailsViewColumn="client_id"
                     >
-                        <Table data="initiated_detailed_uk_details_data" />
+                        <Table data="not_suppressed_detailed_details_data" />
                     </Table>
                 </Tile>
 
@@ -553,6 +565,24 @@
                     </Table>
                 </Tile>
             </Row>
+            <Row columns = "1" largeColumns = "2">
+                <Data>
+                    <PieChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true"  header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
+                </Data>
+                <Data>
+                    <BarChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes"/>
+                </Data>
+            </Row>
+
+            <Row columns = "1" largeColumns = "2">
+                <Data>
+                    <DonutChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true"  header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
+                </Data>
+                <Data>
+                    <StackedBarChart data="art_outcome_stacked_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes"/>
+                </Data>
+            </Row>
+
         </Grid>
 
 
