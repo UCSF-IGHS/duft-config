@@ -10,6 +10,74 @@
             name="art_cascade_data"
             queryName="clients/art_cascade_wk"
             filterFrom="gender, age_group, year"
+        />                        
+
+        <SQLData
+            name="art_retention_dia_ini"
+            filterFrom="gender, age_group, year"
+            queryName="clients/art_retention_dia_ini_wk"
+        />
+
+        <SQLData
+            name="art_retention_initiated_per_age_group"
+            filterFrom="gender, age_group, year"
+            queryName="clients/art_retention_initiated_per_age_group_wk"
+        />
+
+
+
+        <SQLData
+            name="cascade_new"
+            filterFrom="gender, age_group, year"
+            queryName="clients/cascade_new_wk"
+        />
+
+        <SQLData
+            name="cascade_new_details"
+            filterFrom="gender, age_group, year"
+            queryName="clients/cascade_new_details_wk"
+        />
+
+        <SQLData
+            name="cascade_enrolled"
+            filterFrom="gender, age_group, year"
+            queryName="clients/cascade_enrol_wk"
+        />
+
+        <SQLData
+            name="cascade_not_enrolled"
+            filterFrom="gender, age_group, year"
+            queryName="clients/cascade_not_enrol_wk"
+        />
+
+        <SQLData
+            name="cascade_art_initiated"
+            filterFrom="gender, age_group, year"
+            queryName="clients/cascade_initiated_wk"
+        />
+
+        <SQLData
+            name="cascade_art_not_initiated"
+            filterFrom="gender, age_group, year"
+            queryName="clients/cascade_not_initiated_wk"
+        />
+
+        <SQLData
+            name="cascade_vl_not_suppressed"
+            filterFrom="gender, age_group, year"
+            queryName="clients/cascade_vl_not_suppressed_wk"
+        />
+
+        <SQLData
+            name="cascade_due_for_vl"
+            filterFrom="gender, age_group, year"
+            queryName="clients/cascade_due_for_vl_wk"
+        />
+
+        <SQLData
+            name="cascade_vl_suppressed"
+            filterFrom="gender, age_group, year"
+            queryName="clients/cascade_vl_suppressed_wk"
         />
 
         <SQLData
@@ -398,8 +466,8 @@
                         </Markdown>
                     </InfoTag>
                 </ClusteredBarChart>
-                
-                
+
+
                 <ClusteredBarChart data="art_cascade_by_age_group_data" exportData="true" userOptions={{ stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group" detailsComponent='infinite-scroll-table'>
                     <InfoTag>
                         <Markdown header="ART Cascade">
@@ -407,7 +475,7 @@
                         </Markdown>
                     </InfoTag>
                 </ClusteredBarChart>
-                
+
 
             </Row>
 
@@ -483,13 +551,13 @@
                 </Tile>
             </Row>
 
-            <Row columns = "1" largeColumns = "2">
-                <DonutChart data="art_regimen_line_data" exportData="true" header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines" detailsComponent='infinite-scroll-table'/>
-                <ClusteredBarChart data="art_regimen_by_age_group_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines"/>
+            <Row columns="1" largeColumns="2">
+                <DonutChart data="art_regimen_line_data" exportData="true" header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines" detailsComponent='infinite-scroll-table' />
+                <ClusteredBarChart data="art_regimen_by_age_group_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Age Groups' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines" />
             </Row>
 
-            <Row columns = "1" largeColumns = "1">
-                <PercentStackedBarChart data="art_regimen_at_initiation" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimens' }}, yaxis: { title: { text: 'Percentage' }} }} header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation"/>
+            <Row columns="1" largeColumns="1">
+                <PercentStackedBarChart data="art_regimen_at_initiation" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimens' } }, yaxis: { title: { text: 'Percentage' } } }} header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation" />
             </Row>
 
         </Grid>
@@ -565,22 +633,14 @@
                     </Table>
                 </Tile>
             </Row>
-            <Row columns = "1" largeColumns = "2">
-                <Data>
-                    <PieChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true"  header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
-                </Data>
-                <Data>
-                    <BarChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes"/>
-                </Data>
+            <Row columns="1" largeColumns="2">
+                <PieChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" header="ART Outcomes" subHeader="Pie Chart: ART Outcomes" />
+                <BarChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes" />
             </Row>
 
-            <Row columns = "1" largeColumns = "2">
-                <Data>
-                    <DonutChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true"  header="ART Outcomes" subHeader="Pie Chart: ART Outcomes"/>
-                </Data>
-                <Data>
-                    <StackedBarChart data="art_outcome_stacked_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes"/>
-                </Data>
+            <Row columns="1" largeColumns="2">
+                <DonutChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" header="ART Outcomes" subHeader="Pie Chart: ART Outcomes" />
+                <StackedBarChart data="art_outcome_stacked_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes" />
             </Row>
 
         </Grid>
@@ -653,6 +713,126 @@
                         <Table data="died_detailed_details_data" />
                     </Table>
                 </Tile>
+            </Row>
+
+            <Row columns="1" largeColumns="1">
+                <CascadeChart
+                    header="ART Cascade"
+                    direction="left"
+                    cascadeScale="standard"
+                    cascadeSearchColumn="client_id"
+                    nodeWidth="500"
+                    nodeHeight="180"
+                >
+
+                    <CascadeNode
+                        id="1"
+                        label="New Cases"
+                        // detailsViewQuery = "cascade_new_details"
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' "
+                        data="cascade_new"
+                        options={{
+                            nodeBGColor: "#FFAFCC",
+                            nodeBGColorHover: "#FFAFCC",
+                        }}
+                    />
+
+                    <CascadeNode
+                        id="2"
+                        parentId="1"
+                        label="Enrolled into Care"
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, enrolment_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NOT NULL "
+                        data="cascade_enrolled"
+                        options={{
+                            nodeBGColor: "#FFAFCC",
+                            nodeBGColorHover: "#FFAFCC",
+                        }}
+                    />
+
+
+                    <CascadeNode
+                        id="3"
+                        parentId="1"
+                        label="Not Enrolled"
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NULL "
+                        data="cascade_not_enrolled"
+                        options={{
+                            nodeBGColor: "#fff5fa",
+                            nodeBGColorHover: "#fff5fa",
+                        }}
+                    />
+
+
+
+                    <CascadeNode
+                        id="11"
+                        parentId="2"
+                        label="Initiated on ART"
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 1 "
+                        data="cascade_art_initiated"
+                        options={{
+                            nodeBGColor: "#FFAFCC",
+                            nodeBGColorHover: "#FFAFCC",
+                        }}
+                    />
+
+
+                    <CascadeNode
+                        id="12"
+                        parentId="2"
+                        label="Not Initiated on ART"
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 0 "
+                        data="cascade_art_not_initiated"
+                        options={{
+                            nodeBGColor: "#fff5fa",
+                            nodeBGColorHover: "#fff5fa",
+                        }}
+                    />
+
+
+                    <CascadeNode
+                        id="110"
+                        parentId="11"
+                        label="VL Suppressed"
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_suppressed = 1 "
+                        data="cascade_vl_suppressed"
+                        options={{
+                            nodeBGColor: "#FFAFCC",
+                            nodeBGColorHover: "#FFAFCC",
+                        }}
+                    />
+
+                    <CascadeNode
+                        id="111"
+                        parentId="11"
+                        label="VL Not Suppressed"
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_not_suppressed = 1 "
+                        data="cascade_vl_not_suppressed"
+                        options={{
+                            nodeBGColor: "#f9fafb",
+                            nodeBGColorHover: "#f9fafb",
+                        }}
+                    />
+
+                    <CascadeNode
+                        id="112"
+                        parentId="11"
+                        label="Due for VL"
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art AND  last_viral_load_result_is_not_suppressed = '' "
+                        data="cascade_due_for_vl"
+                        options={{
+                            nodeBGColor: "#fff5fa",
+                            nodeBGColorHover: "#fff5fa",
+                        }}
+                    />
+
+                </CascadeChart>
+
+            </Row>
+
+            <Row columns = "1" largeColumns = "2">            
+                <AreaChart data="art_retention_dia_ini"  exportData="true" detailsComponent='infinite-scroll-table'  userOptions={{ colors: ["#9e0159", "#390099"], xaxis: { title: { text: 'Months' }}, yaxis: { title: { text: 'Clients' }} }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
+                <StackedBarChart data="art_retention_initiated_per_age_group" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="Ever Initiated on ART By Age Group and Gender" subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender"/>
             </Row>
 
         </Grid>
