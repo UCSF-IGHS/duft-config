@@ -14,17 +14,33 @@
 
         <SQLData
             name="art_retention_dia_ini"
-            filterFrom="gender, age_group, year"
+            filterFrom="gender, age_group"
             queryName="clients/art_retention_dia_ini_wk"
         />
 
         <SQLData
-            name="art_retention_initiated_per_age_group"
-            filterFrom="gender, age_group, year"
-            queryName="clients/art_retention_initiated_per_age_group_wk"
+            name="retention_active_data"
+            filterFrom="gender, age_group, age_group"
+            queryName="clients/retention_active_data_wk"
         />
 
+        <SQLData
+            name="deceased_by_age_group_data"
+            filterFrom="gender, age_group, age_group"
+            queryName="clients/deceased_by_age_group_data_wk"
+        />
 
+        <SQLData
+            name="art_diagnosed_vs_died_date"
+            filterFrom="gender, age_group, age_group"
+            queryName="clients/art_diagnosed_vs_died_date_wk"
+        />
+
+        <SQLData
+            name="art_retention_initiated_per_age_group"
+            queryName="clients/art_retention_initiated_per_age_group_wk"
+            filterFrom="gender, year"
+        />
 
         <SQLData
             name="cascade_new"
@@ -831,8 +847,49 @@
             </Row>
 
             <Row columns = "1" largeColumns = "2">            
-                <AreaChart data="art_retention_dia_ini"  exportData="true" detailsComponent='infinite-scroll-table'  userOptions={{ colors: ["#9e0159", "#390099"], xaxis: { title: { text: 'Months' }}, yaxis: { title: { text: 'Clients' }} }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
+                <AreaChart data="art_retention_dia_ini"  exportData="true" detailsComponent='infinite-scroll-table'  userOptions={{ colors: ["#9e0159", "#390099"], xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
                 <StackedBarChart data="art_retention_initiated_per_age_group" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="Ever Initiated on ART By Age Group and Gender" subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender"/>
+            </Row>
+
+            <Row columns = "1" largeColumns = "2">
+                <HeatmapChart data="deceased_by_age_group_data" exportData="true" detailsComponent='infinite-scroll-table' 
+                    userOptions={
+                        { plotOptions: {
+                            heatmap: {
+                                colorScale: {
+                                ranges: [{
+                                    from: 0,
+                                    to: 20,
+                                    color: '#cb92ba',
+                                    name: 'Low',
+                                    },
+                                    {
+                                    from: 21,
+                                    to: 40,
+                                    color: '#a17dba',
+                                    name: 'Medium',
+                                    },
+                                    {
+                                    from: 41,
+                                    to: 60,
+                                    color: '#922157',
+                                    name: 'High',
+                                    }
+                                ]
+                                }
+                            }
+                        }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Age Group' }} }} header="Deceased by Age Group Over the Years" subHeader="Heatmap: Deceased by Age Group Over the Years"
+                />
+                <BarChart data="retention_active_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} header="Active Clients" subHeader="Bar Chart: Active Clients"/>
+            </Row>
+
+            <Row columns = "1" largeColumns = "1">    
+                <WaterFallChart data="art_diagnosed_vs_died_date" exportData="true" userOptions={{ xaxis: { title: { text: 'PLHIV' }}, yaxis: { title: { text: 'Clients' }} }} header="People Livng with HIV (PLHIV)" subHeader="Waterfall Chart: People Livng with HIV (PLHIV)" detailsComponent='infinite-scroll-table'
+                    waterfallOptions = {{
+                        positiveBarColor: "#ab547d",
+                        negativeBarColor: "#390099",
+                        }}
+                />
             </Row>
 
         </Grid>
