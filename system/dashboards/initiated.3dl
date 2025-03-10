@@ -6,7 +6,6 @@
       name="sentinel_event_data"
       queryName="clients/client_list_initiated"
       filters={{ "has_ever_been_initiated_on_art": '1' }}
-      filterFrom="gender, age_group, year"
       searchColumns="client_id"
     />
 
@@ -24,7 +23,6 @@
       name="sentinel_event_unknown_data"
       filters={{ "first_art_regimen_line": 'Unknown line' }}
       queryName="clients/client_list_initiated"
-      filterFrom="gender, age_group, year"
       searchColumns="client_id"
     />
 
@@ -42,7 +40,6 @@
       name="sentinel_event_second_data"
       filters={{ "first_art_regimen_line": 'Second line' }}
       queryName="clients/client_list_initiated"
-      filterFrom="gender, age_group, year"
       searchColumns="client_id"
     />
 
@@ -60,7 +57,6 @@
       name="sentinel_event_first_data"
       filters={{ "first_art_regimen_line": 'First line' }}
       queryName="clients/client_list_initiated"
-      filterFrom="gender, age_group, year"
       searchColumns="client_id"
     />
 

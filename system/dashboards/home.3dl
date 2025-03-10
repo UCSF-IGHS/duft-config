@@ -9,6 +9,7 @@
         <SQLData
             name="art_cascade_data"
             queryName="clients/art_cascade_wk"
+            filters={{"year":2021}}
             filterFrom="gender, age_group, year"
         />                        
 
@@ -39,6 +40,7 @@
         <SQLData
             name="art_retention_initiated_per_age_group"
             queryName="clients/art_retention_initiated_per_age_group_wk"
+            filters={{"year":2021}}
             filterFrom="gender, year"
         />
 
@@ -46,53 +48,62 @@
             name="cascade_new"
             filterFrom="gender, age_group, year"
             queryName="clients/cascade_new_wk"
+            filters={{"year":2021}}
         />
 
         <SQLData
             name="cascade_new_details"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
             queryName="clients/cascade_new_details_wk"
         />
 
         <SQLData
             name="cascade_enrolled"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
             queryName="clients/cascade_enrol_wk"
         />
 
         <SQLData
             name="cascade_not_enrolled"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
             queryName="clients/cascade_not_enrol_wk"
         />
 
         <SQLData
             name="cascade_art_initiated"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
             queryName="clients/cascade_initiated_wk"
         />
 
         <SQLData
             name="cascade_art_not_initiated"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
             queryName="clients/cascade_not_initiated_wk"
         />
 
         <SQLData
             name="cascade_vl_not_suppressed"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
             queryName="clients/cascade_vl_not_suppressed_wk"
         />
 
         <SQLData
             name="cascade_due_for_vl"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
             queryName="clients/cascade_due_for_vl_wk"
         />
 
         <SQLData
             name="cascade_vl_suppressed"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
             queryName="clients/cascade_vl_suppressed_wk"
         />
 
@@ -100,48 +111,56 @@
             name="art_cascade_by_gender_data"
             queryName="clients/art_cascade_by_gender_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
             name="art_regimen_line_data"
             queryName="clients/art_regimen_line_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
             name="art_outcome_data"
             queryName="clients/art_outcome_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
             name="art_outcome_stacked_data"
             queryName="clients/art_outcome_stacked_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
             name="art_regimen_by_age_group_data"
             queryName="clients/art_regimen_by_age_group_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
             name="art_regimen_at_initiation"
             queryName="clients/art_regimen_at_initiation_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
             name="art_cascade_by_age_group_data"
             queryName="clients/art_cascade_by_age_group_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
             name="tile_new_data"
             queryName="tile/new_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -150,6 +169,7 @@
             pageSize="15"
             searchColumns="client_id"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -164,6 +184,7 @@
         <SQLData
             name="tile_initiated_data"
             queryName="tile/initiated_wk"
+            filters={{"year":2021}}
             filterFrom="gender, age_group, year"
         />
 
@@ -172,6 +193,7 @@
             queryName="tile/initiated_detailed_wk"
             pageSize="15"
             searchColumns="client_id"
+            filters={{"year":2021}}
             filterFrom="gender, age_group, year"
         />
 
@@ -188,6 +210,7 @@
             name="tile_suppressed_data"
             queryName="tile/suppressed_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -196,6 +219,7 @@
             pageSize="15"
             searchColumns="client_id"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -211,6 +235,7 @@
             name="tile_not_suppressed_data"
             queryName="tile/not_suppressed_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -219,6 +244,7 @@
             pageSize="15"
             searchColumns="client_id"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -234,6 +260,7 @@
             name="tile_needs_vl_data"
             queryName="tile/needs_vl_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -242,6 +269,7 @@
             pageSize="15"
             searchColumns="client_id"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -258,6 +286,7 @@
             name="tile_initiated_fl_data"
             queryName="tile/initiated_fl_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -266,6 +295,7 @@
             pageSize="15"
             searchColumns="client_id"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -281,6 +311,7 @@
             name="tile_initiated_sl_data"
             queryName="tile/initiated_sl_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -289,6 +320,7 @@
             pageSize="15"
             searchColumns="client_id"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -304,6 +336,7 @@
             name="tile_initiated_uk_data"
             queryName="tile/initiated_uk_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -312,6 +345,7 @@
             pageSize="15"
             searchColumns="client_id"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -327,6 +361,7 @@
             name="tile_on_art_data"
             queryName="tile/on_art_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -335,6 +370,7 @@
             pageSize="15"
             searchColumns="client_id"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -350,6 +386,7 @@
             name="tile_exited_data"
             queryName="tile/exited_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -358,6 +395,7 @@
             pageSize="15"
             searchColumns="client_id"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -373,6 +411,7 @@
             name="tile_died_data"
             queryName="tile/died_wk"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -381,6 +420,7 @@
             pageSize="15"
             searchColumns="client_id"
             filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
         />
 
         <SQLData
@@ -403,7 +443,7 @@
         <Filters>
             <Filter caption="Gender" name="gender" data="gender_data" />
             <Filter caption="Age Group" name="age_group" data="age_group_data" />
-            <Filter caption="Year" name="year" data="year_data" />
+            <Filter caption="2021" name="year" data="year_data" />
         </Filters>
 
         <Grid>
@@ -469,13 +509,13 @@
                         yaxis: { title: { text: "Clients" } },
                     }}
                     header="ART Cascade"
-                    subHeader="Bar Chart: ART Cascade"
+                    subHeader="ART Cascade"
                 />
             </Row>
 
             <Row columns="2" largeColumns="2">
 
-                <ClusteredBarChart data="art_cascade_by_gender_data" exportData="true" userOptions={{ xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Cascade Per Gender" subHeader="Cluestered Bar Chart: ART Cascade Per Gender" detailsComponent='infinite-scroll-table'>
+                <ClusteredBarChart data="art_cascade_by_gender_data" exportData="true" userOptions={{ xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Cascade by Gender" subHeader="ART Cascade  Gender" detailsComponent='infinite-scroll-table'>
                     <InfoTag>
                         <Markdown header="ART Cascade">
                             HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
@@ -484,7 +524,7 @@
                 </ClusteredBarChart>
 
 
-                <ClusteredBarChart data="art_cascade_by_age_group_data" exportData="true" userOptions={{ stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Cascade Per Age Group" subHeader="Cluestered Bar Chart: ART Cascade Per Age Group" detailsComponent='infinite-scroll-table'>
+                <ClusteredBarChart data="art_cascade_by_age_group_data" exportData="true" userOptions={{ stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Cascade by Age Group" subHeader="ART Cascade by Age Group" detailsComponent='infinite-scroll-table'>
                     <InfoTag>
                         <Markdown header="ART Cascade">
                             HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
@@ -568,12 +608,12 @@
             </Row>
 
             <Row columns="1" largeColumns="2">
-                <DonutChart data="art_regimen_line_data" exportData="true" header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines" detailsComponent='infinite-scroll-table' />
-                <StackedBarChart data="art_regimen_by_age_group_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Age Groups' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines" />
+                <DonutChart data="art_regimen_line_data" exportData="true" header="ART Regimen Lines" subHeader="Current ART Regimen Lines" detailsComponent='infinite-scroll-table' />
+                <StackedBarChart data="art_regimen_by_age_group_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimens' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Regimen Lines" subHeader="Current ART Regimen Lines" />
             </Row>
 
             <Row columns="1" largeColumns="1">
-                <PercentStackedBarChart data="art_regimen_at_initiation" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimens' } }, yaxis: { title: { text: 'Percentage' } } }} header="ART Regimens at Initiation" subHeader="100% Percent Bar Chart: ART Regimens at ART Initiation" />
+                <PercentStackedBarChart data="art_regimen_at_initiation" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimens' } }, yaxis: { title: { text: 'Percentage' } } }} header="ART Regimens at Initiation" subHeader="ART Regimens at ART Initiation" />
             </Row>
 
         </Grid>
@@ -650,13 +690,13 @@
                 </Tile>
             </Row>
             <Row columns="1" largeColumns="2">
-                <PieChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" header="ART Outcomes" subHeader="Pie Chart: ART Outcomes" />
-                <BarChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes" />
+                <PieChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" header="ART Outcomes" subHeader="ART Outcomes" />
+                <BarChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes" subHeader="ART Outcomes" />
             </Row>
 
             <Row columns="1" largeColumns="2">
-                <DonutChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" header="ART Outcomes" subHeader="Pie Chart: ART Outcomes" />
-                <StackedBarChart data="art_outcome_stacked_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes" subHeader="Bar Chart: ART Outcomes" />
+                <DonutChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" header="ART Outcomes" subHeader="ART Outcomes" />
+                <StackedBarChart data="art_outcome_stacked_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes" subHeader="ART Outcomes" />
             </Row>
 
         </Grid>
@@ -847,8 +887,8 @@
             </Row>
 
             <Row columns = "1" largeColumns = "2">            
-                <AreaChart data="art_retention_dia_ini"  exportData="true" detailsComponent='infinite-scroll-table'  userOptions={{ colors: ["#9e0159", "#390099"], xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} header="Clients Diagnosed versus Initiated on ART" subHeader="Area Chart: Clients Diagnosed versus Initiated on ART"/>
-                <StackedBarChart data="art_retention_initiated_per_age_group" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="Ever Initiated on ART By Age Group and Gender" subHeader="Stacked Bar Chart: Ever Initiated on ART By Age Group and Gender"/>
+                <AreaChart data="art_retention_dia_ini"  exportData="true" detailsComponent='infinite-scroll-table'  userOptions={{ colors: ["#9e0159", "#390099"], xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} header="Clients Diagnosed versus Initiated on ART" subHeader="Clients Diagnosed versus Initiated on ART"/>
+                <StackedBarChart data="art_retention_initiated_per_age_group" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Age Groups' }}, yaxis: { title: { text: 'Clients' }} }} header="Ever Initiated on ART By Age Group and Gender" subHeader="Ever Initiated on ART By Age Group and Gender"/>
             </Row>
 
             <Row columns = "1" largeColumns = "2">
@@ -878,13 +918,13 @@
                                 ]
                                 }
                             }
-                        }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Age Group' }} }} header="Deceased by Age Group Over the Years" subHeader="Heatmap: Deceased by Age Group Over the Years"
+                        }, xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Age Group' }} }} header="Deceased by Age Group Over the Years" subHeader="Deceased by Age Group Over the Years"
                 />
-                <BarChart data="retention_active_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} header="Active Clients" subHeader="Bar Chart: Active Clients"/>
+                <BarChart data="retention_active_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ xaxis: { title: { text: 'Year' }}, yaxis: { title: { text: 'Clients' }} }} header="Active Clients" subHeader="Active Clients"/>
             </Row>
 
             <Row columns = "1" largeColumns = "1">    
-                <WaterFallChart data="art_diagnosed_vs_died_date" exportData="true" userOptions={{ xaxis: { title: { text: 'PLHIV' }}, yaxis: { title: { text: 'Clients' }} }} header="People Livng with HIV (PLHIV)" subHeader="Waterfall Chart: People Livng with HIV (PLHIV)" detailsComponent='infinite-scroll-table'
+                <WaterFallChart data="art_diagnosed_vs_died_date" exportData="true" userOptions={{ xaxis: { title: { text: 'PLHIV' }}, yaxis: { title: { text: 'Clients' }} }} header="People Livng with HIV (PLHIV)" subHeader="People Livng with HIV (PLHIV)" detailsComponent='infinite-scroll-table'
                     waterfallOptions = {{
                         positiveBarColor: "#ab547d",
                         negativeBarColor: "#390099",

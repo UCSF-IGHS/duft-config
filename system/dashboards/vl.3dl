@@ -6,7 +6,6 @@
       name="suppressed_data"
       queryName="clients/client_list_vl"
       filters={{ "last_viral_load_result_is_suppressed": '1' }}
-      filterFrom="gender, age_group, year"
       searchColumns="client_id"
     />
 
@@ -24,7 +23,6 @@
       name="not_suppressed_data"
       filters={{ "last_viral_load_result_is_not_suppressed": '1' }}
       queryName="clients/client_list_vl"
-      filterFrom="gender, age_group, year"
       searchColumns="client_id"
     />
 
