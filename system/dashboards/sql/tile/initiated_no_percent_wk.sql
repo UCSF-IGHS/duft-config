@@ -1,0 +1,1 @@
+SELECT SUM(initiated_on_art) AS initiated_on_art FROM vw_art_cascade_for_tiles

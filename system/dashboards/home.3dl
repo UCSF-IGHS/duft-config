@@ -136,6 +136,12 @@
         />
 
         <SQLData
+            name="art_outcome_by_year_data"
+            queryName="clients/art_outcome_by_year_wk"
+            filterFrom="gender, age_group"
+        />
+
+        <SQLData
             name="art_regimen_by_age_group_data"
             queryName="clients/art_regimen_by_age_group_wk"
             filterFrom="gender, age_group, year"
@@ -211,6 +217,13 @@
             queryName="tile/suppressed_wk"
             filterFrom="gender, age_group, year"
             filters={{"year":2021}}
+        />
+
+        <SQLData
+            name="tile_initiated_no_percent_data"
+            queryName="tile/initiated_no_percent_wk"
+            filters={{"year":2021}}
+            filterFrom="gender, age_group, year"
         />
 
         <SQLData
@@ -554,7 +567,7 @@
 
         <Grid>
             <Row columns="2" largeColumns="4">
-                <Tile data="tile_initiated_data" title="Initiated">
+                <Tile data="tile_initiated_no_percent_data" title="Initiated">
                     <Table
                         data="initiated_detailed_data"
                         exportData="true"
@@ -637,19 +650,6 @@
         <Grid>
             <Row columns="2" largeColumns="4">
 
-                <Tile data="tile_initiated_fl_data" title="First Line">
-                    <Table
-                        data="initiated_detailed_fl_data"
-                        exportData="true"
-                        header="First Line"
-                        variant="plain"
-                        initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
-                        detailsViewColumn="client_id"
-                    >
-                        <Table data="initiated_detailed_fl_details_data" />
-                    </Table>
-                </Tile>
-
                 <Tile data="tile_suppressed_data" title="Suppressed">
                     <Table
                         data="suppressed_detailed_data"
@@ -688,6 +688,18 @@
                         <Table data="needs_vl_detailed_details_data" />
                     </Table>
                 </Tile>
+
+                <Tile data="tile_exited_data" title="Exited">
+                    <Table
+                        data="exited_detailed_data"
+                        exportData="true"
+                        header="Exited"
+                        variant="plain"
+                        detailsViewColumn="client_id"
+                    >
+                        <Table data="exited_detailed_details_data" />
+                    </Table>
+                </Tile>
             </Row>
             <Row columns="1" largeColumns="2">
                 <PieChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" header="ART Outcomes" subHeader="ART Outcomes" />
@@ -695,8 +707,14 @@
             </Row>
 
             <Row columns="1" largeColumns="2">
-                <DonutChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" header="ART Outcomes" subHeader="ART Outcomes" />
-                <StackedBarChart data="art_outcome_stacked_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes" subHeader="ART Outcomes" />
+                <ClusteredLineChart data="art_outcome_by_year_data" exportData="true" userOptions={{ stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes by Year" subHeader="ART Outcomes by Year" detailsComponent='infinite-scroll-table'>
+                    <InfoTag>
+                        <Markdown header="ART Cascade">
+                            HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
+                        </Markdown>
+                    </InfoTag>
+                </ClusteredLineChart>
+                <StackedBarChart data="art_outcome_stacked_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes By Gender" subHeader="ART Outcomes By Gender" />
             </Row>
 
         </Grid>
