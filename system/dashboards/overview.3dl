@@ -1,111 +1,183 @@
-<TabSet>
+<Dashboards>
 
-    <Tab title="A. PLHIV">
-        <Dashboard>
-            <Grid>
-                <Row>
-                    <Header>Clients Needing Attention</Header>
-                </Row>
-                <Row>
-                    <Header small="true">Key HIV Indicators: Needing Attention</Header>
-                </Row>
+    <Datasets>
+        <SQLData name="gender_data" queryName="common/gender" />
 
-                <Row columns = "2" largeColumns = "4">
+        <SQLData name="current_date_data" queryName="common/current_date" />
 
-                    <DataProvider>
-                        <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Missed Drugs 29-90 Days" = 'Yes'
-                        </QueryData>
-                        <Tile title="IIT (28-90 Days)">
-                            <DataProvider pageSize={50} sort_column={ DOB } searchColumns = "c.ctc_id, f.current_age" >
-                                <Header small="true">
-                                    Clients With IIT (28-90)
-                                </Header>
-                                <QueryData>
-                                    <Include file="sql/plhiv/iit_clients.sql" />
-                                </QueryData>
-                                <InfiniteScrollTable exportData="true" variant='plain' />
-                            </DataProvider>
-                        </Tile>
-                    </DataProvider>
+        <SQLData
+        name="iit_clients_data"
+        queryName="iit_clients"
+        pageSize="15"
+        searchColumns="[CTC ID], [Current Age], [Sex], [Number of Days Prescribed]"
+        filterFrom="gender"
+        />
 
-                    <DataProvider>
-                        <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE [Last CD4 &lt; 200] = 'Yes' OR [WHO Stage 3/4 With No CD4 Test] = 'Yes'
-                        </QueryData>
-                        <Tile title="AHD Suspects">
-                            <DataProvider pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
-                                <Header small="true">
-                                    AHD Suspect Clients
-                                </Header>
-                                <QueryData>
-                                    <Include file="sql/plhiv/ahd_clients.sql" />
-                                </QueryData>
-                                <InfiniteScrollTable exportData="true" variant='plain' />
-                            </DataProvider>
-                        </Tile>
-                    </DataProvider>
+        <SQLData
+        name="ahd_clients_data"
+        queryName="ahd_clients"
+        pageSize="15"
+        searchColumns="[CTC ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
+        filterFrom="gender"
+        />
 
-                    <DataProvider>
-                        <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Needs VL Test" = 'Yes'
-                        </QueryData>
-                        <Tile title="Need VL Test">
-                            <DataProvider pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
-                                <Header small="true">
-                                    Clients Needing VL test
-                                </Header>
-                                <QueryData>
-                                    <Include file="sql/plhiv/need_vl_clients.sql" />
-                                </QueryData>
-                                <InfiniteScrollTable exportData="true" variant='plain' />
-                            </DataProvider>
-                        </Tile>
-                    </DataProvider>
+        <SQLData
+        name="need_vl_clients_data"
+        queryName="need_vl_clients"
+        pageSize="15"
+        searchColumns="[CTC ID], [Current Age], [Sex], [Last VL Result Numeric]"
+        filterFrom="gender"
+        />
 
-                    <DataProvider>
-                        <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Last VL Is Unsuppressed" = 'Yes'
-                        </QueryData>
-                        <Tile title="Unsuppressed VL">
-                            <DataProvider pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
-                                <Header small="true">
-                                    Clients With Unsuppressed VL
-                                </Header>
-                                <QueryData>
-                                    <Include file="sql/plhiv/unsuppressed_clients.sql" />
-                                </QueryData>
-                                <InfiniteScrollTable exportData="true" variant='plain' />
-                            </DataProvider>
-                        </Tile>
-                    </DataProvider>
+        <SQLData
+        name="unsuppressed_clients_data"
+        queryName="unsuppressed_clients"
+        pageSize="15"
+        searchColumns="[CTC ID], [Current Age], [Sex], [Last VL Result Numeric]"
+        filterFrom="gender"
+        />
 
-                </Row>
+        <SQLData name="tile_ahd_data" queryName="plhiv/tiles/ahd" filterFrom="gender" />
 
-                <Row columns = "2" largeColumns = "2">
-                    <DataProvider>
-                        <QueryData>
-                            <Include file="sql/need_attention/iit_pie.sql" />
-                        </QueryData>
-                        <PieChart
-                            exportData="true"
-                            detailsComponent="infinite-scroll-table"
-                            header="Contribution of MMD clients on IIT"
-                        />
+        <SQLData name="tile_iit_data" queryName="plhiv/tiles/iit" filterFrom="gender" />
+
+        <SQLData name="tile_need_vl_data" queryName="plhiv/tiles/need_vl" filterFrom="gender" />
+
+        <SQLData name="tile_unsuppressed_data" queryName="plhiv/tiles/unsuppressed" filterFrom="gender" />
+
+        <SQLData
+        name="client_details_data"
+        detailsViewData="client_data"
+        detailsViewColumn="client_id"
+        transpose="true"
+        >
+        SELECT * from derived.dim_client WHERE client_id=[[client_id]];
+        </SQLData>
+
+        <StaticData name="static_gender_data" filterFrom="gender">
+        {[
+            { category: "Male", value: 30 },
+            { category: "Female", value: 40 },
+        ]}
+        </StaticData>
+
+        <OpenMRSData
+        name="openmrs_data"
+        pageSize="20"
+        searchColumns="OpenMRSID, name"
+        >
+        <OpenMRS
+            resource="appointments/search"
+            method="POST"
+            body={{
+            startDate: "2000-01-20T00:00:00.000+0300",
+            endDate: "2025-01-20T23:59:59.999+0300",
+            }}
+            adapter="patientsFromAppointments"
+        />
+        </OpenMRSData>
+
+    </Datasets>
+
+    <Dashboard
+        data="current_date_data"
+        tabName="A. PLHIV"
+        title="Clients Needing Attention"
+        subTitle="Key HIV Indicators: Needing Attention"
+        lastRefresh="Last updated on : %today%"
+    >
+
+        <Grid>
+            <Row columns = "2" largeColumns = "4">
+                <Tile data="tile_new_data" title="Clients With IIIIIIIT (28-90)">
+                    <Table
+                        data="tile_ahd_data"
+                        exportData="true"
+                        header="Clients With IIT (28-90)"
+                        variant="plain"
+                        initialColumns="client_id, gender, hiv_diagnosis_date,enrolment_date"
+                        detailsViewColumn="client_id"
+                    >
+                    <Table data="ahd_clients_data" />
+                </Table>
+                </Tile>
+
+                <DataProvider>
+                    <QueryData>
+                        SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE [Last CD4 &lt; 200] = 'Yes' OR [WHO Stage 3/4 With No CD4 Test] = 'Yes'
+                    </QueryData>
+                    <Tile title="AHD Suspects">
+                        <DataProvider pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                            <Header small="true">
+                                AHD Suspect Clients
+                            </Header>
+                            <QueryData>
+                                <Include file="sql/plhiv/ahd_clients.sql" />
+                            </QueryData>
+                            <InfiniteScrollTable exportData="true" variant='plain' />
                         </DataProvider>
-                </Row>
+                    </Tile>
+                </DataProvider>
 
-                <Row columns = "1" largeColumns = "1">
+                <DataProvider>
+                    <QueryData>
+                        SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Needs VL Test" = 'Yes'
+                    </QueryData>
+                    <Tile title="Need VL Test">
+                        <DataProvider pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                            <Header small="true">
+                                Clients Needing VL test
+                            </Header>
+                            <QueryData>
+                                <Include file="sql/plhiv/need_vl_clients.sql" />
+                            </QueryData>
+                            <InfiniteScrollTable exportData="true" variant='plain' />
+                        </DataProvider>
+                    </Tile>
+                </DataProvider>
 
-                    <DataProvider query={`SELECT TOP 10 * FROM derived.dim_client`}>
-                    <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
+                <DataProvider>
+                    <QueryData>
+                        SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Last VL Is Unsuppressed" = 'Yes'
+                    </QueryData>
+                    <Tile title="Unsuppressed VL">
+                        <DataProvider pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
+                            <Header small="true">
+                                Clients With Unsuppressed VL
+                            </Header>
+                            <QueryData>
+                                <Include file="sql/plhiv/unsuppressed_clients.sql" />
+                            </QueryData>
+                            <InfiniteScrollTable exportData="true" variant='plain' />
+                        </DataProvider>
+                    </Tile>
+                </DataProvider>
+
+            </Row>
+
+            <Row columns = "2" largeColumns = "2">
+                <DataProvider>
+                    <QueryData>
+                        <Include file="sql/need_attention/iit_pie.sql" />
+                    </QueryData>
+                    <PieChart
+                        exportData="true"
+                        detailsComponent="infinite-scroll-table"
+                        header="Contribution of MMD clients on IIT"
+                    />
                     </DataProvider>
+            </Row>
 
-                </Row>
+            <Row columns = "1" largeColumns = "1">
 
-            </Grid>
-        </Dashboard>
-    </Tab>
+                <DataProvider query={`SELECT TOP 10 * FROM derived.dim_client`}>
+                <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
+                </DataProvider>
+
+            </Row>
+
+        </Grid>
+    </Dashboard>
 
     <Tab title="B. HEI">
         <Dashboard>
@@ -214,4 +286,4 @@
         </Dashboard>
     </Tab>
 
-</TabSet>
+</Dashboards>

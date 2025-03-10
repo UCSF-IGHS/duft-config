@@ -1,0 +1,1 @@
+SELECT DISTINCT gender FROM derived.dim_client;
