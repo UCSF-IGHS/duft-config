@@ -569,7 +569,7 @@
 
             <Row columns="1" largeColumns="2">
                 <DonutChart data="art_regimen_line_data" exportData="true" header="ART Regimen Lines" subHeader="Donut Chart: Current ART Regimen Lines" detailsComponent='infinite-scroll-table' />
-                <ClusteredBarChart data="art_regimen_by_age_group_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Age Groups' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines" />
+                <StackedBarChart data="art_regimen_by_age_group_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Age Groups' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Regimen Lines" subHeader="Bar Chart: Current ART Regimen Lines" />
             </Row>
 
             <Row columns="1" largeColumns="1">
