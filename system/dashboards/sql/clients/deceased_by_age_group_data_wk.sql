@@ -13,7 +13,7 @@ FROM
 	INNER JOIN dim_client c ON se.client_id = c.client_id
 	INNER JOIN (SELECT d.*
         FROM dim_date d
-        JOIN (SELECT DATE('now', '-19 years') AS min_date) AS filter_dates
+        JOIN (SELECT DATE('now', '-14 years') AS min_date) AS filter_dates
         ON DATE(d.full_date) >= filter_dates.min_date
     ) d ON se.hiv_diagnosis_date = d.full_date
     INNER JOIN (select age, TRIM(ten_year_interval) as age_group from dim_age_group) ag ON c.current_age = ag.age
