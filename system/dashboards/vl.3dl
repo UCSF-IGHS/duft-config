@@ -1,39 +1,89 @@
-<TabSet>
-    <Tab title="Viral Load Suppressed">
-      <Dashboard>
-        <SingleLayout>
-          <Grid>
-            <Row><Header>Viral Load Suppressed</Header></Row>
-            <Row columns="1" largeColumns="1" >
-              <Data pageSize="50" searchColumns='client_id' >
-                <Query filters={{ "last_viral_load_result_is_suppressed": '1' }}>
-                    <Include file="sql/clients/client_list_vl.sql" />
-                </Query>
-                <Include file="components/client_list.3dl" />
-              </Data>
-            </Row>
-          </Grid>
-        </SingleLayout>
-      </Dashboard>
+<Dashboards>
+  <Datasets>
+    <SQLData name="current_date_data" queryName="current_date" />
+    <SQLData
+      pageSize="20"
+      name="suppressed_data"
+      queryName="clients/client_list_vl"
+      filters={{ "last_viral_load_result_is_suppressed": '1' }}
+      filterFrom="gender, age_group, year"
+      searchColumns="client_id"
+    />
 
-    </Tab>
-    <Tab title="Viral Load Not Suppressed">
-      <Dashboard>
-        <SingleLayout>
-          <Grid>
-            <Row><Header>Viral Load Not Suppressed</Header></Row>
-            <Row columns="1" largeColumns="1" >
-              <Data pageSize="50" searchColumns='client_id' >
-                <Query filters={{ "last_viral_load_result_is_not_suppressed": '1' }}>
-                    <Include file="sql/clients/client_list_vl.sql" />
-                </Query>
-                <Include file="components/client_list.3dl" />
-              </Data>
-            </Row>
-          </Grid>
-        </SingleLayout>
-      </Dashboard>
-      
-    </Tab>
-  </TabSet>
+    <SQLData
+      name="suppressed_details_data"
+      detailsViewData="suppressed_data"
+      detailsViewColumn="client_id"
+      transpose="true"
+    >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
 
+    <SQLData
+      pageSize="20"
+      name="not_suppressed_data"
+      filters={{ "last_viral_load_result_is_not_suppressed": '1' }}
+      queryName="clients/client_list_vl"
+      filterFrom="gender, age_group, year"
+      searchColumns="client_id"
+    />
+
+    <SQLData
+      name="not_suppressed_details_data"
+      detailsViewData="not_suppressed_data"
+      detailsViewColumn="client_id"
+      transpose="true"
+    >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
+  </Datasets>
+
+  <Dashboard
+    data="current_date_data"
+    tabName="VL Suppressed Data"
+    title="Wakanda Hospital"
+    subTitle="VL Suppressed Data"
+    lastRefresh="Last updated on : %today%"
+  >
+    <Grid>
+      <SingleLayout>
+        <Table
+          data="suppressed_data"
+          exportData="true"
+          variant="plain"
+          detailsViewColumn="client_id"
+        >
+          <Table data="sentinel_event_details_data" />
+        </Table>
+
+      </SingleLayout>
+
+    </Grid>
+  </Dashboard>
+
+  <Dashboard
+    data="current_date_data"
+    tabName="Not Suppressed Data"
+    title="Wakanda Hospital"
+    subTitle="Not Suppressed Data"
+    lastRefresh="Last updated on : %today%"
+  >
+    <Grid>
+      <SingleLayout>
+        <Table
+          data="not_suppressed_data"
+          exportData="true"
+          variant="plain"
+          detailsViewColumn="client_id"
+        >
+          <Table data="suppressed_details_data" />
+        </Table>
+
+      </SingleLayout>
+
+    </Grid>
+
+
+  </Dashboard>
+
+</Dashboards>
