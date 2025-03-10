@@ -5,7 +5,7 @@
       name="sentinel_event_data"
       queryName="clients/client_list_new"
       filterFrom="gender, age_group, year"
-      searchColumns="client_id, emr_identifier"
+      searchColumns="client_id"
     />
 
     <SQLData
