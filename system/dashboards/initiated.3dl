@@ -1,72 +1,133 @@
-<TabSet>
-    <Tab title="Initiated on ART">
-      <Dashboard>
-        <SingleLayout>
-          <Grid>
-            <Row><Header>Initiated on ART</Header></Row>
-            <Row columns="1" largeColumns="1" >
-              <Data pageSize={50} searchColumns="client_id" filters={{ "has_ever_been_initiated_on_art": '1' }}>
-                <Query filters={{ "has_ever_been_initiated_on_art": '1' }}>
-                  <Include file="sql/clients/client_list_initiated.sql" />
-                </Query>
-                <Include file="components/client_list.3dl" />
-              </Data>
-            </Row>
-          </Grid>
-        </SingleLayout>
-      </Dashboard>
-    </Tab>
-    <Tab title="Initiated on 1st Line">
-      <Dashboard>
-        <SingleLayout>
-          <Grid>
-            <Row><Header>Initiated on ART : First line</Header></Row>
-            <Row columns="1" largeColumns="1" >
-              <Data pageSize="50" searchColumns='client_id' >
-                <Query filters={{ "has_ever_been_initiated_on_art": '1', "first_art_regimen_line": 'First line' }}>
-                    <Include file="sql/clients/client_list_initiated.sql" />
-                </Query>
-                <Include file="components/client_list.3dl" />
-              </Data>
-            </Row>
-          </Grid>
-        </SingleLayout>
-      </Dashboard>    
-    </Tab>
-    <Tab title="Initiated on 2nd Line">
-      <Dashboard>
-        <SingleLayout>
-          <Grid>
-            <Row><Header>Initiated on ART : Second line</Header></Row>
-            <Row columns="1" largeColumns="1" >
-              <Data pageSize="50" searchColumns='client_id' >
-                <Query filters={{ "first_art_regimen_line": 'Second line' }}>
-                    <Include file="sql/clients/client_list_initiated.sql" />
-                </Query>
-                <Include file="components/client_list.3dl" />
-              </Data>
-            </Row>
-          </Grid>
-        </SingleLayout>
-      </Dashboard>
-      
-    </Tab>
-    <Tab title="Initiated on Unknown Line">
-      <Dashboard>
-        <SingleLayout>
-          <Grid>
-            <Row><Header>Initiated on ART : Unknown line</Header></Row>
-            <Row columns="1" largeColumns="1" >
-              <Data pageSize="50" searchColumns='client_id' >
-                <Query filters={{ "first_art_regimen_line": 'Unknown line' }}>
-                    <Include file="sql/clients/client_list_initiated.sql" />
-                </Query>
-                <Include file="components/client_list.3dl" />
-              </Data>
-            </Row>
-          </Grid>
-        </SingleLayout>
-      </Dashboard>
-      
-    </Tab>
-  </TabSet>
+<Dashboards>
+  <Datasets>
+    <SQLData name="current_date_data" queryName="current_date" />
+    <SQLData
+      pageSize="20"
+      name="sentinel_event_data"
+      queryName="clients/client_list_initiated"
+      filterFrom="gender, age_group, year"
+      searchColumns="client_id"
+    />
+
+    <SQLData
+      name="sentinel_event_details_data"
+      detailsViewData="sentinel_event_data"
+      detailsViewColumn="client_id"
+      transpose="true"
+    >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
+
+    <SQLData
+      pageSize="20"
+      name="sentinel_event_unknown_data"
+      filters={{ "first_art_regimen_line": 'Unknown line' }}
+      queryName="clients/client_list_initiated"
+      filterFrom="gender, age_group, year"
+      searchColumns="client_id"
+    />
+
+    <SQLData
+      name="sentinel_event_unknown_details_data"
+      detailsViewData="sentinel_event_unknown_data"
+      detailsViewColumn="client_id"
+      transpose="true"
+    >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
+  </Datasets>
+
+  <Dashboard
+    data="current_date_data"
+    tabName="Initiated on ART"
+    title="Wakanda Hospital"
+    subTitle="Initiated on ART"
+    lastRefresh="Last updated on : %today%"
+  >
+    <Grid>
+      <SingleLayout>
+        <Table
+          data="sentinel_event_data"
+          exportData="true"
+          variant="plain"
+          detailsViewColumn="client_id"
+        >
+          <Table data="sentinel_event_details_data" />
+        </Table>
+
+      </SingleLayout>
+
+    </Grid>
+  </Dashboard>
+
+  <Dashboard
+    data="current_date_data"
+    tabName="Initiated on 1st Line"
+    title="Wakanda Hospital"
+    subTitle="Initiated on 1st Line"
+    lastRefresh="Last updated on : %today%"
+  >
+    <Grid>
+      <SingleLayout>
+        <Table
+          data="sentinel_event_data"
+          exportData="true"
+          variant="plain"
+          detailsViewColumn="client_id"
+        >
+          <Table data="sentinel_event_details_data" />
+        </Table>
+
+      </SingleLayout>
+
+    </Grid>
+
+
+  </Dashboard>
+
+  <Dashboard
+    data="current_date_data"
+    tabName="Initiated on 2nd Line"
+    title="Wakanda Hospital"
+    subTitle="Initiated on 2nd Line"
+    lastRefresh="Last updated on : %today%"
+  >
+    <Grid>
+      <SingleLayout>
+        <Table
+          data="sentinel_event_data"
+          exportData="true"
+          variant="plain"
+          detailsViewColumn="client_id"
+        >
+          <Table data="sentinel_event_details_data" />
+        </Table>
+
+      </SingleLayout>
+
+    </Grid>
+  </Dashboard>
+
+  <Dashboard
+    data="current_date_data"
+    tabName="Initiated on Unknown Line"
+    title="Wakanda Hospital"
+    subTitle="Initiated on Unknown Line"
+    lastRefresh="Last updated on : %today%"
+  >
+    <Grid>
+      <SingleLayout>
+        <Table
+          data="sentinel_event_data"
+          exportData="true"
+          variant="plain"
+          detailsViewColumn="client_id"
+        >
+          <Table data="sentinel_event_details_data" />
+        </Table>
+
+      </SingleLayout>
+
+    </Grid>
+  </Dashboard>
+</Dashboards>

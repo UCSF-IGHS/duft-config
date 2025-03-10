@@ -1,15 +1,35 @@
-<Dashboard>
-  <SingleLayout>
-    <Grid>
-      <Row><Header>New Clients</Header></Row>
-      <Row columns="1" largeColumns="1" >
-        <Data pageSize={50} searchColumns="client_id">
-          <Query>
-            <Include file="sql/clients/client_list_new.sql" />
-          </Query>
-          <Include file="components/client_list.3dl" />
-        </Data>
-      </Row>
-    </Grid>
-  </SingleLayout>
-</Dashboard>
+<Dashboards>
+  <Datasets>
+    <SQLData
+      pageSize="20"
+      name="sentinel_event_data"
+      queryName="clients/client_list_new"
+      filterFrom="gender, age_group, year"
+      searchColumns="client_id, emr_identifier"
+    />
+
+    <SQLData
+      name="sentinel_event_details_data"
+      detailsViewData="sentinel_event_data"
+      detailsViewColumn="client_id"
+      transpose="true"
+    >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
+  </Datasets>
+  <Grid>
+    <SingleLayout>
+      <Header>New Clients</Header>
+      <Table
+        data="sentinel_event_data"
+        header="New Clients"
+        exportData="true"
+        variant="plain"
+        detailsViewColumn="client_id"
+      >
+        <Table data="sentinel_event_details_data" />
+      </Table>
+    </SingleLayout>
+
+  </Grid>
+</Dashboards>
