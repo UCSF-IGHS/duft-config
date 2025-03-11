@@ -644,7 +644,7 @@
 
             <Row columns="1" largeColumns="2">
                 <DonutChart data="art_regimen_line_data" exportData="true" header="ART Regimen Lines" subHeader="Current ART Regimen Lines" detailsComponent='infinite-scroll-table' />
-                <StackedBarChart data="art_regimen_by_age_group_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimens' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Regimen Lines" subHeader="Current ART Regimen Lines" />
+                <StackedBarChart data="art_regimen_by_age_group_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimen Lines' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Regimen Lines" subHeader="Current ART Regimen Lines" />
             </Row>
 
             <Row columns="1" largeColumns="1">
