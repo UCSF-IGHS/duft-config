@@ -101,6 +101,28 @@
         />
 
         <SQLData
+            name="cascade_on_art"
+            filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
+            queryName="clients/cascade_on_art_wk"
+        />
+
+        <SQLData
+            name="cascade_exited"
+            filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
+            queryName="clients/cascade_exited_wk"
+        />
+
+        <SQLData
+            name="cascade_died"
+            filterFrom="gender, age_group, year"
+            filters={{"year":2021}}
+            queryName="clients/cascade_died_wk"
+        />
+
+
+        <SQLData
             name="cascade_vl_suppressed"
             filterFrom="gender, age_group, year"
             filters={{"year":2021}}
@@ -803,7 +825,7 @@
                         id="1"
                         label="New Cases"
                         // detailsViewQuery = "cascade_new_details"
-                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' "
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                         data="cascade_new"
                         options={{
                             nodeBGColor: "#FFAFCC",
@@ -815,7 +837,7 @@
                         id="2"
                         parentId="1"
                         label="Enrolled into Care"
-                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, enrolment_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NOT NULL "
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, enrolment_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NOT NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                         data="cascade_enrolled"
                         options={{
                             nodeBGColor: "#FFAFCC",
@@ -828,7 +850,7 @@
                         id="3"
                         parentId="1"
                         label="Not Enrolled"
-                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NULL "
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date IS NULL AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                         data="cascade_not_enrolled"
                         options={{
                             nodeBGColor: "#fff5fa",
@@ -842,7 +864,7 @@
                         id="11"
                         parentId="2"
                         label="Initiated on ART"
-                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 1 "
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                         data="cascade_art_initiated"
                         options={{
                             nodeBGColor: "#FFAFCC",
@@ -855,7 +877,7 @@
                         id="12"
                         parentId="2"
                         label="Not Initiated on ART"
-                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 0 "
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, enrolment_date from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE enrolment_date !='' AND hiv_diagnosis_date !='' AND has_ever_been_initiated_on_art = 0 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                         data="cascade_art_not_initiated"
                         options={{
                             nodeBGColor: "#fff5fa",
@@ -867,9 +889,9 @@
                     <CascadeNode
                         id="110"
                         parentId="11"
-                        label="VL Suppressed"
-                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_suppressed = 1 "
-                        data="cascade_vl_suppressed"
+                        label="On ART"
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text, has_exited from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art = 1 AND has_exited != 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
+                        data="cascade_on_art"
                         options={{
                             nodeBGColor: "#FFAFCC",
                             nodeBGColorHover: "#FFAFCC",
@@ -879,9 +901,9 @@
                     <CascadeNode
                         id="111"
                         parentId="11"
-                        label="VL Not Suppressed"
-                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE last_viral_load_result_is_not_suppressed = 1 "
-                        data="cascade_vl_not_suppressed"
+                        label="Exited"
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text, exit_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, exit_date, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text, has_exited, has_exited_died from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art = 1 AND has_exited = 1 AND has_exited_died != 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
+                        data="cascade_exited"
                         options={{
                             nodeBGColor: "#f9fafb",
                             nodeBGColorHover: "#f9fafb",
@@ -891,9 +913,9 @@
                     <CascadeNode
                         id="112"
                         parentId="11"
-                        label="Due for VL"
-                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art AND  last_viral_load_result_is_not_suppressed = '' "
-                        data="cascade_due_for_vl"
+                        label="Died"
+                        detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text, exit_date FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, exit_date, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_not_suppressed, last_viral_load_date, last_viral_load_result_text, has_exited, has_exited_died from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art = 1 AND has_exited = 1 AND has_exited_died = 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
+                        data="cascade_died"
                         options={{
                             nodeBGColor: "#fff5fa",
                             nodeBGColorHover: "#fff5fa",
