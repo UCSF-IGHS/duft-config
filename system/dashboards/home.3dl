@@ -550,7 +550,7 @@
 
             <Row columns="2" largeColumns="2">
 
-                <ClusteredBarChart data="art_cascade_by_gender_data" exportData="true" userOptions={{ xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Cascade by Gender" subHeader="ART Cascade  Gender" detailsComponent='infinite-scroll-table'>
+                <ClusteredBarChart data="art_cascade_by_gender_data" exportData="true" userOptions={{ xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Cascade by Gender" subHeader="ART Cascade by Gender" detailsComponent='infinite-scroll-table'>
                     <InfoTag>
                         <Markdown header="ART Cascade">
                             HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
@@ -643,12 +643,12 @@
             </Row>
 
             <Row columns="1" largeColumns="2">
-                <DonutChart data="art_regimen_line_data" exportData="true" header="ART Regimen Lines" subHeader="Current ART Regimen Lines" detailsComponent='infinite-scroll-table' />
-                <StackedBarChart data="art_regimen_by_age_group_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimen Lines' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Regimen Lines" subHeader="Current ART Regimen Lines" />
+                <DonutChart data="art_regimen_line_data" exportData="true" header="ART Regimen Lines at Initiation" subHeader="ART Regimen Lines at Initiation" detailsComponent='infinite-scroll-table' />
+                <StackedBarChart data="art_regimen_by_age_group_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimen Lines' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Regimen Lines at Initiation" subHeader="ART Regimen Lines at Initiation" />
             </Row>
 
             <Row columns="1" largeColumns="1">
-                <PercentStackedBarChart data="art_regimen_at_initiation" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimens' } }, yaxis: { title: { text: 'Percentage' } } }} header="ART Regimens at Initiation" subHeader="ART Regimens at ART Initiation" />
+                <PercentStackedBarChart data="art_regimen_at_initiation" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'ART Regimens' } }, yaxis: { title: { text: 'Percentage' } } }} header="ART Regimens at Initiation" subHeader="ART Regimens at Initiation" />
             </Row>
 
         </Grid>
@@ -670,7 +670,7 @@
         </Filters>
 
         <Grid>
-            <Row columns="2" largeColumns="4">
+            <Row columns="2" largeColumns="3">
 
                 <Tile data="tile_suppressed_data" title="Suppressed">
                     <Table
@@ -711,17 +711,6 @@
                     </Table>
                 </Tile>
 
-                <Tile data="tile_exited_data" title="Exited">
-                    <Table
-                        data="exited_detailed_data"
-                        exportData="true"
-                        header="Exited"
-                        variant="plain"
-                        detailsViewColumn="client_id"
-                    >
-                        <Table data="exited_detailed_details_data" />
-                    </Table>
-                </Tile>
             </Row>
             <Row columns="1" largeColumns="2">
                 <PieChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" header="ART Outcomes" subHeader="ART Outcomes" />
@@ -824,7 +813,7 @@
                     <CascadeNode
                         id="1"
                         label="New Cases"
-                        // detailsViewQuery = "cascade_new_details"
+                        //detailsViewQuery = "cascade_new_details"
                         detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                         data="cascade_new"
                         options={{
@@ -889,7 +878,7 @@
                     <CascadeNode
                         id="110"
                         parentId="11"
-                        label="On ART"
+                        label="Current On ART"
                         detailsViewQuery="SELECT fs.client_id,gender, hiv_diagnosis_date,enrolment_date,first_art_date, first_art_drugs,last_art_date,last_art_drugs, last_viral_load_date, last_viral_load_result_text FROM (select strftime('%Y', hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date, enrolment_date,first_art_date, last_art_date, last_art_drugs, first_art_drugs, has_ever_been_initiated_on_art, last_viral_load_result_is_suppressed, last_viral_load_date, last_viral_load_result_text, has_exited from fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE has_ever_been_initiated_on_art = 1 AND has_exited != 1 AND (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group' OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''), '2021'))"
                         data="cascade_on_art"
                         options={{
