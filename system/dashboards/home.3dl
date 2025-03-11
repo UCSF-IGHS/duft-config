@@ -725,18 +725,18 @@
             </Row>
             <Row columns="1" largeColumns="2">
                 <PieChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" header="ART Outcomes" subHeader="ART Outcomes" />
-                <BarChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes" subHeader="ART Outcomes" />
+                <BarChart data="art_outcome_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{  yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes" subHeader="ART Outcomes" />
             </Row>
 
             <Row columns="1" largeColumns="2">
-                <ClusteredLineChart data="art_outcome_by_year_data" exportData="true" userOptions={{ stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes by Year" subHeader="ART Outcomes by Year" detailsComponent='infinite-scroll-table'>
+                <ClusteredLineChart data="art_outcome_by_year_data" exportData="true" userOptions={{ stroke: { show: true }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes by Year" subHeader="ART Outcomes by Year" detailsComponent='infinite-scroll-table'>
                     <InfoTag>
                         <Markdown header="ART Cascade">
                             HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
                         </Markdown>
                     </InfoTag>
                 </ClusteredLineChart>
-                <StackedBarChart data="art_outcome_stacked_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{ xaxis: { title: { text: 'Viral Load Result' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes By Gender" subHeader="ART Outcomes By Gender" />
+                <StackedBarChart data="art_outcome_stacked_data" detailsComponent='infinite-scroll-table' exportData="true" userOptions={{  yaxis: { title: { text: 'Clients' } } }} header="ART Outcomes By Gender" subHeader="ART Outcomes By Gender" />
             </Row>
 
         </Grid>
