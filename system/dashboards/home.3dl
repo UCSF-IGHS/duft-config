@@ -762,11 +762,11 @@
                     </Table>
                 </Tile>
 
-                <Tile data="tile_on_art_data" title="On ART">
+                <Tile data="tile_on_art_data" title="Current On ART">
                     <Table
                         data="on_art_detailed_data"
                         exportData="true"
-                        header="On ART"
+                        header="Current On ART"
                         variant="plain"
                         initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date, first_art_date, first_art_drugs,last_art_date,last_art_drugs"
                         detailsViewColumn="client_id"
