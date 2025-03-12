@@ -5,7 +5,18 @@
             "name": "SAMPLE_MODEL",
             "description": "Sample model for interacting with wakanda sample dataset",
             "engineURL": "http://localhost:11434/api/generate",
-            "maximumTokens": 2022
-        }                                 
+            "maximumTokens": 2022,
+            "prompts": ["wakanda.md"],
+            "engineType": "ollama"
+        },
+        {
+            "id": "llama3.2",
+            "name": "llama3.2",
+            "description": "Sample model on duft.app",
+            "engineURL": "https://ask-ai.duft.app/api/generate",
+            "maximumTokens": 2022,
+            "prompts": ["wakanda.md"],
+            "engineType": "ollama"
+        }
     ]
 }
