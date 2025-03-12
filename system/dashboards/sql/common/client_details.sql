@@ -1,0 +1,1 @@
+SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'

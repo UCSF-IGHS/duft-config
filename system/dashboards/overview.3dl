@@ -168,14 +168,6 @@
                     </DataProvider>
             </Row>
 
-            <Row columns = "1" largeColumns = "1">
-
-                <DataProvider query={`SELECT TOP 10 * FROM derived.dim_client`}>
-                <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
-                </DataProvider>
-
-            </Row>
-
         </Grid>
     </Dashboard>
 

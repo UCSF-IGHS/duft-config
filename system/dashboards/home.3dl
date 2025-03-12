@@ -1,58 +1,146 @@
 <Dashboards>
 
     <Datasets>
-        <SQLData name="gender_data" queryName="common/gender" />
 
-        <SQLData name="current_date_data" queryName="common/current_date" />
+        {/* Below are data definitions for date and gender */}
 
-        <SQLData
-        name="iit_clients_data"
-        queryName="plhiv/iit_clients"
-        pageSize="15"
-        searchColumns="[CTC ID], [Current Age], [Sex], [Number of Days Prescribed]"
-        filterFrom="gender"
-        />
+            <SQLData name="gender_data" queryName="common/gender" />
 
-        <SQLData
-        name="ahd_clients_data"
-        queryName="plhiv/ahd_clients"
-        pageSize="15"
-        searchColumns="[CTC ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
-        filterFrom="gender"
-        />
+            <SQLData name="current_date_data" queryName="common/current_date" />
 
-        <SQLData
-        name="client_details_data"
-        detailsViewData="ahd_clients_data"
-        detailsViewColumn="CTC ID"
-        transpose="true"
-        >
-        SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
-        </SQLData>
+        {/* Data definitions for PLHIV */}
 
-        <SQLData
-        name="need_vl_clients_data"
-        queryName="plhiv/need_vl_clients"
-        pageSize="15"
-        searchColumns="[CTC ID], [Current Age], [Sex], [Last VL Result Numeric]"
-        filterFrom="gender"
-        />
+            {/* IIT Clients */}
 
-        <SQLData
-        name="unsuppressed_clients_data"
-        queryName="plhiv/unsuppressed_clients"
-        pageSize="15"
-        searchColumns="[CTC ID], [Current Age], [Sex], [Last VL Result Numeric]"
-        filterFrom="gender"
-        />
+                <SQLData
+                    name="iit_clients_data"
+                    queryName="plhiv/table/iit_clients"
+                    pageSize="15"
+                    searchColumns="CTC ID, Current Age, Sex, Number of Days Prescribed"
+                    filterFrom="gender"
+                />
 
-        <SQLData name="tile_ahd_data" queryName="plhiv/tiles/ahd" filterFrom="gender" />
+                <SQLData name="tile_iit_data" queryName="plhiv/tile/iit" filterFrom="gender" />
 
-        <SQLData name="tile_iit_data" queryName="plhiv/tiles/iit" filterFrom="gender" />
+                <SQLData name="iit_client_details_data" detailsViewData="iit_clients_data" detailsViewColumn="CTC ID" transpose="true">
+                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+                </SQLData>
 
-        <SQLData name="tile_need_vl_data" queryName="plhiv/tiles/need_vl" filterFrom="gender" />
+                <SQLData name="pie_iit_data" queryName="plhiv/visual/iit_pie" filterFrom="gender" />
 
-        <SQLData name="tile_unsuppressed_data" queryName="plhiv/tiles/unsuppressed" filterFrom="gender" />
+            {/* AHD Clients */}
+
+                <SQLData
+                    name="ahd_clients_data"
+                    queryName="plhiv/table/ahd_clients"
+                    pageSize="15"
+                    searchColumns="[CTC ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
+                    filterFrom="gender"
+                />
+
+                <SQLData name="tile_ahd_data" queryName="plhiv/tile/ahd" filterFrom="gender" />
+
+                <SQLData name="ahd_client_details_data" detailsViewData="ahd_clients_data" detailsViewColumn="CTC ID" transpose="true">
+                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+                </SQLData>
+
+            {/* Clients Needing VL */}
+
+                <SQLData
+                    name="need_vl_clients_data"
+                    queryName="plhiv/table/need_vl_clients"
+                    pageSize="15"
+                    searchColumns="[CTC ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                    filterFrom="gender"
+                />
+
+                <SQLData name="tile_need_vl_data" queryName="plhiv/tile/need_vl" filterFrom="gender" />
+
+                <SQLData name="need_vl_client_details_data" detailsViewData="need_vl_clients_data" detailsViewColumn="CTC ID" transpose="true">
+                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+                </SQLData>
+
+            {/* Unsuppressed Clients */}
+
+                <SQLData
+                    name="unsuppressed_clients_data"
+                    queryName="plhiv/table/unsuppressed_clients"
+                    pageSize="15"
+                    searchColumns="[CTC ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                    filterFrom="gender"
+                />
+
+                <SQLData name="tile_unsuppressed_data" queryName="plhiv/tile/unsuppressed" filterFrom="gender" />
+
+                <SQLData name="unsuppressed_client_details_data" detailsViewData="unsuppressed_clients_data" detailsViewColumn="CTC ID" transpose="true">
+                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+                </SQLData>
+
+        {/* Data definitions for HEI */}
+
+            {/* Not Registered */}
+
+                <SQLData
+                    name="hei_not_registered_data"
+                    queryName="hei/table/not_registered"
+                    pageSize="15"
+                    searchColumns="CTC ID, DOB, Age in Months, Sex, Infant Status, Exposed Infant Number"
+                    filterFrom="gender"
+                />
+
+                <SQLData name="tile_hei_not_registered_data" queryName="hei/tile/not_registered" filterFrom="gender" />
+
+                <SQLData name="not_registered_hei_details_data" detailsViewData="hei_not_registered_data" detailsViewColumn="CTC ID" transpose="true">
+                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+                </SQLData>
+
+            {/* Needing EID Test */}
+
+                <SQLData
+                    name="hei_needing_eid_test_data"
+                    queryName="hei/table/needing_eid_test"
+                    pageSize="15"
+                    searchColumns="CTC ID, DOB, Age in Months, Sex, Last EID Visit Date, Exposed Infant Number"
+                    filterFrom="gender"
+                />
+
+                <SQLData name="tile_hei_needing_eid_test_data" queryName="hei/tile/needing_eid_test" filterFrom="gender" />
+
+                <SQLData name="needing_eid_test_hei_details_data" detailsViewData="hei_needing_eid_test_data" detailsViewColumn="CTC ID" transpose="true">
+                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+                </SQLData>
+
+            {/* 18-24 Months Without FO */}
+
+                <SQLData
+                    name="hei_without_fo_data"
+                    queryName="hei/table/without_fo"
+                    pageSize="15"
+                    searchColumns="CTC ID, DOB, Age in Months, Sex, Exposed Infant Number"
+                    filterFrom="gender"
+                />
+
+                <SQLData name="tile_hei_without_fo_data" queryName="hei/tile/without_fo" filterFrom="gender" />
+
+                <SQLData name="without_fo_hei_details_data" detailsViewData="hei_without_fo_data" detailsViewColumn="CTC ID" transpose="true">
+                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+                </SQLData>
+
+            {/* HEI POS Not Initiated */}
+
+                <SQLData
+                    name="hei_pos_not_initiated_data"
+                    queryName="hei/table/pos_not_initiated"
+                    pageSize="15"
+                    searchColumns="CTC ID, DOB, Age in Months, Sex, Last Antibody Result, Exposed Infant Number"
+                    filterFrom="gender"
+                />
+
+                <SQLData name="tile_hei_pos_not_initiated_data" queryName="hei/tile/pos_not_initiated" filterFrom="gender" />
+
+                <SQLData name="pos_not_initiated_hei_details_data" detailsViewData="iit_clients_data" detailsViewColumn="CTC ID" transpose="true">
+                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+                </SQLData>
 
         <StaticData name="static_gender_data" filterFrom="gender">
         {[
@@ -89,34 +177,149 @@
 
         <Grid>
             <Row columns = "2" largeColumns = "4">
-                <Tile data="tile_ahd_data" title="Clients With IIT (28-90)">
+                <Tile data="tile_iit_data" title="Clients With IIT (28-90)">
+                    <Table
+                        data="iit_clients_data"
+                        exportData="true"
+                        header="Clients With IIT (28-90)"
+                        variant="plain"
+                        detailsViewColumn="CTC ID"
+                    >
+                    <Table data="iit_client_details_data" header="Client details" />
+                </Table>
+                </Tile>
+
+                <Tile data="tile_ahd_data" title="AHD Suspects">
                     <Table
                         data="ahd_clients_data"
                         exportData="true"
-                        header="Clients With IIT (28-90)"
+                        header="AHD Suspect Clients"
                         variant="plain"
                         initialColumns="CTC ID, Current Age, Sex, Last Visit Date, Last CD4 Test Date, Last CD4 Result Date, Last CD4 Result Count, Last CD4 < 200, WHO Stage 3/4 Result"
                         detailsViewColumn="CTC ID"
                     >
-                    <Table data="client_details_data" />
+                    <Table data="ahd_client_details_data" header="Client details" />
                 </Table>
                 </Tile>
 
-                <Tile data="tile_new_data" title="New Cases">
+                <Tile data="tile_need_vl_data" title="Needing VL Test">
                     <Table
-                        data="new_detailed_data"
+                        data="need_vl_clients_data"
                         exportData="true"
-                        header="New Cases"
+                        header="Clients Needing VL test"
                         variant="plain"
-                        initialColumns="client_id, gender, hiv_diagnosis_date, enrolment_date"
-                        detailsViewColumn="client_id"
+                        initialColumns="CTC ID, Current Age, Sex, Last Visit Date, Last VL Test Date, Last VL Result Numeric, VL Results 50 - 999 cps/ml?, VL Results >= 1000 cps/ml?"
+                        detailsViewColumn="CTC ID"
                     >
-                        <Table data="new_detailed_details_data" />
-                    </Table>
+                    <Table data="need_vl_client_details_data" header="Client details" />
+                </Table>
+                </Tile>
+
+                <Tile data="tile_unsuppressed_data" title="Unsuppressed VL">
+                    <Table
+                        data="unsuppressed_clients_data"
+                        exportData="true"
+                        header="Clients With Unsuppressed VL"
+                        variant="plain"
+                        detailsViewColumn="CTC ID"
+                    >
+                    <Table data="unsuppressed_client_details_data" header="Client details" />
+                </Table>
                 </Tile>
 
             </Row>
 
+            <Row largeColumns="2" columns="2">
+                <PieChart
+                    data="pie_iit_data"
+                    userOptions={{
+                        dataLabels: { enabled: true },
+                        stroke: { show: false },
+                    }}
+                />
+                <PieChart
+                    data="pie_iit_data"
+                    userOptions={{ dataLabels: { enabled: true } }}
+                />
+            </Row>
+
+        </Grid>
+
+    </Dashboard>
+
+    <Dashboard
+        data="current_date_data"
+        tabName="B. HEI"
+        title="HEI Needing Attention"
+        subTitle="Key HIV Indicators: Needing Attention"
+        lastRefresh="Last updated on : %today%"
+    >
+
+        <Grid>
+            <Row columns = "2" largeColumns = "4">
+                <Tile data="tile_hei_not_registered_data" title="HEI Not Registered">
+                    <Table
+                        data="hei_not_registered_data"
+                        exportData="true"
+                        header="HEI Not Registered"
+                        variant="plain"
+                        detailsViewColumn="CTC ID"
+                    >
+                    <Table data="not_registered_hei_details_data" header="HEI details" />
+                </Table>
+                </Tile>
+
+                <Tile data="tile_hei_needing_eid_test_data" title="HEI Needing EID Test">
+                    <Table
+                        data="hei_needing_eid_test_data"
+                        exportData="true"
+                        header="HEI Needing EID Test"
+                        variant="plain"
+                        detailsViewColumn="CTC ID"
+                    >
+                    <Table data="needing_eid_test_hei_details_data" header="HEI details" />
+                </Table>
+                </Tile>
+
+                <Tile data="tile_hei_without_fo_data" title="HEI 18-24 Months Without FO">
+                    <Table
+                        data="hei_without_fo_data"
+                        exportData="true"
+                        header="HEI 18-24 Months Without FO"
+                        variant="plain"
+                        detailsViewColumn="CTC ID"
+                    >
+                    <Table data="without_fo_hei_details_data" header="HEI details" />
+                </Table>
+                </Tile>
+
+                <Tile data="tile_hei_pos_not_initiated_data" title="HEI POS Not Initiated">
+                    <Table
+                        data="hei_pos_not_initiated_data"
+                        exportData="true"
+                        header="HEI POS Not Initiated"
+                        variant="plain"
+                        detailsViewColumn="CTC ID"
+                    >
+                    <Table data="pos_not_initiated_hei_details_data" header="HEI details" />
+                </Table>
+                </Tile>
+
+            </Row>
+
+            <Row largeColumns="2" columns="2">
+                <PieChart
+                    data="pie_iit_data"
+                    userOptions={{
+                        dataLabels: { enabled: true },
+                        stroke: { show: false },
+                    }}
+                />
+                <PieChart
+                    data="pie_iit_data"
+                    userOptions={{ dataLabels: { enabled: true } }}
+                />
+            </Row>
 
         </Grid>
 
