@@ -1,174 +1,29 @@
 <Dashboards>
 
-    <Datasets>
+    <Include file="components/common/datasets.3dl" />
 
-        {/* Below are data definitions for date and gender */}
+    <Include file="components/plhiv/datasets.3dl" />
 
-            <SQLData name="gender_data" queryName="common/gender" />
+    <Include file="components/hei/datasets.3dl" />
 
-            <SQLData name="current_date_data" queryName="common/current_date" />
+    <Dashboard
+        data="current_date_data"
+        tabName="A. PLHIV"
+        title="Clients Needing Attention"
+        subTitle="Key HIV Indicators: Needing Attention"
+        lastRefresh="Last updated on : %today%"
+    >
+        <Include file="components/plhiv/overview.3dl" />
+    </Dashboard>
 
-        {/* Data definitions for PLHIV */}
-
-            {/* IIT Clients */}
-
-                <SQLData
-                    name="iit_clients_data"
-                    queryName="plhiv/table/iit_clients"
-                    pageSize="15"
-                    searchColumns="CTC ID, Current Age, Sex, Number of Days Prescribed"
-                    filterFrom="gender"
-                />
-
-                <SQLData name="tile_iit_data" queryName="plhiv/tile/iit" filterFrom="gender" />
-
-                <SQLData name="iit_client_details_data" detailsViewData="iit_clients_data" detailsViewColumn="CTC ID" transpose="true">
-                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
-                </SQLData>
-
-                <SQLData name="pie_iit_data" queryName="plhiv/visual/iit_pie" filterFrom="gender" />
-
-            {/* AHD Clients */}
-
-                <SQLData
-                    name="ahd_clients_data"
-                    queryName="plhiv/table/ahd_clients"
-                    pageSize="15"
-                    searchColumns="[CTC ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
-                    filterFrom="gender"
-                />
-
-                <SQLData name="tile_ahd_data" queryName="plhiv/tile/ahd" filterFrom="gender" />
-
-                <SQLData name="ahd_client_details_data" detailsViewData="ahd_clients_data" detailsViewColumn="CTC ID" transpose="true">
-                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
-                </SQLData>
-
-            {/* Clients Needing VL */}
-
-                <SQLData
-                    name="need_vl_clients_data"
-                    queryName="plhiv/table/need_vl_clients"
-                    pageSize="15"
-                    searchColumns="[CTC ID], [Current Age], [Sex], [Last VL Result Numeric]"
-                    filterFrom="gender"
-                />
-
-                <SQLData name="tile_need_vl_data" queryName="plhiv/tile/need_vl" filterFrom="gender" />
-
-                <SQLData name="need_vl_client_details_data" detailsViewData="need_vl_clients_data" detailsViewColumn="CTC ID" transpose="true">
-                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
-                </SQLData>
-
-            {/* Unsuppressed Clients */}
-
-                <SQLData
-                    name="unsuppressed_clients_data"
-                    queryName="plhiv/table/unsuppressed_clients"
-                    pageSize="15"
-                    searchColumns="[CTC ID], [Current Age], [Sex], [Last VL Result Numeric]"
-                    filterFrom="gender"
-                />
-
-                <SQLData name="tile_unsuppressed_data" queryName="plhiv/tile/unsuppressed" filterFrom="gender" />
-
-                <SQLData name="unsuppressed_client_details_data" detailsViewData="unsuppressed_clients_data" detailsViewColumn="CTC ID" transpose="true">
-                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
-                </SQLData>
-
-        {/* Data definitions for HEI */}
-
-            {/* Not Registered */}
-
-                <SQLData
-                    name="hei_not_registered_data"
-                    queryName="hei/table/not_registered"
-                    pageSize="15"
-                    searchColumns="CTC ID, DOB, Age in Months, Sex, Infant Status, Exposed Infant Number"
-                    filterFrom="gender"
-                />
-
-                <SQLData name="tile_hei_not_registered_data" queryName="hei/tile/not_registered" filterFrom="gender" />
-
-                <SQLData name="not_registered_hei_details_data" detailsViewData="hei_not_registered_data" detailsViewColumn="CTC ID" transpose="true">
-                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
-                </SQLData>
-
-            {/* Needing EID Test */}
-
-                <SQLData
-                    name="hei_needing_eid_test_data"
-                    queryName="hei/table/needing_eid_test"
-                    pageSize="15"
-                    searchColumns="CTC ID, DOB, Age in Months, Sex, Last EID Visit Date, Exposed Infant Number"
-                    filterFrom="gender"
-                />
-
-                <SQLData name="tile_hei_needing_eid_test_data" queryName="hei/tile/needing_eid_test" filterFrom="gender" />
-
-                <SQLData name="needing_eid_test_hei_details_data" detailsViewData="hei_needing_eid_test_data" detailsViewColumn="CTC ID" transpose="true">
-                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
-                </SQLData>
-
-            {/* 18-24 Months Without FO */}
-
-                <SQLData
-                    name="hei_without_fo_data"
-                    queryName="hei/table/without_fo"
-                    pageSize="15"
-                    searchColumns="CTC ID, DOB, Age in Months, Sex, Exposed Infant Number"
-                    filterFrom="gender"
-                />
-
-                <SQLData name="tile_hei_without_fo_data" queryName="hei/tile/without_fo" filterFrom="gender" />
-
-                <SQLData name="without_fo_hei_details_data" detailsViewData="hei_without_fo_data" detailsViewColumn="CTC ID" transpose="true">
-                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
-                </SQLData>
-
-            {/* HEI POS Not Initiated */}
-
-                <SQLData
-                    name="hei_pos_not_initiated_data"
-                    queryName="hei/table/pos_not_initiated"
-                    pageSize="15"
-                    searchColumns="CTC ID, DOB, Age in Months, Sex, Last Antibody Result, Exposed Infant Number"
-                    filterFrom="gender"
-                />
-
-                <SQLData name="tile_hei_pos_not_initiated_data" queryName="hei/tile/pos_not_initiated" filterFrom="gender" />
-
-                <SQLData name="pos_not_initiated_hei_details_data" detailsViewData="iit_clients_data" detailsViewColumn="CTC ID" transpose="true">
-                    SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
-                </SQLData>
-
-        <StaticData name="static_gender_data" filterFrom="gender">
-        {[
-            { category: "Male", value: 30 },
-            { category: "Female", value: 40 },
-        ]}
-        </StaticData>
-
-        <OpenMRSData
-        name="openmrs_data"
-        pageSize="20"
-        searchColumns="OpenMRSID, name"
-        >
-        <OpenMRS
-            resource="appointments/search"
-            method="POST"
-            body={{
-            startDate: "2000-01-20T00:00:00.000+0300",
-            endDate: "2025-01-20T23:59:59.999+0300",
-            }}
-            adapter="patientsFromAppointments"
-        />
-        </OpenMRSData>
-
-    </Datasets>
-
-    <Include file="plhiv-overview.3dl" />
-
-    <Include file="hei-overview.3dl" />
+    <Dashboard
+        data="current_date_data"
+        tabName="B. HEI"
+        title="HEI Needing Attention"
+        subTitle="Key HIV Indicators: Needing Attention"
+        lastRefresh="Last updated on : %today%"
+    >
+        <Include file="components/hei/overview.3dl" />
+    </Dashboard>
 
 </Dashboards>

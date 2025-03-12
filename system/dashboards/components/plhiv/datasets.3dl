@@ -1,0 +1,71 @@
+<Datasets>
+
+    {/* Data definitions for PLHIV */}
+
+        {/* IIT Clients */}
+
+            <SQLData
+                name="iit_clients_data"
+                queryName="plhiv/table/iit_clients"
+                pageSize="15"
+                searchColumns="CTC ID, Current Age, Sex, Number of Days Prescribed"
+                filterFrom="gender"
+            />
+
+            <SQLData name="tile_iit_data" queryName="plhiv/tile/iit" filterFrom="gender" />
+
+            <SQLData name="iit_client_details_data" detailsViewData="iit_clients_data" detailsViewColumn="CTC ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+            </SQLData>
+
+            <SQLData name="pie_iit_data" queryName="plhiv/visual/iit_pie" filterFrom="gender" />
+
+        {/* AHD Clients */}
+
+            <SQLData
+                name="ahd_clients_data"
+                queryName="plhiv/table/ahd_clients"
+                pageSize="15"
+                searchColumns="[CTC ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
+                filterFrom="gender"
+            />
+
+            <SQLData name="tile_ahd_data" queryName="plhiv/tile/ahd" filterFrom="gender" />
+
+            <SQLData name="ahd_client_details_data" detailsViewData="ahd_clients_data" detailsViewColumn="CTC ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+            </SQLData>
+
+        {/* Clients Needing VL */}
+
+            <SQLData
+                name="need_vl_clients_data"
+                queryName="plhiv/table/need_vl_clients"
+                pageSize="15"
+                searchColumns="[CTC ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                filterFrom="gender"
+            />
+
+            <SQLData name="tile_need_vl_data" queryName="plhiv/tile/need_vl" filterFrom="gender" />
+
+            <SQLData name="need_vl_client_details_data" detailsViewData="need_vl_clients_data" detailsViewColumn="CTC ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+            </SQLData>
+
+        {/* Unsuppressed Clients */}
+
+            <SQLData
+                name="unsuppressed_clients_data"
+                queryName="plhiv/table/unsuppressed_clients"
+                pageSize="15"
+                searchColumns="[CTC ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                filterFrom="gender"
+            />
+
+            <SQLData name="tile_unsuppressed_data" queryName="plhiv/tile/unsuppressed" filterFrom="gender" />
+
+            <SQLData name="unsuppressed_client_details_data" detailsViewData="unsuppressed_clients_data" detailsViewColumn="CTC ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+            </SQLData>
+
+</Datasets>

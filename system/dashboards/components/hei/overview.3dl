@@ -1,0 +1,67 @@
+<Grid>
+    <Row columns = "2" largeColumns = "4">
+        <Tile data="tile_hei_not_registered_data" title="HEI Not Registered">
+            <Table
+                data="hei_not_registered_data"
+                exportData="true"
+                header="HEI Not Registered"
+                variant="plain"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="not_registered_hei_details_data" header="HEI details" />
+        </Table>
+        </Tile>
+
+        <Tile data="tile_hei_needing_eid_test_data" title="HEI Needing EID Test">
+            <Table
+                data="hei_needing_eid_test_data"
+                exportData="true"
+                header="HEI Needing EID Test"
+                variant="plain"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="needing_eid_test_hei_details_data" header="HEI details" />
+        </Table>
+        </Tile>
+
+        <Tile data="tile_hei_without_fo_data" title="HEI 18-24 Months Without FO">
+            <Table
+                data="hei_without_fo_data"
+                exportData="true"
+                header="HEI 18-24 Months Without FO"
+                variant="plain"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="without_fo_hei_details_data" header="HEI details" />
+        </Table>
+        </Tile>
+
+        <Tile data="tile_hei_pos_not_initiated_data" title="HEI POS Not Initiated">
+            <Table
+                data="hei_pos_not_initiated_data"
+                exportData="true"
+                header="HEI POS Not Initiated"
+                variant="plain"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="pos_not_initiated_hei_details_data" header="HEI details" />
+        </Table>
+        </Tile>
+
+    </Row>
+
+    <Row largeColumns="2" columns="2">
+        <PieChart
+            data="pie_iit_data"
+            userOptions={{
+                dataLabels: { enabled: true },
+                stroke: { show: false },
+            }}
+        />
+        <PieChart
+            data="pie_iit_data"
+            userOptions={{ dataLabels: { enabled: true } }}
+        />
+    </Row>
+
+</Grid>

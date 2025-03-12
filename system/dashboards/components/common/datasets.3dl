@@ -1,0 +1,9 @@
+<Datasets>
+
+    {/* Below are data definitions for date and gender */}
+
+        <SQLData name="gender_data" queryName="common/gender" />
+
+        <SQLData name="current_date_data" queryName="common/current_date" />
+
+</Datasets>

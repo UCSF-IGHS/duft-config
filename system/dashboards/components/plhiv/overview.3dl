@@ -1,0 +1,69 @@
+<Grid>
+    <Row columns = "2" largeColumns = "4">
+        <Tile data="tile_iit_data" title="Clients With IIT (28-90)">
+            <Table
+                data="iit_clients_data"
+                exportData="true"
+                header="Clients With IIT (28-90)"
+                variant="plain"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="iit_client_details_data" header="Client details" />
+        </Table>
+        </Tile>
+
+        <Tile data="tile_ahd_data" title="AHD Suspects">
+            <Table
+                data="ahd_clients_data"
+                exportData="true"
+                header="AHD Suspect Clients"
+                variant="plain"
+                initialColumns="CTC ID, Current Age, Sex, Last Visit Date, Last CD4 Test Date, Last CD4 Result Date, Last CD4 Result Count, Last CD4 < 200, WHO Stage 3/4 Result"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="ahd_client_details_data" header="Client details" />
+        </Table>
+        </Tile>
+
+        <Tile data="tile_need_vl_data" title="Needing VL Test">
+            <Table
+                data="need_vl_clients_data"
+                exportData="true"
+                header="Clients Needing VL test"
+                variant="plain"
+                initialColumns="CTC ID, Current Age, Sex, Last Visit Date, Last VL Test Date, Last VL Result Numeric, VL Results 50 - 999 cps/ml?, VL Results >= 1000 cps/ml?"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="need_vl_client_details_data" header="Client details" />
+        </Table>
+        </Tile>
+
+        <Tile data="tile_unsuppressed_data" title="Unsuppressed VL">
+            <Table
+                data="unsuppressed_clients_data"
+                exportData="true"
+                header="Clients With Unsuppressed VL"
+                variant="plain"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="unsuppressed_client_details_data" header="Client details" />
+        </Table>
+        </Tile>
+
+    </Row>
+
+    <Row largeColumns="2" columns="2">
+        <PieChart
+            data="pie_iit_data"
+            userOptions={{
+                dataLabels: { enabled: true },
+                stroke: { show: false },
+            }}
+        />
+        <PieChart
+            data="pie_iit_data"
+            userOptions={{ dataLabels: { enabled: true } }}
+        />
+    </Row>
+
+</Grid>
