@@ -25,11 +25,6 @@
         "title": "Viral Load",
         "icon": "dashboards-icon",
         "dashboard": "/dashboard/vl"
-      },
-      {
-        "title": "Preview query",
-        "icon": "dashboard-icon",
-        "dashboard": "/dashboard/3dlpreview-query"
       }
       
     ]
