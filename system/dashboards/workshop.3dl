@@ -1,28 +1,27 @@
 <TabSet>
 
-    <Tab title="Overview">
+	<Tab title="Overview">
         <Dashboard>
             <Grid>
                 <Row>
-                    <Header>Clients Needing Attention</Header>
+                    <Header>HEI Needing Attention</Header>
                 </Row>
                 <Row>
                     <Header small="true">Key HIV Indicators: Needing Attention</Header>
                 </Row>
 
                 <Row columns = "2" largeColumns = "4">
-
                     <DataProvider>
                         <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Missed Drugs 29-90 Days" = 'Yes'
+                            SELECT COUNT(*) FROM duft.fact_duft_hei_sentinel_event WHERE [HEI Registered?] = 'No' AND ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
                         </QueryData>
-                        <Tile title="IIT (28-90 Days)">
+                        <Tile title="HEI Not Registered">
                             <DataProvider pageSize={50} sort_column={ DOB } searchColumns = "c.ctc_id, f.current_age" >
                                 <Header small="true">
-                                    Clients With IIT (28-90)
+                                    HEI Not Registered
                                 </Header>
                                 <QueryData>
-                                    <Include file="sql/plhiv/iit_clients.sql" />
+                                    <Include file="sql/hei/not_registered.sql" />
                                 </QueryData>
                                 <Include file="components/client_list.3dl" />
                             </DataProvider>
@@ -31,15 +30,15 @@
 
                     <DataProvider>
                         <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE [Last CD4 &lt; 200] = 'Yes' OR [WHO Stage 3/4 With No CD4 Test] = 'Yes'
+                            SELECT COUNT(*) FROM duft.fact_duft_hei_sentinel_event WHERE [Eligible for First EID Test?] = 'Yes' AND ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
                         </QueryData>
-                        <Tile title="AHD Suspects">
+                        <Tile title="HEI Needing EID Test">
                             <DataProvider pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
                                 <Header small="true">
-                                    AHD Suspect Clients
+                                    HEI Needing EID Test
                                 </Header>
                                 <QueryData>
-                                    <Include file="sql/plhiv/ahd_clients.sql" />
+                                    <Include file="sql/hei/needing_eid_test.sql" />
                                 </QueryData>
                                 <Include file="components/client_list.3dl" />
                             </DataProvider>
@@ -48,15 +47,15 @@
 
                     <DataProvider>
                         <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Needs VL Test" = 'Yes'
+                            SELECT COUNT(*) FROM duft.fact_duft_hei_sentinel_event WHERE [Has Final Outcome?] = 'No' AND [Age in Months] BETWEEN 18 AND 24 AND ISNULL ([Infant Status], '') NOT IN ('TRN', 'DIE')
                         </QueryData>
-                        <Tile title="Need VL Test">
+                        <Tile title="HEI 18-24 Months Without FO">
                             <DataProvider pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
                                 <Header small="true">
-                                    Clients Needing VL test
+                                    HEI 18-24 Months Without FO
                                 </Header>
                                 <QueryData>
-                                    <Include file="sql/plhiv/need_vl_clients.sql" />
+                                    <Include file="sql/hei/without_final_outcome.sql" />
                                 </QueryData>
                                 <Include file="components/client_list.3dl" />
                             </DataProvider>
@@ -65,15 +64,15 @@
 
                     <DataProvider>
                         <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_sentinel_event WHERE "Last VL Is Unsuppressed" = 'Yes'
+                            SELECT COUNT(*) FROM duft.fact_duft_hei_sentinel_event WHERE [Last Antibody Result] = 'POS'
                         </QueryData>
-                        <Tile title="Unsuppressed VL">
+                        <Tile title="HEI POS Not Initiated">
                             <DataProvider pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
                                 <Header small="true">
-                                    Clients With Unsuppressed VL
+                                    HEI POS Not Initiated on ART
                                 </Header>
                                 <QueryData>
-                                    <Include file="sql/plhiv/unsuppressed_clients.sql" />
+                                    <Include file="sql/hei/hei_pos_not_on_art.sql" />
                                 </QueryData>
                                 <Include file="components/client_list.3dl" />
                             </DataProvider>
@@ -107,112 +106,111 @@
         </Dashboard>
     </Tab>
 
-    <Tab title="Interruption in Treatment">
-        <Dashboard>
-            <SingleLayout>
-            <Grid>
+	<Tab title="HEI Not Registered">
+		<Dashboard>
+			<SingleLayout>
+				<Grid>
+                    <Row>
+                        <Header> List of HEI Not Registered </Header>
+                    </Row>
+                    <Row>
+                        <SubHeader> Tabular representation of HEI clients who are not registered. </SubHeader>
+                    </Row>
+                    <Row columns="1" largeColumns="1" >
+                        <DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
+                            <QueryData>
+                                <Include file="sql/hei/not_registered.sql" />
+                            </QueryData>
+                            <Include file="components/client_list.3dl" />
+                        </DataProvider>
+                    </Row>
+				</Grid>
+			</SingleLayout>
+		</Dashboard>
+	</Tab>
 
-            <Row>
-                <Header> List of IIT Clients </Header>
-            </Row>
+	<Tab title="HEI Needing EID Test">
+		<Dashboard>
 
-            <Row>
-                <SubHeader> Tabular representation of clients who had interruption in treatment. </SubHeader>
-            </Row>
+			<SingleLayout>
+				<Grid>
 
-            <Row columns="1" largeColumns="1" >
-                <DataProvider pageSize={50} searchColumns="f.ctc_id, f.current_age, f.gender" >
-                    <QueryData>
-                        <Include file="sql/plhiv/iit_clients.sql" />
-                    </QueryData>
-                    <Include file="components/client_list.3dl" />
-                </DataProvider>
-            </Row>
+				<Row>
+					<Header> List of HEI Needing EID Test </Header>
+				</Row>
 
-            </Grid>
-            </SingleLayout>
-        </Dashboard>
-    </Tab>
+				<Row>
+					<SubHeader> Tabular representation of HEI clients requiring EID Test. </SubHeader>
+				</Row>
 
-    <Tab title="AHD Suspects">
-        <Dashboard>
-            <SingleLayout>
-            <Grid>
+				<Row columns="1" largeColumns="1" >
+					<DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
+						<QueryData>
+							<Include file="sql/hei/needing_eid_test.sql" />
+						</QueryData>
+						<Include file="components/client_list.3dl" />
+					</DataProvider>
+				</Row>
 
-            <Row>
-                <Header> List of AHD Suspects </Header>
-            </Row>
+				</Grid>
+			</SingleLayout>
+		</Dashboard>
+	</Tab>
 
-            <Row>
-                <SubHeader> Table of clients who are suspected to have Advanced HIV Disease (AHD). </SubHeader>
-            </Row>
+	<Tab title="HEI 18-24 Months Without FO">
+		<Dashboard>
 
-            <Row columns="1" largeColumns="1" >
-                <DataProvider pageSize={50} searchColumns="f.ctc_id, f.current_age, f.gender" >
-                    <QueryData>
-                        <Include file="sql/plhiv/ahd_clients.sql" />
-                    </QueryData>
-                <Include file="components/client_list.3dl" />
-                </DataProvider>
-            </Row>
+			<SingleLayout>
+				<Grid>
 
-            </Grid>
-            </SingleLayout>
-        </Dashboard>
-    </Tab>
+				<Row>
+					<Header> List of HEI Clients Without Final Outcome </Header>
+				</Row>
 
-    <Tab title="Need Viral Load">
-        <Dashboard>
-            <SingleLayout>
-            <Grid>
+				<Row>
+					<SubHeader> Tabular representation of HEI clients without final outcome. </SubHeader>
+				</Row>
 
-            <Row>
-                <Header> List of Clients Needing VL </Header>
-            </Row>
+				<Row columns="1" largeColumns="1" >
+					<DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
+						<QueryData>
+							<Include file="sql/hei/without_final_outcome.sql" />
+						</QueryData>
+						<Include file="components/client_list.3dl" />
+					</DataProvider>
+				</Row>
 
-            <Row>
-                <SubHeader> Table of clients who need viral load test. </SubHeader>
-            </Row>
+				</Grid>
+			</SingleLayout>
+		</Dashboard>
+	</Tab>
 
-            <Row columns="1" largeColumns="1" >
-                <DataProvider pageSize={50} searchColumns="f.ctc_id, f.current_age, f.gender" >
-                    <QueryData>
-                        <Include file="sql/plhiv/need_vl_clients.sql" />
-                    </QueryData>
-                <Include file="components/client_list.3dl" />
-                </DataProvider>
-            </Row>
+    <Tab title="HEI_POS Not Initiated on ART">
+		<Dashboard>
 
-            </Grid>
-            </SingleLayout>
-        </Dashboard>
-    </Tab>
+			<SingleLayout>
+				<Grid>
 
-    <Tab title="Unsuppressed Clients">
-        <Dashboard>
-            <SingleLayout>
-            <Grid>
+				<Row>
+					<Header> List of HEI Clients </Header>
+				</Row>
 
-            <Row>
-                <Header> List of Unsuppressed Clients </Header>
-            </Row>
+				<Row>
+					<SubHeader> Tabular representation of HEI clients. </SubHeader>
+				</Row>
 
-            <Row>
-                <SubHeader> Table of clients whose viral load result was &gt;= 50 copies/ml. </SubHeader>
-            </Row>
+				<Row columns="1" largeColumns="1" >
+					<DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
+						<QueryData>
+							<Include file="sql/hei/hei_pos_not_on_art.sql" />
+						</QueryData>
+						<Include file="components/client_list.3dl" />
+					</DataProvider>
+				</Row>
 
-            <Row columns="1" largeColumns="1" >
-                <DataProvider pageSize={50} searchColumns="f.ctc_id, f.current_age, f.gender" >
-                    <QueryData>
-                        <Include file="sql/plhiv/unsuppressed_clients.sql" />
-                    </QueryData>
-                <Include file="components/client_list.3dl" />
-                </DataProvider>
-            </Row>
-
-            </Grid>
-            </SingleLayout>
-        </Dashboard>
-    </Tab>
+				</Grid>
+			</SingleLayout>
+		</Dashboard>
+	</Tab>
 
 </TabSet>

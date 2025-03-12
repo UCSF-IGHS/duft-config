@@ -1,216 +1,99 @@
-<TabSet>
+<Dashboards>
 
-	<Tab title="Overview">
-        <Dashboard>
-            <Grid>
-                <Row>
-                    <Header>HEI Needing Attention</Header>
-                </Row>
-                <Row>
-                    <Header small="true">Key HIV Indicators: Needing Attention</Header>
-                </Row>
+    <Include file="components/common/datasets.3dl" />
 
-                <Row columns = "2" largeColumns = "4">
-                    <DataProvider>
-                        <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_hei_sentinel_event WHERE [HEI Registered?] = 'No' AND ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
-                        </QueryData>
-                        <Tile title="HEI Not Registered">
-                            <DataProvider pageSize={50} sort_column={ DOB } searchColumns = "c.ctc_id, f.current_age" >
-                                <Header small="true">
-                                    HEI Not Registered
-                                </Header>
-                                <QueryData>
-                                    <Include file="sql/hei/not_registered.sql" />
-                                </QueryData>
-                                <Include file="components/client_list.3dl" />
-                            </DataProvider>
-                        </Tile>
-                    </DataProvider>
+    <Include file="components/hei/datasets.3dl" />
 
-                    <DataProvider>
-                        <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_hei_sentinel_event WHERE [Eligible for First EID Test?] = 'Yes' AND ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
-                        </QueryData>
-                        <Tile title="HEI Needing EID Test">
-                            <DataProvider pageSize={50} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
-                                <Header small="true">
-                                    HEI Needing EID Test
-                                </Header>
-                                <QueryData>
-                                    <Include file="sql/hei/needing_eid_test.sql" />
-                                </QueryData>
-                                <Include file="components/client_list.3dl" />
-                            </DataProvider>
-                        </Tile>
-                    </DataProvider>
+    <Dashboard
+        data="current_date_data"
+        tabName="A. Overview"
+        title="HEI Needing Attention"
+        subTitle="Key HIV Indicators: HEI Needing Attention"
+        lastRefresh="Last updated on : %today%"
+    >
+        <Include file="components/hei/overview.3dl" />
+    </Dashboard>
 
-                    <DataProvider>
-                        <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_hei_sentinel_event WHERE [Has Final Outcome?] = 'No' AND [Age in Months] BETWEEN 18 AND 24 AND ISNULL ([Infant Status], '') NOT IN ('TRN', 'DIE')
-                        </QueryData>
-                        <Tile title="HEI 18-24 Months Without FO">
-                            <DataProvider pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
-                                <Header small="true">
-                                    HEI 18-24 Months Without FO
-                                </Header>
-                                <QueryData>
-                                    <Include file="sql/hei/without_final_outcome.sql" />
-                                </QueryData>
-                                <Include file="components/client_list.3dl" />
-                            </DataProvider>
-                        </Tile>
-                    </DataProvider>
+    <Dashboard
+        data="current_date_data"
+        tabName="B. Not Registered"
+        title="HEI Not Registered"
+        subTitle="Table of HEI clients who are not registered."
+        lastRefresh="Last updated on : %today%"
+    >
+        <Grid>
+            <Table
+                data="hei_not_registered_data"
+                exportData="true"
+                header="HEI Not Registered"
+                subHeader="Table of HEI clients who are not registered."
+                variant="plain"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="not_registered_hei_details_data" header="HEI Details" />
+            </Table>
+      </Grid>
+    </Dashboard>
 
-                    <DataProvider>
-                        <QueryData>
-                            SELECT COUNT(*) FROM duft.fact_duft_hei_sentinel_event WHERE [Last Antibody Result] = 'POS'
-                        </QueryData>
-                        <Tile title="HEI POS Not Initiated">
-                            <DataProvider pageSize={50} filters= {{ "d.weekly_start_monday_end_date" : $week}} sort_column={ ctc_id } searchColumns = "c.ctc_id, f.current_age" >
-                                <Header small="true">
-                                    HEI POS Not Initiated on ART
-                                </Header>
-                                <QueryData>
-                                    <Include file="sql/hei/hei_pos_not_on_art.sql" />
-                                </QueryData>
-                                <Include file="components/client_list.3dl" />
-                            </DataProvider>
-                        </Tile>
-                    </DataProvider>
+    <Dashboard
+        data="current_date_data"
+        tabName="C. Needing EID Test"
+        title="HEI Needing EID Test"
+        subTitle="Table of HEI clients requiring EID Test."
+        lastRefresh="Last updated on : %today%"
+    >
+        <Grid>
+            <Table
+                data="hei_needing_eid_test_data"
+                exportData="true"
+                header="HEI Needing EID Test"
+                subHeader="Table of HEI clients requiring EID Test."
+                variant="plain"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="needing_eid_test_hei_details_data" header="HEI Details" />
+            </Table>
+      </Grid>
+    </Dashboard>
 
-                </Row>
+    <Dashboard
+        data="current_date_data"
+        tabName="D. Without FO"
+        title="HEI 18-24 Months Without FO"
+        subTitle="Table of HEI clients without final outcome."
+        lastRefresh="Last updated on : %today%"
+    >
+        <Grid>
+            <Table
+                data="hei_without_fo_data"
+                header="Clients Needing VL test"
+                subHeader="Table of HEI clients without final outcome."
+                variant="plain"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="without_fo_hei_details_data" variant="plain" header="HEI Details" />
+            </Table>
+      </Grid>
+    </Dashboard>
 
-                <Row columns = "2" largeColumns = "2">
-                    <DataProvider>
-                        <QueryData>
-                            <Include file="sql/need_attention/iit_pie.sql" />
-                        </QueryData>
-                        <PieChart
-                            exportData="true"
-                            detailsComponent="infinite-scroll-table"
-                            header="Contribution of MMD clients on IIT"
-                        />
-                        </DataProvider>
-                </Row>
+    <Dashboard
+        data="current_date_data"
+        tabName="E. Not Initiated"
+        title="HEI_POS Not Initiated on ART"
+        subTitle="Table of HEI_POS clients who are not initiated on ART."
+        lastRefresh="Last updated on : %today%"
+    >
+        <Grid>
+            <Table
+                data="hei_pos_not_initiated_data"
+                header="Clients with Unsupppressed VL"
+                subHeader="Table of HEI_POS clients who are not initiated on ART."
+                variant="plain"
+                detailsViewColumn="CTC ID"
+            >
+            <Table data="pos_not_initiated_hei_details_data" variant="plain" header="HEI details" />
+            </Table>
+      </Grid>
+    </Dashboard>
 
-                <Row columns = "1" largeColumns = "1">
-
-                    <DataProvider query={`SELECT TOP 10 * FROM derived.dim_client`}>
-                    <BarChart userOptions={{ xaxis: { title: { text: 'ART Outcomes' }}, yaxis: { title: { text: 'Clients' }} }} header="ART Cascade" subHeader="Bar Chart: ART Cascade"/>
-                    </DataProvider>
-
-                </Row>
-
-            </Grid>
-        </Dashboard>
-    </Tab>
-
-	<Tab title="HEI Not Registered">
-		<Dashboard>
-			<SingleLayout>
-				<Grid>
-                    <Row>
-                        <Header> List of HEI Not Registered </Header>
-                    </Row>
-                    <Row>
-                        <SubHeader> Tabular representation of HEI clients who are not registered. </SubHeader>
-                    </Row>
-                    <Row columns="1" largeColumns="1" >
-                        <DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
-                            <QueryData>
-                                <Include file="sql/hei/not_registered.sql" />
-                            </QueryData>
-                            <Include file="components/client_list.3dl" />
-                        </DataProvider>
-                    </Row>
-				</Grid>
-			</SingleLayout>
-		</Dashboard>
-	</Tab>
-
-	<Tab title="HEI Needing EID Test">
-		<Dashboard>
-
-			<SingleLayout>
-				<Grid>
-
-				<Row>
-					<Header> List of HEI Needing EID Test </Header>
-				</Row>
-
-				<Row>
-					<SubHeader> Tabular representation of HEI clients requiring EID Test. </SubHeader>
-				</Row>
-
-				<Row columns="1" largeColumns="1" >
-					<DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
-						<QueryData>
-							<Include file="sql/hei/needing_eid_test.sql" />
-						</QueryData>
-						<Include file="components/client_list.3dl" />
-					</DataProvider>
-				</Row>
-
-				</Grid>
-			</SingleLayout>
-		</Dashboard>
-	</Tab>
-
-	<Tab title="HEI 18-24 Months Without FO">
-		<Dashboard>
-
-			<SingleLayout>
-				<Grid>
-
-				<Row>
-					<Header> List of HEI Clients Without Final Outcome </Header>
-				</Row>
-
-				<Row>
-					<SubHeader> Tabular representation of HEI clients without final outcome. </SubHeader>
-				</Row>
-
-				<Row columns="1" largeColumns="1" >
-					<DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
-						<QueryData>
-							<Include file="sql/hei/without_final_outcome.sql" />
-						</QueryData>
-						<Include file="components/client_list.3dl" />
-					</DataProvider>
-				</Row>
-
-				</Grid>
-			</SingleLayout>
-		</Dashboard>
-	</Tab>
-
-	<Tab title="HEI_POS Not Initiated on ART">
-		<Dashboard>
-
-			<SingleLayout>
-				<Grid>
-
-				<Row>
-					<Header> List of HEI Clients </Header>
-				</Row>
-
-				<Row>
-					<SubHeader> Tabular representation of HEI clients. </SubHeader>
-				</Row>
-
-				<Row columns="1" largeColumns="1" >
-					<DataProvider pageSize={50} searchColumns="gender, date_of_birth" >
-						<QueryData>
-							<Include file="sql/hei/hei_pos_not_on_art.sql" />
-						</QueryData>
-						<Include file="components/client_list.3dl" />
-					</DataProvider>
-				</Row>
-
-				</Grid>
-			</SingleLayout>
-		</Dashboard>
-	</Tab>
-
-</TabSet>
+</Dashboards>

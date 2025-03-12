@@ -31,32 +31,6 @@
             "dashboard": "/dashboard/3dlpreview-query"
           }
         ]
-      },
-      {
-        "title": "Weekly Summary",
-        "icon": "dashboards-icon",
-        "dashboards": [
-          {
-            "title": "HIV Testing",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/hiv-testing"
-          },
-          {
-            "title": "Tx Retention",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/retention"
-          },
-          {
-            "title": "Viral Load Testing",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/viral-load"
-          },
-          {
-            "title": "Preview query",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlpreview-query"
-          }
-        ]
       }
     ]
   },

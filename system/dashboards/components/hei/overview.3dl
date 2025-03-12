@@ -1,6 +1,6 @@
 <Grid>
     <Row columns = "2" largeColumns = "4">
-        <Tile data="tile_hei_not_registered_data" title="HEI Not Registered">
+        <Tile data="tile_hei_not_registered_data" title="Not Registered">
             <Table
                 data="hei_not_registered_data"
                 exportData="true"
@@ -12,7 +12,7 @@
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_needing_eid_test_data" title="HEI Needing EID Test">
+        <Tile data="tile_hei_needing_eid_test_data" title="Needing EID Test">
             <Table
                 data="hei_needing_eid_test_data"
                 exportData="true"
@@ -24,7 +24,7 @@
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_without_fo_data" title="HEI 18-24 Months Without FO">
+        <Tile data="tile_hei_without_fo_data" title="18-24 Months Without FO">
             <Table
                 data="hei_without_fo_data"
                 exportData="true"
@@ -36,7 +36,7 @@
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_pos_not_initiated_data" title="HEI POS Not Initiated">
+        <Tile data="tile_hei_pos_not_initiated_data" title="POS Not Initiated">
             <Table
                 data="hei_pos_not_initiated_data"
                 exportData="true"
@@ -48,20 +48,6 @@
         </Table>
         </Tile>
 
-    </Row>
-
-    <Row largeColumns="2" columns="2">
-        <PieChart
-            data="pie_iit_data"
-            userOptions={{
-                dataLabels: { enabled: true },
-                stroke: { show: false },
-            }}
-        />
-        <PieChart
-            data="pie_iit_data"
-            userOptions={{ dataLabels: { enabled: true } }}
-        />
     </Row>
 
 </Grid>

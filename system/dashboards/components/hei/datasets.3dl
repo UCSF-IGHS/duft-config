@@ -62,7 +62,7 @@
 
             <SQLData name="tile_hei_pos_not_initiated_data" queryName="hei/tile/pos_not_initiated" filterFrom="gender" />
 
-            <SQLData name="pos_not_initiated_hei_details_data" detailsViewData="iit_clients_data" detailsViewColumn="CTC ID" transpose="true">
+            <SQLData name="pos_not_initiated_hei_details_data" detailsViewData="hei_pos_not_initiated_data" detailsViewColumn="CTC ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
             </SQLData>
 
