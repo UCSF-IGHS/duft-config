@@ -1,1 +1,1 @@
-SELECT GETDATE() AS today;
+SELECT FORMAT(GETDATE(), 'dddd, MMMM dd, yyyy') AS today;
