@@ -166,7 +166,6 @@
                 "gender": {
                     "title": "gender",
                     "description": "The Gender you want to be displayed.",
-                    "defaultValue": "Female",
                     "allowOverride": true,
                     "promptUser": false
                 }
