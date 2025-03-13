@@ -157,6 +157,21 @@
             }
         },
         {
+            "id": "UPLOAD-PARAM-NOTEBOOK",
+            "name": "Sample Notebook Task",
+            "description": "A notebook uploads annual data",
+            "pythonFile": "upload_param_notebook.ipynb",
+            "hideInUI": true,
+            "supportedParameters": {
+                "year": {
+                    "title": "year",
+                    "description": "The year for which you want to upload data",
+                    "allowOverride": true,
+                    "promptUser": false
+                }
+            }
+        },
+        {
             "id": "UPDATE",
             "name": "DUFT Report Update",
             "description": "Updates the DUFT reports to the latest version. An Internet connection is required",
