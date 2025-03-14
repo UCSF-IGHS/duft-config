@@ -17,6 +17,15 @@
             "maximumTokens": 2022,
             "prompts": ["wakanda.md"],
             "engineType": "ollama"
+        },
+        {
+            "id": "codellama",
+            "name": "codellama:latest",
+            "description": "Sample model on duft.app",
+            "engineURL": "https://ask-ai.duft.app/api/generate",
+            "maximumTokens": 2022,
+            "prompts": ["wakanda.md"],
+            "engineType": "ollama"
         }
     ]
 }
