@@ -593,6 +593,12 @@
             <Filter caption="Year" name="year" data="year_data" />
         </Filters>
 
+        <Actions>
+            <Action dataTask="UPLOAD-PARAM-NOTEBOOK" param="year">
+                Annual Upload
+            </Action>
+        </Actions>
+
         <Grid>
             <Row columns="2" largeColumns="4">
                 <Tile data="tile_initiated_no_percent_data" title="Initiated">
@@ -675,6 +681,12 @@
             <Filter caption="Year" name="year" data="year_data" />
         </Filters>
 
+        <Actions>
+            <Action dataTask="UPLOAD-PARAM-NOTEBOOK" param="year">
+                Annual Upload
+            </Action>
+        </Actions>
+
         <Grid>
             <Row columns="2" largeColumns="3">
 
@@ -752,6 +764,12 @@
             <Filter caption="Age Group" name="age_group" data="age_group_data" />
             <Filter caption="Year" name="year" data="year_data" />
         </Filters>
+
+        <Actions>
+            <Action dataTask="UPLOAD-PARAM-NOTEBOOK" param="year">
+                Annual Upload
+            </Action>
+        </Actions>
 
         <Grid>
             <Row columns="2" largeColumns="4">
