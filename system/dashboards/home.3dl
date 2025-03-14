@@ -483,7 +483,7 @@
 
         <Actions>
             <Action dataTask="UPLOAD-PARAM-NOTEBOOK" param="year">
-                Annual Upload
+                Send annual data to DHIS2
             </Action>
         </Actions>
 
@@ -595,7 +595,7 @@
 
         <Actions>
             <Action dataTask="UPLOAD-PARAM-NOTEBOOK" param="year">
-                Annual Upload
+                Send annual data to DHIS2
             </Action>
         </Actions>
 
@@ -683,7 +683,7 @@
 
         <Actions>
             <Action dataTask="UPLOAD-PARAM-NOTEBOOK" param="year">
-                Annual Upload
+                Send annual data to DHIS2
             </Action>
         </Actions>
 
@@ -767,7 +767,7 @@
 
         <Actions>
             <Action dataTask="UPLOAD-PARAM-NOTEBOOK" param="year">
-                Annual Upload
+                Send annual data to DHIS2
             </Action>
         </Actions>
 
