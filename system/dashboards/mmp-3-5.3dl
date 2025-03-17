@@ -4,16 +4,17 @@
       pageSize="20"
       name="mmp_3_5"
       queryName="mmp.sql"
-      searchColumns="client_id"
+      filters={{ "MMP Status": "3-5 MMP" }}
+      searchColumns="ART Number Legacy"
     />
 
     <SQLData
       name="mmp_3_5_details_data"
       detailsViewData="mmp_3_5"
-      detailsViewColumn="client_id"
+      detailsViewColumn="ART Number Legacy"
       transpose="true"
     >
-      SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"=[[ART Number Legacy]]'
+      SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='[[ART Number Legacy]]'
     </SQLData>
   </Datasets>
   <Grid>
@@ -24,7 +25,8 @@
         header="3-5 MMP"
         exportData="true"
         variant="plain"
-        detailsViewColumn="client_id"
+        detailsViewColumn="ART Number Legacy"
+        initialColumns="Patient category , ART Number Legacy,	Date Of Birth,	Current Age,	Sex,	Last PBFW,	Last Visit Date,	Next Follow-up Date,	Last VL order date,	Last VL result date,	Current ART Regimen,	MMP Status, Last VL Result,	Retention Status, TPT Status Two, VL Eligibility, Last VL category,	Client Status"
       >
         <Table data="mmp_3_5_details_data" />
       </Table>

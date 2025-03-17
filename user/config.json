@@ -3,9 +3,9 @@
         "ANA": {
             "server": "127.0.0.1",
             "username": "postgres",
-            "password": "postgres",
-            "port": "5432",
-            "database": "qe_data",
+            "password": "root",
+            "port": "5433",
+            "database": "duft",
             "type": "PostgreSQL"
         },
         "EPMS_Source": {
@@ -18,19 +18,19 @@
             "type": "PostgreSQL",
             "server": "127.0.0.1",
             "username": "postgres",
-            "password": "postgres",
-            "port": "5432",
-            "database": "qe_data"
+            "password": "root",
+            "port": "5433",
+            "database": "duft"
         }
     },
     "djangoDatabases2": {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": "qe_data",
+            "NAME": "duft",
             "USER": "postgres",
-            "PASSWORD": "postgres",
+            "PASSWORD": "root",
             "HOST": "127.0.0.1",
-            "PORT": "5432",
+            "PORT": "5433",
             "OPTIONS": {
                 "options": "-c search_path=analysis"
             }
