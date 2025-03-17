@@ -22,7 +22,6 @@
       <Header>3-5 MMP</Header>
       <Table
         data="mmp_3_5"
-        header="3-5 MMP"
         exportData="true"
         variant="plain"
         detailsViewColumn="ART Number Legacy"

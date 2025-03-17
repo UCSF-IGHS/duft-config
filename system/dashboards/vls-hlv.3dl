@@ -1,16 +1,35 @@
-<Dashboard>
-  <SingleLayout>
-    <Grid>
-      <Row columns="1" largeColumns="1" >
-      <Row><Header>Unsuppressed: ≥ 1000 copies/ml</Header></Row>
-        <Dataset pageSize={50} filters={{ "Last Viral Load Result Category": "HLV" }} searchColumns="Sex, ART Number Legacy">
-          <Query>
-            <Include file="sql/vls.sql" />
-          </Query>
-          <Include file="components/client_list.3dl" InfiniteScrollTable-table1:initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last Visit Date, Next Follow-up Date, Last VL order date, Last VL result date, Current ART Regimen, Current ART Regimen start date, ART Restart Date, Last VL Result, Last VL category, Client Status" />
-        </Dataset>
-      </Row>
-    </Grid>
-  </SingleLayout>
-</Dashboard>
-  
+<Dashboards>
+  <Datasets>
+    <SQLData
+      pageSize="20"
+      name="vls_hlv_delayed"
+      queryName="vls.sql"
+      filters={{ "Last Viral Load Result Category": "HLV" }}
+      searchColumns="ART Number Legacy"
+    />
+
+    <SQLData
+      name="vls_hlv_delayed_details_data"
+      detailsViewData="vls_hlv_delayed"
+      detailsViewColumn="ART Number Legacy"
+      transpose="true"
+    >
+      SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='[[ART Number Legacy]]'
+    </SQLData>
+  </Datasets>
+  <Grid>
+    <SingleLayout>
+      <Header>Unsuppressed: ≥ 1000 copies/ml</Header>
+      <Table
+        data="vls_hlv_delayed"
+        exportData="true"
+        variant="plain"
+        detailsViewColumn="ART Number Legacy"
+        initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last Visit Date, Next Follow-up Date, Last VL order date, Last VL result date, Current ART Regimen, Current ART Regimen start date, ART Restart Date, Last VL Result, Last VL category, Client Status"
+      >
+        <Table data="vls_hlv_delayed_details_data" />
+      </Table>
+    </SingleLayout>
+
+  </Grid>
+</Dashboards>

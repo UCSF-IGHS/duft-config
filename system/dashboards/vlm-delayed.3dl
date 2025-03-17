@@ -1,15 +1,35 @@
-<Dashboard>
-  <SingleLayout>
-    <Grid>
-    <Row><Header>Delayed</Header></Row>
-      <Row columns="1" largeColumns="1" >
-        <Dataset pageSize={50} filters={{ "Viral Load Eligibility": "Delayed" }} searchColumns="Sex, ART Number Legacy">
-          <Query>
-            <Include file="sql/vlm.sql" />
-          </Query>
-          <Include file="components/client_list.3dl" InfiniteScrollTable-table1:initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last Visit Date, Next Follow-up Date, Last VL order date, Last VL result date, Current ART Regimen, Current ART Regimen start date, ART Restart Date, Last VL Result, Months Since Last VL, Retention Status, VL Eligibility, Client Status" />
-        </Dataset>
-      </Row>
-    </Grid>
-  </SingleLayout>
-</Dashboard>
+<Dashboards>
+  <Datasets>
+    <SQLData
+      pageSize="20"
+      name="vlm_delayed"
+      queryName="vlm.sql"
+      filters={{ "Viral Load Eligibility": "Delayed" }}
+      searchColumns="ART Number Legacy"
+    />
+
+    <SQLData
+      name="vlm_delayed_details_data"
+      detailsViewData="vlm_delayed"
+      detailsViewColumn="ART Number Legacy"
+      transpose="true"
+    >
+      SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='[[ART Number Legacy]]'
+    </SQLData>
+  </Datasets>
+  <Grid>
+    <SingleLayout>
+      <Header>Delayed</Header>
+      <Table
+        data="vlm_delayed"
+        exportData="true"
+        variant="plain"
+        detailsViewColumn="ART Number Legacy"
+        initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last Visit Date, Next Follow-up Date, Last VL order date, Last VL result date, Current ART Regimen, Current ART Regimen start date, ART Restart Date, Last VL Result, Months Since Last VL, Retention Status, VL Eligibility, Client Status" 
+      >
+        <Table data="vlm_delayed_details_data" />
+      </Table>
+    </SingleLayout>
+
+  </Grid>
+</Dashboards>

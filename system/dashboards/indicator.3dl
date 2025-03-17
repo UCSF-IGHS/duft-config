@@ -1,13 +1,10 @@
-<Dashboard>
-<SingleLayout>
-<Grid>
-        <Row columns="1" largeColumns="1">
-          <Dataset>
-            <Markdown header="Indicator Definitions">
-              <Include file="components/definition.md" />
-            </Markdown>
-          </Dataset>
-        </Row>
-</Grid>
-</SingleLayout>
-</Dashboard>
+<Dashboards>
+  <Grid>
+    <SingleLayout>
+      
+          <Markdown header="Indicator Definitions">
+            <Include file="components/definition.md" />
+          </Markdown>
+    </SingleLayout>
+  </Grid>
+</Dashboards>

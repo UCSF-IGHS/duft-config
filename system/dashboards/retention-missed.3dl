@@ -1,15 +1,35 @@
-<Dashboard>
-  <SingleLayout>
-    <Grid>
-      <Row><Header>Missed Appointments</Header></Row>
-      <Row columns="1" largeColumns="1" >
-        <Dataset pageSize={50} filters={{ "Retention Status": 'Missed Appointments' }} searchColumns="Sex, ART Number Legacy">
-          <Query>
-            <Include file="sql/retention.sql" />
-          </Query>
-          <Include file="components/client_list.3dl" InfiniteScrollTable-table1:initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last Visit Date, Next Follow-up Date, Last VL order date, Last VL result date, Current ART Regimen, Current ART Regimen start date, ART Restart Date, Retention Status, Client Status" />
-        </Dataset>
-      </Row>
-    </Grid>
-  </SingleLayout>
-</Dashboard>
+<Dashboards>
+  <Datasets>
+    <SQLData
+      pageSize="20"
+      name="retention_missed"
+      queryName="retention.sql"
+      filters={{ "Retention Status": 'Missed Appointments' }}
+      searchColumns="ART Number Legacy"
+    />
+
+    <SQLData
+      name="retention_missed_details_data"
+      detailsViewData="retention_missed"
+      detailsViewColumn="ART Number Legacy"
+      transpose="true"
+    >
+      SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='[[ART Number Legacy]]'
+    </SQLData>
+  </Datasets>
+  <Grid>
+    <SingleLayout>
+      <Header>Missed Appointments</Header>
+      <Table
+        data="retention_missed"
+        exportData="true"
+        variant="plain"
+        detailsViewColumn="ART Number Legacy"
+        initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last Visit Date, Next Follow-up Date, Last VL order date, Last VL result date, Current ART Regimen, Current ART Regimen start date, ART Restart Date, Retention Status, Client Status"
+      >
+        <Table data="retention_missed_details_data" />
+      </Table>
+    </SingleLayout>
+
+  </Grid>
+</Dashboards>

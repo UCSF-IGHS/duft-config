@@ -1,17 +1,35 @@
+<Dashboards>
+  <Datasets>
+    <SQLData
+      pageSize="20"
+      name="tpt_currently"
+      queryName="tpt.sql"
+      filters={{ "TPT Status Two": "Incomplete TPT"}}
+      searchColumns="ART Number Legacy"
+    />
 
-    <Dashboard>
-      <SingleLayout>
-        <Grid>
-        <Row><Header>Incomplete TPT or never initiated TPT</Header></Row>
-          <Row columns="1" largeColumns="1" >
-            <Dataset pageSize={50} filters={{ "TPT Status Two": "Incomplete TPT"}} searchColumns="Sex, ART Number Legacy">
-              <Query>
-                <Include file="sql/tpt.sql" />
-              </Query>
-              <Include file="components/client_list.3dl" InfiniteScrollTable-table1:initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last Visit Date, Next Follow-up Date, Last VL order date, Last VL result date, TPT Start Date, TPT Regimen, TPT Actual Stop Date, TPT Expected Stop Date, TB Regimen, TB Start Date, TB Expected Stop Date, Last TB Outcome, Last TB Outcome Date, Current ART Regimen, Current ART Regimen start date, TPT Status Two, Client Status" />
-            </Dataset>
+    <SQLData
+      name="tpt_currently_details_data"
+      detailsViewData="tpt_currently"
+      detailsViewColumn="ART Number Legacy"
+      transpose="true"
+    >
+      SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='[[ART Number Legacy]]'
+    </SQLData>
+  </Datasets>
+  <Grid>
+    <SingleLayout>
+      <Header>Incomplete TPT or never initiated TPT</Header>
+      <Table
+        data="tpt_currently"
+        exportData="true"
+        variant="plain"
+        detailsViewColumn="ART Number Legacy"
+        initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last Visit Date, Next Follow-up Date, Last VL order date, Last VL result date, TPT Start Date, TPT Regimen, TPT Actual Stop Date, TPT Expected Stop Date, TB Regimen, TB Start Date, TB Expected Stop Date, Last TB Outcome, Last TB Outcome Date, Current ART Regimen, Current ART Regimen start date, TPT Status Two, Client Status"
+      >
+        <Table data="tpt_currently_details_data" />
+      </Table>
+    </SingleLayout>
 
-          </Row>
-        </Grid>
-      </SingleLayout>
-    </Dashboard>
+  </Grid>
+</Dashboards>

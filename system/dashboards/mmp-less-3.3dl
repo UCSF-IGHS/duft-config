@@ -1,16 +1,35 @@
-<Dashboard>
-  <SingleLayout>
-    <Grid>
-    <Row><Header>Less 3 Months MMP</Header></Row>
-      <Row columns="1" largeColumns="1" >
-        <Dataset pageSize={50} filters={{ "MMP Status": "< 3 MMP" }} searchColumns="Sex, ART Number Legacy">
-          <Query>
-            <Include file="sql/mmp.sql" />
-          </Query>
-          <Include file="components/client_list.3dl" InfiniteScrollTable-table1:initialColumns="Patient category, ART Number Legacy, Date Of Birth, Current Age, Sex, Pregnancy/BF status, Last Visit Date, Next Follow-up Date, Last VL order date, Last VL result date, Current ART Regimen, Current ART Regimen start date, ART Restart Date, MMP Status, Client Status" />
-        </Dataset>
+<Dashboards>
+  <Datasets>
+    <SQLData
+      pageSize="20"
+      name="mmp_less_3"
+      queryName="mmp.sql"
+      filters={{ "MMP Status": "< 3 MMP" }}
+      searchColumns="ART Number Legacy"
+    />
 
-      </Row>
-    </Grid>
-  </SingleLayout>
-</Dashboard>
+    <SQLData
+      name="mmp_less_3_details_data"
+      detailsViewData="mmp_less_3"
+      detailsViewColumn="ART Number Legacy"
+      transpose="true"
+    >
+      SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='[[ART Number Legacy]]'
+    </SQLData>
+  </Datasets>
+  <Grid>
+    <SingleLayout>
+      <Header>Less 3 Months MMP</Header>
+      <Table
+        data="mmp_less_3"
+        exportData="true"
+        variant="plain"
+        detailsViewColumn="ART Number Legacy"
+        initialColumns="Patient category , ART Number Legacy,	Date Of Birth,	Current Age,	Sex,	Last PBFW,	Last Visit Date,	Next Follow-up Date,	Last VL order date,	Last VL result date,	Current ART Regimen,	MMP Status, Last VL Result,	Retention Status, TPT Status Two, VL Eligibility, Last VL category,	Client Status"
+      >
+        <Table data="mmp_less_3_details_data" />
+      </Table>
+    </SingleLayout>
+
+  </Grid>
+</Dashboards>
