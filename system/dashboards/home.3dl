@@ -11,7 +11,7 @@
         tabName="A. PLHIV"
         title="Clients Needing Attention"
         subTitle="Key HIV Indicators: Needing Attention"
-        lastRefresh="Report week : %report_week_dates%"
+        lastRefresh="Report period : %report_week_dates%"
     >
         <Include file="components/plhiv/overview.3dl" />
     </Dashboard>
@@ -21,7 +21,7 @@
         tabName="B. HEI"
         title="HEI Needing Attention"
         subTitle="Key HIV Indicators: Needing Attention"
-        lastRefresh="Report week : %report_week_dates%"
+        lastRefresh="Report period : %report_week_dates%"
     >
         <Include file="components/hei/overview.3dl" />
     </Dashboard>

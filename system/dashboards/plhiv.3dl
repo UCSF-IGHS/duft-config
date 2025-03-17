@@ -9,7 +9,7 @@
         tabName="A. Overview"
         title="Clients Needing Attention"
         subTitle="Key HIV Indicators: Needing Attention"
-        lastRefresh="Report week : %report_week_dates%"
+        lastRefresh="Report period : %report_week_dates%"
     >
         <Include file="components/plhiv/overview.3dl" />
     </Dashboard>
@@ -19,7 +19,7 @@
         tabName="B. IIT"
         title="Clients with IIT (28-90 Days)"
         subTitle="Tabular representation of clients who had interruption in treatment."
-        lastRefresh="Report week : %report_week_dates%"
+        lastRefresh="Report period : %report_week_dates%"
     >
         <Grid>
             <Table
@@ -40,7 +40,7 @@
         tabName="C. AHD Suspects"
         title="AHD Suspect Clients"
         subTitle="Table of clients who are suspected to have Advanced HIV Disease (AHD)."
-        lastRefresh="Report week : %report_week_dates%"
+        lastRefresh="Report period : %report_week_dates%"
     >
         <Grid>
             <Table
@@ -61,7 +61,7 @@
         tabName="D. Viral Load"
         title="Clients Needing VL"
         subTitle="Table of clients who need viral load test."
-        lastRefresh="Report week : %report_week_dates%"
+        lastRefresh="Report period : %report_week_dates%"
     >
         <Grid>
             <Table
@@ -81,7 +81,7 @@
         tabName="E. Unsuppressed No EAC"
         title="Unsuppressed Clients Not Initiated on EAC"
         subTitle="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
-        lastRefresh="Report week : %report_week_dates%"
+        lastRefresh="Report period : %report_week_dates%"
     >
         <Grid>
             <Table

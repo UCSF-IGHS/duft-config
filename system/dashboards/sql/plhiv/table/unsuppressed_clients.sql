@@ -7,7 +7,7 @@ SELECT
     [Months on ART],
     [Now Pregnant/Breastfeeding],
     [Last VL Test Date] AS [Test Date Before Start EAC],
-    [Last VL Result Date] AS [Result Date Before Start EAC],
+    [Last VL Result Numeric] AS [Test Result Before Start EAC],
     [Last VL Result Date] AS [Result Return Date],
     [Last Date Initiated EAC] AS [Previous Date Initiated EAC]
 FROM
