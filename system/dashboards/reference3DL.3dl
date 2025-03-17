@@ -366,6 +366,7 @@
           header="Infinite scroll sample table"
           subHeader="A table to demo infinite scroll, search, sort, filtering"
           initialColumns="birth_date, emr_identifier, client_id"
+          exportData="true"
         >
           <RowDetails columnName="client_id">
             <Table data="client_data" variant="plain" />
