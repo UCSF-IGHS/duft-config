@@ -66,7 +66,7 @@
         <Grid>
             <Table
                 data="hei_without_fo_data"
-                header="Clients Needing VL test"
+                header="Clients Who Missed Viral Load"
                 subHeader="Table of HEI clients without final outcome."
                 variant="plain"
                 detailsViewColumn="Patient ID"

@@ -58,16 +58,16 @@
 
     <Dashboard
         data="report_week_data"
-        tabName="D. Viral Load"
-        title="Clients Needing VL"
-        subTitle="Table of clients who need viral load test."
+        tabName="D. Missed Viral Load"
+        title="Clients Who Missed Viral Load Test"
+        subTitle="Table of clients who missed viral load test."
         lastRefresh="Report period : %report_week_dates%"
     >
         <Grid>
             <Table
                 data="need_vl_clients_data"
-                header="Clients Needing VL test"
-                subHeader="Table of clients who need viral load test."
+                header="Clients Who Missed Viral Load Test"
+                subHeader="Table of clients who missed viral load test."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >

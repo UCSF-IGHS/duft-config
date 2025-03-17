@@ -2,19 +2,21 @@ SELECT
     [Patient ID],
     [Current Age],
     [Sex],
+    [ART Initiation Date],
     [Last Visit Date],
     [Last VL Test Date],
+    [Now Pregnant/Breastfeeding],
+    [Last VL Result Date],
     [Last VL Result Numeric],
-    [VL Results 50 - 999 cps/ml],
-    [VL Results >= 1000 cps/ml],
-    [Next Appointment Date],
+    [VL Eligible Post EAC],
     [VL Eligible PGBF],
     [VL Eligible TX_CURR],
-    [VL Eligible TX_NEW],
-    [Needs VL Test]
+    [VL Eligible TX_NEW]
 FROM
     duft.fact_duft_sentinel_event
 WHERE
     [Needs VL Test] = 'Yes'
+AND
+    [Last Appointment in Previous Week] = 'Yes'
 ORDER BY
     [Patient ID] ASC
