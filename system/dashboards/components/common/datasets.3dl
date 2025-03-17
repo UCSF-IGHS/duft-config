@@ -6,4 +6,6 @@
 
         <SQLData name="current_date_data" queryName="common/current_date" />
 
+        <SQLData name="report_week_data" queryName="common/report_period" />
+
 </Datasets>

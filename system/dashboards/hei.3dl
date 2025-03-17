@@ -5,21 +5,21 @@
     <Include file="components/hei/datasets.3dl" />
 
     <Dashboard
-        data="current_date_data"
+        data="report_week_data"
         tabName="A. Overview"
         title="HEI Needing Attention"
         subTitle="Key HIV Indicators: HEI Needing Attention"
-        lastRefresh="Last updated on : %today%"
+        lastRefresh="Report week : %report_week_dates%"
     >
         <Include file="components/hei/overview.3dl" />
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="report_week_data"
         tabName="B. Not Registered"
         title="HEI Not Registered"
         subTitle="Table of HEI clients who are not registered."
-        lastRefresh="Last updated on : %today%"
+        lastRefresh="Report week : %report_week_dates%"
     >
         <Grid>
             <Table
@@ -28,7 +28,7 @@
                 header="HEI Not Registered"
                 subHeader="Table of HEI clients who are not registered."
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="not_registered_hei_details_data" header="HEI Details" />
             </Table>
@@ -36,11 +36,11 @@
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="report_week_data"
         tabName="C. Needing EID Test"
         title="HEI Needing EID Test"
         subTitle="Table of HEI clients requiring EID Test."
-        lastRefresh="Last updated on : %today%"
+        lastRefresh="Report week : %report_week_dates%"
     >
         <Grid>
             <Table
@@ -49,7 +49,7 @@
                 header="HEI Needing EID Test"
                 subHeader="Table of HEI clients requiring EID Test."
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="needing_eid_test_hei_details_data" header="HEI Details" />
             </Table>
@@ -57,11 +57,11 @@
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="report_week_data"
         tabName="D. Without FO"
         title="HEI 18-24 Months Without FO"
         subTitle="Table of HEI clients without final outcome."
-        lastRefresh="Last updated on : %today%"
+        lastRefresh="Report week : %report_week_dates%"
     >
         <Grid>
             <Table
@@ -69,7 +69,7 @@
                 header="Clients Needing VL test"
                 subHeader="Table of HEI clients without final outcome."
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="without_fo_hei_details_data" variant="plain" header="HEI Details" />
             </Table>
@@ -77,11 +77,11 @@
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="report_week_data"
         tabName="E. Not Initiated"
         title="HEI_POS Not Initiated on ART"
         subTitle="Table of HEI_POS clients who are not initiated on ART."
-        lastRefresh="Last updated on : %today%"
+        lastRefresh="Report week : %report_week_dates%"
     >
         <Grid>
             <Table
@@ -89,7 +89,7 @@
                 header="Clients with Unsupppressed VL"
                 subHeader="Table of HEI_POS clients who are not initiated on ART."
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="pos_not_initiated_hei_details_data" variant="plain" header="HEI details" />
             </Table>

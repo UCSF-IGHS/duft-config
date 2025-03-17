@@ -6,7 +6,7 @@
                 exportData="true"
                 header="Clients With IIT (28-90)"
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="iit_client_details_data" header="Client details" />
         </Table>
@@ -18,8 +18,8 @@
                 exportData="true"
                 header="AHD Suspect Clients"
                 variant="plain"
-                initialColumns="CTC ID, Current Age, Sex, Last Visit Date, Last CD4 Test Date, Last CD4 Result Date, Last CD4 Result Count, Last CD4 < 200, WHO Stage 3/4 Result"
-                detailsViewColumn="CTC ID"
+                initialColumns="Patient ID, Current Age, Sex, Last Visit Date, Last CD4 Test Date, Last CD4 Result Date, Last CD4 Result Count, Last CD4 < 200, WHO Stage 3/4 Result"
+                detailsViewColumn="Patient ID"
             >
             <Table data="ahd_client_details_data" header="Client details" />
         </Table>
@@ -31,20 +31,20 @@
                 exportData="true"
                 header="Clients Needing VL test"
                 variant="plain"
-                initialColumns="CTC ID, Current Age, Sex, Last Visit Date, Last VL Test Date, Last VL Result Numeric, VL Results 50 - 999 cps/ml?, VL Results >= 1000 cps/ml?"
-                detailsViewColumn="CTC ID"
+                initialColumns="Patient ID, Current Age, Sex, Last Visit Date, Last VL Test Date, Last VL Result Numeric, VL Results 50 - 999 cps/ml?, VL Results >= 1000 cps/ml?"
+                detailsViewColumn="Patient ID"
             >
             <Table data="need_vl_client_details_data" header="Client details" />
         </Table>
         </Tile>
 
-        <Tile data="tile_unsuppressed_data" title="Unsuppressed VL">
+        <Tile data="tile_unsuppressed_data" title="Unsuppressed no EAC">
             <Table
                 data="unsuppressed_clients_data"
                 exportData="true"
-                header="Clients With Unsuppressed VL"
+                header="Unsuppressed Clients Not Initiated on EAC"
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="unsuppressed_client_details_data" header="Client details" />
         </Table>

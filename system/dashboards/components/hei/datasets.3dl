@@ -8,14 +8,14 @@
                 name="hei_not_registered_data"
                 queryName="hei/table/not_registered"
                 pageSize="15"
-                searchColumns="CTC ID, DOB, Age in Months, Sex, Infant Status, Exposed Infant Number"
+                searchColumns="Patient ID, DOB, Age in Months, Sex, Infant Status, Exposed Infant Number"
                 filterFrom="gender"
             />
 
             <SQLData name="tile_hei_not_registered_data" queryName="hei/tile/not_registered" filterFrom="gender" />
 
-            <SQLData name="not_registered_hei_details_data" detailsViewData="hei_not_registered_data" detailsViewColumn="CTC ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+            <SQLData name="not_registered_hei_details_data" detailsViewData="hei_not_registered_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
         {/* Needing EID Test */}
@@ -24,14 +24,14 @@
                 name="hei_needing_eid_test_data"
                 queryName="hei/table/needing_eid_test"
                 pageSize="15"
-                searchColumns="CTC ID, DOB, Age in Months, Sex, Last EID Visit Date, Exposed Infant Number"
+                searchColumns="Patient ID, DOB, Age in Months, Sex, Last EID Visit Date, Exposed Infant Number"
                 filterFrom="gender"
             />
 
             <SQLData name="tile_hei_needing_eid_test_data" queryName="hei/tile/needing_eid_test" filterFrom="gender" />
 
-            <SQLData name="needing_eid_test_hei_details_data" detailsViewData="hei_needing_eid_test_data" detailsViewColumn="CTC ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+            <SQLData name="needing_eid_test_hei_details_data" detailsViewData="hei_needing_eid_test_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
         {/* 18-24 Months Without FO */}
@@ -40,14 +40,14 @@
                 name="hei_without_fo_data"
                 queryName="hei/table/without_fo"
                 pageSize="15"
-                searchColumns="CTC ID, DOB, Age in Months, Sex, Exposed Infant Number"
+                searchColumns="Patient ID, DOB, Age in Months, Sex, Exposed Infant Number"
                 filterFrom="gender"
             />
 
             <SQLData name="tile_hei_without_fo_data" queryName="hei/tile/without_fo" filterFrom="gender" />
 
-            <SQLData name="without_fo_hei_details_data" detailsViewData="hei_without_fo_data" detailsViewColumn="CTC ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+            <SQLData name="without_fo_hei_details_data" detailsViewData="hei_without_fo_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
         {/* HEI POS Not Initiated */}
@@ -56,14 +56,14 @@
                 name="hei_pos_not_initiated_data"
                 queryName="hei/table/pos_not_initiated"
                 pageSize="15"
-                searchColumns="CTC ID, DOB, Age in Months, Sex, Last Antibody Result, Exposed Infant Number"
+                searchColumns="Patient ID, DOB, Age in Months, Sex, Last Antibody Result, Exposed Infant Number"
                 filterFrom="gender"
             />
 
             <SQLData name="tile_hei_pos_not_initiated_data" queryName="hei/tile/pos_not_initiated" filterFrom="gender" />
 
-            <SQLData name="pos_not_initiated_hei_details_data" detailsViewData="hei_pos_not_initiated_data" detailsViewColumn="CTC ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[CTC ID]]'
+            <SQLData name="pos_not_initiated_hei_details_data" detailsViewData="hei_pos_not_initiated_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
 </Datasets>

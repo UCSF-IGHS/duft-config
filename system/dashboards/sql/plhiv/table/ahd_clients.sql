@@ -1,5 +1,5 @@
 SELECT
-    [CTC ID],
+    [Patient ID],
     [Current Age],
     [Sex],
     [Last Visit Date],
@@ -16,4 +16,4 @@ WHERE
     [Last CD4 < 200] = 'Yes'
     OR [WHO Stage 3/4 With No CD4 Test] = 'Yes'
 ORDER BY
-    [CTC ID] ASC
+    [Patient ID] ASC

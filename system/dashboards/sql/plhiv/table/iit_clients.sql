@@ -1,5 +1,5 @@
 SELECT
-    [CTC ID],
+    [Patient ID],
     [Current Age],
     [Sex],
     [Last Visit Date],

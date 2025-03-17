@@ -1,7 +1,7 @@
 SELECT
-    [CTC ID],
+    [Patient ID],
     [Exposed Infant Number],
-    [Child CTC ID],
+    [Child Patient ID],
     [Sex],
     [DOB],
     [Age in Months],
@@ -10,10 +10,10 @@ SELECT
     [Last Antibody Test Type],
     [Last Antibody Result Date],
     [Last Antibody Result],
-    [Initiated on ART?]
+    [Initiated on ART]
 FROM
     duft.fact_duft_hei_sentinel_event
 WHERE
     [Last Antibody Result] = 'POS'
 ORDER BY
-    [CTC ID]
+    [Patient ID]

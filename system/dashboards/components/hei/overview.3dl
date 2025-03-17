@@ -6,7 +6,7 @@
                 exportData="true"
                 header="HEI Not Registered"
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="not_registered_hei_details_data" header="HEI details" />
         </Table>
@@ -18,7 +18,7 @@
                 exportData="true"
                 header="HEI Needing EID Test"
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="needing_eid_test_hei_details_data" header="HEI details" />
         </Table>
@@ -30,7 +30,7 @@
                 exportData="true"
                 header="HEI 18-24 Months Without FO"
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="without_fo_hei_details_data" header="HEI details" />
         </Table>
@@ -42,7 +42,7 @@
                 exportData="true"
                 header="HEI POS Not Initiated"
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="pos_not_initiated_hei_details_data" header="HEI details" />
         </Table>

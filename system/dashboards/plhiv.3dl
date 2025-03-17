@@ -5,21 +5,21 @@
     <Include file="components/plhiv/datasets.3dl" />
 
     <Dashboard
-        data="current_date_data"
+        data="report_week_data"
         tabName="A. Overview"
         title="Clients Needing Attention"
         subTitle="Key HIV Indicators: Needing Attention"
-        lastRefresh="Last updated on : %today%"
+        lastRefresh="Report week : %report_week_dates%"
     >
         <Include file="components/plhiv/overview.3dl" />
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="report_week_data"
         tabName="B. IIT"
         title="Clients with IIT (28-90 Days)"
         subTitle="Tabular representation of clients who had interruption in treatment."
-        lastRefresh="Last updated on : %today%"
+        lastRefresh="Report week : %report_week_dates%"
     >
         <Grid>
             <Table
@@ -28,7 +28,7 @@
                 header="Clients with IIT (28-90)"
                 subHeader="Tabular representation of clients who had interruption in treatment."
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="iit_client_details_data" header="Client details" />
             </Table>
@@ -36,11 +36,11 @@
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="report_week_data"
         tabName="C. AHD Suspects"
         title="AHD Suspect Clients"
         subTitle="Table of clients who are suspected to have Advanced HIV Disease (AHD)."
-        lastRefresh="Last updated on : %today%"
+        lastRefresh="Report week : %report_week_dates%"
     >
         <Grid>
             <Table
@@ -49,7 +49,7 @@
                 header="AHD Suspect Clients"
                 subHeader="Table of clients who are suspected to have Advanced HIV Disease (AHD)."
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="ahd_client_details_data" header="Client details" />
             </Table>
@@ -57,11 +57,11 @@
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="report_week_data"
         tabName="D. Viral Load"
         title="Clients Needing VL"
         subTitle="Table of clients who need viral load test."
-        lastRefresh="Last updated on : %today%"
+        lastRefresh="Report week : %report_week_dates%"
     >
         <Grid>
             <Table
@@ -69,7 +69,7 @@
                 header="Clients Needing VL test"
                 subHeader="Table of clients who need viral load test."
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="need_vl_client_details_data" variant="plain" header="Client details" />
             </Table>
@@ -77,19 +77,19 @@
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
-        tabName="E. Unsuppressed Clients"
-        title="Unsuppressed Clients"
-        subTitle="Table of clients whose viral load result was &gt;= 50 copies/ml."
-        lastRefresh="Last updated on : %today%"
+        data="report_week_data"
+        tabName="E. Unsuppressed No EAC"
+        title="Unsuppressed Clients Not Initiated on EAC"
+        subTitle="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
+        lastRefresh="Report week : %report_week_dates%"
     >
         <Grid>
             <Table
                 data="unsuppressed_clients_data"
-                header="Clients with Unsupppressed VL"
-                subHeader="Table of clients whose viral load result was &gt;= 50 copies/ml."
+                header="Unsuppressed Clients Not Initiated on EAC"
+                subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
                 variant="plain"
-                detailsViewColumn="CTC ID"
+                detailsViewColumn="Patient ID"
             >
             <Table data="unsuppressed_client_details_data" variant="plain" header="Client details" />
             </Table>

@@ -1,12 +1,12 @@
 SELECT
-    [CTC ID],
+    [Patient ID],
     [Current Age],
     [Sex],
     [Last Visit Date],
     [Last VL Test Date],
     [Last VL Result Numeric],
-    [VL Results 50 - 999 cps/ml?],
-    [VL Results >= 1000 cps/ml?],
+    [VL Results 50 - 999 cps/ml],
+    [VL Results >= 1000 cps/ml],
     [Next Appointment Date],
     [VL Eligible PGBF],
     [VL Eligible TX_CURR],
@@ -17,4 +17,4 @@ FROM
 WHERE
     [Needs VL Test] = 'Yes'
 ORDER BY
-    [CTC ID] ASC
+    [Patient ID] ASC
