@@ -35,5 +35,11 @@
                 "options": "-c search_path=analysis"
             }
         }
+    },
+    "test": {},
+    "settings": {
+        "debug": true,
+        "oobe": true,
+        "unittest": false
     }
 }
