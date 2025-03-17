@@ -6,10 +6,10 @@ SELECT
     [Last Prescription Regimen Line] AS [ARV Regimen Line],
     [Months on ART],
     [Now Pregnant/Breastfeeding],
-    [Last VL Test Date],
-    [Last VL Result Text],
-    [Last VL Result Date],
-    [Last Date Initiated EAC]
+    [Last VL Test Date] AS [Test Date Before Start EAC],
+    [Last VL Result Date] AS [Result Date Before Start EAC],
+    [Last VL Result Date] AS [Result Return Date],
+    [Last Date Initiated EAC] AS [Previous Date Initiated EAC]
 FROM
     duft.fact_duft_sentinel_event
 WHERE
