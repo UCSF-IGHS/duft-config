@@ -136,6 +136,80 @@
             //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
         />
 
+        <SQLData
+            name="retention_all_data"
+            queryName="visual/retention_all"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="retention_men_data"
+            queryName="visual/retention_men"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="retention_paed_data"
+            queryName="visual/retention_paed"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="retention_pbfw_data"
+            queryName="visual/retention_pbfw"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="vlm_all"
+            queryName="visual/vlm_all"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="vlm_men_data"
+            queryName="visual/vlm_men"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="vlm_paed_data"
+            queryName="visual/vlm_paed"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="vlm_pbfw_data"
+            queryName="visual/vlm_pbfw"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="vls_all_data"
+            queryName="visual/vls_all"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="vls_men_data"
+            queryName="visual/vls_men"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="vls_paed_data"
+            queryName="visual/vls_paed"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="vls_pbfw_data"
+            queryName="visual/vls_pbfw"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+
+
 
 
 
@@ -267,6 +341,18 @@
             <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
             <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
         </Filters>
+
+        <Grid>
+            <Row columns="2" largeColumns="2">
+                <PieChart data="retention_all_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#c6cdd4","#f3af3d","#ec6240"] }} header="All" />
+                <PieChart data="retention_men_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#c6cdd4","#f3af3d","#ec6240"] }} header="Men (20-39)"/>
+            </Row>
+
+            <Row columns="2" largeColumns="2">
+                <PieChart data="retention_paed_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#c6cdd4","#f3af3d","#ec6240"] }} header="Paediatrics" subHeader="" />
+                <PieChart data="retention_pbfw_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#c6cdd4","#f3af3d","#ec6240"] }} header="PBFW" subHeader=""/>
+            </Row>
+        </Grid>
         
     </Dashboard>
 
@@ -274,7 +360,7 @@
         data="header_data_data"
         tabName="VLM"
         title="%facility_name%"
-        subTitle="VLM"
+        subTitle="Viral Load Monitoring"
         lastRefresh="Last updated on : %last_refresh_date%"
     >
         <Filters>
@@ -282,6 +368,18 @@
             <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
             <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
         </Filters>
+
+        <Grid>
+            <Row columns="2" largeColumns="2">
+                <PieChart data="vlm_all" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="All" />
+                <PieChart data="vlm_men_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="Men (20-39)"/>
+            </Row>
+
+            <Row columns="2" largeColumns="2">
+                <PieChart data="vlm_paed_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="Paediatrics" subHeader="" />
+                <PieChart data="vlm_pbfw_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="PBFW" subHeader=""/>
+            </Row>
+        </Grid>
         
     </Dashboard>
 
@@ -289,7 +387,7 @@
         data="header_data_data"
         tabName="VLS"
         title="%facility_name%"
-        subTitle="VLS"
+        subTitle="Viral Load Suppression"
         lastRefresh="Last updated on : %last_refresh_date%"
     >
         <Filters>
@@ -297,6 +395,18 @@
             <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
             <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
         </Filters>
+
+        <Grid>
+            <Row columns="2" largeColumns="2">
+                <PieChart data="vls_all_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="All" />
+                <PieChart data="vls_men_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="Men (20-39)"/>
+            </Row>
+
+            <Row columns="2" largeColumns="2">
+                <PieChart data="vls_paed_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="Paediatrics" subHeader="" />
+                <PieChart data="vls_pbfw_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="PBFW" subHeader=""/>
+            </Row>
+        </Grid>
         
     </Dashboard>
 </Dashboards>
