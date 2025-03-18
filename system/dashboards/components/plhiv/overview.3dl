@@ -1,28 +1,17 @@
 <Grid>
-    <Row columns = "2" largeColumns = "4">
-        <Tile data="tile_iit_data" title="Clients With IIT (28-90)">
-            <Table
-                data="iit_clients_data"
-                exportData="true"
-                header="Clients With IIT (28-90)"
-                variant="plain"
-                detailsViewColumn="Patient ID"
-            >
-            <Table data="iit_client_details_data" header="Client details" />
-        </Table>
-        </Tile>
 
-        <Tile data="tile_ahd_data" title="AHD Suspects">
+    <Row columns = "2" largeColumns = "4">
+
+        <Tile data="tile_missed_appointment_data" title="Missed Appointments">
             <Table
-                data="ahd_clients_data"
+                data="missed_appointment_clients_data"
                 exportData="true"
-                header="AHD Suspect Clients"
+                header="Clients with Missed Appointments"
                 variant="plain"
-                initialColumns="Patient ID, Current Age, Sex, Last Visit Date, Last CD4 Test Date, Last CD4 Result Date, Last CD4 Result Count, Last CD4 < 200, WHO Stage 3/4 Result"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="ahd_client_details_data" header="Client details" />
-        </Table>
+                <Table data="missed_appointment_client_details_data" header="Client details" />
+            </Table>
         </Tile>
 
         <Tile data="tile_need_vl_data" title="Missed Viral Load">
@@ -34,8 +23,8 @@
                 initialColumns="Patient ID, Current Age, Sex, Last Visit Date, Last VL Test Date, Last VL Result Numeric, VL Results 50 - 999 cps/ml?, VL Results >= 1000 cps/ml?"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="need_vl_client_details_data" header="Client details" />
-        </Table>
+                <Table data="need_vl_client_details_data" header="Client details" />
+            </Table>
         </Tile>
 
         <Tile data="tile_unsuppressed_data" title="Unsuppressed no EAC">
@@ -46,20 +35,34 @@
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="unsuppressed_client_details_data" header="Client details" />
-        </Table>
+                <Table data="unsuppressed_client_details_data" header="Client details" />
+            </Table>
         </Tile>
 
-        <Tile data="tile_missed_appointment_data" title="Missed Appointments">
+        <Tile data="tile_ahd_data" title="AHD Suspects">
             <Table
-                data="missed_appointment_clients_data"
+                data="ahd_clients_data"
                 exportData="true"
-                header="Clients with Missed Appointments"
+                header="AHD Suspect Clients"
+                variant="plain"
+                initialColumns="Patient ID, Current Age, Sex, Last Visit Date, Last CD4 Test Date, Last CD4 Result Date, Last CD4 Result Count, Last CD4 < 200, WHO Stage 3/4 Result"
+                detailsViewColumn="Patient ID"
+            >
+                <Table data="ahd_client_details_data" header="Client details" />
+            </Table>
+
+        </Tile>
+
+        <Tile data="tile_iit_data" title="Clients With IIT (28-90)">
+            <Table
+                data="iit_clients_data"
+                exportData="true"
+                header="Clients With IIT (28-90)"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="missed_appointment_client_details_data" header="Client details" />
-        </Table>
+                <Table data="iit_client_details_data" header="Client details" />
+            </Table>
         </Tile>
 
     </Row>

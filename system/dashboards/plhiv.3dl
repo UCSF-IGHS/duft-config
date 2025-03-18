@@ -16,28 +16,67 @@
 
     <Dashboard
         data="report_week_data"
-        tabName="B. IIT"
-        title="Clients with IIT (28-90 Days)"
-        subTitle="Tabular representation of clients who had interruption in treatment."
+        tabName="B. Missed Appointments"
+        title="Clients With Missed Appointments"
+        subTitle="Table of clients with appointments last week."
         lastRefresh="Report period : %report_week_dates%"
     >
         <Grid>
             <Table
-                data="iit_clients_data"
-                exportData="true"
-                header="Clients with IIT (28-90)"
-                subHeader="Tabular representation of clients who had interruption in treatment."
+                data="missed_appointment_clients_data"
+                header="Clients With Missed Appointments"
+                subHeader="Table of clients missed appointments last week."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="iit_client_details_data" header="Client details" />
+            <Table data="missed_appointment_client_details_data" variant="plain" header="Client details" />
             </Table>
       </Grid>
     </Dashboard>
 
     <Dashboard
         data="report_week_data"
-        tabName="C. AHD Suspects"
+        tabName="C. Missed Viral Load"
+        title="Clients Who Missed Viral Load Test"
+        subTitle="Table of clients who missed viral load test."
+        lastRefresh="Report period : %report_week_dates%"
+    >
+        <Grid>
+            <Table
+                data="need_vl_clients_data"
+                header="Clients Who Missed Viral Load Test"
+                subHeader="Table of clients who missed viral load test."
+                variant="plain"
+                detailsViewColumn="Patient ID"
+            >
+            <Table data="need_vl_client_details_data" variant="plain" header="Client details" />
+            </Table>
+      </Grid>
+    </Dashboard>
+
+    <Dashboard
+        data="report_week_data"
+        tabName="D. Unsuppressed No EAC"
+        title="Unsuppressed Clients Not Initiated on EAC"
+        subTitle="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
+        lastRefresh="Report period : %report_week_dates%"
+    >
+        <Grid>
+            <Table
+                data="unsuppressed_clients_data"
+                header="Unsuppressed Clients Not Initiated on EAC"
+                subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
+                variant="plain"
+                detailsViewColumn="Patient ID"
+            >
+            <Table data="unsuppressed_client_details_data" variant="plain" header="Client details" />
+            </Table>
+      </Grid>
+    </Dashboard>
+
+    <Dashboard
+        data="report_week_data"
+        tabName="E. AHD Suspects"
         title="AHD Suspect Clients"
         subTitle="Table of clients who are suspected to have Advanced HIV Disease (AHD)."
         lastRefresh="Report period : %report_week_dates%"
@@ -58,60 +97,21 @@
 
     <Dashboard
         data="report_week_data"
-        tabName="D. Missed Viral Load"
-        title="Clients Who Missed Viral Load Test"
-        subTitle="Table of clients who missed viral load test."
+        tabName="F. IIT"
+        title="Clients with IIT (28-90 Days)"
+        subTitle="Tabular representation of clients who had interruption in treatment."
         lastRefresh="Report period : %report_week_dates%"
     >
         <Grid>
             <Table
-                data="need_vl_clients_data"
-                header="Clients Who Missed Viral Load Test"
-                subHeader="Table of clients who missed viral load test."
+                data="iit_clients_data"
+                exportData="true"
+                header="Clients with IIT (28-90)"
+                subHeader="Tabular representation of clients who had interruption in treatment."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="need_vl_client_details_data" variant="plain" header="Client details" />
-            </Table>
-      </Grid>
-    </Dashboard>
-
-    <Dashboard
-        data="report_week_data"
-        tabName="E. Unsuppressed No EAC"
-        title="Unsuppressed Clients Not Initiated on EAC"
-        subTitle="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
-        lastRefresh="Report period : %report_week_dates%"
-    >
-        <Grid>
-            <Table
-                data="unsuppressed_clients_data"
-                header="Unsuppressed Clients Not Initiated on EAC"
-                subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
-                variant="plain"
-                detailsViewColumn="Patient ID"
-            >
-            <Table data="unsuppressed_client_details_data" variant="plain" header="Client details" />
-            </Table>
-      </Grid>
-    </Dashboard>
-
-    <Dashboard
-        data="report_week_data"
-        tabName="F. Missed Appointments"
-        title="Clients With Missed Appointments"
-        subTitle="Table of clients with appointments last week."
-        lastRefresh="Report period : %report_week_dates%"
-    >
-        <Grid>
-            <Table
-                data="missed_appointment_clients_data"
-                header="Clients With Missed Appointments"
-                subHeader="Table of clients missed appointments last week."
-                variant="plain"
-                detailsViewColumn="Patient ID"
-            >
-            <Table data="missed_appointment_client_details_data" variant="plain" header="Client details" />
+            <Table data="iit_client_details_data" header="Client details" />
             </Table>
       </Grid>
     </Dashboard>
