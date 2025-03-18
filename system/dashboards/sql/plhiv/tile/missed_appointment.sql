@@ -6,3 +6,5 @@ WHERE
     [Needs VL Test] = 'Yes'
 AND
     [Last Appointment in Previous Week] = 'Yes'
+AND
+    [Last Visit in Previous Week] = 'No'

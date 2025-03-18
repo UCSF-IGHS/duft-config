@@ -50,6 +50,18 @@
         </Table>
         </Tile>
 
+        <Tile data="tile_missed_appointment_data" title="Missed Appointments">
+            <Table
+                data="missed_appointment_clients_data"
+                exportData="true"
+                header="Clients with Missed Appointments"
+                variant="plain"
+                detailsViewColumn="Patient ID"
+            >
+            <Table data="missed_appointment_client_details_data" header="Client details" />
+        </Table>
+        </Tile>
+
     </Row>
 
     <Row largeColumns="2" columns="2">

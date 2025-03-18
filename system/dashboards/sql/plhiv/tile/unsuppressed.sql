@@ -5,6 +5,6 @@ FROM
 WHERE
     [Last Appointment in Previous Week] = 'Yes'
 AND
-    "Last VL Is Unsuppressed" = 'Yes'
+    [Last VL Is Unsuppressed] = 'Yes'
 AND
     [Last Date Initiated EAC] IS NULL

@@ -96,4 +96,24 @@
       </Grid>
     </Dashboard>
 
+    <Dashboard
+        data="report_week_data"
+        tabName="F. Missed Appointments"
+        title="Clients With Missed Appointments"
+        subTitle="Table of clients with appointments last week."
+        lastRefresh="Report period : %report_week_dates%"
+    >
+        <Grid>
+            <Table
+                data="missed_appointment_clients_data"
+                header="Clients With Missed Appointments"
+                subHeader="Table of clients missed appointments last week."
+                variant="plain"
+                detailsViewColumn="Patient ID"
+            >
+            <Table data="missed_appointment_client_details_data" variant="plain" header="Client details" />
+            </Table>
+      </Grid>
+    </Dashboard>
+
 </Dashboards>
