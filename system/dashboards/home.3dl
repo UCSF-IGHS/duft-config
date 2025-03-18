@@ -1,7 +1,7 @@
 <Dashboards>
 
     <Datasets>
-        <SQLData name="current_date_data" queryName="current_date" />
+        <SQLData name="header_data_data" queryName="header_data" />
         <SQLData name="gender_data" queryName="filters/gender" />
         <SQLData name="age_group_data" queryName="filters/age_group" />
         <SQLData name="care_model_data" queryName="filters/care_model" />
@@ -100,11 +100,53 @@
             //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
         />
 
+        <SQLData
+            name="mmp_adult_tx_curr_data"
+            queryName="visual/mmp_adult_tx_curr"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="mmp_paed_tx_curr_data"
+            queryName="visual/mmp_paed_tx_curr"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="mmp_adult_tx_curr_prev_data"
+            queryName="visual/mmp_adult_tx_curr_prev"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="mmp_paed_tx_curr_prev_data"
+            queryName="visual/mmp_paed_tx_curr_prev"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="tpt_paed_data"
+            queryName="visual/tpt_paed"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="tpt_adult_data"
+            queryName="visual/tpt_adult"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+
+
+
+
+
+
 
     </Datasets>
     
     <Dashboard
-        data="current_date_data"
+        data="header_data_data"
         tabName="All"
         title="%facility_name%"
         subTitle="All"
@@ -164,10 +206,10 @@
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="header_data_data"
         tabName="MMP"
         title="%facility_name%"
-        subTitle="MMP"
+        subTitle="Multi Month Prescription"
         lastRefresh="Last updated on : %last_refresh_date%"
     >
         <Filters>
@@ -175,14 +217,26 @@
             <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
             <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
         </Filters>
+
+        <Grid>
+            <Row columns="2" largeColumns="2">
+                <PieChart data="mmp_adult_tx_curr_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Adults (TX CURR)" />
+                <PieChart data="mmp_paed_tx_curr_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Paediatrics (TX CURR)"/>
+            </Row>
+
+            <Row columns="2" largeColumns="2">
+                <PieChart data="mmp_adult_tx_curr_prev_data" DataStringQuery="SELECT TRIM(TO_CHAR(CAST(last_refresh_date AS DATE) - INTERVAL '1 month', 'Month YYYY')) AS previous_month FROM analysis.dim_last_refresh" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Adults (%previous_month%)" subHeader="" />
+                <PieChart data="mmp_paed_tx_curr_prev_data" DataStringQuery="SELECT TRIM(TO_CHAR(CAST(last_refresh_date AS DATE) - INTERVAL '1 month', 'Month YYYY')) AS previous_month FROM analysis.dim_last_refresh;" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Paediatrics (%previous_month%)" subHeader=""/>
+            </Row>
+        </Grid>
         
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="header_data_data"
         tabName="TPT"
         title="%facility_name%"
-        subTitle="TPT"
+        subTitle="TB Preventative Therapy"
         lastRefresh="Last updated on : %last_refresh_date%"
     >
         <Filters>
@@ -190,11 +244,19 @@
             <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
             <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
         </Filters>
+
+        <Grid>
+            <Row columns="2" largeColumns="2">
+                <PieChart data="tpt_adult_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} header="Adults" />
+                <PieChart data="tpt_paed_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} header="Paediatrics"/>
+
+            </Row>
+        </Grid>
         
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="header_data_data"
         tabName="Retention"
         title="%facility_name%"
         subTitle="Retention"
@@ -209,7 +271,7 @@
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="header_data_data"
         tabName="VLM"
         title="%facility_name%"
         subTitle="VLM"
@@ -224,7 +286,7 @@
     </Dashboard>
 
     <Dashboard
-        data="current_date_data"
+        data="header_data_data"
         tabName="VLS"
         title="%facility_name%"
         subTitle="VLS"
