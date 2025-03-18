@@ -1,0 +1,1 @@
+SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'

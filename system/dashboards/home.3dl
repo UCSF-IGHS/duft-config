@@ -1,310 +1,240 @@
-<TabSet>
-<Tab title="All">
-<Dashboard>   
+<Dashboards>
+
+    <Datasets>
+        <SQLData name="current_date_data" queryName="current_date" />
+        <SQLData name="gender_data" queryName="filters/gender" />
+        <SQLData name="age_group_data" queryName="filters/age_group" />
+        <SQLData name="care_model_data" queryName="filters/care_model" />
+
+        <SQLData
+            name="tx_curr_all_data"
+            queryName="tile/tx_curr_all"
+            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="tx_curr_paed_all_data"
+            queryName="tile/tx_curr_paed_all"
+            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="tx_curr_adult_all_data"
+            queryName="tile/tx_curr_adult_all"
+            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="tx_curr_pbfw_all_data"
+            queryName="tile/tx_curr_pbfw_all"
+            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="tx_curr_all_data"
+            queryName="tile/tx_curr_all"
+            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="tx_curr_all_data"
+            queryName="tile/tx_curr_all"
+            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="tx_curr_all_data"
+            queryName="tile/tx_curr_all"
+            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="tx_curr_detailed_all_data"
+            queryName="tile/tx_curr_detailed_all"
+            pageSize="15"
+            searchColumns="ART Number, ART Outcomes"
+            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="tx_curr_all_details_data"
+            detailsViewData="tx_curr_detailed_all_data"
+            detailsViewColumn="ART Number"
+            transpose="true"
+        >
+            SELECT * from analysis.fact_sentinel_event WHERE "ART Number"='[[ART Number]]'
+        </SQLData>
+
+        <SQLData
+            name="score_card_overview_data"
+            queryName="visual/score_card_overview"
+        />
+
+        <SQLData
+            name="mmp_overview_data"
+            queryName="visual/mmp_overview"
+            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="tpt_overview_data"
+            queryName="visual/tpt_overview"
+            // filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="retention_overview_data"
+            queryName="visual/retention_overview"
+            // filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="vlm_overview_data"
+            queryName="visual/vlm_overview"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+        <SQLData
+            name="vls_overview_data"
+            queryName="visual/vls_overview"
+            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        />
+
+
+    </Datasets>
+    
+    <Dashboard
+        data="current_date_data"
+        tabName="All"
+        title="%facility_name%"
+        subTitle="All"
+        lastRefresh="Last updated on : %last_refresh_date%"
+    >
+        <Filters>
+            <Filter caption="Gender" name="Sex" data="gender_data" />
+            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+        </Filters>
+
         <Grid>
-            <Dataset query="select last_refresh_date, facility_name FROM analysis.dim_last_refresh">
-                <Row columns="2" smallColumns="1">
-                    <Header>
-                    <DataString>%facility_name%</DataString>
-                    </Header>
-                    <Subheader>
-                    <DataString>Last updated on: %last_refresh_date%</DataString>
-                    </Subheader>
-                </Row>
-            </Dataset>
-            <Filters>
-                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                </Filters>
-            <Row columns = "2"   largeColumns = "4" >
-            
+            <Row columns="2" largeColumns="4">
+                
+                <Tile data="tx_curr_all_data" title="TX_CURR All">
+                    <Table
+                        data="tx_curr_detailed_all_data"
+                        exportData="true"
+                        header="TX_CURR All"
+                        variant="plain"
+                        detailsViewColumn="ART Number"
+                    >
+                        <Table data="tx_curr_all_details_data" />
+                    </Table>
+                </Tile>
 
-                <Dataset query={`SELECT COUNT(*) AS value FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
-                    <Tile title='TX_CURR All' >
-                    <Dataset searchColumns="ART Outcomes, Sex" pageSize={15} query={`SELECT  "ART Number","Sex", "Date Of Birth",  "ART Start Date","Last Visit Date","Last Next Visit Date" as "Next Visit","MMP Status",  "ART Outcomes" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'  AND ("Sex"='$sex' OR '$sex'='') AND ("Last Care Model"='$care_model' OR '$care_model'='') AND ("Tri Pillar Age Group"='$tri_pillar_age_group' OR '$tri_pillar_age_group'='')`}>
-                        <InfiniteScrollTable exportData="true" header='TX_CURR All' variant='plain' />
-                    </Dataset>
-                    </Tile>
-                </Dataset>
+                <Tile data="tx_curr_adult_all_data" title="Adults"/>
 
-                <Dataset query={`SELECT COUNT(*) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') = 0 THEN '0%' ELSE ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 1) || '%' END AS proportion FROM analysis.fact_sentinel_event WHERE "Tri Pillar Age Group" IN ('20-39','40+') AND "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '');`}>
-                    <Tile title='Adults' />
-                </Dataset>
+                <Tile data="tx_curr_paed_all_data" title="Paediatrics"/>
 
-                <Dataset query={`SELECT COUNT(*) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') = 0 THEN '0%' ELSE ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 1) || '%' END AS proportion FROM analysis.fact_sentinel_event WHERE "Tri Pillar Age Group" = '0-19' AND "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '');`}>
-                    <Tile title='Paediatrics' />
-                </Dataset>
+                <Tile data="tx_curr_pbfw_all_data" title="PBFW"/>
 
-                <Dataset query={`SELECT COUNT(*) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes') = 0 THEN '0%' ELSE ROUND(COUNT(*) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'), 1) || '%' END AS proportion FROM analysis.fact_sentinel_event WHERE "Last PBFW Status" = 'Yes' AND "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '');`}>
-                    <Tile title='PBFW' />
-                </Dataset>
-
+           
             </Row>
 
-            <Row columns = "2"   largeColumns = "3" >
-                <Dataset query={`SELECT * FROM analysis.score_card`}>
-                    <ScoreCardTable  header="Score Card" tableMaxHeight='300px' enableTopToolbar={false} enableBottomToolbar={false} />
-                </Dataset>
-
-                <Dataset query={`SELECT categories."MMP Status" AS category, COUNT(a."MMP Status") AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "MMP Status" IS NOT NULL AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a."MMP Status") * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "MMP Status" IS NOT NULL AND "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = ''))), 1), '%') END AS percentage FROM (SELECT '< 3 MMP' AS "MMP Status" UNION ALL SELECT '3-5 MMP' UNION ALL SELECT '6+ MMP') AS categories LEFT JOIN (SELECT "MMP Status", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '') AND "MMP Status" IS NOT NULL) a ON categories."MMP Status" = a."MMP Status" GROUP BY categories."MMP Status" ORDER BY CASE WHEN categories."MMP Status" = '< 3 MMP' THEN 3 WHEN categories."MMP Status" = '3-5 MMP' THEN 2 WHEN categories."MMP Status" = '6+ MMP' THEN 1 END;`}>
-                    <PieChart exportData="true"  detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#ed70f8","#f3af3d","#ec6240"] }} header="MMP">
-                        <InfoTag>
-                            <Markdown header="MMP">
-                            <Include file="components/mmp.md" />
-                            </Markdown>
-                        </InfoTag>
-                    </PieChart>
-                </Dataset>
-
-                <Dataset query={`SELECT categories."TPT Status Two" AS category, COUNT(a."TPT Status Two") AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a."TPT Status Two") * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = ''))), 1), '%') END AS percentage FROM (SELECT 'TPT completed' AS "TPT Status Two" UNION ALL SELECT 'Currently on TPT/TBT' UNION ALL SELECT 'Incomplete TPT') AS categories LEFT JOIN (SELECT "TPT Status Two", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '') AND "TPT Status Two" IS NOT NULL) a ON categories."TPT Status Two" = a."TPT Status Two" GROUP BY categories."TPT Status Two" ORDER BY CASE WHEN categories."TPT Status Two" = 'TPT completed' THEN 1 WHEN categories."TPT Status Two" = 'Currently on TPT/TBT' THEN 2 WHEN categories."TPT Status Two" = 'Incomplete TPT' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' header="TPT" userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} />
-                </Dataset>
+            <Row columns="2" largeColumns="3">
+                <ScoreCardTable data="score_card_overview_data"  header="Score Card" tableMaxHeight='300px' enableTopToolbar={false} enableBottomToolbar={false} />
+                <PieChart data="mmp_overview_data"  exportData="true"  detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#ed70f8","#f3af3d","#ec6240"] }} header="MMP">
+                    <InfoTag>
+                        <Markdown header="MMP">
+                        <Include file="components/mmp.md" />
+                        </Markdown>
+                    </InfoTag>
+                </PieChart>
+                <PieChart data="tpt_overview_data" exportData="true" detailsComponent='infinite-scroll-table' header="TPT" userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} />
             </Row>
-            
-            <Row columns = "2"   largeColumns = "3" >
-                <Dataset query={`SELECT categories."Retention Status" AS category, COUNT(a."Retention Status") AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions')) = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a."Retention Status") * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions') AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = ''))), 1), '%') END AS percentage FROM (SELECT 'In Care' AS "Retention Status" UNION ALL SELECT 'Missed Appointments' UNION ALL SELECT 'Treatment Interruptions') AS categories LEFT JOIN (SELECT "Tri Pillar Age Group" AS age_group, "Retention Status", "Sex" AS sex FROM analysis.fact_sentinel_event WHERE ("Sex" = '$sex' OR '$sex' = '') AND "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories."Retention Status" = a."Retention Status" GROUP BY categories."Retention Status" ORDER BY CASE WHEN categories."Retention Status" = 'In Care' THEN 1 WHEN categories."Retention Status" = 'Missed Appointments' THEN 2 WHEN categories."Retention Status" = 'Treatment Interruptions' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: [ "#c6cdd4","#f3af3d","#ec6240"] }}  header="Retention" />
-                </Dataset>
 
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = ''))), 1), '%') END AS percentage FROM (SELECT 'Monitored per Guidelines' AS DATA UNION ALL SELECT 'Slightly Delayed' UNION ALL SELECT 'Delayed') AS categories LEFT JOIN (SELECT "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group, "Viral Load Eligibility" AS DATA, "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Monitored per Guidelines' THEN 1 WHEN categories.DATA = 'Slightly Delayed' THEN 2 WHEN categories.DATA = 'Delayed' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#52b5d5","#f3af3d","#ec6240"] }} header="Viral Load Monitoring" />
-                </Dataset>
-
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed')) = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed')  AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = ''))), 1), '%') END AS percentage FROM (SELECT 'Undetectable' AS DATA UNION ALL SELECT 'LLV' UNION ALL SELECT 'Unsuppressed') AS categories LEFT JOIN (SELECT "Tri Pillar Age Group" AS age_group, "Last Viral Load Result Category" AS DATA, "Sex" AS sex FROM analysis.fact_sentinel_event WHERE "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed') AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Undetectable' THEN 1 WHEN categories.DATA = 'LLV' THEN 2 WHEN categories.DATA = 'Unsuppressed' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#2a63c4", "#f3af3d", "#ec6240"] }} header="Viral Load Suppression" />
-                </Dataset>
-
-
+            <Row columns="2" largeColumns="3">
+                <PieChart data="retention_overview_data"  exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: [ "#c6cdd4","#f3af3d","#ec6240"] }}  header="Retention" />
+                <PieChart data="vlm_overview_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#52b5d5","#f3af3d","#ec6240"] }} header="Viral Load Monitoring" />
+                <PieChart data="vls_overview_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#2a63c4", "#f3af3d", "#ec6240"] }} header="Viral Load Suppression" />    
             </Row>
-            
-            
-            
-       
-
+         
 
         </Grid>
-</Dashboard>
 
-</Tab>
+    </Dashboard>
 
-<Tab title="MMP">
-<Dashboard>   
-        <Grid>
-            <Dataset query="select last_refresh_date, facility_name FROM analysis.dim_last_refresh">
-                <Row columns="2" smallColumns="1">
-                    <Header>Multi-Month Prescription</Header>
-                    <Subheader>
-                    <DataString>Last updated on: %last_refresh_date%</DataString>
-                    </Subheader>
-                </Row>
-            </Dataset>
-            <Filters>
-                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                </Filters>
-            
-            <Row columns = "2"   largeColumns = "2">
-                <Dataset query={`SELECT categories."MMP Status" AS category, COUNT(a."MMP Status") AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "MMP Status" IS NOT NULL AND "Current Age" > 19 AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a."MMP Status") * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "MMP Status" IS NOT NULL AND "Current Age" > 19 AND "TX Curr" = 'Yes')), 1), '%') END AS percentage FROM (SELECT '< 3 MMP' AS "MMP Status" UNION ALL SELECT '3-5 MMP' UNION ALL SELECT '6+ MMP') AS categories LEFT JOIN (SELECT "MMP Status", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 19 AND "MMP Status" IS NOT NULL AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories."MMP Status" = a."MMP Status" GROUP BY categories."MMP Status" ORDER BY CASE WHEN categories."MMP Status" = '< 3 MMP' THEN 3 WHEN categories."MMP Status" = '3-5 MMP' THEN 2 WHEN categories."MMP Status" = '6+ MMP' THEN 1 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Adults (TX CURR)" />
-                </Dataset>
+    <Dashboard
+        data="current_date_data"
+        tabName="MMP"
+        title="%facility_name%"
+        subTitle="MMP"
+        lastRefresh="Last updated on : %last_refresh_date%"
+    >
+        <Filters>
+            <Filter caption="Gender" name="Sex" data="gender_data" />
+            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+        </Filters>
+        
+    </Dashboard>
 
+    <Dashboard
+        data="current_date_data"
+        tabName="TPT"
+        title="%facility_name%"
+        subTitle="TPT"
+        lastRefresh="Last updated on : %last_refresh_date%"
+    >
+        <Filters>
+            <Filter caption="Gender" name="Sex" data="gender_data" />
+            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+        </Filters>
+        
+    </Dashboard>
 
-                <Dataset query={`SELECT categories."MMP Status" AS category, COUNT(a."MMP Status") AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "MMP Status" IS NOT NULL AND "Current Age" <= 19 AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a."MMP Status") * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "MMP Status" IS NOT NULL AND "Current Age" <= 19 AND "TX Curr" = 'Yes')), 1), '%') END AS percentage FROM (SELECT '< 3 MMP' AS "MMP Status" UNION ALL SELECT '3-5 MMP' UNION ALL SELECT '6+ MMP') AS categories LEFT JOIN (SELECT "MMP Status", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 19 AND "MMP Status" IS NOT NULL AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories."MMP Status" = a."MMP Status" GROUP BY categories."MMP Status" ORDER BY CASE WHEN categories."MMP Status" = '< 3 MMP' THEN 3 WHEN categories."MMP Status" = '3-5 MMP' THEN 2 WHEN categories."MMP Status" = '6+ MMP' THEN 1 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Paediatrics (TX CURR)"/>
-                </Dataset>
-            </Row>
+    <Dashboard
+        data="current_date_data"
+        tabName="Retention"
+        title="%facility_name%"
+        subTitle="Retention"
+        lastRefresh="Last updated on : %last_refresh_date%"
+    >
+        <Filters>
+            <Filter caption="Gender" name="Sex" data="gender_data" />
+            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+        </Filters>
+        
+    </Dashboard>
 
-            <Row columns = "2"   largeColumns = "2">
-                <Dataset query={`SELECT categories."MMP Status" AS category, COUNT(a."MMP Status") AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Current Age" > 19 AND "MMP Status Current" IS NOT NULL AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a."MMP Status") * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Current Age" > 19 AND "MMP Status Current" IS NOT NULL AND "TX Curr" = 'Yes')), 1), '%') END AS percentage FROM (SELECT '< 3 MMP' AS "MMP Status" UNION ALL SELECT '3-5 MMP' UNION ALL SELECT '6+ MMP') AS categories LEFT JOIN (SELECT "MMP Status Current" AS "MMP Status", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 19 AND "MMP Status Current" IS NOT NULL AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories."MMP Status" = a."MMP Status" GROUP BY categories."MMP Status" ORDER BY CASE WHEN categories."MMP Status" = '< 3 MMP' THEN 3 WHEN categories."MMP Status" = '3-5 MMP' THEN 2 WHEN categories."MMP Status" = '6+ MMP' THEN 1 END;`}>
-                    <PieChart DataStringQuery="SELECT TRIM(TO_CHAR(CAST(last_refresh_date AS DATE) - INTERVAL '1 month', 'Month YYYY')) AS previous_month FROM analysis.dim_last_refresh;
-" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Adults (%previous_month%)" subHeader="" />
-                </Dataset>
+    <Dashboard
+        data="current_date_data"
+        tabName="VLM"
+        title="%facility_name%"
+        subTitle="VLM"
+        lastRefresh="Last updated on : %last_refresh_date%"
+    >
+        <Filters>
+            <Filter caption="Gender" name="Sex" data="gender_data" />
+            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+        </Filters>
+        
+    </Dashboard>
 
-
-                <Dataset query={`SELECT categories."MMP Status" AS category, COUNT(a."MMP Status") AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Current Age" <= 19 AND "MMP Status Current" IS NOT NULL AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a."MMP Status") * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Current Age" <= 19 AND "MMP Status Current" IS NOT NULL AND "TX Curr" = 'Yes')), 1), '%') END AS percentage FROM (SELECT '< 3 MMP' AS "MMP Status" UNION ALL SELECT '3-5 MMP' UNION ALL SELECT '6+ MMP') AS categories LEFT JOIN (SELECT "MMP Status Current" AS "MMP Status", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 19 AND "MMP Status Current" IS NOT NULL) a ON categories."MMP Status" = a."MMP Status" GROUP BY categories."MMP Status" ORDER BY CASE WHEN categories."MMP Status" = '< 3 MMP' THEN 3 WHEN categories."MMP Status" = '3-5 MMP' THEN 2 WHEN categories."MMP Status" = '6+ MMP' THEN 1 END;`}>
-                    <PieChart DataStringQuery="SELECT TRIM(TO_CHAR(CAST(last_refresh_date AS DATE) - INTERVAL '1 month', 'Month YYYY')) AS previous_month FROM analysis.dim_last_refresh;
-" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Paediatrics (%previous_month%)" subHeader=""/>
-                </Dataset>
-            </Row>
-
-
-            
-
-        </Grid>
-</Dashboard>
-
-</Tab>
-
-
-
-<Tab title="TPT">
-<Dashboard>   
-        <Grid>
-            <Dataset query="select last_refresh_date, facility_name FROM analysis.dim_last_refresh">
-                <Row columns="2" smallColumns="1">
-                    <Header>TB Preventative Therapy</Header>
-                    <Subheader>
-                    <DataString>Last updated on: %last_refresh_date%</DataString>
-                    </Subheader>
-                </Row>
-            </Dataset>
-            <Filters>
-                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                </Filters>
-            
-            <Row columns = "2"   largeColumns = "2">
-                <Dataset query={`SELECT categories."TPT Status" AS category, COUNT(a."TPT Status") AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "Current Age" > 19 AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a."TPT Status") * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "Current Age" > 19 AND "TX Curr" = 'Yes')), 1), '%') END AS percentage FROM (SELECT 'TPT completed' AS "TPT Status" UNION ALL SELECT 'Currently on TPT/TBT' UNION ALL SELECT 'Incomplete TPT') AS categories LEFT JOIN (SELECT "TPT Status Two" AS "TPT Status", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" > 19 AND "TPT Status Two" IS NOT NULL AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories."TPT Status" = a."TPT Status" GROUP BY categories."TPT Status" ORDER BY CASE WHEN categories."TPT Status" = 'TPT completed' THEN 1 WHEN categories."TPT Status" = 'Currently on TPT/TBT' THEN 2 WHEN categories."TPT Status" = 'Incomplete TPT' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} header="Adults" />
-                </Dataset>
-
-
-                <Dataset query={`SELECT categories."TPT Status" AS category, COUNT(a."TPT Status") AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "Current Age" <= 19 AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a."TPT Status") * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "Current Age" <= 19 AND "TX Curr" = 'Yes')), 1), '%') END AS percentage FROM (SELECT 'TPT completed' AS "TPT Status" UNION ALL SELECT 'Currently on TPT/TBT' UNION ALL SELECT 'Incomplete TPT') AS categories LEFT JOIN (SELECT "TPT Status Two" AS "TPT Status", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" <= 19 AND "TPT Status Two" IS NOT NULL AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories."TPT Status" = a."TPT Status" GROUP BY categories."TPT Status" ORDER BY CASE WHEN categories."TPT Status" = 'TPT completed' THEN 1 WHEN categories."TPT Status" = 'Currently on TPT/TBT' THEN 2 WHEN categories."TPT Status" = 'Incomplete TPT' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#68349a","#f3af3d","#ec6240"] }} header="Paediatrics"/>
-                </Dataset>
-            </Row>
-
-
-            
-
-        </Grid>
-</Dashboard>
-
-</Tab>
-
-<Tab title="Retention">
-<Dashboard>   
-        <Grid>
-            <Dataset query="select last_refresh_date, facility_name FROM analysis.dim_last_refresh">
-                <Row columns="2" smallColumns="1">
-                    <Header>Retention</Header>
-                    <Subheader>
-                    <DataString>Last updated on: %last_refresh_date%</DataString>
-                    </Subheader>
-                </Row>
-            </Dataset>
-            <Filters>
-                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                </Filters>
-            
-            <Row columns = "2"   largeColumns = "2">
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions')) = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions'))), 1), '%') END AS percentage FROM (SELECT 'In Care' AS DATA UNION ALL SELECT 'Missed Appointments' UNION ALL SELECT 'Treatment Interruptions') AS categories LEFT JOIN (SELECT "Tri Pillar Age Group" AS age_group, "Retention Status" AS DATA, "Sex" AS sex FROM analysis.fact_sentinel_event WHERE "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions') AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'In Care' THEN 1 WHEN categories.DATA = 'Missed Appointments' THEN 2 WHEN categories.DATA = 'Treatment Interruptions' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: [ "#c6cdd4","#f3af3d","#ec6240"] }} header="All" />
-                </Dataset>
-
-
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Sex" = 'Male' AND "Current Age" BETWEEN 20 AND 39 AND "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions')) = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Sex" = 'Male' AND "Current Age" BETWEEN 20 AND 39 AND "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions'))), 1), '%') END AS percentage FROM (SELECT 'In Care' AS DATA UNION ALL SELECT 'Missed Appointments' UNION ALL SELECT 'Treatment Interruptions') AS categories LEFT JOIN (SELECT "Tri Pillar Age Group" AS age_group, "Retention Status" AS DATA, "Sex" AS sex FROM analysis.fact_sentinel_event WHERE "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions') AND "Sex" = 'Male' AND "Current Age" BETWEEN 20 AND 39 AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'In Care' THEN 1 WHEN categories.DATA = 'Missed Appointments' THEN 2 WHEN categories.DATA = 'Treatment Interruptions' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: [ "#c6cdd4","#f3af3d","#ec6240"] }} header="Men (20-39)" />
-                </Dataset>
-
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Current Age" <= 19 AND "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions')) = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Current Age" <= 19 AND "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions'))), 1), '%') END AS percentage FROM (SELECT 'In Care' AS DATA UNION ALL SELECT 'Missed Appointments' UNION ALL SELECT 'Treatment Interruptions') AS categories LEFT JOIN (SELECT "Tri Pillar Age Group" AS age_group, "Retention Status" AS DATA, "Sex" AS sex FROM analysis.fact_sentinel_event WHERE "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions') AND "Current Age" <= 19 AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'In Care' THEN 1 WHEN categories.DATA = 'Missed Appointments' THEN 2 WHEN categories.DATA = 'Treatment Interruptions' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: [ "#c6cdd4","#f3af3d","#ec6240"] }} header="Paediatrics" />
-                </Dataset>
-
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE ("Last Pregnancy Status" = 'Yes' OR "Last Breast Feeding" = 'Yes') AND "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions')) = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE ("Last Pregnancy Status" = 'Yes' OR "Last Breast Feeding" = 'Yes') AND "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions'))), 1), '%') END AS percentage FROM (SELECT 'In Care' AS DATA UNION ALL SELECT 'Missed Appointments' UNION ALL SELECT 'Treatment Interruptions') AS categories LEFT JOIN (SELECT "Tri Pillar Age Group" AS age_group, "Retention Status" AS DATA, "Sex" AS sex FROM analysis.fact_sentinel_event WHERE "Retention Status" IN ('In Care','Missed Appointments', 'Treatment Interruptions') AND ("Last Pregnancy Status" = 'Yes' OR "Last Breast Feeding" = 'Yes') AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'In Care' THEN 1 WHEN categories.DATA = 'Missed Appointments' THEN 2 WHEN categories.DATA = 'Treatment Interruptions' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: [ "#c6cdd4","#f3af3d","#ec6240"] }} header="PBFW" />
-                </Dataset>
-
-            </Row>
-
-        </Grid>
-</Dashboard>
-
-</Tab>
-
-<Tab title="VLM">
-<Dashboard>   
-        <Grid>
-            <Dataset query="select last_refresh_date, facility_name FROM analysis.dim_last_refresh">
-                <Row columns="2" smallColumns="1">
-                    <Header>Viral Load Monitoring</Header>
-                    <Subheader>
-                    <DataString>Last updated on: %last_refresh_date%</DataString>
-                    </Subheader>
-                </Row>
-            </Dataset>
-            <Filters>
-                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                </Filters>
-            
-            <Row columns = "2"   largeColumns = "2">
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes')), 1), '%') END AS percentage FROM (SELECT 'Monitored per Guidelines' AS DATA UNION ALL SELECT 'Slightly Delayed' UNION ALL SELECT 'Delayed') AS categories LEFT JOIN (SELECT "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group, "Viral Load Eligibility" AS DATA, "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Monitored per Guidelines' THEN 1 WHEN categories.DATA = 'Slightly Delayed' THEN 2 WHEN categories.DATA = 'Delayed' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#52b5d5","#f3af3d","#ec6240"] }} header="All" />
-                </Dataset>
-
-
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Sex" = 'Male' AND "Current Age" BETWEEN 20 AND 39 AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Sex" = 'Male' AND "Current Age" BETWEEN 20 AND 39 AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes')), 1), '%') END AS percentage FROM (SELECT 'Monitored per Guidelines' AS DATA UNION ALL SELECT 'Slightly Delayed' UNION ALL SELECT 'Delayed') AS categories LEFT JOIN (SELECT "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group, "Viral Load Eligibility" AS DATA, "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "Sex" = 'Male' AND "Current Age" BETWEEN 20 AND 39) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Monitored per Guidelines' THEN 1 WHEN categories.DATA = 'Slightly Delayed' THEN 2 WHEN categories.DATA = 'Delayed' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#52b5d5","#f3af3d","#ec6240"] }} header="Men (20-39)" />
-                </Dataset>
-
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Current Age" <= 19 AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Current Age" <= 19 AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes')), 1), '%') END AS percentage FROM (SELECT 'Monitored per Guidelines' AS DATA UNION ALL SELECT 'Slightly Delayed' UNION ALL SELECT 'Delayed') AS categories LEFT JOIN (SELECT "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group, "Viral Load Eligibility" AS DATA, "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "Current Age" <= 19) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Monitored per Guidelines' THEN 1 WHEN categories.DATA = 'Slightly Delayed' THEN 2 WHEN categories.DATA = 'Delayed' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#52b5d5","#f3af3d","#ec6240"] }} header="Paediatrics" />
-                </Dataset>
-
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE ("Last Pregnancy Status" = 'Yes' OR "Last Breast Feeding" = 'Yes') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE ("Last Pregnancy Status" = 'Yes' OR "Last Breast Feeding" = 'Yes') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes')), 1), '%') END AS percentage FROM (SELECT 'Monitored per Guidelines' AS DATA UNION ALL SELECT 'Slightly Delayed' UNION ALL SELECT 'Delayed') AS categories LEFT JOIN (SELECT "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group, "Viral Load Eligibility" AS DATA, "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND ("Last Pregnancy Status" = 'Yes' OR "Last Breast Feeding" = 'Yes')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Monitored per Guidelines' THEN 1 WHEN categories.DATA = 'Slightly Delayed' THEN 2 WHEN categories.DATA = 'Delayed' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#52b5d5","#f3af3d","#ec6240"] }} header="PBFW" />
-                </Dataset>
-
-            </Row>
-
-            
-
-        </Grid>
-</Dashboard>
-
-</Tab>
-
-<Tab title="VLS">
-<Dashboard>   
-        <Grid>
-            <Dataset query="select last_refresh_date, facility_name FROM analysis.dim_last_refresh">
-                <Row columns="2" smallColumns="1">
-                    <Header>Viral Load Suppression</Header>
-                    <Subheader>
-                    <DataString>Last updated on: %last_refresh_date%</DataString>
-                    </Subheader>
-                </Row>
-            </Dataset>
-            <Filters>
-                    <Filter caption="Sex" name="sex" values_query={`SELECT DISTINCT "Sex" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                    <Filter caption="Age Group" name="tri_pillar_age_group" values_query={`SELECT DISTINCT tri_pillar_age_group,  tri_pillar_age_group_val from analysis.dim_age_group ORDER BY tri_pillar_age_group_val`} />
-                    <Filter caption="Care Model" name="care_model" values_query={`SELECT DISTINCT "Last Care Model" as "Care Model" from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'`} />
-                </Filters>
-            
-            <Row columns = "2"   largeColumns = "2">
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed')) = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed')  AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = ''))), 1), '%') END AS percentage FROM (SELECT 'Undetectable' AS DATA UNION ALL SELECT 'LLV' UNION ALL SELECT 'Unsuppressed') AS categories LEFT JOIN (SELECT "Tri Pillar Age Group" AS age_group, "Last Viral Load Result Category" AS DATA, "Sex" AS sex FROM analysis.fact_sentinel_event WHERE "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed') AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Undetectable' THEN 1 WHEN categories.DATA = 'LLV' THEN 2 WHEN categories.DATA = 'Unsuppressed' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#2a63c4", "#f3af3d","#ec6240"] }} header="All" />
-                </Dataset>
-
-
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Sex" = 'Male' AND "Current Age" BETWEEN 20 AND 39 AND "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed')) = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Sex" = 'Male' AND "Current Age" BETWEEN 20 AND 39 AND "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed')  AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = ''))), 1), '%') END AS percentage FROM (SELECT 'Undetectable' AS DATA UNION ALL SELECT 'LLV' UNION ALL SELECT 'Unsuppressed') AS categories LEFT JOIN (SELECT "Tri Pillar Age Group" AS age_group, "Last Viral Load Result Category" AS DATA, "Sex" AS sex FROM analysis.fact_sentinel_event WHERE "Sex" = 'Male' AND "Current Age" BETWEEN 20 AND 39 AND "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed') AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Undetectable' THEN 1 WHEN categories.DATA = 'LLV' THEN 2 WHEN categories.DATA = 'Unsuppressed' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#2a63c4", "#f3af3d","#ec6240"] }} header="Men (20-39)" />
-                </Dataset>
-
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Current Age" <= 19 AND "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed')) = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Current Age" <= 19 AND "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed')  AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = ''))), 1), '%') END AS percentage FROM (SELECT 'Undetectable' AS DATA UNION ALL SELECT 'LLV' UNION ALL SELECT 'Unsuppressed') AS categories LEFT JOIN (SELECT "Tri Pillar Age Group" AS age_group, "Last Viral Load Result Category" AS DATA, "Sex" AS sex FROM analysis.fact_sentinel_event WHERE "Current Age" <= 19 AND "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed') AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Undetectable' THEN 1 WHEN categories.DATA = 'LLV' THEN 2 WHEN categories.DATA = 'Unsuppressed' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#2a63c4", "#f3af3d","#ec6240"] }} header="Paediatrics" />
-                </Dataset>
-
-                <Dataset query={`SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE ("Last Pregnancy Status" = 'Yes' OR "Last Breast Feeding" = 'Yes') AND "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed')) = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 \/\ (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE ("Last Pregnancy Status" = 'Yes' OR "Last Breast Feeding" = 'Yes') AND "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed')  AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = ''))), 1), '%') END AS percentage FROM (SELECT 'Undetectable' AS DATA UNION ALL SELECT 'LLV' UNION ALL SELECT 'Unsuppressed') AS categories LEFT JOIN (SELECT "Tri Pillar Age Group" AS age_group, "Last Viral Load Result Category" AS DATA, "Sex" AS sex FROM analysis.fact_sentinel_event WHERE ("Last Pregnancy Status" = 'Yes' OR "Last Breast Feeding" = 'Yes') AND "__client_id" not in ( select "__client_id" from analysis.fact_sentinel_event where "TX Curr"='Yes' AND ("Months Since ART Start" < 6 or "Months Since ART Restart" < 6)) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines',  'Slightly Delayed') AND ("Sex" = '$sex' OR '$sex' = '') AND ("Last Care Model" = '$care_model' OR '$care_model' = '') AND ("Tri Pillar Age Group" = '$tri_pillar_age_group' OR '$tri_pillar_age_group' = '')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Undetectable' THEN 1 WHEN categories.DATA = 'LLV' THEN 2 WHEN categories.DATA = 'Unsuppressed' THEN 3 END;`}>
-                    <PieChart exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors: ["#2a63c4", "#f3af3d","#ec6240"] }} header="PBFW" />
-                </Dataset>
-
-            </Row>
-
-
-            
-
-        </Grid>
-</Dashboard>
-
-</Tab>
-
-
-</TabSet>
+    <Dashboard
+        data="current_date_data"
+        tabName="VLS"
+        title="%facility_name%"
+        subTitle="VLS"
+        lastRefresh="Last updated on : %last_refresh_date%"
+    >
+        <Filters>
+            <Filter caption="Gender" name="Sex" data="gender_data" />
+            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+        </Filters>
+        
+    </Dashboard>
+</Dashboards>

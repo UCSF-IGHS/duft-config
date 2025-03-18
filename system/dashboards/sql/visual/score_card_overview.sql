@@ -1,0 +1,1 @@
+SELECT * FROM analysis.score_card

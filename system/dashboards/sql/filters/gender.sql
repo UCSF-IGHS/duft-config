@@ -1,0 +1,1 @@
+SELECT DISTINCT "Sex" as "value", "Sex" as label from analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'
