@@ -1,2 +1,30 @@
-SELECT categories."MMP Status" AS category, COUNT(a."MMP Status") AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "MMP Status" IS NOT NULL AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a."MMP Status") * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "MMP Status" IS NOT NULL AND "TX Curr" = 'Yes' )), 1), '%') END AS percentage FROM (SELECT '< 3 MMP' AS "MMP Status" UNION ALL SELECT '3-5 MMP' UNION ALL SELECT '6+ MMP') AS categories LEFT JOIN (SELECT "MMP Status", "Sex" AS "Sex","Last Care Model", "Tri Pillar Age Group" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "MMP Status" IS NOT NULL) a ON categories."MMP Status" = a."MMP Status" 
-GROUP BY categories."MMP Status" ORDER BY CASE WHEN categories."MMP Status" = '< 3 MMP' THEN 3 WHEN categories."MMP Status" = '3-5 MMP' THEN 2 WHEN categories."MMP Status" = '6+ MMP' THEN 1 END;
+WITH total_count AS (
+    SELECT SUM(CASE WHEN fse."MMP Status" IS NOT NULL AND fse."TX Curr" = 'Yes' THEN 1 ELSE 0 END) AS total 
+    FROM analysis.fact_sentinel_event fse
+)
+SELECT 
+    categories."MMP Status" AS category, 
+    COUNT(a."MMP Status") AS value, 
+    CASE 
+        WHEN total.total = 0 THEN '0%' 
+        ELSE CONCAT(
+            ROUND((COUNT(a."MMP Status") * 100.0 / NULLIF(total.total, 0)), 1), '%'
+        ) 
+    END AS percentage
+FROM 
+    (VALUES ('< 3 MMP'), ('3-5 MMP'), ('6+ MMP')) AS categories("MMP Status")
+LEFT JOIN 
+    analysis.fact_sentinel_event a 
+    ON categories."MMP Status" = a."MMP Status"
+    AND a."TX Curr" = 'Yes'
+    AND a."MMP Status" IS NOT NULL
+CROSS JOIN 
+    total_count total
+GROUP BY 
+    categories."MMP Status", total.total
+ORDER BY 
+    CASE 
+        WHEN categories."MMP Status" = '< 3 MMP' THEN 3 
+        WHEN categories."MMP Status" = '3-5 MMP' THEN 2 
+        WHEN categories."MMP Status" = '6+ MMP' THEN 1 
+    END

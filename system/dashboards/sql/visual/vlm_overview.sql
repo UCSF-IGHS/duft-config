@@ -1,1 +1,35 @@
-SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes') = 0 THEN '0%' ELSE CONCAT(ROUND((COUNT(a.DATA) * 100.0 / (SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes'  )), 1), '%') END AS percentage FROM (SELECT 'Monitored per Guidelines' AS DATA UNION ALL SELECT 'Slightly Delayed' UNION ALL SELECT 'Delayed') AS categories LEFT JOIN (SELECT "Sex" AS "Sex", "Last Care Model", "Tri Pillar Age Group", "Viral Load Eligibility" AS DATA, "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes'   AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed')) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Monitored per Guidelines' THEN 1 WHEN categories.DATA = 'Slightly Delayed' THEN 2 WHEN categories.DATA = 'Delayed' THEN 3 END
+WITH total_count AS (
+    SELECT 
+        SUM(CASE 
+            WHEN fse."Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') 
+            AND fse."TX Curr" = 'Yes' 
+            THEN 1 ELSE 0 
+        END) AS total
+    FROM analysis.fact_sentinel_event fse
+)
+SELECT 
+    categories.DATA AS category, 
+    COUNT(a."Viral Load Eligibility") AS value, 
+    CASE 
+        WHEN total.total = 0 THEN '0%' 
+        ELSE CONCAT(
+            ROUND((COUNT(a."Viral Load Eligibility") * 100.0 / NULLIF(total.total, 0)), 1), '%'
+        ) 
+    END AS percentage
+FROM 
+    (VALUES ('Monitored per Guidelines'), ('Slightly Delayed'), ('Delayed')) AS categories(DATA)
+LEFT JOIN 
+    analysis.fact_sentinel_event a 
+    ON categories.DATA = a."Viral Load Eligibility"
+    AND a."TX Curr" = 'Yes'
+    AND a."Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed')
+CROSS JOIN 
+    total_count total
+GROUP BY 
+    categories.DATA, total.total
+ORDER BY 
+    CASE 
+        WHEN categories.DATA = 'Monitored per Guidelines' THEN 1 
+        WHEN categories.DATA = 'Slightly Delayed' THEN 2 
+        WHEN categories.DATA = 'Delayed' THEN 3 
+    END;
