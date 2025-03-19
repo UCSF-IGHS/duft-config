@@ -2,13 +2,14 @@ SELECT
     [Patient ID],
     [Current Age],
     [Sex],
+    [ART Initiation Date] AS [Date Start ART],
     [Last Visit Date],
     [Last Appointment Date] AS [Missed Appointment Date],
     [Number of Days Prescribed],
     [Last Appointment Documented Status],
     [Now Pregnant/Breastfeeding],
     NULL AS [TB Suspect],
-    [First VL Is Unsuppressed] AS [Has High VL Post EAC]
+    [Last VL Is Unsuppressed] AS [High VL]
 FROM
     duft.fact_duft_sentinel_event
 WHERE
