@@ -1,0 +1,31 @@
+<Dashboards>
+
+    <Datasets>
+        <Dhis2
+            name="dhis2_data"
+            resource="sqlViews/fnmujyKeNkL/data.json"
+            method="GET"
+            pageSize="20"
+            searchColumns="organisation_unit_name, dataelement_name, period_start, period_end"
+        />
+    </Datasets>
+
+    <Dashboard
+        data="dhis2_data"
+        tabName="Faith's DHIS2"
+        title="Vector-Based Disease Surveillance"
+        subTitle="Table of vector control data."
+    >
+        <Grid>
+            <Table
+                data="dhis2_data"
+                exportData="true"
+                header="Vector-Based Disease Surveillance"
+                subHeader="Table of vector control data."
+                variant="plain"
+            >
+            </Table>
+        </Grid>
+    </Dashboard>
+
+</Dashboards>
