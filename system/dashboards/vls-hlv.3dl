@@ -19,7 +19,7 @@
   </Datasets>
   <Grid>
     <SingleLayout>
-      <Header>Unsuppressed: ≥ 1000 copies/ml</Header>
+      <Header>Unsuppressed: &ge; 1000 copies/ml</Header>
       <Table
         data="vls_hlv_delayed"
         exportData="true"
