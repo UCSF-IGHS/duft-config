@@ -389,13 +389,13 @@
 
         <Grid>
             <Row columns="2" largeColumns="2">
-                <PieChart data="vls_all_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="All" />
-                <PieChart data="vls_men_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="Men (20-39)"/>
+                <PieChart data="vls_all_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#2a63c4", "#f3af3d","#ec6240"] }} header="All" />
+                <PieChart data="vls_men_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#2a63c4", "#f3af3d","#ec6240"] }} header="Men (20-39)"/>
             </Row>
 
             <Row columns="2" largeColumns="2">
-                <PieChart data="vls_paed_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="Paediatrics" subHeader="" />
-                <PieChart data="vls_pbfw_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#52b5d5","#f3af3d","#ec6240"] }} header="PBFW" subHeader=""/>
+                <PieChart data="vls_paed_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#2a63c4", "#f3af3d","#ec6240"] }} header="Paediatrics" subHeader="" />
+                <PieChart data="vls_pbfw_data" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#2a63c4", "#f3af3d","#ec6240"] }} header="PBFW" subHeader=""/>
             </Row>
         </Grid>
         
