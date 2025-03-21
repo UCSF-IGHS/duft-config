@@ -3,6 +3,7 @@
         {
             "id": "aphrc",
             "name": "aphrc",
+            "model": "aphrc",
             "description": "Sample model for interacting with wakanda sample dataset",
             "engineURL": "http://localhost:11434/api/generate",
             "maximumTokens": 2022,
@@ -11,6 +12,7 @@
         {
             "id": "llama3.2-open-ai",
             "name": "llama3.2:latest",
+            "model": "llama3.2:latest",
             "description": "Sample model on duft.app with WebUI API endpoint",
             "engineURL": "https://duft-wakanda.globalhealthapp.net/api/chat/completions",
             "maximumTokens": 2022,
@@ -20,6 +22,7 @@
         {
             "id": "codellama",
             "name": "codellama:latest",
+            "model": "codellama:latest",
             "description": "Sample model on duft.app with WebUI API endpoint",
             "engineURL": "https://ask-ai.duft.app/api/generate",
             "maximumTokens": 2022,
@@ -29,6 +32,7 @@
         {
             "id": "codellama:7b",
             "name": "codellama:7b-instruct",
+            "model": "codellama:7b-instruct",
             "description": "Sample model for interacting with wakanda sample dataset",
             "engineURL": "http://localhost:11434/api/generate",
             "maximumTokens": 2048,
