@@ -39,46 +39,34 @@
             </Table>
         </Tile>
 
-        <Tile data="tile_ahd_data" title="AHD Suspects">
+        <Tile data="tile_ahd_no_crag_data" title="AHD Suspects">
             <Table
-                data="ahd_clients_data"
+                data="ahd_no_crag_clients_data"
                 exportData="true"
                 header="AHD Suspect Clients"
                 variant="plain"
                 initialColumns="Patient ID, Current Age, Sex, Last Visit Date, Last CD4 Test Date, Last CD4 Result Date, Last CD4 Result Count, Last CD4 < 200, WHO Stage 3/4 Result"
                 detailsViewColumn="Patient ID"
             >
-                <Table data="ahd_client_details_data" header="Client details" />
+                <Table data="ahd_no_crag_client_details_data" header="Client details" />
             </Table>
 
         </Tile>
 
-        <Tile data="tile_iit_data" title="Clients With IIT (28-90)">
+        <Tile data="tile_confirmed_ahd_no_management_data" title="Confirmed AHD no Management">
             <Table
-                data="iit_clients_data"
+                data="confirmed_ahd_no_management_clients_data"
                 exportData="true"
-                header="Clients With IIT (28-90)"
+                header="Clients with Confirmed AHD and no Management"
                 variant="plain"
+                initialColumns="Patient ID, Current Age, Sex, Last Visit Date, Last CD4 Test Date, Last CD4 Result Date, Last CD4 Result Count, Last CD4 < 200, WHO Stage 3/4 Result"
                 detailsViewColumn="Patient ID"
             >
-                <Table data="iit_client_details_data" header="Client details" />
+                <Table data="confirmed_ahd_no_management_client_details_data" header="Client details" />
             </Table>
+
         </Tile>
 
-    </Row>
-
-    <Row largeColumns="2" columns="2">
-        <PieChart
-            data="pie_iit_data"
-            userOptions={{
-                dataLabels: { enabled: true },
-                stroke: { show: false },
-            }}
-        />
-        <PieChart
-            data="pie_iit_data"
-            userOptions={{ dataLabels: { enabled: true } }}
-        />
     </Row>
 
 </Grid>

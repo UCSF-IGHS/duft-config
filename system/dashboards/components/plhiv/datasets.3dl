@@ -20,19 +20,35 @@
 
             <SQLData name="pie_iit_data" queryName="plhiv/visual/iit_pie" filterFrom="gender" />
 
-        {/* AHD Clients */}
+        {/* AHD Suspect no CrAg Test Clients */}
 
             <SQLData
-                name="ahd_clients_data"
-                queryName="plhiv/table/ahd_clients"
+                name="ahd_no_crag_clients_data"
+                queryName="plhiv/table/ahd_no_crag_clients"
                 pageSize="15"
                 searchColumns="[Patient ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
                 filterFrom="gender"
             />
 
-            <SQLData name="tile_ahd_data" queryName="plhiv/tile/ahd" filterFrom="gender" />
+            <SQLData name="tile_ahd_no_crag_data" queryName="plhiv/tile/ahd_no_crag" filterFrom="gender" />
 
-            <SQLData name="ahd_client_details_data" detailsViewData="ahd_clients_data" detailsViewColumn="Patient ID" transpose="true">
+            <SQLData name="ahd_no_crag_client_details_data" detailsViewData="ahd_no_crag_clients_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            </SQLData>
+
+        {/* Confirmed AHD no Management Clients */}
+
+            <SQLData
+                name="confirmed_ahd_no_management_clients_data"
+                queryName="plhiv/table/confirmed_ahd_no_management_clients"
+                pageSize="15"
+                searchColumns="[Patient ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
+                filterFrom="gender"
+            />
+
+            <SQLData name="tile_confirmed_ahd_no_management_data" queryName="plhiv/tile/confirmed_ahd_no_management" filterFrom="gender" />
+
+            <SQLData name="confirmed_ahd_no_management_client_details_data" detailsViewData="confirmed_ahd_no_management_clients_data" detailsViewColumn="Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
