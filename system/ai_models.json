@@ -21,6 +21,7 @@
         {
             "id": "ChatGPT",
             "name": "gpt-4o-mini",
+            "model": "gpt-4o-mini",
             "description": "Requires an API key",
             "engineURL": "https://api.openai.com/v1/chat/completions",
             "maximumTokens": 2022,
