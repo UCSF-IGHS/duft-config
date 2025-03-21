@@ -2,7 +2,7 @@ SELECT
     [Patient ID],
     [Current Age],
     [Sex],
-    [ART Initiation Date] AS [Date Start ART],
+    [Date Start ART],
     [Last Visit Date],
     [Next Appointment Date],
     [Last VL Test Date],

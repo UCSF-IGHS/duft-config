@@ -2,7 +2,7 @@ SELECT
     [Patient ID],
     [Current Age],
     [Sex],
-    [ART Initiation Date] AS [Date Start ART],
+    [Date Start ART],
     [Last Visit Date],
     [Last Appointment Date] AS [Missed Appointment Date],
     [Number of Days Prescribed],
