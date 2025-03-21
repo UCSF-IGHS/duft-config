@@ -76,44 +76,44 @@
 
     <Dashboard
         data="report_week_data"
-        tabName="E. AHD Suspects"
-        title="AHD Suspect Clients"
-        subTitle="Table of clients who are suspected to have Advanced HIV Disease (AHD)."
+        tabName="E. AHD Suspects no CrAg Test"
+        title="AHD Suspect no CrAg Test Clients"
+        subTitle="Table of clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
         lastRefresh="Report period : %report_week_dates%"
     >
         <Grid>
             <Table
-                data="ahd_clients_data"
+                data="ahd_no_crag_clients_data"
                 exportData="true"
                 header="AHD Suspect Clients"
-                subHeader="Table of clients who are suspected to have Advanced HIV Disease (AHD)."
+                subHeader="Table of clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="ahd_client_details_data" header="Client details" />
+            <Table data="ahd_no_crag_client_details_data" header="Client details" />
             </Table>
       </Grid>
     </Dashboard>
 
-    <Dashboard
+   <Dashboard
         data="report_week_data"
-        tabName="F. IIT"
-        title="Clients with IIT (28-90 Days)"
-        subTitle="Tabular representation of clients who had interruption in treatment."
+        tabName="F. Confirmed AHD no Management"
+        title="Clients with Confirmed AHD and no Management"
+        subTitle="Table of confirmed AHD clients with positive CrAg test and no follow-up for prophylaxis or treatment."
         lastRefresh="Report period : %report_week_dates%"
     >
         <Grid>
             <Table
-                data="iit_clients_data"
+                data="confirmed_ahd_no_management_clients_data"
                 exportData="true"
-                header="Clients with IIT (28-90)"
-                subHeader="Tabular representation of clients who had interruption in treatment."
+                header="Clients with Confirmed AHD and no Management"
+                subHeader="Table of confirmed AHD clients with positive CrAg test and no follow-up for prophylaxis or treatment."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="iit_client_details_data" header="Client details" />
+            <Table data="confirmed_ahd_no_management_client_details_data" header="Client details" />
             </Table>
-      </Grid>
+        </Grid>
     </Dashboard>
 
 </Dashboards>
