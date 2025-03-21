@@ -127,7 +127,7 @@
       filterFrom="gender"
     />
 
-    <OpenMRSData
+    {/* <OpenMRSData
       name="openmrs_data"
       pageSize="20"
       searchColumns="OpenMRSID, name"
@@ -141,7 +141,7 @@
         }}
         adapter="patientsFromAppointments"
       />
-    </OpenMRSData>
+    </OpenMRSData> */}
 
     <SQLData
       pageSize="20"
