@@ -2,22 +2,19 @@ SELECT
     [Patient ID],
     [Current Age],
     [Sex],
+    [Date Start ART],
     [Last Visit Date],
-    [Last CD4 Test Date],
-    [Last CD4 Result Date],
-    [Last CD4 Result Count],
-    [Last CD4 < 200],
-    [WHO Stage 3/4 Result],
-    [WHO Stage 3/4 With No CD4 Test],
-    [AHD Suspect]
+    [Next Appointment Date],
+    [CrAg Test Date],
+    [CrAg Test Results],
+    [Has Cryptococcal Infection],
+    [Has Cryptococcal Meningitis],
+    [CI Received Cryptococcal Prophylaxis],
+    [CM Received Cryptococcal Treatment]
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-(
-    [Last CD4 < 200] = 'Yes'
-OR
-    [WHO Stage 3/4 With No CD4 Test] = 'Yes'
-)
+    [CrAg Test Date] IS NOT NULL
 AND
     [Last Appointment in Previous Week] = 'Yes'
 ORDER BY
