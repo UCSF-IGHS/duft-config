@@ -1,0 +1,13 @@
+{
+    "test": [
+        {
+            "id": "USER",
+            "content": "USER CONF TEST"
+        },
+        {
+            "id": "SYSTEM",
+            "content": "SYSTEM USER CONF TEST",
+            "note": "SHOULD BE IGNORED, SHOULD PICK SYSTEM FROM SYSTEM FILE"
+        }        
+    ]
+}
