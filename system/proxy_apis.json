@@ -1,0 +1,18 @@
+{
+    "proxyAPIs": [
+        {
+            "id": "OpenMRS",
+            "name": "OpenMRS DEMO API",
+            "description": "Runs against the OpenMRS DEMO API",
+            "url": "https://www.openmrs.org/openmrs/ws/rest/v1",
+            "dataConnection": "OPENMRS"
+        },
+        {
+            "id": "HTTPBIN",
+            "name": "HTTP BIN Demo API",
+            "description": "Runs against the OpenMRS DEMO API",
+            "url": "https://httpbin.org",
+            "dataConnection": "HTTPBIN"
+        }        
+    ]
+}
