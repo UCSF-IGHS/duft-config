@@ -21,6 +21,10 @@
             "username": "advanced_dashboard_user",
             "password": "--------"
         },
+        "HTTPBIN": {
+            "username": "user",
+            "password": "pass"
+        },        
         "NDR": {
             "server": "https://www.myndr.com/api/v2",
             "username": "user",

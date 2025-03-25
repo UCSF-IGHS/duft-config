@@ -120,18 +120,13 @@
 					"type":"password",
 					"label":"Password"
 				}			]
-		},	
+		},
 		{
-			"id":"DHIS-SERVER-API",
-			"name":"DHIS Server Location",
-			"description":"The server where remote reports are to be uploaded to.",
-			"allowQueryEngine":"True",
+			"id":"HTTPBIN",
+			"name":"HTTP BIN TEST API",
+			"description":"Used for testing the API Proxy",
+			"allowQueryEngine":"False",
 			"params":[
-				{
-					"name":"serverURL",
-					"type":"text",
-					"label":"The URL of the remote DHIS Server, e.g. your-dhis2-instance.org/api"
-				},				
 				{
 					"name":"username",
 					"type":"text",
@@ -142,6 +137,6 @@
 					"type":"password",
 					"label":"Password"
 				}			]
-		}				
+		}								
 	]
 }
