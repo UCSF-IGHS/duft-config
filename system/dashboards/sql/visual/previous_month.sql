@@ -1,0 +1,1 @@
+SELECT TRIM(TO_CHAR(CAST(last_refresh_date AS DATE) - INTERVAL '1 month', 'Month YYYY')) AS previous_month FROM analysis.dim_last_refresh

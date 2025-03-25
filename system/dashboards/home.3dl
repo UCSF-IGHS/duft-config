@@ -95,6 +95,11 @@
         />
 
         <SQLData
+            name="previous_month"
+            queryName="visual/previous_month"
+        />
+
+        <SQLData
             name="vls_overview_data"
             queryName="visual/vls_overview"
             filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
@@ -290,8 +295,8 @@
             </Row>
 
             <Row columns="2" largeColumns="2">
-                <PieChart data="mmp_adult_tx_curr_prev_data" DataStringQuery="SELECT TRIM(TO_CHAR(CAST(last_refresh_date AS DATE) - INTERVAL '1 month', 'Month YYYY')) AS previous_month FROM analysis.dim_last_refresh" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Adults (%previous_month%)" subHeader="" />
-                <PieChart data="mmp_paed_tx_curr_prev_data" DataStringQuery="SELECT TRIM(TO_CHAR(CAST(last_refresh_date AS DATE) - INTERVAL '1 month', 'Month YYYY')) AS previous_month FROM analysis.dim_last_refresh;" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Paediatrics (%previous_month%)" subHeader=""/>
+                <PieChart data="mmp_adult_tx_curr_prev_data" DataStringQuery="previous_month" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Adults (%previous_month%)" subHeader="" />
+                <PieChart data="mmp_paed_tx_curr_prev_data" DataStringQuery="previous_month" exportData="true" detailsComponent='infinite-scroll-table' userOptions={{ colors:  ["#ed70f8","#f3af3d","#ec6240"] }} header="Paediatrics (%previous_month%)" subHeader=""/>
             </Row>
         </Grid>
         
