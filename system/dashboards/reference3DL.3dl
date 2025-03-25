@@ -4,7 +4,7 @@
 
     <SQLData name="age_group_data" queryName="age_group" />
 
-    <SQLData name="current_date_data" queryName="current_date" />
+    <SQLData name="header_data" queryName="header" />
 
     <SQLData
       name="client_data"
@@ -162,9 +162,9 @@
   </Datasets>
 
   <Dashboard
-    data="current_date_data"
+    data="header_data"
     tabName="Tab 1"
-    title="Dashboard 1"
+    title="%facility_name%"
     subTitle="My Dashboard 1"
     lastRefresh="Last updated on : %today%"
   >
@@ -341,9 +341,9 @@
   </Dashboard>
 
   <Dashboard
-    data="current_date_data"
+    data="header_data"
     tabName="Tab 2"
-    title="Dashboard 2"
+    title="%facility_name%"
     subTitle="My Dashboard 2"
     lastRefresh="Last updated on : %today%"
   >
