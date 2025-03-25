@@ -15,7 +15,7 @@
 
     <Dashboard
         data="dhis2_data"
-        tabName="Faith's DHIS2"
+        tabName="DHIS2"
         title="Vector-Based Disease Surveillance"
         subTitle="Table of vector control data."
     >
