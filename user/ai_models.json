@@ -1,0 +1,13 @@
+{
+    "aiModels": [
+        {
+            "id": "SAMPLE_MODEL",
+            "name": "SAMPLE_MODEL",
+            "model": "SAMPLE_MODEL",
+            "description": "Sample model for interacting with wakanda sample dataset",
+            "engineURL": "http://localhost:11434/api/generate",
+            "maximumTokens": 2022,
+            "engineType": "ollama"
+        }
+    ]
+}
