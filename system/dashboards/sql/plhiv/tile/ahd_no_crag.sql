@@ -9,4 +9,4 @@ OR
     [WHO Stage 3/4 With No CD4 Test] = 'Yes'
 )
 AND
-    [Last Appointment in Previous Week] = 'Yes'
+    [Last Visit in Previous Week] = 'Yes'
