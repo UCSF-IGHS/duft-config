@@ -84,6 +84,22 @@
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
+        {/* CLHIV Nutrition Challeenges */}
+
+            <SQLData
+                name="clhiv_nutrition_clients_data"
+                queryName="plhiv/table/clhiv_nutrition_clients"
+                pageSize="15"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                filterFrom="gender"
+            />
+
+            <SQLData name="tile_clhiv_nutrition_data" queryName="plhiv/tile/clhiv_nutrition" filterFrom="gender" />
+
+            <SQLData name="clhiv_nutrition_client_details_data" detailsViewData="clhiv_nutrition_clients_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            </SQLData>
+
         {/* Clients with Missed Appointments */}
 
             <SQLData
