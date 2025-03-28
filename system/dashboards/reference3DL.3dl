@@ -12,7 +12,7 @@
       queryName="detailed"
       pageSize="15"
       searchColumns="client_id"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -20,7 +20,7 @@
       queryName="tile/new_detailed"
       pageSize="15"
       searchColumns="client_id"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -37,7 +37,7 @@
       queryName="tile/initiated_detailed"
       pageSize="15"
       searchColumns="client_id"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -54,7 +54,7 @@
       queryName="tile/vl_suppressed_detailed"
       pageSize="15"
       searchColumns="client_id"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -71,7 +71,7 @@
       queryName="tile/vl_not_suppressed_detailed"
       pageSize="15"
       searchColumns="client_id"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -83,49 +83,49 @@
       SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
     </SQLData>
 
-    <StaticData name="static_gender_data" filterFrom="gender">
+    <StaticData name="static_gender_data" filterFrom="gender, age_group">
       {[
         { category: "Male", value: 30 },
         { category: "Female", value: 40 },
       ]}
     </StaticData>
 
-    <SQLData name="tile_new_data" queryName="tile/new" filterFrom="gender" />
+    <SQLData name="tile_new_data" queryName="tile/new" filterFrom="gender, age_group" />
 
     <SQLData
       name="tile_initiated_data"
       queryName="tile/initiated"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
       name="tile_suppressed_data"
       queryName="tile/suppressed"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
       name="tile_not_suppressed_data"
       queryName="tile/not_suppressed"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
       name="art_cascade_data"
       queryName="clients/art_cascade"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
       name="art_start_data"
       queryName="clients/art_start"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
       name="regimen_age_group_data"
       queryName="percentage_stack"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     {/* <OpenMRSData
@@ -148,7 +148,7 @@
       pageSize="20"
       name="sentinel_event_data"
       queryName="clients/client_list_all"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
       searchColumns="client_id, emr_identifier"
     />
 

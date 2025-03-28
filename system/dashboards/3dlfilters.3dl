@@ -1,96 +1,97 @@
-<TabSet>
-  <Tab title="Dashboard 1">
-    <Dashboard title="My Dashboard">
-      <Grid>
-        <DashboardLayout>
-          <Row columns="2" smallColumns="1">
-            <Data stateId='genderData'>
-              <Query queryName="gender" />
-            </Data>
-            <Data stateId='ageGroupData'>
-              <Query queryName="five_year_interval" />
-            </Data>
-            <Data>
-              <Query>
-                select strftime('%Y-%m-%d',last_refresh_date) as last_refresh_date, 'Wakanda Hospital' as facility_name FROM last_refresh_date
-              </Query>
-              <Header>
-                <DataString>%facility_name%</DataString>
-              </Header>
-              <Subheader>
-                <DataString>Last updated on: %last_refresh_date%</DataString>
-              </Subheader>
-            </Data>
-            <Filters>
-              <Filter
-                caption="Gender"
-                name="gender"
-                data="genderData"
-              />
-              <Filter
-                caption="Age Group"
-                name="age_group"
-                data="ageGroupData"
-              />
-            </Filters>
-          </Row>
-        </DashboardLayout>
-        <Row>
-          <Dataset query="SELECT gender as category, COUNT(client_id) from dim_client WHERE gender='$gender' OR '$gender'='' GROUP BY gender">
-            <BarChart
-              header="fact_sentinel_event"
-              subHeader="fact sentinel data"
-            />
-          </Dataset>
-          <Dataset query="SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2006 and 2010 GROUP BY year">
-            <LineChart />
-          </Dataset>
-        </Row>
-        <PrefilteredDashboard filters="gender">
-          <Row>
-            <Dataset query="SELECT gender as category, COUNT(client_id) from dim_client WHERE gender='$gender' OR '$gender'='' GROUP BY gender">
-              <BarChart
-                header="fact_sentinel_event"
-                subHeader="fact sentinel data"
-              />
-            </Dataset>
-            <Dataset query="SELECT year AS category, COUNT(first_art_date) AS value FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_first_art_date d ON se.first_art_date=d.full_date WHERE is_currently_on_art=1 AND year BETWEEN 2006 and 2010 GROUP BY year">
-              <LineChart />
-            </Dataset>
-          </Row>
-        </PrefilteredDashboard>
-        {/* <Row>
-          <Dataset query={`WITH all_combinations AS (SELECT DISTINCT r.first_art_regimen,a.ten_year_interval,0 AS tot FROM (SELECT DISTINCT TRIM(ten_year_interval) AS ten_year_interval FROM dim_age_group) a CROSS JOIN (SELECT DISTINCT first_art_regimen FROM fact_sentinel_event) r),actual_results AS (SELECT TRIM(ag.ten_year_interval) AS ten_year_interval,se.first_art_regimen,COUNT(*) AS tot FROM fact_sentinel_event se INNER JOIN dim_client c ON se.client_id=c.client_id INNER JOIN dim_age_group ag ON c.current_age=ag.age GROUP BY ag.ten_year_interval,se.first_art_regimen) SELECT COALESCE(ar.first_art_regimen,ac.first_art_regimen) AS category,COALESCE(SUM(CASE WHEN ar.ten_year_interval='0-9' THEN ar.tot ELSE 0 END),0) AS '0-9',COALESCE(SUM(CASE WHEN ar.ten_year_interval='10-19' THEN ar.tot ELSE 0 END),0) AS '10-19',COALESCE(SUM(CASE WHEN ar.ten_year_interval='20-29' THEN ar.tot ELSE 0 END),0) AS '20-29',COALESCE(SUM(CASE WHEN ar.ten_year_interval='30-39' THEN ar.tot ELSE 0 END),0) AS '30-39',COALESCE(SUM(CASE WHEN ar.ten_year_interval='40-49' THEN ar.tot ELSE 0 END),0) AS '40-49',COALESCE(SUM(CASE WHEN ar.ten_year_interval='50-59' THEN ar.tot ELSE 0 END),0) AS '50-59',COALESCE(SUM(CASE WHEN ar.ten_year_interval='60-69' THEN ar.tot ELSE 0 END),0) AS '60-69',COALESCE(SUM(CASE WHEN ar.ten_year_interval='70+' THEN ar.tot ELSE 0 END),0) AS '70+' FROM all_combinations ac LEFT JOIN actual_results ar ON ar.first_art_regimen=ac.first_art_regimen AND ar.ten_year_interval=ac.ten_year_interval GROUP BY ac.first_art_regimen ORDER BY ac.first_art_regimen;`}>
-            <PercentStackedBarChart />
-          </Dataset>
-        </Row> */}
-        {/* query not working */}
-      </Grid>
-    </Dashboard>
-  </Tab>
-  <Tab title="Clients">
-    <Dashboard title="My Dashboard">
-      <SingleView>
-        <Row>
-          <SingleViewHeader>Clients</SingleViewHeader>
-        </Row>
-        <Filters>
-          <Filter
-            caption="Gender"
-            name="gender"
-            values_query="SELECT DISTINCT gender from dim_client"
-          />
-          <Filter
-            caption="Age Group"
-            name="five_year_interval"
-            values_query="SELECT DISTINCT five_year_interval from dim_age_group"
-          />
-        </Filters>
+<Dashboards>
+  <Datasets>
 
-        <Dataset query="SELECT client_id, birth_date, current_age, gender FROM vw_client WHERE (gender='$gender' OR '$gender'='') AND (five_year_interval='$five_year_interval' OR '$five_year_interval'='') LIMIT 100">
-          <SmartDataTable />
-        </Dataset>
-      </SingleView>
-    </Dashboard>
-  </Tab>
-</TabSet>
+    <SQLData name="gender_data" queryName="gender_raw" />
+
+    <SQLData name="age_group_data" queryName="age_group" />
+
+    <SQLData name="header_data" queryName="header" />
+    <SQLData name="current_month" queryName="current_month" />
+
+    <SQLData
+      name="art_start_data"
+      queryName="clients/art_start"
+      filterFrom="gender, age_group"
+    />
+
+    <SQLData name="clients_by_gender" filterFrom="gender, age_group" queryName="clients/clients_by_gender" />
+
+    <SQLData
+      pageSize="20"
+      name="sentinel_event_data"
+      queryName="clients/client_list_all"
+      filterFrom="gender, age_group"
+      searchColumns="client_id, emr_identifier"
+    />
+
+    <SQLData
+      name="sentinel_event_details_data"
+      detailsViewData="sentinel_event_data"
+      detailsViewColumn="client_id"
+      transpose="true"
+    >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
+
+  </Datasets>
+
+  <Dashboard
+    tabName="Tab 1"
+    data="header_data"
+    title="%facility_name%"
+    lastRefresh="Last updated on : %today%"
+    subTitle="My Dashboard 1"
+  >
+
+    <Filters>
+      <Filter caption="Gender" name="gender" data="gender_data" />
+      <Filter caption="Age Group" name="age_group" data="age_group_data" />
+    </Filters>
+
+    <Grid>
+      <Row largeColumns='2' columns='1'>
+        <BarChart data="clients_by_gender" header='fact_sentinel_event' subHeader='fact sentinel data' detailsComponent='infinite-scroll-table' exportData="true" />
+        <LineChart data="art_start_data" />
+      </Row>
+
+      <Row largeColumns='2' columns='1'>
+        <BarChart data="clients_by_gender" header='fact_sentinel_event' subHeader='fact sentinel data' detailsComponent='infinite-scroll-table' exportData="true" />
+        <LineChart data="art_start_data" />
+      </Row>
+
+    </Grid>
+  </Dashboard>
+
+  <Dashboard
+    tabName="Tab 2"
+    data="header_data"
+    title="%facility_name%"
+    lastRefresh="Last updated on : %today%"
+    subTitle="My Dashboard 2"
+  >
+
+    <Filters>
+      <Filter caption="Gender" name="gender" data="gender_data" />
+      <Filter caption="Age Group" name="age_group" data="age_group_data" />
+    </Filters>
+
+    <Grid>
+      
+      <Row columns="1">
+        <Table
+          data="sentinel_event_data"
+          exportData="true"
+          header="Infinite scroll sample table"
+          subHeader="A table to demo infinite scroll, search, sort, filtering"
+          initialColumns="client_id, birth_date, current_age, gender"
+          detailsViewColumn="client_id"
+        >
+          <Table data="sentinel_event_details_data" />
+        </Table>
+      </Row>
+
+    </Grid>
+  </Dashboard>
+
+
+</Dashboards>

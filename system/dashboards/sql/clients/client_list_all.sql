@@ -1,1 +1,1 @@
-SELECT client_id, birth_date, current_age, emr_identifier, marital_status, gender from dim_client
+SELECT client_id, birth_date, current_age, emr_identifier, marital_status, gender from dim_client c INNER JOIN (select age, TRIM(ten_year_interval) as age_group FROM  dim_age_group) ag ON c.current_age=ag.age

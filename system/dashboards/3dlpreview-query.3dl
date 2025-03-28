@@ -1,13 +1,26 @@
-<Dashboard>
-  <Grid>
-    <Row><Header>Preview query</Header></Row>
-    <Dataset query="SELECT * FROM dim_age_group LIMIT 20">
-      <Row columns='1'>
-        <PreviewQuery />
+<Dashboards>
+  <Datasets>
+    
+    <SQLData name="header_data" queryName="header" />
+    <SQLData name="current_month" queryName="current_month" />
+  </Datasets>
+
+  <Dashboard
+    tabName="Tab 1"
+    data="header_data"
+    title="%facility_name%"
+    lastRefresh="Last updated on : %today%"
+    subTitle="My Dashboard 1"
+  >
+    <Grid>
+    <Row columns='1'>
+        <PreviewQuery  />
       </Row>
-      <Row>
-        <SmartDataTable />
-      </ Row>
-    </Dataset>
-  </Grid>
-</Dashboard>
+
+    </Grid>
+    
+
+  </Dashboard>
+
+</Dashboards>
+
