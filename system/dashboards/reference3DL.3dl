@@ -348,7 +348,7 @@
 
       <Row largeColumns="1" columns="1">
       <CascadeChart
-          header="ART Cascade !!!"
+          header="ART Cascade"
           direction="left"
           cascadeScale="standard"
           cascadeSearchColumn="client_id"
