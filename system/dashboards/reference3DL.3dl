@@ -4,7 +4,8 @@
 
     <SQLData name="age_group_data" queryName="age_group" />
 
-    <SQLData name="current_date_data" queryName="current_date" />
+    <SQLData name="header_data" queryName="header" />
+    <SQLData name="current_month" queryName="current_month" />
 
     <SQLData
       name="client_data"
@@ -127,7 +128,7 @@
       filterFrom="gender"
     />
 
-    <OpenMRSData
+    {/* <OpenMRSData
       name="openmrs_data"
       pageSize="20"
       searchColumns="OpenMRSID, name"
@@ -141,7 +142,7 @@
         }}
         adapter="patientsFromAppointments"
       />
-    </OpenMRSData>
+    </OpenMRSData> */}
 
     <SQLData
       pageSize="20"
@@ -162,9 +163,9 @@
   </Datasets>
 
   <Dashboard
-    data="current_date_data"
+    data="header_data"
     tabName="Tab 1"
-    title="Dashboard 1"
+    title="%facility_name%"
     subTitle="My Dashboard 1"
     lastRefresh="Last updated on : %today%"
   >
@@ -310,6 +311,8 @@
       <Row largeColumns="3" columns="2">
         <PieChart
           data="art_start_data"
+          DataStringQuery="current_month"
+          header="Adults (%current_month%)" 
           userOptions={{
             dataLabels: { enabled: true },
             stroke: { show: false },
@@ -341,9 +344,9 @@
   </Dashboard>
 
   <Dashboard
-    data="current_date_data"
+    data="header_data"
     tabName="Tab 2"
-    title="Dashboard 2"
+    title="%facility_name%"
     subTitle="My Dashboard 2"
     lastRefresh="Last updated on : %today%"
   >

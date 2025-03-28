@@ -120,6 +120,23 @@
 					"type":"password",
 					"label":"Password"
 				}			]
-		}				
+		},
+		{
+			"id":"HTTPBIN",
+			"name":"HTTP BIN TEST API",
+			"description":"Used for testing the API Proxy",
+			"allowQueryEngine":"False",
+			"params":[
+				{
+					"name":"username",
+					"type":"text",
+					"label":"User name"
+				},		
+				{
+					"name":"password",
+					"type":"password",
+					"label":"Password"
+				}			]
+		}								
 	]
 }
