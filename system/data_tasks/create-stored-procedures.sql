@@ -4,7 +4,7 @@ PRINT 'clearing all stored procedures in dbo'
 EXEC dbo.sp_xf_system_drop_all_stored_procedures_in_schema 'dbo' 
 GO
 
-        
+
 -----------------------------------------------------------------------------------------------
 -- sp_xf_system_drop_all_stored_procedures_in_schema
 --
@@ -2540,7 +2540,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_upd
 -- $BEGIN
 
     -------------------------------------------------------
-    -- 'Missing HFR code'
+    
+    --'Missing HFR code'
     -------------------------------------------------------
 
     UPDATE
@@ -2555,7 +2556,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_upd
         AND ds.hub_facility_id IS NULL;
     
     -------------------------------------------------------
-    -- 'Missing Test Name'
+
+    --'Missing Test Name'
     -------------------------------------------------------
 
     UPDATE
@@ -2570,7 +2572,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_upd
         AND ds.test_name NOT IN ('HIVVL','EID');
     
     -------------------------------------------------------
-    -- 'Missing Collected Or Received date'
+
+    --'Missing Collected Or Received date'
     -------------------------------------------------------
 
     UPDATE
@@ -2588,7 +2591,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_upd
         );
 
     -------------------------------------------------------
-    -- 'Earlier Received date than Collected date'
+
+    --'Earlier Received date than Collected date'
     -------------------------------------------------------
 
     UPDATE
@@ -3491,10 +3495,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl
         hvl_wholeblood_dispatched INT NULL,
         days_in_wait_at_the_lab INT NULL,
         days_waited_at_the_lab INT NULL,
-        is_1_week_sample_aging INT NULL,
-        is_2_weeks_sample_aging INT NULL,
-        is_3_weeks_sample_aging INT NULL,
-        is_greater_than_3_weeks_aging INT NULL,
+        is_less_than_or_equal_to_7_days_aging INT NULL,
+        is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging INT NULL,
+        is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging INT NULL,
+        is_greater_than_21_days_aging INT NULL,
         days_between_sample_collected_and_received_date INT NULL,
         sample_collected_and_received_date_in_less_or_equal_5_days INT NULL,
         sample_collected_and_received_date_between_6_to_10_days INT NULL,
@@ -4692,22 +4696,22 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl
 
 	UPDATE fh
         SET
-            fh.is_1_week_sample_aging = 
+            fh.is_less_than_or_equal_to_7_days_aging = 
                 CASE
                     WHEN
-                        fh.days_in_wait_at_the_lab <=7  
+                        fh.days_in_wait_at_the_lab <= 7  
                     THEN 1
                     ELSE 0
                 END,
-			fh.is_2_weeks_sample_aging =
+			fh.is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging =
                 CASE
                     WHEN
-                        fh.days_in_wait_at_the_lab >7
-                        AND fh.days_in_wait_at_the_lab <=14  
+                        fh.days_in_wait_at_the_lab > 7
+                        AND fh.days_in_wait_at_the_lab <= 14  
                     THEN 1
                     ELSE 0
                 END,
-			fh.is_3_weeks_sample_aging = 
+			fh.is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging = 
                 CASE
                     WHEN
                         fh.days_in_wait_at_the_lab > 14 
@@ -4715,7 +4719,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl
                     THEN 1
                     ELSE 0
                 END,
-			fh.is_greater_than_3_weeks_aging = 
+			fh.is_greater_than_21_days_aging = 
                 CASE
                     WHEN
                         fh.days_in_wait_at_the_lab > 21 
@@ -5629,10 +5633,10 @@ CREATE TABLE derived.fact_daily_eid_sample_status(
     sample_received_and_tested_date_greater_than_15_days INT NULL,
     days_in_wait_at_the_lab INT NULL,
     days_waited_at_the_lab INT NULL,
-    is_1_week_sample_aging INT NULL,
-    is_2_weeks_sample_aging INT NULL,
-    is_3_weeks_sample_aging INT NULL,
-    is_greater_than_3_weeks_aging INT NULL
+    is_less_than_or_equal_to_7_days_aging INT NULL,
+    is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging INT NULL,
+    is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging INT NULL,
+    is_greater_than_21_days_aging INT NULL
 );
 
 ALTER TABLE derived.fact_daily_eid_sample_status ADD CONSTRAINT fk_derived_fact_daily_eid_sample_status FOREIGN KEY (sample_id) REFERENCES derived.dim_sample(sample_id);
@@ -7236,66 +7240,51 @@ GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_1_week_sample_aging
+-- sp_fact_daily_eid_sample_status_update_sample_aging
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_1_week_sample_aging'
+PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_aging'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_1_week_sample_aging AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_aging AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_1_week_sample_aging';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_aging';
 
 -- $BEGIN
 
-    UPDATE fe
+	UPDATE fe
         SET
-            fe.is_1_week_sample_aging = 
-            CASE
-                WHEN
-                    days_in_wait_at_the_lab <=7  
-                THEN 1
-                ELSE 0
-            END
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-     WHERE
-        fe.days_in_wait_at_the_lab IS NOT NULL
-        AND fe.is_tested_on_report_date = 1
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_1_week_sample_aging';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_2_weeks_sample_aging
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_2_weeks_sample_aging'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_2_weeks_sample_aging AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_2_weeks_sample_aging';
-
--- $BEGIN
-
-    UPDATE fe
-        SET
-            fe.is_2_weeks_sample_aging = 
-            CASE
-                WHEN
-                    days_in_wait_at_the_lab >7
-                    AND  days_in_wait_at_the_lab <=14 
-                THEN 1
-                ELSE 0
-            END
+            fe.is_less_than_or_equal_to_7_days_aging = 
+                CASE
+                    WHEN
+                        fe.days_in_wait_at_the_lab <=7  
+                    THEN 1
+                    ELSE 0
+                END,
+			fe.is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging =
+                CASE
+                    WHEN
+                        fe.days_in_wait_at_the_lab >7
+                        AND fe.days_in_wait_at_the_lab <=14  
+                    THEN 1
+                    ELSE 0
+                END,
+			fe.is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging = 
+                CASE
+                    WHEN
+                        fe.days_in_wait_at_the_lab > 14 
+                        AND fe.days_in_wait_at_the_lab <= 21 
+                    THEN 1
+                    ELSE 0
+                END,
+			fe.is_greater_than_21_days_aging = 
+                CASE
+                    WHEN
+                        fe.days_in_wait_at_the_lab > 21 
+                    THEN 1
+                    ELSE 0
+                END
     FROM
         [derived].fact_daily_eid_sample_status fe
     WHERE
@@ -7304,82 +7293,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_2_weeks_sample_aging';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_3_weeks_sample_aging
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_3_weeks_sample_aging'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_3_weeks_sample_aging AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_3_weeks_sample_aging';
-
--- $BEGIN
-
-    UPDATE fe
-        SET
-            fe.is_3_weeks_sample_aging = 
-            CASE
-                WHEN
-                    fe.days_in_wait_at_the_lab > 14 
-                    AND fe.days_in_wait_at_the_lab <= 21 
-                THEN 1
-                ELSE 0
-            END
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-     WHERE
-        fe.days_in_wait_at_the_lab IS NOT NULL
-        AND fe.is_tested_on_report_date = 1
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_3_weeks_sample_aging';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_greater_than_3_weeks_aging
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_greater_than_3_weeks_aging'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_greater_than_3_weeks_aging AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_greater_than_3_weeks_aging';
-
--- $BEGIN
-
-    UPDATE fe
-        SET
-            fe.is_greater_than_3_weeks_aging = 
-            CASE
-                WHEN
-                    fe.days_in_wait_at_the_lab > 21 
-                THEN 1
-                ELSE 0
-            END
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        fe.days_in_wait_at_the_lab IS NOT NULL
-        AND fe.is_tested_on_report_date = 1
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_greater_than_3_weeks_aging';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_aging';
 
 END
 GO
@@ -7444,10 +7358,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid
     EXEC derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_greater_than_15_days;
     EXEC derived.sp_fact_daily_eid_sample_status_update_days_in_wait_at_the_lab;
     EXEC derived.sp_fact_daily_eid_sample_status_update_days_waited_at_the_lab;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_1_week_sample_aging;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_2_weeks_sample_aging;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_3_weeks_sample_aging;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_greater_than_3_weeks_aging;
+    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_aging;
 
 -- $END
 
@@ -7571,14 +7482,14 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         eid_sample_tested_positive INT NULL DEFAULT 0,
         eid_sample_tested_negative INT NULL DEFAULT 0,
         eid_sample_tested_result_not_detected INT NULL DEFAULT 0,
-        hvl_samples_aging_less_or_equal_1_week INT NULL DEFAULT 0,
-        hvl_samples_aging_less_or_equal_2_week INT NULL DEFAULT 0,
-        hvl_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks INT NULL DEFAULT 0,
-        hvl_samples_aging_greater_than_3_weeks INT NULL DEFAULT 0,
-        eid_samples_aging_less_or_equal_1_week INT NULL DEFAULT 0,
-        eid_samples_aging_less_or_equal_2_week INT NULL DEFAULT 0,
-        eid_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks INT NULL DEFAULT 0,
-        eid_samples_aging_greater_than_3_weeks INT NULL DEFAULT 0,
+        hvl_samples_aging_is_less_than_or_equal_to_7_days INT NULL DEFAULT 0,
+        hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days INT NULL DEFAULT 0,
+        hvl_samples_aging_is_greater_than_14_days_and_less_than_or_equal_to_21_days INT NULL DEFAULT 0,
+        hvl_samples_aging_is_greater_than_21_days INT NULL DEFAULT 0,
+        eid_samples_aging_less_than_or_equal_to_7_days_aging INT NULL DEFAULT 0,
+        eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging INT NULL DEFAULT 0,
+        eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging INT NULL DEFAULT 0,
+        eid_samples_greater_than_21_days_aging INT NULL DEFAULT 0,
         hvl_sample_collected_and_received_date_in_less_or_equal_5_days INT NULL DEFAULT 0,
         hvl_sample_collected_and_received_date_between_6_to_10_days INT NULL DEFAULT 0,
         hvl_sample_collected_and_received_date_between_11_to_15_days INT NULL DEFAULT 0,
@@ -7700,10 +7611,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 			SUM(ISNULL(eid.is_received_by_entry_modality_hub, 0)) AS eid_samples_received_by_entry_modality_hub,
 			SUM(ISNULL(eid.is_received_by_entry_modality_lab, 0)) AS eid_samples_received_by_entry_modality_lab,
 			SUM(ISNULL(eid.is_sample_tested_result_not_detected, 0)) AS eid_sample_tested_result_not_detected,
-			SUM(ISNULL(eid.is_1_week_sample_aging, 0)) AS eid_samples_aging_less_or_equal_1_week,
-			SUM(ISNULL(eid.is_2_weeks_sample_aging, 0)) AS eid_samples_aging_less_or_equal_2_week,
-			SUM(ISNULL(eid.is_greater_than_3_weeks_aging, 0)) AS eid_samples_aging_greater_than_3_weeks,
-			SUM(ISNULL(eid.is_3_weeks_sample_aging, 0)) AS eid_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks,
+			SUM(ISNULL(eid.is_less_than_or_equal_to_7_days_aging, 0)) AS eid_samples_aging_less_than_or_equal_to_7_days_aging,
+			SUM(ISNULL(eid.is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging, 0)) AS eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging,
+			SUM(ISNULL(eid.is_greater_than_21_days_aging, 0)) AS eid_samples_greater_than_21_days_aging,
+			SUM(ISNULL(eid.is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging, 0)) AS eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging,
 			SUM(ISNULL(eid.sample_collected_and_received_date_between_6_to_10_days, 0)) AS eid_sample_collected_and_received_date_between_6_to_10_days,
 			SUM(ISNULL(eid.sample_collected_and_received_date_between_11_to_15_days, 0)) AS eid_sample_collected_and_received_date_between_11_to_15_days,
 			SUM(ISNULL(eid.sample_collected_and_received_date_greater_than_15_days, 0)) AS eid_sample_collected_and_received_date_greater_than_15_days,
@@ -7748,10 +7659,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 		fs.eid_samples_received_by_entry_modality_hub = ISNULL(eid.eid_samples_received_by_entry_modality_hub, 0),
 		fs.eid_samples_received_by_entry_modality_lab = ISNULL(eid.eid_samples_received_by_entry_modality_lab, 0),
 		fs.eid_sample_tested_result_not_detected = ISNULL(eid.eid_sample_tested_result_not_detected, 0),
-		fs.eid_samples_aging_less_or_equal_1_week = ISNULL(eid.eid_samples_aging_less_or_equal_1_week, 0),
-		fs.eid_samples_aging_less_or_equal_2_week = ISNULL(eid.eid_samples_aging_less_or_equal_2_week, 0),
-		fs.eid_samples_aging_greater_than_3_weeks = ISNULL(eid.eid_samples_aging_greater_than_3_weeks, 0),
-		fs.eid_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks = ISNULL(eid.eid_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks, 0),
+		fs.eid_samples_aging_less_than_or_equal_to_7_days_aging = ISNULL(eid.eid_samples_aging_less_than_or_equal_to_7_days_aging, 0),
+		fs.eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging = ISNULL(eid.eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging, 0),
+		fs.eid_samples_greater_than_21_days_aging = ISNULL(eid.eid_samples_greater_than_21_days_aging, 0),
+		fs.eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging = ISNULL(eid.eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging, 0),
 		fs.eid_sample_collected_and_received_date_between_6_to_10_days = ISNULL(eid.eid_sample_collected_and_received_date_between_6_to_10_days, 0),
 		fs.eid_sample_collected_and_received_date_between_11_to_15_days = ISNULL(eid.eid_sample_collected_and_received_date_between_11_to_15_days, 0),
 		fs.eid_sample_collected_and_received_date_greater_than_15_days = ISNULL(eid.eid_sample_collected_and_received_date_greater_than_15_days, 0),
@@ -7828,10 +7739,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 				SUM(ISNULL(hvl.samples_tested_with_results_equal_or_above_1000, 0)) AS hvl_samples_with_results_equal_or_above_1000,
 				SUM(ISNULL(hvl.samples_tested_with_results_less_than_50, 0)) AS hvl_samples_with_results_less_than_50,
 				SUM(ISNULL(hvl.samples_tested_with_results_less_than_1000_or_above_50, 0)) AS hvl_samples_with_results_less_than_1000_or_above_50,
-				SUM(ISNULL(hvl.is_1_week_sample_aging, 0)) AS hvl_samples_aging_less_or_equal_1_week,
-				SUM(ISNULL(hvl.is_2_weeks_sample_aging, 0)) AS hvl_samples_aging_less_or_equal_2_week,
-				SUM(ISNULL(hvl.is_greater_than_3_weeks_aging, 0)) AS hvl_samples_aging_greater_than_3_weeks,
-				SUM(ISNULL(hvl.is_3_weeks_sample_aging, 0)) AS hvl_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks,
+				SUM(ISNULL(hvl.is_less_than_or_equal_to_7_days_aging, 0)) AS hvl_samples_aging_is_less_than_or_equal_to_7_days,
+				SUM(ISNULL(hvl.is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging, 0)) AS hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days,
+				SUM(ISNULL(hvl.is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging, 0)) AS hvl_samples_aging_is_greater_than_14_days_and_less_than_or_equal_to_21_days,
+				SUM(ISNULL(hvl.is_greater_than_21_days_aging, 0)) AS hvl_samples_aging_is_greater_than_21_days,
 				SUM(ISNULL(hvl.sample_collected_and_received_date_between_6_to_10_days, 0)) AS hvl_sample_collected_and_received_date_between_6_to_10_days,
 				SUM(ISNULL(hvl.sample_collected_and_received_date_between_11_to_15_days, 0)) AS hvl_sample_collected_and_received_date_between_11_to_15_days,
 				SUM(ISNULL(hvl.sample_collected_and_received_date_greater_than_15_days, 0)) AS hvl_sample_collected_and_received_date_greater_than_15_days,
@@ -7883,10 +7794,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 		fs.hvl_samples_with_results_equal_or_above_1000 = ISNULL(hvl.hvl_samples_with_results_equal_or_above_1000, 0),
 		fs.hvl_samples_with_results_less_than_50 = ISNULL(hvl.hvl_samples_with_results_less_than_50, 0),
 		fs.hvl_samples_with_results_less_than_1000_or_above_50 = ISNULL(hvl.hvl_samples_with_results_less_than_1000_or_above_50, 0),
-		fs.hvl_samples_aging_less_or_equal_1_week = ISNULL(hvl.hvl_samples_aging_less_or_equal_1_week, 0),
-		fs.hvl_samples_aging_less_or_equal_2_week = ISNULL(hvl.hvl_samples_aging_less_or_equal_2_week, 0),
-		fs.hvl_samples_aging_greater_than_3_weeks = ISNULL(hvl.hvl_samples_aging_greater_than_3_weeks, 0),
-		fs.hvl_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks = ISNULL(hvl.hvl_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks, 0),
+		fs.hvl_samples_aging_is_less_than_or_equal_to_7_days = ISNULL(hvl.hvl_samples_aging_is_less_than_or_equal_to_7_days, 0),
+		fs.hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days = ISNULL(hvl.hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days, 0),
+		fs.hvl_samples_aging_is_greater_than_14_days_and_less_than_or_equal_to_21_days = ISNULL(hvl.hvl_samples_aging_is_greater_than_14_days_and_less_than_or_equal_to_21_days, 0),
+		fs.hvl_samples_aging_is_greater_than_21_days = ISNULL(hvl.hvl_samples_aging_is_greater_than_21_days, 0),
 		fs.hvl_sample_collected_and_received_date_between_6_to_10_days = ISNULL(hvl.hvl_sample_collected_and_received_date_between_6_to_10_days, 0),
 		fs.hvl_sample_collected_and_received_date_between_11_to_15_days = ISNULL(hvl.hvl_sample_collected_and_received_date_between_11_to_15_days, 0),
 		fs.hvl_sample_collected_and_received_date_greater_than_15_days = ISNULL(hvl.hvl_sample_collected_and_received_date_greater_than_15_days, 0),

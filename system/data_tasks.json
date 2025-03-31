@@ -128,7 +128,7 @@
                     "promptUser": false
                 }
             }
-        },        
+        },   
         {
             "id": "LAB-VISUAL-ETL",
             "name": "Lab Visual ETL Transformation Task",
@@ -151,6 +151,48 @@
                     "title": "Sleep Time",
                     "description": "Time to wait between execution steps in seconds.",
                     "defaultValue": 2.0,
+                    "allowOverride": true,
+                    "promptUser": false
+                }
+            }
+        },     
+        {
+            "id": "SAMPLE-NOTEBOOK",
+            "name": "Sample Notebook Task",
+            "description": "A sample notebook that does nothing",
+            "pythonFile": "sample_notebook.ipynb",
+            "hideInUI": true,
+            "dataConnections": [
+                "ANA",
+                "MyOwnConnection"
+            ],
+            "supportedParameters": {
+                "name": {
+                    "title": "Name",
+                    "description": "The name you want to be displayed.",
+                    "defaultValue": "Cersei",
+                    "allowOverride": true,
+                    "promptUser": false
+                },
+                "sleep_time": {
+                    "title": "Sleep Time",
+                    "description": "Time to wait between execution steps in seconds.",
+                    "defaultValue": 0.5,
+                    "allowOverride": true,
+                    "promptUser": false
+                }
+            }
+        },
+        {
+            "id": "SAMPLE-PARAM-NOTEBOOK",
+            "name": "Sample Notebook Task",
+            "description": "A sample notebook that does nothing",
+            "pythonFile": "sample_param_notebook.ipynb",
+            "hideInUI": true,
+            "supportedParameters": {
+                "gender": {
+                    "title": "gender",
+                    "description": "The Gender you want to be displayed.",
                     "allowOverride": true,
                     "promptUser": false
                 }
