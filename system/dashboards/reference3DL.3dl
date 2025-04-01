@@ -196,7 +196,7 @@
           </Table>
         </Tile>
 
-        <Tile data="tile_initiated_data" title="Initiated">
+        <Tile data="tile_initiated_data" title="Initiated" iconType="appointments">
           <Table
             data="initiated_detailed_data"
             exportData="true"

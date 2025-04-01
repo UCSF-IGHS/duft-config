@@ -10,6 +10,43 @@
             searchColumns="organisation_unit_name, dataelement_name, period_start, period_end"
             adapter="dataSetViews"
         />
+        <SQLData
+        name="client_data"
+        queryName="detailed"
+        pageSize="15"
+        searchColumns="client_id"
+        filterFrom="gender"
+        />
+
+        //for tile
+        <SQLData name="tile_new_data" queryName="tile/new" filterFrom="gender" />
+        <SQLData
+        name="new_detailed_data"
+        queryName="tile/new_detailed"
+        pageSize="15"
+        searchColumns="client_id"
+        filterFrom="gender"
+        />
+        <SQLData
+            name="new_detailed_details_data"
+            detailsViewData="new_detailed_data"
+            detailsViewColumn="client_id"
+            transpose="true"
+        >
+        SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+        </SQLData>
+        //
+        
+        <OpenMRS
+        name = "openmrs_data"
+        resource="appointments/search"
+        method="POST"
+        body={{
+          startDate: "2000-01-20T00:00:00.000+0300",
+          endDate: "2025-01-20T23:59:59.999+0300",
+        }}
+        adapter="patientsFromAppointments"
+         />
 
     </Datasets>
 
@@ -19,8 +56,105 @@
         title="Vector-Based Disease Surveillance"
         subTitle="Table of vector control data."
     >
-        <Grid>
+        <Grid>  
             <Table data="dhis2_data" />
+            <Table data = "client_data"/>
+            <Table data = "openmrs_data"/>
+        </Grid>
+    </Dashboard>
+    <Dashboard
+        data="dhis2_data"
+        tabName="Icons"
+        title="Vector-Based Disease Surveillance"
+        subTitle="Table of vector control data."
+    >
+        <Grid>
+            <Row columns="2" largeColumns="4">
+                <Tile data="tile_new_data" title="New Cases" iconType="appointments">
+                        <Table
+                            data="new_detailed_data"
+                            exportData="true"
+                            header="New Cases"
+                            variant="plain"
+                            initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
+                            detailsViewColumn="client_id"
+                        >
+                            <Table data="new_detailed_details_data" />
+                        </Table>
+                    </Tile>
+                    <Tile data="tile_new_data" title="New Cases" iconType="tests">
+                        <Table
+                            data="new_detailed_data"
+                            exportData="true"
+                            header="New Cases"
+                            variant="plain"
+                            initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
+                            detailsViewColumn="client_id"
+                        >
+                            <Table data="new_detailed_details_data" />
+                        </Table>
+                    </Tile>
+                    <Tile data="tile_new_data" title="New Cases" iconType="ribbon">
+                        <Table
+                            data="new_detailed_data"
+                            exportData="true"
+                            header="New Cases"
+                            variant="plain"
+                            initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
+                            detailsViewColumn="client_id"
+                        >
+                            <Table data="new_detailed_details_data" />
+                        </Table>
+                    </Tile>
+                    <Tile data="tile_new_data" title="New Cases" iconType="people">
+                        <Table
+                            data="new_detailed_data"
+                            exportData="true"
+                            header="New Cases"
+                            variant="plain"
+                            initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
+                            detailsViewColumn="client_id"
+                        >
+                            <Table data="new_detailed_details_data" />
+                        </Table>
+                    </Tile>
+                    <Tile data="tile_new_data" title="New Cases" iconType="question">
+                        <Table
+                            data="new_detailed_data"
+                            exportData="true"
+                            header="New Cases"
+                            variant="plain"
+                            initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
+                            detailsViewColumn="client_id"
+                        >
+                            <Table data="new_detailed_details_data" />
+                        </Table>
+                    </Tile>
+                    <Tile data="tile_new_data" title="New Cases" iconType="medicine">
+                        <Table
+                            data="new_detailed_data"
+                            exportData="true"
+                            header="New Cases"
+                            variant="plain"
+                            initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
+                            detailsViewColumn="client_id"
+                        >
+                            <Table data="new_detailed_details_data" />
+                        </Table>
+                    </Tile>
+                    <Tile data="tile_new_data" title="New Cases" iconType="alert">
+                        <Table
+                            data="new_detailed_data"
+                            exportData="true"
+                            header="New Cases"
+                            variant="plain"
+                            initialColumns="client_id,gender, hiv_diagnosis_date,enrolment_date"
+                            detailsViewColumn="client_id"
+                        >
+                            <Table data="new_detailed_details_data" />
+                        </Table>
+                    </Tile>
+            </Row>
         </Grid>
     </Dashboard>
 

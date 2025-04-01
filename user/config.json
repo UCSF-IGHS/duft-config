@@ -24,6 +24,10 @@
         "HTTPBIN": {
             "username": "user",
             "password": "pass"
+        }, 
+        "DHIS2": {
+            "username": "admin",
+            "password": "district"
         },        
         "NDR": {
             "server": "https://www.myndr.com/api/v2",

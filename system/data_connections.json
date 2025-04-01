@@ -137,6 +137,23 @@
 					"type":"password",
 					"label":"Password"
 				}			]
+		},
+		{
+			"id":"DHIS2",
+			"name":"DHIS TEST API",
+			"description":"Used for testing the API Proxy",
+			"allowQueryEngine":"False",
+			"params":[
+				{
+					"name":"username",
+					"type":"text",
+					"label":"User name"
+				},		
+				{
+					"name":"password",
+					"type":"password",
+					"label":"Password"
+				}			]
 		}								
 	]
 }
