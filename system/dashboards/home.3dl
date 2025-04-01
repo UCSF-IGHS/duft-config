@@ -8,9 +8,13 @@
 
         <SQLData
             name="tx_curr_all_data"
-            queryName="tile/tx_curr_all"
-            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
-        />
+            //queryName="tile/tx_curr_all"
+            filterFrom="Sex"
+        >
+            SELECT COUNT(*) AS value 
+FROM analysis.fact_sentinel_event 
+WHERE "TX Curr" = 'Yes' AND ("Sex" = $Sex OR $Sex = '') AND ("Tri Pillar Age Group" = $Tri_Pillar_Age_Group OR $Tri_Pillar_Age_Group = '') AND ("Last Care Model" = $Last_Care_Model OR $Last_Care_Model = '')
+            </SQLData>
 
         <SQLData
             name="tx_curr_paed_all_data"
@@ -27,24 +31,6 @@
         <SQLData
             name="tx_curr_pbfw_all_data"
             queryName="tile/tx_curr_pbfw_all"
-            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
-        />
-
-        <SQLData
-            name="tx_curr_all_data"
-            queryName="tile/tx_curr_all"
-            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
-        />
-
-        <SQLData
-            name="tx_curr_all_data"
-            queryName="tile/tx_curr_all"
-            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
-        />
-
-        <SQLData
-            name="tx_curr_all_data"
-            queryName="tile/tx_curr_all"
             filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
         />
 
@@ -224,8 +210,8 @@
     >
         <Filters>
             <Filter caption="Gender" name="Sex" data="gender_data" />
-            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
-            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+            <Filter caption="Age Group" name="Tri_Pillar_Age_Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last_Care_Model" data="care_model_data" />
         </Filters>
 
         <Grid>
@@ -284,8 +270,8 @@
     >
         <Filters>
             <Filter caption="Gender" name="Sex" data="gender_data" />
-            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
-            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+            <Filter caption="Age Group" name="Tri_Pillar_Age_Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last_Care_Model" data="care_model_data" />
         </Filters>
 
         <Grid>
@@ -311,8 +297,8 @@
     >
         <Filters>
             <Filter caption="Gender" name="Sex" data="gender_data" />
-            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
-            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+            <Filter caption="Age Group" name="Tri_Pillar_Age_Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last_Care_Model" data="care_model_data" />
         </Filters>
 
         <Grid>
@@ -334,8 +320,8 @@
     >
         <Filters>
             <Filter caption="Gender" name="Sex" data="gender_data" />
-            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
-            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+            <Filter caption="Age Group" name="Tri_Pillar_Age_Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last_Care_Model" data="care_model_data" />
         </Filters>
 
         <Grid>
@@ -361,8 +347,8 @@
     >
         <Filters>
             <Filter caption="Gender" name="Sex" data="gender_data" />
-            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
-            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+            <Filter caption="Age Group" name="Tri_Pillar_Age_Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last_Care_Model" data="care_model_data" />
         </Filters>
 
         <Grid>
@@ -388,8 +374,8 @@
     >
         <Filters>
             <Filter caption="Gender" name="Sex" data="gender_data" />
-            <Filter caption="Age Group" name="Tri Pillar Age Group" data="age_group_data" />
-            <Filter caption="Care Model" name="Last Care Model" data="care_model_data" />
+            <Filter caption="Age Group" name="Tri_Pillar_Age_Group" data="age_group_data" />
+            <Filter caption="Care Model" name="Last_Care_Model" data="care_model_data" />
         </Filters>
 
         <Grid>
