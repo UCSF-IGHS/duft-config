@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About DUFT</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200">
+
+    <section id="section-main" class="bg-white dark:bg-gray-900">
+        <div
+            class="flex items-center justify-between top-0 left-0 w-full z-50 text-xl text-highlight font-semibold dark:text-highlight-200 transition border-b">
+            <a href="/dashboard/home">
+                <h1 class="mb-4 text-4xl tracking-tight fa-font-awesome-logo-full text-highlight hover:text-gray-400">
+                    DUFT
+                </h1>
+            </a>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="hover:text-gray-400">Demo</a></li>
+                    <li><a href="https://docs.duft.app/" class="hover:text-gray-400">Documentation</a></li>
+                    <li><a href="https://github.com/UCSF-IGHS/duft-config-wakanda" class="hover:text-gray-400">Get
+                            Started</a></li>
+                    <li><a href="dashboard/3dlsample" class="hover:text-gray-400">About</a></li>
+                    <li><a href="#get-involved" class="hover:text-gray-400"></a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- About Content -->
+        <div class="max-w-screen-lg mx-auto px-6 py-12">
+            <h2
+                class="text-4xl font-bold bg-gradient-to-r from-highlight-600 to-highlight-800 bg-clip-text text-transparent dark:from-highlight-400 dark:to-highlight-200 mb-8">
+                Behind DUFT
+            </h2>
+
+            <div class="space-y-8 text-lg text-gray-700 dark:text-gray-300">
+                <p>
+                    DUFT is developed by the University of California, San Francisco. It is built on a clean, modular
+                    architecture
+                    that separates the backend data engine from the visual frontend and configuration layer. The backend
+                    is written
+                    in Python, making it accessible to data teams already familiar with scripting and Jupyter Notebooks.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+</body>
+
+</html>

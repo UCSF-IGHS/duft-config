@@ -1,22 +1,32 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
 <style>
     html {
         scroll-behavior: smooth;
     }
 
     @keyframes slide {
-        0%, 20% {
+
+        0%,
+        20% {
             transform: translateX(0%);
         }
-        25%, 45% {
+
+        25%,
+        45% {
             transform: translateX(-100%);
         }
-        50%, 70% {
+
+        50%,
+        70% {
             transform: translateX(-200%);
         }
-        75%, 95% {
+
+        75%,
+        95% {
             transform: translateX(-300%);
         }
+
         100% {
             transform: translateX(0%);
         }
@@ -28,646 +38,635 @@
 </style>
 
 <section id="section-main" class="bg-white dark:bg-gray-900 flex justify-center items-center px-8">
-
-    <div class="py-8 mx-auto  w-full ">
-        <div class="flex items-center justify-between top-0 left-0 w-full z-50
-        text-xl text-highlight font-semibold dark:text-highlight-200 transition border-b">
-            <h1 class="mb-4 text-4xl tracking-tight fa-font-awesome-logo-full text-highlight">
-                DUFT
-            </h1>
+    <div class="py-8 mx-auto w-full">
+        <div
+            class="flex items-center justify-between top-0 left-0 w-full z-50 text-xl text-highlight font-semibold dark:text-highlight-200 transition border-b">
+            <a href="/dashboard/home">
+                <h1 class="mb-4 text-4xl tracking-tight fa-font-awesome-logo-full text-highlight hover:text-gray-400">
+                    DUFT
+                </h1>
+            </a>
             <nav>
                 <ul class="flex space-x-6">
                     <li><a href="#" class="hover:text-gray-400">Demo</a></li>
-                    <li><a href="https://docs.duft.app/" target="_blank" class="hover:text-gray-400">Documentation</a></li>
-                    <li><a href="https://github.com/UCSF-IGHS/duft-config-wakanda" target="_blank" class=" hover:text-gray-400">Get Started</a></li>
-                    <li><a href="#get-involved" class="hover:text-gray-400 "></a></li>
+                    <li><a href="https://docs.duft.app/" class="hover:text-gray-400">Documentation</a></li>
+                    <li><a href="https://github.com/UCSF-IGHS/duft-config-wakanda" class="hover:text-gray-400">Get
+                            Started</a></li>
+                    <li><a href="dashboard/3dlsample" class="hover:text-gray-400">About</a></li>
+                    <li><a href="#get-involved" class="hover:text-gray-400"></a></li>
                 </ul>
             </nav>
         </div>
-        <div class="flex justify-center mb-8 p-12">
-            <img src="{baseurl}/config/duft.png" alt="DUFT Logo" class="w-[100px] h-[100px]"/>
+
+        <!-- Hero Section -->
+        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:grid-cols-12">
+            <div class="mr-auto place-self-center lg:col-span-7">
+                <h1
+                    class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight md:text-5xl xl:text-6xl dark:text-white">
+                    Welcome to DUFT</h1>
+                <p class="max-w-2xl mb-6 text-gray-500 lg:text-xl dark:text-gray-400">
+                    The Data Use Facilitation Tool - Transform, visualize and use your data with ease.</p>
+                <div class="space-x-4">
+                    <a href="https://github.com/UCSF-IGHS/duft-config-wakanda"
+                        class="inline-flex items-center px-5 py-3 text-white bg-highlight-600 rounded-lg hover:bg-highlight-700">
+                        Get started
+                        <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="https://demo.duft.app/"
+                        class="inline-flex items-center px-5 py-3 text-gray-900 border rounded-lg hover:bg-gray-100 dark:text-white">
+                        Demo
+                    </a>
+                </div>
+            </div>
+            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+                <img src="{baseurl}/config/duft.png" alt="DUFT mockup">
+            </div>
         </div>
-        <div class="max-w-screen-md mb-8 lg:mb-16 mx-auto text-center">
-            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-highlight">
-                Welcome to DUFT. The Data Use Facilitation Tool.
-            </h2>
-            <p class="font-light text-gray-500 dark:text-gray-400 sm:text-xl">
-                The easiest way to transform, visualise and use your data. Now
-                available.
-            </p>
-            <a href="https://github.com/UCSF-IGHS/duft-config-wakanda" target="_blank" >
-                <button
-                        class="mt-6 px-6 py-3 bg-gray-50 dark:bg-gray-600 dark:text-highlight-100 text-gray-900 border rounded-2xl hover:bg-highlight-300 transition">
-                    Get Started
-                </button>
-            </a>
-             <a href="https://demo.duft.app/" target="_blank">
-                <button
-                        class="mt-6 px-6 py-3 bg-gray-50 dark:bg-gray-600 dark:text-highlight-100 text-gray-900 border rounded-2xl hover:bg-highlight-300 transition">
-                    Demo
-                </button>
-            </a>
-        </div>
-        What DUFT can do
-        <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 xl:gap-12 md:space-y-0">
-            <a href="#section-transformation">
-                <div class="bg-pink-50 p-6 rounded-2xl shadow-lg transition transform hover:scale-105 hover:bg-pink-300 dark:bg-highlight-900 ">
+
+        <!-- Feature Cards -->
+        <div class="grid grid-cols-1 gap-6 px-4 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+            <!-- Data Transformation Card -->
+            <div class="group">
+                <div
+                    class="relative h-full p-6 bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 hover:border-highlight-600 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-highlight-500">
                     <div
-                            class="flex justify-center items-center mb-4 w-10 h-10 bg-primary-100 rounded dark:bg-primary-900 lg:h-16 lg:w-16"
-                    >
-                        <svg
-                                class="w-5 h-5 text-primary-600 dark:text-primary-300 lg:w-8 lg:h-8"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                    fill-rule="evenodd"
-                                    d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"
-                            ></path>
+                        class="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-highlight-100 dark:bg-highlight-900">
+                        <svg class="w-8 h-8 text-highlight-600 dark:text-highlight-300" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                            </path>
                         </svg>
                     </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white text-gray-900">
-                        Data Transformation
-                    </h3>
-                    <ul role="list" class="my-6 lg:mb-0 space-y-4">
-                        <li class="flex space-x-2.5">
-                            <!-- Icon -->
-                            <svg
-                                    class="flex-shrink-0 w-5 h-5 text-primary-600 dark:text-primary-500"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                        fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd"
-                                ></path>
+                    <h3 class="mb-3 text-xl font-bold text-gray-900 dark:text-white">Data Transformation</h3>
+                    <ul class="space-y-3 text-gray-500 dark:text-gray-400">
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <span class="leading-tight text-gray-500 dark:text-gray-400"
-                            >Combine multiple Data Sources</span
-                            >
+                            <span>EMR Data Extraction</span>
                         </li>
-                        <li class="flex space-x-2.5">
-                            <!-- Icon -->
-                            <svg
-                                    class="flex-shrink-0 w-5 h-5 text-primary-600 dark:text-primary-500"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                        fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd"
-                                ></path>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <span class="leading-tight text-gray-500 dark:text-gray-400"
-                            >Scripts or Jupyter Notebooks</span
-                            >
+                            <span>Python & Jupyter Integration</span>
                         </li>
-                        <li class="flex space-x-2.5">
-                            <!-- Icon -->
-                            <svg
-                                    class="flex-shrink-0 w-5 h-5 text-primary-600 dark:text-primary-500"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                        fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd"
-                                ></path>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <span class="leading-tight text-gray-500 dark:text-gray-400"
-                            >Works with any Python compatible database</span
-                            >
-                        </li>
-                        <li class="flex space-x-2.5">
-                            <!-- Icon -->
-                            <svg
-                                    class="flex-shrink-0 w-5 h-5 text-primary-600 dark:text-primary-500"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                        fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd"
-                                ></path>
-                            </svg>
-                            <span class="leading-tight text-gray-500 dark:text-gray-400"
-                            >Scheduled ETL jobs</span
-                            >
-                        </li>
-                        <li class="flex space-x-2.5">
-                            <!-- Icon -->
-                            <svg
-                                    class="flex-shrink-0 w-5 h-5 text-primary-600 dark:text-primary-500"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                        fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd"
-                                ></path>
-                            </svg>
-                            <span class="leading-tight text-gray-500 dark:text-gray-400"
-                            >Central Data Repository Uploads</span
-                            >
+                            <span>Automated ETL Pipelines</span>
                         </li>
                     </ul>
                 </div>
-            </a>
-            <div>
-                <a href="#section-visualizations">
-                    <div class="bg-pink-50 p-6 rounded-2xl shadow-lg transition transform hover:scale-105 hover:bg-pink-300 dark:bg-highlight-900 ">
-                        <div
-                                class="flex justify-center items-center mb-4 w-10 h-10 bg-purple-100 rounded dark:bg-purple-900 lg:h-16 lg:w-16"
-                        >
-                            <svg
-                                    class="w-5 h-5 text-purple-600 dark:text-purple-300 lg:w-8 lg:h-8"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                        d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"
-                                ></path>
-                            </svg>
-                        </div>
-                        <h3 class="mb-2 text-xl font-bold dark:text-white text-gray-900">
-                            Powerful Visualisations
-                        </h3>
-                        <ul role="list" class="my-6 lg:mb-0 space-y-4">
-                            <li class="flex space-x-2.5">
-                                <!-- Icon -->
-                                <svg
-                                        class="flex-shrink-0 w-5 h-5 text-purple-600 dark:text-purple-500"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                            fill-rule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                            clip-rule="evenodd"
-                                    ></path>
-                                </svg>
-                                <span class="leading-tight text-gray-500 dark:text-gray-400"
-                                >Easily build Custom Dashboards</span
-                                >
-                            </li>
-                            <li class="flex space-x-2.5">
-                                <!-- Icon -->
-                                <svg
-                                        class="flex-shrink-0 w-5 h-5 text-purple-600 dark:text-purple-500"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                            fill-rule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                            clip-rule="evenodd"
-                                    ></path>
-                                </svg>
-                                <span class="leading-tight text-gray-500 dark:text-gray-400"
-                                >Industry-based APEX Charts</span
-                                >
-                            </li>
-                            <li class="flex space-x-2.5">
-                                <!-- Icon -->
-                                <svg
-                                        class="flex-shrink-0 w-5 h-5 text-purple-600 dark:text-purple-500"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                            fill-rule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                            clip-rule="evenodd"
-                                    ></path>
-                                </svg>
-                                <span class="leading-tight text-gray-500 dark:text-gray-400"
-                                >Easy to deploy to health facilities</span
-                                >
-                            </li>
-                            <li class="flex space-x-2.5">
-                                <!-- Icon -->
-                                <svg
-                                        class="flex-shrink-0 w-5 h-5 text-purple-600 dark:text-purple-500"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                            fill-rule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                            clip-rule="evenodd"
-                                    ></path>
-                                </svg>
-                                <span class="leading-tight text-gray-500 dark:text-gray-400"
-                                >Filters, Searching and Data Exports</span
-                                >
-                            </li>
-                            <li class="flex space-x-2.5">
-                                <!-- Icon -->
-                                <svg
-                                        class="flex-shrink-0 w-5 h-5 text-purple-600 dark:text-purple-500"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                            fill-rule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                            clip-rule="evenodd"
-                                    ></path>
-                                </svg>
-                                <span class="leading-tight text-gray-500 dark:text-gray-400"
-                                >Fully Customisable Layout</span
-                                >
-                            </li>
-                        </ul>
+            </div>
+
+            <!-- EMR Reporting Card -->
+            <div class="group">
+                <div
+                    class="relative h-full p-6 bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 hover:border-highlight-600 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-highlight-500">
+                    <div
+                        class="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-highlight-100 dark:bg-highlight-900">
+                        <svg class="w-8 h-8 text-highlight-600 dark:text-highlight-300" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                            </path>
+                        </svg>
                     </div>
+                    <h3 class="mb-3 text-xl font-bold text-gray-900 dark:text-white">EMR Reporting</h3>
+                    <ul class="space-y-3 text-gray-500 dark:text-gray-400">
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Easy-to-Use Data Reports</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Longitudinal Data Analysis</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>No EMR Modifications Needed</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Remote Facility Management Card -->
+            <div class="group">
+                <div
+                    class="relative h-full p-6 bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 hover:border-highlight-600 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-highlight-500">
+                    <div
+                        class="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-highlight-100 dark:bg-highlight-900">
+                        <svg class="w-8 h-8 text-highlight-600 dark:text-highlight-300" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="mb-3 text-xl font-bold text-gray-900 dark:text-white">Remote Facility Updates</h3>
+                    <ul class="space-y-3 text-gray-500 dark:text-gray-400">
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Add New Charts Remotely</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Fix Bugs Without Travel</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Central Team Management</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- AI Insights Card -->
+            <div class="group">
+                <div
+                    class="relative h-full p-6 bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 hover:border-highlight-600 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-highlight-500">
+                    <div
+                        class="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-highlight-100 dark:bg-highlight-900">
+                        <svg class="w-8 h-8 text-highlight-600 dark:text-highlight-300" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="mb-3 text-xl font-bold text-gray-900 dark:text-white">AI-Powered Insights</h3>
+                    <ul class="space-y-3 text-gray-500 dark:text-gray-400">
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Anomaly Detection</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Data Summarization</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Trend Analysis</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Data Integration Card -->
+            <div class="group">
+                <div
+                    class="relative h-full p-6 bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 hover:border-highlight-600 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-highlight-500">
+                    <div
+                        class="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-highlight-100 dark:bg-highlight-900">
+                        <svg class="w-8 h-8 text-highlight-600 dark:text-highlight-300" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="mb-3 text-xl font-bold text-gray-900 dark:text-white">Data Integration</h3>
+                    <ul class="space-y-3 text-gray-500 dark:text-gray-400">
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Multiple Data Sources</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Custom Integration Scripts</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Holistic Data Analysis</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Dashboard Building Card -->
+            <div class="group">
+                <div
+                    class="relative h-full p-6 bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 hover:border-highlight-600 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-highlight-500">
+                    <div
+                        class="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-highlight-100 dark:bg-highlight-900">
+                        <svg class="w-8 h-8 text-highlight-600 dark:text-highlight-300" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="mb-3 text-xl font-bold text-gray-900 dark:text-white">Dashboard Building</h3>
+                    <ul class="space-y-3 text-gray-500 dark:text-gray-400">
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>HTML-Like Language</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Attractive User Interfaces</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-highlight-600 dark:text-highlight-400" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Remote Dashboard Updates</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Transformation Section -->
+<section id='section-transformation'
+    class="bg-gradient-to-br from-white to-highlight-50 dark:from-gray-900 dark:to-gray-800 py-12">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="md:w-1/2 p-8">
+                <div class="relative group">
+                    <img src="{baseurl}/config/transform_placeholder.jpg" alt="Transformations Image"
+                        class="rounded-xl shadow-2xl transition-transform duration-300 group-hover:scale-105">
+                    <div
+                        class="absolute inset-0 bg-highlight-600 opacity-0 group-hover:opacity-10 rounded-xl transition-opacity duration-300">
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:w-1/2 p-8 space-y-6">
+                <h2
+                    class="text-4xl font-bold bg-gradient-to-r from-highlight-600 to-highlight-800 bg-clip-text text-transparent dark:from-highlight-400 dark:to-highlight-200">
+                    Data Transformation Engine
+                </h2>
+                <p class="text-lg text-gray-700 dark:text-gray-200 leading-relaxed">
+                    At its core, DUFT supports powerful <span
+                        class="font-semibold text-highlight-700 dark:text-highlight-400">Python-based data
+                        transformation</span> pipelines.
+                    Whether you're cleaning data from an OpenMRS instance or <span
+                        class="font-semibold text-highlight-700 dark:text-highlight-400">merging multiple sources</span>
+                    into a central repository, DUFT enables you to write transformations as scripts or
+                    Jupyter Notebooks and schedule them as ETL jobs.
+                </p>
+                <p class="text-lg text-gray-700 dark:text-gray-200 leading-relaxed">
+                    These jobs can <span class="font-semibold text-highlight-700 dark:text-highlight-400">pull data from
+                        local or remote systems</span>, transform it according to business rules,
+                    and <span class="font-semibold text-highlight-700 dark:text-highlight-400">upload it into a
+                        centralised repository</span> or national data warehouse.
+                </p>
+                <div class="flex gap-4 mt-8">
+                    <a href="#section-main"
+                        class="inline-flex items-center px-6 py-3 bg-highlight-600 text-white font-semibold rounded-lg shadow-lg hover:bg-highlight-700 transition-all duration-300 dark:bg-highlight-700 dark:hover:bg-highlight-800">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 11l5-5m0 0l5 5m-5-5v12">
+                            </path>
+                        </svg>
+                        Back to Top
+                    </a>
+                    <a href="https://docs.duft.app/transformation"
+                        class="inline-flex items-center px-6 py-3 border border-highlight-600 text-highlight-600 font-semibold rounded-lg hover:bg-highlight-50 transition-all duration-300 dark:border-highlight-400 dark:text-highlight-400 dark:hover:bg-highlight-900">
+                        Learn More
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Visualizations Section -->
+<section id='section-visualizations'
+    class="bg-gradient-to-br from-gray-50 to-highlight-50 dark:from-gray-900 dark:to-gray-800 py-12">
+    <div class="container mx-auto px-4">
+        <!-- Slider Container -->
+        <div class="relative overflow-hidden rounded-2xl shadow-2xl mb-12 bg-white dark:bg-gray-800 h-[500px]">
+            <div class="absolute inset-0 flex slider">
+                <!-- Dashboard Images -->
+                <div class="w-full h-full flex-shrink-0">
+                    <img src="{baseurl}/config/dashboard_1.jpg" alt="Dashboard 1" class="w-full h-full object-cover">
+                </div>
+                <div class="w-full h-full flex-shrink-0">
+                    <img src="{baseurl}/config/dashboard_2.jpg" alt="Dashboard 2" class="w-full h-full object-cover">
+                </div>
+                <div class="w-full h-full flex-shrink-0">
+                    <img src="{baseurl}/config/dashboard_3.jpg" alt="Dashboard 3" class="w-full h-full object-cover">
+                </div>
+                <div class="w-full h-full flex-shrink-0">
+                    <img src="{baseurl}/config/dashboard_4.jpg" alt="Dashboard 4" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="max-w-4xl mx-auto text-center space-y-8">
+            <h2
+                class="text-4xl font-bold bg-gradient-to-r from-highlight-600 to-highlight-800 bg-clip-text text-transparent dark:from-highlight-400 dark:to-highlight-200">
+                Discover Insights and Turn Them Into Knowledge
+            </h2>
+            <div class="space-y-6">
+                <p class="text-lg text-gray-700 dark:text-gray-200 leading-relaxed">
+                    DUFT makes it <span class="font-semibold text-highlight-700 dark:text-highlight-400">easy to
+                        build custom dashboards</span> tailored to programme and facility needs. Using modern,
+                    industry-grade charting libraries like ApexCharts, dashboards can include filters, search
+                    functions, data exports, and <span
+                        class="font-semibold text-highlight-700 dark:text-highlight-400">layout customisation
+                        with minimal setup</span>.
+                </p>
+                <p class="text-lg text-gray-700 dark:text-gray-200 leading-relaxed">
+                    Designed to be deployed both in central servers and at health facility level, DUFT enables
+                    <span class="font-semibold text-highlight-700 dark:text-highlight-400">data use at the point
+                        of care</span> while also supporting strategic-level <span
+                        class="font-semibold text-highlight-700 dark:text-highlight-400">visualisations for
+                        national programmes</span>.
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-center gap-4 mt-8">
+                <a href="#section-main"
+                    class="inline-flex items-center px-6 py-3 bg-highlight-600 text-white font-semibold rounded-lg shadow-lg hover:bg-highlight-700 transition-all duration-300 dark:bg-highlight-700 dark:hover:bg-highlight-800">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                    </svg>
+                    Back to Top
+                </a>
+                <a href="https://demo.duft.app"
+                    class="inline-flex items-center px-6 py-3 border border-highlight-600 text-highlight-600 font-semibold rounded-lg hover:bg-highlight-50 transition-all duration-300 dark:border-highlight-400 dark:text-highlight-400 dark:hover:bg-highlight-900">
+                    Try Demo
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
                 </a>
             </div>
-            <a href="#section-enterprise">
-                <div class="bg-pink-50 p-6 rounded-2xl shadow-lg transition transform hover:scale-105 hover:bg-pink-300 dark:bg-highlight-900 ">
-                    <div
-                            class="flex justify-center items-center mb-4 w-10 h-10 bg-teal-100 rounded dark:bg-teal-900 lg:h-16 lg:w-16"
-                    >
-                        <svg
-                                class="w-5 h-5 text-teal-600 dark:text-teal-300 lg:w-8 lg:h-8"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                    fill-rule="evenodd"
-                                    d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
-                                    clip-rule="evenodd"
-                            ></path>
-                            <path
-                                    d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"
-                            ></path>
-                        </svg>
-                    </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white text-gray-900">
-                        Enterprise Features
-                    </h3>
-                    <ul role="list" class="my-6 lg:mb-0 space-y-4">
-                        <li class="flex space-x-2.5">
-                            <!-- Icon -->
-                            <svg
-                                    class="flex-shrink-0 w-5 h-5 text-teal-500 dark:text-teal-400"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                        fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd"
-                                ></path>
-                            </svg>
-                            <span class="leading-tight text-gray-500 dark:text-gray-400"
-                            >Scheduled Data Transformations</span
-                            >
-                        </li>
-                        <li class="flex space-x-2.5">
-                            <!-- Icon -->
-                            <svg
-                                    class="flex-shrink-0 w-5 h-5 text-teal-500 dark:text-teal-400"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                        fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd"
-                                ></path>
-                            </svg>
-                            <span class="leading-tight text-gray-500 dark:text-gray-400"
-                            >User Authenticationa and Roles</span
-                            >
-                        </li>
-                        <li class="flex space-x-2.5">
-                            <!-- Icon -->
-                            <svg
-                                    class="flex-shrink-0 w-5 h-5 text-teal-500 dark:text-teal-400"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                        fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd"
-                                ></path>
-                            </svg>
-                            <span class="leading-tight text-gray-500 dark:text-gray-400"
-                            >Easy Remote Deployments and Updates</span
-                            >
-                        </li>
-                        <li class="flex space-x-2.5">
-                            <!-- Icon -->
-                            <svg
-                                    class="flex-shrink-0 w-5 h-5 text-teal-500 dark:text-teal-400"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                        fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd"
-                                ></path>
-                            </svg>
-                            <span class="leading-tight text-gray-500 dark:text-gray-400"
-                            >Use AI to Help Understand Data</span
-                            >
-                        </li>
-                        <li class="flex space-x-2.5">
-                            <!-- Icon -->
-                            <svg
-                                    class="flex-shrink-0 w-5 h-5 text-teal-500 dark:text-teal-400"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                        fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd"
-                                ></path>
-                            </svg>
-                            <span class="leading-tight text-gray-500 dark:text-gray-400"
-                            >Fun</span
-                            >
-                        </li>
-                    </ul>
-                </div>
-            </a>
         </div>
     </div>
 </section>
 
-
-<div id="floating-navbar"
-     class="sticky top-0   px-6 z-50 bg-white dark:bg-gray-900  text-xl text-highlight font-semibold dark:text-highlight-200 transition">
-    <nav class="flex justify-center space-x-6 border-b py-8 ">
-        <ul class="flex space-x-6">
-            <li><a href="#section-main" class="hover:text-gray-400">Home</a></li>
-            <li><a href="#section-transformation" class="hover:text-gray-400 ">Data Transformation</a></li>
-            <li><a href="#section-visualizations" class="hover:text-gray-400 ">Powerful visualizations</a></li>
-            <li><a href="#section-enterprise" class="hover:text-gray-400 ">Enterprise Features</a></li>
-            <li><a href="#section-testimonials" class="hover:text-gray-400">Testimonials</a></li>
-            <li><a href="#resources" class=" hover:text-gray-400">Resources</a></li>
-            <li><a href="#get-involved" class="hover:text-gray-400 ">Get Involved</a></li>
-
-        </ul>
-    </nav>
-</div>
-<section id='section-transformation'
-         class="h-screen flex flex-col md:flex-row justify-between items-center text-center p-10 dark:bg-gray-900 ">
-
-    <div class="md:w-1/2 p-5">
-        <img src="{baseurl}/config/transform_placeholder.jpg" alt="Transformations Image" class="rounded-lg shadow-lg">
-    </div>
-
-    <div class="md:w-1/2 p-5 text-center md:text-left">
-        <h2 class="text-3xl font-semibold text-gray-700 dark:text-pink-200">
-            Data Transformation Engine
-        </h2>
-        <p class="mt-4 text-lg  text-gray-700 dark:text-pink-200">
-            At its core, DUFT supports powerful <b>Python-based data transformation</b> pipelines.
-            Whether you're cleaning data from an OpenMRS instance or <b>merging multiple sources</b>
-            into a central repository, DUFT enables you to write transformations as scripts or
-            Jupyter Notebooks and schedule them as ETL jobs. These jobs can <b>pull data from
-            local or remote systems</b>, transform it according to business rules,
-            and <b>upload it into a centralised repository</b> or national data warehouse.
-            Its compatibility with any Python-supported database makes it a highly versatile
-            option for varied use cases—from local clinics to national-scale data systems.
-
-        </p>
-        <div class="mb-10 flex gap-4">
-            <a href="#section-main"
-               class="mt-6 px-6 py-3 bg-white text-gray-900 dark:bg-gray-600 dark:text-highlight-100 font-semibold rounded-full shadow-md hover:bg-pink-300 transition">Back
-                to Top</a>
-        </div>
-    </div>
-
-
-</section>
-<section id='section-visualizations'
-         class="h-screen flex flex-col justify-center items-center text-center p-10 bg-white  dark:bg-gray-800 rounded-2xl shadow-lg">
-    <div class="relative overflow-hidden w-full h-full ">
-        <div class="absolute inset-0 flex slider">
-            <div class="w-full h-full flex-shrink-0">
-                <img src="{baseurl}/config/dashboard_1.jpg" alt="Image 1" class="w-full h-full object-cover">
-            </div>
-            <div class="w-full h-full flex-shrink-0">
-                <img src="{baseurl}/config/dashboard_2.jpg" alt="Image 2" class="w-full h-full object-cover">
-            </div>
-            <div class="w-full h-full flex-shrink-0">
-                <img src="{baseurl}/config/dashboard_3.jpg" alt="Image 3" class="w-full h-full object-cover">
-            </div>
-            <div class="w-full h-full flex-shrink-0">
-                <img src="{baseurl}/config/dashboard_4.jpg" alt="Image 4" class="w-full h-full object-cover">
-            </div>
-        </div>
-    </div>
-
-    <!-- Static Text Section -->
-    <div class="container mx-auto px-4 py-8 text-center">
-        <h2 class="text-3xl font-semibold text-gray-700 dark:text-pink-200">
-            Discover insights and turn them into knowledge </h2>
-        <p class="mt-4 text-lg  text-gray-700 dark:text-pink-200">
-            DUFT makes it <b>easy to build custom dashboards</b> tailored to programme and facility needs.
-            Using modern, industry-grade charting libraries like ApexCharts,
-            dashboards can include filters, search functions, data exports, and <b>layout customisation with minimal setup</b>.
-            Designed to be deployed both in central servers and at health facility level,
-            DUFT enables <b>data use at the point of care</b> while also supporting strategic-level
-            <b>visualisations for national programmes</b>. With native support for custom layouts,
-            users can build interfaces that match their context and use case.</p>
-        <a href="#section-main">
-            <button class="mt-6 px-6 py-3 bg-white dark:bg-gray-600 dark:text-highlight-100 text-gray-900 font-semibold rounded-full shadow-md hover:bg-pink-300 transition">
-                Back to Top
-            </button>
-        </a>
-    </div>
-</section>
+<!-- Enterprise Section -->
 <section id='section-enterprise'
-         class="h-screen flex flex-col md:flex-row justify-between items-center text-center p-10 dark:bg-gray-900 ">
+    class="bg-gradient-to-br from-highlight-50 to-white dark:from-gray-800 dark:to-gray-900 py-12">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row items-center gap-12">
+            <!-- Content Side -->
+            <div class="lg:w-1/2 space-y-8">
+                <h2
+                    class="text-4xl font-bold bg-gradient-to-r from-highlight-600 to-highlight-800 bg-clip-text text-transparent dark:from-highlight-400 dark:to-highlight-200">
+                    Enterprise-Ready Features
+                </h2>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-lg bg-highlight-100 dark:bg-highlight-900 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-highlight-600 dark:text-highlight-400" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Secure &
+                                Scalable</h3>
+                            <p class="text-gray-600 dark:text-gray-300">User authentication, role-based access
+                                control, and seamless GitHub integration for version control.</p>
+                        </div>
+                    </div>
 
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-lg bg-highlight-100 dark:bg-highlight-900 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-highlight-600 dark:text-highlight-400" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Remote
+                                Deployments</h3>
+                            <p class="text-gray-600 dark:text-gray-300">Easy updates and deployments across
+                                distributed environments without on-site visits.</p>
+                        </div>
+                    </div>
 
-    <div class="md:w-1/4 p-5 text-center md:text-left">
-        <h2 class="text-3xl font-semibold text-gray-700 dark:text-pink-200">
-            Enterprise Features
-        </h2>
-        <p class="mt-4 text-lg  text-gray-700 dark:text-pink-200">
-            Beyond its core capabilities, DUFT includes enterprise-ready features such as scheduled <b>data transformations</b>,
-            user authentication and role-based access, and seamless GitHub integration for version control.
-            Remote deployments and updates are straightforward,
-            making it well-suited to distributed environments such as health facilities or partner organisations.
-            DUFT can <b>integrate AI components</b> where needed, and despite its robustness,
-            it remains fun to use—designed for teams who want powerful tools without the overhead.
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-lg bg-highlight-100 dark:bg-highlight-900 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-highlight-600 dark:text-highlight-400" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">AI Integration
+                                Ready</h3>
+                            <p class="text-gray-600 dark:text-gray-300">Built-in support for AI components and
+                                machine learning models for advanced analytics.</p>
+                        </div>
+                    </div>
+                </div>
 
-            <b>DUFT is flexible to accommodate most setups.</b>
-        </p>
-        <div class="mb-10 flex gap-4">
-            <a href="#section-main"
-               class="mt-6 px-6 py-3 bg-white dark:bg-gray-600 dark:text-highlight-100 text-gray-900 font-semibold rounded-full shadow-md hover:bg-pink-300 transition">Back
-                to Top</a>
+                <!-- Action Buttons -->
+                <div class="flex gap-4 pt-6">
+                    <a href="#section-main"
+                        class="inline-flex items-center px-6 py-3 bg-highlight-600 text-white font-semibold rounded-lg shadow-lg hover:bg-highlight-700 transition-all duration-300 dark:bg-highlight-700 dark:hover:bg-highlight-800">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                        </svg>
+                        Back to Top
+                    </a>
+                    <a href="https://docs.duft.app/enterprise"
+                        class="inline-flex items-center px-6 py-3 border border-highlight-600 text-highlight-600 font-semibold rounded-lg hover:bg-highlight-50 transition-all duration-300 dark:border-highlight-400 dark:text-highlight-400 dark:hover:bg-highlight-900">
+                        Learn More
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Image Side -->
+            <div class="lg:w-1/2">
+                <div class="relative group">
+                    <img src="{baseurl}/config/duftconfig.jpg" alt="DUFT Enterprise Features"
+                        class="rounded-xl shadow-2xl transition-transform duration-300 group-hover:scale-105">
+                    <div
+                        class="absolute inset-0 bg-highlight-600 opacity-0 group-hover:opacity-10 rounded-xl transition-opacity duration-300">
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="md:w-3/4 p-5">
-        <img src="{baseurl}/config/duftconfig.jpg" alt="Configurations Image" class="rounded-lg shadow-lg">
     </div>
 </section>
 
-<section id='section-testimonials'
-         class="h-screen flex flex-col justify-center items-center text-center p-10 bg-white  dark:bg-gray-800 rounded-2xl shadow-lg">
-    <!-- Static Text Section -->
-    <div class="container mx-auto px-4 py-8 text-center">
-        <h2 class="text-3xl font-semibold text-gray-700 dark:text-pink-200">
-            Use Cases and Testimonials</h2>
-        <p class="mt-4 text-lg  text-gray-700 dark:text-pink-200">
-            DUFT has been successfully deployed in a number of implementations. here are some of the experiences of the
-            users.</p>
-
-    </div>
-    <div class="relative overflow-hidden w-full h-full ">
-        <div class="absolute inset-0 flex slider">
-            <div class="w-full h-full flex-shrink-0">
-                <h2 class="text-3xl font-semibold text-gray-700 dark:text-pink-200">
-                    Testimonial 1
-                </h2>
-                <p class="mt-4 text-lg  text-gray-700 dark:text-pink-200">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel vestibulum est. Curabitur in
-                    elementum augue. Vestibulum semper lacus id justo venenatis, a ultricies tellus lobortis. Quisque ut
-                    tempor augue. Cras ut felis at tellus eleifend porta id euismod nisl. Pellentesque finibus tellus
-                    libero, quis suscipit ligula molestie vitae. Etiam quis nisi quis ante tempus imperdiet. Suspendisse
-                    elementum sem nunc, a vulputate ipsum rhoncus sit amet. Integer est arcu, aliquam vitae luctus non,
-                    pharetra nec quam. Sed et massa aliquam, scelerisque massa sed, consectetur erat.
-                </p>
-            </div>
-            <div class="w-full h-full flex-shrink-0">
-                <h2 class="text-3xl font-semibold text-gray-700 dark:text-pink-200">
-                    Testimonial 2
-                </h2>
-                <p class="mt-4 text-lg  text-gray-700 dark:text-pink-200">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel vestibulum est. Curabitur in
-                    elementum augue. Vestibulum semper lacus id justo venenatis, a ultricies tellus lobortis. Quisque ut
-                    tempor augue. Cras ut felis at tellus eleifend porta id euismod nisl. Pellentesque finibus tellus
-                    libero, quis suscipit ligula molestie vitae. Etiam quis nisi quis ante tempus imperdiet. Suspendisse
-                    elementum sem nunc, a vulputate ipsum rhoncus sit amet. Integer est arcu, aliquam vitae luctus non,
-                    pharetra nec quam. Sed et massa aliquam, scelerisque massa sed, consectetur erat.
-                </p>
-            </div>
-            <div class="w-full h-full flex-shrink-0">
-                <h2 class="text-3xl font-semibold text-gray-700 dark:text-pink-200">
-                    Testimonial 3
-                </h2>
-                <p class="mt-4 text-lg  text-gray-700 dark:text-pink-200">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel vestibulum est. Curabitur in
-                    elementum augue. Vestibulum semper lacus id justo venenatis, a ultricies tellus lobortis. Quisque ut
-                    tempor augue. Cras ut felis at tellus eleifend porta id euismod nisl. Pellentesque finibus tellus
-                    libero, quis suscipit ligula molestie vitae. Etiam quis nisi quis ante tempus imperdiet. Suspendisse
-                    elementum sem nunc, a vulputate ipsum rhoncus sit amet. Integer est arcu, aliquam vitae luctus non,
-                    pharetra nec quam. Sed et massa aliquam, scelerisque massa sed, consectetur erat.
-                </p>
-            </div>
-            <div class="w-full h-full flex-shrink-0">
-                <h2 class="text-3xl font-semibold text-gray-700 dark:text-pink-200">
-                    Testimonial 4
-                </h2>
-                <p class="mt-4 text-lg  text-gray-700 dark:text-pink-200">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel vestibulum est. Curabitur in
-                    elementum augue. Vestibulum semper lacus id justo venenatis, a ultricies tellus lobortis. Quisque ut
-                    tempor augue. Cras ut felis at tellus eleifend porta id euismod nisl. Pellentesque finibus tellus
-                    libero, quis suscipit ligula molestie vitae. Etiam quis nisi quis ante tempus imperdiet. Suspendisse
-                    elementum sem nunc, a vulputate ipsum rhoncus sit amet. Integer est arcu, aliquam vitae luctus non,
-                    pharetra nec quam. Sed et massa aliquam, scelerisque massa sed, consectetur erat.
-                </p>
+<section id="resources"
+    class="min-h-screen bg-gradient-to-br from-gray-50 to-highlight-50 dark:from-gray-900 dark:to-gray-800">
+    <div class="container mx-auto px-4 py-16">
+        <div class="max-w-4xl mx-auto text-center space-y-8">
+            <h2
+                class="text-4xl font-bold bg-gradient-to-r from-highlight-600 to-highlight-800 bg-clip-text text-transparent dark:from-highlight-400 dark:to-highlight-200">
+                Be a DUFT Ambassador</h2>
+            <p class="text-lg text-gray-700 dark:text-gray-200 leading-relaxed">Learn more about DUFT and how it can
+                help you and your organization. Or better still, be part of the team that is developing DUFT. Review our
+                comprehensive documentation and resources that are freely available for all.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl">
+                    <svg class="w-12 h-12 text-highlight-600 dark:text-highlight-400 mx-auto mb-4" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                        </path>
+                    </svg>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Documentation</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Comprehensive guides, API references, and examples
+                        to help you get started.</p>
+                    <a href="https://docs.duft.app"
+                        class="text-highlight-600 hover:text-highlight-700 dark:text-highlight-400 dark:hover:text-highlight-300 font-medium">Read
+                        Documentation →</a>
+                </div>
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl">
+                    <svg class="w-12 h-12 text-highlight-600 dark:text-highlight-400 mx-auto mb-4" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Source Code</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Explore the source code, contribute, or fork the
+                        project on GitHub.</p>
+                    <a href="https://github.com/UCSF-IGHS/duft-config-wakanda"
+                        class="text-highlight-600 hover:text-highlight-700 dark:text-highlight-400 dark:hover:text-highlight-300 font-medium">View
+                        on GitHub →</a>
+                </div>
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl">
+                    <svg class="w-12 h-12 text-highlight-600 dark:text-highlight-400 mx-auto mb-4" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Community</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Join our community of developers and users to share
+                        experiences and get help.</p>
+                    <a href="https://community.duft.app"
+                        class="text-highlight-600 hover:text-highlight-700 dark:text-highlight-400 dark:hover:text-highlight-300 font-medium">Join
+                        Community →</a>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Static Text Section -->
-    <div class="container mx-auto px-4 py-8 text-center">
-
-        <a href="#section-main">
-            <button class="mt-6 px-6 py-3 bg-white dark:bg-gray-600 dark:text-highlight-100 text-gray-900 font-semibold rounded-full shadow-md hover:bg-pink-300 transition">
-                Back to Top
-            </button>
-        </a>
+</section>
+<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center text-sm text-gray-500 dark:text-gray-400">
+            <div class="flex justify-center space-x-4">
+                <a href="/privacy" class="hover:text-highlight-600 dark:hover:text-highlight-400">Privacy Policy</a>
+                <a href="/terms" class="hover:text-highlight-600 dark:hover:text-highlight-400">Terms of Service</a>
+                <a href="https://github.com/UCSF-IGHS/duft-config-wakanda"
+                    class="hover:text-highlight-600 dark:hover:text-highlight-400">GitHub</a>
+            </div>
+        </div>
     </div>
-
+</footer>
+</div>
 </section>
 
-<section class="h-screen flex flex-col justify-center items-center text-center p-10">
-    <div id='resources'
-         class=" flex justify-center items-center text-center p-10 dark:bg-gray-900 ">
-
-
-        <div class=" text-center md:text-center">
-            <h2 class="text-3xl font-semibold text-gray-700 dark:text-pink-200">
-                Be a DUFT Ambassador
-            </h2>
-            <p class="mt-4 text-lg  text-gray-700 dark:text-pink-200">
-                Learn more about DUFT and how it can help you and your organization. or better still be part of the team
-                that is developing DUFT.
-                You can review the documentation and other resources on DUFT that is freely available for all
-                <a href="#">Explore resources</a>
-            </p>
-
-        </div>
-
-    </div>
-    <div id='get-involved'
-         class=" justify-center items-center text-center p-10 bg-white  dark:bg-gray-800 rounded-2xl shadow-lg">
-        <div class="container mx-auto px-4 py-8 text-center">
-            <h2 class="text-3xl font-semibold text-gray-700 dark:text-pink-200">
-                We are open for collaboration
-            </h2>
-            <p class="mt-4 text-lg  text-gray-700 dark:text-pink-200">
-                Looking to contribute to the development of the DUFT product?
-                Find resources on how to download <b> setup and contribute to the DUFT</b> repository here.
-                If you need <b>help in implementing DUFT</b> in your specific organization, we can assist
-
-            </p>
-
-            <button class="mt-6 px-6 py-3 bg-white dark:bg-gray-600 dark:text-highlight-100 text-gray-900 font-semibold  shadow-md hover:bg-pink-300 transition">
-                DUFT repository
-            </button>
-
-        </div>
-
-        <!-- Static Text Section -->
-        <div class="container mx-auto px-4 py-8 text-center">
-
-            <a href="#section-main">
-                <button class="mt-6 px-6 py-3 bg-white dark:bg-gray-600 dark:text-highlight-100 text-gray-900 font-semibold rounded-full shadow-md hover:bg-pink-300 transition">
-                    Back to Top
-                </button>
-            </a>
-        </div>
-    </div>
-
-</section>
-
-
-
-
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
