@@ -37,25 +37,130 @@
         </div>
 
         <!-- About Content -->
-        <div class="max-w-screen-lg mx-auto px-6 py-12">
+        <div class="max-w-screen-xl mx-auto px-6 py-12">
             <h2
                 class="text-4xl font-bold bg-gradient-to-r from-highlight-600 to-highlight-800 bg-clip-text text-transparent dark:from-highlight-400 dark:to-highlight-200 mb-8">
                 Behind DUFT
             </h2>
 
-            <div class="space-y-8 text-lg text-gray-700 dark:text-gray-300">
-                <p>
+            <!-- Main Description -->
+            <div class="prose prose-lg max-w-none dark:prose-invert mb-12">
+                <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
                     DUFT is developed by the University of California, San Francisco. It is built on a clean, modular
-                    architecture
-                    that separates the backend data engine from the visual frontend and configuration layer. The backend
-                    is written
-                    in Python, making it accessible to data teams already familiar with scripting and Jupyter Notebooks.
+                    architecture that separates the backend data engine from the visual frontend and configuration
+                    layer. The backend is written in Python, making it accessible to data teams already familiar with
+                    scripting and Jupyter Notebooks.
+                </p>
+                <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                    Data transformation pipelines are executed as scheduled ETL jobs or on demand, connecting to a wide
+                    range of Python-compatible databases including PostgreSQL, MySQL, SQL Server and SQLite. The
+                    frontend is built using ReactJS, delivering a fast and responsive user experience for dashboards.
                 </p>
             </div>
-        </div>
-    </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
-</body>
+            <!-- Architecture Features -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <!-- Core Architecture Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-8 h-8 text-highlight-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                            </path>
+                        </svg>
+                        <h3 class="ml-3 text-xl font-semibold">Core Architecture</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Built with Python and ReactJS, featuring a modular design that separates backend data processing
+                        from
+                        frontend visualization. Database agnostic and AI-ready for natural language queries.
+                    </p>
+                </div>
 
-</html>
+                <!-- Customization Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-8 h-8 text-highlight-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                            </path>
+                        </svg>
+                        <h3 class="ml-3 text-xl font-semibold">Customization Layer</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Easy configuration through JSON files - no coding required. Define dashboards, indicators, and
+                        filters
+                        with reusable components.
+                    </p>
+                </div>
+
+                <!-- Deployment Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-8 h-8 text-highlight-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01">
+                            </path>
+                        </svg>
+                        <h3 class="ml-3 text-xl font-semibold">Deployment & Operations</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Flexible deployment options with Git integration and enterprise-grade security features. Run as
+                        a central server or standalone application.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Technical Features Section -->
+            <div
+                class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-8 mb-16">
+                <h3 class="text-2xl font-bold mb-6">Technical Capabilities</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <h4 class="text-xl font-semibold">Infrastructure</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Python Backend & ReactJS Frontend
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Multi-Database Support
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                ETL Pipeline Integration
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-xl font-semibold">Advanced Features</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                AI-Powered Analytics
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Real-time Data Processing
+                            </li>
