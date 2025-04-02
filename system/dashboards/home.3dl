@@ -60,21 +60,24 @@
 
         <SQLData
             name="tpt_overview_data"
-            queryName="visual/tpt_overview"
             filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
-        />
+        >
+            SELECT categories."TPT Status Two" AS category, COUNT(a."TPT Status Two") AS value, CASE WHEN ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "TX Curr" = 'Yes' ) = 0 THEN '0%' ELSE CONCAT( ROUND( COUNT(a."TPT Status Two") * 100.0 * POWER( ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "TX Curr" = 'Yes' AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') )::numeric, -1 ), 1), '%' ) END AS percentage FROM ( SELECT 'TPT completed' AS "TPT Status Two" UNION ALL SELECT 'Currently on TPT/TBT' UNION ALL SELECT 'Incomplete TPT' ) AS categories LEFT JOIN ( SELECT "TPT Status Two", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') AND "TPT Status Two" IS NOT NULL ) a ON categories."TPT Status Two" = a."TPT Status Two" GROUP BY categories."TPT Status Two" ORDER BY CASE WHEN categories."TPT Status Two" = 'TPT completed' THEN 1 WHEN categories."TPT Status Two" = 'Currently on TPT/TBT' THEN 2 WHEN categories."TPT Status Two" = 'Incomplete TPT' THEN 3 END
+        </SQLData>
 
         <SQLData
             name="retention_overview_data"
-            queryName="visual/retention_overview"
             filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
-        />
+        >
+            SELECT categories."Retention Status" AS category, COUNT(a."Retention Status") AS value, CASE WHEN ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Retention Status" IN ('In Care', 'Missed Appointments', 'Treatment Interruptions') ) = 0 THEN '0%' ELSE CONCAT( ROUND( COUNT(a."Retention Status") * 100.0 * POWER( ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Retention Status" IN ('In Care', 'Missed Appointments', 'Treatment Interruptions') AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') )::numeric, -1 ), 1), '%' ) END AS percentage FROM ( SELECT 'In Care' AS "Retention Status" UNION ALL SELECT 'Missed Appointments' UNION ALL SELECT 'Treatment Interruptions' ) AS categories LEFT JOIN ( SELECT "Tri Pillar Age Group" AS age_group, "Retention Status", "Sex" AS sex FROM analysis.fact_sentinel_event WHERE ("Sex" = $[Sex] OR $[Sex] = '') AND "Retention Status" IN ('In Care', 'Missed Appointments', 'Treatment Interruptions') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') ) a ON categories."Retention Status" = a."Retention Status" GROUP BY categories."Retention Status" ORDER BY CASE WHEN categories."Retention Status" = 'In Care' THEN 1 WHEN categories."Retention Status" = 'Missed Appointments' THEN 2 WHEN categories."Retention Status" = 'Treatment Interruptions' THEN 3 END 
+        </SQLData>
 
         <SQLData
             name="vlm_overview_data"
-            queryName="visual/vlm_overview"
             filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
-        />
+        >
+            SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes' ) = 0 THEN '0%' ELSE CONCAT( ROUND( COUNT(a.DATA) * 100.0 * POWER( ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') AND "TX Curr" = 'Yes' AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') )::numeric, -1 ), 1), '%' ) END AS percentage FROM ( SELECT 'Monitored per Guidelines' AS DATA UNION ALL SELECT 'Slightly Delayed' UNION ALL SELECT 'Delayed' ) AS categories LEFT JOIN ( SELECT "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group, "Viral Load Eligibility" AS DATA, "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Delayed', 'Slightly Delayed') ) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Monitored per Guidelines' THEN 1 WHEN categories.DATA = 'Slightly Delayed' THEN 2 WHEN categories.DATA = 'Delayed' THEN 3 END
+        </SQLData>
 
         <SQLData
             name="previous_month"
