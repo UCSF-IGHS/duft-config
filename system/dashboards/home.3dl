@@ -54,9 +54,10 @@
 
         <SQLData
             name="mmp_overview_data"
-            queryName="visual/mmp_overview"
             filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
-        />
+        >
+            SELECT categories."MMP Status" AS category, COUNT(a."MMP Status") AS value, CASE WHEN ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "MMP Status" IS NOT NULL AND "TX Curr" = 'Yes' ) = 0 THEN '0%' ELSE CONCAT( ROUND( COUNT(a."MMP Status") * 100.0 * POWER( ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "MMP Status" IS NOT NULL AND "TX Curr" = 'Yes' AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') )::numeric, -1 ), 1), '%' ) END AS percentage FROM ( SELECT chr(60) || ' 3 MMP' AS "MMP Status" UNION ALL SELECT '3-5 MMP' UNION ALL SELECT '6+ MMP' ) AS categories LEFT JOIN ( SELECT "MMP Status", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') AND "MMP Status" IS NOT NULL ) a ON categories."MMP Status" = a."MMP Status" GROUP BY categories."MMP Status" ORDER BY CASE WHEN categories."MMP Status" = chr(60) ||' 3 MMP' THEN 3 WHEN categories."MMP Status" = '3-5 MMP' THEN 2 WHEN categories."MMP Status" = '6+ MMP' THEN 1 END
+        </SQLData>
 
         <SQLData
             name="tpt_overview_data"
@@ -86,9 +87,10 @@
 
         <SQLData
             name="vls_overview_data"
-            queryName="visual/vls_overview"
             filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
-        />
+        >
+            SELECT categories.DATA AS category, COUNT(a.DATA) AS value, CASE WHEN ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "__client_id" NOT IN ( SELECT "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ( "Months Since ART Start" BETWEEN 0 AND 5 OR "Months Since ART Restart" BETWEEN 0 AND 5 ) ) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Slightly Delayed') ) = 0 THEN '0%' ELSE CONCAT( ROUND( COUNT(a.DATA) * 100.0 * POWER( ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "__client_id" NOT IN ( SELECT "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ( "Months Since ART Start" BETWEEN 0 AND 5 OR "Months Since ART Restart" BETWEEN 0 AND 5 ) ) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Slightly Delayed') AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') )::numeric, -1 ), 1 ), '%' ) END AS percentage FROM ( SELECT 'Undetectable' AS DATA UNION ALL SELECT 'LLV' UNION ALL SELECT 'Unsuppressed' ) AS categories LEFT JOIN ( SELECT "Tri Pillar Age Group" AS age_group, "Last Viral Load Result Category" AS DATA, "Sex" AS sex FROM analysis.fact_sentinel_event WHERE "__client_id" NOT IN ( SELECT "__client_id" FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND ( "Months Since ART Start" BETWEEN 0 AND 5 OR "Months Since ART Restart" BETWEEN 0 AND 5 ) ) AND "Last Viral Load Result Category" IS NOT NULL AND "Viral Load Eligibility" IN ('Monitored per Guidelines', 'Slightly Delayed') AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') ) a ON categories.DATA = a.DATA GROUP BY categories.DATA ORDER BY CASE WHEN categories.DATA = 'Undetectable' THEN 1 WHEN categories.DATA = 'LLV' THEN 2 WHEN categories.DATA = 'Unsuppressed' THEN 3 END
+        </SQLData>
 
         <SQLData
             name="mmp_adult_tx_curr_data"
