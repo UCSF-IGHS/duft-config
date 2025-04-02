@@ -122,15 +122,18 @@
 
         <SQLData
             name="tpt_paed_data"
-            queryName="visual/tpt_paed"
-            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
-        />
+            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        >
+            SELECT categories."TPT Status Two" AS category, COUNT(a."TPT Status Two") AS value, CASE WHEN ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "Current Age" BETWEEN 0 AND 19 AND "TX Curr" = 'Yes' ) = 0 THEN '0%' ELSE CONCAT( ROUND( COUNT(a."TPT Status Two") * 100.0 * POWER( NULLIF(( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "Current Age" BETWEEN 0 AND 19 AND "TX Curr" = 'Yes' AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') ), 0)::numeric, -1 ), 1), '%' ) END AS percentage FROM ( SELECT 'TPT completed' AS "TPT Status Two" UNION ALL SELECT 'Currently on TPT/TBT' UNION ALL SELECT 'Incomplete TPT' ) AS categories LEFT JOIN ( SELECT "TPT Status Two", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" BETWEEN 0 AND 19 AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') AND "TPT Status Two" IS NOT NULL ) a ON categories."TPT Status Two" = a."TPT Status Two" GROUP BY categories."TPT Status Two" ORDER BY CASE WHEN categories."TPT Status Two" = 'TPT completed' THEN 1 WHEN categories."TPT Status Two" = 'Currently on TPT/TBT' THEN 2 WHEN categories."TPT Status Two" = 'Incomplete TPT' THEN 3 END
+            
+        </SQLData>
 
         <SQLData
             name="tpt_adult_data"
-            queryName="visual/tpt_adult"
-            //filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
-        />
+            filterFrom="Sex, Tri Pillar Age Group, Last Care Model"
+        >
+            SELECT categories."TPT Status Two" AS category, COUNT(a."TPT Status Two") AS value, CASE WHEN ( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "Current Age" NOT BETWEEN 0 AND 19 AND "TX Curr" = 'Yes' ) = 0 THEN '0%' ELSE CONCAT( ROUND( COUNT(a."TPT Status Two") * 100.0 * POWER( NULLIF(( SELECT COUNT(*) FROM analysis.fact_sentinel_event WHERE "TPT Status Two" IS NOT NULL AND "Current Age" NOT BETWEEN 0 AND 19 AND "TX Curr" = 'Yes' AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') ), 0)::numeric, -1 ), 1), '%' ) END AS percentage FROM ( SELECT 'TPT completed' AS "TPT Status Two" UNION ALL SELECT 'Currently on TPT/TBT' UNION ALL SELECT 'Incomplete TPT' ) AS categories LEFT JOIN ( SELECT "TPT Status Two", "Sex" AS "Sex", "Tri Pillar Age Group" AS age_group FROM analysis.fact_sentinel_event WHERE "TX Curr" = 'Yes' AND "Current Age" NOT BETWEEN 0 AND 19 AND ("Sex" = $[Sex] OR $[Sex] = '') AND ("Tri Pillar Age Group" = $[Tri Pillar Age Group] OR $[Tri Pillar Age Group] = '') AND ("Last Care Model" = $[Last Care Model] OR $[Last Care Model] = '') AND "TPT Status Two" IS NOT NULL ) a ON categories."TPT Status Two" = a."TPT Status Two" GROUP BY categories."TPT Status Two" ORDER BY CASE WHEN categories."TPT Status Two" = 'TPT completed' THEN 1 WHEN categories."TPT Status Two" = 'Currently on TPT/TBT' THEN 2 WHEN categories."TPT Status Two" = 'Incomplete TPT' THEN 3 END
+        </SQLData>
 
         <SQLData
             name="retention_all_data"
