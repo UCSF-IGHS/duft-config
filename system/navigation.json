@@ -1,12 +1,9 @@
 {
   "settings": {
     "appName": "PCR Lab Visual",
-    "footer": ""
-  },
-  "home": {
-    "title": "Home",
-    "icon": "home-icon",
-    "dashboard": "/dashboard/home"
+    "footer": "Configurable footer text",
+    "showSettings": "authenticatedOnly",
+    "showAbout": "false"
   },
   "menu": {
     "header": "",
@@ -28,7 +25,7 @@
           {
             "title": "HVL & EID Report",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/reference3DL"
+            "dashboard": ""
           },
           {
             "title": "Sample Tracking Report",
@@ -61,7 +58,7 @@
     ]
   },
   "dataTasks": {
-    "header": "Actions",
+    "header": "ETL",
     "items": [
       {
         "title": "Refresh data",
@@ -69,7 +66,7 @@
         "task": "LAB-VISUAL-ETL",
         "dashboard": "refresh-data",
         "prompt": "Are you sure you want to refresh the data?"
-      }     
+      }
     ]
   }
 }

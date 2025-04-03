@@ -1,34 +1,21 @@
 {
-    "name": "PCR Lab Visual",
-    "appName": "PCR Lab Visual",
-    "footer": "Supported at UCSF Global Programs Office, Tanzania",
+    "appName": "DUFT (configurable)",
+    "footer": "Configurable footer text",
     "custom": "Custom setting",
-    "version": "1.7.0",
-    "logoURL": "https://duft.app/tz_gov_logo.png",
-    "repository": "https://github.com/UCSF-IGHS/duft-config/tree/tanzania-labvisuals-3dl",
+    "version": "1.0.0",
+    "logoURL": "https://duft.app/logo.png",
+    "repository": "github.com/duftapp/duft-basic-3dl",
     "credits": {
-        "organisaton": "University of California, San Francisco - Global Programs, Tanzania",
-        "department": "Health Information Systems Department",
-        "website": "https://demo.duft.app",
+        "organisaton": "DUFT Core Team",
+        "department": "UCSF Department",
+        "website": "https://duft.app",
         "productOwners": [
-            "Elizabeth Mzobora",
-            "Fitti Weissglas",
-            "Peter Lubambi",
-            "Juma Alawi"
-        ],
-        "implementers": [
-            "Focus Shao",
-            "Eric Mwailunga",
-            "Arnold Mosha",
-            "Goodluck Mlungusye",
-            "Amani Moova"
+            "Product Owner 1",
+            "Product Owner 2"
         ],
         "developers": [
-            "Focus Shao",
-            "Eric Mwailunga",
-            "Arnold Mosha",
-            "Goodluck Mlungusye",
-            "Amani Moova"
+            "Developer 1",
+            "Developer 2"
         ]
     },
     "additionalInfo": "An additional line of information can go here."

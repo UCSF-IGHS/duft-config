@@ -1,1 +1,0 @@
-SELECT SUM(initiated_on_art) AS initiated_on_art,PRINTF ('%.1f%%',SUM(initiated_on_art)*100.0/SUM(new_cases)) AS percentage_initiated FROM vw_art_cascade_for_tiles
