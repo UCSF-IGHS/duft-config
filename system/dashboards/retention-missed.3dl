@@ -18,8 +18,9 @@
       SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='[[ART Number Legacy]]'
     </SQLData>
   </Datasets>
-  <Grid>
-    <SingleLayout>
+  
+  <SingleLayout>
+    <Grid>
       <Header>Missed Appointments</Header>
       <Table
         data="retention_missed"
@@ -30,7 +31,8 @@
       >
         <Table data="retention_missed_details_data" />
       </Table>
-    </SingleLayout>
+    </Grid>
+  </SingleLayout>
 
-  </Grid>
+  
 </Dashboards>

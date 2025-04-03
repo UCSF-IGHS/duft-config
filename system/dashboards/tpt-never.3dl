@@ -18,8 +18,9 @@
       SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='[[ART Number Legacy]]'
     </SQLData>
   </Datasets>
-  <Grid>
-    <SingleLayout>
+  
+  <SingleLayout>
+    <Grid>
       <Header>Incomplete TPT or never initiated TPT</Header>
       <Table
         data="tpt_currently"
@@ -30,7 +31,8 @@
       >
         <Table data="tpt_currently_details_data" />
       </Table>
-    </SingleLayout>
+    </Grid>
+  </SingleLayout>
 
-  </Grid>
+  
 </Dashboards>

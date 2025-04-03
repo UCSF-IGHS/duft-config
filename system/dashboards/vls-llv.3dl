@@ -18,8 +18,9 @@
       SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='[[ART Number Legacy]]'
     </SQLData>
   </Datasets>
-  <Grid>
-    <SingleLayout>
+  
+  <SingleLayout>
+    <Grid>
       <Header>Low level viremia: 40-999 copies/ml</Header>
       <Table
         data="vls_hlv_delayed"
@@ -30,8 +31,9 @@
       >
         <Table data="vls_hlv_delayed_details_data" />
       </Table>
-    </SingleLayout>
+    </Grid>
+  </SingleLayout>
 
-  </Grid>
+  
 </Dashboards>
   

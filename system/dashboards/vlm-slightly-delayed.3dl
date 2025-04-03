@@ -18,8 +18,9 @@
       SELECT * from analysis.fact_sentinel_event WHERE "ART Number Legacy"='[[ART Number Legacy]]'
     </SQLData>
   </Datasets>
-  <Grid>
-    <SingleLayout>
+  
+  <SingleLayout>
+    <Grid>
       <Header>Recent</Header>
       <Table
         data="vlm_slightly_delayed"
@@ -30,7 +31,8 @@
       >
         <Table data="vlm_slightly_delayed_details_data" />
       </Table>
-    </SingleLayout>
+    </Grid>
+  </SingleLayout>
 
-  </Grid>
+  
 </Dashboards>
