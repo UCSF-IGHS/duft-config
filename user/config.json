@@ -3,9 +3,9 @@
         "ANA": {
             "server": "127.0.0.1",
             "username": "postgres",
-            "password": "root",
-            "port": "5433",
-            "database": "duft",
+            "password": "postgres",
+            "port": "5432",
+            "database": "qe_data",
             "type": "PostgreSQL"
         },
         "EPMS_Source": {
@@ -18,9 +18,9 @@
             "type": "PostgreSQL",
             "server": "127.0.0.1",
             "username": "postgres",
-            "password": "root",
-            "port": "5433",
-            "database": "duft"
+            "password": "postgres",
+            "port": "5432",
+            "database": "qe_data"
         }
     },
     "djangoDatabases2": {
