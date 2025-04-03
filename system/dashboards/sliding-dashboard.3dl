@@ -32,7 +32,7 @@
                   exportData="true"
                   downloadVisual="true"
                   detailsComponent="infinite-scroll-table"
-                  userOptions={{ chart: { id: 2 }, colors: [ "#156082", "#e97132"], legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, dropShadow: { enabled: false } } }}
+                  userOptions={{ chart: { id: 2 }, colors: [ "#156082", "#e97132"], legend: { show: true, position: "bottom" }, dataLabels: { enabled: true } }}
                 />
               </Dataset>
             </Row>
@@ -44,7 +44,7 @@
                   exportData="true"
                   downloadVisual="true"
                   detailsComponent="infinite-scroll-table"
-                  userOptions={{ chart: { id: 3 }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, dropShadow: { enabled: false } } }}
+                  userOptions={{ chart: { id: 3 }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true } }}
                 />
               </Dataset>
               <Dataset query="SELECT d.weekly_start_monday_period AS week_name, TRIM(f.region) AS category, SUM(s.hvl_sample_received) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date INNER JOIN derived.dim_facility f ON s.hfr_id_for_HUB_sample_is_coming_from = f.hfr_code WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period, TRIM(f.region) HAVING SUM(s.hvl_sample_received) <> 0 ORDER BY category ASC;">
@@ -54,7 +54,36 @@
                   detailsComponent="infinite-scroll-table"
                   exportData="true"
                   downloadVisual="true"
-                  userOptions={{ chart: { id: 4 }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Region" } } }}
+                  userOptions={{
+                    chart: { id: 4 },
+                    dataLabels: { enabled: true },
+                    yaxis: { title: { text: 'Number of Samples' } },
+                    xaxis: { title: { text: 'Region' } },              
+                    legend: {
+                      position: "top",
+                      fontSize: "14px",
+                      labels: { colors: "#333" },
+                      itemMargin: { horizontal: 10, vertical: 5 },
+                      markers: { width: 12, height: 12 }
+                    },
+                    annotations: {
+                      yaxis: [
+                        {
+                          y: 0,
+                          label: {
+                            text: "UNKNOWN - Facility with no HFR code | Not set - Facility with unspecified name",
+                            style: {
+                              color: "#555",
+                              fontSize: "12px",
+                              fontWeight: "bold",
+                            },
+                            offsetY: 60,
+                            offsetX: -250
+                          }
+                        }
+                      ]
+                    }
+                  }}
                 />
               </Dataset>
             </Row>
@@ -200,7 +229,7 @@
                 detailsComponent="infinite-scroll-table"
                 header="HVL: Test outcomes for last week"
                 subHeader=""
-                userOptions={{ chart: { id: 13 }, legend: { show: true, position: "right" }, dataLabels: { enabled: true, dropShadow: { enabled: false } }, colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500"] }}
+                userOptions={{ chart: { id: 13 }, legend: { show: true, position: "right" }, dataLabels: { enabled: true }, colors: ["#FFA500", "#008000", "#FFFF00", "#FF0000"] }}
               />
             </Dataset>
             <Dataset query="SELECT d.weekly_start_monday_period AS category, CAST(COALESCE(SUM(s.hvl_result_invalid) * 100.0/NULLIF(SUM(s.hvl_sample_tested), 0), 0) AS DECIMAL(5, 2)) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
@@ -270,7 +299,36 @@
                 exportData="true"
                 downloadVisual="true"
                 detailsComponent="infinite-scroll-table"
-                userOptions={{ chart: { id: 18 }, dataLabels: { enabled: true }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Region" } } }}
+                userOptions={{
+                  chart: { id: 18 },
+                  dataLabels: { enabled: true },
+                  yaxis: { title: { text: 'Number of Samples' } },
+                  xaxis: { title: { text: 'Region' } },              
+                  legend: {
+                    position: "top",
+                    fontSize: "14px",
+                    labels: { colors: "#333" },
+                    itemMargin: { horizontal: 10, vertical: 5 },
+                    markers: { width: 12, height: 12 }
+                  },
+                  annotations: {
+                    yaxis: [
+                      {
+                        y: 0,
+                        label: {
+                          text: "UNKNOWN - Facility with no HFR code | Not set - Facility with unspecified name",
+                          style: {
+                            color: "#555",
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                          },
+                          offsetY: 60,
+                          offsetX: -250
+                        }
+                      }
+                    ]
+                  }
+                }}
               />
             </Dataset>
           </Row>
@@ -380,7 +438,7 @@
                 detailsComponent="infinite-scroll-table"
                 header="EID: Test outcomes for last week"
                 subHeader=""
-                userOptions={{ chart: { id: 25 }, legend: { show: true, position: "right" }, dataLabels: { enabled: true, dropShadow: { enabled: false } }, colors: [ "#008000", "#FFFF00", "#FFA500"] }}
+                userOptions={{ chart: { id: 25 }, legend: { show: true, position: "right" }, dataLabels: { enabled: true }, colors: [ "#008000", "#FFFF00", "#FFA500"] }}
               />
             </Dataset>
             <Dataset query="SELECT d.weekly_start_monday_period AS category, CAST(COALESCE(SUM(s.eid_result_invalid) * 100.0/NULLIF(SUM(s.eid_sample_tested), 0), 0) AS DECIMAL(5, 2)) AS value FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;">
@@ -430,13 +488,17 @@
               </Subheader>
             </Row>
           </Dataset>
-          <Row columns="1" largeColumns="2">
+          <Row columns="2">
             <Dataset query="SELECT dd.device_name AS Equipment, CASE WHEN ds.is_broken IS NULL THEN 'Active' ELSE 'Inactive' END AS Status, ds.days_since_broken AS [Days since broken], CONVERT(varchar, ds.last_date_active, 23) AS [Last day active], ds.breakdown_reason AS [Breakdown Reason] FROM [derived].fact_daily_device_status ds INNER JOIN [derived].dim_device dd ON dd.device_id = ds.device_id WHERE ds.report_date = FORMAT(DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()), 'yyyy-MM-dd') GROUP BY dd.device_name, ds.is_broken, ds.days_since_broken, ds.last_date_active, ds.breakdown_reason ORDER BY ds.days_since_broken DESC;">
-                <InfiniteScrollTable
+                <DataTable
                   header="Equipment DownTime"
                   subHeader=""
+                  exportData="true"
+                  detailsComponent="infinite-scroll-table"
                 />
             </Dataset>
+          </Row>
+          <Row columns="2">
             <Dataset query="SELECT dt.weekly_start_sunday_period AS week_name, dd.device_name AS category, COUNT(ds.sample_id) AS value FROM [derived].dim_sample ds INNER JOIN [derived].dim_device dd ON ds.device_id = dd.device_id INNER JOIN [derived].dim_date dt ON ds.tested_date = dt.[date] WHERE dt.[date] >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND dt.[date] <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY dt.weekly_start_sunday_period, dd.device_name ORDER BY value DESC;">
               <BarChart
                 exportData="true"
