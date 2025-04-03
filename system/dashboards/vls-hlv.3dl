@@ -4,6 +4,7 @@
       pageSize="20"
       name="vls_hlv_delayed"
       queryName="vls.sql"
+      filterFrom="Last Viral Load Result Category"
       filters={{ "Last Viral Load Result Category": "Unsuppressed" }}
       searchColumns="ART Number Legacy"
     />

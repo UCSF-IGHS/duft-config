@@ -4,6 +4,7 @@
       pageSize="20"
       name="tpt_currently"
       queryName="tpt.sql"
+      filterFrom="TPT Status Two"
       filters={{ "TPT Status Two": "Currently on TPT/TBT"  }}
       searchColumns="ART Number Legacy"
     />

@@ -4,6 +4,7 @@
       pageSize="20"
       name="vlm_slightly_delayed"
       queryName="vlm.sql"
+      filterFrom="Viral Load Eligibility"
       filters={{ "Viral Load Eligibility": "Slightly Delayed" }}
       searchColumns="ART Number Legacy"
     />

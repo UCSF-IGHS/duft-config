@@ -4,6 +4,7 @@
       pageSize="20"
       name="mmp_3_5"
       queryName="mmp.sql"
+      filterFrom="MMP Status"
       filters={{ "MMP Status": "3-5 MMP" }}
       searchColumns="ART Number Legacy"
     />

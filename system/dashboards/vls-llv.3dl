@@ -5,6 +5,7 @@
       name="vls_hlv_delayed"
       queryName="vls.sql"
       filters={{ "Last Viral Load Result Category": "LLV" }}
+      filterFrom="Last Viral Load Result Category"
       searchColumns="ART Number Legacy"
     />
 

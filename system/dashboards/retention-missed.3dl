@@ -4,6 +4,7 @@
       pageSize="20"
       name="retention_missed"
       queryName="retention.sql"
+      filterFrom="Retention Status"
       filters={{ "Retention Status": 'Missed Appointments' }}
       searchColumns="ART Number Legacy"
     />
