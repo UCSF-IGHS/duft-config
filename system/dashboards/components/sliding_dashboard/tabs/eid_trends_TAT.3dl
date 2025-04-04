@@ -1,0 +1,73 @@
+<Grid>
+    <Row largeColumns="2" columns="1">
+        <StackedBarChart
+            data="eid_TAT_collection_to_authorization"
+            exportData="true"
+            downloadVisual="true"
+            detailsComponent="infinite-scroll-table"
+            header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
+            subHeader=""
+            userOptions={{ 
+                chart: { id: 21 }, 
+                tooltip: { shared: true }, 
+                legend: { show: true, position: "bottom" }, 
+                dataLabels: { enabled: true }, 
+                yaxis: { title: { text: "Number of Samples" } }, 
+                xaxis: { title: { text: "Weeks" } } 
+            }}
+        />
+
+        <StackedBarChart
+            data="eid_TAT_received_to_authorization"
+            exportData="true"
+            downloadVisual="true"
+            detailsComponent="infinite-scroll-table"
+            header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
+            subHeader=""
+            userOptions={{ 
+                chart: { id: 22 }, 
+                tooltip: { shared: true }, 
+                legend: { show: true, position: "bottom" }, 
+                dataLabels: { enabled: true }, 
+                yaxis: { title: { text: "Number of Samples" } }, 
+                xaxis: { title: { text: "Weeks" } } 
+            }}
+        />
+    </Row>
+
+    <Row largeColumns='2' columns='1'>
+        <StackedBarChart
+            data="eid_TAT_collection_to_received"
+            exportData="true"
+            downloadVisual="true"
+            detailsComponent="infinite-scroll-table"
+            header="For Samples received in the reporting week, number of days from sample collection to lab reception"
+            subHeader=""
+            userOptions={{ 
+                chart: { id: 23 }, 
+                tooltip: { shared: true }, 
+                legend: { show: true, position: "bottom" }, 
+                dataLabels: { enabled: true }, 
+                yaxis: { title: { text: "Number of Samples" } }, 
+                xaxis: { title: { text: "Weeks" } } 
+            }}
+        />
+
+        <StackedBarChart
+            data="eid_TAT_received_to_testing"
+            header="For Samples received in the reporting week, number of days from receipt of sample to testing"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{ 
+                chart: { id: 24 }, 
+                tooltip: { shared: true }, 
+                legend: { show: true, position: "bottom" }, 
+                dataLabels: { enabled: true }, 
+                yaxis: { title: { text: "Number of Samples" } }, 
+                xaxis: { title: { text: "Weeks" } } 
+            }}
+        />
+    </Row>
+</Grid>

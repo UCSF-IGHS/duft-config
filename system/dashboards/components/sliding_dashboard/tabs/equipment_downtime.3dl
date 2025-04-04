@@ -1,0 +1,24 @@
+<Grid>
+    <Row largeColumns="2" columns='1'>
+        <Table
+            data="equipment_downtime"
+            header="Equipment DownTime"
+            subHeader=""
+        />
+
+        <BarChart
+            data="equipment_utilization"
+            exportData="true"
+            downloadVisual="true"
+            detailsComponent="infinite-scroll-table"
+            header="Equipment utilization (Actual Sample Tested) within the Lab"
+            subHeader=""
+            userOptions={{ 
+                chart: { id: 29 }, 
+                tooltip: { shared: true }, 
+                dataLabels: { enabled: true },
+                legend: { show: true, position: "bottom" }
+            }}
+        />
+    </Row>
+</Grid>

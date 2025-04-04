@@ -1,0 +1,73 @@
+<Grid>
+    <Row largeColumns="2" columns="1">
+        <StackedBarChart
+            data="hvl_TAT_collection_to_authorization"
+            exportData="true"
+            downloadVisual="true"
+            detailsComponent="infinite-scroll-table"
+            header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
+            SubHeader=""
+            userOptions={{ 
+                chart: { id: 9 }, 
+                tooltip: { shared: true }, 
+                legend: { show: true, position: "bottom" }, 
+                dataLabels: { enabled: true }, 
+                yaxis: { title: { text: "Number of Samples" } }, 
+                xaxis: { title: { text: "Weeks" } } 
+            }}
+        />
+
+        <StackedBarChart
+            data="hvl_TAT_received_to_authorization"
+            exportData="true"
+            downloadVisual="true"
+            detailsComponent="infinite-scroll-table"
+            header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
+            SubHeader=""
+            userOptions={{ 
+                chart: { id: 10 }, 
+                tooltip: { shared: true }, 
+                legend: { show: true, position: "bottom" }, 
+                dataLabels: { enabled: true }, 
+                yaxis: { title: { text: "Number of Samples" } }, 
+                xaxis: { title: { text: "Weeks" } } 
+            }}
+        />
+    </Row>
+
+    <Row largeColumns="2" columns="1">
+        <StackedBarChart
+            data="hvl_TAT_collection_to_received"
+            exportData="true"
+            downloadVisual="true"
+            detailsComponent="infinite-scroll-table"
+            header="For Samples received in the reporting week, number of days from sample collection to lab reception"
+            SubHeader=""
+            userOptions={{ 
+                chart: { id: 11 }, 
+                tooltip: { shared: true }, 
+                legend: { show: true, position: "bottom" }, 
+                dataLabels: { enabled: true }, 
+                yaxis: { title: { text: "Number of Samples" } }, 
+                xaxis: { title: { text: "Weeks" } } 
+            }}
+        />
+
+        <StackedBarChart
+            data="hvl_TAT_received_to_testing"
+            header="For Samples received on the reporting week, number of days from receipt of sample to testing"
+            SubHeader=""
+            exportData="true"
+            downloadVisual="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{ 
+                chart: { id: 12 }, 
+                tooltip: { shared: true }, 
+                legend: { show: true, position: "bottom" }, 
+                dataLabels: { enabled: true }, 
+                yaxis: { title: { text: "Number of Samples" } }, 
+                xaxis: { title: { text: "Weeks" } } 
+            }}
+        />
+    </Row>
+</Grid>
