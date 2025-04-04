@@ -7,6 +7,8 @@ WHERE
 AND
     [CrAg Test Results] = 'Pos'
 AND
+    [Crag Test Within 30 Days] = 'Yes'
+AND
 (
     [CI Received Cryptococcal Prophylaxis] = 'No'
 OR
