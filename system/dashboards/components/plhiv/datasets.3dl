@@ -116,4 +116,16 @@
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
+        {/* Clients Needing Attention */}
+
+            <SQLData
+                name="score_card_data"
+                queryName="plhiv/visual/score_card"
+            />
+
+            <SQLData
+                name="cumulative_counts_data"
+                queryName="plhiv/visual/cumulative_counts"
+            />
+
 </Datasets>
