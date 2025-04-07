@@ -183,7 +183,7 @@
 
     <Grid>
       <Row columns="2" largeColumns="4">
-        <Tile data="tile_new_data" title="New Cases">
+        <Tile data="tile_new_data" title="New Cases" >
           <Table
             data="new_detailed_data"
             exportData="true"
@@ -196,7 +196,7 @@
           </Table>
         </Tile>
 
-        <Tile data="tile_initiated_data" title="Initiated" iconType="appointments">
+        <Tile data="tile_initiated_data" title="Initiated" iconType="tests">
           <Table
             data="initiated_detailed_data"
             exportData="true"
@@ -209,7 +209,7 @@
           </Table>
         </Tile>
 
-        <Tile data="tile_suppressed_data" title="Suppressed">
+        <Tile data="tile_suppressed_data" title="Suppressed" iconType="medicine">
           <Table
             data="vl_suppressed_detailed_data"
             exportData="true"
@@ -222,7 +222,7 @@
           </Table>
         </Tile>
 
-        <Tile data="tile_not_suppressed_data" title="Not Suppressed">
+        <Tile data="tile_not_suppressed_data" title="Not Suppressed" iconType="appointments">
           <Table
             data="vl_not_suppressed_detailed_data"
             exportData="true"

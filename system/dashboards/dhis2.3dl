@@ -1,15 +1,14 @@
 <Dashboards>
 
     <Datasets>
-
-        <Dhis2
-            name="dhis2_data"
-            resource="sqlViews/fnmujyKeNkL/data.json"
+        <APIData
+            name="api_data"
+            apiProxyID="DHIS2" 
+            endPoint="/sqlViews/w3UxFykyHFy/data.json"
             method="GET"
-            pageSize="20"
-            searchColumns="organisation_unit_name, dataelement_name, period_start, period_end"
-            adapter="dataSetViews"
-        />
+            headers={{ Accept: 'application/json' }}
+            auth={["admin", "district"]} 
+            />
         <SQLData
         name="client_data"
         queryName="detailed"
@@ -17,49 +16,18 @@
         searchColumns="client_id"
         filterFrom="gender"
         />
-
-        //for tile
-        <SQLData name="tile_new_data" queryName="tile/new" filterFrom="gender" />
-        <SQLData
-        name="new_detailed_data"
-        queryName="tile/new_detailed"
-        pageSize="15"
-        searchColumns="client_id"
-        filterFrom="gender"
-        />
-        <SQLData
-            name="new_detailed_details_data"
-            detailsViewData="new_detailed_data"
-            detailsViewColumn="client_id"
-            transpose="true"
-        >
-        SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
-        </SQLData>
-        //
         
-        <OpenMRS
-        name = "openmrs_data"
-        resource="appointments/search"
-        method="POST"
-        body={{
-          startDate: "2000-01-20T00:00:00.000+0300",
-          endDate: "2025-01-20T23:59:59.999+0300",
-        }}
-        adapter="patientsFromAppointments"
-         />
 
     </Datasets>
 
     <Dashboard
         data="dhis2_data"
         tabName="DHIS2"
-        title="Vector-Based Disease Surveillance"
-        subTitle="Table of vector control data."
+        title="Sample DHIS2 data from a sql view"
+        subTitle="Table of DHIS2 data."
     >
-        <Grid>  
-            <Table data="dhis2_data" />
-            <Table data = "client_data"/>
-            <Table data = "openmrs_data"/>
+        <Grid> 
+            <Table data ="api_data"/>
         </Grid>
     </Dashboard>
     <Dashboard

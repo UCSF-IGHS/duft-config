@@ -4,7 +4,7 @@
             "id": "OpenMRS",
             "name": "OpenMRS DEMO API",
             "description": "Runs against the OpenMRS DEMO API",
-            "url": "https://www.openmrs.org/openmrs/ws/rest/v1",
+            "url": "https://dev3.openmrs.org/openmrs/ws/rest/v1",
             "dataConnection": "OPENMRS"
         },
         {
@@ -20,6 +20,6 @@
             "description": "Runs against the OpenMRS DEMO API",
             "url": "https://dhis2.demo.bluesquare.org/api",
             "dataConnection": "DHIS2"
-        }       
+        }     
     ]
 }

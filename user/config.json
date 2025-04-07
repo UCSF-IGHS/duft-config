@@ -28,7 +28,12 @@
         "DHIS2": {
             "username": "admin",
             "password": "district"
-        },        
+        },
+        "OpenMRS": {
+            "server": "https://dev3.openmrs.org/openmrs/ws/rest/v1",
+            "username": "admin",
+            "password": "Admin123"
+        },
         "NDR": {
             "server": "https://www.myndr.com/api/v2",
             "username": "user",
