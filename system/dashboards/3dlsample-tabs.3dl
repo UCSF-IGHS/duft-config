@@ -1,1 +1,26 @@
-<SingleTableLayoutTester />
+<Dashboards>
+  <Datasets>
+    
+    <SQLData name="header_data" queryName="header" />
+    <SQLData name="current_month" queryName="current_month" />
+  </Datasets>
+
+  <Dashboard
+    tabName="Tab 1"
+    data="header_data"
+    title="%facility_name%"
+    lastRefresh="Last updated on : %today%"
+    subTitle="My Dashboard 1"
+  >
+  </Dashboard>
+
+  <Dashboard
+    tabName="Tab 2"
+    data="header_data"
+    title="%facility_name%"
+    lastRefresh="Last updated on : %today%"
+    subTitle="My Dashboard 2"
+  >
+  </Dashboard>
+
+</Dashboards>

@@ -12,7 +12,7 @@
       queryName="detailed"
       pageSize="15"
       searchColumns="client_id"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -20,7 +20,7 @@
       queryName="tile/new_detailed"
       pageSize="15"
       searchColumns="client_id"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -37,7 +37,7 @@
       queryName="tile/initiated_detailed"
       pageSize="15"
       searchColumns="client_id"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -54,7 +54,7 @@
       queryName="tile/vl_suppressed_detailed"
       pageSize="15"
       searchColumns="client_id"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -71,7 +71,7 @@
       queryName="tile/vl_not_suppressed_detailed"
       pageSize="15"
       searchColumns="client_id"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -83,49 +83,67 @@
       SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
     </SQLData>
 
-    <StaticData name="static_gender_data" filterFrom="gender">
+    <StaticData name="static_gender_data" filterFrom="gender, age_group">
       {[
         { category: "Male", value: 30 },
         { category: "Female", value: 40 },
       ]}
     </StaticData>
 
-    <SQLData name="tile_new_data" queryName="tile/new" filterFrom="gender" />
+    <SQLData name="tile_new_data" queryName="tile/new" filterFrom="gender, age_group" />
 
     <SQLData
       name="tile_initiated_data"
       queryName="tile/initiated"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
       name="tile_suppressed_data"
       queryName="tile/suppressed"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
       name="tile_not_suppressed_data"
       queryName="tile/not_suppressed"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
       name="art_cascade_data"
       queryName="clients/art_cascade"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
       name="art_start_data"
       queryName="clients/art_start"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
       name="regimen_age_group_data"
       queryName="percentage_stack"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
+    />
+
+    <SQLData
+        name="cascade_new_data"
+        filterFrom="gender, age_group"
+        queryName="clients/cascade_new"
+    />
+
+    <SQLData
+        name="cascade_enrolled_data"
+        filterFrom="gender, age_group"
+        queryName="clients/cascade_enrol"
+    />
+
+    <SQLData
+      name="cascade_not_enrolled_data"
+      filterFrom="gender, age_group"
+      queryName="clients/cascade_not_enrol"
     />
 
     {/* <OpenMRSData
@@ -148,7 +166,7 @@
       pageSize="20"
       name="sentinel_event_data"
       queryName="clients/client_list_all"
-      filterFrom="gender"
+      filterFrom="gender, age_group"
       searchColumns="client_id, emr_identifier"
     />
 
@@ -328,6 +346,58 @@
         />
       </Row>
 
+      <Row largeColumns="1" columns="1">
+      <CascadeChart
+          header="ART Cascade"
+          direction="left"
+          cascadeScale="standard"
+          cascadeSearchColumn="client_id"
+          nodeWidth="500"
+          nodeHeight="180"
+        >
+
+          <CascadeNode
+            id="1"
+            label="New Cases"
+            filterFrom="gender,age_group"
+            detailsViewQuery = "clients/cascade_new_details"
+            data="cascade_new_data"
+            options={{
+              nodeBGColor: "#FFAFCC",
+              nodeBGColorHover: "#FFAFCC",
+            }}
+          />
+
+          <CascadeNode
+            id="2"
+            parentId="1"
+            label="Enrolled into Care"
+            detailsViewQuery = "clients/cascade_enrol_details"
+            filterFrom="gender, age_group"
+            data="cascade_enrolled_data"
+            options={{
+              nodeBGColor: "#FFAFCC",
+              nodeBGColorHover: "#FFAFCC",
+            }}
+          />
+
+          <CascadeNode
+            id="3"
+            parentId="1"
+            label="Not Enrolled"
+            filterFrom="gender, age_group"
+            data="cascade_not_enrolled_data"
+            detailsViewQuery = "clients/cascade_not_enrol_details"
+            options={{
+              nodeBGColor: "#fff5fa",
+              nodeBGColorHover: "#fff5fa",
+            }}
+          />
+        </CascadeChart>
+
+        
+      </Row>
+
       <Row columns="1">
         <Table
           data="sentinel_event_data"
@@ -376,74 +446,6 @@
           </RowDetails>
         </Table>
       </SingleLayout>
-      <Row>
-        <CascadeChart
-          header="ART Cascade"
-          direction="left"
-          cascadeScale="standard"
-          cascadeSearchColumn="client_id"
-          nodeWidth="500"
-          nodeHeight="180"
-        >
-          <SQLData name="cascade_new_cases">
-            SELECT COUNT(*) as value FROM (select strftime('%Y',
-            hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date,
-            has_ever_been_initiated_on_art from fact_sentinel_event) fs INNER
-            JOIN dim_client dc ON dc.client_id = fs.client_id INNER JOIN (
-            SELECT age, TRIM(ten_year_interval) as age_group FROM dim_age_group)
-            ag ON dc.current_age = ag.age WHERE hiv_diagnosis_date !='' AND
-            (gender = '$gender' OR '$gender' = '') AND (age_group = '$age_group'
-            OR '$age_group' = '') AND (year = COALESCE(NULLIF('$year', ''),
-            '2021'))
-          </SQLData>
-          <CascadeNode
-            id="1"
-            label="New Cases"
-            data="cascade_new_cases"
-            options={{
-              nodeBGColor: "#FFAFCC",
-              nodeBGColorHover: "#FFAFCC",
-            }}
-          >
-            <SQLData name="cascade_enrolled">
-              SELECT COUNT(*) as value FROM (select strftime('%Y',
-              hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date,
-              enrolment_date, has_ever_been_initiated_on_art from
-              fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id =
-              fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as
-              age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE
-              enrolment_date !='' AND (gender = '$gender' OR '$gender' = '') AND
-              (age_group = '$age_group' OR '$age_group' = '') AND (year =
-              COALESCE(NULLIF('$year', ''), '2021'))
-            </SQLData>
-            <CascadeNode
-              id="2"
-              parentId="1"
-              label="Enrolled into Care"
-              data="cascade_enrolled"
-            >
-              {/* Child nodes for Enrolled */}
-            </CascadeNode>
-            <SQLData name="cascade_not_enrolled">
-              SELECT COUNT(*) as value FROM (select strftime('%Y',
-              hiv_diagnosis_date) AS year, client_id, hiv_diagnosis_date,
-              has_ever_been_initiated_on_art, enrolment_date from
-              fact_sentinel_event) fs INNER JOIN dim_client dc ON dc.client_id =
-              fs.client_id INNER JOIN ( SELECT age, TRIM(ten_year_interval) as
-              age_group FROM dim_age_group) ag ON dc.current_age = ag.age WHERE
-              enrolment_date IS NULL AND (gender = '$gender' OR '$gender' = '')
-              AND (age_group = '$age_group' OR '$age_group' = '') AND (year =
-              COALESCE(NULLIF('$year', ''), '2021'))
-            </SQLData>
-            <CascadeNode
-              id="3"
-              parentId="1"
-              label="Not Enrolled"
-              data="cascade_not_enrolled"
-            />
-          </CascadeNode>
-        </CascadeChart>
-      </Row>
     </Grid>
   </Dashboard>
 </Dashboards>

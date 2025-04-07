@@ -1,13 +1,6 @@
-
-<Dashboard title="My Dashboard">
-
-  <Grid>
-
-    <HtmlSnippet url="/config/html-snippets/hello_world.html" />
-
-
-
-
-  </Grid>
-</Dashboard>
-
+<Dashboards>
+    <Grid>
+    <Header>My Dashboard</Header>
+      <HtmlSnippet url="/config/html-snippets/hello_world.html" />
+    </Grid>
+</Dashboards>
