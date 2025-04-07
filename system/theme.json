@@ -46,6 +46,9 @@
             }
           }
         },
+        "stroke": {
+          "show": false
+        },
         "xaxis": {
           "floating": false,
           "labels": {
@@ -81,15 +84,17 @@
           "show": true
         },
         "grid": {
-          "show": false
+          "show": false,
+          "borderColor": "#f1f1f1",
+          "strokeDashArray": 0
         },
         "dataLabels": {
           "enabled": false
         },
         "legend": {
-          "show": false
+          "show": true
         },
-        "colors": ["#5BE49B", "#dc3545", "#779b52", "#343a40"]
+        "colors": ["#922157", "#390099", "#E18FAE", "#F3CFE0", "#A17DBA", "#C2A2DB", "#7145A2", "#C75287"]
       },
       "mantine-react-table": {},
       "pivot-table": {},
@@ -108,7 +113,7 @@
       }
     },
     {
-      "name": "wakanda",
+      "name": "duft-tz",
       "description": "This is a sample colour theme",
       "colours": {
         "primary": "#93ccea",
