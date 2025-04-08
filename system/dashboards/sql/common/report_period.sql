@@ -1,1 +1,1 @@
-SELECT previous_week_dates AS report_week_dates FROM duft.dim_reporting_week;
+ SELECT CONCAT('previous week, ending ', previous_week_end_date) AS report_week_dates FROM duft.dim_reporting_week;
