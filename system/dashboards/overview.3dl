@@ -1,0 +1,29 @@
+<Dashboards>
+
+    <Include file="components/common/datasets.3dl" />
+
+    <Include file="components/plhiv/datasets.3dl" />
+
+    <Include file="components/hei/datasets.3dl" />
+
+    <Dashboard
+        data="report_week_data"
+        tabName="A. PLHIV"
+        title="Clients Needing Attention"
+        subTitle="Key HIV Indicators: Needing Attention"
+        lastRefresh="Report period : %report_week_dates%"
+    >
+        <Include file="components/plhiv/overview.3dl" />
+    </Dashboard>
+
+    <Dashboard
+        data="report_week_data"
+        tabName="B. HEI"
+        title="HEI Needing Attention"
+        subTitle="Key HIV Indicators: Needing Attention"
+        lastRefresh="Report period : %report_week_dates%"
+    >
+        <Include file="components/hei/overview.3dl" />
+    </Dashboard>
+
+</Dashboards>

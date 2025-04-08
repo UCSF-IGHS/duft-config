@@ -1,5 +1,5 @@
 SELECT
-    [indicator] AS category,
-    [score] AS [value]
+    [Indicator],
+    [Number]
 FROM
     duft.fact_cumulative_counts

@@ -79,19 +79,8 @@
 
     </Row>
 
-    <Row columns="2">
+    <Row columns="4">
         <ScoreCardTable data="score_card_data" header="Cumulative Counts" subHeader="Number of Clients Needing Attention" exportData="true" />
-        <PieChart
-            data="cumulative_counts_data"
-            header="Cumulative Counts"
-            subHeader="Number of Clients Needing Attention"
-            exportData="true"
-            userOptions={{
-            dataLabels: { enabled: true },
-            legend: { show: true },
-          }}
-        />
-
     </Row>
 
 </Grid>
