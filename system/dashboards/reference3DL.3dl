@@ -214,7 +214,7 @@
           </Table>
         </Tile>
 
-        <Tile data="tile_initiated_data" title="Initiated" iconType="tests">
+        <Tile data="tile_initiated_data" title="Initiated">
           <Table
             data="initiated_detailed_data"
             exportData="true"
@@ -227,7 +227,7 @@
           </Table>
         </Tile>
 
-        <Tile data="tile_suppressed_data" title="Suppressed" iconType="medicine">
+        <Tile data="tile_suppressed_data" title="Suppressed">
           <Table
             data="vl_suppressed_detailed_data"
             exportData="true"
@@ -240,7 +240,7 @@
           </Table>
         </Tile>
 
-        <Tile data="tile_not_suppressed_data" title="Not Suppressed" iconType="appointments">
+        <Tile data="tile_not_suppressed_data" title="Not Suppressed">
           <Table
             data="vl_not_suppressed_detailed_data"
             exportData="true"
