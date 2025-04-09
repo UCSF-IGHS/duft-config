@@ -11,8 +11,8 @@
         "EPMS_Source": {
             "type": "filemaker",
             "server": "jdbc:filemaker://localhost/QuantumWanahedaClinic",
-            "username": "Administrator",
-            "password": "Qepms!@dmin"
+            "username": "qe",
+            "password": "duft1234"
         },
         "EPMS_Destination": {
             "type": "PostgreSQL",
