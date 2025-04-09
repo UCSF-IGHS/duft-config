@@ -12,7 +12,7 @@
             "type": "filemaker",
             "server": "jdbc:filemaker://localhost/QuantumWanahedaClinic",
             "username": "qe",
-            "password": "duft1234"
+            "password": "duft@rm&e!25"
         },
         "EPMS_Destination": {
             "type": "PostgreSQL",
