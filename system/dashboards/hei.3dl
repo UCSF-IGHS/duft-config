@@ -18,7 +18,7 @@
         data="report_week_data"
         tabName="B. Not Registered"
         title="HEI Not Registered"
-        subTitle="Table of HEI clients who are not registered."
+        subTitle="Table of HEI who were born last week but not registered "
         lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
@@ -26,7 +26,7 @@
                 data="hei_not_registered_data"
                 exportData="true"
                 header="HEI Not Registered"
-                subHeader="Table of HEI clients who are not registered."
+                subHeader="Table of HEI who were born last week but not registered."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -37,8 +37,8 @@
 
     <Dashboard
         data="report_week_data"
-        tabName="C. Needing EID Test"
-        title="HEI Needing EID Test"
+        tabName="C. HEI Missed EID test <2 Months"
+        title="HEI Missed EID test <2 Months"
         subTitle="Table of HEI clients requiring EID Test."
         lastRefresh="Data as at %report_week_dates%"
     >
@@ -46,7 +46,7 @@
             <Table
                 data="hei_needing_eid_test_data"
                 exportData="true"
-                header="HEI Needing EID Test"
+                header="HEI Missed EID test <2 Months"
                 subHeader="Table of HEI clients requiring EID Test."
                 variant="plain"
                 detailsViewColumn="Patient ID"

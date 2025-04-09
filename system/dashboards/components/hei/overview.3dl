@@ -12,11 +12,11 @@
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_needing_eid_test_data" title="Needing EID Test">
+        <Tile data="tile_hei_needing_eid_test_data" title="HEI Missed EID test <2 Months">
             <Table
                 data="hei_needing_eid_test_data"
                 exportData="true"
-                header="HEI Needing EID Test"
+                header="HEI Missed EID test <2 Months"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
