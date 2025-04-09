@@ -37,7 +37,7 @@
 
     <Dashboard
         data="report_week_data"
-        tabName="C. HEI Missed EID test <2 Months"
+        tabName="C. Missed EID test <2 Months"
         title="HEI Missed EID test <2 Months"
         subTitle="Table of HEI clients requiring EID Test."
         lastRefresh="Data as at %report_week_dates%"
@@ -58,7 +58,7 @@
 
     <Dashboard
         data="report_week_data"
-        tabName="D. Without FO"
+        tabName="D. 18-24 Months Without FO"
         title="HEI 18-24 Months Without FO"
         subTitle="Table of HEI clients without final outcome."
         lastRefresh="Data as at %report_week_dates%"
@@ -78,7 +78,7 @@
 
     <Dashboard
         data="report_week_data"
-        tabName="E. Not Initiated"
+        tabName="E. HEI_Pos not on ART"
         title="HEI_POS Not Initiated on ART"
         subTitle="Table of HEI_POS clients who are not initiated on ART."
         lastRefresh="Data as at %report_week_dates%"
