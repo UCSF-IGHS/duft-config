@@ -1,15 +1,7 @@
 SELECT
-    [Patient ID],
-    [Exposed Infant Number],
-    [Child Patient ID],
-    [Sex],
-    [DOB],
-    [Age in Months],
+    [Patient ID] AS [Mother Patient ID],
     [Due Date],
-    [Delivery Date],
-    [First Visit Date After Delivery],
-    [HEI Registered],
-    [Infant Status]
+    [Delivery Date] AS [Date of Delivery]
 FROM
     duft.fact_duft_hei_sentinel_event
 WHERE
