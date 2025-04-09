@@ -1,7 +1,11 @@
 SELECT
     [Patient ID] AS [Mother Patient ID],
+    [Mother's Age],
+    [Date Start ART],
+    [Last Visit Date],
     [Due Date],
-    [Delivery Date] AS [Date of Delivery]
+    [Date of Delivery],
+    [HEI Current Age in Weeks]
 FROM
     duft.fact_duft_hei_sentinel_event
 WHERE
