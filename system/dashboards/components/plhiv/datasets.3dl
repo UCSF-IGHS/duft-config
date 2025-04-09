@@ -8,7 +8,7 @@
                 name="iit_clients_data"
                 queryName="plhiv/table/iit_clients"
                 pageSize="15"
-                searchColumns="Patient ID, Current Age, Sex, Number of Days Prescribed"
+                searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 filterFrom="gender"
             />
 
