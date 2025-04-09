@@ -9,7 +9,7 @@
         tabName="A. Overview"
         title="HEI Needing Attention"
         subTitle="Key HIV Indicators: HEI Needing Attention"
-        lastRefresh="Report period : %report_week_dates%"
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Include file="components/hei/overview.3dl" />
     </Dashboard>
@@ -19,7 +19,7 @@
         tabName="B. Not Registered"
         title="HEI Not Registered"
         subTitle="Table of HEI clients who are not registered."
-        lastRefresh="Report period : %report_week_dates%"
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
             <Table
@@ -40,7 +40,7 @@
         tabName="C. Needing EID Test"
         title="HEI Needing EID Test"
         subTitle="Table of HEI clients requiring EID Test."
-        lastRefresh="Report period : %report_week_dates%"
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
             <Table
@@ -61,7 +61,7 @@
         tabName="D. Without FO"
         title="HEI 18-24 Months Without FO"
         subTitle="Table of HEI clients without final outcome."
-        lastRefresh="Report period : %report_week_dates%"
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
             <Table
@@ -81,7 +81,7 @@
         tabName="E. Not Initiated"
         title="HEI_POS Not Initiated on ART"
         subTitle="Table of HEI_POS clients who are not initiated on ART."
-        lastRefresh="Report period : %report_week_dates%"
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
             <Table

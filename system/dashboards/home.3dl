@@ -9,7 +9,7 @@
         tabName="A. Overview"
         title="Clients Needing Attention"
         subTitle="Key HIV Indicators: Needing Attention"
-        lastRefresh="Report period : %report_week_dates%"
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Include file="components/plhiv/overview.3dl" />
     </Dashboard>
@@ -18,8 +18,8 @@
         data="report_week_data"
         tabName="B. Missed Appointments"
         title="Clients With Missed Appointments"
-        subTitle="Table of clients with appointments last week."
-        lastRefresh="Report period : %report_week_dates%"
+        subTitle="Table of clients who had  appointments last week  but did not attend."
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
             <Table
@@ -38,8 +38,8 @@
         data="report_week_data"
         tabName="C. Missed Viral Load"
         title="Clients Who Missed Viral Load Test"
-        subTitle="Table of clients who missed viral load test."
-        lastRefresh="Report period : %report_week_dates%"
+        subTitle="Table of Eligible PLHIV who had appointment last week but missed their viral load test (both who attended and not attended)."
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
             <Table
@@ -58,8 +58,8 @@
         data="report_week_data"
         tabName="D. Unsuppressed No EAC"
         title="Unsuppressed Clients Not Initiated on EAC"
-        subTitle="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
-        lastRefresh="Report period : %report_week_dates%"
+        subTitle="Table of PLHIV with high viral (>1000cp/ml) who had appointment last week  or high viral load results returned last week but not initiated on EAC (both attended and not attended)."
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
             <Table
@@ -78,15 +78,15 @@
         data="report_week_data"
         tabName="E. CLHIV Nutrition Challenges"
         title="Children Living with HIV (CLHIV) Nutrition Challenges"
-        subTitle="Table of nutrition challenges of children living with HIV (CLHIV)."
-        lastRefresh="Report period : %report_week_dates%"
+        subTitle="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
             <Table
                 data="clhiv_nutrition_clients_data"
                 exportData="true"
                 header="hildren Living with HIV (CLHIV) Nutrition Challenges"
-                subHeader="Table of nutrition challenges of children living with HIV (CLHIV)."
+                subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -99,8 +99,8 @@
         data="report_week_data"
         tabName="F. AHD Suspects no CrAg Test"
         title="AHD Suspect no CrAg Test Clients"
-        subTitle="Table of clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
-        lastRefresh="Report period : %report_week_dates%"
+        subTitle="Table of PLHIV who had appointment last week, confirmed AHD suspect but were not tested for Crag(both attended and not attended)."
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
             <Table
@@ -120,8 +120,8 @@
         data="report_week_data"
         tabName="G. Confirmed AHD no Management"
         title="Clients with Confirmed AHD and no Management"
-        subTitle="Table of confirmed AHD clients with positive CrAg test and no follow-up for prophylaxis or treatment."
-        lastRefresh="Report period : %report_week_dates%"
+        subTitle="Table of PLHIV who were cofirmed AHD and had appointment last week or had Crag test results but were not on AHD prophylaxis, or meningitis treatment (both attended and not attended)."
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
             <Table

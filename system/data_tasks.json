@@ -51,7 +51,7 @@
                     "allowOverride": false,
                     "promptUser": false
                 }
-            }             
+            }
         },
         {
             "id": "SAMPLE-ERROR",
@@ -85,8 +85,8 @@
                     "allowOverride": true,
                     "promptUser": false
                 }
-            }             
-        },        
+            }
+        },
         {
             "id": "ROOT-SAMPLE",
             "name": "Sample Data Task executed from the Root",
@@ -128,7 +128,7 @@
                     "promptUser": false
                 }
             }
-        },        
+        },
         {
             "id": "SAMPLE-NOTEBOOK",
             "name": "Sample Notebook Task",
@@ -191,8 +191,8 @@
                     "defaultValue": "main",
                     "allowOverride": true,
                     "promptUser": false
-                }                
-            }           
+                }
+            }
         },
         {
             "id": "UPLOAD",
@@ -204,7 +204,7 @@
             "dataConnections": [
                 "ANA",
                 "DUFT-SERVER-API"
-            ]                  
+            ]
         },
         {
             "id": "NON-EXISTING",
@@ -215,7 +215,7 @@
             "executeFromRoot": false,
             "dataConnections": [
                 "ANA"
-            ]                  
-        }                                        
+            ]
+        }
     ]
 }

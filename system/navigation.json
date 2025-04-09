@@ -1,7 +1,7 @@
 {
   "settings": {
     "appName": "CTCA",
-    "footer": "Developed for CDCTZ/NASHCOP"
+    "footer": "© 2025 DUFT. Powered by DUFT."
   },
   "menu": {
     "header": "Dashboards",
@@ -19,17 +19,13 @@
             "title": "HEI",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/hei"
-          },
-          {
-            "title": "Preview query",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/3dlpreview-query"
           }
         ]
       }
     ]
   },
   "dataTasks": {
+    "header": "ACTIONS",
     "items": [
       {
         "title": "Refresh data",
