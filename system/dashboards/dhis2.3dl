@@ -1,0 +1,61 @@
+<Dashboards>
+
+    <Datasets>
+        <DHIS2Data
+            name="dhis_data"
+            endPoint="/sqlViews/w3UxFykyHFy/data.json"
+            method="GET"
+            />
+        <SQLData
+        name="client_data"
+        queryName="detailed"
+        pageSize="15"
+        searchColumns="client_id"
+        filterFrom="gender"
+        />
+        
+
+    </Datasets>
+
+    <Dashboard
+        data="dhis2_data"
+        tabName="DHIS2"
+        title="Sample DHIS2 data from a sql view"
+        subTitle="Table of DHIS2 data."
+    >
+        <Grid> 
+            <Table data ="dhis_data"/>
+        </Grid>
+    </Dashboard>
+    <Dashboard
+        data="map_data"
+        tabName="MAP"
+        title="Sample map"
+        subTitle="cluster map"
+    >
+        <Grid> 
+            <ClusterMap
+                data={{
+                type: "FeatureCollection",
+                features: [
+                    {
+                    type: "Feature",
+                    geometry: {
+                        type: "Point",
+                        coordinates: [-73.935242, 40.730610], // Longitude, Latitude
+                    },
+                    properties: {
+                        category: "Medical Cases",
+                        value: 5,
+                        location: "New York City",
+                    },
+                    },
+                    // Add other features as needed
+                ],
+                }}
+                header="Cluster Map Test"
+                mapStyle="https://demotiles.maplibre.org/style.json" // Example Maplibre style
+            />
+        </Grid>
+    </Dashboard>
+</Dashboards>
