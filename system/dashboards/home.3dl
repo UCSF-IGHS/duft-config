@@ -78,7 +78,7 @@
         data="report_week_data"
         tabName="E. CLHIV Nutrition Challenges"
         title="Children Living with HIV (CLHIV) Nutrition Challenges"
-        subTitle="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
+        subTitle="CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
         lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
@@ -86,7 +86,7 @@
                 data="clhiv_nutrition_clients_data"
                 exportData="true"
                 header="hildren Living with HIV (CLHIV) Nutrition Challenges"
-                subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
+                subHeader="CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >

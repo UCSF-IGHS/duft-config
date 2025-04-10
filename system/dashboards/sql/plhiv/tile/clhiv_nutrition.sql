@@ -3,7 +3,7 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    [Current Age] < 15
+    [Current Age] < 5
 AND
     [Last Visit in Previous Week] = 'Yes'
 AND
