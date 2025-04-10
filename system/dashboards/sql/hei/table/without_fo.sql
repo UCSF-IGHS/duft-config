@@ -6,9 +6,9 @@ SELECT
     [Sex],
     [Last Visit Date],
     [DNA PCR Test Results at Birth],
-    [DNA PCR Test Results at 4-6 Weeks],
+    [DNA PCR Test Results at 4 to 6 Weeks],
     [DNA PCR Test Results at 9 Months],
-    [Antibody Test Results 3 Months Post-BF]
+    [Antibody Test Results at 3 Months Post-BF]
     FROM
     duft.fact_duft_hei_sentinel_event
 WHERE
