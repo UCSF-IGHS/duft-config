@@ -18,7 +18,7 @@
         data="report_week_data"
         tabName="B. Not Registered"
         title="HEI Not Registered"
-        subTitle="Table of HEI who were born last week but not registered "
+        subTitle="HEI who were born last week but not registered "
         lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
@@ -26,7 +26,7 @@
                 data="hei_not_registered_data"
                 exportData="true"
                 header="HEI Not Registered"
-                subHeader="Table of HEI who were born last week but not registered."
+                subHeader="HEI who were born last week but not registered."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -39,7 +39,7 @@
         data="report_week_data"
         tabName="C. Missed EID test <2 Months"
         title="HEI Missed EID test <2 Months"
-        subTitle="Table of HEI clients requiring EID Test."
+        subTitle="HEI clients requiring EID Test."
         lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
@@ -47,7 +47,7 @@
                 data="hei_needing_eid_test_data"
                 exportData="true"
                 header="HEI Missed EID test <2 Months"
-                subHeader="Table of HEI clients requiring EID Test."
+                subHeader="HEI clients requiring EID Test."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -58,9 +58,51 @@
 
     <Dashboard
         data="report_week_data"
-        tabName="D. 18-24 Months Without FO"
-        title="HEI 18-24 Months Without FO"
-        subTitle="Table of HEI clients without final outcome."
+        tabName="D. Missed EID test 9 mo+"
+        title=" HEI Missed EID test 9 Months"
+        subTitle="HEI who had appointment last week, eligible but missed their 9 months DNA PCR test and 3 months post BF antibody test (both who attended and not attended)."
+        lastRefresh="Data as at %report_week_dates%"
+    >
+        <Grid>
+            <Table
+                data="hei_needing_eid_test_data"
+                exportData="true"
+                header="HEI Missed EID test 9 Months"
+                subHeader="HEI who had appointment last week, eligible but missed their 9 months DNA PCR test and 3 months post BF antibody test (both who attended and not attended)."
+                variant="plain"
+                detailsViewColumn="Patient ID"
+            >
+            <Table data="needing_eid_test_hei_details_data" header="HEI Details" />
+            </Table>
+      </Grid>
+    </Dashboard>
+
+    <Dashboard
+        data="report_week_data"
+        tabName="E. Misclassified high risk HEI"
+        title=" Misclassified high risk HEI"
+        subTitle="HEI who were born last week with misclassified risk status."
+        lastRefresh="Data as at %report_week_dates%"
+    >
+        <Grid>
+            <Table
+                data="hei_needing_eid_test_data"
+                exportData="true"
+                header="Misclassified high risk HEI"
+                subHeader="HEI who were born last week with misclassified risk status."
+                variant="plain"
+                detailsViewColumn="Patient ID"
+            >
+            <Table data="needing_eid_test_hei_details_data" header="HEI Details" />
+            </Table>
+      </Grid>
+    </Dashboard>
+
+    <Dashboard
+        data="report_week_data"
+        tabName="F. 18-24 Months without FO"
+        title="HEI 18-24 Months without FO"
+        subTitle="HEI clients without final outcome."
         lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
@@ -68,7 +110,7 @@
                 data="hei_without_fo_data"
                 exportData="true"
                 header="Clients Who Missed Viral Load"
-                subHeader="Table of HEI clients without final outcome."
+                subHeader="HEI clients without final outcome."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -79,9 +121,9 @@
 
     <Dashboard
         data="report_week_data"
-        tabName="E. HEI_Pos not on ART"
+        tabName="G. HEI_Pos not on ART"
         title="HEI_POS Not Initiated on ART"
-        subTitle="Table of HEI_POS clients who are not initiated on ART."
+        subTitle="HEI_POS clients who are not initiated on ART."
         lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
@@ -89,7 +131,7 @@
                 data="hei_pos_not_initiated_data"
                 exportData="true"
                 header="Clients with Unsupppressed VL"
-                subHeader="Table of HEI_POS clients who are not initiated on ART."
+                subHeader="HEI_POS clients who are not initiated on ART."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
