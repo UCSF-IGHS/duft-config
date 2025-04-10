@@ -7,11 +7,8 @@ SELECT
     [Last Visit Date],
     [Number of Days Prescribed] AS [Number of Days Dispensed],
     [Last Appointment Date] AS [Missed Appointment Date],
-    [Number of Days Dispensed],
-    [Last Documented Appointment Status],
-    [Now Pregnant/Breastfeeding],
-    NULL AS [TB Suspect],
-    [Last VL Is Unsuppressed] AS [High VL]
+    [Now Pregnant/Breastfeeding] AS [Now Pregnant/ Breastfeeding],
+    [Last VL Is Unsuppressed] AS [Last Viral Load High(>1000cps/ml)]
 FROM
     duft.fact_duft_sentinel_event
 WHERE

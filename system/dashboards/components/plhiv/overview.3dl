@@ -1,8 +1,6 @@
 <Grid>
 
-    <Row columns = "2" largeColumns = "2">
-        <Row columns = "6" largeColumns = "3">
-
+    <Row columns = "12" largeColumns = "3">
             <Tile data="tile_missed_appointment_data" title="Missed Appointments">
                 <Table
                     data="missed_appointment_clients_data"
@@ -79,10 +77,5 @@
             </Tile>
 
         </Row>
-
-        <Row columns="6">
-            <ScoreCardTable data="score_card_data" header="Cumulative Counts" subHeader="Number of Clients Needing Attention" exportData="true" />
-        </Row>
-    </Row>
 
 </Grid>
