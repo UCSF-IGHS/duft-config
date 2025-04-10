@@ -4,15 +4,16 @@ SELECT
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Current Weight],
-    [Current Weight],
+    [Next Appointment Date],
+    [Current Weight] AS [Current Weight(KG)],
+    [Current Height] AS [Current Height(CM)],
     [Documented Nutritional Status],
     [Calculated Nutritional Status],
     [Documented and Calculated Nutritional Status Match]
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    [Current Age] < 15
+    [Current Age] < 5
 AND
     [Last Visit in Previous Week] = 'Yes'
 AND

@@ -3,7 +3,7 @@ SELECT
     [Current Age],
     [Sex],
     [Last Visit Date],
-    [Number of Days Prescribed] AS [Number of Days Dispensed],
+    [Number of Days Dispensed],
     [Next Appointment Date],
     [Days Since Last Visit],
     [Days Missed Drugs]

@@ -60,7 +60,7 @@
         data="report_week_data"
         tabName="D. Unsuppressed No EAC"
         title="Unsuppressed Clients Not Initiated on EAC"
-        subTitle="Table of PLHIV with high viral (>1000cp/ml) who had appointment last week  or high viral load results returned last week but not initiated on EAC (both attended and not attended)."
+        subTitle="PLHIV with high viral (>1000cp/ml) who had appointment last week(both attended and not attended) or high viral load results returned last week but not initiated on EAC."
         lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
@@ -81,7 +81,7 @@
         data="report_week_data"
         tabName="E. CLHIV Nutrition Challenges"
         title="Children Living with HIV (CLHIV) Nutrition Challenges"
-        subTitle="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
+        subTitle="CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
         lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
