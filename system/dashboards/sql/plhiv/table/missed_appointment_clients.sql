@@ -1,9 +1,11 @@
 SELECT
+    DISTINCT
     [Patient ID],
     [Current Age],
     [Sex],
     [Date Start ART],
     [Last Visit Date],
+    [Number of Days Prescribed] AS [Number of Days Dispensed],
     [Last Appointment Date] AS [Missed Appointment Date],
     [Number of Days Dispensed],
     [Last Documented Appointment Status],
@@ -17,4 +19,4 @@ WHERE
 AND
     [Last Visit in Previous Week] = 'No'
 ORDER BY
-    [Patient ID] ASC
+    [Last Appointment Date] ASC
