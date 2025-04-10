@@ -5,7 +5,7 @@ SELECT
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Number of Days Prescribed] AS [Number of Days Dispensed],
+    [Number of Days Dispensed],
     [Last Appointment Date] AS [Missed Appointment Date],
     [Now Pregnant/Breastfeeding] AS [Now Pregnant/ Breastfeeding],
     [Last VL Is Unsuppressed] AS [Last Viral Load High(>1000cps/ml)]

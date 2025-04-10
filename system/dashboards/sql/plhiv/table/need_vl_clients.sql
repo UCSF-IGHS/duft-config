@@ -8,7 +8,6 @@ SELECT
     [Now Pregnant/Breastfeeding] as [Now Pregnant/ Breastfeeding],
     [Last VL Test Date],
     [Last VL Result Numeric] AS [Last VL Result],
-    [VL Eligible Post EAC] AS [Eligible for repeat VL after EAC],
     [VL Eligible PGBF] AS [VL Eligible PBFW],
     [VL Eligible TX_CURR],
     [VL Eligible TX_NEW]
