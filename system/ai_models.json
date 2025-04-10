@@ -7,8 +7,11 @@
             "description": "Sample model for interacting with wakanda sample dataset",
             "engineURL": "http://localhost:11434/api/generate",
             "maximumTokens": 2022,
-            "prompts": ["wakanda.md"],
-            "engineType": "ollama"
+            "prompts": [
+                "wakanda.md"
+            ],
+            "engineType": "ollama",
+            "modelIntroductions": "model-introductions/text-to-sql.md"
         },
         {
             "id": "llama3.2",
@@ -17,8 +20,11 @@
             "description": "Sample model on duft.app",
             "engineURL": "https://ask-ai.duft.app/api/generate",
             "maximumTokens": 2022,
-            "prompts": ["wakanda.md"],
-            "engineType": "ollama"
+            "prompts": [
+                "wakanda.md"
+            ],
+            "engineType": "ollama",
+            "modelIntroductions": "model-introductions/text-to-sql.md"
         },
         {
             "id": "ChatGPT",
@@ -27,8 +33,11 @@
             "description": "Requires an API key",
             "engineURL": "https://api.openai.com/v1/chat/completions",
             "maximumTokens": 2022,
-            "prompts": ["wakanda.md"],
-            "engineType": "open-ai"
-        }        
+            "prompts": [
+                "wakanda.md"
+            ],
+            "engineType": "open-ai",
+            "modelIntroductions": "model-introductions/text-to-sql.md"
+        }
     ]
 }
