@@ -12,11 +12,35 @@
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_needing_eid_test_data" title="Needing EID Test">
+        <Tile data="tile_hei_needing_eid_test_data" title="Missed EID test <2 Months">
             <Table
                 data="hei_needing_eid_test_data"
                 exportData="true"
-                header="HEI Needing EID Test"
+                header="HEI Missed EID test <2 Months"
+                variant="plain"
+                detailsViewColumn="Patient ID"
+            >
+            <Table data="needing_eid_test_hei_details_data" header="HEI details" />
+        </Table>
+        </Tile>
+
+        <Tile data="tile_hei_needing_eid_test_data" title="Missed EID test 9 mo+">
+            <Table
+                data="hei_needing_eid_test_data"
+                exportData="true"
+                header="HEI Missed EID test 9 Months"
+                variant="plain"
+                detailsViewColumn="Patient ID"
+            >
+            <Table data="needing_eid_test_hei_details_data" header="HEI details" />
+        </Table>
+        </Tile>
+    
+        <Tile data="tile_hei_needing_eid_test_data" title="Misclassified high risk HEI">
+            <Table
+                data="hei_needing_eid_test_data"
+                exportData="true"
+                header="Misclassified high risk HEI"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -28,7 +52,7 @@
             <Table
                 data="hei_without_fo_data"
                 exportData="true"
-                header="HEI 18-24 Months Without FO"
+                header="HEI 18-24 Months without FO"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -36,7 +60,7 @@
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_pos_not_initiated_data" title="POS Not Initiated">
+        <Tile data="tile_hei_pos_not_initiated_data" title="HEI_Pos not on ART">
             <Table
                 data="hei_pos_not_initiated_data"
                 exportData="true"
