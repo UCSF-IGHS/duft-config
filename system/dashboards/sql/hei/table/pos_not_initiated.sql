@@ -1,16 +1,13 @@
 SELECT
-    [Patient ID],
-    [Exposed Infant Number],
-    [Child Patient ID],
+    [Patient ID] AS [Mother Patient ID],
+    [Exposed Infant ID],
+    [Date of Birth],
+    [HEI Current Age in Months],
     [Sex],
-    [DOB],
-    [Age in Months],
-    [Last EID Visit Date],
-    [Last Antibody Test Date],
-    [Last Antibody Test Type],
-    [Last Antibody Result Date],
-    [Last Antibody Result],
-    [Initiated on ART]
+    [Last Visit Date],
+    NULL AS [Date of Final Outcome],
+    [Documented Final Outcome],
+    [HEI Age in Months at Final Outcome]
 FROM
     duft.fact_duft_hei_sentinel_event
 WHERE
