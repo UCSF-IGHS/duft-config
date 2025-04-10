@@ -9,7 +9,7 @@
                                 <Header>Week:</Header>
                             </Row>
                             <Row columns="1">
-                                <Filter caption="Select Week:" name="week" values_query="SELECT CONCAT(weekly_start_monday_period, ': ', weekly_start_monday_day_dates) AS week FROM derived.dim_date GROUP BY weekly_start_monday_period, weekly_start_monday_day_dates ORDER BY weekly_start_monday_period DESC;" />
+                                <Filter caption="Select Week:" name="week" values_query="SELECT weekly_start_monday_period + ': ' + FORMAT(CAST(LEFT(weekly_start_monday_day_dates, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE), 'MMM dd yyyy') + ' - ' + FORMAT(CAST(RIGHT(weekly_start_monday_day_dates, LEN(weekly_start_monday_day_dates) - CHARINDEX('-', weekly_start_monday_day_dates) - 1) AS DATE), 'MMM dd yyyy') AS week_name FROM derived.dim_date GROUP BY weekly_start_monday_period, weekly_start_monday_day_dates ORDER BY MIN(CAST(LEFT(weekly_start_monday_day_dates, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE)) DESC;" />
                             </Row>
                         </Row>
                     </Row>
@@ -34,7 +34,7 @@
                 </Row>
 
                 <Row columns="1" largeColumns="2">
-                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(hvl_samples_with_results_less_than_1000_or_above_50) + SUM(hvl_samples_with_results_less_than_50) AS [suppressed], SUM(hvl_samples_with_results_less_than_1000_or_above_50) AS [unsuppressed] FROM [final].fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
+                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(hvl_samples_with_results_less_than_1000_or_above_50) + SUM(hvl_samples_with_results_less_than_50) AS [suppressed], SUM(hvl_samples_with_results_equal_or_above_1000) AS [unsuppressed] FROM [final].fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period ORDER BY d.weekly_start_monday_period;">
                         <StackedBarChart
                             header="Viral Load Suppression & Unsuppression Result on Weekly Basis"
                             subHeader=""
