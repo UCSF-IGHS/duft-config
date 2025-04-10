@@ -26,6 +26,7 @@
                 data="missed_appointment_clients_data"
                 header="Clients With Missed Appointments"
                 subHeader="Table of clients missed appointments last week."
+                exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -46,6 +47,7 @@
                 data="need_vl_clients_data"
                 header="Clients Who Missed Viral Load Test"
                 subHeader="Table of clients who missed viral load test."
+                exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -66,6 +68,7 @@
                 data="unsuppressed_clients_data"
                 header="Unsuppressed Clients Not Initiated on EAC"
                 subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
+                exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -87,6 +90,7 @@
                 exportData="true"
                 header="hildren Living with HIV (CLHIV) Nutrition Challenges"
                 subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
+                exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -108,6 +112,7 @@
                 exportData="true"
                 header="AHD Suspect Clients"
                 subHeader="Table of clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
+                exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -129,6 +134,7 @@
                 exportData="true"
                 header="Clients with Confirmed AHD and no Management"
                 subHeader="Table of confirmed AHD clients with positive CrAg test and no follow-up for prophylaxis or treatment."
+                exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >

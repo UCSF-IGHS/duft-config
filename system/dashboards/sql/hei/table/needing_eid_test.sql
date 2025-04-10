@@ -1,12 +1,15 @@
 SELECT
-    [Patient ID],
-    [Exposed Infant Number],
-    [Child Patient ID],
+    [Patient ID] AS [Mother Patient ID],
+    [Exposed Infant ID],
+    [Date of Birth],
+    [HEI Age in Weeks at Last Visit],
     [Sex],
-    [DOB],
-    [Age in Months],
-    [Last EID Visit Date],
-    [Eligible for First EID Test]
+    [Last Visit Date],
+    [Documented Risk Category],
+	[HEI Eligible for DNA PCR at Birth],
+	[DNA PCR at Birth Sample Collection Date],
+    [HEI Eligible for DNA PCR at 4 to 6 Weeks],
+	[DNA PCR at 4 to 6 Weeks Sample Collection Date]
 FROM
     duft.fact_duft_hei_sentinel_event
 WHERE
