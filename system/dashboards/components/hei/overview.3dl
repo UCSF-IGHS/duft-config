@@ -24,7 +24,7 @@
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_needing_eid_test_9_months_data" title="Missed EID Test 9 mo+">
+        <Tile data="tile_hei_needing_eid_test_9_months_data" title="Missed EID Test 9 Mo+">
             <Table
                 data="hei_needing_eid_test_9_months_data"
                 exportData="true"
