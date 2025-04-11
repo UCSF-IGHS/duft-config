@@ -1,5 +1,5 @@
 <Grid>
-    <Row columns = "2" largeColumns = "4">
+    <Row columns = "2" largeColumns = "3">
         <Tile data="tile_hei_not_registered_data" title="Not Registered">
             <Table
                 data="hei_not_registered_data"
