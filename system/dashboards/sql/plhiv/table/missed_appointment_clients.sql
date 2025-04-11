@@ -1,15 +1,14 @@
 SELECT
+    DISTINCT
     [Patient ID],
     [Current Age],
     [Sex],
     [Date Start ART],
     [Last Visit Date],
+    [Number of Days Dispensed],
     [Last Appointment Date] AS [Missed Appointment Date],
-    [Number of Days Prescribed],
-    [Last Appointment Documented Status],
-    [Now Pregnant/Breastfeeding],
-    NULL AS [TB Suspect],
-    [Last VL Is Unsuppressed] AS [High VL]
+    [Now Pregnant/Breastfeeding] AS [Now Pregnant/ Breastfeeding],
+    [Last VL Is Unsuppressed] AS [Last Viral Load High(>1000cps/ml)]
 FROM
     duft.fact_duft_sentinel_event
 WHERE
@@ -17,4 +16,4 @@ WHERE
 AND
     [Last Visit in Previous Week] = 'No'
 ORDER BY
-    [Patient ID] ASC
+    [Last Appointment Date] ASC
