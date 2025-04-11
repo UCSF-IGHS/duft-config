@@ -3,27 +3,6 @@
     "appName": "CTCA",
     "footer": "© 2025 DUFT. Powered by DUFT."
   },
-  "menu": {
-    "header": "Dashboards",
-    "items": [
-      {
-        "title": "Need Attention",
-        "icon": "dashboards-icon",
-        "dashboards": [
-          {
-            "title": "PLHIV",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/home"
-          },
-          {
-            "title": "HEI",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/hei"
-          }
-        ]
-      }
-    ]
-  },
   "dataTasks": {
     "header": "ACTIONS",
     "items": [
