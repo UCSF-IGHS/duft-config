@@ -33,6 +33,16 @@
             "dashboard": "/dashboard/reference3dl"
           },
           {
+            "title": "DHIS2 3DL ",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/dhis2"
+          },
+          {
+            "title": "Map 3DL ",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/map"
+          },
+          {
             "title": "Tab Dashboard",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/3dlsample-tabs"
