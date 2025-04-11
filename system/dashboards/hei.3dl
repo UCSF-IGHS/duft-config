@@ -28,7 +28,7 @@
                 header="HEI Not Registered"
                 subHeader="HEI who were born last week but not registered."
                 variant="plain"
-                detailsViewColumn="Patient ID"
+                detailsViewColumn="Mother Patient ID"
             >
             <Table data="not_registered_hei_details_data" header="HEI Details" />
             </Table>
@@ -49,7 +49,7 @@
                 header="HEI Missed EID Test <2 Months"
                 subHeader="HEI clients requiring EID Test."
                 variant="plain"
-                detailsViewColumn="Patient ID"
+                detailsViewColumn="Mother Patient ID"
             >
             <Table data="needing_eid_test_2_months_hei_details_data" header="HEI Details" />
             </Table>
@@ -70,7 +70,7 @@
                 header="HEI Missed EID Test 9 Months"
                 subHeader="HEI who had appointment last week, eligible but missed their 9 months DNA PCR test and 3 months post BF antibody test (both who attended and not attended)."
                 variant="plain"
-                detailsViewColumn="Patient ID"
+                detailsViewColumn="Mother Patient ID"
             >
             <Table data="needing_eid_test_9_months_hei_details_data" header="HEI Details" />
             </Table>
@@ -91,7 +91,7 @@
                 header="Misclassified High Risk HEI"
                 subHeader="HEI who were born last week with misclassified risk status."
                 variant="plain"
-                detailsViewColumn="Patient ID"
+                detailsViewColumn="Mother Patient ID"
             >
             <Table data="risk_analysis_hei_details_data" header="HEI Details" />
             </Table>
@@ -112,7 +112,7 @@
                 header="Clients Who Missed Viral Load"
                 subHeader="HEI clients without final outcome."
                 variant="plain"
-                detailsViewColumn="Patient ID"
+                detailsViewColumn="Mother Patient ID"
             >
             <Table data="without_fo_hei_details_data" variant="plain" header="HEI Details" />
             </Table>
@@ -133,7 +133,7 @@
                 header="Clients with Unsupppressed VL"
                 subHeader="HEI_POS clients who are not initiated on ART."
                 variant="plain"
-                detailsViewColumn="Patient ID"
+                detailsViewColumn="Mother Patient ID"
             >
             <Table data="pos_not_initiated_hei_details_data" variant="plain" header="HEI details" />
             </Table>
