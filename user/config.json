@@ -8,18 +8,31 @@
             "database": "production"
         },
         "ANA": {
-            "type": "sqlite3",
             "server": "127.0.0.1",
-            "sqlite3file": "wakanda.sqlite",
             "username": "user",
             "password": "mysecretword",
             "port": "5432",
-            "database": "analysis"
+            "database": "analysis",
+            "sqlite3file": "wakanda.sqlite",
+            "type": "sqlite3"
         },
         "DUFT-SERVER-API": {
             "server": "http://127.0.0.1:8000",
-            "username": "admin",
+            "username": "advanced_dashboard_user",
             "password": "--------"
+        },
+        "HTTPBIN": {
+            "username": "user",
+            "password": "pass"
+        }, 
+        "DHIS2": {
+            "username": "admin",
+            "password": "district"
+        },
+        "OpenMRS": {
+            "server": "https://dev3.openmrs.org/openmrs/ws/rest/v1",
+            "username": "admin",
+            "password": "Admin123"
         },
         "NDR": {
             "server": "https://www.myndr.com/api/v2",
@@ -30,7 +43,7 @@
             "server": "test://self3333",
             "username": "user",
             "password": "mysecretword333",
-            "unitTested": "2024-06-23 12:47:11.625553"
+            "unitTested": "2024-12-25 16:38:07.024817"
         },
         "UNITTEST_SAFECOPY": {
             "server": "test://self",

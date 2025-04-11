@@ -1,0 +1,11 @@
+{
+  "proxyAPIs": [
+      {
+          "id": "USERAPI",
+          "name": "USERAPI",
+          "description": "Runs against the USER API",
+          "endPoint": "www.userAPI.org/openmrs/ws/rest/v1",
+          "dataConnection": "USERAPI"
+      }
+  ]
+}
