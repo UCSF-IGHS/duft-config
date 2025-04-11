@@ -5,7 +5,7 @@ SELECT
     [Date Start ART],
     [Last Visit Date],
     [Next Appointment Date],
-    [Now Pregnant/Breastfeeding] as [Now Pregnant/ Breastfeeding],
+    [Now Pregnant/Breastfeeding] AS [Now Pregnant/ Breastfeeding],
     [Last VL Test Date],
     [Last VL Result Numeric] AS [Last VL Result],
     [VL Eligible PGBF] AS [VL Eligible PBFW],

@@ -5,8 +5,8 @@ SELECT
     [Date Start ART],
     [Last Visit Date],
     [Next Appointment Date],
-    [Current Weight] AS [Current Weight(KG)],
-    [Current Height] AS [Current Height(CM)],
+    [Current Weight(KG)],
+    [Current Height(CM)],
     [Documented Nutritional Status],
     [Calculated Nutritional Status],
     [Documented and Calculated Nutritional Status Match]
@@ -18,9 +18,9 @@ AND
     [Last Visit in Previous Week] = 'Yes'
 AND
 (
-    [Current Weight] IS NULL
+    [Current Weight(KG)] IS NULL
 OR
-    [Current Weight] IS NULL
+    [Current Height(KG)] IS NULL
 OR
     [Documented Nutritional Status] IS NULL
 OR

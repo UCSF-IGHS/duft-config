@@ -6,7 +6,7 @@ SELECT
     [Last Visit Date],
     [Next Appointment Date],
     [Is Recently Initiated] AS [TX_NEW],
-    [WHO Stage 3/4 Result] AS [WHO Stage 3/4],
+    [WHO Stage 3/4 (Yes/No)],
     [WHO Stage 3/4 With No CD4 Test],
     [Traced Back After LTFU] AS [Traced Back After LTFU(TX_RTT)],
     [Has High VL Post EAC] AS [Persistent High VL After EAC],
