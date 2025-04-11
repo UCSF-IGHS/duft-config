@@ -1,21 +1,8 @@
 {
     "aiModels": [
         {
-            "id": "SAMPLE_MODEL",
-            "name": "SAMPLE_MODEL",
-            "model": "SAMPLE_MODEL",
-            "description": "Sample model for interacting with wakanda sample dataset",
-            "engineURL": "http://localhost:11434/api/generate",
-            "maximumTokens": 2022,
-            "prompts": [
-                "wakanda.md"
-            ],
-            "engineType": "ollama",
-            "modelIntroductions": "model-introductions/text-to-sql.md"
-        },
-        {
             "id": "llama3.2",
-            "name": "llama3.2",
+            "name": "Local Query Assistant",
             "model": "llama3.2",
             "description": "Sample model on duft.app",
             "engineURL": "https://ask-ai.duft.app/api/generate",
@@ -27,8 +14,21 @@
             "modelIntroductions": "model-introductions/text-to-sql.md"
         },
         {
-            "id": "ChatGPT",
-            "name": "gpt-4o-mini",
+            "id": "ChatGPT-PH",
+            "name": "Public Health Assistant",
+            "model": "gpt-4o-mini",
+            "description": "Requires an API key",
+            "engineURL": "https://api.openai.com/v1/chat/completions",
+            "maximumTokens": 2022,
+            "prompts": [
+                "wakanda.md"
+            ],
+            "engineType": "open-ai",
+            "modelIntroductions": "model-introductions/public-health.md"
+        },
+        {
+            "id": "ChatGPT-SQL",
+            "name": "Query Assistant",
             "model": "gpt-4o-mini",
             "description": "Requires an API key",
             "engineURL": "https://api.openai.com/v1/chat/completions",
