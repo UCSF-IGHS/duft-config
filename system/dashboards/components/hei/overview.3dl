@@ -12,11 +12,11 @@
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_needing_eid_test_2_months_data" title="Missed EID test <2 Months">
+        <Tile data="tile_hei_needing_eid_test_2_months_data" title="Missed EID Test <2 Months">
             <Table
                 data="hei_needing_eid_test_2_months_data"
                 exportData="true"
-                header="HEI Missed EID test <2 Months"
+                header="HEI Missed EID Test <2 Months"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -24,11 +24,11 @@
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_needing_eid_test_9_months_data" title="Missed EID test 9 mo+">
+        <Tile data="tile_hei_needing_eid_test_9_months_data" title="Missed EID Test 9 Mo+">
             <Table
                 data="hei_needing_eid_test_9_months_data"
                 exportData="true"
-                header="HEI Missed EID test 9 Months"
+                header="HEI Missed EID Test 9 Months"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -36,11 +36,11 @@
         </Table>
         </Tile>
     
-        <Tile data="tile_hei_risk_analysis_data" title="Misclassified high risk HEI">
+        <Tile data="tile_hei_risk_analysis_data" title="Misclassified High Risk HEI">
             <Table
                 data="hei_risk_analysis_data"
                 exportData="true"
-                header="Misclassified high risk HEI"
+                header="Misclassified High Risk HEI"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -52,7 +52,7 @@
             <Table
                 data="hei_without_fo_data"
                 exportData="true"
-                header="HEI 18-24 Months without FO"
+                header="HEI 18-24 Months Without FO"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
@@ -60,11 +60,11 @@
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_pos_not_initiated_data" title="HEI_Pos not on ART">
+        <Tile data="tile_hei_pos_not_initiated_data" title="HEI_Pos Not on ART">
             <Table
                 data="hei_pos_not_initiated_data"
                 exportData="true"
-                header="HEI POS Not Initiated"
+                header="HEI POS Not Initiated on ART"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
