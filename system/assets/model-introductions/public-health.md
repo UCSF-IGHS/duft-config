@@ -1,3 +1,3 @@
-This AI model is designed to  interpret natural language questions and convert them into SQL queries for a given dataset. It enables you to explore data using plain English without needing to understand SQL syntax or database structure.
+This AI model is designed to interpret natural language questions and generate meaningful responses based on public health data. It enables researchers, policymakers, and practitioners to explore trends, identify gaps, and gain actionable insights — all through simple, conversational questions.
 
-The returned SQL will be highlighted in a separate text block allowing you to execute it in one click.
+Whether you're tracking disease patterns, analyzing intervention outcomes, or supporting evidence-based decision-making, this model helps translate complex data into clear, understandable answers.
