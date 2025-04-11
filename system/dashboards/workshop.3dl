@@ -17,7 +17,7 @@
                     tabName="F. IIT"
                     title="Clients with IIT (28-90 Days)"
                     subTitle="Tabular representation of clients who had interruption in treatment."
-                    lastRefresh="Data as at %report_week_dates%"
+                    lastRefresh="Reporting Period:  %report_week_dates%"
                 >
                     <Grid>
                         <Table
@@ -38,7 +38,7 @@
                     tabName="D. Unsuppressed No EAC"
                     title="Unsuppressed Clients Not Initiated on EAC"
                     subTitle="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
-                    lastRefresh="Data as at %report_week_dates%"
+                    lastRefresh="Reporting Period:  %report_week_dates%"
                 >
                     <Grid>
                         <Table
@@ -58,7 +58,7 @@
                     tabName="E. AHD Suspects no CrAg Test"
                     title="AHD Suspect no CrAg Test Clients"
                     subTitle="Table of clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
-                    lastRefresh="Data as at %report_week_dates%"
+                    lastRefresh="Reporting Period:  %report_week_dates%"
                 >
                     <Grid>
                         <Table
@@ -85,7 +85,7 @@
                 tabName="F. IIT"
                 title="Clients with IIT (28-90 Days)"
                 subTitle="Tabular representation of clients who had interruption in treatment."
-                lastRefresh="Data as at %report_week_dates%"
+                lastRefresh="Reporting Period:  %report_week_dates%"
             >
                 <Grid>
                     <Table

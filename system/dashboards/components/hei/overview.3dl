@@ -12,39 +12,39 @@
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_needing_eid_test_data" title="Missed EID test <2 Months">
+        <Tile data="tile_hei_needing_eid_test_2_months_data" title="Missed EID test <2 Months">
             <Table
-                data="hei_needing_eid_test_data"
+                data="hei_needing_eid_test_2_months_data"
                 exportData="true"
                 header="HEI Missed EID test <2 Months"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="needing_eid_test_hei_details_data" header="HEI details" />
+            <Table data="needing_eid_test_2_months_hei_details_data" header="HEI details" />
         </Table>
         </Tile>
 
-        <Tile data="tile_hei_needing_eid_test_data" title="Missed EID test 9 mo+">
+        <Tile data="tile_hei_needing_eid_test_9_months_data" title="Missed EID test 9 mo+">
             <Table
-                data="hei_needing_eid_test_data"
+                data="hei_needing_eid_test_9_months_data"
                 exportData="true"
                 header="HEI Missed EID test 9 Months"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="needing_eid_test_hei_details_data" header="HEI details" />
+            <Table data="needing_eid_test_9_months_hei_details_data" header="HEI details" />
         </Table>
         </Tile>
     
-        <Tile data="tile_hei_needing_eid_test_data" title="Misclassified high risk HEI">
+        <Tile data="tile_hei_risk_analysis_data" title="Misclassified high risk HEI">
             <Table
-                data="hei_needing_eid_test_data"
+                data="hei_risk_analysis_data"
                 exportData="true"
                 header="Misclassified high risk HEI"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="needing_eid_test_hei_details_data" header="HEI details" />
+            <Table data="risk_analysis_hei_details_data" header="HEI details" />
         </Table>
         </Tile>
 
