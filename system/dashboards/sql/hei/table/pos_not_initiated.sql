@@ -5,7 +5,7 @@ SELECT
     [HEI Current Age in Months],
     [Sex],
     [Last Visit Date],
-    NULL AS [Date of Final Outcome],
+    [Date of Final Outcome],
     [Documented Final Outcome],
     [HEI Age in Months at Final Outcome]
 FROM

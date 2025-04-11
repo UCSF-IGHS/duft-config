@@ -44,14 +44,14 @@
     >
         <Grid>
             <Table
-                data="hei_needing_eid_test_data"
+                data="hei_needing_eid_test_2_months_data"
                 exportData="true"
                 header="HEI Missed EID test <2 Months"
                 subHeader="HEI clients requiring EID Test."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="needing_eid_test_hei_details_data" header="HEI Details" />
+            <Table data="needing_eid_test_2_months_hei_details_data" header="HEI Details" />
             </Table>
       </Grid>
     </Dashboard>
@@ -65,14 +65,14 @@
     >
         <Grid>
             <Table
-                data="hei_needing_eid_test_data"
+                data="hei_needing_eid_test_9_months_data"
                 exportData="true"
                 header="HEI Missed EID test 9 Months"
                 subHeader="HEI who had appointment last week, eligible but missed their 9 months DNA PCR test and 3 months post BF antibody test (both who attended and not attended)."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="needing_eid_test_hei_details_data" header="HEI Details" />
+            <Table data="needing_eid_test_9_months_hei_details_data" header="HEI Details" />
             </Table>
       </Grid>
     </Dashboard>
@@ -86,14 +86,14 @@
     >
         <Grid>
             <Table
-                data="hei_needing_eid_test_data"
+                data="hei_risk_analysis_data"
                 exportData="true"
                 header="Misclassified high risk HEI"
                 subHeader="HEI who were born last week with misclassified risk status."
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="needing_eid_test_hei_details_data" header="HEI Details" />
+            <Table data="risk_analysis_hei_details_data" header="HEI Details" />
             </Table>
       </Grid>
     </Dashboard>

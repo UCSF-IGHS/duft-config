@@ -18,51 +18,51 @@
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
-        {/* Needing EID Test */}
+        {/* Needing EID Test 2 Months */}
 
             <SQLData
-                name="hei_needing_eid_test_data"
-                queryName="hei/table/needing_eid_test"
+                name="hei_needing_eid_test_2_months_data"
+                queryName="hei/table/needing_eid_test_2_months"
                 pageSize="15"
                 searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Last EID Visit Date, Exposed Infant ID"
                 filterFrom="gender"
             />
 
-            <SQLData name="tile_hei_needing_eid_test_data" queryName="hei/tile/needing_eid_test" filterFrom="gender" />
+            <SQLData name="tile_hei_needing_eid_test_2_months_data" queryName="hei/tile/needing_eid_test_2_months" filterFrom="gender" />
 
-            <SQLData name="needing_eid_test_hei_details_data" detailsViewData="hei_needing_eid_test_data" detailsViewColumn="Patient ID" transpose="true">
+            <SQLData name="needing_eid_test_2_months_hei_details_data" detailsViewData="hei_needing_eid_test_2_months_data" detailsViewColumn="Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
         {/* Needing EID Test 9 months */}
 
             <SQLData
-                name="hei_needing_eid_test_data"
-                queryName="hei/table/needing_eid_test"
+                name="hei_needing_eid_test_9_months_data"
+                queryName="hei/table/needing_eid_test_9_months"
                 pageSize="15"
                 searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Last EID Visit Date, Exposed Infant ID"
                 filterFrom="gender"
             />
 
-            <SQLData name="tile_hei_needing_eid_test_data" queryName="hei/tile/needing_eid_test" filterFrom="gender" />
+            <SQLData name="tile_hei_needing_eid_test_9_months_data" queryName="hei/tile/needing_eid_test_9_months" filterFrom="gender" />
 
-            <SQLData name="needing_eid_test_hei_details_data" detailsViewData="hei_needing_eid_test_data" detailsViewColumn="Patient ID" transpose="true">
+            <SQLData name="needing_eid_test_9_months_hei_details_data" detailsViewData="hei_needing_eid_test_9_months_data" detailsViewColumn="Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
-        {/* Misclassified high risk HEI */}
+        {/* Misclassified High Risk HEI */}
 
             <SQLData
-                name="hei_needing_eid_test_data"
-                queryName="hei/table/needing_eid_test"
+                name="hei_risk_analysis_data"
+                queryName="hei/table/risk_analysis"
                 pageSize="15"
                 searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Last EID Visit Date, Exposed Infant ID"
                 filterFrom="gender"
             />
 
-            <SQLData name="tile_hei_needing_eid_test_data" queryName="hei/tile/needing_eid_test" filterFrom="gender" />
+            <SQLData name="tile_hei_risk_analysis_data" queryName="hei/tile/risk_analysis" filterFrom="gender" />
 
-            <SQLData name="needing_eid_test_hei_details_data" detailsViewData="hei_needing_eid_test_data" detailsViewColumn="Patient ID" transpose="true">
+            <SQLData name="risk_analysis_hei_details_data" detailsViewData="hei_risk_analysis_data" detailsViewColumn="Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
