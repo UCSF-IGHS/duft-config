@@ -18,5 +18,7 @@ WHERE
     [Last Appointment in Previous Week] = 'Yes'
 AND
     [AHD Suspect Within 30 Days] = 'Yes'
+AND
+    [CrAg Test Within 30 Days] IS NULL
 ORDER BY
     [Patient ID] ASC
