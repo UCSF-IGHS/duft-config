@@ -14,8 +14,8 @@
 
             <SQLData name="tile_hei_not_registered_data" queryName="hei/tile/not_registered" filterFrom="gender" />
 
-            <SQLData name="not_registered_hei_details_data" detailsViewData="hei_not_registered_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            <SQLData name="not_registered_hei_details_data" detailsViewData="hei_not_registered_data" detailsViewColumn="Mother Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
             </SQLData>
 
         {/* Needing EID Test 2 Months */}
@@ -30,8 +30,8 @@
 
             <SQLData name="tile_hei_needing_eid_test_2_months_data" queryName="hei/tile/needing_eid_test_2_months" filterFrom="gender" />
 
-            <SQLData name="needing_eid_test_2_months_hei_details_data" detailsViewData="hei_needing_eid_test_2_months_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            <SQLData name="needing_eid_test_2_months_hei_details_data" detailsViewData="hei_needing_eid_test_2_months_data" detailsViewColumn="Mother Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
             </SQLData>
 
         {/* Needing EID Test 9 months */}
@@ -46,8 +46,8 @@
 
             <SQLData name="tile_hei_needing_eid_test_9_months_data" queryName="hei/tile/needing_eid_test_9_months" filterFrom="gender" />
 
-            <SQLData name="needing_eid_test_9_months_hei_details_data" detailsViewData="hei_needing_eid_test_9_months_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            <SQLData name="needing_eid_test_9_months_hei_details_data" detailsViewData="hei_needing_eid_test_9_months_data" detailsViewColumn="Mother Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
             </SQLData>
 
         {/* Misclassified High Risk HEI */}
@@ -62,8 +62,8 @@
 
             <SQLData name="tile_hei_risk_analysis_data" queryName="hei/tile/risk_analysis" filterFrom="gender" />
 
-            <SQLData name="risk_analysis_hei_details_data" detailsViewData="hei_risk_analysis_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            <SQLData name="risk_analysis_hei_details_data" detailsViewData="hei_risk_analysis_data" detailsViewColumn="Mother Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
             </SQLData>
 
         {/* 18-24 Months Without FO */}
@@ -78,8 +78,8 @@
 
             <SQLData name="tile_hei_without_fo_data" queryName="hei/tile/without_fo" filterFrom="gender" />
 
-            <SQLData name="without_fo_hei_details_data" detailsViewData="hei_without_fo_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            <SQLData name="without_fo_hei_details_data" detailsViewData="hei_without_fo_data" detailsViewColumn="Mother Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
             </SQLData>
 
         {/* HEI POS Not Initiated */}
@@ -94,8 +94,8 @@
 
             <SQLData name="tile_hei_pos_not_initiated_data" queryName="hei/tile/pos_not_initiated" filterFrom="gender" />
 
-            <SQLData name="pos_not_initiated_hei_details_data" detailsViewData="hei_pos_not_initiated_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            <SQLData name="pos_not_initiated_hei_details_data" detailsViewData="hei_pos_not_initiated_data" detailsViewColumn="Mother Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
             </SQLData>
 
 </Datasets>
