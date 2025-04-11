@@ -1,9 +1,9 @@
 {
     "dataConnectionParameters": {
         "ANA": {
-            "server": "10.211.55.4",
-            "username": "bsiele",
-            "password": "fMiy/<vqtw'<Kc81tcUb",
+            "server": "127.0.0.1",
+            "username": "duft_user",
+            "password": "duft_2025",
             "port": "1433",
             "database": "ctc_a_prod_analysis_test",
             "type": "MSSQL"
