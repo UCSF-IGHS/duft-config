@@ -9,7 +9,7 @@
         tabName="A. Overview"
         title="HEI Needing Attention"
         subTitle="Key HIV Indicators: HEI Needing Attention"
-        lastRefresh="Data as at %report_week_dates%"
+        lastRefresh="Reporting Period:  %report_week_dates%"
     >
         <Include file="components/hei/overview.3dl" />
     </Dashboard>
@@ -19,7 +19,7 @@
         tabName="B. Not Registered"
         title="HEI Not Registered"
         subTitle="HEI who were born last week but not registered "
-        lastRefresh="Data as at %report_week_dates%"
+        lastRefresh="Reporting Period:  %report_week_dates%"
     >
         <Grid>
             <Table
@@ -40,7 +40,7 @@
         tabName="C. Missed EID test <2 Months"
         title="HEI Missed EID test <2 Months"
         subTitle="HEI clients requiring EID Test."
-        lastRefresh="Data as at %report_week_dates%"
+        lastRefresh="Reporting Period:  %report_week_dates%"
     >
         <Grid>
             <Table
@@ -61,7 +61,7 @@
         tabName="D. Missed EID test 9 mo+"
         title=" HEI Missed EID test 9 Months"
         subTitle="HEI who had appointment last week, eligible but missed their 9 months DNA PCR test and 3 months post BF antibody test (both who attended and not attended)."
-        lastRefresh="Data as at %report_week_dates%"
+        lastRefresh="Reporting Period:  %report_week_dates%"
     >
         <Grid>
             <Table
@@ -82,7 +82,7 @@
         tabName="E. Misclassified high risk HEI"
         title=" Misclassified high risk HEI"
         subTitle="HEI who were born last week with misclassified risk status."
-        lastRefresh="Data as at %report_week_dates%"
+        lastRefresh="Reporting Period:  %report_week_dates%"
     >
         <Grid>
             <Table
@@ -103,7 +103,7 @@
         tabName="F. 18-24 Months without FO"
         title="HEI 18-24 Months without FO"
         subTitle="HEI clients without final outcome."
-        lastRefresh="Data as at %report_week_dates%"
+        lastRefresh="Reporting Period:  %report_week_dates%"
     >
         <Grid>
             <Table
@@ -124,7 +124,7 @@
         tabName="G. HEI_Pos not on ART"
         title="HEI_POS Not Initiated on ART"
         subTitle="HEI_POS clients who are not initiated on ART."
-        lastRefresh="Data as at %report_week_dates%"
+        lastRefresh="Reporting Period:  %report_week_dates%"
     >
         <Grid>
             <Table
