@@ -125,15 +125,15 @@
         data="report_week_data"
         tabName="G. Confirmed AHD no Management"
         title="Clients with Confirmed AHD and no Management"
-        subTitle="Table of PLHIV who were cofirmed AHD and had appointment last week or had Crag test results but were not on AHD prophylaxis, or meningitis treatment (both attended and not attended)."
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        subTitle="PLHIV who were Positive for CrAg  and had appointment last week (both attended and not attended) or had Positive CrAg results returned last week but were not initiated on either prophylaxis or treatment."
+        lastRefresh="Data as at %report_week_dates%"
     >
         <Grid>
             <Table
                 data="confirmed_ahd_no_management_clients_data"
                 exportData="true"
                 header="Clients with Confirmed AHD and no Management"
-                subHeader="Table of confirmed AHD clients with positive CrAg test and no follow-up for prophylaxis or treatment."
+                subHeader="Confirmed AHD clients with positive CrAg test and no follow-up for prophylaxis or treatment."
                 exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
