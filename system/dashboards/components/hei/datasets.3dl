@@ -79,7 +79,20 @@
             <SQLData name="tile_hei_without_fo_data" queryName="hei/tile/without_fo" filterFrom="gender" />
 
             <SQLData name="without_fo_hei_details_data" detailsViewData="hei_without_fo_data" detailsViewColumn="Mother Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
+               SELECT   [Mother CTC Number] AS [Mother Patient ID], 
+                        [Exposed Infant ID], 
+                        [Date of Birth], 
+                        [Sex], 
+                        [DNA PCR Test Results at Birth],
+                        [DNA PCR Test Results at 4 to 6 Weeks],
+                        [Documented Final Outcome],
+                        [Last EID Visit Feeding Practice]
+	            FROM    
+                        duft.fact_duft_hei_sentinel_event
+                WHERE   
+                        [Mother CTC Number] = '[[Mother Patient ID]]'
+                        
+               /*SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'*/
             </SQLData>
 
         {/* HEI POS Not Initiated */}
