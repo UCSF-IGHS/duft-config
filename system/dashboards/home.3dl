@@ -18,19 +18,19 @@
         data="report_week_data"
         tabName="B. Missed Appointments"
         title="Clients With Missed Appointments"
-        subTitle="Table of clients who had  appointments last week  but did not attend."
+        subTitle="Clients who had  appointments last week  but did not attend."
         lastRefresh="Reporting Period:  %report_week_dates%"
     >
         <Grid>
             <Table
                 data="missed_appointment_clients_data"
                 header="Clients With Missed Appointments"
-                subHeader="Table of clients missed appointments last week."
+                subHeader="Clients missed appointments last week."
                 exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="missed_appointment_client_details_data" variant="plain" header="Client details" />
+            <Table data="missed_appointment_client_details_data" variant="plain" header="PLHIV Client Profile" />
             </Table>
       </Grid>
     </Dashboard>
@@ -39,19 +39,19 @@
         data="report_week_data"
         tabName="C. Missed Viral Load"
         title="Clients Who Missed Viral Load Test"
-        subTitle="Table of Eligible PLHIV who had appointment last week but missed their viral load test (both who attended and not attended)."
+        subTitle="Eligible PLHIV who had appointment last week but missed their viral load test (both who attended and not attended)."
         lastRefresh="Reporting Period:  %report_week_dates%"
     >
         <Grid>
             <Table
                 data="need_vl_clients_data"
                 header="Clients Who Missed Viral Load Test"
-                subHeader="Table of clients who missed viral load test."
+                subHeader="Clients who missed viral load test."
                 exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="need_vl_client_details_data" variant="plain" header="Client details" />
+            <Table data="need_vl_client_details_data" variant="plain" header="PLHIV Client Profile" />
             </Table>
       </Grid>
     </Dashboard>
@@ -67,12 +67,12 @@
             <Table
                 data="unsuppressed_clients_data"
                 header="Unsuppressed Clients Not Initiated on EAC"
-                subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
+                subHeader="Clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
                 exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="unsuppressed_client_details_data" variant="plain" header="Client details" />
+            <Table data="unsuppressed_client_details_data" variant="plain" header="PLHIV Client Profile" />
             </Table>
       </Grid>
     </Dashboard>
@@ -89,12 +89,12 @@
                 data="clhiv_nutrition_clients_data"
                 exportData="true"
                 header="hildren Living with HIV (CLHIV) Nutrition Challenges"
-                subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
+                subHeader="CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
                 exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="clhiv_nutrition_client_details_data" header="Client details" />
+            <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
             </Table>
       </Grid>
     </Dashboard>
@@ -103,7 +103,7 @@
         data="report_week_data"
         tabName="F. AHD Suspects no CrAg Test"
         title="AHD Suspect no CrAg Test Clients"
-        subTitle="Table of PLHIV who had appointment last week, confirmed AHD suspect but were not tested for Crag(both attended and not attended)."
+        subTitle="PLHIV who had appointment last week, confirmed AHD suspect but were not tested for Crag(both attended and not attended)."
         lastRefresh="Reporting Period:  %report_week_dates%"
     >
         <Grid>
@@ -111,12 +111,12 @@
                 data="ahd_no_crag_clients_data"
                 exportData="true"
                 header="AHD Suspect Clients"
-                subHeader="Table of clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
+                subHeader="Clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
                 exportData="true"
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="ahd_no_crag_client_details_data" header="Client details" />
+            <Table data="ahd_no_crag_client_details_data" header="PLHIV Client Profile" />
             </Table>
       </Grid>
     </Dashboard>
@@ -138,7 +138,7 @@
                 variant="plain"
                 detailsViewColumn="Patient ID"
             >
-            <Table data="confirmed_ahd_no_management_client_details_data" header="Client details" />
+            <Table data="confirmed_ahd_no_management_client_details_data" header="PLHIV Client Profile" />
             </Table>
         </Grid>
     </Dashboard>

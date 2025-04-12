@@ -33,7 +33,24 @@
             <SQLData name="tile_ahd_no_crag_data" queryName="plhiv/tile/ahd_no_crag" filterFrom="gender" />
 
             <SQLData name="ahd_no_crag_client_details_data" detailsViewData="ahd_no_crag_clients_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT  [Patient ID], 
+                        [Date of Birth], 
+                        [Sex], 
+                        [HIV Diagnosis Date] AS [Date Confirmed HIV], 
+                        [Date Start ART], 
+                        [Marital Status], 
+                        [Current Height(CM)] AS [Height], 
+                        [Current Weight(KG)] AS [Weight], 
+                        [First BP Systolic] AS [BP Reading (Systolic)],
+                        [First BP Diastolic] AS [BP Reading (Diastolic)],
+                        [Last Pregnancy Status] AS [Pregnancy Status], 
+                        [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                        [Pregnancy Due Date],
+                        [Last VL Result Numeric] AS [Last Viral Load]
+	            FROM 
+                        duft.fact_duft_sentinel_event
+                WHERE
+                        [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
         {/* Confirmed AHD no Management Clients */}
@@ -49,7 +66,24 @@
             <SQLData name="tile_confirmed_ahd_no_management_data" queryName="plhiv/tile/confirmed_ahd_no_management" filterFrom="gender" />
 
             <SQLData name="confirmed_ahd_no_management_client_details_data" detailsViewData="confirmed_ahd_no_management_clients_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT  [Patient ID], 
+                        [Date of Birth], 
+                        [Sex], 
+                        [HIV Diagnosis Date] AS [Date Confirmed HIV], 
+                        [Date Start ART], 
+                        [Marital Status], 
+                        [Current Height(CM)] AS [Height], 
+                        [Current Weight(KG)] AS [Weight], 
+                        [First BP Systolic] AS [BP Reading (Systolic)],
+                        [First BP Diastolic] AS [BP Reading (Diastolic)],
+                        [Last Pregnancy Status] AS [Pregnancy Status], 
+                        [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                        [Pregnancy Due Date],
+                        [Last VL Result Numeric] AS [Last Viral Load]
+	            FROM 
+                        duft.fact_duft_sentinel_event
+                WHERE
+                        [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
         {/* Clients Needing VL */}
@@ -65,7 +99,24 @@
             <SQLData name="tile_need_vl_data" queryName="plhiv/tile/need_vl" filterFrom="gender" />
 
             <SQLData name="need_vl_client_details_data" detailsViewData="need_vl_clients_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT  [Patient ID], 
+                        [Date of Birth], 
+                        [Sex], 
+                        [HIV Diagnosis Date] AS [Date Confirmed HIV], 
+                        [Date Start ART], 
+                        [Marital Status], 
+                        [Current Height(CM)] AS [Height], 
+                        [Current Weight(KG)] AS [Weight], 
+                        [First BP Systolic] AS [BP Reading (Systolic)],
+                        [First BP Diastolic] AS [BP Reading (Diastolic)],
+                        [Last Pregnancy Status] AS [Pregnancy Status], 
+                        [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                        [Pregnancy Due Date],
+                        [Last VL Result Numeric] AS [Last Viral Load]
+	            FROM 
+                        duft.fact_duft_sentinel_event
+                WHERE
+                        [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
         {/* Unsuppressed Clients no EAC */}
@@ -81,7 +132,24 @@
             <SQLData name="tile_unsuppressed_data" queryName="plhiv/tile/unsuppressed" filterFrom="gender" />
 
             <SQLData name="unsuppressed_client_details_data" detailsViewData="unsuppressed_clients_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT  [Patient ID], 
+                        [Date of Birth], 
+                        [Sex], 
+                        [HIV Diagnosis Date] AS [Date Confirmed HIV], 
+                        [Date Start ART], 
+                        [Marital Status], 
+                        [Current Height(CM)] AS [Height], 
+                        [Current Weight(KG)] AS [Weight], 
+                        [First BP Systolic] AS [BP Reading (Systolic)],
+                        [First BP Diastolic] AS [BP Reading (Diastolic)],
+                        [Last Pregnancy Status] AS [Pregnancy Status], 
+                        [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                        [Pregnancy Due Date],
+                        [Last VL Result Numeric] AS [Last Viral Load]
+	            FROM 
+                        duft.fact_duft_sentinel_event
+                WHERE
+                        [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
         {/* CLHIV Nutrition Challeenges */}
@@ -97,7 +165,24 @@
             <SQLData name="tile_clhiv_nutrition_data" queryName="plhiv/tile/clhiv_nutrition" filterFrom="gender" />
 
             <SQLData name="clhiv_nutrition_client_details_data" detailsViewData="clhiv_nutrition_clients_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT  [Patient ID], 
+                        [Date of Birth], 
+                        [Sex], 
+                        [HIV Diagnosis Date] AS [Date Confirmed HIV], 
+                        [Date Start ART], 
+                        [Marital Status], 
+                        [Current Height(CM)] AS [Height], 
+                        [Current Weight(KG)] AS [Weight], 
+                        [First BP Systolic] AS [BP Reading (Systolic)],
+                        [First BP Diastolic] AS [BP Reading (Diastolic)],
+                        [Last Pregnancy Status] AS [Pregnancy Status], 
+                        [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                        [Pregnancy Due Date],
+                        [Last VL Result Numeric] AS [Last Viral Load]
+	            FROM 
+                        duft.fact_duft_sentinel_event
+                WHERE
+                        [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
         {/* Clients with Missed Appointments */}
@@ -113,7 +198,25 @@
             <SQLData name="tile_missed_appointment_data" queryName="plhiv/tile/missed_appointment" filterFrom="gender" />
 
             <SQLData name="missed_appointment_client_details_data" detailsViewData="missed_appointment_clients_data" detailsViewColumn="Patient ID" transpose="true">
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                 SELECT [Patient ID], 
+                        [Date of Birth], 
+                        [Sex], 
+                        [HIV Diagnosis Date] AS [Date Confirmed HIV], 
+                        [Date Start ART], 
+                        [Marital Status], 
+                        [Current Height(CM)] AS [Height], 
+                        [Current Weight(KG)] AS [Weight], 
+                        [First BP Systolic] AS [BP Reading (Systolic)],
+                        [First BP Diastolic] AS [BP Reading (Diastolic)],
+                        [Last Pregnancy Status] AS [Pregnancy Status], 
+                        [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                        [Pregnancy Due Date],
+                        [Last VL Result Numeric] AS [Last Viral Load]
+	            FROM 
+                        duft.fact_duft_sentinel_event
+                WHERE
+                        [Patient ID] = '[[Patient ID]]'
+                
             </SQLData>
 
         {/* Clients Needing Attention */}
