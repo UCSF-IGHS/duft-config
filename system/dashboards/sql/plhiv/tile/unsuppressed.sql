@@ -4,10 +4,19 @@ FROM
     duft.fact_duft_sentinel_event
 WHERE
     (
-        [Last VL Is Unsuppressed] = 'Yes'
-        AND [Last Date Initiated EAC] IS NULL
+        [Last Appointment in Previous Week] = 'Yes' AND 
+        (
+            ([Last VL Is Unsuppressed] = 'Yes' AND [Last Date Initiated EAC] IS NULL)
+            OR 
+            ([Last VL Is Unsuppressed] = 'Yes' AND [Last Date Initiated EAC] < [Last VL Result Date])
+        )
     )
-    AND (
-        [Last Appointment in Previous Week] = 'Yes'
-        OR [Last VL Result in Previous Week] = 'Yes'
+    OR
+    (
+        [Last VL Result in Previous Week] = 'Yes' AND 
+        (
+            ([Last VL Is Unsuppressed] = 'Yes' AND [Last Date Initiated EAC] IS NULL)
+            OR 
+            ([Last VL Is Unsuppressed] = 'Yes' AND [Last Date Initiated EAC] < [Last VL Result Date])
+        )
     )
