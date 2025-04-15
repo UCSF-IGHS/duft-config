@@ -30,7 +30,7 @@
           {
             "title": "Sample Tracking Report",
             "icon": "dashboard-icon",
-            "dashboard": ""
+            "dashboard": "/dashboard/sample-tracking-report-dashboard"
           }
         ]
       },
