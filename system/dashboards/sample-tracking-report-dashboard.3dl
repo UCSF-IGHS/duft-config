@@ -1,0 +1,77 @@
+<TabSet>
+    <Tab title="HVL Tracking Report">
+        <Dashboard>
+            <Grid>
+                <Filters>
+                    <Row columns="1" largeColumns="2">
+                        <Row columns="1">
+                            <Row>
+                                <Header>Start Date:</Header>
+                            </Row>
+                            <Row>
+                                <DateFilter name="startdate" caption="MM-DD-YY" />
+                            </Row>
+                        </Row>
+                        <Row columns="1">
+                            <Row>
+                                <Header>End Date:</Header>
+                            </Row>
+                            <Row>
+                                <DateFilter name="enddate" caption="MM-DD-YY" />
+                            </Row>
+                        </Row>
+                    </Row>
+                </Filters>
+
+                <Row columns="1">
+                    <Dataset query="SELECT Region, Council, Facility, HFR, [Sample Tracking ID], [Sample Quality Status], [Collected Date], [Received Date], [Tested Date], [Result Date], Results FROM (SELECT dim_facility.region AS Region, dim_facility.council AS Council, dim_facility.facility_name AS Facility, fact_daily_hvl_sample_status._hfr_id AS HFR, dim_sample.sample_quality_status AS [Sample Quality Status], dim_sample.sample_tracking_id AS [Sample Tracking ID], dim_sample.collected_date AS [Collected Date], dim_sample.lab_received_date AS [Received Date], dim_sample.tested_date AS [Tested Date], dim_sample.result_authorized_date AS [Result Date], fact_daily_hvl_sample_status.result AS Results, ROW_NUMBER() OVER (PARTITION BY fact_daily_hvl_sample_status.sample_id ORDER BY fact_daily_hvl_sample_status.report_date DESC) AS sample_rank FROM [derived].fact_daily_hvl_sample_status AS fact_daily_hvl_sample_status JOIN [derived].dim_sample AS dim_sample ON fact_daily_hvl_sample_status.sample_id = dim_sample.sample_id JOIN [derived].dim_facility AS dim_facility ON fact_daily_hvl_sample_status._hfr_id = dim_facility.hfr_code WHERE dim_sample.lab_received_date >= '$startdate' AND dim_sample.lab_received_date <= '$enddate') AS subquery WHERE sample_rank = 1;">
+                        <InfiniteScrollTable
+                            header="Sample Tracking Report for HVL Test Name"
+                            subHeader=""
+                            exportData="true"
+                            variant="plain"
+                            searchValue="Sample Tracking ID"
+                        />
+                    </Dataset>
+                </Row>
+            </Grid>
+        </Dashboard>
+    </Tab>
+    <Tab title="EID Tracking Report">
+        <Dashboard>
+            <Grid>
+                <Filters>
+                    <Row columns="1" largeColumns="2">
+                        <Row columns="1">
+                            <Row>
+                                <Header>Start Date:</Header>
+                            </Row>
+                            <Row>
+                            <DateFilter name="startdate" caption="MM-DD-YY" />
+                            </Row>
+                        </Row>
+                        <Row columns="1">
+                            <Row>
+                                <Header>End Date:</Header>
+                            </Row>
+                            <Row>
+                                <DateFilter name="enddate" caption="MM-DD-YY" />
+                            </Row>
+                        </Row>
+                    </Row>
+                </Filters>
+
+                <Row columns="1">
+                    <Dataset searchColumns="sample_tracking_id" query="SELECT Region, Council, Facility, HFR, [Sample Tracking ID], [Sample Quality Status], [Collected Date], [Received Date], [Tested Date], [Result Date], Results FROM (SELECT dim_facility.region AS Region, dim_facility.council AS Council, dim_facility.facility_name AS Facility, fact_daily_eid_sample_status._hfr_id AS HFR, dim_sample.sample_quality_status AS [Sample Quality Status], dim_sample.sample_tracking_id AS [Sample Tracking ID], dim_sample.collected_date AS [Collected Date], dim_sample.lab_received_date AS [Received Date], dim_sample.tested_date AS [Tested Date], dim_sample.result_authorized_date AS [Result Date], fact_daily_eid_sample_status.result AS Results, ROW_NUMBER() OVER (PARTITION BY fact_daily_eid_sample_status.sample_id ORDER BY fact_daily_eid_sample_status.report_date DESC) AS sample_rank FROM [derived].fact_daily_eid_sample_status AS fact_daily_eid_sample_status JOIN [derived].dim_sample AS dim_sample ON fact_daily_eid_sample_status.sample_id = dim_sample.sample_id JOIN [derived].dim_facility AS dim_facility ON fact_daily_eid_sample_status._hfr_id = dim_facility.hfr_code WHERE dim_sample.lab_received_date >= '$startdate' AND dim_sample.lab_received_date <= '$enddate') AS subquery WHERE sample_rank = 1;">
+                        <InfiniteScrollTable
+                            header="Sample Tracking Report for EID Test Name"
+                            subHeader=""
+                            exportData="true"
+                            searchValue="Sample Tracking ID"
+                        />
+                    </Dataset>
+                </Row>
+            </Grid>
+        </Dashboard>
+    </Tab>
+</TabSet>
