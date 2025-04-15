@@ -117,7 +117,7 @@
     <SQLData
       name="art_cascade_data"
       queryName="clients/art_cascade"
-      filterFrom="gender, age_group, birth_date"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -170,7 +170,7 @@
       pageSize="20"
       name="sentinel_event_data"
       queryName="clients/client_list_all"
-      filterFrom="gender, age_group"
+      filterFrom="gender, age_group, birth_date"
       searchColumns="client_id, emr_identifier"
     />
 
