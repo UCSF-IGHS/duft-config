@@ -15,6 +15,7 @@
     >
         <Grid> 
             <Table data ="dhis_data"/>
+            <LineChart data="dhis_data" />
         </Grid>
     </Dashboard>
 </Dashboards>
