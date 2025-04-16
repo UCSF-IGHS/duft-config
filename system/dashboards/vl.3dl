@@ -51,7 +51,7 @@
           variant="plain"
           detailsViewColumn="client_id"
         >
-          <Table data="sentinel_event_details_data" />
+          <Table data="suppressed_details_data" />
         </Table>
 
       </SingleLayout>
@@ -74,7 +74,7 @@
           variant="plain"
           detailsViewColumn="client_id"
         >
-          <Table data="suppressed_details_data" />
+          <Table data="not_suppressed_details_data" />
         </Table>
 
       </SingleLayout>
