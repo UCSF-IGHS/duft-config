@@ -7,7 +7,7 @@
     "header": "ACTIONS",
     "items": [
       {
-        "title": "Run Analysis",
+        "title": "Refresh Data",
         "icon": "update-icon",
         "task": "CTC_A_ANALYTICAL_DB_REFRESH",
         "prompt": "Are you sure you want to refresh analytical data?"
