@@ -1,3 +1,7 @@
-This AI model is designed to interpret natural language questions and generate meaningful responses based on public health data. It enables researchers, policymakers, and practitioners to explore trends, identify gaps, and gain actionable insights — all through simple, conversational questions.
+Hi there! 👋  
+I'm trained to understand your questions and respond with insights drawn from public health data.  
+You can ask me about trends, gaps, or outcomes — and I’ll help you explore Wakanda data in a clear, conversational way.  
 
-Whether you're tracking disease patterns, analyzing intervention outcomes, or supporting evidence-based decision-making, this model helps translate complex data into clear, understandable answers.
+Whether you're tracking disease patterns, analyzing interventions, or supporting policy decisions, I’m here to turn complex information into easy-to-understand answers.  
+
+Just ask!
