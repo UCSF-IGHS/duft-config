@@ -1,16 +1,16 @@
 {
     "aiModels": [
         {
-            "id": "llama3.2",
+            "id": "llama3.2-gpu",
             "name": "Local Query Assistant",
-            "model": "llama3.2",
+            "model": "llama3:8b",
             "description": "Sample model on duft.app",
-            "engineURL": "https://ask-ai.duft.app/api/generate",
+            "engineURL": "https://duft-wakanda.globalhealthapp.net/api/chat/completions",
             "maximumTokens": 2022,
             "prompts": [
                 "wakanda.md"
             ],
-            "engineType": "ollama",
+            "engineType": "web-ui",
             "modelIntroductions": "model-introductions/text-to-sql.md"
         },
         {
