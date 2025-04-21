@@ -1,15 +1,18 @@
 <Grid>
-    <Row largeColumns="2" columns='1'>
+    <Row columns="2">
         <Table
             data="equipment_downtime"
             header="Equipment DownTime"
             subHeader=""
+            expand="true"
+            exportData="true"
         />
 
         <BarChart
             data="equipment_utilization"
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             header="Equipment utilization (Actual Sample Tested) within the Lab"
             subHeader=""

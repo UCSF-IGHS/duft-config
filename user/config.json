@@ -1,13 +1,5 @@
 {
     "dataConnectionParameters": {
-       "ANA": {
-            "server": "127.0.0.1",
-            "username": "{username}",
-            "password": "{password}",
-            "port": "1433",
-            "database": "lab_visual_analysis",
-            "type": "MSSQL"
-        },
         "EMPS": {
             "server": "127.0.0.1",
             "username": "user",
@@ -15,10 +7,32 @@
             "port": "5432",
             "database": "production"
         },
+        "ANA": {
+            "server": "127.0.0.1",
+            "username": "user",
+            "password": "mysecretword",
+            "port": "5432",
+            "database": "analysis",
+            "sqlite3file": "wakanda.sqlite",
+            "type": "sqlite3"
+        },
         "DUFT-SERVER-API": {
             "server": "http://127.0.0.1:8000",
             "username": "advanced_dashboard_user",
             "password": "--------"
+        },
+        "HTTPBIN": {
+            "username": "user",
+            "password": "pass"
+        }, 
+        "DHIS2": {
+            "username": "admin",
+            "password": "district"
+        },
+        "OpenMRS": {
+            "server": "https://dev3.openmrs.org/openmrs/ws/rest/v1",
+            "username": "admin",
+            "password": "Admin123"
         },
         "NDR": {
             "server": "https://www.myndr.com/api/v2",

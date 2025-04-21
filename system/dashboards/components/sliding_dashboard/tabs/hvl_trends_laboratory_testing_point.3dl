@@ -1,9 +1,10 @@
 <Grid>
-    <Row largeColumns="2" columns="1">
+    <Row columns="2">
         <PieChart
             data="hvl_test_outcomes"
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             header="HVL: Test outcomes for last week"
             subHeader=""
@@ -19,6 +20,7 @@
             data="hvl_trend_of_invalid_test_results"
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             header="HVL: Trend of invalid test results"
             subHeader=""
@@ -34,11 +36,12 @@
         />
     </Row>
 
-    <Row largeColumns="2" columns="1">
+    <Row columns="2">
         <LineChart
             data="hvl_trend_of_rejected_samples"
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             header="HVL: Trend of rejected samples"
             subHeader=""
@@ -59,6 +62,7 @@
             subHeader=""
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             userOptions={{ 
                 chart: { id: 16 }, 

@@ -1,11 +1,12 @@
 <Grid>
-    <Row largeColumns="2" columns="1">
+    <Row columns="2">
         <BarChart
             data="hvl_samples_tested_rejected_authorised"
             header="HVL - Number of Samples received, tested, rejected and results authorized for last week"
             subHeader=""
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             userOptions={{ 
                 chart: { id: 1 }, 
@@ -20,6 +21,7 @@
             subHeader=""
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             userOptions={{ 
                 chart: { id: 2 }, 
@@ -30,13 +32,14 @@
         />
     </Row>
     
-    <Row largeColumns="2" columns="1">
+    <Row columns="2">
         <PieChart
             data="hvl_reasons_for_sample_rejection"
             header="HVL - Reasons for sample rejection for last week"
             subHeader=""
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             userOptions={{ 
                 chart: { id: 3 }, 
@@ -51,6 +54,7 @@
             subHeader=""
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             userOptions={{
                 chart: { id: 4 },

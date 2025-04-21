@@ -28,19 +28,19 @@
           {
             "title": "HVL & EID Report",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/reference3DL"
+            "dashboard": "/dashboard/hvl-and-eid-reports-dashboard"
           },
           {
             "title": "Sample Tracking Report",
             "icon": "dashboard-icon",
-            "dashboard": ""
+            "dashboard": "/dashboard/sample-tracking-reports-dashboard"
           }
         ]
       },
       {
         "title": "Data Management",
         "icon": "dashboard-icon",
-        "dashboard": ""
+        "dashboard": "/dashboard/data-management-dashboard"
       },
       {
         "title": "User Management",

@@ -1,11 +1,12 @@
 <Grid>
-    <Row largeColumns="2" columns="1">
+    <Row columns="2">
         <ClusteredLineChart
             data="hvl_trend_of_samples_received_by_sample_type"
             header="HVL: Trend of Samples Received, by Sample Type"
             subHeader=""
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             userOptions={{ 
                 chart: { id: 5 }, 
@@ -25,6 +26,7 @@
             subHeader=""
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             userOptions={{ 
                 chart: { id: 6 }, 
@@ -38,13 +40,14 @@
         />
     </Row>
 
-    <Row largeColumns="2" columns="1">
+    <Row columns="2">
         <LineChart
             data="hvl_trend_of_samples_tested"
             header="HVL: Trend of Samples Tested"
             subHeader=""
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             userOptions={{ 
                 chart: { id: 7 }, 
@@ -62,6 +65,7 @@
             subHeader=""
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             userOptions={{ 
                 chart: { id: 8 }, 

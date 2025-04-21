@@ -1,0 +1,29 @@
+{
+    "proxyAPIs": [
+      {
+        "id": "OpenMRS",
+        "type": "OPENMRS",  
+        "name": "OpenMRS DEMO API",
+        "description": "Runs against the OpenMRS DEMO API",
+        "url": "https://dev3.openmrs.org/openmrs/ws/rest/v1",
+        "dataConnection": "OPENMRS"
+      },
+      {
+        "id": "HTTPBIN",
+        "type": "HTTPBIN", 
+        "name": "HTTP BIN Demo API",
+        "description": "Runs against the HTTP BIN API",
+        "url": "https://httpbin.org",
+        "dataConnection": "HTTPBIN"
+      },
+      {
+        "id": "DHIS2",
+        "type": "DHIS2",  
+        "name": "DHIS2 Demo API",
+        "description": "Runs against the DHIS2 API",
+        "url": "https://dhis2.demo.bluesquare.org/api",
+        "dataConnection": "DHIS2"
+      }
+    ]
+  }
+  

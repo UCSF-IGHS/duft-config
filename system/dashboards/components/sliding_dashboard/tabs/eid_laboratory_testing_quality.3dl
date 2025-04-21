@@ -1,5 +1,5 @@
 <Grid>
-    <Row largeColumns="2" columns="1">
+    <Row columns="2" >
         <PieChart
             data="eid_test_outcomes"
             exportData="true"
@@ -7,6 +7,7 @@
             detailsComponent="infinite-scroll-table"
             header="EID: Test outcomes for last week"
             subHeader=""
+            expand="true"
             userOptions={{ 
                 chart: { id: 25 }, 
                 legend: { show: true, position: "right" }, 
@@ -19,6 +20,7 @@
             data="eid_trend_of_invalid_test_results"
             exportData="true"
             downloadVisual="true"
+            expand="true"
             detailsComponent="infinite-scroll-table"
             header="EID: Trend of invalid test results"
             subHeader=""
@@ -34,14 +36,15 @@
         />
     </Row>
 
-    <Row largeColumns="2" columns="1">
+    <Row columns="2" >
         <LineChart
             data="eid_trend_of_rejected_samples"
-            exportData="true"
-            downloadVisual="true"
             detailsComponent="infinite-scroll-table"
             header="EID: Trend of rejected samples"
             subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
             userOptions={{ 
                 chart: { id: 27 }, 
                 legend: { show: true }, 
@@ -56,10 +59,11 @@
         <ClusteredBarChart
             data="eid_sample_aging"
             header="EID: Sample age for samples still in the lab at the end of reporting week"
+            detailsComponent="infinite-scroll-table"
             subHeader=""
             exportData="true"
+            expand="true"
             downloadVisual="true"
-            detailsComponent="infinite-scroll-table"
             userOptions={{ 
                 chart: { id: 28 }, 
                 dataLabels: { enabled: true }, 

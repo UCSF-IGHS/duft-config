@@ -3,7 +3,8 @@ SELECT
     FORMAT(CAST(LEFT(weekly_start_monday_day_dates, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE), 'MMM dd yyyy') + 
     ' - ' + 
     FORMAT(CAST(RIGHT(weekly_start_monday_day_dates, LEN(weekly_start_monday_day_dates) - CHARINDEX('-', weekly_start_monday_day_dates) - 1) AS DATE), 'MMM dd yyyy') 
-    AS week_name
+    AS label,
+    weekly_start_monday_period as value
 FROM 
     derived.dim_date
 GROUP BY 
