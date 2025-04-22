@@ -1,5 +1,5 @@
 <TabSet>
-    <Tab title="HVL Weekly Reporting">
+    <Tab title="HVL">
         <Dashboard>
             <Grid>
                 <Filters>
@@ -22,7 +22,7 @@
                 <Row columns="1">
                     <Dataset query="SELECT FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' + FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week, SUM(fd.hvl_sample_collected) AS [Sample Collected], SUM(fd.hvl_sample_received) AS [Sample Received], SUM(fd.hvl_sample_accepted) AS [Sample Accepted], SUM(fd.hvl_sample_rejected) AS [Sample Rejected], SUM(fd.hvl_sample_tested) AS [Sample Tested], SUM(fd.hvl_result_pending) AS [Pending Results], SUM(fd.hvl_result_authorized) AS [Authorized results], SUM(fd.hvl_result_accepted) AS [Accepted Results], SUM(fd.hvl_result_rejected) AS [Rejected Results], SUM(fd.hvl_result_failed) AS [Failed results], SUM(fd.hvl_result_invalid) AS [Invalid Results] FROM [final].fact_daily_sample_summary fd INNER JOIN [derived].dim_date dd ON fd.report_date = dd.[date] WHERE dd.date BETWEEN DATEADD(WEEK, -3, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) AND DATEADD(DAY, 6, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) GROUP BY dd.weekly_start_monday_day_dates;">
                         <InfiniteScrollTable
-                            header=""
+                            header="HVL Report Transformation Table"
                             subHeader=""
                             exportData="true"
                         />
@@ -83,7 +83,7 @@
         </Dashboard>
     </Tab>
 
-    <Tab title="EID Weekly Reporting">
+    <Tab title="EID">
         <Dashboard>
             <Grid>
                 <Filters>
@@ -93,7 +93,7 @@
                                 <Header>Week:</Header>
                             </Row>
                             <Row columns="1">
-                                <Filter caption="Select Week:" name="week" values_query="SELECT CONCAT(weekly_start_monday_period, ': ', weekly_start_monday_day_dates) AS week FROM derived.dim_date GROUP BY weekly_start_monday_period, weekly_start_monday_day_dates ORDER BY weekly_start_monday_period DESC;" />
+                                <Filter caption="Select Week:" name="week" values_query="SELECT weekly_start_monday_period + ': ' + FORMAT(CAST(LEFT(weekly_start_monday_day_dates, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE), 'MMM dd yyyy') + ' - ' + FORMAT(CAST(RIGHT(weekly_start_monday_day_dates, LEN(weekly_start_monday_day_dates) - CHARINDEX('-', weekly_start_monday_day_dates) - 1) AS DATE), 'MMM dd yyyy') AS week_name FROM derived.dim_date GROUP BY weekly_start_monday_period, weekly_start_monday_day_dates ORDER BY MIN(CAST(LEFT(weekly_start_monday_day_dates, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE)) DESC;" />
                             </Row>
                         </Row>
                     </Row>
@@ -106,7 +106,7 @@
                 <Row columns="1">
                     <Dataset query="SELECT FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' + FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week, SUM(fd.eid_sample_collected) AS [Sample Collected], SUM(fd.eid_sample_dbs_received) AS [Sample Received], SUM(fd.eid_sample_accepted) AS [Sample Accepted], SUM(fd.eid_sample_rejected) AS [Sample Rejected], SUM(fd.eid_sample_tested) AS [Sample Tested], SUM(fd.eid_result_pending) AS [Pending Results], SUM(fd.eid_result_authorized) AS [Authorized results], SUM(fd.eid_result_accepted) AS [Accepted Results], SUM(fd.eid_result_rejected) AS [Rejected Results], SUM(fd.eid_result_failed) AS [Failed results], SUM(fd.eid_result_invalid) AS [Invalid Results] FROM [final].fact_daily_sample_summary fd INNER JOIN [derived].dim_date dd ON fd.report_date = dd.[date] WHERE dd.date BETWEEN DATEADD(WEEK, -3, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) AND DATEADD(DAY, 6, CONVERT(DATE, SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3), 100)) GROUP BY dd.weekly_start_monday_day_dates;">
                         <InfiniteScrollTable
-                            header=""
+                            header="EID Report Transformation Table"
                             subHeader=""
                             exportData="true"
                         />

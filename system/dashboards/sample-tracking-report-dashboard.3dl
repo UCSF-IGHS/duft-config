@@ -29,7 +29,6 @@
                             header="Sample Tracking Report for HVL Test Name"
                             subHeader=""
                             exportData="true"
-                            variant="plain"
                             searchValue="Sample Tracking ID"
                         />
                     </Dataset>
@@ -68,7 +67,6 @@
                             header="Sample Tracking Report for EID Test Name"
                             subHeader=""
                             exportData="true"
-                            variant="plain"
                             searchValue="Sample Tracking ID"
                         />
                     </Dataset>
