@@ -216,6 +216,17 @@
             "dataConnections": [
                 "ANA"
             ]
+        },
+        {
+            "id": "CTC_A_ANALYTICAL_DB_REFRESH",
+            "name": "Analytical Data Refresh Task",
+            "description": "Refresh analytical database",
+            "pythonFile": "refresh_ctc_a_analytical_data.py",
+            "hideInUI": true,
+            "dataConnections": [
+                "ANA"
+            ],
+            "supportedParameters": {}
         }
     ]
 }

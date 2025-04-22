@@ -7,11 +7,10 @@
     "header": "ACTIONS",
     "items": [
       {
-        "title": "Refresh data",
+        "title": "Refresh Data",
         "icon": "update-icon",
-        "task": "SAMPLE-NOTEBOOK",
-        "dashboard": "refresh-data",
-        "prompt": "Are you sure you want to refresh the data?"
+        "task": "CTC_A_ANALYTICAL_DB_REFRESH",
+        "prompt": "Are you sure you want to refresh analytical data?"
       }
     ]
   }
