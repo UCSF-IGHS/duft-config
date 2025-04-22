@@ -37,7 +37,7 @@
       {
         "title": "Data Management",
         "icon": "dashboard-icon",
-        "dashboard": ""
+        "dashboard": "/dashboard/data-management-dashboard"
       },
       {
         "title": "User Management",
