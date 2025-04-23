@@ -829,7 +829,7 @@
                     header="ART Cascade"
                     direction="left"
                     cascadeScale="standard"
-                    cascadeSearchColumn="client_id"
+                    cascadeSearchColumn="dc.client_id"
                     nodeWidth="500"
                     nodeHeight="180"
                 >
