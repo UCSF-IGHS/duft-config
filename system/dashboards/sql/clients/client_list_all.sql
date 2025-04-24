@@ -1,1 +1,0 @@
-SELECT c.client_id, birth_date, current_age, emr_identifier, marital_status, gender, hiv_diagnosis_date from dim_client c INNER JOIN fact_sentinel_event s ON c.client_id=s.client_id INNER JOIN (select age, TRIM(ten_year_interval) as age_group FROM  dim_age_group) ag ON c.current_age=ag.age

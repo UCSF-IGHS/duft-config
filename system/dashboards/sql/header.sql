@@ -1,1 +1,0 @@
-SELECT 'Demo Hospital' as facility_name, CURRENT_DATE as today
