@@ -117,7 +117,7 @@
     <SQLData
       name="art_cascade_data"
       queryName="clients/art_cascade"
-      filterFrom="gender, age_group, birth_date"
+      filterFrom="gender, age_group"
     />
 
     <SQLData
@@ -168,9 +168,17 @@
 
     <SQLData
       pageSize="20"
+      name="sentinel_event_hiv_data"
+      queryName="clients/client_list_all"
+      filterFrom="gender, age_group, hiv_diagnosis_date"
+      searchColumns="client_id, emr_identifier"
+    />
+
+    <SQLData
+      pageSize="20"
       name="sentinel_event_data"
       queryName="clients/client_list_all"
-      filterFrom="gender, age_group"
+      filterFrom="gender, age_group, birth_date"
       searchColumns="client_id, emr_identifier"
     />
 
@@ -425,7 +433,7 @@
     <Filters>
       <Filter caption="Gender" name="gender" data="gender_data" />
       <Filter caption="Age Group" name="age_group" data="age_group_data" />
-      <DatePicker type="date" name="birth_date" />
+      <DatePicker type="date" name="hiv_diagnosis_date" />
     </Filters>
 
     <Actions>
@@ -438,10 +446,10 @@
       <SingleLayout>
         <Header>Single layout sample table</Header>
         <Table
-          data="sentinel_event_data"
+          data="sentinel_event_hiv_data"
           header="Infinite scroll sample table"
           subHeader="A table to demo infinite scroll, search, sort, filtering"
-          initialColumns="birth_date, emr_identifier, client_id"
+          initialColumns="hiv_diagnosis_date, emr_identifier, client_id"
           exportData="true"
         >
           <RowDetails columnName="client_id">

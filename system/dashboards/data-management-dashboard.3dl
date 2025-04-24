@@ -222,11 +222,11 @@
         subTitle="All Data Issues"
         lastRefresh=""
     >
-        <Grid>
-            <Row columns="1">
-                <Header small="true">All Samples with Data Related Issues</Header>
-            </Row>
+        <Row columns="1">
+            <Header small="true">All Samples with Data Related Issues</Header>
+        </Row>
 
+        <Grid>
             <Row columns="1">
                 <Table
                     data="all_data_issues_data"
@@ -250,11 +250,11 @@
             <Filter caption="Select Week" name="weekly_start_monday_period" data="week_data" />
         </Filters>
 
+        <Row columns="1">
+            <Header small="true">Samples Missing HFR Code</Header>
+        </Row>
+
         <Grid>
-            <Row columns="1">
-                <Header small="true">Samples Missing HFR Code</Header>
-            </Row>
-            
             <Row columns="1">
                 <Table
                     data="missing_hfr_code_data"
@@ -306,11 +306,12 @@
         subTitle="Missing Collected or Received Date"
         lastRefresh=""
     >
-        <Grid>
-            <Row columns="1">
-                <Header small="true">Samples Without a Collected Date or Received Date</Header>
-            </Row>
 
+        <Row columns="1">
+            <Header small="true">Samples Without a Collected Date or Received Date</Header>
+        </Row>
+
+        <Grid>
             <Row columns="1">
                 <Table
                     data="missing_collected_or_received_date_data"
@@ -330,11 +331,11 @@
         subTitle="Earlier Received Date than Collected Date"
         lastRefresh=""
     >
-        <Grid>
-            <Row columns="1">
-                <Header small="true">Samples With Received Date earlier than the Collected Date</Header>
-            </Row>
+        <Row columns="1">
+            <Header small="true">Samples With Received Date earlier than the Collected Date</Header>
+        </Row>
 
+        <Grid>
             <Row columns="1">
                 <Table
                     data="earlier_received_date_than_collected_date_data"

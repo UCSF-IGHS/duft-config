@@ -3,18 +3,13 @@
     "appName": "PCR Lab Visual",
     "footer": ""
   },
-  "home": {
-    "title": "Home",
-    "icon": "home-icon",
-    "dashboard": "/dashboard/home"
-  },
   "menu": {
     "header": "",
     "items": [
       {
         "title": "Sliding Dashboard",
         "icon": "dashboard-icon",
-        "dashboard": "/dashboard/sliding-dashboard"
+        "dashboard": "/dashboard/home"
       },
       {
         "title": "Interactive Dashboard",

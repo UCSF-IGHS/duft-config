@@ -192,8 +192,8 @@
         >
             SELECT
             d.weekly_start_monday_period AS category,
-            SUM(eid_sample_tested_positive) AS Positive,
             SUM(eid_sample_tested_negative) AS Negative,
+            SUM(eid_sample_tested_positive) AS Positive,
             SUM(eid_sample_tested_result_not_detected) AS Undermined
             FROM
             final.fact_daily_sample_summary s

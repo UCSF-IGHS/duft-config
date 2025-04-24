@@ -60,7 +60,7 @@
                             text: "Week Number"
                         }
                     },
-                    colors: ["#0000FF", "#FFA500", "#808080"]
+                    colors: ["#008000", "#FFA500", "#FF0000"]
                 }
             }
         />

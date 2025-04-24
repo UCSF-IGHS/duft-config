@@ -24,16 +24,16 @@
       }
     },
     {
-      "id": "SAMPLE",
-      "name": "Sample Data Task",
-      "description": "A sample data task that does nothing",
-      "pythonFile": "sample_task.py",
+      "id": "LAB-VISUAL-ETL",
+      "name": "Lab Visual ETL Transformation Task",
+      "description": "A notebook that runs the Lab Visual ETL Transformation Task",
+      "pythonFile": "lab_visual_etl.ipynb",
       "hideInUI": true,
       "dataConnections": ["ANA", "MyOwnConnection"],
       "supportedParameters": {
         "name": {
-          "title": "Name",
-          "description": "The name you want to be displayed.",
+          "title": "Lab Visual ETL",
+          "description": "Lab Visual ETL.",
           "defaultValue": "Daenerys",
           "allowOverride": true,
           "promptUser": false
@@ -41,7 +41,7 @@
         "sleep_time": {
           "title": "Sleep Time",
           "description": "Time to wait between execution steps in seconds.",
-          "defaultValue": 0.2,
+          "defaultValue": 2.0,
           "allowOverride": false,
           "promptUser": false
         }
