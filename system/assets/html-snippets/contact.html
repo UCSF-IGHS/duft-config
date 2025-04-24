@@ -1,0 +1,116 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+    .highlight {
+        color: #ec4899;
+    }
+    .text-highlight {
+        color: #ec4899;
+    }
+    .text-highlight-600 {
+        color: #db2777;
+    }
+    .from-highlight-600 {
+        --tw-gradient-from: #db2777;
+    }
+    .to-highlight-800 {
+        --tw-gradient-to: #9d174d;
+    }
+    .dark .dark\:from-highlight-400 {
+        --tw-gradient-from: #f472b6;
+    }
+    .dark .dark\:to-highlight-200 {
+        --tw-gradient-to: #fbcfe8;
+    }
+    .bg-highlight-600 {
+        background-color: #db2777;
+    }
+    .hover\:bg-highlight-700:hover {
+        background-color: #be185d;
+    }
+    .dark .dark\:bg-highlight-700 {
+        background-color: #be185d;
+    }
+    .dark .dark\:hover\:bg-highlight-800:hover {
+        background-color: #9d174d;
+    }
+    .bg-highlight-50 {
+        background-color: #fdf2f8;
+    }
+    .bg-highlight-100 {
+        background-color: #fce7f3;
+    }
+    .dark .dark\:bg-highlight-900 {
+        background-color: #831843;
+    }
+    .border-highlight-600 {
+        border-color: #db2777;
+    }
+    .hover\:border-highlight-600:hover {
+        border-color: #db2777;
+    }
+    .dark .dark\:border-highlight-400 {
+        border-color: #f472b6;
+    }
+    .dark .dark\:text-highlight-400 {
+        color: #f472b6;
+    }
+</style>
+
+
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200">
+
+    <section id="section-main" class="bg-white dark:bg-gray-900">
+        <div
+        class="flex items-center justify-between top-0 left-0 w-full z-50 text-xl text-highlight font-semibold dark:text-highlight-200 transition border-b p-4">
+        <a href="/dashboard/home">
+            <h1 class="mb-4 text-4xl tracking-tight fa-font-awesome-logo-full text-highlight hover:text-gray-400">
+                DUFT
+            </h1>
+        </a>
+        <nav>
+            <ul class="flex space-x-6">
+                <li><a href="home" class="hover:text-gray-400">Home</a></li>
+                <li><a href="about" class="hover:text-gray-400">About</a></li>
+                <li><a href="contact" class="hover:text-gray-400">Contact Us</a></li>
+            </ul>
+        </nav>
+    </div>
+            <!-- Contact Section -->
+            <div id="get-involved" class="rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-3xl font-bold mb-6 text-center">Contact Us</h3>
+                <p class="text-lg text-center max-w-2xl mx-auto mb-8 text-gray-600 dark:text-gray-300">
+                    Interested in implementing DUFT for your healthcare data needs? Have questions about how it can work for your organization?
+                </p>
+                <div class="max-w-xl mx-auto">
+                    <form class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-highlight-600 focus:border-highlight-600 bg-white dark:bg-gray-700">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-highlight-600 focus:border-highlight-600 bg-white dark:bg-gray-700">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="organization" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Organization</label>
+                            <input type="text" id="organization" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-highlight-600 focus:border-highlight-600 bg-white dark:bg-gray-700">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-highlight-600 focus:border-highlight-600 bg-white dark:bg-gray-700"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="bg-highlight-600 text-white px-6 py-3 rounded-lg text-lg font-medium hover:bg-highlight-700 transition-colors">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>

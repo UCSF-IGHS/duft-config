@@ -37,6 +37,21 @@
     }
 </style>
 
+<script>
+    // Add smooth scroll behavior
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    });
+</script>
+
 <section id="section-main" class="bg-white dark:bg-gray-900 flex justify-center items-center px-8">
     <div class="py-8 mx-auto w-full">
         <div
@@ -52,8 +67,8 @@
                     <li><a href="https://docs.duft.app/" class="hover:text-gray-400">Documentation</a></li>
                     <li><a href="https://github.com/UCSF-IGHS/duft-config-wakanda" class="hover:text-gray-400">Get
                             Started</a></li>
-                    <li><a href="dashboard/3dlsample" class="hover:text-gray-400">About</a></li>
-                    <li><a href="#get-involved" class="hover:text-gray-400"></a></li>
+                    <li><a href="about" class="hover:text-gray-400">About</a></li>
+                    <li><a href="contact" class="hover:text-gray-400">Contact Us</a></li>
                 </ul>
             </nav>
         </div>
