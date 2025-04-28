@@ -5,6 +5,11 @@
             endPoint="/sqlViews/w3UxFykyHFy/data.json"
             method="GET"
         />
+        <DHIS2Data
+            name = "dhis2_facility_data"
+            endPoint="/sqlViews/dI68mLkP1wN/data.json"
+            method="GET"
+        />
     </Datasets>
 
     <Dashboard
@@ -13,9 +18,14 @@
         title="Sample DHIS2 data from a sql view"
         subTitle="Table of DHIS2 data."
     >
-        <Grid> 
-            <Table data ="dhis_data"/>
-            <LineChart data="dhis_data" />
+        <Grid>
+            <Row columns="1" largeColumns="1">
+                <Table data ="dhis_data"/>
+            </Row>
+            <Row  largeColumns="2" columns="2"> 
+                <ClusterMap data ="dhis2_facility_data"/>
+                <Table data="dhis2_facility_data"/>
+            </Row>
         </Grid>
     </Dashboard>
 </Dashboards>
