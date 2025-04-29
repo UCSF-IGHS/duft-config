@@ -36,7 +36,7 @@
             </Grid>
         </Dashboard>
     </Tab>
-    
+
     <Tab title="EID Tracking Report">
         <Dashboard>
             <Grid>
@@ -47,7 +47,7 @@
                                 <Header>Start Date:</Header>
                             </Row>
                             <Row>
-                            <DateFilter name="startdate" caption="MM-DD-YY" />
+                                <DateFilter name="startdate" caption="MM-DD-YY" />
                             </Row>
                         </Row>
                         <Row columns="1">

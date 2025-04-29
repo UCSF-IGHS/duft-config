@@ -16,7 +16,7 @@
                 </Filters>
 
                 <Row columns="1">
-                   <Header>HVL Report Transformation Table</Header>
+                    <Header>HVL Report Transformation Table</Header>
                 </Row>
 
                 <Row columns="1">
@@ -30,7 +30,7 @@
                 </Row>
 
                 <Row columns="1">
-                   <Header>HVL Weekly Reports</Header>
+                    <Header>HVL Weekly Reports</Header>
                 </Row>
 
                 <Row columns="1" largeColumns="2">
@@ -100,7 +100,7 @@
                 </Filters>
 
                 <Row columns="1">
-                   <Header>EID Report Transformation Table</Header>
+                    <Header>EID Report Transformation Table</Header>
                 </Row>
 
                 <Row columns="1">
@@ -114,18 +114,18 @@
                 </Row>
 
                 <Row columns="1">
-                   <Header>EID Weekly Reports</Header>
+                    <Header>EID Weekly Reports</Header>
                 </Row>
 
                 <Row columns="1" largeColumns="2">
-                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(eid_sample_tested_positive) AS Positive, SUM(eid_sample_tested_negative) AS Negative, SUM(eid_sample_tested_result_not_detected) AS Undermined FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period;">
+                    <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(eid_sample_tested_negative) AS Negative, SUM(eid_sample_tested_positive) AS Positive, SUM(eid_sample_tested_result_not_detected) AS Undermined FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period;">
                         <StackedBarChart
                             header="Sample Test Outcome for EID"
                             subHeader=""
                             exportData="true"
                             downloadVisual="true"
                             detailsComponent="infinite-scroll-table"
-                            userOptions={{ chart: { id: 35 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } }, colors: ["#0000FF", "#FFA500", "#808080"] }}
+                            userOptions={{ chart: { id: 35 }, tooltip: { shared: true }, legend: { show: true, position: "bottom" }, dataLabels: { enabled: true, total: { enabled: true, style: { fontSize: "14px", fontWeight: 900, fontColor: "#fff" }, offsetX: 10 } }, yaxis: { title: { text: "Number of Samples" } }, xaxis: { title: { text: "Week Number" } }, colors: ["#008000", "#FFA500", "#FF0000"] }}
                         />
                     </Dataset>
                     <Dataset query="SELECT d.weekly_start_monday_period AS category, SUM(s.eid_sample_collected_and_received_date_in_less_or_equal_5_days) AS [<= 5 days], SUM(s.eid_sample_collected_and_received_date_between_6_to_10_days) AS [6 to 10 days], SUM(s.eid_sample_collected_and_received_date_between_11_to_15_days) AS [11 to 15 days], SUM(s.eid_sample_collected_and_received_date_greater_than_15_days) AS [> 15 days] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d on s.report_date = d.date WHERE s.report_date >= CAST(SUBSTRING('$week', CHARINDEX(':', '$week') + 2, CHARINDEX('-', '$week') - CHARINDEX(':', '$week') - 3) AS DATE) AND s.report_date <= CAST(SUBSTRING('$week', CHARINDEX('-', '$week') + 2, LEN('$week')) AS DATE) GROUP BY d.weekly_start_monday_period;">

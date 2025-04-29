@@ -11,7 +11,7 @@
       {
         "title": "Sliding Dashboard",
         "icon": "dashboard-icon",
-        "dashboard": "/dashboard/sliding-dashboard"
+        "dashboard": "/dashboard/home"
       },
       {
         "title": "Interactive Dashboard",
