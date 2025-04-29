@@ -1,42 +1,41 @@
-<Dashboards>    
-    <Datasets>
-        <SQLData 
-            name="facility_type_data"
-            queryName="facility_type"
-        />
-        <SQLData 
-            name="keph_level_data"
-            queryName="keph_level"
-        />
-        <SQLData 
-            name="operational_status_data"
-            queryName="operational_status"
-        />
+<Dashboards>
+  <Datasets>
+    <SQLData name="facility_type_data" queryName="facility_type" />
+    <SQLData name="keph_level_data" queryName="keph_level" />
+    <SQLData name="operational_status_data" queryName="operational_status" />
 
-        <SQLData
-        name="initiated_detailed_data"
-        pageSize="50"
-        filterFrom = "facility_type, keph_level, operational_status"
-        >
-        select * from dim_hiv_diagnosis_facility
-        </SQLData>
-    </Datasets>
-    <Dashboard
-        data="map_data"
-        tabName="MAP"
-        title="Sample map"
-        subTitle="cluster map"
+    <SQLData
+      name="initiated_detailed_data"
+      pageSize="50"
+      filterFrom="facility_type, keph_level, operational_status"
     >
-        <Filters>
-            <Filter caption="Facility Type" name="facility_type" data="facility_type_data" />
-            <Filter caption="Keph Level" name="keph_level" data="keph_level_data" />
-            <Filter caption="Operational Status" name="operational_status" data="operational_status_data" />
-        </Filters>
-        <Grid> 
-            <ClusterMap
-                data = "initiated_detailed_data"
-            />
-        </Grid>
-    </Dashboard>
-</Dashboards>
-        
+      select * from dim_hiv_diagnosis_facility
+    </SQLData>
+  </Datasets>
+  <Dashboard
+    data="map_data"
+    tabName="MAP"
+    title="Sample map"
+    subTitle="cluster map"
+  >
+    <Filters>
+      <Filter
+        caption="Facility Type"
+        name="facility_type"
+        data="facility_type_data"
+      />
+      <Filter caption="Keph Level" name="keph_level" data="keph_level_data" />
+      <Filter
+        caption="Operational Status"
+        name="operational_status"
+        data="operational_status_data"
+      />
+    </Filters>
+    <Grid>
+      <ClusterMap
+        data="initiated_detailed_data"
+        toolTipColumns="facility_name, facility_type, keph_level"
+      />
+    </Grid>
+  </Dashboard>
+</Dashboards>;
