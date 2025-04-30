@@ -7509,7 +7509,7 @@ a.anchor-link {
 </style>
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<main><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ae962cab">
+<main><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=165e7f6e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7558,9 +7558,10 @@ a.anchor-link {
 <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"</span><span class="si">%d</span><span class="s2">/%m/%Y %H:%M:%S"</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
-    <span class="n">environment</span> <span class="o">=</span> <span class="n">initialise_data_task</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Tille Lab transformation </span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">environment</span> <span class="o">=</span> <span class="n">initialise_data_task</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Tille Lab transformation"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
     <span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sleep_time"</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
 
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Started Tille Lab Transformation </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%d</span><span class="s1">/%m/%Y %H:%M:%S'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -7581,8 +7582,10 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-04-22T11:59:50.651976] Tille Lab transformation 22/04/2025 11:59:50 - INFO: Tille Lab transformation 22/04/2025 11:59:50 initialised running in active mode
-Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Tille Lab transformation 22/04/2025 11:59:50 initialised running in active mode
+<pre>[2025-04-30T15:00:15.567034] Tille Lab transformation - INFO: Tille Lab transformation initialised running in active mode
+Tille Lab transformation &gt;&gt;&gt;: Tille Lab transformation initialised running in active mode
+[2025-04-30T15:00:15.573797] Tille Lab transformation - INFO: Started Tille Lab Transformation 30/04/2025 15:00:15
+Tille Lab transformation &gt;&gt;&gt;: Started Tille Lab Transformation 30/04/2025 15:00:15
 </pre>
 </div>
 </div>
@@ -7607,23 +7610,23 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Tille Lab transformat
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">mysql_config</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"MYSQL_USER"</span><span class="p">:</span> <span class="s2">"root"</span><span class="p">,</span>
-    <span class="s2">"MYSQL_PASSWORD"</span><span class="p">:</span> <span class="s2">"root"</span><span class="p">,</span>
-    <span class="s2">"MYSQL_HOST"</span><span class="p">:</span> <span class="s2">"localhost"</span><span class="p">,</span>
-    <span class="s2">"MYSQL_DATABASE_NAME"</span><span class="p">:</span> <span class="s2">"labdashdb"</span><span class="p">,</span>
-    <span class="s2">"MYSQL_PORT"</span><span class="p">:</span> <span class="s2">"3306"</span><span class="p">,</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">labdashdb_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"USER"</span><span class="p">:</span> <span class="s2">"root"</span><span class="p">,</span>
+    <span class="s2">"PASSWORD"</span><span class="p">:</span> <span class="s2">"root"</span><span class="p">,</span>
+    <span class="s2">"HOST"</span><span class="p">:</span> <span class="s2">"localhost"</span><span class="p">,</span>
+    <span class="s2">"DB"</span><span class="p">:</span> <span class="s2">"labdashdb"</span><span class="p">,</span>
+    <span class="s2">"PORT"</span><span class="p">:</span> <span class="s2">"3306"</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">mysql_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"mysql+pymysql://</span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_USER'</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_PASSWORD'</span><span class="p">]</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_HOST'</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_PORT'</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_DATABASE_NAME'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">labdashdb_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"mysql+pymysql://</span><span class="si">{</span><span class="n">labdashdb_config</span><span class="p">[</span><span class="s1">'USER'</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">labdashdb_config</span><span class="p">[</span><span class="s1">'PASSWORD'</span><span class="p">]</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">labdashdb_config</span><span class="p">[</span><span class="s1">'HOST'</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">labdashdb_config</span><span class="p">[</span><span class="s1">'PORT'</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">labdashdb_config</span><span class="p">[</span><span class="s1">'DB'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">mysql_conn</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">mysql_url</span><span class="p">)</span>
-    <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"connected successfully to tille lab database: </span><span class="si">{</span><span class="n">mysql_config</span><span class="p">[</span><span class="s1">'MYSQL_DATABASE_NAME'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">labdashdb_conn</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">labdashdb_url</span><span class="p">)</span>
+    <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"connected successfully to tille lab database: </span><span class="si">{</span><span class="n">labdashdb_config</span><span class="p">[</span><span class="s1">'DB'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
     
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error connecting to MySQL: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error connecting to LabdashDB: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> 
 </pre></div>
@@ -7638,8 +7641,8 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Tille Lab transformat
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-04-22T11:59:52.300946] Tille Lab transformation 22/04/2025 11:59:50 - INFO: connected successfully to tille lab database: labdashdb
-Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: connected successfully to tille lab database: labdashdb
+<pre>[2025-04-30T15:00:17.510859] Tille Lab transformation - INFO: connected successfully to tille lab database: labdashdb
+Tille Lab transformation &gt;&gt;&gt;: connected successfully to tille lab database: labdashdb
 </pre>
 </div>
 </div>
@@ -7664,24 +7667,19 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: connected successfull
 <div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">mssql_config</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"server"</span><span class="p">:</span> <span class="s2">"localhost"</span><span class="p">,</span>
-    <span class="s2">"database"</span><span class="p">:</span> <span class="s2">"master"</span><span class="p">,</span>
-    <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"sa"</span><span class="p">,</span>
-    <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"root.R00T"</span><span class="p">,</span>
-<span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">connect_to_database</span><span class="p">(</span><span class="n">database_name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pyodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"DRIVER=</span><span class="se">{{</span><span class="s2">ODBC Driver 17 for SQL Server</span><span class="se">}}</span><span class="s2">;"</span>
+        <span class="sa">f</span><span class="s2">"SERVER=localhost;"</span>
+        <span class="sa">f</span><span class="s2">"DATABASE=</span><span class="si">{</span><span class="n">database_name</span><span class="si">}</span><span class="s2">;"</span>
+        <span class="sa">f</span><span class="s2">"UID=sa;"</span>
+        <span class="sa">f</span><span class="s2">"PWD=root.R00T;"</span>
+        <span class="sa">f</span><span class="s2">"TrustServerCertificate=yes;"</span><span class="p">,</span>
+        <span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
 
-<span class="n">mssql_conn</span> <span class="o">=</span> <span class="n">pyodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"DRIVER=</span><span class="se">{{</span><span class="s2">ODBC Driver 17 for SQL Server</span><span class="se">}}</span><span class="s2">;"</span>
-    <span class="sa">f</span><span class="s2">"SERVER=</span><span class="si">{</span><span class="n">mssql_config</span><span class="p">[</span><span class="s1">'server'</span><span class="p">]</span><span class="si">}</span><span class="s2">;"</span>
-    <span class="sa">f</span><span class="s2">"DATABASE=</span><span class="si">{</span><span class="n">mssql_config</span><span class="p">[</span><span class="s1">'database'</span><span class="p">]</span><span class="si">}</span><span class="s2">;"</span>
-    <span class="sa">f</span><span class="s2">"UID=</span><span class="si">{</span><span class="n">mssql_config</span><span class="p">[</span><span class="s1">'username'</span><span class="p">]</span><span class="si">}</span><span class="s2">;"</span>
-    <span class="sa">f</span><span class="s2">"PWD=</span><span class="si">{</span><span class="n">mssql_config</span><span class="p">[</span><span class="s1">'password'</span><span class="p">]</span><span class="si">}</span><span class="s2">;"</span>
-    <span class="sa">f</span><span class="s2">"TrustServerCertificate=yes;"</span><span class="p">,</span>
-    <span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-
-<span class="n">mssql_cursor</span> <span class="o">=</span> <span class="n">mssql_conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">labvisualDB_conn</span> <span class="o">=</span> <span class="n">connect_to_database</span><span class="p">(</span><span class="s2">"master"</span><span class="p">)</span>
+<span class="n">labvisualDB_cursor</span> <span class="o">=</span> <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -7711,7 +7709,7 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: connected successfull
         <span class="n">schemas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'source'</span><span class="p">,</span> <span class="s1">'derived'</span><span class="p">,</span> <span class="s1">'final'</span><span class="p">,</span> <span class="s1">'z'</span><span class="p">,</span> <span class="s1">'dbo'</span><span class="p">]</span>
         
         <span class="k">for</span> <span class="n">schema</span> <span class="ow">in</span> <span class="n">schemas</span><span class="p">:</span>
-            <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"""</span>
 <span class="s2">                    USE lab_visual_analysis;</span>
 
@@ -7722,11 +7720,11 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: connected successfull
 <span class="s2">                """</span>
             <span class="p">)</span>
 
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error creating schemas: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -7817,11 +7815,11 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: connected successfull
 
     <span class="k">for</span> <span class="n">query</span> <span class="ow">in</span> <span class="n">table_creation_queries</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+            <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error creating table: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -7848,32 +7846,40 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: connected successfull
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_lab_visual_analysis_database</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">labvisualDB_conn</span><span class="p">,</span> <span class="n">labvisualDB_cursor</span>
+    
     <span class="k">try</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Preparing Lab Visual Database"</span><span class="p">)</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
-        <span class="c1"># mssql_cursor.execute("ALTER DATABASE lab_visual_analysis SET MULTI_USER WITH ROLLBACK IMMEDIATE;")</span>
-        <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT name FROM sys.databases WHERE name = 'lab_visual_analysis'"</span><span class="p">)</span>
-        <span class="n">db_exists</span> <span class="o">=</span> <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+        
+        <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT name FROM sys.databases WHERE name = 'lab_visual_analysis'"</span><span class="p">)</span>
+        <span class="n">labvisualDB_exists</span> <span class="o">=</span> <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">db_exists</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">labvisualDB_exists</span><span class="p">:</span>
             <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Truncating LabVisual database tables"</span><span class="p">)</span>
             <span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"tbl_Facilities"</span><span class="p">,</span> <span class="s2">"tbl_Device_Logs"</span><span class="p">,</span> <span class="s2">"tbl_Commodity_Transactions"</span><span class="p">,</span> <span class="s2">"tbl_Sample"</span><span class="p">]</span>
 
             <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">"TRUNCATE TABLE source.</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">"""</span>
+<span class="s2">                        IF OBJECT_ID('source.</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">', 'U') IS NOT NULL</span>
+<span class="s2">                            TRUNCATE TABLE source.</span><span class="si">{</span><span class="n">table</span><span class="si">}</span>
+<span class="s2">                    """</span><span class="p">)</span>
 
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error truncating table </span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
                     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
                     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-            <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Lab Visual Database preparation complete"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"CREATE DATABASE lab_visual_analysis"</span><span class="p">)</span>
-            <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-            <span class="n">mssql_config</span><span class="p">[</span><span class="s2">"database"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"lab_visual_analysis"</span>
+            <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"CREATE DATABASE lab_visual_analysis"</span><span class="p">)</span>
+            <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            
+            <span class="n">labvisualDB_conn</span> <span class="o">=</span> <span class="n">connect_to_database</span><span class="p">(</span><span class="s2">"lab_visual_analysis"</span><span class="p">)</span>
+            <span class="n">labvisualDB_cursor</span> <span class="o">=</span> <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 
             <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Create Schemas"</span><span class="p">)</span>
             <span class="n">create_schemas</span><span class="p">()</span>
@@ -7884,7 +7890,7 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: connected successfull
             <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Lab Visual Database preparation complete"</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to prepare database: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
@@ -7901,18 +7907,18 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: connected successfull
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-04-22T11:59:54.154968] Tille Lab transformation 22/04/2025 11:59:50 - INFO: Preparing Lab Visual Database
-Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Preparing Lab Visual Database
+<pre>[2025-04-30T15:00:19.400918] Tille Lab transformation - INFO: Preparing Lab Visual Database
+Tille Lab transformation &gt;&gt;&gt;: Preparing Lab Visual Database
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-04-22T11:59:55.671241] Tille Lab transformation 22/04/2025 11:59:50 - INFO: Truncating LabVisual database tables
-Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Truncating LabVisual database tables
-[2025-04-22T11:59:55.689831] Tille Lab transformation 22/04/2025 11:59:50 - INFO: Lab Visual Database preparation complete
-Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Lab Visual Database preparation complete
+<pre>[2025-04-30T15:00:20.989832] Tille Lab transformation - INFO: Truncating LabVisual database tables
+Tille Lab transformation &gt;&gt;&gt;: Truncating LabVisual database tables
+[2025-04-30T15:00:21.015633] Tille Lab transformation - INFO: Lab Visual Database preparation complete
+Tille Lab transformation &gt;&gt;&gt;: Lab Visual Database preparation complete
 </pre>
 </div>
 </div>
@@ -7938,14 +7944,14 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Lab Visual Database p
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">extract_and_insert_facility_data</span><span class="p">():</span>
-    <span class="n">excel_file</span> <span class="o">=</span> <span class="s2">"./All_Operating_Health_Facilities_in_Tanzania-Lab-Visual-2021oct22.xlsx"</span>
+    <span class="n">health_facilities_masterlist</span> <span class="o">=</span> <span class="s2">"./All_Operating_Health_Facilities_in_Tanzania-Lab-Visual-2021oct22.xlsx"</span>
     
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">excel_file</span><span class="p">):</span>
-        <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Excel file '</span><span class="si">{</span><span class="n">excel_file</span><span class="si">}</span><span class="s2">' not found."</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">health_facilities_masterlist</span><span class="p">):</span>
+        <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Excel file '</span><span class="si">{</span><span class="n">health_facilities_masterlist</span><span class="si">}</span><span class="s2">' not found."</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     
-    <span class="n">df_excel</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">excel_file</span><span class="p">)</span>
+    <span class="n">df_excel</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">health_facilities_masterlist</span><span class="p">)</span>
     <span class="n">df_excel</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"Facility Number"</span><span class="p">:</span> <span class="s2">"HfrCode"</span><span class="p">,</span> <span class="s2">"Facility Name"</span><span class="p">:</span> <span class="s2">"Name"</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">df_excel</span> <span class="o">=</span> <span class="n">df_excel</span><span class="p">[[</span><span class="s1">'HfrCode'</span><span class="p">,</span> <span class="s1">'Name'</span><span class="p">,</span> <span class="s1">'Region'</span><span class="p">,</span> <span class="s1">'District'</span><span class="p">,</span> <span class="s1">'Council'</span><span class="p">]]</span>
     <span class="n">df_excel</span><span class="p">[</span><span class="s1">'Region'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_excel</span><span class="p">[</span><span class="s1">'Region'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"Region"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -7961,7 +7967,7 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Lab Visual Database p
 <span class="s2">    """</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">df_mysql</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">mysql_query</span><span class="p">,</span> <span class="n">mysql_conn</span><span class="p">)</span>
+        <span class="n">df_mysql</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">mysql_query</span><span class="p">,</span> <span class="n">labdashdb_conn</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error fetching data from MySQL: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
@@ -7980,13 +7986,15 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Lab Visual Database p
     
     <span class="k">try</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_combined</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-            <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">insert_query</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">'HfrCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Name'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Region'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'District'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Council'</span><span class="p">])</span>
+            <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">insert_query</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">'HfrCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Name'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Region'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'District'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Council'</span><span class="p">])</span>
             
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-        <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_combined</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows inserted into tbl_Facilities."</span><span class="p">)</span>
+        <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_combined</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_combined</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows inserted into tbl_Facilities."</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error inserting data: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
@@ -8005,8 +8013,8 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Lab Visual Database p
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-04-22T12:00:13.464465] Tille Lab transformation 22/04/2025 11:59:50 - INFO: 11401 rows inserted into tbl_Facilities.
-Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: 11401 rows inserted into tbl_Facilities.
+<pre>[2025-04-30T15:00:53.424157] Tille Lab transformation - INFO: 11401 rows inserted into tbl_Facilities.
+Tille Lab transformation &gt;&gt;&gt;: 11401 rows inserted into tbl_Facilities.
 </pre>
 </div>
 </div>
@@ -8060,7 +8068,7 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: 11401 rows inserted i
 <span class="s2">    """</span>
     
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">sample_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">mysql_conn</span><span class="p">)</span>
+        <span class="n">sample_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">labdashdb_conn</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sample_data</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
             <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="s2">"No sample data found."</span><span class="p">)</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
@@ -8082,18 +8090,18 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: 11401 rows inserted i
 <span class="s2">                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)</span>
 <span class="s2">            """</span>
             
-            <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">insert_query</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">'sampletrackingid'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'LabHfrCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'HubHfrCode'</span><span class="p">],</span> 
+            <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">insert_query</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">'sampletrackingid'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'LabHfrCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'HubHfrCode'</span><span class="p">],</span> 
                                 <span class="n">row</span><span class="p">[</span><span class="s1">'EntryModality'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'SampleType'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'TestName'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'SampleQualityStatus'</span><span class="p">],</span> 
                                 <span class="n">row</span><span class="p">[</span><span class="s1">'Results'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'SampleRejectionReason'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DeviceName'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DeviceCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'CollectionDate'</span><span class="p">],</span> 
                                 <span class="n">row</span><span class="p">[</span><span class="s1">'ReceivedDate'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'TestDate'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'AuthorisedDate'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DispatchDate'</span><span class="p">])</span>
         
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span><span class="si">}</span><span class="s2"> row inserted into tbl_Sample."</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
 
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error inserting data: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="n">extract_and_insert_sample_data</span><span class="p">()</span>
@@ -8110,8 +8118,8 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: 11401 rows inserted i
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-04-22T12:00:32.859991] Tille Lab transformation 22/04/2025 11:59:50 - INFO: 12818 row inserted into tbl_Sample.
-Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: 12818 row inserted into tbl_Sample.
+<pre>[2025-04-30T15:01:15.758218] Tille Lab transformation - INFO: 8933 row inserted into tbl_Sample.
+Tille Lab transformation &gt;&gt;&gt;: 8933 row inserted into tbl_Sample.
 </pre>
 </div>
 </div>
@@ -8150,7 +8158,7 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: 12818 row inserted in
 <span class="s2">    """</span>
     
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">device_logs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">mysql_conn</span><span class="p">)</span>
+        <span class="n">device_logs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">labdashdb_conn</span><span class="p">)</span>
         
         <span class="n">insert_query</span> <span class="o">=</span> <span class="s2">"""</span>
 <span class="s2">        INSERT INTO source.tbl_Device_Logs (DeviceName, DeviceCode, DateBrokenDown, DateReported, DateFixed, BreakDownReason)</span>
@@ -8158,12 +8166,15 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: 12818 row inserted in
 <span class="s2">        """</span>
         
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">device_logs</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-            <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">insert_query</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DeviceName'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DeviceCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DateBrokenDown'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DateReported'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DateFixed'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'BreakDownReason'</span><span class="p">])</span>
+            <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">insert_query</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DeviceName'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DeviceCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DateBrokenDown'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DateReported'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DateFixed'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'BreakDownReason'</span><span class="p">])</span>
         
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">device_logs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">device_logs</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows inserted into tbl_Device_Logs."</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error fetching or inserting device logs: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
@@ -8198,7 +8209,7 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: 12818 row inserted in
 <span class="s2">                    expireDate AS ExpireDate, transactionType AS TransactionType, quantity AS TransactionQuantity FROM commoditytransactions"""</span>
     
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">commodity_transactions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">mysql_conn</span><span class="p">)</span>
+        <span class="n">commodity_transactions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">labdashdb_conn</span><span class="p">)</span>
         
         <span class="n">insert_query</span> <span class="o">=</span> <span class="s2">"""</span>
 <span class="s2">            INSERT INTO source.tbl_Commodity_Transactions (CommodityName, CommodityCode, BatchNumber, TransactionDate, ExpireDate, TransactionType, TransactionQuantity)</span>
@@ -8206,17 +8217,17 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: 12818 row inserted in
 <span class="s2">        """</span>
         
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">commodity_transactions</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-            <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">insert_query</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">'CommodityName'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'CommodityCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'BatchNumber'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'TransactionDate'</span><span class="p">],</span>
+            <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">insert_query</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">'CommodityName'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'CommodityCode'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'BatchNumber'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'TransactionDate'</span><span class="p">],</span>
                                 <span class="n">row</span><span class="p">[</span><span class="s1">'ExpireDate'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'TransactionType'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'TransactionQuantity'</span><span class="p">])</span>
         
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">commodity_transactions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">commodity_transactions</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows inserted into tbl_Commodity_Transactions."</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
     
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error fetching or inserting commodity transactions: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         
@@ -8266,11 +8277,11 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: 12818 row inserted in
 
             <span class="k">if</span> <span class="n">batch</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
-                    <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+                    <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+                    <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error loading batch: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-                    <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+                    <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
                     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
                     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -8291,16 +8302,16 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: 12818 row inserted in
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-04-22T12:00:38.921758] Tille Lab transformation 22/04/2025 11:59:50 - INFO: Running ETL
-Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Running ETL
+<pre>[2025-04-30T15:01:21.887629] Tille Lab transformation - INFO: Running ETL
+Tille Lab transformation &gt;&gt;&gt;: Running ETL
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-04-22T12:00:40.430908] Tille Lab transformation 22/04/2025 11:59:50 - INFO: Add SP
-Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Add SP
+<pre>[2025-04-30T15:01:23.413919] Tille Lab transformation - INFO: Add SP
+Tille Lab transformation &gt;&gt;&gt;: Add SP
 </pre>
 </div>
 </div>
@@ -8328,23 +8339,23 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Add SP
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">execute_stored_procedures</span><span class="p">():</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">sp</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"EXEC dbo.sp_data_processing"</span>
-        <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+        <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
         
-        <span class="k">while</span> <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">nextset</span><span class="p">():</span>
+        <span class="k">while</span> <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">nextset</span><span class="p">():</span>
             <span class="k">pass</span>
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error executing stored procedure: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">mssql_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         
     <span class="k">finally</span><span class="p">:</span>
         <span class="k">if</span> <span class="s1">'mssql_conn'</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
-            <span class="n">mssql_cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="n">mssql_conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="n">mysql_conn</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span>
+            <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">labdashdb_conn</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span>
 
 <span class="n">execute_stored_procedures</span><span class="p">()</span>
 <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"ETL complete"</span><span class="p">)</span>
@@ -8360,8 +8371,8 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Add SP
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-04-22T12:07:28.892717] Tille Lab transformation 22/04/2025 11:59:50 - INFO: ETL complete
-Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: ETL complete
+<pre>[2025-04-30T15:06:23.433388] Tille Lab transformation - INFO: ETL complete
+Tille Lab transformation &gt;&gt;&gt;: ETL complete
 </pre>
 </div>
 </div>
@@ -8376,7 +8387,7 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: ETL complete
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
-<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Completed Tille Lab Transformation </span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Completed Tille Lab Transformation </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%d</span><span class="s1">/%m/%Y %H:%M:%S'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8389,8 +8400,8 @@ Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: ETL complete
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[2025-04-22T12:07:30.433296] Tille Lab transformation 22/04/2025 11:59:50 - INFO: Completed Tille Lab Transformation 22/04/2025 11:59:50
-Tille Lab transformation 22/04/2025 11:59:50 &gt;&gt;&gt;: Completed Tille Lab Transformation 22/04/2025 11:59:50
+<pre>[2025-04-30T15:06:24.984312] Tille Lab transformation - INFO: Completed Tille Lab Transformation 30/04/2025 15:06:24
+Tille Lab transformation &gt;&gt;&gt;: Completed Tille Lab Transformation 30/04/2025 15:06:24
 </pre>
 </div>
 </div>

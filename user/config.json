@@ -9,12 +9,11 @@
         },
         "ANA": {
             "server": "127.0.0.1",
-            "username": "user",
-            "password": "mysecretword",
-            "port": "5432",
-            "database": "analysis",
-            "sqlite3file": "wakanda.sqlite",
-            "type": "sqlite3"
+            "username": "sa",
+            "password": "root.R00T",
+            "port": "1433",
+            "database": "lab_visual_analysis",
+            "type": "MSSQL"
         },
         "DUFT-SERVER-API": {
             "server": "http://127.0.0.1:8000",
@@ -75,16 +74,16 @@
         }
     },
     "scheduledDataTasks": {
-        "SAMPLE": {
-            "description": "Scheduled sample task",
+        "LAB-VISUAL-ETL": {
+            "description": "A notebook that runs the Lab Visual ETL Transformation Task",
             "schedule": {
                 "cron": {
-                    "second": "*/30",
-                    "minute": "*",
-                    "hour": "*",
+                    "second": "0",
+                    "minute": "0",
+                    "hour": "9",
                     "day_of_month": "*",
                     "month": "*",
-                    "day_of_week": "*"
+                    "day_of_week": "mon"
                 }
             }
         }

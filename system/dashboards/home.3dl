@@ -2,7 +2,7 @@
 
   <Include file="components/sliding_dashboard/datasets.3dl" />
 
-  <SliderTab>
+  <Slider interval="20">
     <Dashboard
       data="current_date_data"
       title="HIV Viral Load (HVL) - Overview of samples received and tested for last week"
@@ -74,5 +74,5 @@
     >
       <Include file="components/sliding_dashboard/tabs/equipment_downtime.3dl" />
     </Dashboard>
-  </SliderTab>
+  </Slider>
 </Dashboards>
