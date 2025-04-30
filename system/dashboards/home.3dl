@@ -1,7 +1,7 @@
 <Dashboards>
 
   <Include file="components/sliding_dashboard/datasets.3dl" />
-    
+
   <SliderTab>
     <Dashboard
       data="current_date_data"

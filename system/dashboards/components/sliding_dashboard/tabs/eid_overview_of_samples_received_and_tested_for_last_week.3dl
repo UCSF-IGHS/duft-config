@@ -8,10 +8,10 @@
             expand="true"
             downloadVisual="true"
             detailsComponent="infinite-scroll-table"
-            userOptions={{ 
-                chart: { id: 17 }, 
-                dataLabels: { enabled: true }, 
-                yaxis: { title: { text: "Number of Samples" } } 
+            userOptions={{
+                chart: { id: 17 },
+                dataLabels: { enabled: true },
+                yaxis: { title: { text: "Number of Samples" } }
             }}
         />
 
@@ -23,11 +23,17 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
-            userOptions={{ 
-                chart: { id: 18 }, 
-                dataLabels: { enabled: true }, 
-                yaxis: { title: { text: "Number of Samples" } }, 
+            userOptions={{
+                chart: { id: 18 },
+                dataLabels: { enabled: true },
+                yaxis: { title: { text: "Number of Samples" } },
                 xaxis: { title: { text: "Region" } },
+                colors: ['#008000'],
+                plotOptions: {
+                    bar: {
+                        distributed: false
+                    }
+                },
                 annotations: {
                     yaxis: [
                         {
@@ -65,14 +71,14 @@
             exportData="true"
             downloadVisual="true"
             expand="true"
-            userOptions={{ 
-                chart: { id: 19 }, 
-                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, 
-                markers: { size: 5, hover: { size: 7 } }, 
-                legend: { show: true, position: "bottom" }, 
-                yaxis: { title: { text: "Number of Samples" } }, 
-                xaxis: { title: { text: "Weeks" } }, 
-                colors: ["#008000", "#FFA500"] 
+            userOptions={{
+                chart: { id: 19 },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
+                markers: { size: 5, hover: { size: 7 } },
+                legend: { show: true, position: "bottom" },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } },
+                colors: ["#008000", "#FFA500"]
             }}
         />
 
@@ -84,14 +90,14 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
-            userOptions={{ 
-                chart: { id: 20 }, 
-                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, 
-                markers: { size: 5, hover: { size: 7 } }, 
-                legend: { show: true, position: "bottom" }, 
-                yaxis: { title: { text: "Number of Samples" } }, 
-                xaxis: { title: { text: "Weeks" } }, 
-                colors: ["#008000", "#FFA500", "#FF0000"] 
+            userOptions={{
+                chart: { id: 20 },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
+                markers: { size: 5, hover: { size: 7 } },
+                legend: { show: true, position: "bottom" },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } },
+                colors: ["#008000", "#FFA500", "#FF0000"]
             }}
         />
     </Row>

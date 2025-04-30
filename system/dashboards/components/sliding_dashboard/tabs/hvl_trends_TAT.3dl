@@ -8,13 +8,13 @@
             detailsComponent="infinite-scroll-table"
             header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
             SubHeader=""
-            userOptions={{ 
-                chart: { id: 9 }, 
-                tooltip: { shared: true }, 
-                legend: { show: true, position: "bottom" }, 
-                dataLabels: { enabled: true }, 
-                yaxis: { title: { text: "Number of Samples" } }, 
-                xaxis: { title: { text: "Weeks" } } 
+            userOptions={{
+                chart: { id: 9 },
+                tooltip: { shared: true },
+                legend: { show: true, position: "bottom" },
+                dataLabels: { enabled: true },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } }
             }}
         />
 
@@ -26,13 +26,13 @@
             detailsComponent="infinite-scroll-table"
             header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
             SubHeader=""
-            userOptions={{ 
-                chart: { id: 10 }, 
-                tooltip: { shared: true }, 
-                legend: { show: true, position: "bottom" }, 
-                dataLabels: { enabled: true }, 
-                yaxis: { title: { text: "Number of Samples" } }, 
-                xaxis: { title: { text: "Weeks" } } 
+            userOptions={{
+                chart: { id: 10 },
+                tooltip: { shared: true },
+                legend: { show: true, position: "bottom" },
+                dataLabels: { enabled: true },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } }
             }}
         />
     </Row>
@@ -46,13 +46,13 @@
             detailsComponent="infinite-scroll-table"
             header="For Samples received in the reporting week, number of days from sample collection to lab reception"
             SubHeader=""
-            userOptions={{ 
-                chart: { id: 11 }, 
-                tooltip: { shared: true }, 
-                legend: { show: true, position: "bottom" }, 
-                dataLabels: { enabled: true }, 
-                yaxis: { title: { text: "Number of Samples" } }, 
-                xaxis: { title: { text: "Weeks" } } 
+            userOptions={{
+                chart: { id: 11 },
+                tooltip: { shared: true },
+                legend: { show: true, position: "bottom" },
+                dataLabels: { enabled: true },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } }
             }}
         />
 
@@ -64,13 +64,13 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
-            userOptions={{ 
-                chart: { id: 12 }, 
-                tooltip: { shared: true }, 
-                legend: { show: true, position: "bottom" }, 
-                dataLabels: { enabled: true }, 
-                yaxis: { title: { text: "Number of Samples" } }, 
-                xaxis: { title: { text: "Weeks" } } 
+            userOptions={{
+                chart: { id: 12 },
+                tooltip: { shared: true },
+                legend: { show: true, position: "bottom" },
+                dataLabels: { enabled: true },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } }
             }}
         />
     </Row>

@@ -16,9 +16,9 @@
             detailsComponent="infinite-scroll-table"
             header="Equipment utilization (Actual Sample Tested) within the Lab"
             subHeader=""
-            userOptions={{ 
-                chart: { id: 29 }, 
-                tooltip: { shared: true }, 
+            userOptions={{
+                chart: { id: 29 },
+                tooltip: { shared: true },
                 dataLabels: { enabled: true },
                 legend: { show: true, position: "bottom" }
             }}

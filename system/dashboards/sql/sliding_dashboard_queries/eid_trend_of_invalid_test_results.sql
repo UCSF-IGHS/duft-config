@@ -1,15 +1,24 @@
 SELECT
 	d.weekly_start_monday_period AS category,
-	CAST(COALESCE(SUM(s.eid_result_invalid) * 100.0 / NULLIF(SUM(s.eid_sample_tested),
-	0),
-	0) AS DECIMAL(5,
-	2)) AS value
+	CAST(
+		COALESCE(
+			SUM(s.eid_result_invalid) * 100.0 / NULLIF(SUM(s.eid_sample_tested), 0),
+			0
+		) AS DECIMAL(5, 2)
+	) AS value
 FROM
 	final.fact_daily_sample_summary s
-INNER JOIN derived.dim_date d ON
-	s.report_date = d.date
+	INNER JOIN derived.dim_date d ON s.report_date = d.date
 WHERE
-	s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 27), GETDATE())
-	AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE())
+	s.report_date >= DATEADD (
+		DAY,
+		- (DATEPART (WEEKDAY, GETDATE ()) + 27),
+		GETDATE ()
+	)
+	AND s.report_date <= DATEADD (
+		DAY,
+		1 - DATEPART (WEEKDAY, GETDATE ()),
+		GETDATE ()
+	)
 GROUP BY
 	d.weekly_start_monday_period;

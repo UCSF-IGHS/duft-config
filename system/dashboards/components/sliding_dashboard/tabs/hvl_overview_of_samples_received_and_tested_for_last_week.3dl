@@ -8,10 +8,10 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
-            userOptions={{ 
-                chart: { id: 1 }, 
-                dataLabels: { enabled: true }, 
-                yaxis: { title: { text: "Number of Samples" } } 
+            userOptions={{
+                chart: { id: 1 },
+                dataLabels: { enabled: true },
+                yaxis: { title: { text: "Number of Samples" } }
             }}
         />
 
@@ -23,15 +23,15 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
-            userOptions={{ 
-                chart: { id: 2 }, 
-                colors: [ "#156082", "#e97132"], 
-                legend: { show: true, position: "bottom" }, 
-                dataLabels: { enabled: true, dropShadow: { enabled: false } } 
+            userOptions={{
+                chart: { id: 2 },
+                colors: ["#156082", "#e97132"],
+                legend: { show: true, position: "bottom" },
+                dataLabels: { enabled: true, dropShadow: { enabled: false } }
             }}
         />
     </Row>
-    
+
     <Row columns="2">
         <PieChart
             data="hvl_reasons_for_sample_rejection"
@@ -41,10 +41,10 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
-            userOptions={{ 
-                chart: { id: 3 }, 
-                legend: { show: true, position: "bottom" }, 
-                dataLabels: { enabled: true, dropShadow: { enabled: false } } 
+            userOptions={{
+                chart: { id: 3 },
+                legend: { show: true, position: "bottom" },
+                dataLabels: { enabled: true, dropShadow: { enabled: false } }
             }}
         />
 
@@ -60,13 +60,19 @@
                 chart: { id: 4 },
                 dataLabels: { enabled: true },
                 yaxis: { title: { text: 'Number of Samples' } },
-                xaxis: { title: { text: 'Region' } },              
+                xaxis: { title: { text: 'Region' } },
+                colors: ['#008000'],
+                plotOptions: {
+                    bar: {
+                        distributed: false
+                    }
+                },
                 legend: {
-                position: "top",
-                fontSize: "14px",
-                labels: { colors: "#333" },
-                itemMargin: { horizontal: 10, vertical: 5 },
-                markers: { width: 12, height: 12 }
+                    position: "top",
+                    fontSize: "14px",
+                    labels: { colors: "#333" },
+                    itemMargin: { horizontal: 10, vertical: 5 },
+                    markers: { width: 12, height: 12 }
                 },
                 annotations: {
                     yaxis: [
@@ -85,7 +91,7 @@
                         }
                     ]
                 }
-            }}                    
+            }}
         >
             <InfoTag>
                 <Markdown header="Descriptions for UNKNOWN and Not set">

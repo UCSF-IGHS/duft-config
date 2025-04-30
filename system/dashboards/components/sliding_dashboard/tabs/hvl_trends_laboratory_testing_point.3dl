@@ -8,11 +8,11 @@
             detailsComponent="infinite-scroll-table"
             header="HVL: Test outcomes for last week"
             subHeader=""
-            userOptions={{ 
-                chart: { id: 13 }, 
-                legend: { show: true, position: "right" }, 
-                dataLabels: { enabled: true, dropShadow: { enabled: false } }, 
-                colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500"] 
+            userOptions={{
+                chart: { id: 13 },
+                legend: { show: true, position: "right" },
+                dataLabels: { enabled: true, dropShadow: { enabled: false } },
+                colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500"]
             }}
         />
 
@@ -24,14 +24,14 @@
             detailsComponent="infinite-scroll-table"
             header="HVL: Trend of invalid test results"
             subHeader=""
-            userOptions={{ 
-                chart: { id: 14 }, 
-                legend: { show: true }, 
-                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, 
-                yaxis: { title: { text: "Number of Samples" } }, 
-                xaxis: { title: { text: "Weeks" } }, 
-                colors: ["#1e3799"], 
-                markers: { size: 5, hover: { size: 7 } } 
+            userOptions={{
+                chart: { id: 14 },
+                legend: { show: true },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } },
+                colors: ["#1e3799"],
+                markers: { size: 5, hover: { size: 7 } }
             }}
         />
     </Row>
@@ -45,14 +45,14 @@
             detailsComponent="infinite-scroll-table"
             header="HVL: Trend of rejected samples"
             subHeader=""
-            userOptions={{ 
-                chart: { id: 15 }, 
-                legend: { show: true }, 
-                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 }, 
-                markers: { size: 5, hover: { size: 7 } } , 
-                yaxis: { title: { text: "Number of Samples" } }, 
-                xaxis: { title: { text: "Weeks" } }, 
-                colors: ["#1e3799"] 
+            userOptions={{
+                chart: { id: 15 },
+                legend: { show: true },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
+                markers: { size: 5, hover: { size: 7 } },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } },
+                colors: ["#1e3799"]
             }}
         />
 
@@ -64,15 +64,15 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
-            userOptions={{ 
-                chart: { id: 16 }, 
-                dataLabels: { enabled: true }, 
-                plotOptions: { bar: { horizontal: true } }, 
-                legend: { show: true, position: "bottom" }, 
-                yaxis: { title: { text: "Week" } }, 
-                xaxis: { title: { text: "Number of Samples" } }, 
-                tooltip: { shared: true }, 
-                stroke: { width: 2 } 
+            userOptions={{
+                chart: { id: 16 },
+                dataLabels: { enabled: true },
+                plotOptions: { bar: { horizontal: true } },
+                legend: { show: true, position: "bottom" },
+                yaxis: { title: { text: "Week" } },
+                xaxis: { title: { text: "Number of Samples" } },
+                tooltip: { shared: true },
+                stroke: { width: 2 }
             }}
         />
     </Row>
