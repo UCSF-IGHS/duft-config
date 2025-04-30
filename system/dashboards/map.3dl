@@ -38,5 +38,22 @@
             />
         </Grid>
     </Dashboard>
+    <Dashboard
+        data="map_data"
+        tabName="MAP 2"
+        title="Sample map"
+        subTitle="cluster map"
+    >
+        <Filters>
+            <Filter caption="Facility Type" name="facility_type" data="facility_type_data" />
+            <Filter caption="Keph Level" name="keph_level" data="keph_level_data" />
+            <Filter caption="Operational Status" name="operational_status" data="operational_status_data" />
+        </Filters>
+        <Grid> 
+            <HeatMap
+             data = "initiated_detailed_data"
+            />
+        </Grid>
+    </Dashboard>
 </Dashboards>
         

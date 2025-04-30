@@ -13,7 +13,6 @@
     </Datasets>
 
     <Dashboard
-        data="dhis2_data"
         tabName="DHIS2"
         title="Sample DHIS2 data from a sql view"
     >
