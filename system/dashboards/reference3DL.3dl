@@ -171,7 +171,7 @@
       name="sentinel_event_hiv_data"
       queryName="clients/client_list_all"
       filterFrom="gender, age_group, hiv_diagnosis_date"
-      searchColumns="client_id, emr_identifier"
+      searchColumns="c.client_id, emr_identifier"
     />
 
     <SQLData
@@ -179,12 +179,30 @@
       name="sentinel_event_data"
       queryName="clients/client_list_all"
       filterFrom="gender, age_group, birth_date"
-      searchColumns="client_id, emr_identifier"
+      searchColumns="c.client_id, emr_identifier"
     />
 
     <SQLData
       name="sentinel_event_details_data"
       detailsViewData="sentinel_event_data"
+      detailsViewColumn="client_id"
+      transpose="true"
+    >
+      SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
+    </SQLData>
+
+    <SQLData
+      pageSize="20"
+      name="sentinel_event_place_holder_data"
+      filterFrom="gender"
+      searchColumns="c.client_id, emr_identifier"
+    >
+      SELECT c.client_id, birth_date, current_age, emr_identifier, marital_status, gender, hiv_diagnosis_date from dim_client c INNER JOIN fact_sentinel_event s ON c.client_id=s.client_id INNER JOIN (select age, TRIM(ten_year_interval) as age_group FROM  dim_age_group) ag ON c.current_age=ag.age WHERE (gender=$[gender] OR $[gender] = '')
+    </SQLData>
+
+    <SQLData
+      name="sentinel_event_place_holder_details_data"
+      detailsViewData="sentinel_event_place_holder_data"
       detailsViewColumn="client_id"
       transpose="true"
     >
@@ -418,6 +436,19 @@
           detailsViewColumn="client_id"
         >
           <Table data="sentinel_event_details_data" />
+        </Table>
+      </Row>
+
+      <Row columns="1">
+        <Table
+          data="sentinel_event_place_holder_data"
+          exportData="true"
+          header="Infinite scroll sample table with place holder"
+          subHeader="A table to demo infinite scroll, search, sort, filtering"
+          initialColumns="birth_date, emr_identifier, client_id, gender"
+          detailsViewColumn="client_id"
+        >
+          <Table data="sentinel_event_place_holder_details_data" />
         </Table>
       </Row>
     </Grid>
