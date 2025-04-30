@@ -19,4 +19,6 @@ FROM
 LEFT JOIN [derived].dim_facility AS dim_facility ON
 	dim_samples.hub_facility_id = dim_facility.facility_id
 WHERE
-	dim_samples.cleaning_comment IS NOT NULL;
+	dim_samples.cleaning_comment IS NOT NULL
+ORDER BY 
+	dim_samples.lab_received_date DESC

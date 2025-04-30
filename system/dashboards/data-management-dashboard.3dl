@@ -6,24 +6,28 @@
         <SQLData
             name="all_data_issues_data"
             queryName="data_management_queries/all_data_issues"
-            searchColumns="Sample ID"
+            searchColumns="sample_tracking_id"
+            pageSize="10"
         />
 
         <SQLData
             name="missing_collected_or_received_date_data"
             queryName="data_management_queries/missing_collected_or_received_date"
-            searchColumns="Sample ID"
+            searchColumns="sample_tracking_id"
+            pageSize="10"
         />
 
         <SQLData
             name="earlier_received_date_than_collected_date_data"
             queryName="data_management_queries/earlier_received_date_than_collected_date"
-            searchColumns="Sample ID"
+            searchColumns="sample_tracking_id"
+            pageSize="10"
         />
 
         <SQLData
             name="missing_hfr_code_data"
             filterFrom="weekly_start_monday_period"
+            searchColumns="sample_tracking_id"
         >
             SELECT
             dim_facility.region AS Region,
@@ -66,13 +70,14 @@
             WHERE
             weekly_start_monday_period = $[weekly_start_monday_period]
             )
-            AND REPLACE(dim_samples.cleaning_comment, ' ', '') = 'MissingHFRCode';
+            AND REPLACE(dim_samples.cleaning_comment, ' ', '') = 'MissingHFRCode'
+            ORDER BY dim_samples.lab_received_date DESC
         </SQLData>
 
         <SQLData
             name="missing_test_name_data"
             filterFrom="weekly_start_monday_period"
-            searchColumns="Sample ID"
+            searchColumns="sample_tracking_id"
         >
             SELECT
             dim_facility.region AS Region,
@@ -115,12 +120,14 @@
             WHERE
             weekly_start_monday_period = $[weekly_start_monday_period]
             )
-            AND REPLACE(dim_samples.cleaning_comment, ' ', '') = 'MissingTestName';
+            AND REPLACE(dim_samples.cleaning_comment, ' ', '') = 'MissingTestName'
+            ORDER BY dim_samples.lab_received_date DESC
         </SQLData>
 
         <SQLData
             name="samples_with_authorized_date_earlier_than_tested_date_data"
             filterFrom="weekly_start_monday_period"
+            searchColumns="sample_tracking_id"
         >
             SELECT
             dim_facility.region AS Region,
@@ -163,12 +170,14 @@
             )
             AND REPLACE(dim_samples.cleaning_comment,
             ' ',
-            '') = 'EarlierDispatcheddatethanTestdate';
+            '') = 'EarlierDispatcheddatethanTestdate'
+            ORDER BY dim_samples.lab_received_date DESC
         </SQLData>
 
         <SQLData
             name="samples_with_rejection_reasons_but_have_results_data"
             filterFrom="weekly_start_monday_period"
+            searchColumns="sample_tracking_id"
         >
             SELECT
             dim_facility.region AS Region,
@@ -211,7 +220,8 @@
             )
             AND REPLACE(dim_samples.cleaning_comment,
             ' ',
-            '') = 'RejectedbuthasResult';
+            '') = 'RejectedbuthasResult'
+            ORDER BY dim_samples.lab_received_date DESC
         </SQLData>
     </Datasets>
 
@@ -262,8 +272,6 @@
                     variant="plain"
                     exportData="true"
                     expand="true"
-                    hasFilter="true"
-                    searchValue="Sample ID"
                 />
             </Row>
         </Grid>
@@ -292,8 +300,6 @@
                     variant="plain"
                     exportData="true"
                     expand="true"
-                    hasFilter="true"
-                    searchValue="Sample ID"
                 />
             </Row>
         </Grid>
@@ -371,8 +377,6 @@
                     variant="plain"
                     exportData="true"
                     expand="true"
-                    hasFilter="true"
-                    searchValue="Sample ID"
                 />
             </Row>
         </Grid>
@@ -401,8 +405,6 @@
                     variant="plain"
                     exportData="true"
                     expand="true"
-                    hasFilter="true"
-                    searchValue="Sample ID"
                 />
             </Row>
         </Grid>

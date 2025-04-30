@@ -46,7 +46,7 @@
                                     fontWeight: "bold",
                                 },
                                 offsetY: 60,
-                                offsetX: -550
+                                offsetX: -250
                             }
                         }
                     ]
