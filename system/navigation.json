@@ -11,6 +11,12 @@
         "icon": "update-icon",
         "task": "CTC_A_ANALYTICAL_DB_REFRESH",
         "prompt": "Are you sure you want to refresh analytical data?"
+      },
+      {
+        "title": "Update System",
+        "icon": "update-icon",
+        "task": "CTC_A_DUFT_CONFIGS_REFRESH",
+        "prompt": "Are you sure you want to update dashboard definitions?"
       }
     ]
   }
