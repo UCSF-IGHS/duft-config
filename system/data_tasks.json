@@ -162,7 +162,7 @@
             "description": "Updates the DUFT report definitions to the latest version. An Internet connection is required",
             "pythonFile": "update.py",
             "hideInUI": true,
-            "executeFromRoot": false,
+            "executeFromRoot": true,
             "supportedParameters": {
                 "repo_url": {
                     "title": "Repository URL",
