@@ -7547,7 +7547,8 @@ a.anchor-link {
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
 <span class="kn">from</span> <span class="nn">data_task_helpers</span> <span class="kn">import</span> <span class="n">something</span>
-<span class="kn">from</span> <span class="nn">services.dte_tools.data_task_tools</span> <span class="kn">import</span> <span class="n">assert_dte_tools_available</span><span class="p">,</span> <span class="n">get_resolved_parameters_for_connection</span><span class="p">,</span> <span class="n">initialise_data_task</span>  <span class="c1"># noqa: E402</span>
+<span class="n">something</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">api_data_task_executioner.data_task_tools</span> <span class="kn">import</span> <span class="n">initialise_data_task</span><span class="p">,</span> <span class="n">DataTaskEnvironment</span><span class="p">,</span> <span class="n">find_json_arg</span>  <span class="c1"># noqa: E402</span>
 <span class="kn">import</span> <span class="nn">nest_asyncio</span>
 <span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -7730,6 +7731,7 @@ Tille Lab transformation &gt;&gt;&gt;: connected successfully to tille lab datab
 
         <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"sleep_time"</span><span class="p">])</span>
+        
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error creating schemas: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
@@ -7896,6 +7898,7 @@ Tille Lab transformation &gt;&gt;&gt;: connected successfully to tille lab datab
             <span class="n">create_tables</span><span class="p">()</span>
 
             <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Lab Visual Database preparation complete"</span><span class="p">)</span>
+
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">environment</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to prepare database: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
@@ -7973,7 +7976,6 @@ Tille Lab transformation &gt;&gt;&gt;: Lab Visual Database preparation complete
 <span class="s2">            council AS Council</span>
 <span class="s2">        FROM hubfacilities</span>
 <span class="s2">    """</span>
-
     <span class="k">try</span><span class="p">:</span>
         <span class="n">df_mysql</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">mysql_query</span><span class="p">,</span> <span class="n">labdashdb_conn</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -8237,8 +8239,8 @@ Tille Lab transformation &gt;&gt;&gt;: 8933 row inserted into tbl_Sample.
         <span class="n">commodity_transactions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">labdashdb_conn</span><span class="p">)</span>
         
         <span class="n">insert_query</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">            INSERT INTO source.tbl_Commodity_Transactions (CommodityName, CommodityCode, BatchNumber, TransactionDate, ExpireDate, TransactionType, TransactionQuantity)</span>
-<span class="s2">            VALUES (?, ?, ?, ?, ?, ?, ?)</span>
+<span class="s2">        INSERT INTO source.tbl_Commodity_Transactions (CommodityName, CommodityCode, BatchNumber, TransactionDate, ExpireDate, TransactionType, TransactionQuantity)</span>
+<span class="s2">        VALUES (?, ?, ?, ?, ?, ?, ?)</span>
 <span class="s2">        """</span>
         
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">commodity_transactions</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
@@ -8375,15 +8377,14 @@ Tille Lab transformation &gt;&gt;&gt;: Add SP
         <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        
     <span class="k">finally</span><span class="p">:</span>
         <span class="k">if</span> <span class="s1">'mssql_conn'</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
             <span class="n">labvisualDB_cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="n">labvisualDB_conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="n">labdashdb_conn</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span>
 
-<span class="n">execute_stored_procedures</span><span class="p">()</span>
 <span class="n">environment</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"ETL complete"</span><span class="p">)</span>
+<span class="n">execute_stored_procedures</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
