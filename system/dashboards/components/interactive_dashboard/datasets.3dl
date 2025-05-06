@@ -1,0 +1,267 @@
+<Datasets>
+    
+    <SQLData name="week_data" queryName="filters/week_names" />
+
+    {/* Queries for HVL in interactive dashboard */}
+    <SQLData
+        name="hvl_report_transformation_table_data"
+        filterFrom="weekly_start_monday_period"
+    >
+        SELECT
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE),
+        'yyyy-MM-dd')
+        + ' to ' +
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE),
+        'yyyy-MM-dd') AS week,
+        SUM(fd.hvl_sample_collected) AS [Sample Collected],
+        SUM(fd.hvl_sample_received) AS [Sample Received],
+        SUM(fd.hvl_sample_accepted) AS [Sample Accepted],
+        SUM(fd.hvl_sample_rejected) AS [Sample Rejected],
+        SUM(fd.hvl_sample_tested) AS [Sample Tested],
+        SUM(fd.hvl_result_pending) AS [Pending Results],
+        SUM(fd.hvl_result_authorized) AS [Authorized Results],
+        SUM(fd.hvl_result_accepted) AS [Accepted Results],
+        SUM(fd.hvl_result_rejected) AS [Rejected Results],
+        SUM(fd.hvl_result_failed) AS [Failed Results],
+        SUM(fd.hvl_result_invalid) AS [Invalid Results]
+        FROM
+        [final].fact_daily_sample_summary fd
+        INNER JOIN [derived].dim_date dd
+        ON
+        fd.report_date = dd.[date]
+        WHERE
+        CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE)
+        BETWEEN
+        (
+        SELECT
+        TOP 1 DATEADD(DAY, -21, CAST(SUBSTRING(weekly_start_monday_day_dates, 1, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE))
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        AND
+        (
+        SELECT
+        TOP 1 CAST(SUBSTRING(weekly_start_monday_day_dates, 1, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE)
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        GROUP BY
+        dd.weekly_start_monday_day_dates
+        ORDER BY
+        CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE) DESC;
+    </SQLData>
+
+    <SQLData
+        name="vl_suppressed_and_unsuppressed_results_on_weekly_basis_data"
+        filterFrom="weekly_start_monday_period"
+    >
+        SELECT
+        d.weekly_start_monday_period AS category,
+        SUM(hvl_samples_with_results_less_than_1000_or_above_50) + SUM(hvl_samples_with_results_less_than_50) AS Suppressed,
+        SUM(hvl_samples_with_results_equal_or_above_1000) AS Unsuppressed
+        FROM
+        final.fact_daily_sample_summary s
+        INNER JOIN derived.dim_date d ON
+        s.report_date = d.date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        GROUP BY
+        d.weekly_start_monday_period;
+    </SQLData>
+
+    <SQLData
+        name="hvl_TAT_sample_collection_to_lab_reception_data"
+        filterFrom="weekly_start_monday_period"
+    >
+        SELECT
+        d.weekly_start_monday_period AS category,
+        SUM(s.hvl_sample_collected_and_received_date_in_less_or_equal_5_days) AS [&le; 5 days],
+        SUM(s.hvl_sample_collected_and_received_date_between_6_to_10_days) AS [6 to 10 days],
+        SUM(s.hvl_sample_collected_and_received_date_between_11_to_15_days) AS [11 to 15 days],
+        SUM(s.hvl_sample_collected_and_received_date_greater_than_15_days) AS [&gt; 15 days]
+        FROM
+        final.fact_daily_sample_summary s
+        INNER JOIN derived.dim_date d ON
+        s.report_date = d.date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        GROUP BY
+        d.weekly_start_monday_period;
+    </SQLData>
+
+    <SQLData
+        name="hvl_TAT_sample_received_to_authorised_data"
+        filterFrom="weekly_start_monday_period"
+    >
+        SELECT
+        d.weekly_start_monday_period AS category,
+        SUM(s.hvl_sample_received_and_authorised_date_in_less_or_equal_5_days) AS [&le; 5 days],
+        SUM(s.hvl_sample_received_and_authorised_date_between_6_to_10_days) AS [6 to 10 days],
+        SUM(s.hvl_sample_received_and_authorised_date_between_11_to_15_days) AS [11 to 15 days],
+        SUM(s.hvl_sample_received_and_authorised_date_greater_than_15_days) AS [&gt; 15 days]
+        FROM
+        final.fact_daily_sample_summary s
+        LEFT JOIN derived.dim_date d ON
+        s.report_date = d.date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        GROUP BY
+        d.weekly_start_monday_period;
+    </SQLData>
+
+    <SQLData
+        name="hvl_TAT_sample_collection_to_authorisation_data"
+        filterFrom="weekly_start_monday_period"
+    >
+        SELECT
+        d.weekly_start_monday_period AS category,
+        SUM(s.hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days) AS [&le; 10 days],
+        SUM(s.hvl_sample_collected_and_authorised_date_between_11_to_14_days) AS [11 to 14 days],
+        SUM(s.hvl_sample_collected_and_authorised_date_between_15_to_21_days) AS [15 to 21 days],
+        SUM(s.hvl_sample_collected_and_authorised_date_greater_than_21_days) AS [&gt; 21 days]
+        FROM
+        final.fact_daily_sample_summary s
+        INNER JOIN derived.dim_date d ON
+        s.report_date = d.date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        GROUP BY
+        d.weekly_start_monday_period;
+    </SQLData>
+
+    {/* Queries for EID in interactive dashboard */}
+    <SQLData
+        name="eid_report_transformation_table_data"
+        filterFrom="weekly_start_monday_period"
+    >
+        SELECT
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE),
+        'yyyy-MM-dd')
+        + ' to ' +
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE),
+        'yyyy-MM-dd') AS week,
+        SUM(fd.eid_sample_collected) AS [Sample Collected],
+        SUM(fd.eid_sample_dbs_received) AS [Sample Received],
+        SUM(fd.eid_sample_accepted) AS [Sample Accepted],
+        SUM(fd.eid_sample_rejected) AS [Sample Rejected],
+        SUM(fd.eid_sample_tested) AS [Sample Tested],
+        SUM(fd.eid_result_pending) AS [Pending Results],
+        SUM(fd.eid_result_authorized) AS [Authorized Results],
+        SUM(fd.eid_result_accepted) AS [Accepted Results],
+        SUM(fd.eid_result_rejected) AS [Rejected Results],
+        SUM(fd.eid_result_failed) AS [Failed Results],
+        SUM(fd.eid_result_invalid) AS [Invalid Results]
+        FROM
+        [final].fact_daily_sample_summary fd
+        INNER JOIN [derived].dim_date dd
+        ON
+        fd.report_date = dd.[date]
+        WHERE
+        CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE)
+        BETWEEN
+        (
+        SELECT
+        TOP 1 DATEADD(DAY, -21, CAST(SUBSTRING(weekly_start_monday_day_dates, 1, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE))
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        AND
+        (
+        SELECT
+        TOP 1 CAST(SUBSTRING(weekly_start_monday_day_dates, 1, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE)
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        GROUP BY
+        dd.weekly_start_monday_day_dates
+        ORDER BY
+        CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE) DESC;
+    </SQLData>
+
+    <SQLData
+        name="sample_test_outcome_data"
+        filterFrom="weekly_start_monday_period"
+    >
+        SELECT
+        d.weekly_start_monday_period AS category,
+        SUM(eid_sample_tested_negative) AS Negative,
+        SUM(eid_sample_tested_positive) AS Positive,
+        SUM(eid_sample_tested_result_not_detected) AS Undermined
+        FROM
+        final.fact_daily_sample_summary s
+        INNER JOIN derived.dim_date d ON
+        s.report_date = d.date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        GROUP BY
+        d.weekly_start_monday_period;
+    </SQLData>
+
+    <SQLData
+        name="eid_TAT_sample_collection_to_lab_reception_data"
+        filterFrom="weekly_start_monday_period"
+    >
+        SELECT
+        d.weekly_start_monday_period AS category,
+        SUM(s.eid_sample_collected_and_received_date_in_less_or_equal_5_days) AS [&le; 5 days],
+        SUM(s.eid_sample_collected_and_received_date_between_6_to_10_days) AS [6 to 10 days],
+        SUM(s.eid_sample_collected_and_received_date_between_11_to_15_days) AS [11 to 15 days],
+        SUM(s.eid_sample_collected_and_received_date_greater_than_15_days) AS [&gt; 15 days]
+        FROM
+        final.fact_daily_sample_summary s
+        INNER JOIN derived.dim_date d ON
+        s.report_date = d.date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        GROUP BY
+        d.weekly_start_monday_period;
+    </SQLData>
+
+    <SQLData
+        name="eid_TAT_sample_received_to_authorised_data"
+        filterFrom="weekly_start_monday_period"
+    >
+        SELECT
+        d.weekly_start_monday_period AS category,
+        SUM(s.eid_sample_received_and_authorised_date_in_less_or_equal_5_days) AS [&le; 5 days],
+        SUM(s.eid_sample_received_and_authorised_date_between_6_to_10_days) AS [6 to 10 days],
+        SUM(s.eid_sample_received_and_authorised_date_between_11_to_15_days) AS [11 to 15 days],
+        SUM(s.eid_sample_received_and_authorised_date_greater_than_15_days) AS [&gt; 15 days]
+        FROM
+        final.fact_daily_sample_summary s
+        LEFT JOIN derived.dim_date d ON
+        s.report_date = d.date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        GROUP BY
+        d.weekly_start_monday_period;
+    </SQLData>
+
+    <SQLData
+        name="eid_TAT_sample_collection_to_authorisation_data"
+        filterFrom="weekly_start_monday_period"
+    >
+        SELECT
+        d.weekly_start_monday_period AS category,
+        SUM(s.eid_sample_collected_and_authorised_date_in_less_or_equal_10_days) AS [&le; 10 days],
+        SUM(s.eid_sample_collected_and_authorised_date_between_11_to_14_days) AS [11 to 14 days],
+        SUM(s.eid_sample_collected_and_authorised_date_between_15_to_21_days) AS [15 to 21 days],
+        SUM(s.eid_sample_collected_and_authorised_date_greater_than_21_days) AS [&gt; 21 days]
+        FROM
+        final.fact_daily_sample_summary s
+        INNER JOIN derived.dim_date d ON
+        s.report_date = d.date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        GROUP BY
+        d.weekly_start_monday_period;
+    </SQLData>
+</Datasets>

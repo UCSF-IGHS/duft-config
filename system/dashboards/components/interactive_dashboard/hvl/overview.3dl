@@ -1,0 +1,198 @@
+<Grid>
+    <Row>
+        <Header small="true">HVL Report Transformation Table</Header>
+    </Row>
+
+    <Row columns="1">
+        <Table
+            data="hvl_report_transformation_table_data"
+            header="HVL Report Transformation Table"
+            subheader=""
+            exportData="true"
+            expand="true"
+            variant="plain"
+        />
+    </Row>
+
+    <Row>
+        <Header small="true">HVL Weekly Reports</Header>
+    </Row>
+
+    <Row columns="2">
+        <StackedBarChart
+            data="vl_suppressed_and_unsuppressed_results_on_weekly_basis_data"
+            header="Viral Load Suppression & Unsuppression Result on Weekly Basis"
+            subheader=""
+            exportData="true"
+            detailsComponent="infinite-scroll-table"
+            expand="true"
+            userOptions={
+                {
+                    chart: { id: 31 },
+                    tooltip: { shared: true },
+                    legend: { show: true, position: "bottom" },
+                    dataLabels: {
+                        enabled: true,
+                        total: {
+                            enabled: true,
+                            style: {
+                                fontSize: "14px",
+                                fontWeight: 900,
+                                fontColor: "#fff"
+                            },
+                            offsetX: 10
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: "Number of Samples"
+                        }
+                    },
+                    xaxis: {
+                        title: {
+                            text: "Week Number"
+                        }
+                    },
+                    colors: ["#00BFFF", "#FFA500"]
+                }
+            }
+        />
+
+        <StackedBarChart
+            data="hvl_TAT_sample_collection_to_lab_reception_data"
+            header="For Samples received in the reporting week, number of days from the sample collection to lab reception"
+            subHeader=""
+            exportData="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={
+                {
+                    chart: {
+                        id: 32
+                    },
+                    tooltip: {
+                        shared: true
+                    },
+                    legend: {
+                        show: true,
+                        position: "bottom"
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        total: {
+                            enabled: true,
+                            style: {
+                                fontSize: "14px",
+                                fontWeight: 900,
+                                fontColor: "#fff"
+                            },
+                            offsetX: 10
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: "Number of Samples"
+                        }
+                    },
+                    xaxis: {
+                        title: {
+                            text: "Week Number"
+                        }
+                    }
+                }
+            }
+        />
+    </Row>
+
+    <Row columns="2">
+        <StackedBarChart
+            data="hvl_TAT_sample_received_to_authorised_data"
+            header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
+            subHeader=""
+            exportData="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={
+                {
+                    chart: {
+                        id: 33
+                    },
+                    tooltip: {
+                        shared: true
+                    },
+                    legend: {
+                        show: true,
+                        position: "bottom"
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        total: {
+                            enabled: true,
+                            style: {
+                                fontSize: "14px",
+                                fontWeight: 900,
+                                fontColor: "#fff"
+                            },
+                            offsetX: 10
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: "Number of Samples"
+                        }
+                    },
+                    xaxis: {
+                        title: {
+                            text: "Week Number"
+                        }
+                    }
+                }
+            }
+        />
+
+        <StackedBarChart
+            data="hvl_TAT_sample_collection_to_authorisation_data"
+            header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
+            subHeader=""
+            exportData="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={
+                {
+                    chart: {
+                        id: 34
+                    },
+                    tooltip: {
+                        shared: true
+                    },
+                    legend: {
+                        show: true,
+                        position: "bottom"
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        total: {
+                            enabled: true,
+                            style: {
+                                fontSize: "14px",
+                                fontWeight: 900,
+                                fontColor: "#fff"
+                            },
+                            offsetX: 10
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: "Number of Samples"
+                        }
+                    },
+                    xaxis: {
+                        title: {
+                            text: "Week Number"
+                        }
+                    }
+                }
+            }
+        />
+    </Row>
+</Grid>

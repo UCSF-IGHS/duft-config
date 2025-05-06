@@ -1,0 +1,153 @@
+<Datasets>
+  <SQLData name="current_date_data" queryName="common/current_date" />
+
+  <SQLData
+    name="hvl_samples_tested_rejected_authorised"
+    queryName="sliding_dashboard_queries/hvl_samples_tested_rejected_authorised"
+  />
+
+  <SQLData
+    name="hvl_samples_received_by_type"
+    queryName="sliding_dashboard_queries/hvl_samples_received_by_type"
+  />
+
+  <SQLData
+    name="hvl_reasons_for_sample_rejection"
+    queryName="sliding_dashboard_queries/hvl_reasons_for_sample_rejection"
+  />
+
+  <SQLData
+    name="hvl_samples_received_by_region"
+    queryName="sliding_dashboard_queries/hvl_samples_received_by_region"
+  />
+
+  <SQLData
+    name="hvl_trend_of_samples_received_by_sample_type"
+    queryName="sliding_dashboard_queries/hvl_trend_of_samples_received_by_sample_type"
+  />
+
+  <SQLData
+    name="hvl_trend_of_samples_received_by_entry_modality"
+    queryName="sliding_dashboard_queries/hvl_trend_of_samples_received_by_entry_modality"
+  />
+
+  <SQLData
+    name="hvl_trend_of_samples_tested"
+    queryName="sliding_dashboard_queries/hvl_trend_of_samples_tested"
+  />
+
+  <SQLData
+    name="hvl_trend_of_samples_dispatched"
+    queryName="sliding_dashboard_queries/hvl_trend_of_samples_dispatched"
+  />
+
+  <SQLData
+    name="hvl_TAT_collection_to_authorization"
+    queryName="sliding_dashboard_queries/hvl_TAT_collection_to_authorization"
+  />
+
+  <SQLData
+    name="hvl_TAT_received_to_authorization"
+    queryName="sliding_dashboard_queries/hvl_TAT_received_to_authorization"
+  />
+
+  <SQLData
+    name="hvl_TAT_collection_to_received"
+    queryName="sliding_dashboard_queries/hvl_TAT_collection_to_received"
+  />
+
+  <SQLData
+    name="hvl_TAT_received_to_testing"
+    queryName="sliding_dashboard_queries/hvl_TAT_received_to_testing"
+  />
+
+  <SQLData
+    name="hvl_test_outcomes"
+    queryName="sliding_dashboard_queries/hvl_test_outcomes"
+  />
+
+  <SQLData
+    name="hvl_trend_of_invalid_test_results"
+    queryName="sliding_dashboard_queries/hvl_trend_of_invalid_test_results"
+  />
+
+  <SQLData
+    name="hvl_trend_of_rejected_samples"
+    queryName="sliding_dashboard_queries/hvl_trend_of_rejected_samples"
+  />
+
+  <SQLData
+    name="hvl_sample_aging"
+    queryName="sliding_dashboard_queries/hvl_sample_aging"
+  />
+
+  <SQLData
+    name="eid_samples_tested_rejected_authorised"
+    queryName="sliding_dashboard_queries/eid_samples_tested_rejected_authorised"
+  />
+
+  <SQLData
+    name="eid_samples_received_by_region"
+    queryName="sliding_dashboard_queries/eid_samples_received_by_region"
+  />
+
+  <SQLData
+    name="eid_trend_of_samples_received_by_entry_modality"
+    queryName="sliding_dashboard_queries/eid_trend_of_samples_received_by_entry_modality"
+  />
+
+  <SQLData
+    name="eid_trend_of_samples_received_tested_and_authorised"
+    queryName="sliding_dashboard_queries/eid_trend_of_samples_received_tested_and_authorised"
+  />
+
+  <SQLData
+    name="eid_TAT_collection_to_authorization"
+    queryName="sliding_dashboard_queries/eid_TAT_collection_to_authorization"
+  />
+
+  <SQLData
+    name="eid_TAT_received_to_authorization"
+    queryName="sliding_dashboard_queries/eid_TAT_received_to_authorization"
+  />
+
+  <SQLData
+    name="eid_TAT_collection_to_received"
+    queryName="sliding_dashboard_queries/eid_TAT_collection_to_received"
+  />
+
+  <SQLData
+    name="eid_TAT_received_to_testing"
+    queryName="sliding_dashboard_queries/eid_TAT_received_to_testing"
+  />
+
+  <SQLData
+    name="eid_test_outcomes"
+    queryName="sliding_dashboard_queries/eid_test_outcomes"
+  />
+
+  <SQLData
+    name="eid_trend_of_invalid_test_results"
+    queryName="sliding_dashboard_queries/eid_trend_of_invalid_test_results"
+  />
+
+  <SQLData
+    name="eid_trend_of_rejected_samples"
+    queryName="sliding_dashboard_queries/eid_trend_of_rejected_samples"
+  />
+
+  <SQLData
+    name="eid_sample_aging"
+    queryName="sliding_dashboard_queries/eid_sample_aging"
+  />
+
+  <SQLData
+    name="equipment_downtime"
+    queryName="sliding_dashboard_queries/equipment_downtime"
+  />
+
+  <SQLData
+    name="equipment_utilization"
+    queryName="sliding_dashboard_queries/equipment_utilization"
+  />
+</Datasets>

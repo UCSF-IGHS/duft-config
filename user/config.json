@@ -1,80 +1,97 @@
 {
-  "dataConnectionParameters": {
-    "EMPS": {
-      "server": "127.0.0.1",
-      "username": "user",
-      "password": "mysecretword",
-      "port": "5432",
-      "database": "production"
-    },
-    "ANA": {
-        "server": "127.0.0.1",
-        "username": "{username}",
-        "password": "{password}",
-        "port": "1454",
-        "database": "lab_visual_analysis",
-        "type": "MSSQL"
-    },
-    "DUFT-SERVER-API": {
-      "server": "http://127.0.0.1:8000",
-      "username": "advanced_dashboard_user",
-      "password": "--------"
-    },
-    "NDR": {
-      "server": "https://www.myndr.com/api/v2",
-      "username": "user",
-      "password": "mysecretword"
-    },
-    "UNITTEST": {
-      "server": "test://self3333",
-      "username": "user",
-      "password": "mysecretword333",
-      "unitTested": "2024-06-23 12:47:11.625553"
-    },
-    "UNITTEST_SAFECOPY": {
-      "server": "test://self",
-      "username": "user",
-      "password": "mysecretword",
-      "unitTested": "2024-06-02 18:08:18.036720"
-    },
-    "MYSQL_TEST": {
-      "server": "127.0.0.1",
-      "username": "root",
-      "password": "Namibia23",
-      "port": "3306",
-      "database": "ptracker",
-      "type": "mysql"
-    },
-    "POSTGRRESQL_TEST": {
-      "server": "127.0.0.1",
-      "username": "postgres",
-      "password": "mysecretpassword",
-      "port": "5432",
-      "database": "mydatabase",
-      "type": "postgresql"
-    }
-  },
-  "djangoDatabases": {
-    "default": {
-      "ENGINE": "django.db.backends.sqlite3",
-      "NAME": "%BASE_DIR%/db.sqlite3"
-    }
-  },
-
-  "scheduledDataTasks": {
-    "SAMPLE": {
-      "description": "Scheduled sample task",
-      "schedule": {
-        "cron": {
-          "second": "*/30",
-          "minute": "*",
-          "hour": "*",
-          "day_of_month": "*",
-          "month": "*",
-          "day_of_week": "*"
+    "dataConnectionParameters": {
+        "EMPS": {
+            "server": "127.0.0.1",
+            "username": "user",
+            "password": "mysecretword",
+            "port": "5432",
+            "database": "production"
+        },
+        "ANA": {
+            "server": "127.0.0.1",
+            "username": "sa",
+            "password": "root.R00T",
+            "port": "1433",
+            "database": "lab_visual_analysis",
+            "type": "MSSQL"
+        },
+        "DUFT-SERVER-API": {
+            "server": "http://127.0.0.1:8000",
+            "username": "advanced_dashboard_user",
+            "password": "--------"
+        },
+        "HTTPBIN": {
+            "username": "user",
+            "password": "pass"
+        }, 
+        "DHIS2": {
+            "username": "admin",
+            "password": "district"
+        },
+        "OpenMRS": {
+            "server": "https://dev3.openmrs.org/openmrs/ws/rest/v1",
+            "username": "admin",
+            "password": "Admin123"
+        },
+        "NDR": {
+            "server": "https://www.myndr.com/api/v2",
+            "username": "user",
+            "password": "mysecretword"
+        },
+        "UNITTEST": {
+            "server": "test://self3333",
+            "username": "user",
+            "password": "mysecretword333",
+            "unitTested": "2024-12-25 16:38:07.024817"
+        },
+        "UNITTEST_SAFECOPY": {
+            "server": "test://self",
+            "username": "user",
+            "password": "mysecretword",
+            "unitTested": "2024-06-02 18:08:18.036720"
+        },
+        "MYSQL_TEST": {
+            "server": "127.0.0.1",
+            "username": "root",
+            "password": "Namibia23",
+            "port": "3306",
+            "database": "ptracker",
+            "type": "mysql"
+        },
+        "POSTGRRESQL_TEST": {
+            "server": "127.0.0.1",
+            "username": "postgres",
+            "password": "mysecretpassword",
+            "port": "5432",
+            "database": "mydatabase",
+            "type": "postgresql"
         }
-      }
+    },
+    "djangoDatabases": {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": "%BASE_DIR%/db.sqlite3"
+        }
+    },
+    "scheduledDataTasks": {
+        "LAB-VISUAL-ETL": {
+            "description": "A notebook that runs the Lab Visual ETL Transformation Task",
+            "schedule": {
+                "cron": {
+                    "second": "0",
+                    "minute": "0",
+                    "hour": "9",
+                    "day_of_month": "*",
+                    "month": "*",
+                    "day_of_week": "mon"
+                }
+            }
+        }
+    },
+    "test": {},
+    "settings": {
+        "debug": true,
+        "oobe": true,
+        "unittest": false
     }
-  },
-  "test": {}
 }
