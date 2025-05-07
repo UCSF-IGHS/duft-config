@@ -28,6 +28,7 @@
             name="missing_hfr_code_data"
             filterFrom="weekly_start_monday_period"
             searchColumns="sample_tracking_id"
+            pageSize="10"
         >
             SELECT
             dim_facility.region AS Region,
@@ -78,6 +79,7 @@
             name="missing_test_name_data"
             filterFrom="weekly_start_monday_period"
             searchColumns="sample_tracking_id"
+            pageSize="10"
         >
             SELECT
             dim_facility.region AS Region,
@@ -128,6 +130,7 @@
             name="samples_with_authorized_date_earlier_than_tested_date_data"
             filterFrom="weekly_start_monday_period"
             searchColumns="sample_tracking_id"
+            pageSize="10"
         >
             SELECT
             dim_facility.region AS Region,
@@ -178,6 +181,7 @@
             name="samples_with_rejection_reasons_but_have_results_data"
             filterFrom="weekly_start_monday_period"
             searchColumns="sample_tracking_id"
+            pageSize="10"
         >
             SELECT
             dim_facility.region AS Region,
