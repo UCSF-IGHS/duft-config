@@ -1,27 +1,6 @@
 <Dashboards>
 
-    {/* <Include file="components/hvl_and_eid_reports_dashboard/datasets.3dl" /> */}
-
-    <SQLData
-        name="hvl_report_data"
-        filterFrom="date"
-        transpose="true"
-    >
-        SELECT
-            SUM(hvl_sample_received) AS [Sample Received],
-            SUM(hvl_sample_rejected) AS [Sample Rejected],
-            SUM(hvl_sample_tested) AS [Sample Tested],
-            SUM(hvl_result_tnd) AS TND,
-            SUM(hvl_samples_with_results_less_than_1000_or_above_50) + SUM(hvl_samples_with_results_less_than_50) AS [VL&lt;1000],
-            SUM(hvl_samples_with_results_equal_or_above_1000) AS [VL&gt;1000],
-            SUM(hvl_result_invalid) AS [Aborted/Clot/Invalid],
-            SUM(hvl_result_authorized) AS [Results Authorized],
-            SUM(hvl_result_pending) AS [Results pending Authorization]
-        FROM
-            [final].fact_daily_sample_summary fdss
-        INNER JOIN [derived].dim_date d ON
-            fdss.report_date = d.date
-    </SQLData>
+    <Include file="components/hvl_and_eid_reports_dashboard/datasets.3dl" />
 
     <Dashboard
         data="hvl_report_data"
@@ -31,7 +10,7 @@
         lastRefresh=""
     >
         <Filters>
-            <DatePicker type="date" name="date" />
+            <DateRangePicker type="date" name="date" />
         </Filters>
 
         <Grid>
