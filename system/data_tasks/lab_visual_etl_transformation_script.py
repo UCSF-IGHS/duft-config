@@ -50,7 +50,8 @@ def connect_to_tille_lab_db(db_user, db_pword, db_host):
         return engine
     except SQLAlchemyError as e:
         log_message("Failed to connect to labdashdb")
-        return None
+        sys.stdout.flush()
+        sys.exit(1) 
 
 labdashdb_conn = connect_to_tille_lab_db('root', 'root', 'localhost')
 
@@ -72,7 +73,8 @@ def create_connection_to_sql_server(db_name):
         return conn
     except pytds.Error as e:
         log_message(f"Failed to create connection to {db_name}")
-        return None
+        sys.stdout.flush()
+        sys.exit(1)
     
 labvisualDB_conn = create_connection_to_sql_server("master")
 if labvisualDB_conn:
@@ -98,6 +100,8 @@ def create_schemas():
     except Exception as e:
         log_message(f"Error creating schemas: {e}")
         labvisualDB_conn.rollback()
+        sys.stdout.flush()
+        sys.exit(1) 
 
 
 # Function to create tables in the Lab Visual Analysis database
@@ -176,6 +180,8 @@ def create_tables():
             labvisualDB_cursor.execute(query)
         except Exception as e:
             log_message(f"Error creating table: {e}")
+            sys.stdout.flush()
+            sys.exit(1) 
     labvisualDB_conn.commit()
          
 
@@ -204,6 +210,8 @@ def create_lab_visual_analysis_database():
                 except Exception as e:
                     log_message(f"Error truncating table {table}: {e}")
                     labvisualDB_conn.rollback()
+                    sys.stdout.flush()
+                    sys.exit(1) 
             labvisualDB_conn.commit()
             log_message("Lab Visual Analysis Database preparation complete")
         else:
@@ -223,8 +231,9 @@ def create_lab_visual_analysis_database():
             log_message("Lab Visual Database preparation complete")
     except Exception as e:
         log_message(f"Failed to prepare database: {e}")
-        if labvisualDB_conn:
-            labvisualDB_conn.rollback()
+        labvisualDB_conn.rollback()
+        sys.stdout.flush()
+        sys.exit(1) 
 create_lab_visual_analysis_database()
 
 
@@ -255,6 +264,8 @@ def extract_and_insert_facility_data():
         df_mysql = pd.read_sql(mysql_query, labdashdb_conn)
     except Exception as e:
         log_message(f"Error fetching data from MySQL: {e}")
+        sys.stdout.flush()
+        sys.exit(1) 
     
     df_combined = pd.concat([df_excel, df_mysql], ignore_index=True)
     df_combined.drop_duplicates(subset=['HfrCode'], keep='first', inplace=True)
@@ -288,6 +299,8 @@ def extract_and_insert_facility_data():
     except Exception as e:
         log_message(f"Error inserting data: {e}")
         labvisualDB_conn.rollback()
+        sys.stdout.flush()
+        sys.exit(1) 
 extract_and_insert_facility_data()
 
 
@@ -366,12 +379,16 @@ def extract_and_insert_sample_data():
                 insert_count += 1
             except Exception as row_err:
                 log_message(f"Error inserting row: {row_err} - Row: {row.to_dict()}")
+                sys.stdout.flush()
+                sys.exit(1) 
         labvisualDB_conn.commit()
         if insert_count > 0:
             log_message(f"{len(sample_data)} row inserted into tbl_Sample.")
     except Exception as e:
         labvisualDB_conn.rollback()
         log_message(f"Error inserting data: {e}")
+        sys.stdout.flush()
+        sys.exit(1) 
 extract_and_insert_sample_data()
 
 
@@ -416,12 +433,16 @@ def extract_and_insert_device_log_data():
                 insert_count += 1
             except Exception as row_err:
                 log_message(f"Error inserting row: {row_err} - Row: {row.to_dict()}")
+                sys.stdout.flush()
+                sys.exit(1) 
         labvisualDB_conn.commit()
         if insert_count > 0:
             log_message(f"{insert_count} rows inserted into tbl_Device_Logs.")
     except Exception as e:
         log_message(f"Error fetching or inserting device logs: {e}")
         labvisualDB_conn.rollback()
+        sys.stdout.flush()
+        sys.exit(1) 
 extract_and_insert_device_log_data()
 
 
@@ -466,12 +487,16 @@ def extract_and_insert_commodity_transaction_data():
                 insert_count += 1
             except Exception as row_err:
                 log_message(f"Error inserting row: {row_err} - Row: {row.to_dict()}")
+                sys.stdout.flush()
+                sys.exit(1) 
         labvisualDB_conn.commit()
         if insert_count > 0:
             log_message(f"{insert_count} rows inserted into tbl_Commodity_Transactions.")
     except Exception as e:
         log_message(f"Error fetching or inserting commodity transactions: {e}")
         labvisualDB_conn.rollback()
+        sys.stdout.flush()
+        sys.exit(1) 
 extract_and_insert_commodity_transaction_data()
         
 
@@ -504,6 +529,8 @@ def extract_stored_procedures_from_file():
                     labvisualDB_conn.rollback()
     else:
         log_message(f"SQL file '{stored_procedures_file}' not found.")
+        sys.stdout.flush()
+        sys.exit(1) 
            
 extract_stored_procedures_from_file()
 
@@ -522,11 +549,11 @@ def execute_stored_procedures():
             if not labvisualDB_cursor.nextset():
                 break
         labvisualDB_conn.commit()
-
     except Exception as e:
         log_message(f"Error executing stored procedure: {e}")
         labvisualDB_conn.rollback()
-        
+        sys.stdout.flush()
+        sys.exit(1)  
     finally:
         if 'mssql_conn' in locals():
             labvisualDB_cursor.close()
