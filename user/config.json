@@ -11,7 +11,7 @@
             "server": "127.0.0.1",
             "username": "sa",
             "password": "root.R00T",
-            "port": "1433",
+            "port": 1433,
             "database": "lab_visual_analysis",
             "type": "MSSQL"
         },
