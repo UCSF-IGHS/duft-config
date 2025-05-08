@@ -23,4 +23,4 @@ WHERE
         OR [Last VL Result in Previous Week] = 'Yes'
     )
 ORDER BY
-    [Patient ID] ASC;
+    [Patient ID] ASC
