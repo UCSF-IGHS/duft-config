@@ -6,7 +6,7 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
-            header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
+            header="For samples authorized in the reporting week, the number of days from sample collection to authorization of results"
             subHeader=""
             userOptions={{
                 chart: { id: 21 },
@@ -24,7 +24,7 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
-            header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
+            header="For samples authorized in the reporting week, the number of days from the sample received to the authorization of results"
             subHeader=""
             userOptions={{
                 chart: { id: 22 },
@@ -44,7 +44,7 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
-            header="For Samples received in the reporting week, number of days from sample collection to lab reception"
+            header="For samples received in the reporting week, the number of days from sample collection to the received"
             subHeader=""
             userOptions={{
                 chart: { id: 23 },
@@ -58,7 +58,7 @@
 
         <StackedBarChart
             data="eid_TAT_received_to_testing"
-            header="For Samples received in the reporting week, number of days from receipt of sample to testing"
+            header="For samples tested in the reporting week, the number of days from the sample received to the testing"
             subHeader=""
             exportData="true"
             downloadVisual="true"
