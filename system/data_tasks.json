@@ -157,9 +157,9 @@
             }
         },
         {
-            "id": "UPDATE",
-            "name": "DUFT Report Update",
-            "description": "Updates the DUFT reports to the latest version. An Internet connection is required",
+            "id": "CTC_A_DUFT_CONFIGS_REFRESH",
+            "name": "DUFT Configurations Update",
+            "description": "Updates the DUFT report definitions to the latest version. An Internet connection is required",
             "pythonFile": "update.py",
             "hideInUI": true,
             "executeFromRoot": true,
@@ -181,14 +181,14 @@
                 "final_repo_name": {
                     "title": "Final Repository Name",
                     "description": "The final name of the repository.",
-                    "defaultValue": "duft-config-namibia",
+                    "defaultValue": "duft-config",
                     "allowOverride": true,
                     "promptUser": false
                 },
                 "branch": {
                     "title": "Branch",
                     "description": "The branch of the repository to use.",
-                    "defaultValue": "main",
+                    "defaultValue": "tanzania-ctca-3dl",
                     "allowOverride": true,
                     "promptUser": false
                 }
