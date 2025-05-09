@@ -1,9 +1,7 @@
 {
   "settings": {
     "appName": "PCR Lab Visual",
-    "footer": "Configurable footer text",
-    "showSettings": "authenticatedOnly",
-    "showAbout": "false"
+    "footer": ""
   },
   "menu": {
     "header": "",
@@ -11,7 +9,7 @@
       {
         "title": "Sliding Dashboard",
         "icon": "dashboard-icon",
-        "dashboard": "/dashboard/sliding-dashboard"
+        "dashboard": "/dashboard/home"
       },
       {
         "title": "Interactive Dashboard",
@@ -30,7 +28,7 @@
           {
             "title": "Sample Tracking Report",
             "icon": "dashboard-icon",
-            "dashboard": "/dashboard/sample-tracking-report-dashboard"
+            "dashboard": "/dashboard/sample-tracking-reports-dashboard"
           }
         ]
       },
@@ -58,7 +56,7 @@
     ]
   },
   "dataTasks": {
-    "header": "ETL",
+    "header": "ACTIONS",
     "items": [
       {
         "title": "Refresh data",
@@ -66,7 +64,13 @@
         "task": "LAB-VISUAL-ETL",
         "dashboard": "refresh-data",
         "prompt": "Are you sure you want to refresh the data?"
-      }
+      },
+      {
+        "title": "Update System",
+        "icon": "update-icon",
+        "task": "LABVISUALS_DUFT_CONFIGS_REFRESH",
+        "prompt": "Are you sure you want to update dashboard definitions?"
+      }   
     ]
   }
 }

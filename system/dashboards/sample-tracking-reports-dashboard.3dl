@@ -1,0 +1,56 @@
+<Dashboards>
+
+    <Include file="components/sample_tracking_reports_dashboard/datasets.3dl" />
+
+    <Dashboard
+        data="hvl_sample_tracking_report_data"
+        tabName="HVL Tracking Report"
+        title=""
+        subTitle="HVL Tracking Report"
+        lastRefresh=""
+    >
+        <Filters>
+            <DateRangePicker type="date" name="lab_received_date" />
+        </Filters>
+
+        <Grid>
+            <Row columns="1">
+                <Table
+                    data="hvl_sample_tracking_report_data"
+                    header="Sample Tracking Report for HVL Test Name"
+                    subHeader=""
+                    exportData="true"
+                    expand="true"
+                    searchValue="Sample Tracking ID"
+                    hasFilter="true"
+                />
+            </Row>
+        </Grid>
+    </Dashboard>
+
+    <Dashboard
+        data="eid_sample_tracking_report_data"
+        tabName="EID Tracking Report"
+        title=""
+        subTitle="EID Tracking Report"
+        lastRefresh=""
+    >
+        <Filters>
+            <DateRangePicker type="date" name="lab_received_date" />
+        </Filters>
+
+        <Grid>
+            <Row columns="1">
+                <Table
+                    data="eid_sample_tracking_report_data"
+                    header="Sample Tracking Report for EID Test Name"
+                    subHeader=""
+                    exportData="true"
+                    expand="true"
+                    searchValue="Sample Tracking ID"
+                    hasFilter="true"
+                />
+            </Row>
+        </Grid>
+    </Dashboard>
+</Dashboards>

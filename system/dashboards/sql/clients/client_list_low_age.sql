@@ -1,1 +1,0 @@
-SELECT * FROM dim_client WHERE age < 5 LIMIT 100

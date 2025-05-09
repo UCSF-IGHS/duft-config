@@ -1,74 +1,50 @@
-<TabSet>
-    <Tab title="HVL Reports">
-        <Dashboard>
-            <Grid>
-                <Filters>
-                    <Row columns="1" largeColumns="2">
-                        <Row columns="1">
-                            <Row>
-                                <Header>Start Date:</Header>
-                            </Row>
-                            <Row>
-                            <DateFilter name="startdate" caption="MM-DD-YY" />
-                            </Row>
-                        </Row>
-                        <Row columns="1">
-                            <Row>
-                                <Header>End Date:</Header>
-                            </Row>
-                            <Row>
-                                <DateFilter name="enddate" caption="MM-DD-YY" />
-                            </Row>
-                        </Row>
-                    </Row>
-                </Filters>
+<Dashboards>
 
-                <Row columns="1">
-                    <Dataset query="WITH hvl_pending_results AS (SELECT day_number, [Results pending Authorization] FROM (SELECT fdss.report_date AS report_date, SUM(fdss.hvl_result_pending) AS [Results pending Authorization], RANK() OVER (ORDER BY fdss.report_date) AS day_number FROM [final].fact_daily_sample_summary fdss INNER JOIN [derived].dim_date d ON fdss.report_date = d.date WHERE [date] >= '$startdate' AND [date] <= '$enddate' GROUP BY fdss.report_date) AS subquery WHERE day_number = DATEDIFF(day, '$startdate', '$enddate') + 1), hvl_backlog_before_reporting AS (SELECT SUM(hvl_sample_collected) - SUM(hvl_sample_tested) AS [Backlog at beginning of reporting period] FROM [final].fact_daily_sample_summary WHERE report_date < '$startdate'), hvl_backlog_after_reporting AS (SELECT SUM(hvl_sample_collected) - SUM(hvl_sample_tested) AS [Backlog at end of reporting period] FROM [final].fact_daily_sample_summary WHERE report_date <= '$enddate'), hvl_report_table AS (SELECT SUM(hvl_sample_received) AS [Sample Received], SUM(hvl_sample_rejected) AS [Sample Rejected], SUM(hvl_sample_tested) AS [Sample Tested], SUM(hvl_result_tnd) AS TND, SUM(hvl_samples_with_results_less_than_1000_or_above_50) + SUM(hvl_samples_with_results_less_than_50) AS [VL<1000], SUM(hvl_samples_with_results_equal_or_above_1000) AS [VL>1000], SUM(hvl_result_invalid) AS [Aborted/Clot/Invalid], SUM(hvl_result_authorized) AS [Results Authorized] FROM [final].fact_daily_sample_summary fdss INNER JOIN [derived].dim_date d ON fdss.report_date = d.date WHERE [date] >= '$startdate' AND [date] <= '$enddate') SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS [S/N], Indicator, Total_Count FROM (SELECT bb.[Backlog at beginning of reporting period], mt.[Sample Received], mt.[Sample Rejected], mt.[Sample Tested], mt.TND, mt.[VL<1000], mt.[VL>1000], mt.[Aborted/Clot/Invalid], be.[Backlog at end of reporting period], mt.[Results Authorized], pr.[Results pending Authorization] FROM hvl_pending_results pr CROSS JOIN hvl_report_table mt CROSS JOIN hvl_backlog_before_reporting bb CROSS JOIN hvl_backlog_after_reporting be) AS SourceData UNPIVOT (Total_Count FOR Indicator IN ([Backlog at beginning of reporting period], [Sample Received], [Sample Rejected], [Sample Tested], TND, [VL<1000], [VL>1000], [Aborted/Clot/Invalid], [Backlog at end of reporting period], [Results Authorized], [Results pending Authorization])) AS UnpivotedData;">
-                        <InfiniteScrollTable
-                            header="HVL Reporting Form"
-                            subHeader=""
-                            exportData="true"
-                        />
-                    </Dataset>
-                </Row>
-            </Grid>
-        </Dashboard>
-    </Tab>
-    <Tab title="EID Reports">
-        <Dashboard>
-            <Grid>
-                <Filters>
-                    <Row columns="1" largeColumns="2">
-                        <Row columns="1">
-                            <Row>
-                                <Header>Start Date:</Header>
-                            </Row>
-                            <Row>
-                            <DateFilter name="startdate" caption="MM-DD-YY" />
-                            </Row>
-                        </Row>
-                        <Row columns="1">
-                            <Row>
-                                <Header>End Date:</Header>
-                            </Row>
-                            <Row>
-                                <DateFilter name="enddate" caption="MM-DD-YY" />
-                            </Row>
-                        </Row>
-                    </Row>
-                </Filters>
+    <Include file="components/hvl_and_eid_reports_dashboard/datasets.3dl" />
 
-                <Row columns="1">
-                    <Dataset query="WITH eid_pending_results AS (SELECT day_number,[Results pending Authorization] FROM (SELECT fdss.report_date AS report_date,SUM(fdss.eid_result_pending) AS [Results pending Authorization],RANK() OVER (ORDER BY fdss.report_date) AS day_number FROM [final].fact_daily_sample_summary fdss INNER JOIN [derived].dim_date d ON fdss.report_date = d.date WHERE [date] >= '$startdate' AND [date] <= '$enddate' GROUP BY fdss.report_date) AS subquery WHERE day_number = DATEDIFF(day,'$startdate','$enddate') + 1),eid_backlog_before_reporting AS (SELECT SUM(eid_sample_collected) - SUM(eid_sample_tested) AS [Backlog at beginning of reporting period] FROM [final].fact_daily_sample_summary WHERE report_date < '$startdate'),eid_backlog_after_reporting AS (SELECT SUM(eid_sample_collected) - SUM(eid_sample_tested) AS [Backlog at end of reporting period] FROM [final].fact_daily_sample_summary WHERE report_date <= '$enddate'),eid_report_table AS (SELECT SUM(eid_sample_dbs_received) AS [Sample Received],SUM(eid_sample_rejected) AS [Sample Rejected],SUM(eid_sample_tested) AS [Sample Tested],SUM(eid_sample_tested_negative) AS [Tested Negative],SUM(eid_sample_tested_positive) AS [Tested Positive],SUM(result_indeterminate) AS Indeterminate,SUM(eid_result_authorized) AS [Results Authorized] FROM [final].fact_daily_sample_summary fdss INNER JOIN [derived].dim_date d ON fdss.report_date = d.date WHERE [date] >= '$startdate' AND [date] <= '$enddate') SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS [S/N],Indicator,Total_Count FROM (SELECT bb.[Backlog at beginning of reporting period],mt.[Sample Received],mt.[Sample Rejected],mt.[Sample Tested],mt.[Tested Negative],mt.[Tested Positive],mt.[Indeterminate],be.[Backlog at end of reporting period],mt.[Results Authorized],pr.[Results pending Authorization] FROM eid_pending_results pr CROSS JOIN eid_report_table mt CROSS JOIN eid_backlog_before_reporting bb CROSS JOIN eid_backlog_after_reporting be) AS SourceData UNPIVOT (Total_Count FOR Indicator IN ([Backlog at beginning of reporting period],[Sample Received],[Sample Rejected],[Sample Tested],[Tested Negative],[Tested Positive],[Indeterminate],[Backlog at end of reporting period],[Results Authorized],[Results pending Authorization])) AS UnpivotedData;">
-                        <InfiniteScrollTable
-                            header="EID Reporting Form"
-                            subHeader=""
-                            exportData="true"
-                        />
-                    </Dataset>
-                </Row>
-            </Grid>
-        </Dashboard>
-    </Tab>
-</TabSet>
+    <Dashboard
+        data="hvl_report_data"
+        tabName="HVL Reports"
+        title=""
+        subTitle="HVL Reports"
+        lastRefresh=""
+    >
+        <Filters>
+            <DateRangePicker type="date" name="date" />
+        </Filters>
+
+        <Grid>
+            <Row columns="1">
+                <Table
+                    data="hvl_report_data"
+                    header="HVL Reporting Form"
+                    exportData="true"
+                    expand="true"
+                />
+            </Row>
+        </Grid>
+    </Dashboard>
+
+    <Dashboard
+        data="eid_report_data"
+        tabName="EID Reports"
+        title=""
+        subTitle="EID Reports"
+        lastRefresh=""
+    >
+        <Filters>
+            <DateRangePicker type="date" name="date" />
+        </Filters>
+
+        <Grid>
+            <Row columns="1">
+                <Table
+                    data="eid_report_data"
+                    header="EID Reporting Form"
+                    exportData="true"
+                    expand="true"
+                />
+            </Row>
+        </Grid>
+    </Dashboard>
+</Dashboards>
