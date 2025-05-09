@@ -1,9 +1,9 @@
 SELECT
 	d.weekly_start_monday_period AS category,
-	SUM(s.hvl_samples_aging_less_or_equal_1_week) AS [1 week],
-	SUM(s.hvl_samples_aging_less_or_equal_2_week) AS [2 weeks],
-	SUM(s.hvl_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks) AS [3 weeks],
-	SUM(s.hvl_samples_aging_greater_than_3_weeks) AS [>3 weeks and above]
+	SUM(s.hvl_samples_aging_is_less_than_or_equal_to_7_days) AS [<=7days],
+	SUM(s.hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days) AS [8 to 14 days],
+	SUM(s.hvl_samples_aging_is_greater_than_14_days_and_less_than_or_equal_to_21_days) AS [15 to 21 days],
+	SUM(s.hvl_samples_aging_is_greater_than_21_days) AS [>21 days and above]
 FROM
 	final.fact_daily_sample_summary s
 INNER JOIN derived.dim_date d ON
