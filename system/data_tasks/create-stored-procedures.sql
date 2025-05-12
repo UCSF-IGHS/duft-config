@@ -4,7 +4,7 @@ PRINT 'clearing all stored procedures in dbo'
 EXEC dbo.sp_xf_system_drop_all_stored_procedures_in_schema 'dbo' 
 GO
 
-
+        
 -----------------------------------------------------------------------------------------------
 -- sp_xf_system_drop_all_stored_procedures_in_schema
 --
@@ -2540,8 +2540,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_upd
 -- $BEGIN
 
     -------------------------------------------------------
-    
-    --'Missing HFR code'
+    -- 'Missing HFR code'
     -------------------------------------------------------
 
     UPDATE
@@ -2556,8 +2555,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_upd
         AND ds.hub_facility_id IS NULL;
     
     -------------------------------------------------------
-
-    --'Missing Test Name'
+    -- 'Missing Test Name'
     -------------------------------------------------------
 
     UPDATE
@@ -2572,8 +2570,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_upd
         AND ds.test_name NOT IN ('HIVVL','EID');
     
     -------------------------------------------------------
-
-    --'Missing Collected Or Received date'
+    -- 'Missing Collected Or Received date'
     -------------------------------------------------------
 
     UPDATE
@@ -2591,8 +2588,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_upd
         );
 
     -------------------------------------------------------
-
-    --'Earlier Received date than Collected date'
+    -- 'Earlier Received date than Collected date'
     -------------------------------------------------------
 
     UPDATE
