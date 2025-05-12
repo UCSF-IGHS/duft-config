@@ -3,7 +3,7 @@
     "appName": "PCR Lab Visual",
     "footer": "Supported at UCSF Global Programs Office, Tanzania",
     "custom": "Custom setting",
-    "version": "1.7.0",
+    "version": "2.0",
     "logoURL": "https://duft.app/tz_gov_logo.png",
     "repository": "https://github.com/UCSF-IGHS/duft-config/tree/tanzania-labvisuals-3dl",
     "credits": {
