@@ -7291,6 +7291,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid
         fe.days_in_wait_at_the_lab IS NOT NULL
         AND fe.is_tested_on_report_date = 1
 
+
 -- $END
 
 EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_aging';
