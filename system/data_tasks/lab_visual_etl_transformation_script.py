@@ -199,19 +199,23 @@ def create_lab_visual_analysis_database():
         if labvisualDB_exists:
             log_message(f"Truncating {db_params['database']} database tables")
             labvisualDB_cursor.execute(f"USE {db_params['database']};")
-            tables = ["tbl_Facilities", "tbl_Device_Logs", "tbl_Commodity_Transactions", "tbl_Sample"]
 
-            for table in tables:
-                try:
-                    labvisualDB_cursor.execute(f"""
-                        IF OBJECT_ID('source.{table}', 'U') IS NOT NULL
-                            TRUNCATE TABLE source.{table}
-                    """)
-                except Exception as e:
-                    log_message(f"Error truncating table {table}: {e}")
-                    labvisualDB_conn.rollback()
-                    sys.stdout.flush()
-                    sys.exit(1) 
+            try:
+                labvisualDB_cursor.execute("""
+                    DECLARE @sql NVARCHAR(MAX) = '';
+                    SELECT @sql += 'DELETE FROM [' + s.name + '].[' + t.name + '];' + CHAR(13)
+                    FROM sys.tables t
+                    JOIN sys.schemas s ON t.schema_id = s.schema_id
+                    WHERE t.is_ms_shipped = 0;
+                    EXEC sp_executesql @sql;
+                """)
+                create_schemas()
+                create_tables()
+            except Exception as e:
+                log_message(f"Error truncating tables: {e}")
+                labvisualDB_conn.rollback()
+                sys.stdout.flush()
+                sys.exit(1) 
             labvisualDB_conn.commit()
             log_message("Lab Visual Analysis Database preparation complete")
         else:
