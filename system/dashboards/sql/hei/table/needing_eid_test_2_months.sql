@@ -3,9 +3,10 @@ SELECT
     [Exposed Infant ID],
     [Date of Birth],
     [HEI Age in Weeks at Last Visit],
+    [HEI Current Age in Weeks],
     [Sex],
     [Last Visit Date],
-    [Documented Risk Category],
+    [HEI Documented Risk Category],
     [HEI Eligible for DNA PCR at Birth],
     [DNA PCR at Birth Sample Collection Date],
     [HEI Eligible for DNA PCR at 4 to 6 Weeks],
@@ -15,8 +16,7 @@ FROM
 WHERE
     (
         (
-            [Last Appointment in Previous Week] = 'Yes'
-            AND [HEI Eligible for DNA PCR at Birth] = 'Yes'
+            [HEI Eligible for DNA PCR at Birth] = 'Yes'
             AND [DNA PCR at Birth Sample Collection Date] IS NULL
         )
         OR
@@ -26,5 +26,6 @@ WHERE
         )
     )
     AND ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
+    AND [HEI Current Age in Weeks] = 6
 ORDER BY
     [Patient ID]
