@@ -25,6 +25,11 @@
         "title": "Viral Load",
         "icon": "dashboards-icon",
         "dashboard": "/dashboard/vl"
+      },
+      {
+        "title": "Maps",
+        "icon": "dashboard-icon",
+        "dashboard": "/dashboard/map"
       }
       
     ]

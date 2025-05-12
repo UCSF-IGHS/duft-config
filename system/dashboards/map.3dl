@@ -1,0 +1,42 @@
+<Dashboards>
+  <Datasets>
+    <SQLData name="facility_type_data" queryName="facility_type" />
+    <SQLData name="keph_level_data" queryName="keph_level" />
+    <SQLData name="operational_status_data" queryName="operational_status" />
+
+    <SQLData
+      name="initiated_detailed_data"
+      pageSize="50"
+      filterFrom="facility_type, keph_level, operational_status"
+    >
+      select facility_name, facility_type, keph_level, operational_status, latitude, longitude, count(client_id) as hiv_diagnosed
+      from  dim_hiv_diagnosis_facility f 
+      inner join fact_sentinel_event se on se.hiv_diagnosis_facility_id = f.facility_id
+      group by facility_name, facility_type, keph_level, operational_status, latitude, longitude
+    </SQLData>
+  </Datasets>
+  <Dashboard
+    tabName="MAP"
+    title="Cluster Map"
+  >
+    <Filters>
+      <Filter
+        caption="Facility Type"
+        name="facility_type"
+        data="facility_type_data"
+      />
+      <Filter caption="Keph Level" name="keph_level" data="keph_level_data" />
+      <Filter
+        caption="Operational Status"
+        name="operational_status"
+        data="operational_status_data"
+      />
+    </Filters>
+    <Grid>
+      <ClusterMap
+        data="initiated_detailed_data"
+        toolTipColumns="facility_name, facility_type, hiv_diagnosed"
+      />
+    </Grid>
+  </Dashboard>
+</Dashboards>;
