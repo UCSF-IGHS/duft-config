@@ -24,13 +24,12 @@
         "HTTPBIN": {
             "username": "user",
             "password": "pass"
-        }, 
+        },
         "DHIS2": {
             "username": "admin",
             "password": "district"
         },
         "OpenMRS": {
-            "server": "https://dev3.openmrs.org/openmrs/ws/rest/v1",
             "username": "admin",
             "password": "Admin123"
         },
