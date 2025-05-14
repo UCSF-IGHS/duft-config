@@ -19,26 +19,6 @@
         />
 
         <StackedBarChart
-            data="eid_TAT_received_to_authorization"
-            exportData="true"
-            downloadVisual="true"
-            expand="true"
-            detailsComponent="infinite-scroll-table"
-            header="For samples authorized in the reporting week, the number of days from the sample received to the authorization of results"
-            subHeader=""
-            userOptions={{
-                chart: { id: 22 },
-                tooltip: { shared: true },
-                legend: { show: true, position: "bottom" },
-                dataLabels: { enabled: true },
-                yaxis: { title: { text: "Number of Samples" } },
-                xaxis: { title: { text: "Weeks" } }
-            }}
-        />
-    </Row>
-
-    <Row columns="2">
-        <StackedBarChart
             data="eid_TAT_collection_to_received"
             exportData="true"
             downloadVisual="true"
@@ -55,7 +35,9 @@
                 xaxis: { title: { text: "Weeks" } }
             }}
         />
+    </Row>
 
+    <Row columns="2">
         <StackedBarChart
             data="eid_TAT_received_to_testing"
             header="For samples tested in the reporting week, the number of days from the sample received to the testing"
@@ -66,6 +48,24 @@
             detailsComponent="infinite-scroll-table"
             userOptions={{
                 chart: { id: 24 },
+                tooltip: { shared: true },
+                legend: { show: true, position: "bottom" },
+                dataLabels: { enabled: true },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } }
+            }}
+        />
+
+        <StackedBarChart
+            data="eid_TAT_received_to_authorization"
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            header="For samples authorized in the reporting week, the number of days from the sample received to the authorization of results"
+            subHeader=""
+            userOptions={{
+                chart: { id: 22 },
                 tooltip: { shared: true },
                 legend: { show: true, position: "bottom" },
                 dataLabels: { enabled: true },
