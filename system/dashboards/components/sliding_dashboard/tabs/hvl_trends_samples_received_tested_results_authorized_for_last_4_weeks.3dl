@@ -10,7 +10,7 @@
             detailsComponent="infinite-scroll-table"
             userOptions={{
                 chart: { id: 5 },
-                colors: ["#008000", "#FFA500"],
+                colors: ["#FFA500", "#008000"],
                 dataLabels: {
                     enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] },
                     offsetY: -10
