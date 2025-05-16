@@ -11,6 +11,7 @@
     >
       select * from dim_hiv_diagnosis_facility
     </SQLData>
+    <SQLData name="facility_patient_data" queryName="facility_patient_count"/>
   </Datasets>
   <Dashboard
     tabName="MAP"
@@ -35,22 +36,14 @@
         data="initiated_detailed_data"
         toolTipColumns="facility_name, facility_type, keph_level"
       />
+      <HeatMap
+             data = "facility_patient_data"
+             toolTipColumns="facility_name, facility_type, keph_level, ct"
+      />
+      <ScatterPlotMap
+        data="initiated_detailed_data"
+        toolTipColumns="facility_name, facility_type, keph_level"
+      />
     </Grid>
   </Dashboard>
-  <Dashboard
-        tabName="MAP 2"
-        title="Sample map"
-        subTitle="cluster map"
-    >
-        <Filters>
-            <Filter caption="Facility Type" name="facility_type" data="facility_type_data" />
-            <Filter caption="Keph Level" name="keph_level" data="keph_level_data" />
-            <Filter caption="Operational Status" name="operational_status" data="operational_status_data" />
-        </Filters>
-        <Grid> 
-            <HeatMap
-             data = "initiated_detailed_data"
-            />
-        </Grid>
-    </Dashboard>
 </Dashboards>;
