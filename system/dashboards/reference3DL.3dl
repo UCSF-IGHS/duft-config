@@ -190,6 +190,19 @@
     >
       SELECT * from fact_sentinel_event WHERE client_id=[[client_id]];
     </SQLData>
+
+    <SQLData name="facility_type_data" queryName="facility_type" />
+    <SQLData name="keph_level_data" queryName="keph_level" />
+    <SQLData name="operational_status_data" queryName="operational_status" />
+
+    <SQLData
+      name="initiated_detailed_data"
+      pageSize="50"
+      filterFrom="facility_type, keph_level, operational_status"
+    >
+      select * from dim_hiv_diagnosis_facility
+    </SQLData>
+    <SQLData name="facility_patient_data" queryName="facility_patient_count"/>
   </Datasets>
 
   <Dashboard
@@ -457,6 +470,34 @@
           </RowDetails>
         </Table>
       </SingleLayout>
+    </Grid>
+  </Dashboard>
+
+  <Dashboard
+    data = "header_data"
+    tabName = "Tab 3"
+    title="%facility_name%"
+    subTitle = "My Dashboard 3"
+    lastRefresh="Last updated on : %today%"
+  >
+    <Filters>
+      <Filter
+        caption="Facility Type"
+        name="facility_type"
+        data="facility_type_data"
+      />
+      <Filter caption="Keph Level" name="keph_level" data="keph_level_data" />
+      <Filter
+        caption="Operational Status"
+        name="operational_status"
+        data="operational_status_data"
+      />
+    </Filters>
+    <Grid>
+      <ScatterPlotMap
+        data="initiated_detailed_data"
+        toolTipColumns="facility_name, facility_type, keph_level"
+      />
     </Grid>
   </Dashboard>
 </Dashboards>;
