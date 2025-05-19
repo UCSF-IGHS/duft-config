@@ -20,7 +20,7 @@
       pageSize="20"
       name="sentinel_event_data"
       queryName="clients/client_list_all"
-      filterFrom="gender, age_group"
+      filterFrom="gender, age_group, birth_date"
       searchColumns="client_id, emr_identifier"
     />
 
@@ -90,6 +90,38 @@
         </Table>
       </Row>
 
+    </Grid>
+  </Dashboard>
+
+  <Dashboard
+    tabName="Tab 3"
+    data="header_data"
+    title="%facility_name%"
+    lastRefresh="Last updated on : %today%"
+    subTitle="My Dashboard 3"
+  >
+
+    <Filters>
+      <Filter caption="Gender" name="gender" data="gender_data" />
+      <Filter caption="Age Group" name="age_group" data="age_group_data" />
+      <DateRangePicker type="date" name="birth_date" />
+    </Filters>
+
+    <Grid>
+    <PrefilteredDashboard filters="birth_date%r">
+      <Row columns="1">
+        <Table
+          data="sentinel_event_data"
+          exportData="true"
+          header="Infinite scroll sample table"
+          subHeader="A table to demo infinite scroll, search, sort, filtering"
+          initialColumns="client_id, birth_date, current_age, gender"
+          detailsViewColumn="client_id"
+        >
+          <Table data="sentinel_event_details_data" />
+        </Table>
+      </Row>
+    </PrefilteredDashboard>
     </Grid>
   </Dashboard>
 
