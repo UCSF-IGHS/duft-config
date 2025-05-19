@@ -23,7 +23,7 @@
       <Filter caption="Keph Level" name="keph_level" data="keph_level_data" />
     </Filters>
     <Grid>
-      <ClusterMap
+      <ScatterPlotMap
         data="initiated_detailed_data"
         toolTipColumns="facility_name, facility_type, hiv_diagnosed"
       />
