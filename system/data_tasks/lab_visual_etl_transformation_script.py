@@ -266,6 +266,8 @@ def extract_and_insert_facility_data():
 
     try:
         df_mysql = pd.read_sql(mysql_query, labdashdb_conn)
+        if len(df_mysql) > 0:
+            log_message(f"{len(df_mysql)} facilities fetched")
     except Exception as e:
         log_message(f"Error fetching data from MySQL: {e}")
         sys.stdout.flush()
@@ -274,9 +276,6 @@ def extract_and_insert_facility_data():
     df_combined = pd.concat([df_excel, df_mysql], ignore_index=True)
     df_combined.drop_duplicates(subset=['HfrCode'], keep='first', inplace=True)
     df_combined = df_combined.where(pd.notnull(df_combined), None)
-    
-    if len(df_combined) > 0:
-        log_message(f"{len(df_combined)} rows fetched from tbl_Facilities.")
 
     insert_query = """
         INSERT INTO source.tbl_Facilities (HfrCode, Name, Region, District, Council)
