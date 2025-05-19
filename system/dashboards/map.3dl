@@ -11,7 +11,7 @@
   </Datasets>
   <Dashboard
     tabName="MAP"
-    title="Cluster Map"
+    title="Facility Distribution"
   >
     <Filters>
       <Filter
@@ -24,6 +24,7 @@
     <Grid>
       <ScatterPlotMap
         data="initiated_detailed_data"
+        header="Facility Distribution"
         toolTipColumns="facility_name, facility_type, hiv_diagnosed"
       />
     </Grid>
