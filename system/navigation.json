@@ -48,6 +48,11 @@
             "dashboard": "/dashboard/tat-reports-dashboard"
           },
           {
+            "title": "Invalid Report",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/invalid-reports-dashboard"
+          },
+          {
             "title": "Rejection Report",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/rejection-reports-dashboard"
