@@ -14,17 +14,19 @@
         </Filters>
 
         <Grid>
-            <Row columns="1">
-                <Table
-                    data="hvl_sample_tracking_report_data"
-                    header="Sample Tracking Report for HVL Test Name"
-                    subHeader=""
-                    exportData="true"
-                    expand="true"
-                    searchValue="Sample Tracking ID"
-                    hasFilter="true"
-                />
-            </Row>
+            <PrefilteredDashboard filters="lab_received_date%r">
+                <Row columns="1">
+                    <Table
+                        data="hvl_sample_tracking_report_data"
+                        header="Sample Tracking Report for HVL Test Name"
+                        subHeader=""
+                        exportData="true"
+                        expand="true"
+                        searchValue="Sample Tracking ID"
+                        hasFilter="true"
+                    />
+                </Row>
+            </PrefilteredDashboard>
         </Grid>
     </Dashboard>
 
@@ -40,17 +42,19 @@
         </Filters>
 
         <Grid>
-            <Row columns="1">
-                <Table
-                    data="eid_sample_tracking_report_data"
-                    header="Sample Tracking Report for EID Test Name"
-                    subHeader=""
-                    exportData="true"
-                    expand="true"
-                    searchValue="Sample Tracking ID"
-                    hasFilter="true"
-                />
-            </Row>
+            <PrefilteredDashboard filters="lab_received_date%r">
+                <Row columns="1">
+                    <Table
+                        data="eid_sample_tracking_report_data"
+                        header="Sample Tracking Report for EID Test Name"
+                        subHeader=""
+                        exportData="true"
+                        expand="true"
+                        searchValue="Sample Tracking ID"
+                        hasFilter="true"
+                    />
+                </Row>
+            </PrefilteredDashboard>
         </Grid>
     </Dashboard>
 </Dashboards>

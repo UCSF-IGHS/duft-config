@@ -1,0 +1,228 @@
+<Datasets>
+    <SQLData name="week_data" queryName="filters/week_names" />
+
+    <SQLData
+        name="all_data_issues_data"
+        queryName="data_management_queries/all_data_issues"
+        searchColumns="sample_tracking_id"
+        pageSize="10"
+    />
+
+    <SQLData
+        name="missing_collected_or_received_date_data"
+        queryName="data_management_queries/missing_collected_or_received_date"
+        searchColumns="sample_tracking_id"
+        pageSize="10"
+    />
+
+    <SQLData
+        name="earlier_received_date_than_collected_date_data"
+        queryName="data_management_queries/earlier_received_date_than_collected_date"
+        searchColumns="sample_tracking_id"
+        pageSize="10"
+    />
+
+    <SQLData
+        name="missing_hfr_code_data"
+        filterFrom="weekly_start_monday_period"
+        searchColumns="sample_tracking_id"
+        pageSize="10"
+    >
+        SELECT
+        dim_facility.region AS Region,
+        dim_facility.district AS Council,
+        dim_facility.facility_name AS Facility,
+        dim_facility.hfr_code AS HFR,
+        dim_samples.test_name AS [Test Name],
+        dim_samples.sample_tracking_id AS [Sample ID],
+        dim_samples.sample_quality_status AS [Sample Status],
+        dim_samples.collected_date AS [Collected Date],
+        dim_samples.lab_received_date AS [Received Date],
+        dim_samples.tested_date AS [Tested Date],
+        dim_samples.result_dispatched_date AS [Result Date],
+        dim_samples.[result] AS [Results],
+        dim_samples.cleaning_comment AS [Data Issue]
+        FROM
+        [derived].dim_sample AS dim_samples
+        LEFT JOIN
+        [derived].dim_facility AS dim_facility
+        ON
+        dim_samples.hub_facility_id = dim_facility.facility_id
+        WHERE
+        dim_samples.lab_received_date BETWEEN
+        (
+        SELECT
+        TOP 1
+        CAST(SUBSTRING(weekly_start_monday_day_dates, 1, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE)
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        AND
+        (
+        SELECT
+        TOP 1
+        CAST(SUBSTRING(weekly_start_monday_day_dates, CHARINDEX('-', weekly_start_monday_day_dates) + 2, LEN(weekly_start_monday_day_dates)) AS DATE)
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        AND REPLACE(dim_samples.cleaning_comment, ' ', '') = 'MissingHFRCode'
+        ORDER BY dim_samples.lab_received_date DESC
+    </SQLData>
+
+    <SQLData
+        name="missing_test_name_data"
+        filterFrom="weekly_start_monday_period"
+        searchColumns="sample_tracking_id"
+        pageSize="10"
+    >
+        SELECT
+        dim_facility.region AS Region,
+        dim_facility.district AS Council,
+        dim_facility.facility_name AS Facility,
+        dim_facility.hfr_code AS HFR,
+        dim_samples.test_name AS [Test Name],
+        dim_samples.sample_tracking_id AS [Sample ID],
+        dim_samples.sample_quality_status AS [Sample Status],
+        dim_samples.collected_date AS [Collected Date],
+        dim_samples.lab_received_date AS [Received Date],
+        dim_samples.tested_date AS [Tested Date],
+        dim_samples.result_dispatched_date AS [Result Date],
+        dim_samples.[result] AS [Results],
+        dim_samples.cleaning_comment AS [Data Issue]
+        FROM
+        [derived].dim_sample AS dim_samples
+        LEFT JOIN
+        [derived].dim_facility AS dim_facility
+        ON
+        dim_samples.hub_facility_id = dim_facility.facility_id
+        WHERE
+        dim_samples.lab_received_date BETWEEN
+        (
+        SELECT
+        TOP 1
+        CAST(SUBSTRING(weekly_start_monday_day_dates, 1, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE)
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        AND
+        (
+        SELECT
+        TOP 1
+        CAST(SUBSTRING(weekly_start_monday_day_dates, CHARINDEX('-', weekly_start_monday_day_dates) + 2, LEN(weekly_start_monday_day_dates)) AS DATE)
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        AND REPLACE(dim_samples.cleaning_comment, ' ', '') = 'MissingTestName'
+        ORDER BY dim_samples.lab_received_date DESC
+    </SQLData>
+
+    <SQLData
+        name="samples_with_authorized_date_earlier_than_tested_date_data"
+        filterFrom="weekly_start_monday_period"
+        searchColumns="sample_tracking_id"
+        pageSize="10"
+    >
+        SELECT
+        dim_facility.region AS Region,
+        dim_facility.district AS Council,
+        dim_facility.facility_name AS Facility,
+        dim_facility.hfr_code AS HFR,
+        dim_samples.test_name AS [Test Name],
+        dim_samples.sample_tracking_id AS [Sample ID],
+        dim_samples.sample_quality_status AS [Sample Status],
+        dim_samples.collected_date AS [Collected Date],
+        dim_samples.lab_received_date AS [Received Date],
+        dim_samples.tested_date AS [Tested Date],
+        dim_samples.result_dispatched_date AS [Result Date],
+        dim_samples.[result] AS [Results],
+        dim_samples.cleaning_comment AS [Data Issue]
+        FROM
+        [derived].dim_sample AS dim_samples
+        LEFT JOIN [derived].dim_facility AS dim_facility ON
+        dim_samples.hub_facility_id = dim_facility.facility_id
+        WHERE
+        dim_samples.lab_received_date BETWEEN
+        (
+        SELECT
+        TOP 1
+        CAST(SUBSTRING(weekly_start_monday_day_dates, 1, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE)
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        AND
+        (
+        SELECT
+        TOP 1
+        CAST(SUBSTRING(weekly_start_monday_day_dates, CHARINDEX('-', weekly_start_monday_day_dates) + 2, LEN(weekly_start_monday_day_dates)) AS DATE)
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        AND REPLACE(dim_samples.cleaning_comment,
+        ' ',
+        '') = 'EarlierDispatcheddatethanTestdate'
+        ORDER BY dim_samples.lab_received_date DESC
+    </SQLData>
+
+    <SQLData
+        name="samples_with_rejection_reasons_but_have_results_data"
+        filterFrom="weekly_start_monday_period"
+        searchColumns="sample_tracking_id"
+        pageSize="10"
+    >
+        SELECT
+        dim_facility.region AS Region,
+        dim_facility.district AS Council,
+        dim_facility.facility_name AS Facility,
+        dim_facility.hfr_code AS HFR,
+        dim_samples.test_name AS [Test Name],
+        dim_samples.sample_tracking_id AS [Sample ID],
+        dim_samples.sample_quality_status AS [Sample Status],
+        dim_samples.collected_date AS [Collected Date],
+        dim_samples.lab_received_date AS [Received Date],
+        dim_samples.tested_date AS [Tested Date],
+        dim_samples.result_dispatched_date AS [Result Date],
+        dim_samples.[result] AS [Results],
+        dim_samples.cleaning_comment AS [Data Issue]
+        FROM
+        [derived].dim_sample AS dim_samples
+        LEFT JOIN [derived].dim_facility AS dim_facility ON
+        dim_samples.hub_facility_id = dim_facility.facility_id
+        WHERE
+        dim_samples.lab_received_date BETWEEN
+        (
+        SELECT
+        TOP 1
+        CAST(SUBSTRING(weekly_start_monday_day_dates, 1, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE)
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        AND
+        (
+        SELECT
+        TOP 1
+        CAST(SUBSTRING(weekly_start_monday_day_dates, CHARINDEX('-', weekly_start_monday_day_dates) + 2, LEN(weekly_start_monday_day_dates)) AS DATE)
+        FROM
+        [derived].dim_date
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        )
+        AND REPLACE(dim_samples.cleaning_comment,
+        ' ',
+        '') = 'RejectedbuthasResult'
+        ORDER BY dim_samples.lab_received_date DESC
+    </SQLData>
+</Datasets>

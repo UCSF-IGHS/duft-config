@@ -1,205 +1,207 @@
 <Grid>
-    <Row>
-        <Header small="true">EID Report Transformation Table</Header>
-    </Row>
+    <PrefilteredDashboard filters="weekly_start_monday_period">
+        <Row>
+            <Header small="true">EID Report Transformation Table</Header>
+        </Row>
 
-    <Row columns="1">
-        <Table
-            data="eid_report_transformation_table_data"
-            header="EID Report Transformation Table"
-            subheader=""
-            exportData="true"
-            expand="true"
-            variant="plain"
-        />
-    </Row>
+        <Row columns="1">
+            <Table
+                data="eid_report_transformation_table_data"
+                header="EID Report Transformation Table"
+                subheader=""
+                exportData="true"
+                expand="true"
+                variant="plain"
+            />
+        </Row>
 
-    <Row>
-        <Header small="true">EID Weekly Reports</Header>
-    </Row>
+        <Row>
+            <Header small="true">EID Weekly Reports</Header>
+        </Row>
 
-    <Row columns="2">
-        <StackedBarChart
-            data="sample_test_outcome_data"
-            header="Sample Test Outcome for EID"
-            subHeader=""
-            exportData="true"
-            expand="true"
-            detailsComponent="infinite-scroll-table"
-            userOptions={
-                {
-                    chart: {
-                        id: 35
-                    },
-                    tooltip: {
-                        shared: true
-                    },
-                    legend: {
-                        show: true,
-                        position: "bottom"
-                    },
-                    dataLabels: {
-                        enabled: true,
-                        total: {
+        <Row columns="2">
+            <StackedBarChart
+                data="sample_test_outcome_data"
+                header="Sample Test Outcome for EID"
+                subHeader=""
+                exportData="true"
+                expand="true"
+                detailsComponent="infinite-scroll-table"
+                userOptions={
+                    {
+                        chart: {
+                            id: 35
+                        },
+                        tooltip: {
+                            shared: true
+                        },
+                        legend: {
+                            show: true,
+                            position: "bottom"
+                        },
+                        dataLabels: {
                             enabled: true,
-                            style: {
-                                fontSize: "14px",
-                                fontWeight: 900,
-                                fontColor: "#fff"
-                            },
-                            offsetX: 10
-                        }
-                    },
-                    yaxis: {
-                        title: {
-                            text: "Number of Samples"
-                        }
-                    },
-                    xaxis: {
-                        title: {
-                            text: "Week Number"
-                        }
-                    },
-                    colors: ["#008000", "#FFA500", "#FF0000"]
+                            total: {
+                                enabled: true,
+                                style: {
+                                    fontSize: "14px",
+                                    fontWeight: 900,
+                                    fontColor: "#fff"
+                                },
+                                offsetX: 10
+                            }
+                        },
+                        yaxis: {
+                            title: {
+                                text: "Number of Samples"
+                            }
+                        },
+                        xaxis: {
+                            title: {
+                                text: "Week Number"
+                            }
+                        },
+                        colors: ["#008000", "#FFA500", "#FF0000"]
+                    }
                 }
-            }
-        />
+            />
 
-        <StackedBarChart
-            data="eid_TAT_sample_collection_to_lab_reception_data"
-            header="For Samples received in the reporting week, number of days from the sample collection to lab reception"
-            subHeader=""
-            exportData="true"
-            expand="true"
-            detailsComponent="infinite-scroll-table"
-            userOptions={
-                {
-                    chart: {
-                        id: 36
-                    },
-                    tooltip: {
-                        shared: true
-                    },
-                    legend: {
-                        show: true,
-                        position: "bottom"
-                    },
-                    dataLabels: {
-                        enabled: true,
-                        total: {
+            <StackedBarChart
+                data="eid_TAT_sample_collection_to_lab_reception_data"
+                header="For Samples received in the reporting week, number of days from the sample collection to lab reception"
+                subHeader=""
+                exportData="true"
+                expand="true"
+                detailsComponent="infinite-scroll-table"
+                userOptions={
+                    {
+                        chart: {
+                            id: 36
+                        },
+                        tooltip: {
+                            shared: true
+                        },
+                        legend: {
+                            show: true,
+                            position: "bottom"
+                        },
+                        dataLabels: {
                             enabled: true,
-                            style: {
-                                fontSize: "14px",
-                                fontWeight: 900,
-                                fontColor: "#fff"
-                            },
-                            offsetX: 10
-                        }
-                    },
-                    yaxis: {
-                        title: {
-                            text: "Number of Samples"
-                        }
-                    },
-                    xaxis: {
-                        title: {
-                            text: "Week Number"
+                            total: {
+                                enabled: true,
+                                style: {
+                                    fontSize: "14px",
+                                    fontWeight: 900,
+                                    fontColor: "#fff"
+                                },
+                                offsetX: 10
+                            }
+                        },
+                        yaxis: {
+                            title: {
+                                text: "Number of Samples"
+                            }
+                        },
+                        xaxis: {
+                            title: {
+                                text: "Week Number"
+                            }
                         }
                     }
                 }
-            }
-        />
-    </Row>
+            />
+        </Row>
 
-    <Row columns="2">
-        <StackedBarChart
-            data="eid_TAT_sample_received_to_authorised_data"
-            header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
-            subHeader=""
-            exportData="true"
-            expand="true"
-            detailsComponent="infinite-scroll-table"
-            userOptions={
-                {
-                    chart: {
-                        id: 37
-                    },
-                    tooltip: {
-                        shared: true
-                    },
-                    legend: {
-                        show: true,
-                        position: "bottom"
-                    },
-                    dataLabels: {
-                        enabled: true,
-                        total: {
+        <Row columns="2">
+            <StackedBarChart
+                data="eid_TAT_sample_received_to_authorised_data"
+                header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
+                subHeader=""
+                exportData="true"
+                expand="true"
+                detailsComponent="infinite-scroll-table"
+                userOptions={
+                    {
+                        chart: {
+                            id: 37
+                        },
+                        tooltip: {
+                            shared: true
+                        },
+                        legend: {
+                            show: true,
+                            position: "bottom"
+                        },
+                        dataLabels: {
                             enabled: true,
-                            style: {
-                                fontSize: "14px",
-                                fontWeight: 900,
-                                fontColor: "#fff"
-                            },
-                            offsetX: 10
-                        }
-                    },
-                    yaxis: {
-                        title: {
-                            text: "Number of Samples"
-                        }
-                    },
-                    xaxis: {
-                        title: {
-                            text: "Week Number"
+                            total: {
+                                enabled: true,
+                                style: {
+                                    fontSize: "14px",
+                                    fontWeight: 900,
+                                    fontColor: "#fff"
+                                },
+                                offsetX: 10
+                            }
+                        },
+                        yaxis: {
+                            title: {
+                                text: "Number of Samples"
+                            }
+                        },
+                        xaxis: {
+                            title: {
+                                text: "Week Number"
+                            }
                         }
                     }
                 }
-            }
-        />
+            />
 
-        <StackedBarChart
-            data="eid_TAT_sample_collection_to_authorisation_data"
-            header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
-            subHeader=""
-            exportData="true"
-            expand="true"
-            detailsComponent="infinite-scroll-table"
-            userOptions={
-                {
-                    chart: {
-                        id: 38
-                    },
-                    tooltip: {
-                        shared: true
-                    },
-                    legend: {
-                        show: true,
-                        position: "bottom"
-                    },
-                    dataLabels: {
-                        enabled: true,
-                        total: {
+            <StackedBarChart
+                data="eid_TAT_sample_collection_to_authorisation_data"
+                header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
+                subHeader=""
+                exportData="true"
+                expand="true"
+                detailsComponent="infinite-scroll-table"
+                userOptions={
+                    {
+                        chart: {
+                            id: 38
+                        },
+                        tooltip: {
+                            shared: true
+                        },
+                        legend: {
+                            show: true,
+                            position: "bottom"
+                        },
+                        dataLabels: {
                             enabled: true,
-                            style: {
-                                fontSize: "14px",
-                                fontWeight: 900,
-                                fontColor: "#fff"
-                            },
-                            offsetX: 10
-                        }
-                    },
-                    yaxis: {
-                        title: {
-                            text: "Number of Samples"
-                        }
-                    },
-                    xaxis: {
-                        title: {
-                            text: "Week Number"
+                            total: {
+                                enabled: true,
+                                style: {
+                                    fontSize: "14px",
+                                    fontWeight: 900,
+                                    fontColor: "#fff"
+                                },
+                                offsetX: 10
+                            }
+                        },
+                        yaxis: {
+                            title: {
+                                text: "Number of Samples"
+                            }
+                        },
+                        xaxis: {
+                            title: {
+                                text: "Week Number"
+                            }
                         }
                     }
                 }
-            }
-        />
-    </Row>
+            />
+        </Row>
+    </PrefilteredDashboard>
 </Grid>
