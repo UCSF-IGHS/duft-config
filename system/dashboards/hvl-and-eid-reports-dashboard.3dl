@@ -4,47 +4,34 @@
 
     <Dashboard
         data="hvl_report_data"
-        tabName="HVL Reports"
+        tabName="HVL & EID Reports"
         title=""
-        subTitle="HVL Reports"
+        subTitle="HVL & EID Reports"
         lastRefresh=""
     >
         <Filters>
-            <DateRangePicker type="date" name="date" />
+            <DatePicker type="date" name="start_date" />
+            <DatePicker type="date" name="end_date" />
         </Filters>
 
         <Grid>
-            <Row columns="1">
-                <Table
-                    data="hvl_report_data"
-                    header="HVL Reporting Form"
-                    exportData="true"
-                    expand="true"
-                />
-            </Row>
-        </Grid>
-    </Dashboard>
+            <PrefilteredDashboard filters="start_date%d, end_date%d">
+                <Row columns="2">
+                    <Table
+                        data="hvl_report_data"
+                        header="HVL Reporting Form"
+                        exportData="true"
+                        expand="true"
+                    />
 
-    <Dashboard
-        data="eid_report_data"
-        tabName="EID Reports"
-        title=""
-        subTitle="EID Reports"
-        lastRefresh=""
-    >
-        <Filters>
-            <DateRangePicker type="date" name="date" />
-        </Filters>
-
-        <Grid>
-            <Row columns="1">
-                <Table
-                    data="eid_report_data"
-                    header="EID Reporting Form"
-                    exportData="true"
-                    expand="true"
-                />
-            </Row>
+                    <Table
+                        data="eid_report_data"
+                        header="EID Reporting Form"
+                        exportData="true"
+                        expand="true"
+                    />
+                </Row>
+            </PrefilteredDashboard>
         </Grid>
     </Dashboard>
 </Dashboards>
