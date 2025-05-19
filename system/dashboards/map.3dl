@@ -6,7 +6,6 @@
     <SQLData
       name="initiated_detailed_data"
       queryName="facility_list"
-      pageSize="50"
       filterFrom="facility_type, keph_level, operational_status"
     /> 
   </Datasets>
