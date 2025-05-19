@@ -24,7 +24,6 @@
     <Grid>
       <ScatterPlotMap
         data="initiated_detailed_data"
-        header="Facility Distribution"
         toolTipColumns="facility_name, facility_type, hiv_diagnosed"
       />
     </Grid>
