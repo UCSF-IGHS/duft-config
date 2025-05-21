@@ -33,23 +33,6 @@
                     bar: {
                         distributed: false
                     }
-                },
-                annotations: {
-                    yaxis: [
-                        {
-                            y: 0,
-                            label: {
-                                text: "UNKNOWN - Facility with no HFR code | Not set - Facility with unspecified name",
-                                style: {
-                                    color: "#555",
-                                    fontSize: "12px",
-                                    fontWeight: "bold",
-                                },
-                                offsetY: 60,
-                                offsetX: -250
-                            }
-                        }
-                    ]
                 }
             }}
         >

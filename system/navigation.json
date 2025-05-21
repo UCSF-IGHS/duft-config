@@ -63,14 +63,14 @@
         "icon": "update-icon",
         "task": "LAB-VISUAL-ETL",
         "dashboard": "refresh-data",
-        "prompt": "Are you sure you want to refresh the data?"
+        "prompt": "This task refreshes the data in the dashboards. Click Execute to proceed, Click Cancel to abort."
       },
       {
         "title": "Update System",
         "icon": "update-icon",
         "task": "LABVISUALS_DUFT_CONFIGS_REFRESH",
-        "prompt": "Are you sure you want to update dashboard definitions?"
-      }   
+        "prompt": "This task updates the system configurations. Click Execute to proceed, Click Cancel to abort."
+      }
     ]
   }
 }
