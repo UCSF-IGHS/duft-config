@@ -2,14 +2,14 @@
     <SQLData
         name="hvl_report_data"
         queryName="hvl_and_eid_reports_dashboard_queries/hvl_report"
-        filterFrom="date"
+        filterFrom="start_date, end_date"
         transpose="true"
     />
 
     <SQLData
         name="eid_report_data"
         queryName="hvl_and_eid_reports_dashboard_queries/eid_report"
-        filterFrom="date"
+        filterFrom="start_date, end_date"
         transpose="true"
     />
 </Datasets>
