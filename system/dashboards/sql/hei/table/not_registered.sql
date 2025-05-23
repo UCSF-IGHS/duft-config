@@ -1,7 +1,7 @@
 SELECT
     [Patient ID] AS [Mother Patient ID],
     [Mother's Age],
-    [Date Start ART],
+    [Date Mother Start ART],
     [Last Visit Date],
     [Due Date],
     [Date of Delivery],
