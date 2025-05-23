@@ -16,6 +16,7 @@ from services.dte_tools.data_task_tools import (
 executor = ThreadPoolExecutor(max_workers=4)
 environment: DataTaskEnvironment = initialise_data_task("Tille Lab transformation Task", params={})
 db_params = get_resolved_parameters_for_connection("ANA")
+tillelab_db_params = get_resolved_parameters_for_connection("MYSQL_TEST")
 
 # Function to log messages
 def log_message(msg):
@@ -40,8 +41,8 @@ log_message(f"Started Tille Lab Transformation {datetime.now().strftime('%d/%m/%
 
 
 # Function to connect to the Tille Lab database
-def connect_to_tille_lab_db(db_user, db_pword, db_host):
-    url = f"mysql+pymysql://{db_user}:{db_pword}@{db_host}:3306/labdashdb"
+def connect_to_tille_lab_db():
+    url = f"mysql+pymysql://{tillelab_db_params['username']}:{tillelab_db_params['password']}@{tillelab_db_params['server']}:{tillelab_db_params['port']}/{tillelab_db_params['database']}"
     try:
         engine = create_engine(url)
         with engine.connect() as conn:
@@ -53,7 +54,7 @@ def connect_to_tille_lab_db(db_user, db_pword, db_host):
         sys.stdout.flush()
         sys.exit(1) 
 
-labdashdb_conn = connect_to_tille_lab_db('root', 'root', 'localhost')
+labdashdb_conn = connect_to_tille_lab_db()
 
 # Function to create a connection to SQL Server
 def create_connection_to_sql_server(db_name):
