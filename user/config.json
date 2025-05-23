@@ -8,12 +8,13 @@
             "database": "production"
         },
         "ANA": {
+            "type": "MSSQL",
             "server": "127.0.0.1",
-            "username": "sa",
-            "password": "root.R00T",
+            "sqlite3file": "",
+            "username": "user",
+            "password": "password",
             "port": 1433,
-            "database": "lab_visual_analysis",
-            "type": "MSSQL"
+            "database": "lab_visual_analysis"
         },
         "DUFT-SERVER-API": {
             "server": "http://127.0.0.1:8000",
@@ -23,7 +24,7 @@
         "HTTPBIN": {
             "username": "user",
             "password": "pass"
-        }, 
+        },
         "DHIS2": {
             "username": "admin",
             "password": "district"
@@ -51,12 +52,12 @@
             "unitTested": "2024-06-02 18:08:18.036720"
         },
         "MYSQL_TEST": {
-            "server": "127.0.0.1",
-            "username": "root",
-            "password": "Namibia23",
+            "type": "mysql",
+            "server": "localhost",
+            "username": "user",
+            "password": "password",
             "port": "3306",
-            "database": "ptracker",
-            "type": "mysql"
+            "database": "labdashdb"
         },
         "POSTGRRESQL_TEST": {
             "server": "127.0.0.1",
