@@ -27,8 +27,6 @@
 2. **Restart SQL Server Service**
 3. Log out and log back in using:
    - **SQL Server Authentication**
-   - **Username**: `sa`
-   - **Password**: `root.R00T`
 
 ---
 
