@@ -51,7 +51,7 @@
             "password": "mysecretword",
             "unitTested": "2024-06-02 18:08:18.036720"
         },
-        "MYSQL_TEST": {
+        "LAB_DATA_SOURCE": {
             "type": "mysql",
             "server": "localhost",
             "username": "user",

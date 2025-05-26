@@ -16,7 +16,7 @@ from services.dte_tools.data_task_tools import (
 executor = ThreadPoolExecutor(max_workers=4)
 environment: DataTaskEnvironment = initialise_data_task("Tille Lab transformation Task", params={})
 db_params = get_resolved_parameters_for_connection("ANA")
-tillelab_db_params = get_resolved_parameters_for_connection("MYSQL_TEST")
+tillelab_db_params = get_resolved_parameters_for_connection("LAB_DATA_SOURCE")
 
 # Function to log messages
 def log_message(msg):

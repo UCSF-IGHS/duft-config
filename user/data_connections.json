@@ -33,9 +33,9 @@
       ]
     },
     {
-      "id": "MYSQL_TEST",
-      "name": "Mysql Database",
-      "description": "The database where all mysql data will be stored.",
+      "id": "LAB_DATA_SOURCE",
+      "name": "Lab Data Source",
+      "description": "The source database for lab data.",
       "allowQueryEngine": "True",
       "params": [
         {
