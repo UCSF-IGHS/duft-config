@@ -1,79 +1,9 @@
 {
   "dataConnections": [
     {
-      "id": "MyOwnConnection",
-      "name": "My Own Project",
-      "description": "My own project",
-      "params": [
-        {
-          "name": "server",
-          "type": "text",
-          "label": "Server name"
-        },
-        {
-          "name": "username",
-          "type": "text",
-          "label": "User name"
-        },
-        {
-          "name": "password",
-          "type": "password",
-          "label": "Password"
-        },
-        {
-          "name": "port",
-          "type": "integer",
-          "label": "Port"
-        },
-        {
-          "name": "database",
-          "type": "text",
-          "label": "Database name"
-        }
-      ]
-    },
-    {
       "id": "LAB_DATA_SOURCE",
       "name": "Lab Data Source",
       "description": "The source database for lab data.",
-      "allowQueryEngine": "True",
-      "params": [
-        {
-          "name": "type",
-          "type": "text",
-          "label": "The type of connection (MSSQL | MySQL | PosgtresSQL | sqlite3)"
-        },
-        {
-          "name": "server",
-          "type": "text",
-          "label": "Server name"
-        },
-        {
-          "name": "username",
-          "type": "text",
-          "label": "User name"
-        },
-        {
-          "name": "password",
-          "type": "password",
-          "label": "Password"
-        },
-        {
-          "name": "port",
-          "type": "integer",
-          "label": "Port"
-        },
-        {
-          "name": "database",
-          "type": "text",
-          "label": "Database name"
-        }
-      ]
-    },
-    {
-      "id": "POSTGRRESQL_TEST",
-      "name": "Postgres Database",
-      "description": "The database where all postgres data will be stored.",
       "allowQueryEngine": "True",
       "params": [
         {

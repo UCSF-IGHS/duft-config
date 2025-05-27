@@ -55,19 +55,15 @@
 
 Open the installed DUFT platform and follow these steps:
 
-### Configure Analysis Database (`lab_visual_analysis`)
+### Configure Analysis Database (`lab_visual_analysis`) AND SOURCE DATABASE (`labdashdb`)
 
 1. On the side navigation bar, select **Settings**
 2. Click **Analysis Database**
-3. Enter connection credentials
+3. Enter connection credentials for analysis database
 4. Click **Save**
-
-### Configure Source Database (`labdashdb`)
-
-1. On the side navigation bar, select **Settings**
-2. Select **MySQL Database**
-3. Enter connection credentials
-4. Click **Save**
+5. Select **Lab Data Source**
+6. Enter connection credentials for source database
+7. Click **Save**
 
 ---
 
