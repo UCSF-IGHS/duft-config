@@ -11,6 +11,12 @@
             userOptions={{
                 chart: { id: 17 },
                 dataLabels: { enabled: true },
+                colors: ['#008000'],
+                plotOptions: {
+                    bar: {
+                        distributed: false
+                    }
+                },
                 yaxis: { title: { text: "Number of Samples" } }
             }}
         />
