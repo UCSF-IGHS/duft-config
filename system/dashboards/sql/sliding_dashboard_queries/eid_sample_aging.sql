@@ -1,15 +1,14 @@
-SELECT d.weekly_start_monday_period AS category, SUM(s.eid_samples_aging_less_or_equal_1_week) AS [1 week], SUM(s.eid_samples_aging_less_or_equal_2_week) AS [2 weeks], SUM(s.eid_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks) AS [3 weeks], SUM(s.eid_samples_aging_greater_than_3_weeks) AS [4 weeks and above] FROM final.fact_daily_sample_summary s INNER JOIN derived.dim_date d ON s.report_date = d.date WHERE s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE()) GROUP BY d.weekly_start_monday_period;SELECT
+SELECT
 	d.weekly_start_monday_period AS category,
-	SUM(s.eid_samples_aging_less_or_equal_1_week) AS [1 week],
-	SUM(s.eid_samples_aging_less_or_equal_2_week) AS [2 weeks],
-	SUM(s.eid_samples_aging_less_or_equal_3_weeks_and_greater_than_2_weeks) AS [3 weeks],
-	SUM(s.eid_samples_aging_greater_than_3_weeks) AS [4 weeks and above]
+	SUM(s.eid_samples_aging_less_than_or_equal_to_7_days_aging) AS [<=7days],
+	SUM(s.eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging) AS [8 to 14 days],
+	SUM(s.eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging) AS [15 to 21 days],
+	SUM(s.eid_samples_greater_than_21_days_aging) AS [>21 days and above]
 FROM
 	final.fact_daily_sample_summary s
-INNER JOIN derived.dim_date d ON
-	s.report_date = d.date
-WHERE
+	INNER JOIN derived.dim_date d ON s.report_date = d.date
+WHERE 
 	s.report_date >= DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE())
 	AND s.report_date <= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE())
-GROUP BY
+GROUP BY 
 	d.weekly_start_monday_period;
