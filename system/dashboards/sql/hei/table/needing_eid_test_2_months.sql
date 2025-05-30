@@ -26,6 +26,6 @@ WHERE
         )
     )
     AND ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
-    AND [HEI Current Age in Weeks] = 6
+    -- AND [HEI Current Age in Weeks] = 6
 ORDER BY
     [Patient ID]

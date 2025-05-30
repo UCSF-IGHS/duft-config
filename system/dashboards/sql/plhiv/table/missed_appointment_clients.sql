@@ -11,9 +11,9 @@ SELECT
     [Last VL Is Unsuppressed] AS [Last Viral Load High(>1000cps/ml)]
 FROM
     duft.fact_duft_sentinel_event
-WHERE
-    [Last Appointment in Previous Week] = 'Yes'
-AND
-    [Last Visit in Previous Week] = 'No'
+-- WHERE
+--     [Last Appointment in Previous Week] = 'Yes'
+-- AND
+--     [Last Visit in Previous Week] = 'No'
 ORDER BY
     [Last Appointment Date] ASC

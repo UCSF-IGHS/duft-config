@@ -4,8 +4,8 @@ FROM
     duft.fact_duft_sentinel_event
 WHERE
     [Current Age] < 5
-    AND
-        [Last Visit in Previous Week] = 'Yes'
+    -- AND
+    --     [Last Visit in Previous Week] = 'Yes'
     AND
     (
         [Current Weight(KG)] IS NULL

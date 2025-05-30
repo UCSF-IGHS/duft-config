@@ -1,102 +1,35 @@
-        <Tile data="tile_iit_data" title="Clients With IIT (28-90)">
-            <Table
-                data="iit_clients_data"
-                exportData="true"
-                header="Clients With IIT (28-90)"
-                variant="plain"
-                detailsViewColumn="Patient ID"
-            >
-                <Table data="iit_client_details_data" header="Client details" />
-            </Table>
-        </Tile>
+<Dashboards>
 
-        <Tile data="tile_iit_data" title="Clients With IIT (28-90)">
-            <Dashboards>
-                <Dashboard
-                    data="report_week_data"
-                    tabName="F. IIT"
-                    title="Clients with IIT (28-90 Days)"
-                    subTitle="Tabular representation of clients who had interruption in treatment."
-                    lastRefresh="Reporting Period:  %report_week_dates%"
+    <Include file="components/common/datasets.3dl" />
+
+    <Include file="components/hei/datasets.3dl" />
+
+    <Dashboard
+        data="metadata"
+        tabName="G. HEI_Pos Not on ART"
+        title="%facility_name%"
+        lastRefresh="Reporting Period:  %report_week_dates%"
+    >
+        <Grid>
+            <SingleLayout>
+                <Header>
+                    HEI_POS Not Initiated on ART
+                </Header>
+                <SubHeader>
+                    HEI_POS clients who are not initiated on ART.
+                </SubHeader>
+                <Table
+                    data="hei_pos_not_initiated_data"
+                    exportData="true"
+                    header="Clients with Unsupppressed VL"
+                    subHeader="HEI_POS clients who are not initiated on ART."
+                    variant="plain"
+                    detailsViewColumn="Mother Patient ID"
                 >
-                    <Grid>
-                        <Table
-                            data="iit_clients_data"
-                            exportData="true"
-                            header="Clients with IIT (28-90)"
-                            subHeader="Tabular representation of clients who had interruption in treatment."
-                            variant="plain"
-                            detailsViewColumn="Patient ID"
-                        >
-                        <Table data="iit_client_details_data" header="Client details" />
-                        </Table>
-                    </Grid>
-                </Dashboard>
+                <Table data="pos_not_initiated_hei_details_data" variant="plain" header="HEI details" />
+                </Table>
+            </SingleLayout>
+        </Grid>
+    </Dashboard>
 
-                <Dashboard
-                    data="report_week_data"
-                    tabName="D. Unsuppressed No EAC"
-                    title="Unsuppressed Clients Not Initiated on EAC"
-                    subTitle="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
-                    lastRefresh="Reporting Period:  %report_week_dates%"
-                >
-                    <Grid>
-                        <Table
-                            data="unsuppressed_clients_data"
-                            header="Unsuppressed Clients Not Initiated on EAC"
-                            subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
-                            variant="plain"
-                            detailsViewColumn="Patient ID"
-                        >
-                        <Table data="unsuppressed_client_details_data" variant="plain" header="Client details" />
-                        </Table>
-                    </Grid>
-                </Dashboard>
-
-                <Dashboard
-                    data="report_week_data"
-                    tabName="E. AHD Suspects no CrAg Test"
-                    title="AHD Suspect no CrAg Test Clients"
-                    subTitle="Table of clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
-                    lastRefresh="Reporting Period:  %report_week_dates%"
-                >
-                    <Grid>
-                        <Table
-                            data="ahd_no_crag_clients_data"
-                            exportData="true"
-                            header="AHD Suspect Clients"
-                            subHeader="Table of clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
-                            variant="plain"
-                            detailsViewColumn="Patient ID"
-                        >
-                        <Table data="ahd_no_crag_client_details_data" header="Client details" />
-                        </Table>
-                    </Grid>
-                </Dashboard>
-
-            </Dashboards>
-
-        </Tile>
-
-
-
-            <Dashboard
-                data="report_week_data"
-                tabName="F. IIT"
-                title="Clients with IIT (28-90 Days)"
-                subTitle="Tabular representation of clients who had interruption in treatment."
-                lastRefresh="Reporting Period:  %report_week_dates%"
-            >
-                <Grid>
-                    <Table
-                        data="iit_clients_data"
-                        exportData="true"
-                        header="Clients with IIT (28-90)"
-                        subHeader="Tabular representation of clients who had interruption in treatment."
-                        variant="plain"
-                        detailsViewColumn="Patient ID"
-                    >
-                    <Table data="iit_client_details_data" header="Client details" />
-                    </Table>
-                </Grid>
-            </Dashboard>
+</Dashboards>

@@ -159,8 +159,8 @@
         title="%facility_name%"
         lastRefresh="Reporting Period:  %report_week_dates%"
     >
-        <SingleLayout>
-            <Grid>
+        <Grid>
+            <SingleLayout>
                 <Header>
                     HEI_POS Not Initiated on ART
                 </Header>
@@ -177,8 +177,8 @@
                 >
                 <Table data="pos_not_initiated_hei_details_data" variant="plain" header="HEI details" />
                 </Table>
-            </Grid>
-        </SingleLayout>
+            </SingleLayout>
+        </Grid>
     </Dashboard>
 
 </Dashboards>
