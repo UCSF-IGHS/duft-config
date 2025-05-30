@@ -10,6 +10,11 @@
         title="%facility_name%"
         lastRefresh="Reporting Period:  %report_week_dates%"
     >
+        <Filters>
+            <DatePicker type="date" name="start_date" caption="Start Date" />
+            <DatePicker type="date" name="end_date" caption="End Date" />
+        </Filters>
+
         <Grid>
             <SingleLayout>
                 <Header>
