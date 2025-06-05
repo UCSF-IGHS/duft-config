@@ -19,8 +19,8 @@
         title="%facility_name%"
         lastRefresh="Reporting Period:  %report_week_dates%"
     >
-        <SingleLayout>
-            <Grid>
+        <Grid>
+            <SingleLayout>
                 <Header>
                     Clients With Missed Appointments
                 </Header>
@@ -37,8 +37,8 @@
                 >
                 <Table data="missed_appointment_client_details_data" variant="plain" header="Client details" />
                 </Table>
-            </Grid>
-        </SingleLayout>
+            </SingleLayout>
+        </Grid>
     </Dashboard>
 
     <Dashboard
@@ -47,8 +47,8 @@
         title="%facility_name%"
         lastRefresh="Reporting Period:  %report_week_dates%"
     >
-        <SingleLayout>
-            <Grid>
+        <Grid>
+            <SingleLayout>
                 <Header>
                     Clients Who Missed Viral Load Test
                 </Header>
@@ -65,8 +65,8 @@
                 >
                 <Table data="need_vl_client_details_data" variant="plain" header="Client details" />
                 </Table>
+            </SingleLayout>
         </Grid>
-        </SingleLayout>
     </Dashboard>
 
     <Dashboard
@@ -75,26 +75,26 @@
         title="%facility_name%"
         lastRefresh="Reporting Period:  %report_week_dates%"
     >
-        <SingleLayout>
-            <Header>
-                Unsuppressed Clients Not Initiated on EAC
-            </Header>
-            <SubHeader>
-                PLHIV with high viral (&gt;1000cp/ml) who had appointment last week(both attended and not attended) or high viral load results returned last week but not initiated on EAC.
-            </SubHeader>
-            <Grid>
-                <Table
-                    data="unsuppressed_clients_data"
-                    header="Unsuppressed Clients Not Initiated on EAC"
-                    subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
-                    exportData="true"
-                    variant="plain"
-                    detailsViewColumn="Patient ID"
-                >
-                <Table data="unsuppressed_client_details_data" variant="plain" header="Client details" />
-                </Table>
-            </Grid>
-        </SingleLayout>
+        <Grid>
+            <SingleLayout>
+                <Header>
+                    Unsuppressed Clients Not Initiated on EAC
+                </Header>
+                <SubHeader>
+                    PLHIV with high viral (&gt;1000cp/ml) who had appointment last week(both attended and not attended) or high viral load results returned last week but not initiated on EAC.
+                </SubHeader>
+                    <Table
+                        data="unsuppressed_clients_data"
+                        header="Unsuppressed Clients Not Initiated on EAC"
+                        subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
+                        exportData="true"
+                        variant="plain"
+                        detailsViewColumn="Patient ID"
+                    >
+                    <Table data="unsuppressed_client_details_data" variant="plain" header="Client details" />
+                    </Table>
+            </SingleLayout>
+        </Grid>
     </Dashboard>
 
     <Dashboard
@@ -103,27 +103,27 @@
         title="%facility_name%"
         lastRefresh="Reporting Period:  %report_week_dates%"
     >
-        <SingleLayout>
-            <Header>
-                Children Living with HIV (CLHIV) Nutrition Challenges
-            </Header>
-            <SubHeader>
-                CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status.
-            </SubHeader>
-            <Grid>
-                <Table
-                    data="clhiv_nutrition_clients_data"
-                    exportData="true"
-                    header="hildren Living with HIV (CLHIV) Nutrition Challenges"
-                    subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
-                    exportData="true"
-                    variant="plain"
-                    detailsViewColumn="Patient ID"
-                >
-                <Table data="clhiv_nutrition_client_details_data" header="Client details" />
-                </Table>
-            </Grid>
-        </SingleLayout>
+        <Grid>
+            <SingleLayout>
+                <Header>
+                    Children Living with HIV (CLHIV) Nutrition Challenges
+                </Header>
+                <SubHeader>
+                    CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status.
+                </SubHeader>
+                    <Table
+                        data="clhiv_nutrition_clients_data"
+                        exportData="true"
+                        header="hildren Living with HIV (CLHIV) Nutrition Challenges"
+                        subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
+                        exportData="true"
+                        variant="plain"
+                        detailsViewColumn="Patient ID"
+                    >
+                    <Table data="clhiv_nutrition_client_details_data" header="Client details" />
+                    </Table>
+                </SingleLayout>
+        </Grid>
     </Dashboard>
 
     <Dashboard
@@ -132,8 +132,8 @@
         title="%facility_name%"
         lastRefresh="Reporting Period: %report_week_dates%"
     >
-        <SingleLayout>
-            <Grid>
+        <Grid>
+            <SingleLayout>
                 <Header>
                     AHD Suspect no CrAg Test Clients
                 </Header>
@@ -151,8 +151,8 @@
                 >
                 <Table data="ahd_no_crag_client_details_data" header="PLHIV Client Profile" />
                 </Table>
-            </Grid>
-        </SingleLayout>
+            </SingleLayout>
+        </Grid>
     </Dashboard>
 
    <Dashboard
@@ -161,8 +161,8 @@
         title="%facility_name%"
         lastRefresh="Reporting Period: %report_week_dates%"
     >
-        <SingleLayout>
-            <Grid>
+        <Grid>
+            <SingleLayout>
                 <Header>
                     Clients with Confirmed AHD and no Management
                 </Header>
@@ -180,8 +180,8 @@
                 >
                 <Table data="confirmed_ahd_no_management_client_details_data" header="Client details" />
                 </Table>
-            </Grid>
-        </SingleLayout>
+            </SingleLayout>
+        </Grid>
     </Dashboard>
 
 </Dashboards>

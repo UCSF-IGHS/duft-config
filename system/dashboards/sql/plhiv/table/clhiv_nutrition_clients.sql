@@ -23,5 +23,3 @@ WHERE
             OR [Documented Nutritional Status] IS NULL
             OR [Documented and Calculated Nutritional Status Match] = 'No'
         )
-ORDER BY
-    [Patient ID] ASC

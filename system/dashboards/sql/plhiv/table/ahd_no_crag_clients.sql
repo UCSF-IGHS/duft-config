@@ -25,5 +25,3 @@ WHERE
         [Last CD4 < 200] = 'Yes'
         -- AND [Last CD4 Result in Previous Week] = 'Yes'
     )
-ORDER BY
-    [Patient ID] ASC

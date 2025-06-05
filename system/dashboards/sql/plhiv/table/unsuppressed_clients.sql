@@ -22,5 +22,3 @@ WHERE
     --     [Last Appointment in Previous Week] = 'Yes'
     --     OR [Last VL Result in Previous Week] = 'Yes'
     -- )
-ORDER BY
-    [Patient ID] ASC

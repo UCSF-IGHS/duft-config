@@ -15,5 +15,3 @@ FROM
 --     [Last Appointment in Previous Week] = 'Yes'
 -- AND
 --     [Last Visit in Previous Week] = 'No'
-ORDER BY
-    [Last Appointment Date] ASC

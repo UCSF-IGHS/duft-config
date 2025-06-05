@@ -14,5 +14,3 @@ WHERE
     [Last Antibody Result] = 'POS'
 AND
     [Initiated on ART] = 'No'
-ORDER BY
-    [Patient ID]

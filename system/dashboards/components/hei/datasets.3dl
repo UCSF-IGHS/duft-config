@@ -7,12 +7,13 @@
             <SQLData
                 name="hei_not_registered_data"
                 queryName="hei/table/not_registered"
+                filterFrom="Date of Birth"
                 pageSize="15"
                 searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Infant Status, Exposed Infant ID"
-                filterFrom="gender"
+                sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_not_registered_data" queryName="hei/tile/not_registered" filterFrom="gender" />
+            <SQLData name="tile_hei_not_registered_data" queryName="hei/tile/not_registered" />
 
             <SQLData name="not_registered_hei_details_data" detailsViewData="hei_not_registered_data" detailsViewColumn="Mother Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
@@ -23,12 +24,13 @@
             <SQLData
                 name="hei_needing_eid_test_2_months_data"
                 queryName="hei/table/needing_eid_test_2_months"
+                filterFrom="Date of Birth"
                 pageSize="15"
                 searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Last EID Visit Date, Exposed Infant ID"
-                filterFrom="gender"
+                sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_needing_eid_test_2_months_data" queryName="hei/tile/needing_eid_test_2_months" filterFrom="gender" />
+            <SQLData name="tile_hei_needing_eid_test_2_months_data" queryName="hei/tile/needing_eid_test_2_months" />
 
             <SQLData name="needing_eid_test_2_months_hei_details_data" detailsViewData="hei_needing_eid_test_2_months_data" detailsViewColumn="Mother Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
@@ -39,12 +41,13 @@
             <SQLData
                 name="hei_needing_eid_test_9_months_data"
                 queryName="hei/table/needing_eid_test_9_months"
+                filterFrom="Date of Birth"
                 pageSize="15"
                 searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Last EID Visit Date, Exposed Infant ID"
-                filterFrom="gender"
+                sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_needing_eid_test_9_months_data" queryName="hei/tile/needing_eid_test_9_months" filterFrom="gender" />
+            <SQLData name="tile_hei_needing_eid_test_9_months_data" queryName="hei/tile/needing_eid_test_9_months" />
 
             <SQLData name="needing_eid_test_9_months_hei_details_data" detailsViewData="hei_needing_eid_test_9_months_data" detailsViewColumn="Mother Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
@@ -55,12 +58,13 @@
             <SQLData
                 name="hei_risk_analysis_data"
                 queryName="hei/table/risk_analysis"
+                filterFrom="Date of Birth"
                 pageSize="15"
                 searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Last EID Visit Date, Exposed Infant ID"
-                filterFrom="gender"
+                sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_risk_analysis_data" queryName="hei/tile/risk_analysis" filterFrom="gender" />
+            <SQLData name="tile_hei_risk_analysis_data" queryName="hei/tile/risk_analysis" />
 
             <SQLData name="risk_analysis_hei_details_data" detailsViewData="hei_risk_analysis_data" detailsViewColumn="Mother Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
@@ -71,12 +75,13 @@
             <SQLData
                 name="hei_without_fo_data"
                 queryName="hei/table/without_fo"
+                filterFrom="Date of Birth"
                 pageSize="15"
                 searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Exposed Infant ID"
-                filterFrom="gender"
+                sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_without_fo_data" queryName="hei/tile/without_fo" filterFrom="gender" />
+            <SQLData name="tile_hei_without_fo_data" queryName="hei/tile/without_fo" />
 
             <SQLData name="without_fo_hei_details_data" detailsViewData="hei_without_fo_data" detailsViewColumn="Mother Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'
@@ -87,12 +92,13 @@
             <SQLData
                 name="hei_pos_not_initiated_data"
                 queryName="hei/table/pos_not_initiated"
+                filterFrom="Date of Birth"
                 pageSize="15"
                 searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Last Antibody Result, Exposed Infant ID"
-                filterFrom="gender"
+                sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_pos_not_initiated_data" queryName="hei/tile/pos_not_initiated" filterFrom="gender" />
+            <SQLData name="tile_hei_pos_not_initiated_data" queryName="hei/tile/pos_not_initiated" />
 
             <SQLData name="pos_not_initiated_hei_details_data" detailsViewData="hei_pos_not_initiated_data" detailsViewColumn="Mother Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Mother Patient ID]]'

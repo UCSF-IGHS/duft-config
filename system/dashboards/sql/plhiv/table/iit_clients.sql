@@ -13,5 +13,3 @@ WHERE
     [Missed Drugs 29-90 Days] = 'Yes'
 -- AND
 --     [Last Appointment in Previous Week] = 'Yes'
-ORDER BY
-    [Days Missed Drugs] ASC

@@ -28,5 +28,3 @@ WHERE
             OR [CM Received Cryptococcal Treatment] = 'No'
         )
     )
-ORDER BY
-    [Patient ID] ASC
