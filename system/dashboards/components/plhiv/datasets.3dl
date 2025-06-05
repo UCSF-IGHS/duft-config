@@ -7,32 +7,32 @@
             <SQLData
                 name="iit_clients_data"
                 queryName="plhiv/table/iit_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
-                filterFrom="gender"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_iit_data" queryName="plhiv/tile/iit" filterFrom="gender" />
+            <SQLData name="tile_iit_data" queryName="plhiv/tile/iit" />
 
             <SQLData name="iit_client_details_data" detailsViewData="iit_clients_data" detailsViewColumn="Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
-            <SQLData name="pie_iit_data" queryName="plhiv/visual/iit_pie" filterFrom="gender" />
+            <SQLData name="pie_iit_data" queryName="plhiv/visual/iit_pie" />
 
         {/* AHD Suspect no CrAg Test Clients */}
 
             <SQLData
                 name="ahd_no_crag_clients_data"
                 queryName="plhiv/table/ahd_no_crag_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="[Patient ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
-                filterFrom="gender"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_ahd_no_crag_data" queryName="plhiv/tile/ahd_no_crag" filterFrom="gender" />
+            <SQLData name="tile_ahd_no_crag_data" queryName="plhiv/tile/ahd_no_crag" />
 
             <SQLData name="ahd_no_crag_client_details_data" detailsViewData="ahd_no_crag_clients_data" detailsViewColumn="Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
@@ -43,13 +43,13 @@
             <SQLData
                 name="confirmed_ahd_no_management_clients_data"
                 queryName="plhiv/table/confirmed_ahd_no_management_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="[Patient ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
-                filterFrom="gender"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_confirmed_ahd_no_management_data" queryName="plhiv/tile/confirmed_ahd_no_management" filterFrom="gender" />
+            <SQLData name="tile_confirmed_ahd_no_management_data" queryName="plhiv/tile/confirmed_ahd_no_management" />
 
             <SQLData name="confirmed_ahd_no_management_client_details_data" detailsViewData="confirmed_ahd_no_management_clients_data" detailsViewColumn="Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
@@ -60,13 +60,13 @@
             <SQLData
                 name="need_vl_clients_data"
                 queryName="plhiv/table/need_vl_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
-                filterFrom="gender"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_need_vl_data" queryName="plhiv/tile/need_vl" filterFrom="gender" />
+            <SQLData name="tile_need_vl_data" queryName="plhiv/tile/need_vl" />
 
             <SQLData name="need_vl_client_details_data" detailsViewData="need_vl_clients_data" detailsViewColumn="Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
@@ -77,13 +77,13 @@
             <SQLData
                 name="unsuppressed_clients_data"
                 queryName="plhiv/table/unsuppressed_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
-                filterFrom="gender"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_unsuppressed_data" queryName="plhiv/tile/unsuppressed" filterFrom="gender" />
+            <SQLData name="tile_unsuppressed_data" queryName="plhiv/tile/unsuppressed" />
 
             <SQLData name="unsuppressed_client_details_data" detailsViewData="unsuppressed_clients_data" detailsViewColumn="Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
@@ -94,13 +94,13 @@
             <SQLData
                 name="clhiv_nutrition_clients_data"
                 queryName="plhiv/table/clhiv_nutrition_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
-                filterFrom="gender"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_clhiv_nutrition_data" queryName="plhiv/tile/clhiv_nutrition" filterFrom="gender" />
+            <SQLData name="tile_clhiv_nutrition_data" queryName="plhiv/tile/clhiv_nutrition" />
 
             <SQLData name="clhiv_nutrition_client_details_data" detailsViewData="clhiv_nutrition_clients_data" detailsViewColumn="Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
@@ -111,13 +111,13 @@
             <SQLData
                 name="missed_appointment_clients_data"
                 queryName="plhiv/table/missed_appointment_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
-                filterFrom="gender"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_missed_appointment_data" queryName="plhiv/tile/missed_appointment" filterFrom="gender" />
+            <SQLData name="tile_missed_appointment_data" queryName="plhiv/tile/missed_appointment" />
 
             <SQLData name="missed_appointment_client_details_data" detailsViewData="missed_appointment_clients_data" detailsViewColumn="Patient ID" transpose="true">
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'

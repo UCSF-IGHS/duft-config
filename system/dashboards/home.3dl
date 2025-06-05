@@ -8,7 +8,7 @@
         data="metadata"
         tabName="A. Overview"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
         <Include file="components/plhiv/overview.3dl" />
     </Dashboard>
@@ -17,8 +17,14 @@
         data="metadata"
         tabName="B. Missed Appointments"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
+
+        <Filters>
+            <DateRangePicker type="date" name="Last Visit Date" />
+            <DateRangePicker type="date" name="Last Appointment Date" />
+        </Filters>
+
         <Grid>
             <SingleLayout>
                 <Header>
@@ -45,8 +51,14 @@
         data="metadata"
         tabName="C. Missed Viral Load"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
+
+        <Filters>
+            <DateRangePicker type="date" name="Last Visit Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" />
+        </Filters>
+
         <Grid>
             <SingleLayout>
                 <Header>
@@ -73,15 +85,21 @@
         data="metadata"
         tabName="D. Unsuppressed No EAC"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
+
+        <Filters>
+            <DateRangePicker type="date" name="Last Visit Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" />
+        </Filters>
+
         <Grid>
             <SingleLayout>
                 <Header>
                     Unsuppressed Clients Not Initiated on EAC
                 </Header>
                 <SubHeader>
-                    PLHIV with high viral (&gt;1000cp/ml) who had appointment last week(both attended and not attended) or high viral load results returned last week but not initiated on EAC.
+                    PLHIV with high viral (&gt;1000cp/ml) who had appointment last week (both attended and not attended) or high viral load results returned last week but not initiated on EAC.
                 </SubHeader>
                     <Table
                         data="unsuppressed_clients_data"
@@ -101,8 +119,14 @@
         data="metadata"
         tabName="E. CLHIV Nutrition Challenges"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
+
+        <Filters>
+            <DateRangePicker type="date" name="Last Visit Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" />
+        </Filters>
+
         <Grid>
             <SingleLayout>
                 <Header>
@@ -132,13 +156,19 @@
         title="%facility_name%"
         lastRefresh="Reporting Period: %report_week_dates%"
     >
+
+        <Filters>
+            <DateRangePicker type="date" name="Last Visit Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" />
+        </Filters>
+
         <Grid>
             <SingleLayout>
                 <Header>
                     AHD Suspect no CrAg Test Clients
                 </Header>
                 <SubHeader>
-                    PLHIV who had appointment last week, confirmed AHD suspect but were not tested for Crag(both attended and not attended).
+                    PLHIV who had appointment last week, confirmed AHD suspect but were not tested for Crag (both attended and not attended).
                 </SubHeader>
                 <Table
                     data="ahd_no_crag_clients_data"
@@ -161,6 +191,12 @@
         title="%facility_name%"
         lastRefresh="Reporting Period: %report_week_dates%"
     >
+
+        <Filters>
+            <DateRangePicker type="date" name="Last Visit Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" />
+        </Filters>
+
         <Grid>
             <SingleLayout>
                 <Header>
