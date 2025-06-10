@@ -168,6 +168,9 @@ def create_tables():
                     DeviceCode NVARCHAR(50),
                     CollectionDate DATETIME2,
                     ReceivedDate DATETIME2,
+                    ReferredDate DATETIME2,
+                    ReferredTo NVARCHAR(255),
+                    OrderStatus INT,
                     TestDate DATETIME2,
                     AuthorisedDate DATETIME2,
                     DispatchDate DATETIME2
@@ -320,6 +323,9 @@ def extract_and_insert_sample_data():
             rejectionReason as SampleRejectionReason, 
             sampleCollectionDate as CollectionDate, 
             dateReceivedLab as ReceivedDate, 
+            dateReceivedLab as ReferredDate,
+            testLocation as ReferredTo,
+            orderStatus as OrderStatus,
             results as Results, 
             testedDate as TestDate, 
             resultAuthorisedDate as AuthorisedDate, 
@@ -353,8 +359,9 @@ def extract_and_insert_sample_data():
         insert_query = """
             INSERT INTO source.tbl_Sample (sampletrackingid, LabHfrCode, HubHfrCode, EntryModality, SampleType, 
                                         TestName, SampleQualityStatus, Results, SampleRejectionReason, DeviceName, 
-                                        DeviceCode, CollectionDate, ReceivedDate, TestDate, AuthorisedDate, DispatchDate)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                        DeviceCode, CollectionDate, ReceivedDate, ReferredDate, ReferredTo, OrderStatus,
+                                        TestDate, AuthorisedDate, DispatchDate)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         insert_count = 0
         for _, row in sample_data.iterrows():
@@ -375,6 +382,9 @@ def extract_and_insert_sample_data():
                         row['DeviceCode'], 
                         format_datetime(row['CollectionDate']), 
                         format_datetime(row['ReceivedDate']), 
+                        format_datetime(row['ReferredDate']),
+                        row['ReferredTo'],
+                        row['OrderStatus'],
                         format_datetime(row['TestDate']), 
                         format_datetime(row['AuthorisedDate']), 
                         format_datetime(row['DispatchDate'])
