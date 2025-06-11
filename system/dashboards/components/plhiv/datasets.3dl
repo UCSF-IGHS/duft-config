@@ -25,7 +25,7 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
             <SQLData name="pie_iit_data" queryName="plhiv/visual/iit_pie" />
@@ -53,7 +53,7 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
         {/* Confirmed AHD no Management Clients */}
@@ -78,7 +78,7 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
         {/* Clients Needing VL */}
@@ -104,7 +104,7 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
         {/* Unsuppressed Clients no EAC */}
@@ -130,7 +130,7 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
         {/* CLHIV Nutrition Challeenges */}
@@ -156,7 +156,7 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
         {/* Clients with Missed Appointments */}
@@ -182,7 +182,7 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
         {/* Clients Needing Attention */}
