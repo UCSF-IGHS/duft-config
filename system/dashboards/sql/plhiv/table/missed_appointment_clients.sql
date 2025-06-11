@@ -13,4 +13,5 @@ FROM
     duft.fact_duft_sentinel_event
 WHERE
     [Last Appointment Date] <= GETDATE()
-   AND [Last Visit Date] < [Last Appointment Date]
+AND
+   [Last Visit Date] < [Last Appointment Date]

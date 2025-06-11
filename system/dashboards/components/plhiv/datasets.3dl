@@ -13,9 +13,18 @@
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_iit_data" queryName="plhiv/tile/iit" />
+            <SQLData
+                name="tile_iit_data"
+                queryName="plhiv/tile/iit"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
-            <SQLData name="iit_client_details_data" detailsViewData="iit_clients_data" detailsViewColumn="Patient ID" transpose="true">
+            <SQLData
+                name="iit_client_details_data"
+                detailsViewData="iit_clients_data"
+                detailsViewColumn="Patient ID"
+                transpose="true"
+            >
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
@@ -32,9 +41,18 @@
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_ahd_no_crag_data" queryName="plhiv/tile/ahd_no_crag" />
+            <SQLData
+                name="tile_ahd_no_crag_data"
+                queryName="plhiv/tile/ahd_no_crag"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
-            <SQLData name="ahd_no_crag_client_details_data" detailsViewData="ahd_no_crag_clients_data" detailsViewColumn="Patient ID" transpose="true">
+            <SQLData
+                name="ahd_no_crag_client_details_data"
+                detailsViewData="ahd_no_crag_clients_data"
+                detailsViewColumn="Patient ID"
+                transpose="true"
+            >
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
@@ -49,9 +67,17 @@
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_confirmed_ahd_no_management_data" queryName="plhiv/tile/confirmed_ahd_no_management" />
+            <SQLData
+                name="tile_confirmed_ahd_no_management_data"
+                queryName="plhiv/tile/confirmed_ahd_no_management"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
-            <SQLData name="confirmed_ahd_no_management_client_details_data" detailsViewData="confirmed_ahd_no_management_clients_data" detailsViewColumn="Patient ID" transpose="true">
+            <SQLData
+                name="confirmed_ahd_no_management_client_details_data" detailsViewData="confirmed_ahd_no_management_clients_data"
+                detailsViewColumn="Patient ID"
+                transpose="true"
+            >
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
@@ -66,9 +92,18 @@
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_need_vl_data" queryName="plhiv/tile/need_vl" />
+            <SQLData
+                name="tile_need_vl_data"
+                queryName="plhiv/tile/need_vl"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
-            <SQLData name="need_vl_client_details_data" detailsViewData="need_vl_clients_data" detailsViewColumn="Patient ID" transpose="true">
+            <SQLData
+                name="need_vl_client_details_data"
+                detailsViewData="need_vl_clients_data"
+                detailsViewColumn="Patient ID"
+                transpose="true"
+            >
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
@@ -83,9 +118,18 @@
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_unsuppressed_data" queryName="plhiv/tile/unsuppressed" />
+            <SQLData
+                name="tile_unsuppressed_data"
+                queryName="plhiv/tile/unsuppressed"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
-            <SQLData name="unsuppressed_client_details_data" detailsViewData="unsuppressed_clients_data" detailsViewColumn="Patient ID" transpose="true">
+            <SQLData
+                name="unsuppressed_client_details_data"
+                detailsViewData="unsuppressed_clients_data"
+                detailsViewColumn="Patient ID"
+                transpose="true"
+            >
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
@@ -100,9 +144,18 @@
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_clhiv_nutrition_data" queryName="plhiv/tile/clhiv_nutrition" />
+            <SQLData
+                name="tile_clhiv_nutrition_data"
+                queryName="plhiv/tile/clhiv_nutrition"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
-            <SQLData name="clhiv_nutrition_client_details_data" detailsViewData="clhiv_nutrition_clients_data" detailsViewColumn="Patient ID" transpose="true">
+            <SQLData
+                name="clhiv_nutrition_client_details_data"
+                detailsViewData="clhiv_nutrition_clients_data"
+                detailsViewColumn="Patient ID"
+                transpose="true"
+            >
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 
@@ -117,9 +170,18 @@
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_missed_appointment_data" queryName="plhiv/tile/missed_appointment" />
+            <SQLData
+                name="tile_missed_appointment_data"
+                queryName="plhiv/tile/missed_appointment"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
-            <SQLData name="missed_appointment_client_details_data" detailsViewData="missed_appointment_clients_data" detailsViewColumn="Patient ID" transpose="true">
+            <SQLData
+                name="missed_appointment_client_details_data"
+                detailsViewData="missed_appointment_clients_data"
+                detailsViewColumn="Patient ID"
+                transpose="true"
+            >
                 SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
             </SQLData>
 

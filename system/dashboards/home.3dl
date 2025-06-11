@@ -10,6 +10,11 @@
         title="%facility_name%"
         lastRefresh="Reporting Period: %report_week_dates%"
     >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" />
+        </Filters>
+
         <Include file="components/plhiv/overview.3dl" />
     </Dashboard>
 
