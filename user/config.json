@@ -9,12 +9,20 @@
     },
     "ANA": {
       "server": "127.0.0.1",
-      "username": "user",
-      "password": "mysecretword",
-      "port": "5432",
+      "username": "root",
+      "password": "mysecretword!",
+      "port": "3306",
       "database": "analysis",
-      "sqlite3file": "wakanda.sqlite",
-      "type": "sqlite3"
+      "sqlite3file": "analysis_db_ethiopia",
+      "type": "mysql"
+    },
+    "MAMBA": {
+      "server": "127.0.0.1",
+      "username": "root",
+      "password": "mysecretword!",
+      "port": "3306",
+      "database": "analysis_db_ethiopia",
+      "type": "mysql"
     },
     "DUFT-SERVER-API": {
       "server": "http://127.0.0.1:8000",

@@ -1,6 +1,61 @@
 <Dashboards>
-    <Grid>
-    <Header>My Dashboard</Header>
-      <HtmlSnippet url="/config/html-snippets/hello_world.html" />
-    </Grid>
+       <Datasets>
+          <SQLData name="current_date_data" queryName="current_date" />
+          <SQLData name="gender_data" queryName="filters/gender" />
+          <SQLData name="age_group_data" queryName="filters/age_group" />
+
+          
+          <SQLData
+              name="retention_active_data"
+              filterFrom="gender, age_group, age_group"
+              queryName="clients/retention_active_data"
+          />
+
+          <SQLData
+              name="deceased_by_age_group_data"
+              filterFrom="gender, age_group, age_group"
+              queryName="clients/deceased_by_age_group_data"
+          />
+
+          <SQLData
+              name="art_cascade_data"
+              filterFrom="gender, age_group, age_group"
+              queryName="clients/art_casscade"
+          />
+    </Datasets>
+    <Dashboard
+        data="current_date_data"
+        tabName="ART Cascade"
+        title="Wakanda Hospital"
+        subTitle="ART Cascade"
+        lastRefresh="Last updated on : %today%"
+    >
+     <Filters>
+            <Filter caption="Gender" name="gender" data="gender_data" />
+            <Filter caption="Age Group" name="age_group" data="age_group_data" />
+            <Filter caption="Year" name="year" data="year_data" />
+        </Filters>
+        <Grid>
+            <Row columns="2" largeColumns="2">
+
+                <ClusteredBarChart data="art_cascade_by_gender_data" exportData="true" userOptions={{ xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Cascade by Gender" subHeader="ART Cascade by Gender" detailsComponent='infinite-scroll-table'>
+                    <InfoTag>
+                        <Markdown header="ART Cascade">
+                            HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
+                        </Markdown>
+                    </InfoTag>
+                </ClusteredBarChart>
+
+                <ClusteredBarChart data="art_cascade_by_age_group_data" exportData="true" userOptions={{ stroke: { show: true }, xaxis: { title: { text: 'ART Outcomes' } }, yaxis: { title: { text: 'Clients' } } }} header="ART Cascade by Age Group" subHeader="ART Cascade by Age Group" detailsComponent='infinite-scroll-table'>
+                    <InfoTag>
+                        <Markdown header="ART Cascade">
+                            HIV/AIDS Treatment Cascade Helps Identify Gaps in Care, Retention
+                        </Markdown>
+                    </InfoTag>
+                </ClusteredBarChart>
+
+
+            </Row>
+        </Grid>
+    </Dashboard>
 </Dashboards>

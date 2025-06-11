@@ -1,1 +1,1 @@
-SELECT * FROM dim_age_group
+SELECT * FROM mamba_dim_agegroup
