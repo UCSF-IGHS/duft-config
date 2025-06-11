@@ -21,13 +21,12 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Visit Date" />
-            <DateRangePicker type="date" name="Last Appointment Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" />
         </Filters>
 
-        <Grid>
-            <SingleLayout>
-                <Header>
+        <SingleLayout>
+            <Grid>
+                    <Header>
                     Clients With Missed Appointments
                 </Header>
                 <SubHeader>
@@ -43,8 +42,8 @@
                 >
                 <Table data="missed_appointment_client_details_data" variant="plain" header="Client details" />
                 </Table>
-            </SingleLayout>
-        </Grid>
+            </Grid>
+        </SingleLayout>
     </Dashboard>
 
     <Dashboard
@@ -55,12 +54,11 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Visit Date" />
             <DateRangePicker type="date" name="Next Appointment Date" />
         </Filters>
 
-        <Grid>
-            <SingleLayout>
+        <SingleLayout>
+            <Grid>
                 <Header>
                     Clients Who Missed Viral Load Test
                 </Header>
@@ -77,8 +75,8 @@
                 >
                 <Table data="need_vl_client_details_data" variant="plain" header="Client details" />
                 </Table>
-            </SingleLayout>
-        </Grid>
+            </Grid>
+        </SingleLayout>
     </Dashboard>
 
     <Dashboard
@@ -89,12 +87,11 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Visit Date" />
             <DateRangePicker type="date" name="Next Appointment Date" />
         </Filters>
 
-        <Grid>
-            <SingleLayout>
+        <SingleLayout>
+            <Grid>
                 <Header>
                     Unsuppressed Clients Not Initiated on EAC
                 </Header>
@@ -111,8 +108,8 @@
                     >
                     <Table data="unsuppressed_client_details_data" variant="plain" header="Client details" />
                     </Table>
+                </Grid>
             </SingleLayout>
-        </Grid>
     </Dashboard>
 
     <Dashboard
@@ -123,12 +120,11 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Visit Date" />
             <DateRangePicker type="date" name="Next Appointment Date" />
         </Filters>
 
-        <Grid>
-            <SingleLayout>
+        <SingleLayout>
+            <Grid>
                 <Header>
                     Children Living with HIV (CLHIV) Nutrition Challenges
                 </Header>
@@ -146,8 +142,8 @@
                     >
                     <Table data="clhiv_nutrition_client_details_data" header="Client details" />
                     </Table>
-                </SingleLayout>
-        </Grid>
+                </Grid>
+            </SingleLayout>
     </Dashboard>
 
     <Dashboard
@@ -158,12 +154,11 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Visit Date" />
             <DateRangePicker type="date" name="Next Appointment Date" />
         </Filters>
 
-        <Grid>
-            <SingleLayout>
+        <SingleLayout>
+            <Grid>
                 <Header>
                     AHD Suspect no CrAg Test Clients
                 </Header>
@@ -181,8 +176,8 @@
                 >
                 <Table data="ahd_no_crag_client_details_data" header="PLHIV Client Profile" />
                 </Table>
-            </SingleLayout>
-        </Grid>
+            </Grid>
+        </SingleLayout>
     </Dashboard>
 
    <Dashboard
@@ -193,13 +188,12 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Visit Date" />
             <DateRangePicker type="date" name="Next Appointment Date" />
         </Filters>
 
-        <Grid>
-            <SingleLayout>
-                <Header>
+            <Grid>
+                <SingleLayout>
+                    <Header>
                     Clients with Confirmed AHD and no Management
                 </Header>
                 <SubHeader>
@@ -216,8 +210,8 @@
                 >
                 <Table data="confirmed_ahd_no_management_client_details_data" header="Client details" />
                 </Table>
-            </SingleLayout>
-        </Grid>
-    </Dashboard>
+        </SingleLayout>
+    </Grid>
+</Dashboard>
 
 </Dashboards>

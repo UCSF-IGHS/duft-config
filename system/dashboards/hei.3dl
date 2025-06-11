@@ -8,7 +8,7 @@
         data="metadata"
         tabName="A. Overview"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
         <Include file="components/hei/overview.3dl" />
     </Dashboard>
@@ -17,15 +17,14 @@
         data="metadata"
         tabName="B. Not Registered"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Date of Birth" />
         </Filters>
 
-        <Grid>
-            <SingleLayout>
+        <SingleLayout>
+            <Grid>
                 <Header>
                     HEI Not Registered
                 </Header>
@@ -42,23 +41,22 @@
                 >
                 <Table data="not_registered_hei_details_data" header="HEI Details" />
                 </Table>
-            </SingleLayout>
-        </Grid>
+            </Grid>
+        </SingleLayout>
     </Dashboard>
 
     <Dashboard
         data="metadata"
         tabName="C. Missed EID Test &lt;2 Months"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Date of Birth" />
         </Filters>
 
-        <Grid>
-            <SingleLayout>
+        <SingleLayout>
+            <Grid>
                 <Header>
                     HEI Missed EID Test &lt;2 Months
                 </Header>
@@ -75,23 +73,22 @@
                 >
                 <Table data="needing_eid_test_2_months_hei_details_data" header="HEI Details" />
                 </Table>
-            </SingleLayout>
-        </Grid>
+            </Grid>
+        </SingleLayout>
     </Dashboard>
 
     <Dashboard
         data="metadata"
         tabName="D. Missed EID Test 9 Mo+"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Date of Birth" />
         </Filters>
 
-        <Grid>
-            <SingleLayout>
+        <SingleLayout>
+            <Grid>
                 <Header>
                     HEI Missed EID Test 9 Months
                 </Header>
@@ -108,23 +105,19 @@
                 >
                 <Table data="needing_eid_test_9_months_hei_details_data" header="HEI Details" />
                 </Table>
-            </SingleLayout>
-        </Grid>
+            </Grid>
+        </SingleLayout>
     </Dashboard>
 
     <Dashboard
         data="metadata"
         tabName="E. Misclassified High Risk HEI"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
 
-        <Filters>
-            <DateRangePicker type="date" name="Date of Birth" />
-        </Filters>
-
-        <Grid>
-            <SingleLayout>
+        <SingleLayout>
+            <Grid>
                 <Header>
                     Misclassified High Risk HEI
                 </Header>
@@ -141,23 +134,22 @@
                 >
                 <Table data="risk_analysis_hei_details_data" header="HEI Details" />
                 </Table>
-            </SingleLayout>
-        </Grid>
+            </Grid>
+        </SingleLayout>
     </Dashboard>
 
     <Dashboard
         data="metadata"
         tabName="F. 18-24 Months Without FO"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Date of Birth" />
         </Filters>
 
-        <Grid>
-            <SingleLayout>
+        <SingleLayout>
+            <Grid>
                 <Header>
                     HEI 18-24 Months Without FO
                 </Header>
@@ -174,23 +166,22 @@
                 >
                 <Table data="without_fo_hei_details_data" variant="plain" header="HEI Details" />
                 </Table>
-            </SingleLayout>
-        </Grid>
+            </Grid>
+        </SingleLayout>
     </Dashboard>
 
     <Dashboard
         data="metadata"
         tabName="G. HEI_Pos Not on ART"
         title="%facility_name%"
-        lastRefresh="Reporting Period:  %report_week_dates%"
+        lastRefresh="Reporting Period: %report_week_dates%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Date of Birth" />
         </Filters>
 
-        <Grid>
-            <SingleLayout>
+        <SingleLayout>
+            <Grid>
                 <Header>
                     HEI_POS Not Initiated on ART
                 </Header>
@@ -207,8 +198,8 @@
                 >
                 <Table data="pos_not_initiated_hei_details_data" variant="plain" header="HEI details" />
                 </Table>
-            </SingleLayout>
-        </Grid>
+            </Grid>
+        </SingleLayout>
     </Dashboard>
 
 </Dashboards>
