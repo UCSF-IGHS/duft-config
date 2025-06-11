@@ -74,6 +74,7 @@
     "settings": {
         "debug": true,
         "oobe": true,
-        "unittest": false
+        "unittest": false,
+        "show-settings":false
     }
 }
