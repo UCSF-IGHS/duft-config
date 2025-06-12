@@ -25,7 +25,21 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT
+                    [Patient ID],
+                    [Date of Birth],
+                    [Sex],
+                    [HIV Diagnosis Date] AS [Date Confirmed HIV],
+                    [Date Start ART],
+                    [Marital Status],
+                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                    [Pregnancy Due Date],
+                    [Last VL Result Numeric] AS [Last Viral Load]
+                FROM
+                    duft.fact_duft_sentinel_event
+                WHERE
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
             <SQLData name="pie_iit_data" queryName="plhiv/visual/iit_pie" />
@@ -53,7 +67,21 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT
+                    [Patient ID],
+                    [Date of Birth],
+                    [Sex],
+                    [HIV Diagnosis Date] AS [Date Confirmed HIV],
+                    [Date Start ART],
+                    [Marital Status],
+                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                    [Pregnancy Due Date],
+                    [Last VL Result Numeric] AS [Last Viral Load]
+                FROM
+                    duft.fact_duft_sentinel_event
+                WHERE
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
         {/* Confirmed AHD no Management Clients */}
@@ -78,7 +106,21 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT
+                    [Patient ID],
+                    [Date of Birth],
+                    [Sex],
+                    [HIV Diagnosis Date] AS [Date Confirmed HIV],
+                    [Date Start ART],
+                    [Marital Status],
+                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                    [Pregnancy Due Date],
+                    [Last VL Result Numeric] AS [Last Viral Load]
+                FROM
+                    duft.fact_duft_sentinel_event
+                WHERE
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
         {/* Clients Needing VL */}
@@ -104,7 +146,21 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT
+                    [Patient ID],
+                    [Date of Birth],
+                    [Sex],
+                    [HIV Diagnosis Date] AS [Date Confirmed HIV],
+                    [Date Start ART],
+                    [Marital Status],
+                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                    [Pregnancy Due Date],
+                    [Last VL Result Numeric] AS [Last Viral Load]
+                FROM
+                    duft.fact_duft_sentinel_event
+                WHERE
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
         {/* Unsuppressed Clients no EAC */}
@@ -130,7 +186,21 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT
+                    [Patient ID],
+                    [Date of Birth],
+                    [Sex],
+                    [HIV Diagnosis Date] AS [Date Confirmed HIV],
+                    [Date Start ART],
+                    [Marital Status],
+                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                    [Pregnancy Due Date],
+                    [Last VL Result Numeric] AS [Last Viral Load]
+                FROM
+                    duft.fact_duft_sentinel_event
+                WHERE
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
         {/* CLHIV Nutrition Challeenges */}
@@ -156,7 +226,21 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT
+                    [Patient ID],
+                    [Date of Birth],
+                    [Sex],
+                    [HIV Diagnosis Date] AS [Date Confirmed HIV],
+                    [Date Start ART],
+                    [Marital Status],
+                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                    [Pregnancy Due Date],
+                    [Last VL Result Numeric] AS [Last Viral Load]
+                FROM
+                    duft.fact_duft_sentinel_event
+                WHERE
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
         {/* Clients with Missed Appointments */}
@@ -182,7 +266,21 @@
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
-                SELECT [client_id] ,[facility_id] ,[ctc_id] ,[marital_status] ,[gender] ,[date_of_birth] ,[date_created] ,[date_of_death] ,[_final_visit_date] ,[valid_client] ,[invalid_client] ,[unverified_client] ,[reason_for_no_biometrics_registration] FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+                SELECT
+                    [Patient ID],
+                    [Date of Birth],
+                    [Sex],
+                    [HIV Diagnosis Date] AS [Date Confirmed HIV],
+                    [Date Start ART],
+                    [Marital Status],
+                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                    [Pregnancy Due Date],
+                    [Last VL Result Numeric] AS [Last Viral Load]
+                FROM
+                    duft.fact_duft_sentinel_event
+                WHERE
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
         {/* Clients Needing Attention */}
