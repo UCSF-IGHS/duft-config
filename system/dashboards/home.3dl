@@ -31,7 +31,7 @@
 
         <SingleLayout>
             <Grid>
-                    <Header>
+                <Header>
                     Clients With Missed Appointments
                 </Header>
                 <SubHeader>
@@ -71,14 +71,14 @@
                     Table of Eligible PLHIV who had appointment last week but missed their viral load test (both who attended and not attended).
                 </SubHeader>
                 <Table
-                    data="need_vl_clients_data"
+                    data="missed_vl_clients_data"
                     header="Clients Who Missed Viral Load Test"
                     subHeader="Table of clients who missed viral load test."
                     exportData="true"
                     variant="plain"
                     detailsViewColumn="Patient ID"
                 >
-                <Table data="need_vl_client_details_data" variant="plain" header="Client details" />
+                <Table data="missed_vl_client_details_data" variant="plain" header="Client details" />
                 </Table>
             </Grid>
         </SingleLayout>

@@ -20,16 +20,15 @@
                     </Table>
                 </Tile>
 
-                <Tile data="tile_need_vl_data" title="Missed Viral Load">
+                <Tile data="tile_missed_vl_data" title="Missed Viral Load">
                     <Table
-                        data="need_vl_clients_data"
+                        data="missed_vl_clients_data"
                         exportData="true"
                         header="Clients Who Missed Viral Load"
                         variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Last Visit Date, Last VL Test Date, Last VL Result Numeric, VL Results 50 - 999 cps/ml?, VL Results >= 1000 cps/ml?"
                         detailsViewColumn="Patient ID"
                     >
-                        <Table data="need_vl_client_details_data" header="PLHIV Client Profile" />
+                        <Table data="missed_vl_client_details_data" header="PLHIV Client Profile" />
                     </Table>
                 </Tile>
 

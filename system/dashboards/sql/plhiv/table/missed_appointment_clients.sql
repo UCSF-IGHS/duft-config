@@ -8,7 +8,15 @@ SELECT
     [Number of Days Dispensed],
     [Next Appointment Date] AS [Missed Appointment Date],
     [Now Pregnant/Breastfeeding] AS [Now Pregnant/ Breastfeeding],
-    [Last VL Is Unsuppressed] AS [Last Viral Load High(>1000cps/ml)]
+    [Last VL Is Unsuppressed] AS [Last Viral Load High(>1000cps/ml)],
+    [Last Visit Type],
+    [Last Visit Refill Type],
+    [Days Missed Appointment],
+    [Last Prescription Regimen Name] AS [ARV Regimen Description],
+    [Current Height(CM)] AS [Height],
+    [Current Weight(KG)] AS [Weight],
+    [Last BP Systolic] AS [BP Reading (Systolic)],
+    [Last BP Diastolic] AS [BP Reading (Diastolic)]
 FROM
     duft.fact_duft_sentinel_event
 WHERE

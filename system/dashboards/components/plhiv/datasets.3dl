@@ -123,11 +123,11 @@
                     [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
-        {/* Clients Needing VL */}
+        {/* Clients who Missed Viral Load Test */}
 
             <SQLData
-                name="need_vl_clients_data"
-                queryName="plhiv/table/need_vl_clients"
+                name="missed_vl_clients_data"
+                queryName="plhiv/table/missed_vl_clients"
                 filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
@@ -135,14 +135,14 @@
             />
 
             <SQLData
-                name="tile_need_vl_data"
-                queryName="plhiv/tile/need_vl"
+                name="tile_missed_vl_data"
+                queryName="plhiv/tile/missed_vl"
                 filterFrom="Last Visit Date, Next Appointment Date"
             />
 
             <SQLData
-                name="need_vl_client_details_data"
-                detailsViewData="need_vl_clients_data"
+                name="missed_vl_client_details_data"
+                detailsViewData="missed_vl_clients_data"
                 detailsViewColumn="Patient ID"
                 transpose="true"
             >
@@ -283,7 +283,7 @@
                     [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
-        {/* Clients Needing Attention */}
+        {/* Clients misseding Attention */}
 
             <SQLData
                 name="score_card_data"
