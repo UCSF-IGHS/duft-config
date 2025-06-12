@@ -16,7 +16,7 @@
                         variant="plain"
                         detailsViewColumn="Patient ID"
                     >
-                        <Table data="missed_appointment_client_details_data" header="Client details" />
+                        <Table data="missed_appointment_client_details_data" header="PLHIV Client Profile" />
                     </Table>
                 </Tile>
 
@@ -29,7 +29,7 @@
                         initialColumns="Patient ID, Current Age, Sex, Last Visit Date, Last VL Test Date, Last VL Result Numeric, VL Results 50 - 999 cps/ml?, VL Results >= 1000 cps/ml?"
                         detailsViewColumn="Patient ID"
                     >
-                        <Table data="need_vl_client_details_data" header="Client details" />
+                        <Table data="need_vl_client_details_data" header="PLHIV Client Profile" />
                     </Table>
                 </Tile>
 
@@ -41,7 +41,7 @@
                         variant="plain"
                         detailsViewColumn="Patient ID"
                     >
-                        <Table data="unsuppressed_client_details_data" header="Client details" />
+                        <Table data="unsuppressed_client_details_data" header="PLHIV Client Profile" />
                     </Table>
                 </Tile>
 
@@ -53,7 +53,7 @@
                         variant="plain"
                         detailsViewColumn="Patient ID"
                     >
-                        <Table data="clhiv_nutrition_client_details_data" header="Client details" />
+                        <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
                     </Table>
                 </Tile>
 
@@ -65,7 +65,7 @@
                         variant="plain"
                         detailsViewColumn="Patient ID"
                     >
-                        <Table data="ahd_no_crag_client_details_data" header="Client details" />
+                        <Table data="ahd_no_crag_client_details_data" header="PLHIV Client Profile" />
                     </Table>
 
                 </Tile>
@@ -78,7 +78,7 @@
                         variant="plain"
                         detailsViewColumn="Patient ID"
                     >
-                        <Table data="confirmed_ahd_no_management_client_details_data" header="Client details" />
+                        <Table data="confirmed_ahd_no_management_client_details_data" header="PLHIV Client Profile" />
                     </Table>
 
                 </Tile>
