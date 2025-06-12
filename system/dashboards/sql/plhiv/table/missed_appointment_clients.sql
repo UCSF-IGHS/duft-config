@@ -13,8 +13,8 @@ SELECT
     [Last Visit Refill Type],
     [Days Missed Appointment],
     [Last Prescription Regimen Name] AS [ARV Regimen Description],
-    [Current Height(CM)] AS [Height],
-    [Current Weight(KG)] AS [Weight],
+    [Current Height (CM)],
+    [Current Weight (KG)],
     [Last BP Systolic] AS [BP Reading (Systolic)],
     [Last BP Diastolic] AS [BP Reading (Diastolic)]
 FROM

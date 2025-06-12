@@ -45,7 +45,7 @@
                     variant="plain"
                     detailsViewColumn="Patient ID"
                 >
-                <Table data="missed_appointment_client_details_data" variant="plain" header="Client details" />
+                <Table data="missed_appointment_client_details_data" variant="plain" header="PLHIV Client Profile" />
                 </Table>
             </Grid>
         </SingleLayout>
@@ -78,7 +78,7 @@
                     variant="plain"
                     detailsViewColumn="Patient ID"
                 >
-                <Table data="missed_vl_client_details_data" variant="plain" header="Client details" />
+                <Table data="missed_vl_client_details_data" variant="plain" header="PLHIV Client Profile" />
                 </Table>
             </Grid>
         </SingleLayout>
@@ -111,7 +111,7 @@
                         variant="plain"
                         detailsViewColumn="Patient ID"
                     >
-                    <Table data="unsuppressed_client_details_data" variant="plain" header="Client details" />
+                    <Table data="unsuppressed_client_details_data" variant="plain" header="PLHIV Client Profile" />
                     </Table>
                 </Grid>
             </SingleLayout>
@@ -145,7 +145,7 @@
                         variant="plain"
                         detailsViewColumn="Patient ID"
                     >
-                    <Table data="clhiv_nutrition_client_details_data" header="Client details" />
+                    <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
                     </Table>
                 </Grid>
             </SingleLayout>
@@ -213,7 +213,7 @@
                     variant="plain"
                     detailsViewColumn="Patient ID"
                 >
-                <Table data="confirmed_ahd_no_management_client_details_data" header="Client details" />
+                <Table data="confirmed_ahd_no_management_client_details_data" header="PLHIV Client Profile" />
                 </Table>
         </SingleLayout>
     </Grid>
