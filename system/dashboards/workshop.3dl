@@ -1,102 +1,133 @@
-        <Tile data="tile_iit_data" title="Clients With IIT (28-90)">
-            <Table
-                data="iit_clients_data"
-                exportData="true"
-                header="Clients With IIT (28-90)"
-                variant="plain"
-                detailsViewColumn="Patient ID"
-            >
-                <Table data="iit_client_details_data" header="Client details" />
-            </Table>
-        </Tile>
+<Datasets>
 
-        <Tile data="tile_iit_data" title="Clients With IIT (28-90)">
-            <Dashboards>
-                <Dashboard
-                    data="report_week_data"
-                    tabName="F. IIT"
-                    title="Clients with IIT (28-90 Days)"
-                    subTitle="Tabular representation of clients who had interruption in treatment."
-                    lastRefresh="Reporting Period:  %report_week_dates%"
-                >
-                    <Grid>
-                        <Table
-                            data="iit_clients_data"
-                            exportData="true"
-                            header="Clients with IIT (28-90)"
-                            subHeader="Tabular representation of clients who had interruption in treatment."
-                            variant="plain"
-                            detailsViewColumn="Patient ID"
-                        >
-                        <Table data="iit_client_details_data" header="Client details" />
-                        </Table>
-                    </Grid>
-                </Dashboard>
+    {/* Data definitions for PLHIV */}
 
-                <Dashboard
-                    data="report_week_data"
-                    tabName="D. Unsuppressed No EAC"
-                    title="Unsuppressed Clients Not Initiated on EAC"
-                    subTitle="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
-                    lastRefresh="Reporting Period:  %report_week_dates%"
-                >
-                    <Grid>
-                        <Table
-                            data="unsuppressed_clients_data"
-                            header="Unsuppressed Clients Not Initiated on EAC"
-                            subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
-                            variant="plain"
-                            detailsViewColumn="Patient ID"
-                        >
-                        <Table data="unsuppressed_client_details_data" variant="plain" header="Client details" />
-                        </Table>
-                    </Grid>
-                </Dashboard>
+        {/* IIT Clients */}
 
-                <Dashboard
-                    data="report_week_data"
-                    tabName="E. AHD Suspects no CrAg Test"
-                    title="AHD Suspect no CrAg Test Clients"
-                    subTitle="Table of clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
-                    lastRefresh="Reporting Period:  %report_week_dates%"
-                >
-                    <Grid>
-                        <Table
-                            data="ahd_no_crag_clients_data"
-                            exportData="true"
-                            header="AHD Suspect Clients"
-                            subHeader="Table of clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
-                            variant="plain"
-                            detailsViewColumn="Patient ID"
-                        >
-                        <Table data="ahd_no_crag_client_details_data" header="Client details" />
-                        </Table>
-                    </Grid>
-                </Dashboard>
+            <SQLData
+                name="iit_clients_data"
+                queryName="plhiv/table/iit_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
+                pageSize="15"
+                searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
+                sortColumn="Patient ID"
+            />
 
-            </Dashboards>
+            <SQLData name="tile_iit_data" queryName="plhiv/tile/iit" filterFrom="gender" />
 
-        </Tile>
+                pageSize="15"
+            <SQLData name="iit_client_details_data" detailsViewData="iit_clients_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            </SQLData>
 
+            <SQLData name="pie_iit_data" queryName="plhiv/visual/iit_pie" filterFrom="gender" />
 
+        {/* AHD Suspect no CrAg Test Clients */}
 
-            <Dashboard
-                data="report_week_data"
-                tabName="F. IIT"
-                title="Clients with IIT (28-90 Days)"
-                subTitle="Tabular representation of clients who had interruption in treatment."
-                lastRefresh="Reporting Period:  %report_week_dates%"
-            >
-                <Grid>
-                    <Table
-                        data="iit_clients_data"
-                        exportData="true"
-                        header="Clients with IIT (28-90)"
-                        subHeader="Tabular representation of clients who had interruption in treatment."
-                        variant="plain"
-                        detailsViewColumn="Patient ID"
-                    >
-                    <Table data="iit_client_details_data" header="Client details" />
-                    </Table>
-                </Grid>
-            </Dashboard>
+            <SQLData
+                name="ahd_no_crag_clients_data"
+                queryName="plhiv/table/ahd_no_crag_clients"
+                pageSize="15"
+                searchColumns="[Patient ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
+                sortColumn="Patient ID"
+            />
+
+            <SQLData name="tile_ahd_no_crag_data" queryName="plhiv/tile/ahd_no_crag" filterFrom="gender" />
+
+            <SQLData name="ahd_no_crag_client_details_data" detailsViewData="ahd_no_crag_clients_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            </SQLData>
+
+        {/* Confirmed AHD no Management Clients */}
+
+            <SQLData
+                name="confirmed_ahd_no_management_clients_data"
+                queryName="plhiv/table/confirmed_ahd_no_management_clients"
+                pageSize="15"
+                searchColumns="[Patient ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
+                sortColumn="Patient ID"
+            />
+
+            <SQLData name="tile_confirmed_ahd_no_management_data" queryName="plhiv/tile/confirmed_ahd_no_management" filterFrom="gender" />
+
+            <SQLData name="confirmed_ahd_no_management_client_details_data" detailsViewData="confirmed_ahd_no_management_clients_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            </SQLData>
+
+        {/* Clients Needing VL */}
+
+            <SQLData
+                name="need_vl_clients_data"
+                queryName="plhiv/table/need_vl_clients"
+                pageSize="15"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                sortColumn="Patient ID"
+            />
+
+            <SQLData name="tile_need_vl_data" queryName="plhiv/tile/need_vl" filterFrom="gender" />
+
+            <SQLData name="need_vl_client_details_data" detailsViewData="need_vl_clients_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            </SQLData>
+
+        {/* Unsuppressed Clients no EAC */}
+
+            <SQLData
+                name="unsuppressed_clients_data"
+                queryName="plhiv/table/unsuppressed_clients"
+                pageSize="15"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                sortColumn="Patient ID"
+            />
+
+            <SQLData name="tile_unsuppressed_data" queryName="plhiv/tile/unsuppressed" filterFrom="gender" />
+
+            <SQLData name="unsuppressed_client_details_data" detailsViewData="unsuppressed_clients_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            </SQLData>
+
+        {/* CLHIV Nutrition Challeenges */}
+
+            <SQLData
+                name="clhiv_nutrition_clients_data"
+                queryName="plhiv/table/clhiv_nutrition_clients"
+                pageSize="15"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                sortColumn="Patient ID"
+            />
+
+            <SQLData name="tile_clhiv_nutrition_data" queryName="plhiv/tile/clhiv_nutrition" filterFrom="gender" />
+
+            <SQLData name="clhiv_nutrition_client_details_data" detailsViewData="clhiv_nutrition_clients_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            </SQLData>
+
+        {/* Clients with Missed Appointments */}
+
+            <SQLData
+                name="missed_appointment_clients_data"
+                queryName="plhiv/table/missed_appointment_clients"
+                pageSize="15"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                sortColumn="Patient ID"
+            />
+
+            <SQLData name="tile_missed_appointment_data" queryName="plhiv/tile/missed_appointment" filterFrom="gender" />
+
+            <SQLData name="missed_appointment_client_details_data" detailsViewData="missed_appointment_clients_data" detailsViewColumn="Patient ID" transpose="true">
+                SELECT * FROM derived.dim_client WHERE ctc_id = '[[Patient ID]]'
+            </SQLData>
+
+        {/* Clients Needing Attention */}
+
+            <SQLData
+                name="score_card_data"
+                queryName="plhiv/visual/score_card"
+            />
+
+            <SQLData
+                name="cumulative_counts_data"
+                queryName="plhiv/visual/cumulative_counts"
+            />
+
+</Datasets>

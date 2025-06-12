@@ -1,4 +1,4 @@
-SELECT COUNT(*) 
+SELECT COUNT(*)
 FROM
     duft.fact_duft_hei_sentinel_event
 WHERE

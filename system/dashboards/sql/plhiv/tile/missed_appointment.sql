@@ -3,6 +3,6 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    [Last Appointment in Previous Week] = 'Yes'
+    [Last Appointment Date] <= GETDATE()
 AND
-    [Last Visit in Previous Week] = 'No'
+   [Last Visit Date] < [Last Appointment Date]

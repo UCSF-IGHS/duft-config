@@ -72,9 +72,9 @@
     },
     "test": {},
     "settings": {
-      "debug": true,
-      "oobe": true,
-      "unittest": false,
-      "show-settings": false
+        "debug": true,
+        "oobe": true,
+        "unittest": false,
+        "show-settings":false
     }
 }

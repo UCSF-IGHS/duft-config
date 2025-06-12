@@ -1,77 +1,86 @@
-<Grid>
-    <Row columns = "2" largeColumns = "3">
-        <Tile data="tile_hei_not_registered_data" title="Not Registered">
-            <Table
-                data="hei_not_registered_data"
-                exportData="true"
-                header="HEI Not Registered"
-                variant="plain"
-                detailsViewColumn="Mother Patient ID"
-            >
-            <Table data="not_registered_hei_details_data" header="HEI Client Profile" />
-        </Table>
-        </Tile>
+<SingleLayout>
+    <Grid>
+        <Header>
+            HEI Clients Needing Attention
+        </Header>
+        <SubHeader>
+            Key HIV Indicators: HEI Needing Attention
+        </SubHeader>
 
-        <Tile data="tile_hei_needing_eid_test_2_months_data" title="Missed EID Test <2 Months">
-            <Table
-                data="hei_needing_eid_test_2_months_data"
-                exportData="true"
-                header="HEI Missed EID Test <2 Months"
-                variant="plain"
-                detailsViewColumn="Mother Patient ID"
-            >
-            <Table data="needing_eid_test_2_months_hei_details_data" header="HEI Client Profile" />
-        </Table>
-        </Tile>
+        <Row columns = "2" largeColumns = "3">
+            <Tile data="tile_hei_not_registered_data" title="Not Registered">
+                <Table
+                    data="hei_not_registered_data"
+                    exportData="true"
+                    header="HEI Not Registered"
+                    variant="plain"
+                    detailsViewColumn="Mother Patient ID"
+                >
+                <Table data="not_registered_hei_details_data" header="HEI details" />
+            </Table>
+            </Tile>
 
-        <Tile data="tile_hei_needing_eid_test_9_months_data" title="Missed EID Test 9 Mo+">
-            <Table
-                data="hei_needing_eid_test_9_months_data"
-                exportData="true"
-                header="HEI Missed EID Test 9 Months"
-                variant="plain"
-                detailsViewColumn="Mother Patient ID"
-            >
-            <Table data="needing_eid_test_9_months_hei_details_data" header="HEI Client Profile" />
-        </Table>
-        </Tile>
-    
-        <Tile data="tile_hei_risk_analysis_data" title="Misclassified High Risk HEI">
-            <Table
-                data="hei_risk_analysis_data"
-                exportData="true"
-                header="Misclassified High Risk HEI"
-                variant="plain"
-                detailsViewColumn="Mother Patient ID"
-            >
-            <Table data="risk_analysis_hei_details_data" header="HEI Client Profile" />
-        </Table>
-        </Tile>
+            <Tile data="tile_hei_needing_eid_test_2_months_data" title="Missed EID Test &lt;2 Months">
+                <Table
+                    data="hei_needing_eid_test_2_months_data"
+                    exportData="true"
+                    header="HEI Missed EID Test &lt;2 Months"
+                    variant="plain"
+                    detailsViewColumn="Mother Patient ID"
+                >
+                <Table data="needing_eid_test_2_months_hei_details_data" header="HEI details" />
+            </Table>
+            </Tile>
 
-        <Tile data="tile_hei_without_fo_data" title="18-24 Months Without FO">
-            <Table
-                data="hei_without_fo_data"
-                exportData="true"
-                header="HEI 18-24 Months Without FO"
-                variant="plain"
-                detailsViewColumn="Mother Patient ID"
-            >
-            <Table data="without_fo_hei_details_data" header="HEI Client Profile" />
-        </Table>
-        </Tile>
+            <Tile data="tile_hei_needing_eid_test_9_months_data" title="Missed EID Test 9 Mo+">
+                <Table
+                    data="hei_needing_eid_test_9_months_data"
+                    exportData="true"
+                    header="HEI Missed EID Test 9 Months"
+                    variant="plain"
+                    detailsViewColumn="Mother Patient ID"
+                >
+                <Table data="needing_eid_test_9_months_hei_details_data" header="HEI details" />
+            </Table>
+            </Tile>
 
-        <Tile data="tile_hei_pos_not_initiated_data" title="HEI_Pos Not on ART">
-            <Table
-                data="hei_pos_not_initiated_data"
-                exportData="true"
-                header="HEI POS Not Initiated on ART"
-                variant="plain"
-                detailsViewColumn="Mother Patient ID"
-            >
-            <Table data="pos_not_initiated_hei_details_data" header="HEI Client Profile" />
-        </Table>
-        </Tile>
+            <Tile data="tile_hei_risk_analysis_data" title="Misclassified High Risk HEI">
+                <Table
+                    data="hei_risk_analysis_data"
+                    exportData="true"
+                    header="Misclassified High Risk HEI"
+                    variant="plain"
+                    detailsViewColumn="Mother Patient ID"
+                >
+                <Table data="risk_analysis_hei_details_data" header="HEI details" />
+            </Table>
+            </Tile>
 
-    </Row>
+            <Tile data="tile_hei_without_fo_data" title="18-24 Months Without FO">
+                <Table
+                    data="hei_without_fo_data"
+                    exportData="true"
+                    header="HEI 18-24 Months Without FO"
+                    variant="plain"
+                    detailsViewColumn="Mother Patient ID"
+                >
+                <Table data="without_fo_hei_details_data" header="HEI details" />
+            </Table>
+            </Tile>
 
-</Grid>
+            <Tile data="tile_hei_pos_not_initiated_data" title="HEI_Pos Not on ART">
+                <Table
+                    data="hei_pos_not_initiated_data"
+                    exportData="true"
+                    header="HEI POS Not Initiated on ART"
+                    variant="plain"
+                    detailsViewColumn="Mother Patient ID"
+                >
+                <Table data="pos_not_initiated_hei_details_data" header="HEI details" />
+            </Table>
+            </Tile>
+
+        </Row>
+
+    </Grid>
+</SingleLayout>

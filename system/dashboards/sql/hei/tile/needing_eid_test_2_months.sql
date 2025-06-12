@@ -3,7 +3,7 @@ SELECT
 FROM
     duft.fact_duft_hei_sentinel_event
 WHERE
-  (
+    (
         (
             [HEI Eligible for DNA PCR at Birth] = 'Yes'
             AND [DNA PCR at Birth Sample Collection Date] IS NULL

@@ -14,22 +14,8 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    (
-        [Last Appointment in Previous Week] = 'Yes' AND 
-        (
-            ([Last VL Is Unsuppressed] = 'Yes' AND [Last Date Initiated EAC] IS NULL)
-            OR 
-            ([Last VL Is Unsuppressed] = 'Yes' AND [Last Date Initiated EAC] < [Last VL Result Date])
-        )
+    [Last VL Is Unsuppressed] = 'Yes'
+    AND (
+        [Last Date Initiated EAC] IS NULL
+        OR [Last Date Initiated EAC] < [Last VL Result Date]
     )
-    OR
-    (
-        [Last VL Result in Previous Week] = 'Yes' AND 
-        (
-            ([Last VL Is Unsuppressed] = 'Yes' AND [Last Date Initiated EAC] IS NULL)
-            OR 
-            ([Last VL Is Unsuppressed] = 'Yes' AND [Last Date Initiated EAC] < [Last VL Result Date])
-        )
-    )
-ORDER BY
-    [Patient ID] ASC

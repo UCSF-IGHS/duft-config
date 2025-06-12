@@ -18,5 +18,3 @@ WHERE
     )
 AND
     ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
-ORDER BY
-    [Patient ID]

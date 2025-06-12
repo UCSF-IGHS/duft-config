@@ -4,6 +4,7 @@ SELECT
     [Date Mother Start ART],
     [Last Visit Date],
     [Due Date],
+    [Date of Birth],
     [Date of Delivery],
     [HEI Current Age in Weeks]
 FROM
@@ -14,5 +15,3 @@ AND
     [HEI Registered] = 'No'
 AND
     ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
-ORDER BY
-    [Patient ID]

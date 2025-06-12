@@ -25,5 +25,3 @@ AND
     [Misclassified High Risk HEI] = 'Yes'
 AND
     ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
-ORDER BY
-    [Patient ID]

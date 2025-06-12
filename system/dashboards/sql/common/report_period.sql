@@ -1,1 +1,0 @@
- SELECT CONCAT('Previous Week (', previous_week_dates, ')') AS report_week_dates FROM duft.dim_reporting_week;

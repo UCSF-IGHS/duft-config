@@ -21,5 +21,3 @@ WHERE
     )
     AND ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
     AND [HEI Current Age in Months] = 9
-ORDER BY
-    [Patient ID]
