@@ -119,7 +119,7 @@
 
     <Dashboard
         data="metadata"
-        tabName="E. CLHIV Nutrition Challenges"
+        tabName="E. CLHIV Without Height and Weight"
         title="%facility_name%"
         lastRefresh="Reporting Period: %report_week_dates%"
     >
@@ -131,7 +131,7 @@
         <SingleLayout>
             <Grid>
                 <Header>
-                    Children Living with HIV (CLHIV) Nutrition Challenges
+                    Children Living with HIV (CLHIV) Without Height and Weight
                 </Header>
                 <SubHeader>
                     CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status.
@@ -139,7 +139,7 @@
                     <Table
                         data="clhiv_nutrition_clients_data"
                         exportData="true"
-                        header="hildren Living with HIV (CLHIV) Nutrition Challenges"
+                        header="Children Living with HIV (CLHIV) Without Height and Weight"
                         subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
                         exportData="true"
                         variant="plain"
