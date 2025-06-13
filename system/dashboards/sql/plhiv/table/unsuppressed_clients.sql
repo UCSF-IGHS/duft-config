@@ -10,7 +10,15 @@ SELECT
     [Last VL Test Date] AS [VL Test Date Before Start EAC],
     [Last VL Result Numeric] AS [VL Result Before Start EAC],
     [Last VL Result Date] AS [VL Result Return Date],
-    [Last Date Initiated EAC] AS [Previous Date Initiated EAC]
+    [Last Date Initiated EAC] AS [Previous Date Initiated EAC],
+    [Last Visit Type],
+    [Last Visit Refill Type],
+    [Days Missed Appointment],
+    [Last Prescription Regimen Name] AS [ARV Regimen Description],
+    [Current Height (CM)],
+    [Current Weight (KG)],
+    [Last BP Systolic] AS [BP Reading (Systolic)],
+    [Last BP Diastolic] AS [BP Reading (Diastolic)]
 FROM
     duft.fact_duft_sentinel_event
 WHERE
