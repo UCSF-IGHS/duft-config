@@ -3,7 +3,6 @@
     "appName": "DUFT (configurable)",
     "footer": "Configurable footer text",
     "custom": "Custom setting",
-    "version": "1.0.0",
     "logoURL": "https://duft.app/logo.png",
     "repository": "github.com/duftapp/duft-basic-3dl",
     "credits": {
