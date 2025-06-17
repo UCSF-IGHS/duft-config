@@ -1,0 +1,2 @@
+
+SELECT datim_agegroup as category, COUNT(DISTINCT c.client_id) as value FROM (SELECT * FROM mamba_fact_sentinel_event WHERE first_art_date IS NOT NULL) e INNER JOIN mamba_dim_client c ON e.client_id=c.client_id LEFT JOIN mamba_dim_agegroup ag ON ag.age = c.current_age  GROUP BY datim_agegroup

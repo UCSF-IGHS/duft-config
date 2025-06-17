@@ -1,0 +1,4 @@
+SELECT DISTINCT YEAR(full_date) AS year
+FROM mamba_dim_date
+WHERE YEAR(full_date) BETWEEN 2011 AND YEAR(CURDATE())
+ORDER BY year DESC;

@@ -89,7 +89,7 @@
         "legend": {
           "show": false
         },
-        "colors": ["#90b4a6", "#779b52", "#17a2b8", "#f8f9fa"]
+        "colors": ["#C00080", "#0000CD", "#FFA500", "#00A550"]
       },
       "mantine-react-table": {},
       "pivot-table": {},

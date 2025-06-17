@@ -1,2 +1,2 @@
-SELECT DISTINCT gender
+SELECT DISTINCT gender as gender
 FROM mamba_dim_client
