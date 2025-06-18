@@ -531,4 +531,19 @@
       />
     </Grid>
   </Dashboard>
+   <Dashboard data="current_date_data" tabName="Forms" title="Physical Exams Form" subTitle="Fill out this form to collect physical examination information" lastRefresh="">
+    <Grid>
+      <Row columns='1'>
+        <Form saveTo="physical-exams">
+          <Text id="patient_id" field_name="Patient ID" />
+          <Text id="temperature" field_name="Temperature" />
+          <Text id="blood_pressure" field_name="Blood Pressure" />
+          <Number id="heart_rate" field_name="Heart Rate" />
+          <Text id="general_condition" field_name="General Condition" />
+          <Number id="examined_by" field_name="Examinor" />
+          <Text id="notes" field_name="Notes" />
+        </Form>
+      </Row>
+    </Grid>
+  </Dashboard>
 </Dashboards>;
