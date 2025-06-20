@@ -7,12 +7,12 @@
     <Dashboard
         data="metadata"
         tabName="A. Overview"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
         </Filters>
 
         <Include file="components/plhiv/overview.3dl" />
@@ -21,12 +21,12 @@
     <Dashboard
         data="metadata"
         tabName="B. Missed Appointments"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
         </Filters>
 
         <SingleLayout>
@@ -55,12 +55,12 @@
     <Dashboard
         data="metadata"
         tabName="C. Missed Viral Load"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
         </Filters>
 
         <SingleLayout>
@@ -89,12 +89,12 @@
     <Dashboard
         data="metadata"
         tabName="D. Unsuppressed No EAC"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
         </Filters>
 
         <SingleLayout>
@@ -123,12 +123,12 @@
     <Dashboard
         data="metadata"
         tabName="E. CLHIV Without Height and Weight"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
         </Filters>
 
         <SingleLayout>
@@ -157,12 +157,12 @@
     <Dashboard
         data="metadata"
         tabName="F. AHD Suspects no CrAg Test"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
         </Filters>
 
         <SingleLayout>
@@ -191,12 +191,12 @@
    <Dashboard
         data="metadata"
         tabName="G. Confirmed AHD no Management"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
         </Filters>
 
             <Grid>

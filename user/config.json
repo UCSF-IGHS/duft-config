@@ -75,6 +75,7 @@
         "debug": true,
         "oobe": true,
         "unittest": false,
-        "show-settings":false
+        "show-settings": false,
+        "show-visual-builder": false
     }
 }

@@ -1,7 +1,8 @@
-SELECT
-    CONCAT('Previous Week (', drw.previous_week_dates, ')') AS report_week_dates,
-    cfg.FacilityBiomServer AS facility_name
+SELECT TOP 1
+    CASE WHEN MIN([Next Appointment Date]) IS NOT NULL THEN CONCAT(MIN([Next Appointment Date]), ' to ',
+    MAX([Next Appointment Date])) END AS date_range,
+    MAX(cfg.HFRCode) AS hfr_code
 FROM
-    duft.dim_reporting_week drw
+    duft.fact_duft_sentinel_event
 CROSS JOIN
-    ctc_a_source.dbo.tblConfig cfg;
+    ctc_a_source.dbo.tblConfig cfg
