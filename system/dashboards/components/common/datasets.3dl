@@ -6,6 +6,8 @@
 
         <SQLData name="current_date_data" queryName="common/current_date" />
 
-        <SQLData name="metadata" queryName="common/metadata" />
+        <SQLData name="metadata" queryName="common/metadata" filterFrom="Next Appointment Date" />
+
+        <SQLData name="date_range_data" queryName="common/date_range" filterFrom="Next Appointment Date" />
 
 </Datasets>

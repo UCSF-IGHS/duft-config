@@ -7,8 +7,8 @@
     <Dashboard
         data="metadata"
         tabName="A. Overview"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
         <Include file="components/hei/overview.3dl" />
     </Dashboard>
@@ -16,8 +16,8 @@
     <Dashboard
         data="metadata"
         tabName="B. Not Registered"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
@@ -48,8 +48,8 @@
     <Dashboard
         data="metadata"
         tabName="C. Missed EID Test &lt;2 Months"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
@@ -80,8 +80,8 @@
     <Dashboard
         data="metadata"
         tabName="D. Missed EID Test 9 Mo+"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
@@ -112,8 +112,8 @@
     <Dashboard
         data="metadata"
         tabName="E. Misclassified High Risk HEI"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <SingleLayout>
@@ -141,8 +141,8 @@
     <Dashboard
         data="metadata"
         tabName="F. 18-24 Months Without FO"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
@@ -173,8 +173,8 @@
     <Dashboard
         data="metadata"
         tabName="G. HEI_Pos Not on ART"
-        title="%facility_name%"
-        lastRefresh="Reporting Period: %report_week_dates%"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
