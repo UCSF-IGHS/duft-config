@@ -24,7 +24,6 @@ FROM
 WHERE
     (
         [CrAg Test Results] = 'Pos'
-        AND [Crag Test Within 30 Days] = 'Yes'
         AND (
             [CI Received Cryptococcal Prophylaxis] = 'No'
             OR [CM Received Cryptococcal Treatment] = 'No'
