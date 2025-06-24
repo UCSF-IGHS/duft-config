@@ -25,6 +25,8 @@
 
         <SingleLayout>
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <Header>
                     HEI Not Registered
                 </Header>
@@ -57,6 +59,8 @@
 
         <SingleLayout>
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <Header>
                     HEI Missed EID Test &lt;2 Months
                 </Header>
@@ -89,6 +93,8 @@
 
         <SingleLayout>
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <Header>
                     HEI Missed EID Test 9 Months
                 </Header>
@@ -118,6 +124,8 @@
 
         <SingleLayout>
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <Header>
                     Misclassified High Risk HEI
                 </Header>
@@ -150,6 +158,8 @@
 
         <SingleLayout>
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <Header>
                     HEI 18-24 Months Without FO
                 </Header>
@@ -182,6 +192,8 @@
 
         <SingleLayout>
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <Header>
                     HEI_POS Not Initiated on ART
                 </Header>

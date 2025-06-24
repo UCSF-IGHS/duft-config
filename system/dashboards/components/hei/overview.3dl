@@ -1,5 +1,7 @@
 <SingleLayout>
     <Grid>
+        <HtmlSnippet url="/config/html-snippets/banner.html" />
+
         <Header>
             HEI Clients Needing Attention
         </Header>

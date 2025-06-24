@@ -1,5 +1,7 @@
 <SingleLayout>
     <Grid>
+        <HtmlSnippet url="/config/html-snippets/banner.html" />
+
         <Header>
             PLHIV Clients Needing Attention
         </Header>
@@ -8,87 +10,88 @@
         </SubHeader>
 
         <Row columns = "12" largeColumns = "3">
-                <Tile data="tile_missed_appointment_data" title="Missed Appointments">
-                    <Table
-                        data="missed_appointment_clients_data"
-                        exportData="true"
-                        header="Clients with Missed Appointments"
-                        variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/ Breastfeeding"
-                        detailsViewColumn="Patient ID"
-                    >
-                        <Table data="missed_appointment_client_details_data" header="PLHIV Client Profile" />
-                    </Table>
-                </Tile>
 
-                <Tile data="tile_missed_vl_data" title="Missed Viral Load">
-                    <Table
-                        data="missed_vl_clients_data"
-                        exportData="true"
-                        header="Clients Who Missed Viral Load"
-                        variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/ Breastfeeding"
-                        detailsViewColumn="Patient ID"
-                    >
-                        <Table data="missed_vl_client_details_data" header="PLHIV Client Profile" />
-                    </Table>
-                </Tile>
+            <Tile data="tile_missed_appointment_data" title="Missed Appointments">
+                <Table
+                    data="missed_appointment_clients_data"
+                    exportData="true"
+                    header="Clients with Missed Appointments"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/ Breastfeeding"
+                    detailsViewColumn="Patient ID"
+                >
+                    <Table data="missed_appointment_client_details_data" header="PLHIV Client Profile" />
+                </Table>
+            </Tile>
 
-                <Tile data="tile_unsuppressed_data" title="Unsuppressed no EAC">
-                    <Table
-                        data="unsuppressed_clients_data"
-                        exportData="true"
-                        header="Unsuppressed Clients Not Initiated on EAC"
-                        variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, ARV Regimen"
-                        detailsViewColumn="Patient ID"
-                    >
-                        <Table data="unsuppressed_client_details_data" header="PLHIV Client Profile" />
-                    </Table>
-                </Tile>
+            <Tile data="tile_missed_vl_data" title="Missed Viral Load">
+                <Table
+                    data="missed_vl_clients_data"
+                    exportData="true"
+                    header="Clients Who Missed Viral Load"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/ Breastfeeding"
+                    detailsViewColumn="Patient ID"
+                >
+                    <Table data="missed_vl_client_details_data" header="PLHIV Client Profile" />
+                </Table>
+            </Tile>
 
-                <Tile data="tile_clhiv_nutrition_data" title="CLHIV Nutrition Challenges">
-                    <Table
-                        data="clhiv_nutrition_clients_data"
-                        exportData="true"
-                        header="Children Living with HIV (CLHIV) Nutrition Challenges"
-                        variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date"
-                        detailsViewColumn="Patient ID"
-                    >
-                        <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
-                    </Table>
-                </Tile>
+            <Tile data="tile_unsuppressed_data" title="Unsuppressed no EAC">
+                <Table
+                    data="unsuppressed_clients_data"
+                    exportData="true"
+                    header="Unsuppressed Clients Not Initiated on EAC"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, ARV Regimen"
+                    detailsViewColumn="Patient ID"
+                >
+                    <Table data="unsuppressed_client_details_data" header="PLHIV Client Profile" />
+                </Table>
+            </Tile>
 
-                <Tile data="tile_ahd_no_crag_data" title="AHD Suspects no CrAg Test">
-                    <Table
-                        data="ahd_no_crag_clients_data"
-                        exportData="true"
-                        header="AHD Suspect Clients"
-                        variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, TX NEW, WHO Stage 3/4 (Yes/No)"
-                        detailsViewColumn="Patient ID"
-                    >
-                        <Table data="ahd_no_crag_client_details_data" header="PLHIV Client Profile" />
-                    </Table>
+            <Tile data="tile_clhiv_nutrition_data" title="CLHIV Nutrition Challenges">
+                <Table
+                    data="clhiv_nutrition_clients_data"
+                    exportData="true"
+                    header="Children Living with HIV (CLHIV) Nutrition Challenges"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date"
+                    detailsViewColumn="Patient ID"
+                >
+                    <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
+                </Table>
+            </Tile>
 
-                </Tile>
+            <Tile data="tile_ahd_no_crag_data" title="AHD Suspects no CrAg Test">
+                <Table
+                    data="ahd_no_crag_clients_data"
+                    exportData="true"
+                    header="AHD Suspect Clients"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, TX NEW, WHO Stage 3/4 (Yes/No)"
+                    detailsViewColumn="Patient ID"
+                >
+                    <Table data="ahd_no_crag_client_details_data" header="PLHIV Client Profile" />
+                </Table>
 
-                <Tile data="tile_confirmed_ahd_no_management_data" title="Confirmed AHD no Management">
-                    <Table
-                        data="confirmed_ahd_no_management_clients_data"
-                        exportData="true"
-                        header="Clients with Confirmed AHD and no Management"
-                        variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, CrAg Test Date"
-                        detailsViewColumn="Patient ID"
-                    >
-                        <Table data="confirmed_ahd_no_management_client_details_data" header="PLHIV Client Profile" />
-                    </Table>
+            </Tile>
 
-                </Tile>
+            <Tile data="tile_confirmed_ahd_no_management_data" title="Confirmed AHD no Management">
+                <Table
+                    data="confirmed_ahd_no_management_clients_data"
+                    exportData="true"
+                    header="Clients with Confirmed AHD and no Management"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, CrAg Test Date"
+                    detailsViewColumn="Patient ID"
+                >
+                    <Table data="confirmed_ahd_no_management_client_details_data" header="PLHIV Client Profile" />
+                </Table>
 
-            </Row>
+            </Tile>
+
+        </Row>
 
     </Grid>
 </SingleLayout>

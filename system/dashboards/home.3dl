@@ -31,6 +31,8 @@
 
         <SingleLayout>
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <Header>
                     Clients With Missed Appointments
                 </Header>
@@ -65,6 +67,8 @@
 
         <SingleLayout>
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <Header>
                     Clients Who Missed Viral Load Test
                 </Header>
@@ -99,6 +103,8 @@
 
         <SingleLayout>
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <Header>
                     Unsuppressed Clients Not Initiated on EAC
                 </Header>
@@ -133,6 +139,8 @@
 
         <SingleLayout>
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <Header>
                     Children Living with HIV (CLHIV) Without Height and Weight
                 </Header>
@@ -167,6 +175,8 @@
 
         <SingleLayout>
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <Header>
                     AHD Suspect no CrAg Test Clients
                 </Header>
@@ -200,6 +210,8 @@
         </Filters>
 
             <Grid>
+                <HtmlSnippet url="/config/html-snippets/banner.html" />
+
                 <SingleLayout>
                     <Header>
                     Clients with Confirmed AHD and no Management
@@ -218,8 +230,8 @@
                 >
                 <Table data="confirmed_ahd_no_management_client_details_data" header="PLHIV Client Profile" />
                 </Table>
-        </SingleLayout>
-    </Grid>
-</Dashboard>
+            </SingleLayout>
+        </Grid>
+    </Dashboard>
 
 </Dashboards>
