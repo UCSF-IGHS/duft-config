@@ -1,24 +1,24 @@
 <SingleLayout>
     <Grid>
         <Header>
-            PLHIV Clients Needing Attention
+            Clients Eligible Next Week
         </Header>
         <SubHeader>
-            Key HIV Indicators: Needing Attention
+            Key HIV Indicators: Planning for Next Week
         </SubHeader>
 
         <Row columns = "12" largeColumns = "3">
 
-            <Tile data="tile_missed_appointment_data" title="Missed Appointments">
+            <Tile data="tile_hvl_data" title="Eligible for HVL">
                 <Table
-                    data="missed_appointment_clients_data"
+                    data="hvl_clients_data"
                     exportData="true"
-                    header="Clients with Missed Appointments"
+                    header="Clients Eligible for HIV Viral Load"
                     variant="plain"
                     initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/ Breastfeeding"
                     detailsViewColumn="Patient ID"
                 >
-                    <Table data="missed_appointment_client_details_data" header="PLHIV Client Profile" />
+                    <Table data="hvl_client_details_data" header="PLHIV Client Profile" />
                 </Table>
             </Tile>
 

@@ -4,26 +4,222 @@
 
     <Include file="components/plhiv/datasets.3dl" />
 
-    <Include file="components/hei/datasets.3dl" />
-
     <Dashboard
-        data="report_week_data"
-        tabName="A. PLHIV"
-        title="Clients Needing Attention"
-        subTitle="Key HIV Indicators: Needing Attention"
-        lastRefresh="Reporting Period:  %date_range%"
+        data="metadata"
+        tabName="A. Overview"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+        </Filters>
+
         <Include file="components/plhiv/overview.3dl" />
     </Dashboard>
 
     <Dashboard
-        data="report_week_data"
-        tabName="B. HEI"
-        title="HEI Needing Attention"
-        subTitle="Key HIV Indicators: Needing Attention"
-        lastRefresh="Reporting Period:  %date_range%"
+        data="metadata"
+        tabName="B. Missed Appointments"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
     >
-        <Include file="components/hei/overview.3dl" />
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    Clients With Missed Appointments
+                </Header>
+                <SubHeader>
+                    Table of clients who had appointments last week but did not attend.
+                </SubHeader>
+                <Table
+                    data="missed_appointment_clients_data"
+                    header="Clients With Missed Appointments"
+                    subHeader="Table of clients missed appointments last week."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/ Breastfeeding, Last Viral Load High(>1000cps/ml, Last Visit Type, Last Visit Refill Type"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="missed_appointment_client_details_data" variant="plain" header="PLHIV Client Profile" />
+                </Table>
+            </Grid>
+        </SingleLayout>
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="C. Missed Viral Load"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    Clients Who Missed Viral Load Test
+                </Header>
+                <SubHeader>
+                    Table of Eligible PLHIV who had appointment last week but missed their viral load test (both who attended and not attended).
+                </SubHeader>
+                <Table
+                    data="missed_vl_clients_data"
+                    header="Clients Who Missed Viral Load Test"
+                    subHeader="Table of clients who missed viral load test."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Now Pregnant/ Breastfeeding, Last VL Test Date, Last VL Result, VL Eligible PBFW, VL Eligible TX_CURR, VL Eligible TX_NEW"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="missed_vl_client_details_data" variant="plain" header="PLHIV Client Profile" />
+                </Table>
+            </Grid>
+        </SingleLayout>
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="D. Unsuppressed No EAC"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    Unsuppressed Clients Not Initiated on EAC
+                </Header>
+                <SubHeader>
+                    PLHIV with high viral (&gt;1000cp/ml) who had appointment last week (both attended and not attended) or high viral load results returned last week but not initiated on EAC.
+                </SubHeader>
+                    <Table
+                        data="unsuppressed_clients_data"
+                        header="Unsuppressed Clients Not Initiated on EAC"
+                        subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
+                        exportData="true"
+                        variant="plain"
+                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, ARV Regimen, Now Pregnant/ Breastfeeding, VL Test Date Before Start EAC, VL Test Result Before Start EAC,VL Result Return Date"
+                        detailsViewColumn="Patient ID"
+                    >
+                    <Table data="unsuppressed_client_details_data" variant="plain" header="PLHIV Client Profile" />
+                    </Table>
+                </Grid>
+            </SingleLayout>
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="E. CLHIV Without Height and Weight"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    Children Living with HIV (CLHIV) Without Height and Weight
+                </Header>
+                <SubHeader>
+                    CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status.
+                </SubHeader>
+                    <Table
+                        data="clhiv_nutrition_clients_data"
+                        header="Children Living with HIV (CLHIV) Without Height and Weight"
+                        subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
+                        exportData="true"
+                        variant="plain"
+                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Documented Nutritional Status, Calculated Nutritional Status, Documented and Calculated Status Match, Last Visit Type, Last Visit Refill Type"
+                        detailsViewColumn="Patient ID"
+                    >
+                    <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
+                    </Table>
+                </Grid>
+            </SingleLayout>
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="F. AHD Suspects no CrAg Test"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    AHD Suspect no CrAg Test Clients
+                </Header>
+                <SubHeader>
+                    PLHIV who had appointment last week, confirmed AHD suspect but were not tested for Crag (both attended and not attended).
+                </SubHeader>
+                <Table
+                    data="ahd_no_crag_clients_data"
+                    header="AHD Suspect Clients"
+                    subHeader="Clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, TX_NEW, WHO Stage 3/4 (Yes/No), Traced Back After LTFU (TX_RTT), Persistent High VL After EAC, Last CD4 Test Date, Last CD4 Test Result"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="ahd_no_crag_client_details_data" header="PLHIV Client Profile" />
+                </Table>
+            </Grid>
+        </SingleLayout>
+    </Dashboard>
+
+   <Dashboard
+        data="metadata"
+        tabName="G. Confirmed AHD no Management"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+        </Filters>
+
+            <Grid>
+                <SingleLayout>
+                    <Header>
+                    Clients with Confirmed AHD and no Management
+                </Header>
+                <SubHeader>
+                    PLHIV who were Positive for CrAg  and had appointment last week (both attended and not attended) or had Positive CrAg results returned last week but were not initiated on either prophylaxis or treatment.
+                </SubHeader>
+                <Table
+                    data="confirmed_ahd_no_management_clients_data"
+                    header="Clients with Confirmed AHD and no Management"
+                    subHeader="Confirmed AHD clients with positive CrAg test and no follow-up for prophylaxis or treatment."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, CrAg Test Date, CrAg Test Results, Has Cryptococcal Infection, Has Cryptococcal Meningitis"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="confirmed_ahd_no_management_client_details_data" header="PLHIV Client Profile" />
+                </Table>
+            </SingleLayout>
+        </Grid>
     </Dashboard>
 
 </Dashboards>

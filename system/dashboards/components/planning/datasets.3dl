@@ -1,0 +1,48 @@
+<Datasets>
+
+    {/* Data definitions for Planning */}
+
+        {/* HVL Eligible Clients */}
+
+            <SQLData
+                name="hvl_clients_data"
+                queryName="planning/table/hvl_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
+                pageSize="15"
+                searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
+                sortColumn="Patient ID"
+            />
+
+            <SQLData
+                name="tile_hvl_data"
+                queryName="planning/tile/hvl"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
+
+            <SQLData
+                name="hvl_client_details_data"
+                detailsViewData="hvl_clients_data"
+                detailsViewColumn="Patient ID"
+                transpose="true"
+            >
+                SELECT
+                    [Patient ID],
+                    [Date of Birth],
+                    [Sex],
+                    [HIV Diagnosis Date] AS [Date Confirmed HIV],
+                    [Date Start ART],
+                    [Marital Status],
+                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
+                    [Pregnancy Due Date],
+                    [Last VL Result Numeric] AS [Last Viral Load]
+                FROM
+                    duft.fact_duft_sentinel_event
+                WHERE
+                    [Patient ID] = '[[Patient ID]]'
+            </SQLData>
+
+        {/* AHD Suspect no CrAg Test Clients */}
+
+
+</Datasets>
