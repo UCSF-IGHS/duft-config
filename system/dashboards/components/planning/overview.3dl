@@ -13,80 +13,78 @@
                 <Table
                     data="hvl_clients_data"
                     exportData="true"
-                    header="Clients Eligible for HIV Viral Load"
+                    header="Clients Eligible for HIV Viral Load Test"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/ Breastfeeding"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, VL Eligible Date, Eligible for HVL Next Week"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="hvl_client_details_data" header="PLHIV Client Profile" />
                 </Table>
             </Tile>
 
-            <Tile data="tile_missed_vl_data" title="Missed Viral Load">
+            <Tile data="tile_eac_data" title="Eligible for EAC">
                 <Table
-                    data="missed_vl_clients_data"
+                    data="eac_clients_data"
                     exportData="true"
-                    header="Clients Who Missed Viral Load"
+                    header="Clients Eligible for EAC (with High VL Results)"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/ Breastfeeding"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for EAC Date, Eligible for EAC Next Week"
                     detailsViewColumn="Patient ID"
                 >
-                    <Table data="missed_vl_client_details_data" header="PLHIV Client Profile" />
+                    <Table data="eac_client_details_data" header="PLHIV Client Profile" />
                 </Table>
             </Tile>
 
-            <Tile data="tile_unsuppressed_data" title="Unsuppressed no EAC">
+            <Tile data="tile_cd4_data" title="Eligible for CD4">
                 <Table
-                    data="unsuppressed_clients_data"
+                    data="cd4_clients_data"
                     exportData="true"
-                    header="Unsuppressed Clients Not Initiated on EAC"
+                    header="Clients Eligible for CD4 Test"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, ARV Regimen"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CD4 Date, Eligible for CD4 Next Week"
                     detailsViewColumn="Patient ID"
                 >
-                    <Table data="unsuppressed_client_details_data" header="PLHIV Client Profile" />
+                    <Table data="cd4_client_details_data" header="PLHIV Client Profile" />
                 </Table>
             </Tile>
 
-            <Tile data="tile_clhiv_nutrition_data" title="CLHIV Nutrition Challenges">
+            <Tile data="tile_crag_data" title="Eligible for CrAg">
                 <Table
-                    data="clhiv_nutrition_clients_data"
+                    data="crag_clients_data"
                     exportData="true"
-                    header="Children Living with HIV (CLHIV) Nutrition Challenges"
+                    header="Clients Eligible for CrAg Test"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CrAg Date, Eligible for CrAg Next Week"
                     detailsViewColumn="Patient ID"
                 >
-                    <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
+                    <Table data="crag_client_details_data" header="PLHIV Client Profile" />
                 </Table>
             </Tile>
 
-            <Tile data="tile_ahd_no_crag_data" title="AHD Suspects no CrAg Test">
+            <Tile data="tile_cpet_data" title="Eligible for CPeT">
                 <Table
-                    data="ahd_no_crag_clients_data"
+                    data="cpet_clients_data"
                     exportData="true"
-                    header="AHD Suspect Clients"
+                    header="Clients Eligible for Cryptococcal Pre-emptive Therapy"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, TX NEW, WHO Stage 3/4 (Yes/No)"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CPeT Date, Eligible for CPeT Next Week"
                     detailsViewColumn="Patient ID"
                 >
-                    <Table data="ahd_no_crag_client_details_data" header="PLHIV Client Profile" />
+                    <Table data="cpet_client_details_data" header="PLHIV Client Profile" />
                 </Table>
-
             </Tile>
 
-            <Tile data="tile_confirmed_ahd_no_management_data" title="Confirmed AHD no Management">
+            <Tile data="tile_cmt_data" title="Eligible for CMT">
                 <Table
-                    data="confirmed_ahd_no_management_clients_data"
+                    data="cmt_clients_data"
                     exportData="true"
-                    header="Clients with Confirmed AHD and no Management"
+                    header="Clients Eligible for Cryptococcal Treatment"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, CrAg Test Date"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CMT Date, Eligible for CMT Next Week"
                     detailsViewColumn="Patient ID"
                 >
-                    <Table data="confirmed_ahd_no_management_client_details_data" header="PLHIV Client Profile" />
+                    <Table data="cmt_client_details_data" header="PLHIV Client Profile" />
                 </Table>
-
             </Tile>
 
         </Row>

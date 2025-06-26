@@ -5,13 +5,13 @@ SELECT
     [Date Start ART],
     [Last Visit Date],
     [Next Appointment Date],
-    [Documented Nutritional Status],
-    [Calculated Nutritional Status],
-    [Documented and Calculated Nutritional Status Match],
+    [Last VL Test Date],
+    [Last VL Result Numeric] AS [Last VL Result],
     [Last Visit Type],
     [Last Visit Refill Type],
-    [Days Missed Appointment],
     [Last Prescription Regimen Name] AS [ARV Regimen Description],
+    [Became Eligible for EAC Date],
+    [Eligible for EAC Next Week],
     [Current Height (CM)],
     [Current Weight (KG)],
     [Last BP Systolic] AS [BP Reading (Systolic)],
@@ -19,11 +19,4 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    [Current Age] < 5
-    AND
-        (
-            [Current Weight (KG)] IS NULL
-            OR [Current Height (CM)] IS NULL
-            OR [Documented Nutritional Status] IS NULL
-            OR [Documented and Calculated Nutritional Status Match] = 'No'
-        )
+    [Eligible for EAC Next Week] = 'Yes'

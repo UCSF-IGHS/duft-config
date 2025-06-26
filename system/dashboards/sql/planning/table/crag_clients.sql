@@ -1,18 +1,17 @@
 SELECT
-    DISTINCT
     [Patient ID],
     [Current Age],
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Number of Days Dispensed],
-    [Next Appointment Date] AS [Missed Appointment Date],
-    [Now Pregnant/Breastfeeding] AS [Now Pregnant/ Breastfeeding],
-    [Last VL Is Unsuppressed] AS [Last Viral Load High(>1000cps/ml)],
+    [Next Appointment Date],
+    [Last VL Test Date],
+    [Last VL Result Numeric] AS [Last VL Result],
     [Last Visit Type],
     [Last Visit Refill Type],
-    [Days Missed Appointment],
     [Last Prescription Regimen Name] AS [ARV Regimen Description],
+    [Became Eligible for CrAg Date],
+    [Eligible for CrAg Next Week],
     [Current Height (CM)],
     [Current Weight (KG)],
     [Last BP Systolic] AS [BP Reading (Systolic)],
@@ -20,6 +19,4 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    [Last Appointment Date] <= GETDATE()
-AND
-   [Last Visit Date] < [Last Appointment Date]
+    [Eligible for CrAg Next Week] = 'Yes'

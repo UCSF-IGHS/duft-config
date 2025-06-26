@@ -5,16 +5,13 @@ SELECT
     [Date Start ART],
     [Last Visit Date],
     [Next Appointment Date],
-    [CrAg Test Date],
-    [CrAg Test Results],
-    [Has Cryptococcal Infection],
-    [Has Cryptococcal Meningitis],
-    [CI Received Cryptococcal Prophylaxis],
-    [CM Received Cryptococcal Treatment],
+    [Last VL Test Date],
+    [Last VL Result Numeric] AS [Last VL Result],
     [Last Visit Type],
     [Last Visit Refill Type],
-    [Days Missed Appointment],
     [Last Prescription Regimen Name] AS [ARV Regimen Description],
+    [Became Eligible for CPeT Date],
+    [Eligible for CPeT Next Week],
     [Current Height (CM)],
     [Current Weight (KG)],
     [Last BP Systolic] AS [BP Reading (Systolic)],
@@ -22,10 +19,4 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    (
-        [CrAg Test Results] = 'Pos'
-        AND (
-            [CI Received Cryptococcal Prophylaxis] = 'No'
-            OR [CM Received Cryptococcal Treatment] = 'No'
-        )
-    )
+    [Eligible for CPeT Next Week] = 'Yes'

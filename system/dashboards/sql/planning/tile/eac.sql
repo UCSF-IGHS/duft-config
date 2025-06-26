@@ -3,4 +3,4 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    [Missed Drugs 29-90 Days] = 'Yes'
+    [Eligible for EAC Next Week] = 'Yes'

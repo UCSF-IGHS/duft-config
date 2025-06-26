@@ -7,14 +7,11 @@ SELECT
     [Next Appointment Date],
     [Last VL Test Date],
     [Last VL Result Numeric] AS [Last VL Result],
-    [VL Eligible PGBF] AS [VL Eligible PBFW],
-    [VL Eligible TX_CURR],
-    [VL Eligible TX_NEW],
     [Last Visit Type],
     [Last Visit Refill Type],
     [Last Prescription Regimen Name] AS [ARV Regimen Description],
-    [VL Eligible Date],
-    [Eligible for HVL Next Week],
+    [Became Eligible for CD4 Date],
+    [Eligible for CD4 Next Week],
     [Current Height (CM)],
     [Current Weight (KG)],
     [Last BP Systolic] AS [BP Reading (Systolic)],
@@ -22,4 +19,4 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    [Eligible for HVL Next Week] = 'Yes'
+    [Eligible for CD4 Next Week] = 'Yes'
