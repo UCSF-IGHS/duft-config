@@ -3,7 +3,7 @@
         <PrefilteredDashboard filters="start_date%d, end_date%d">
             <Table
                 data="summary_page_data"
-                header="Summary of Analysis Data"
+                header="Summary of Source - Analysis Data"
                 subHeader=""
                 exportData="true"
                 expand="true"
