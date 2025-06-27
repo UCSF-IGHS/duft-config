@@ -1,34 +1,20 @@
 <Dashboards>
-    <Datasets>
-        <SQLData 
-            name="summary_page_data"
-            queryName="summary_page_queries/comparison_query"
-            transpose="true"
-        />
-    </Datasets>
+
+    <Include file="components/summary_page_dashboard/datasets.3dl" />
 
     <Dashboard
         data=""
-        title="Summary Page"
+        tabName="Summary Page"
+        title="Summary Page Dashboard"
         subTitle=""
         lastRefresh=""
     >
         <Filters>
-            <DateRangePicker type="date" name="report_date" />
+            <DatePicker type="date" name="start_date" />
+            <DatePicker type="date" name="end_date" />
         </Filters>
 
-        <Grid>
-            <Row columns="1">
-                <PrefilteredDashboard filters="report_date%r">
-                    <Table
-                        data="summary_page_data"
-                        header="Summary of Analysis Data"
-                        subHeader=""
-                        exportData="true"
-                        expand="true"
-                    />
-                </PrefilteredDashboard>
-            </Row>
-        </Grid>
+       <Include file="components/summary_page_dashboard/overview.3dl" />
+
     </Dashboard>
 </Dashboards>

@@ -1,0 +1,8 @@
+<Datasets>
+    <SQLData
+        name="summary_page_data"
+        queryName="summary_page_query/comparison_query"
+        transpose="true"
+        filterFrom="start_date, end_date"
+    />
+</Datasets>
