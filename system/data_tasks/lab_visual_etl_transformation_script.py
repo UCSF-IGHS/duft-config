@@ -1,13 +1,13 @@
 import asyncio
 import os
-import pytds
-import pandas as pd
-from sqlalchemy import create_engine, text
-from sqlalchemy.exc import SQLAlchemyError
+import pytds # type: ignore
+import pandas as pd # type: ignore
+from sqlalchemy import create_engine, text # type: ignore
+from sqlalchemy.exc import SQLAlchemyError # type: ignore
 import sys
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
-from services.dte_tools.data_task_tools import (
+from services.dte_tools.data_task_tools import ( # type: ignore
     DataTaskEnvironment,
     get_resolved_parameters_for_connection,
     initialise_data_task,
