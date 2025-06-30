@@ -1,0 +1,20 @@
+<Dashboards>
+
+    <Include file="components/summary_page_dashboard/datasets.3dl" />
+
+    <Dashboard
+        data=""
+        tabName="Summary Page"
+        title="Summary Page Dashboard"
+        subTitle=""
+        lastRefresh=""
+    >
+        <Filters>
+            <DatePicker type="date" name="start_date" />
+            <DatePicker type="date" name="end_date" />
+        </Filters>
+
+       <Include file="components/summary_page_dashboard/overview.3dl" />
+
+    </Dashboard>
+</Dashboards>

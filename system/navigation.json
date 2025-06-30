@@ -38,20 +38,9 @@
         "dashboard": "/dashboard/data-management-dashboard"
       },
       {
-        "title": "User Management",
-        "icon": "dashboards-icon",
-        "dashboards": [
-          {
-            "title": "Add User",
-            "icon": "dashboard-icon",
-            "dashboard": ""
-          },
-          {
-            "title": "Edit/Activate User",
-            "icon": "dashboard-icon",
-            "dashboard": ""
-          }
-        ]
+        "title": "Summary Dashboard",
+        "icon": "dashboard-icon",
+        "dashboard": "/dashboard/summary-page-dashboard"
       }
     ]
   },
@@ -63,13 +52,19 @@
         "icon": "update-icon",
         "task": "LAB-VISUAL-ETL",
         "dashboard": "refresh-data",
-        "prompt": "This task refreshes the data in the dashboards. Click Execute to proceed, Click Cancel to abort."
+        "prompt": "This task refreshes the data in the dashboards. Click Execute to proceed, Cancel to abort."
       },
       {
         "title": "Update System",
         "icon": "update-icon",
         "task": "LABVISUALS_DUFT_CONFIGS_REFRESH",
-        "prompt": "This task updates the system configurations. Click Execute to proceed, Click Cancel to abort."
+        "prompt": "This task updates the system configurations. Click Execute to proceed, Cancel to abort."
+      },
+      {
+        "title": "Comparison Report",
+        "icon": "update-icon",
+        "task": "DATA-COMPARISON",
+        "prompt": "This task fetches data from source and analysis for comparison. Click Execute to proceed, Cancel to abort."
       }
     ]
   }

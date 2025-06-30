@@ -48,6 +48,30 @@
       }
     },
     {
+      "id": "DATA-COMPARISON",
+      "name": "Data Comparison Task",
+      "description": "A task to compare data from source and analysis databases",
+      "pythonFile": "data_comparison_script.py",
+      "hideInUI": true,
+      "dataConnections": ["ANA", "MyOwnConnection"],
+      "supportedParameters": {
+        "name": {
+          "title": "Docker Setup",
+          "description": "Docker Setup.",
+          "defaultValue": "Daenerys",
+          "allowOverride": true,
+          "promptUser": false
+        },
+        "sleep_time": {
+          "title": "Sleep Time",
+          "description": "Time to wait between execution steps in seconds.",
+          "defaultValue": 2.0,
+          "allowOverride": false,
+          "promptUser": false
+        }
+      }
+    },
+    {
       "id": "SAMPLE-ERROR",
       "name": "Sample Error Data Task",
       "description": "A sample data task that does nothing but simulates an error",
