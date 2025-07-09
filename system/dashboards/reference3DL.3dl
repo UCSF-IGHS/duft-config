@@ -220,7 +220,7 @@
     >
       select * from dim_hiv_diagnosis_facility
     </SQLData>
-    <SQLData name="facility_patient_data" queryName="facility_patient_count"/>
+    <SQLData name="facility_patient_data" queryName="facility_patient_count" />
   </Datasets>
 
   <Dashboard
@@ -233,7 +233,7 @@
     <Filters>
       <Filter caption="Gender" name="gender" data="gender_data" />
       <Filter caption="Age Group" name="age_group" data="age_group_data" />
-      <DateRangePicker type="date" name="birth_date" />
+      <DateRangePicker type="date" name="birth_date" allowFutureDates="false" />
     </Filters>
 
     <Actions>
@@ -505,10 +505,10 @@
   </Dashboard>
 
   <Dashboard
-    data = "header_data"
-    tabName = "Tab 3"
+    data="header_data"
+    tabName="Tab 3"
     title="%facility_name%"
-    subTitle = "My Dashboard 3"
+    subTitle="My Dashboard 3"
     lastRefresh="Last updated on : %today%"
   >
     <Filters>
@@ -531,17 +531,28 @@
       />
     </Grid>
   </Dashboard>
-   <Dashboard data="current_date_data" tabName="Forms" title="Physical Exams Form" subTitle="Fill out this form to collect physical examination information" lastRefresh="">
+  <Dashboard data="current_date_data" tabName="Forms" title="Physical Exams Form" subTitle="Fill out this form to collect physical examination information" lastRefresh="">
     <Grid>
       <Row columns='1'>
         <Form saveTo="physical-exams">
-          <Text id="patient_id" field_name="Patient ID" />
-          <Text id="temperature" field_name="Temperature" />
-          <Text id="blood_pressure" field_name="Blood Pressure" />
-          <Number id="heart_rate" field_name="Heart Rate" />
-          <Text id="general_condition" field_name="General Condition" />
-          <Number id="examined_by" field_name="Examinor" />
-          <Text id="notes" field_name="Notes" />
+          <Text id="patient_id" field_name="Patient ID">
+            <Visibility>heart_rate ≥ 50</Visibility>
+            <Validation>heart_rate ≤ 50</Validation>
+            <Validation>examined_by === 'jaja'</Validation>
+          </Text>
+          <Text id="temperature" field_name="Temperature"></Text>
+          <Text id="blood_pressure" field_name="Blood Pressure"></Text>
+          <Number id="heart_rate" field_name="Heart Rate">
+          </Number>
+          <Text id="general_condition" field_name="General Condition">
+            <Visibility>heart_rate ≥ 50</Visibility>
+          </Text>
+          <Number id="examined_by" field_name="Examinor">
+            <Visibility>heart_rate ≥ 50</Visibility>
+          </Number>
+          <Text id="notes" field_name="Notes">
+            <Visibility>heart_rate ≥ 50</Visibility>
+          </Text>
         </Form>
       </Row>
     </Grid>
