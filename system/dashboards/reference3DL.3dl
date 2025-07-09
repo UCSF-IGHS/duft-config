@@ -538,10 +538,13 @@
           <Text id="patient_id" field_name="Patient ID">
             <Visibility>heart_rate ≥ 50</Visibility>
             <Validation>heart_rate ≤ 50</Validation>
-            <Validation>examined_by === 'jaja'</Validation>
+            <Validation>examined_by 'jaja'</Validation>
           </Text>
           <Text id="temperature" field_name="Temperature"></Text>
-          <Text id="blood_pressure" field_name="Blood Pressure"></Text>
+          <Text id="blood_pressure" field_name="Blood Pressure">
+            <Validation>heart_rate ≤ 50</Validation>
+            <Validation>examined_by = 'jaja'</Validation>
+          </Text>
           <Number id="heart_rate" field_name="Heart Rate">
           </Number>
           <Text id="general_condition" field_name="General Condition">
