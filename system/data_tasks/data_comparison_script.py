@@ -190,7 +190,17 @@ def compare_data() -> None:
         all_rows_to_insert = []
 
         for _, source_row in source_df.iterrows():
-            report_date = pd.to_datetime(source_row["date"]).date()
+            raw_date = source_row["date"]
+
+            if pd.isna(raw_date) or raw_date in ["", None]:
+                continue
+
+            report_date = pd.to_datetime(raw_date, errors='coerce')
+
+            if pd.isna(report_date):
+                continue
+
+            report_date = report_date.date()
             analysis_row = analysis_df[analysis_df["report_date"] == report_date]
 
             if analysis_row.empty:
