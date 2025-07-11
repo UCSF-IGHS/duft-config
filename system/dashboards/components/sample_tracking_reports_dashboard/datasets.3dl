@@ -4,6 +4,7 @@
         queryName="sample_tracking_reports_dashboard_queries/hvl_sample_tracking_report"
         filterFrom="lab_received_date"
         searchColumns="sample_tracking_id"
+        allowFutureDates="false" 
         pageSize="10"
     />
 
@@ -12,6 +13,7 @@
         queryName="sample_tracking_reports_dashboard_queries/eid_sample_tracking_report"
         filterFrom="lab_received_date"
         searchColumns="sample_tracking_id"
+        allowFutureDates="false" 
         pageSize="10"
     />
 </Datasets>
