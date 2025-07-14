@@ -34,10 +34,10 @@ def connect_mysql() -> Engine:
         engine = create_engine(url)
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
-        log_message("Connected successfully to labdashdb.")
+        log_message("Connection to source database established")
         return engine
     except SQLAlchemyError as e:
-        log_message(f"Failed to connect to labdashdb: {e}")
+        log_message(f"Failed to establish connection to source database: {e}")
         sys.exit(1)
 
 
@@ -54,15 +54,17 @@ def connect_sql_server() -> Connection:
         )
         with conn.cursor() as cursor:
             cursor.execute("SELECT 1")
-        log_message(f"Connected successfully to {ana_db_params['database']}.")
+        log_message("Connection to analysis database established")
         return conn
     except pytds.Error as e:
-        log_message(f"Failed to connect to {ana_db_params['database']}: {e}")
+        log_message(f"Failed to establish connection to analysis database: {e}")
         sys.exit(1)
 
 
 def fetch_source_data(engine: Engine) -> pd.DataFrame:
     """Fetch aggregated sample data from MySQL source."""
+    
+    log_message("Fetching data from source database...")
     
     query = """
         SELECT
@@ -116,6 +118,9 @@ def fetch_source_data(engine: Engine) -> pd.DataFrame:
 
 def fetch_analysis_data(conn: Connection) -> pd.DataFrame:
     """Fetch aggregated sample data from MSSQL analysis DB using UNPIVOT."""
+    
+    log_message("Fetching data from analysis database...")
+    
     query = """
         SELECT
             report_date,
@@ -143,7 +148,9 @@ def fetch_analysis_data(conn: Connection) -> pd.DataFrame:
 
 def ensure_data_comparison_table(conn: Connection) -> None:
     """Ensure target comparison table exists."""
-    
+
+    log_message("Checking if table for data comparison exists...")
+
     with conn.cursor() as cursor:
         cursor.execute("""
             SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES
@@ -159,11 +166,13 @@ def ensure_data_comparison_table(conn: Connection) -> None:
                     difference INT
                 );
             """)
-            log_message("Created table final.data_comparison.")
+            log_message("Created table for data comparison")
 
 
 def compare_data() -> None:
     """Compare lab and analysis data, then insert differences into SQL Server."""
+    
+    log_message("Performing data comparison...")
     
     try:
         labdash_engine = connect_mysql()
@@ -242,7 +251,7 @@ def compare_data() -> None:
             for row in all_rows_to_insert:
                 cursor.execute(insert_query, row)
 
-        log_message("Inserted all comparison data into final.data_comparison.")
+        log_message("Inserted all comparison data into database")
 
     except Exception as e:
         log_message(f"An error occurred during data comparison: {e}")
