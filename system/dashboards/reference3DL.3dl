@@ -246,6 +246,11 @@
     <Grid>
       <Row columns="2" largeColumns="4">
         <Tile data="tile_new_data" title="New Cases">
+          <InfoTag>
+            <Markdown header="New Cases">
+              This tile shows the number of new HIV cases diagnosed in the current reporting period. Click for detailed patient information.
+            </Markdown>
+          </InfoTag>
           <Table
             data="new_detailed_data"
             exportData="true"
@@ -272,6 +277,11 @@
         </Tile>
 
         <Tile data="tile_suppressed_data" title="Suppressed">
+          <InfoTag>
+            <Markdown header="Viral Load Suppressed">
+              Patients with undetectable viral load (viral suppression). This indicates successful ART treatment and reduced transmission risk.
+            </Markdown>
+          </InfoTag>
           <Table
             data="vl_suppressed_detailed_data"
             exportData="true"
@@ -537,12 +547,12 @@
         <Form saveTo="physical-exams">
           <Text id="patient_id" field_name="Patient ID">
             <Visibility>heart_rate ≥ 50</Visibility>
-            <Validation>heart_rate ≤ 50</Validation>
+            <Validation>heart_rate ≤ 500</Validation>
             <Validation>examined_by 'jaja'</Validation>
           </Text>
           <Text id="temperature" field_name="Temperature"></Text>
           <Text id="blood_pressure" field_name="Blood Pressure">
-            <Validation>heart_rate ≤ 50</Validation>
+            <Validation customError="Heart rate is less than 50">heart_rate ≤ 50</Validation>
             <Validation>examined_by = 'jaja'</Validation>
           </Text>
           <Number id="heart_rate" field_name="Heart Rate">
