@@ -93,6 +93,7 @@
     "debug": true,
     "oobe": true,
     "unittest": false,
-    "show-settings": true
+    "show-settings": true,
+    "hall_of_fame": false
   }
 }
