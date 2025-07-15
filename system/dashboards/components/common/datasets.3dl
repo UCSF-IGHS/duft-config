@@ -8,6 +8,8 @@
 
         <SQLData name="metadata" queryName="common/metadata" filterFrom="Next Appointment Date" />
 
+        <SQLData name="hei_metadata" queryName="common/hei_metadata" />
+
         <SQLData name="date_range_data" queryName="common/date_range" filterFrom="Next Appointment Date" />
 
 </Datasets>

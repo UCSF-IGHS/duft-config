@@ -12,7 +12,7 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="true" />
         </Filters>
 
         <Include file="components/planning/overview.3dl" />
@@ -26,7 +26,7 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="true" />
         </Filters>
 
         <SingleLayout>
@@ -60,7 +60,7 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="true" />
         </Filters>
 
         <SingleLayout>
@@ -94,7 +94,7 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="true" />
         </Filters>
 
         <SingleLayout>
@@ -128,7 +128,7 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="true" />
         </Filters>
 
         <SingleLayout>
@@ -162,7 +162,7 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="true" />
         </Filters>
 
         <SingleLayout>
@@ -196,7 +196,7 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="true" />
         </Filters>
 
         <SingleLayout>

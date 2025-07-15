@@ -5,7 +5,7 @@
     <Include file="components/hei/datasets.3dl" />
 
     <Dashboard
-        data="metadata"
+        data="hei_metadata"
         tabName="A. Overview"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
@@ -14,7 +14,7 @@
     </Dashboard>
 
     <Dashboard
-        data="metadata"
+        data="hei_metadata"
         tabName="B. Not Registered"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
@@ -46,7 +46,7 @@
     </Dashboard>
 
     <Dashboard
-        data="metadata"
+        data="hei_metadata"
         tabName="C. Missed EID Test &lt;2 Months"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
@@ -78,7 +78,7 @@
     </Dashboard>
 
     <Dashboard
-        data="metadata"
+        data="hei_metadata"
         tabName="D. Missed EID Test 9 Mo+"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
@@ -110,7 +110,7 @@
     </Dashboard>
 
     <Dashboard
-        data="metadata"
+        data="hei_metadata"
         tabName="E. Misclassified High Risk HEI"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
@@ -139,7 +139,7 @@
     </Dashboard>
 
     <Dashboard
-        data="metadata"
+        data="hei_metadata"
         tabName="F. 18-24 Months Without FO"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
@@ -171,7 +171,7 @@
     </Dashboard>
 
     <Dashboard
-        data="metadata"
+        data="hei_metadata"
         tabName="G. HEI_Pos Not on ART"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
