@@ -61,7 +61,7 @@
                     HEI Missed EID Test &lt;2 Months
                 </Header>
                 <SubHeader>
-                    HEI clients requiring EID Test.
+                    HEI eligible for EID test but missed their &lt;2 months EID tests.
                 </SubHeader>
                 <Table
                     data="hei_needing_eid_test_2_months_data"
@@ -69,6 +69,7 @@
                     header="HEI Missed EID Test &lt;2 Months"
                     subHeader="HEI clients requiring EID Test."
                     variant="plain"
+                    initialColumns="Mother Patient ID, Exposed Infant ID, Date of Birth, HEI Age in Weeks at Last Visit, HEI Current Age in Weeks, HEI Current Age in Days, Sex, Last Visit Date, HEI Documented Risk Category, HEI Eligible for DNA PCR at Birth, HEI Eligible for DNA PCR at 4 to 6 Weeks"
                     detailsViewColumn="Mother Patient ID"
                 >
                 <Table data="needing_eid_test_2_months_hei_details_data" header="HEI Details" />
