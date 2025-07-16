@@ -90,16 +90,16 @@
         <SingleLayout>
             <Grid>
                 <Header>
-                    HEI Missed EID Test 9 Months
+                    HEI Missed EID Test 9+ Months
                 </Header>
                 <SubHeader>
-                    HEI who had appointment last week, eligible but missed their 9 months DNA PCR test and 3 months post BF antibody test (both who attended and not attended).
+                    HEI who are eligible but missed their 9 months DNA PCR test and 3 months post BF antibody test.
                 </SubHeader>
                 <Table
                     data="hei_needing_eid_test_9_months_data"
                     exportData="true"
-                    header="HEI Missed EID Test 9 Months"
-                    subHeader="HEI who had appointment last week, eligible but missed their 9 months DNA PCR test and 3 months post BF antibody test (both who attended and not attended)."
+                    header="HEI Missed EID Test 9+ Months"
+                    subHeader="HEI who are eligible but missed their 9 months DNA PCR test and 3 months post BF antibody test."
                     variant="plain"
                     detailsViewColumn="Mother Patient ID"
                 >

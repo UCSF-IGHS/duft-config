@@ -28,10 +28,13 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -64,17 +67,20 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
                     [Patient ID] = '[[Mother Patient ID]]'
             </SQLData>
 
-        {/* Needing EID Test 9 months */}
+        {/* Needing EID Test 9+ months */}
 
             <SQLData
                 name="hei_needing_eid_test_9_months_data"
@@ -100,10 +106,13 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -136,10 +145,13 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -172,10 +184,13 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -208,10 +223,13 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
