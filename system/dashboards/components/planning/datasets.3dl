@@ -7,7 +7,7 @@
             <SQLData
                 name="hvl_clients_data"
                 queryName="planning/table/hvl_clients"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
@@ -16,7 +16,7 @@
             <SQLData
                 name="tile_hvl_data"
                 queryName="planning/tile/hvl"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
             />
 
             <SQLData
@@ -50,7 +50,7 @@
             <SQLData
                 name="eac_clients_data"
                 queryName="planning/table/eac_clients"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
@@ -59,7 +59,7 @@
             <SQLData
                 name="tile_eac_data"
                 queryName="planning/tile/eac"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
             />
 
             <SQLData
@@ -93,7 +93,7 @@
             <SQLData
                 name="cd4_clients_data"
                 queryName="planning/table/cd4_clients"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
@@ -102,7 +102,7 @@
             <SQLData
                 name="tile_cd4_data"
                 queryName="planning/tile/cd4"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
             />
 
             <SQLData
@@ -136,7 +136,7 @@
             <SQLData
                 name="crag_clients_data"
                 queryName="planning/table/crag_clients"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
@@ -145,7 +145,7 @@
             <SQLData
                 name="tile_crag_data"
                 queryName="planning/tile/crag"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
             />
 
             <SQLData
@@ -179,7 +179,7 @@
             <SQLData
                 name="cpet_clients_data"
                 queryName="planning/table/cpet_clients"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
@@ -188,7 +188,7 @@
             <SQLData
                 name="tile_cpet_data"
                 queryName="planning/tile/cpet"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
             />
 
             <SQLData
@@ -222,7 +222,7 @@
             <SQLData
                 name="cmt_clients_data"
                 queryName="planning/table/cmt_clients"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
                 searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
@@ -231,7 +231,7 @@
             <SQLData
                 name="tile_cmt_data"
                 queryName="planning/tile/cmt"
-                filterFrom="Last Visit Date, Last Appointment Date"
+                filterFrom="Last Visit Date, Next Appointment Date"
             />
 
             <SQLData

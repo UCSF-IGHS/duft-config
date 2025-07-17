@@ -4,7 +4,7 @@ SELECT
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Last Appointment Date],
+    [Next Appointment Date],
     [Last VL Test Date],
     [Last VL Result Numeric] AS [Last VL Result],
     [Last Visit Type],

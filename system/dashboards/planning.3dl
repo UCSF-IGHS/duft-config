@@ -12,7 +12,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="true" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <Include file="components/planning/overview.3dl" />
@@ -26,7 +36,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="true" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -43,7 +63,7 @@
                     subHeader="Table of clients who are eligible for HIV Viral Load next week."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, VL Eligible Date, Eligible for HVL Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, VL Eligible Date, Eligible for HVL Next Week"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="hvl_client_details_data" variant="plain" header="Client Profile" />
@@ -60,7 +80,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="true" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -77,7 +107,7 @@
                     subHeader="Table of clients who are eligible for enhanced adhrerence counselling (EAC) next week."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Became Eligible for EAC Date, Eligible for EAC Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for EAC Date, Eligible for EAC Next Week"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="eac_client_details_data" variant="plain" header="Client Profile" />
@@ -94,7 +124,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="true" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -111,7 +151,7 @@
                     subHeader="Table of clients who are eligible for CD4 test next week."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Became Eligible for CD4 Date, Eligible for CD4 Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CD4 Date, Eligible for CD4 Next Week"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="cd4_client_details_data" variant="plain" header="Client Profile" />
@@ -128,7 +168,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="true" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -145,7 +195,7 @@
                     subHeader="Table of clients who are eligible for CrAg test next week."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Became Eligible for CrAg Date, Eligible for CrAg Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CrAg Date, Eligible for CrAg Next Week"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="crag_client_details_data" variant="plain" header="Client Profile" />
@@ -162,7 +212,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="true" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -179,7 +239,7 @@
                     subHeader="Table of clients who are eligible for cryptococcal pre-emptive therapy next week."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Became Eligible for CPeT Date, Eligible for CPeT Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CPeT Date, Eligible for CPeT Next Week"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="cpet_client_details_data" variant="plain" header="Client Profile" />
@@ -196,7 +256,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="true" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -213,7 +283,7 @@
                     subHeader="Table of clients who are eligible for cryptococcal treatment next week."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Became Eligible for CMT Date, Eligible for CMT Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CMT Date, Eligible for CMT Next Week"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="cmt_client_details_data" variant="plain" header="Client Profile" />
