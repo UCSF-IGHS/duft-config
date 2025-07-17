@@ -1,11 +1,11 @@
 {
     "dataConnectionParameters": {
         "ANA": {
-            "server": "10.211.55.4",
-            "username": "bsiele",
-            "password": "fMiy/<vqtw'<Kc81tcUb",
-            "port": "1433",
-            "database": "ctc_a_prod_analysis_test",
+            "server": "127.0.0.1",
+            "username": "SA",
+            "password": "123456a*",
+            "port": "1453",
+            "database": "ctca_etl_analytics",
             "type": "MSSQL"
         },
         "EMPS": {
