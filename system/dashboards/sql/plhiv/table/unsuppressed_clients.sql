@@ -4,7 +4,7 @@ SELECT
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Next Appointment Date],
+    [Last Appointment Date],
     [Last Prescription Regimen Line] AS [ARV Regimen],
     [Now Pregnant/Breastfeeding] AS [Now Pregnant/ Breastfeeding],
     [Last VL Test Date],

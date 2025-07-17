@@ -4,7 +4,7 @@ SELECT
     [Sex],
     [Last Visit Date],
     [Number of Days Dispensed],
-    [Next Appointment Date],
+    [Last Appointment Date],
     [Days Since Last Visit],
     [Days Missed Drugs],
     [Last Visit Type],

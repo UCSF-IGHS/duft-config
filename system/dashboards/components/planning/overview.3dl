@@ -15,7 +15,7 @@
                     exportData="true"
                     header="Clients Eligible for HIV Viral Load Test"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, VL Eligible Date, Eligible for HVL Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, VL Eligible Date, Eligible for HVL Next Week"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="hvl_client_details_data" header="PLHIV Client Profile" />
@@ -28,7 +28,7 @@
                     exportData="true"
                     header="Clients Eligible for EAC (with High VL Results)"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for EAC Date, Eligible for EAC Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Became Eligible for EAC Date, Eligible for EAC Next Week"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="eac_client_details_data" header="PLHIV Client Profile" />
@@ -41,7 +41,7 @@
                     exportData="true"
                     header="Clients Eligible for CD4 Test"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CD4 Date, Eligible for CD4 Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Became Eligible for CD4 Date, Eligible for CD4 Next Week"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="cd4_client_details_data" header="PLHIV Client Profile" />
@@ -54,7 +54,7 @@
                     exportData="true"
                     header="Clients Eligible for CrAg Test"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CrAg Date, Eligible for CrAg Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Became Eligible for CrAg Date, Eligible for CrAg Next Week"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="crag_client_details_data" header="PLHIV Client Profile" />
@@ -67,7 +67,7 @@
                     exportData="true"
                     header="Clients Eligible for Cryptococcal Pre-emptive Therapy"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CPeT Date, Eligible for CPeT Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Became Eligible for CPeT Date, Eligible for CPeT Next Week"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="cpet_client_details_data" header="PLHIV Client Profile" />
@@ -80,7 +80,7 @@
                     exportData="true"
                     header="Clients Eligible for Cryptococcal Treatment"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CMT Date, Eligible for CMT Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Became Eligible for CMT Date, Eligible for CMT Next Week"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="cmt_client_details_data" header="PLHIV Client Profile" />

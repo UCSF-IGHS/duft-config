@@ -4,7 +4,7 @@ SELECT
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Next Appointment Date],
+    [Last Appointment Date],
     [CrAg Test Date],
     [CrAg Test Results],
     [Has Cryptococcal Infection],

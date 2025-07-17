@@ -41,7 +41,7 @@
                     exportData="true"
                     header="Unsuppressed Clients Not Initiated on EAC"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, ARV Regimen"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, ARV Regimen"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="unsuppressed_client_details_data" header="PLHIV Client Profile" />
@@ -54,7 +54,7 @@
                     exportData="true"
                     header="Children Living with HIV (CLHIV) Nutrition Challenges"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
@@ -67,7 +67,7 @@
                     exportData="true"
                     header="AHD Suspect Clients"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, TX NEW, WHO Stage 3/4 (Yes/No)"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, TX NEW, WHO Stage 3/4 (Yes/No)"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="ahd_no_crag_client_details_data" header="PLHIV Client Profile" />
@@ -81,7 +81,7 @@
                     exportData="true"
                     header="Clients with Confirmed AHD and no Management"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, CrAg Test Date"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, CrAg Test Date"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="confirmed_ahd_no_management_client_details_data" header="PLHIV Client Profile" />

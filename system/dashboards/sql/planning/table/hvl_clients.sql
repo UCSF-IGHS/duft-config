@@ -4,7 +4,7 @@ SELECT
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Next Appointment Date],
+    [Last Appointment Date],
     [Last VL Test Date],
     [Last VL Result Numeric] AS [Last VL Result],
     [VL Eligible PGBF] AS [VL Eligible PBFW],

@@ -4,7 +4,7 @@ SELECT
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Next Appointment Date],
+    [Last Appointment Date],
     [Now Pregnant/Breastfeeding] AS [Now Pregnant/ Breastfeeding],
     [Last VL Test Date],
     [Last VL Result Numeric] AS [Last VL Result],

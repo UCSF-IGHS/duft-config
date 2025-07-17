@@ -4,7 +4,7 @@ SELECT
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Next Appointment Date],
+    [Last Appointment Date],
     [Documented Nutritional Status],
     [Calculated Nutritional Status],
     [Documented and Calculated Nutritional Status Match],

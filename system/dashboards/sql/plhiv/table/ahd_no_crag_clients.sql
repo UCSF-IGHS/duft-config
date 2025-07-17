@@ -4,7 +4,7 @@ SELECT
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Next Appointment Date],
+    [Last Appointment Date],
     [Is Recently Initiated] AS [TX_NEW],
     [WHO Stage 3/4 (Yes/No)],
     [WHO Stage 3/4 With No CD4 Test],
