@@ -548,11 +548,11 @@
           <Text id="patient_id" field_name="Patient ID">
             <Visibility>heart_rate ≥ 50</Visibility>
             <Validation>heart_rate ≤ 500</Validation>
-            <Validation>examined_by 'jaja'</Validation>
+            <Validation error_message="SHOULD BE EXAMINED BY JAJA">examined_by 'jaja'</Validation>
           </Text>
           <Text id="temperature" field_name="Temperature"></Text>
           <Text id="blood_pressure" field_name="Blood Pressure">
-            <Validation customError="Heart rate is less than 50">heart_rate ≤ 50</Validation>
+            <Validation error_message="Heart rate is less than 50">heart_rate ≤ 50</Validation>
             <Validation>examined_by = 'jaja'</Validation>
           </Text>
           <Number id="heart_rate" field_name="Heart Rate">
