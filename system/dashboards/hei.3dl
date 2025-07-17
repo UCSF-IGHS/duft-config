@@ -173,7 +173,7 @@
 
     <Dashboard
         data="hei_metadata"
-        tabName="G. HEI_Pos Not on ART"
+        tabName="G. HEI_POS not on ART"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
     >
@@ -184,7 +184,7 @@
         <SingleLayout>
             <Grid>
                 <Header>
-                    HEI_POS Not Initiated on ART
+                    HEI_POS not Initiated on ART
                 </Header>
                 <SubHeader>
                     HEI_POS clients who are not initiated on ART.

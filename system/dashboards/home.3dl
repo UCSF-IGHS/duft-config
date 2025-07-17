@@ -12,7 +12,19 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                  <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>
+                    {() => dayjs().startOf('week').subtract(1, 'day')}
+                  </DefaultRangeEndDate>
+
+
+
+                <MaxDate>{() => dayjs()}</MaxDate>
+                <MinDate>{() => dayjs().subtract(2, 'month')}</MinDate>
+              </DateRangePicker>
         </Filters>
 
         <Include file="components/plhiv/overview.3dl" />

@@ -83,7 +83,8 @@
                         ELSE [Last Pregnancy Status]
                     END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Last VL Result Numeric] AS [Last Viral Load Result]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -125,7 +126,8 @@
                         ELSE [Last Pregnancy Status]
                     END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Last VL Result Numeric] AS [Last Viral Load Result]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -168,7 +170,8 @@
                         ELSE [Last Pregnancy Status]
                     END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Last VL Result Numeric] AS [Last Viral Load Result]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -211,7 +214,8 @@
                         ELSE [Last Pregnancy Status]
                     END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Last VL Result Numeric] AS [Last Viral Load Result]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -254,7 +258,8 @@
                         ELSE [Last Pregnancy Status]
                     END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Last VL Result Numeric] AS [Last Viral Load Result]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -297,7 +302,8 @@
                         ELSE [Last Pregnancy Status]
                     END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Last VL Result Numeric] AS [Last Viral Load Result]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE

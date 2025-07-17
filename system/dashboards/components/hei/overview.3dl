@@ -69,11 +69,11 @@
             </Table>
             </Tile>
 
-            <Tile data="tile_hei_pos_not_initiated_data" title="HEI_Pos Not on ART">
+            <Tile data="tile_hei_pos_not_initiated_data" title="HEI_POS not on ART">
                 <Table
                     data="hei_pos_not_initiated_data"
                     exportData="true"
-                    header="HEI POS Not Initiated on ART"
+                    header="HEI_POS Not Initiated on ART"
                     variant="plain"
                     detailsViewColumn="Mother Patient ID"
                 >

@@ -197,7 +197,7 @@
                     [Patient ID] = '[[Mother Patient ID]]'
             </SQLData>
 
-        {/* HEI POS Not Initiated */}
+        {/* HEI_POS Not Initiated */}
 
             <SQLData
                 name="hei_pos_not_initiated_data"
