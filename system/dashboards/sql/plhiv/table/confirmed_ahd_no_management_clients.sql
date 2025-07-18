@@ -6,6 +6,7 @@ SELECT
     [Last Visit Date],
     [Last Appointment Date],
     [CrAg Test Date],
+    [Has CrAg Test],
     [CrAg Test Results],
     [Has Cryptococcal Infection],
     [Has Cryptococcal Meningitis],
