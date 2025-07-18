@@ -48,11 +48,11 @@
                 </Table>
             </Tile>
 
-            <Tile data="tile_clhiv_nutrition_data" title="CLHIV Nutrition Challenges">
+            <Tile data="tile_clhiv_nutrition_data" title="CLHIV Nutritional Challenges">
                 <Table
                     data="clhiv_nutrition_clients_data"
                     exportData="true"
-                    header="Children Living with HIV (CLHIV) Nutrition Challenges"
+                    header="Children Living with HIV (CLHIV) with Nutritional Documentation Issues"
                     variant="plain"
                     initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date"
                     detailsViewColumn="Patient ID"

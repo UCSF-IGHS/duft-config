@@ -130,7 +130,7 @@
 
                 <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
 
-                <MinSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</MinSelectableDate>
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
                 <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
 
@@ -162,7 +162,7 @@
 
     <Dashboard
         data="metadata"
-        tabName="E. CLHIV Without Height and Weight"
+        tabName="E. CLHIV Nutritional Challenges"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
     >
@@ -174,7 +174,7 @@
 
                 <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
 
-                <MinSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</MinSelectableDate>
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
                 <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
 
@@ -184,14 +184,14 @@
         <SingleLayout>
             <Grid>
                 <Header>
-                    Children Living with HIV (CLHIV) Without Height and Weight
+                    Children Living with HIV (CLHIV) with Nutritional Documentation Issues
                 </Header>
                 <SubHeader>
                     CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status.
                 </SubHeader>
                     <Table
                         data="clhiv_nutrition_clients_data"
-                        header="Children Living with HIV (CLHIV) Without Height and Weight"
+                        header="Children Living with HIV (CLHIV) with Nutritional Documentation Issues"
                         subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
                         exportData="true"
                         variant="plain"
@@ -218,7 +218,7 @@
 
                 <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
 
-                <MinSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</MinSelectableDate>
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
                 <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
 
@@ -262,7 +262,7 @@
 
                 <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
 
-                <MinSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</MinSelectableDate>
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
                 <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
 

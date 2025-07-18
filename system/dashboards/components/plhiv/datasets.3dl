@@ -9,7 +9,7 @@
                 queryName="plhiv/table/iit_clients"
                 filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [Number of Days Dispensed]"
                 sortColumn="Patient ID"
             />
 
@@ -54,7 +54,7 @@
                 queryName="plhiv/table/ahd_no_crag_clients"
                 filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [WHO Stage 3/4 Result]"
                 sortColumn="Patient ID"
             />
 
@@ -98,7 +98,7 @@
                 queryName="plhiv/table/confirmed_ahd_no_management_clients"
                 filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [WHO Stage 3/4 Result]"
                 sortColumn="Patient ID"
             />
 
@@ -141,7 +141,7 @@
                 queryName="plhiv/table/missed_vl_clients"
                 filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [Last VL Result Numeric]"
                 sortColumn="Patient ID"
             />
 
@@ -185,7 +185,7 @@
                 queryName="plhiv/table/unsuppressed_clients"
                 filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [Last VL Result Numeric]"
                 sortColumn="Patient ID"
             />
 
@@ -229,7 +229,7 @@
                 queryName="plhiv/table/clhiv_nutrition_clients"
                 filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [Last VL Result Numeric]"
                 sortColumn="Patient ID"
             />
 
@@ -273,7 +273,7 @@
                 queryName="plhiv/table/missed_appointment_clients"
                 filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [Last VL Result Numeric]"
                 sortColumn="Patient ID"
             />
 

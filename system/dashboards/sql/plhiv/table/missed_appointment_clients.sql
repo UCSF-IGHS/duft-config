@@ -22,4 +22,4 @@ FROM
 WHERE
     [Last Appointment Date] <= GETDATE()
 AND
-   [Last Visit Date] < [Last Appointment Date]
+    DATEDIFF(DAY, [Last Visit Date], [Last Appointment Date]) > 10
