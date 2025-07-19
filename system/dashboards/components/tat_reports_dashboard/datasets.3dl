@@ -1,0 +1,49 @@
+<Datasets>
+  <SQLData
+    name="tat_hvl_collection_to_authorization_report_data"
+    queryName="tat_reports_dashboard_queries/hvl_collection_to_authorization"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="tat_hvl_collection_to_received_report_data"
+    queryName="tat_reports_dashboard_queries/hvl_collection_to_received"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="tat_hvl_received_to_authorization_report_data"
+    queryName="tat_reports_dashboard_queries/hvl_received_to_authorization"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="tat_hvl_received_to_testing_report_data"
+    queryName="tat_reports_dashboard_queries/hvl_received_to_testing"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="tat_eid_collection_to_authorization_report_data"
+    queryName="tat_reports_dashboard_queries/eid_collection_to_authorization"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="tat_eid_collection_to_received_report_data"
+    queryName="tat_reports_dashboard_queries/eid_collection_to_received"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="tat_eid_received_to_authorization_report_data"
+    queryName="tat_reports_dashboard_queries/eid_received_to_authorization"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="tat_eid_received_to_testing_report_data"
+    queryName="tat_reports_dashboard_queries/eid_received_to_testing"
+    filterFrom="start_date, end_date"
+  />
+</Datasets>;
