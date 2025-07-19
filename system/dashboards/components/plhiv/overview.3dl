@@ -41,7 +41,7 @@
                     exportData="true"
                     header="Unsuppressed Clients Not Initiated on EAC"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, ARV Regimen"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date_, ARV Regimen"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="unsuppressed_client_details_data" header="PLHIV Client Profile" />

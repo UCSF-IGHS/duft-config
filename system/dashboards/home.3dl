@@ -151,7 +151,7 @@
                         subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
                         exportData="true"
                         variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, ARV Regimen, Now Pregnant/ Breastfeeding, Last VL Test Date, Last VL Result Numeric, VL Result Return Date"
+                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date_, ARV Regimen, Now Pregnant/ Breastfeeding, Last VL Test Date, Last VL Result Numeric, VL Result Return Date"
                         detailsViewColumn="Patient ID"
                     >
                     <Table data="unsuppressed_client_details_data" variant="plain" header="PLHIV Client Profile" />
