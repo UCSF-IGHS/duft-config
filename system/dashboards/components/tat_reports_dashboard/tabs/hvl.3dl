@@ -1,0 +1,77 @@
+<Grid>
+  <PrefilteredDashboard filters="start_date%d, end_date%d">
+    <Row columns="2">
+      <BarChart
+        data="tat_hvl_collection_to_authorization_report_data"
+        exportData="true"
+        downloadVisual="true"
+        expand="true"
+        detailsComponent="infinite-scroll-table"
+        header="Number of days from sample collection to authorization of results"
+        subHeader=""
+        userOptions={{
+          chart: { id: 9 },
+          tooltip: { shared: true },
+          dataLabels: { enabled: true },
+          legend: { show: true, position: "bottom" },
+        }}
+      />
+
+      <BarChart
+        data="tat_hvl_collection_to_received_report_data"
+        exportData="true"
+        downloadVisual="true"
+        expand="true"
+        detailsComponent="infinite-scroll-table"
+        header="Number of days from sample collection to lab reception"
+        subHeader=""
+        userOptions={{
+          chart: { id: 10 },
+          tooltip: { shared: true },
+          legend: { show: true, position: "bottom" },
+          dataLabels: { enabled: true },
+          yaxis: { title: { text: "Number of Samples" } },
+          xaxis: { title: { text: "Number of Days" } },
+        }}
+      />
+    </Row>
+
+    <Row columns="2">
+      <BarChart
+        data="tat_hvl_received_to_testing_report_data"
+        header="Number of days from receipt of sample to testing"
+        subHeader=""
+        exportData="true"
+        downloadVisual="true"
+        expand="true"
+        detailsComponent="infinite-scroll-table"
+        userOptions={{
+          chart: { id: 11 },
+          tooltip: { shared: true },
+          legend: { show: true, position: "bottom" },
+          dataLabels: { enabled: true },
+          yaxis: { title: { text: "Number of Samples" } },
+          xaxis: { title: { text: "Number of Days" } },
+        }}
+      />
+
+      <BarChart
+        data="tat_hvl_received_to_authorization_report_data"
+        exportData="true"
+        downloadVisual="true"
+        expand="true"
+        detailsComponent="infinite-scroll-table"
+        header="Number of days from receipt of sample to authorization of results"
+        subHeader=""
+        userOptions={{
+          chart: { id: 12 },
+          tooltip: { shared: true },
+          legend: { show: true, position: "bottom" },
+          dataLabels: { enabled: true },
+          yaxis: { title: { text: "Number of Samples" } },
+          xaxis: { title: { text: "Number of Days" } },
+        }}
+      />
+    </Row>
+  </PrefilteredDashboard>
+</Grid>;
