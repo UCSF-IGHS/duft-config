@@ -1,0 +1,23 @@
+<Grid>
+  <PrefilteredDashboard filters="start_date%d, end_date%d">
+    <Row columns="1">
+      <BarChart
+        data="hvl_rejection_report_data"
+        exportData="true"
+        downloadVisual="true"
+        expand="true"
+        detailsComponent="infinite-scroll-table"
+        header="HVL Rejection with reasons at Lab"
+        subHeader=""
+        userOptions={{
+          chart: { id: 20 },
+          tooltip: { shared: true },
+          dataLabels: { enabled: true },
+          legend: { show: false },
+          yaxis: { title: { text: "Number of Samples" } },
+          xaxis: { title: { text: "Rejection Reasons" } },
+        }}
+      />
+    </Row>
+  </PrefilteredDashboard>
+</Grid>;
