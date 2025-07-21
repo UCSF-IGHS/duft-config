@@ -1,0 +1,82 @@
+<Grid>
+    <Row columns="2">
+        <ClusteredLineChart
+            data="hvl_trend_of_samples_received_by_sample_type"
+            header="HVL: Trend of Samples Received, by Sample Type"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 5 },
+                colors: ["#FFA500", "#008000"],
+                dataLabels: {
+                    enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] },
+                    offsetY: -10
+                },
+                legend: { show: true, position: "bottom" },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } },
+                markers: { size: 5, hover: { size: 7 } }
+            }}
+        />
+
+        <ClusteredLineChart
+            data="hvl_trend_of_samples_received_by_entry_modality"
+            header="HVL: Trend of Samples Received, by Entry Modality"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 6 },
+                colors: ["#008000", "#FFA500"],
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
+                legend: { show: true, position: "bottom" },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } },
+                markers: { size: 5, hover: { size: 7 } }
+            }}
+        />
+    </Row>
+
+    <Row columns="2">
+        <LineChart
+            data="hvl_trend_of_samples_tested"
+            header="HVL: Trend of Samples Tested"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 7 },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
+                legend: { show: true },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } },
+                markers: { size: 5, hover: { size: 5 } }
+            }}
+        />
+
+        <LineChart
+            data="hvl_trend_of_samples_dispatched"
+            header="HVL - Trend of Results Dispatched"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 8 },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
+                legend: { show: true },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Weeks" } },
+                markers: { size: 5, hover: { size: 5 } }
+            }}
+        />
+    </Row>
+</Grid>

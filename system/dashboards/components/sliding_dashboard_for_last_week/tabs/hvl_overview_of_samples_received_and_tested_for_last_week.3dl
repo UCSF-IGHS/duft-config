@@ -1,0 +1,93 @@
+<Grid>
+    <Row columns="2">
+        <BarChart
+            data="hvl_samples_tested_rejected_authorised"
+            header="HVL - Number of Samples received, tested, rejected and results authorized for last week"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 1 },
+                dataLabels: { enabled: true },
+                colors: ['#008000'],
+                plotOptions: {
+                    bar: {
+                        distributed: false
+                    }
+                },
+                yaxis: { title: { text: "Number of Samples" } }
+            }}
+        />
+
+        <PieChart
+            data="hvl_samples_received_by_type"
+            header="HVL - Samples Received last week, by type"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 2 },
+                colors: ["#156082", "#e97132"],
+                legend: { show: true, position: "bottom" },
+                dataLabels: { enabled: true, dropShadow: { enabled: false } }
+            }}
+        />
+    </Row>
+
+    <Row columns="2">
+        <PieChart
+            data="hvl_reasons_for_sample_rejection"
+            header="HVL - Reasons for sample rejection for last week"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 3 },
+                legend: { show: true, position: "bottom" },
+                dataLabels: { enabled: true, dropShadow: { enabled: false } }
+            }}
+        />
+
+        <BarChart
+            data="hvl_samples_received_by_region"
+            header="HVL - Number of samples received last week, by region"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 4 },
+                dataLabels: { enabled: true },
+                yaxis: { title: { text: 'Number of Samples' } },
+                xaxis: { title: { text: 'Region' } },
+                colors: ['#008000'],
+                plotOptions: {
+                    bar: {
+                        distributed: false
+                    }
+                },
+                legend: {
+                    position: "top",
+                    fontSize: "14px",
+                    labels: { colors: "#333" },
+                    itemMargin: { horizontal: 10, vertical: 5 },
+                    markers: { width: 12, height: 12 }
+                }
+            }}
+        >
+            <InfoTag>
+                <Markdown header="Descriptions for UNKNOWN and Not set">
+                    UNKNOWN - Facility with no HFR code
+                    Not set - Facility with unspecified name
+                </Markdown>
+            </InfoTag>
+        </BarChart>
+    </Row>
+</Grid>
