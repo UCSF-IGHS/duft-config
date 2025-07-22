@@ -46,6 +46,11 @@
             "title": "TAT Report",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/tat-reports-dashboard"
+          },
+          {
+            "title": "Rejection Report",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/rejection-reports-dashboard"
           }
         ]
       },

@@ -1,0 +1,13 @@
+<Datasets>
+  <SQLData
+    name="hvl_rejection_report_data"
+    queryName="rejection_reports_dashboard_queries/hvl_rejection"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="eid_rejection_report_data"
+    queryName="rejection_reports_dashboard_queries/eid_rejection"
+    filterFrom="start_date, end_date"
+  />
+</Datasets>
