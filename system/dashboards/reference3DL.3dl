@@ -233,7 +233,12 @@
     <Filters>
       <Filter caption="Gender" name="gender" data="gender_data" />
       <Filter caption="Age Group" name="age_group" data="age_group_data" />
-      <DateRangePicker type="date" name="birth_date" />
+      <DateRangePicker type="date" name="birth_date">
+        <DefaultRangeStartDate>{() => dayjs().subtract(1, 'month')}</DefaultRangeStartDate>
+        <DefaultRangeEndDate>{() => dayjs()}</DefaultRangeEndDate>
+        <MaxDate>{() => dayjs()}</MaxDate>
+        <MinDate>{() => dayjs().subtract(10, 'year')}</MinDate>
+      </DateRangePicker>
     </Filters>
 
     <Actions>
