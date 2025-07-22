@@ -1,22 +1,38 @@
 <Dashboards>
-  
   <Include file="components/invalid_reports_dashboard/datasets.3dl" />
 
-  <Dashboard data="" tabName="HVL" title="" subTitle="HVL" lastRefresh="">
+  <Dashboard
+    data=""
+    tabName="HVL & EID Reports"
+    title=""
+    subTitle="HVL & EID Reports"
+    lastRefresh=""
+  >
     <Filters>
       <DatePicker type="date" name="start_date" />
       <DatePicker type="date" name="end_date" />
     </Filters>
 
-    <Include file="components/invalid_reports_dashboard/tabs/hvl.3dl" />
-  </Dashboard>
+    <Grid>
+      <PrefilteredDashboard filters="start_date%d, end_date%d">
+        <Row columns="2">
+          <Table
+            data="hvl_invalid_report_data"
+            header="HVL Invalid sample results"
+            subHeader=""
+            expand="true"
+            exportData="true"
+          />
 
-  <Dashboard data="" tabName="EID" title="" subTitle="EID" lastRefresh="">
-    <Filters>
-      <DatePicker type="date" name="start_date" />
-      <DatePicker type="date" name="end_date" />
-    </Filters>
-
-    <Include file="components/invalid_reports_dashboard/tabs/eid.3dl" />
+          <Table
+            data="eid_invalid_report_data"
+            header="EID Invalid sample results"
+            subHeader=""
+            expand="true"
+            exportData="true"
+          />
+        </Row>
+      </PrefilteredDashboard>
+    </Grid>
   </Dashboard>
 </Dashboards>;
