@@ -31,10 +31,10 @@
                 "cron": {
                     "second": "0",
                     "minute": "0",
-                    "hour": "9",
+                    "hour": "0",
                     "day_of_month": "*",
                     "month": "*",
-                    "day_of_week": "mon"
+                    "day_of_week": "*"
                 }
             }
         }
@@ -45,6 +45,7 @@
         "oobe": true,
         "unittest": false,
         "show-settings": true,
-        "show-visual-builder": false
+        "show-visual-builder": false,
+        "hall-of-fame": false
     }
 }

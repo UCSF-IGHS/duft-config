@@ -9,8 +9,19 @@
     "items": [
       {
         "title": "Sliding Dashboard",
-        "icon": "dashboard-icon",
-        "dashboard": "/dashboard/home"
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "Last week",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/sliding-dashboard-for-last-week"
+          },
+          {
+            "title": "Last week ending yesterday",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/home"
+          }
+        ]
       },
       {
         "title": "Interactive Dashboard",
