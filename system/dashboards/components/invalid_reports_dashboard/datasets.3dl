@@ -1,0 +1,13 @@
+<Datasets>
+  <SQLData
+    name="hvl_invalid_report_data"
+    queryName="invalid_reports_dashboard_queries/hvl_invalid"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="eid_invalid_report_data"
+    queryName="invalid_reports_dashboard_queries/eid_invalid"
+    filterFrom="start_date, end_date"
+  />
+</Datasets>

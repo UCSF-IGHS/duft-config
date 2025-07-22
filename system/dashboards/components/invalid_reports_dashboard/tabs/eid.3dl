@@ -1,0 +1,13 @@
+<Grid>
+  <PrefilteredDashboard filters="start_date%d, end_date%d">
+    <Row columns="1">
+      <Table
+        data="eid_invalid_report_data"
+        header="EID Invalid sample results"
+        subHeader=""
+        expand="true"
+        exportData="true"
+      />
+    </Row>
+  </PrefilteredDashboard>
+</Grid>;

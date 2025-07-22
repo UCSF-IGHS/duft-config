@@ -1,0 +1,22 @@
+<Dashboards>
+  
+  <Include file="components/invalid_reports_dashboard/datasets.3dl" />
+
+  <Dashboard data="" tabName="HVL" title="" subTitle="HVL" lastRefresh="">
+    <Filters>
+      <DatePicker type="date" name="start_date" />
+      <DatePicker type="date" name="end_date" />
+    </Filters>
+
+    <Include file="components/invalid_reports_dashboard/tabs/hvl.3dl" />
+  </Dashboard>
+
+  <Dashboard data="" tabName="EID" title="" subTitle="EID" lastRefresh="">
+    <Filters>
+      <DatePicker type="date" name="start_date" />
+      <DatePicker type="date" name="end_date" />
+    </Filters>
+
+    <Include file="components/invalid_reports_dashboard/tabs/eid.3dl" />
+  </Dashboard>
+</Dashboards>;
