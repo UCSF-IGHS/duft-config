@@ -17,17 +17,6 @@
             "dashboard": "/dashboard/hei"
           }
         ]
-      },
-      {
-        "title": "Next Week Planning",
-        "icon": "dashboards-icon",
-        "dashboards": [
-          {
-            "title": "Eligibilities",
-            "icon": "dashboard-icon",
-            "dashboard": "/dashboard/planning"
-          }
-        ]
       }
     ]
   }
