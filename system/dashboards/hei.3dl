@@ -131,6 +131,7 @@
                     header="Misclassified High Risk HEI"
                     subHeader="HEI who were born last week with misclassified risk status."
                     variant="plain"
+                    initialColumns="Mother Patient ID, Exposed Infant ID, Date of Birth, HEI Current Age in Days, Sex, Last Visit Date, HEI Documented Risk Category, HEI Calculated Risk Status, Misclassified High Risk HEI, HEI Given ABC/3TC+NVP Prophylaxis, HEI Given Nevirapine, HEI Given CTX"
                     detailsViewColumn="Mother Patient ID"
                 >
                 <Table data="risk_analysis_hei_details_data" header="HEI Details" />

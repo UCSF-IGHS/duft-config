@@ -51,6 +51,7 @@
                     exportData="true"
                     header="Misclassified High Risk HEI"
                     variant="plain"
+                    initialColumns="Mother Patient ID, Exposed Infant ID, Date of Birth, HEI Current Age in Days, Sex, Last Visit Date, HEI Documented Risk Category, HEI Calculated Risk Status"
                     detailsViewColumn="Mother Patient ID"
                 >
                 <Table data="risk_analysis_hei_details_data" header="HEI details" />
