@@ -15,7 +15,7 @@
                     exportData="true"
                     header="Clients with Missed Appointments"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/ Breastfeeding"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/Breastfeeding"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="missed_appointment_client_details_data" header="PLHIV Client Profile" />
@@ -28,7 +28,7 @@
                     exportData="true"
                     header="Clients Who Missed Viral Load"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/ Breastfeeding"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/Breastfeeding"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="missed_vl_client_details_data" header="PLHIV Client Profile" />

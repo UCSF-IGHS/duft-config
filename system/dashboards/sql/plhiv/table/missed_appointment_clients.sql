@@ -7,7 +7,7 @@ SELECT
     [Last Visit Date],
     [Number of Days Dispensed],
     [Last Appointment Date] AS [Missed Appointment Date],
-    [Now Pregnant/Breastfeeding] AS [Now Pregnant/ Breastfeeding],
+    [Now Pregnant/Breastfeeding],
     [Last VL Is Unsuppressed] AS [Last Viral Load High(>1000cps/ml)],
     [Last Visit Type],
     [Last Visit Refill Type],
