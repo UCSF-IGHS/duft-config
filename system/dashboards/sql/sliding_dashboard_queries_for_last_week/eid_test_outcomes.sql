@@ -4,10 +4,9 @@ SELECT
 FROM
 	(
 		SELECT
-			s.report_date,
-			s.eid_sample_tested_positive AS Positive,
-			s.eid_sample_tested_negative AS Negative,
-			s.eid_sample_tested_result_not_detected AS Failed
+			SUM(s.eid_sample_tested_positive) AS Positive,
+			SUM(s.eid_sample_tested_negative) AS Negative,
+			SUM(s.eid_result_failed) AS Failed
 		FROM
 			final.fact_daily_sample_summary s
 			INNER JOIN derived.dim_date d ON s.report_date = d.date

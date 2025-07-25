@@ -21,6 +21,6 @@ GROUP BY
 	d.weekly_start_monday_period,
 	TRIM(f.region)
 HAVING
-	SUM(s.hvl_sample_received) <> 0
+	SUM(s.eid_sample_dbs_received) <> 0
 ORDER BY
 	category ASC;
