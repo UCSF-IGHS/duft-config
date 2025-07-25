@@ -14,6 +14,15 @@
 
     <Dashboard
       data="current_date_data"
+      title="HIV Viral Load (HVL) - Overview of samples received and referred for the reporting week"
+      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
+      lastRefresh="Last updated on : %today%"
+    >
+      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/hvl_referral.3dl" />
+    </Dashboard>
+
+    <Dashboard
+      data="current_date_data"
       title="HIV Viral Load (HVL) trends in samples received, tested, and results authorized for last 4 weeks"
       subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
       lastRefresh="Last updated on : %today%"
@@ -46,6 +55,15 @@
       lastRefresh="Last updated on : %today%"
     >
       <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/eid_overview_of_samples_received_and_tested_for_last_week.3dl" />
+    </Dashboard>
+
+    <Dashboard
+      data="current_date_data"
+      title="EID - Overview of samples received and referred for the reporting week"
+      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
+      lastRefresh="Last updated on : %today%"
+    >
+      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/eid_referral.3dl" />
     </Dashboard>
 
     <Dashboard

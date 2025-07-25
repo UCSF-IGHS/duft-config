@@ -1,0 +1,24 @@
+<Grid>
+    <Row columns="2">
+        <BarChart
+            data="hvl_samples_referred"
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            header="HVL Referral"
+            subHeader=""
+            userOptions={{
+                chart: { id: 1 },
+                dataLabels: { enabled: true },
+                colors: ['#008000'],
+                plotOptions: {
+                    bar: {
+                        distributed: false
+                    }
+                },
+                yaxis: { title: { text: "Number of Samples" } }
+            }}
+        />
+    </Row>
+</Grid>
