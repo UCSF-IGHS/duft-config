@@ -170,6 +170,7 @@ def create_tables():
                     ReceivedDate DATETIME2,
                     ReferredDate DATETIME2,
                     ReferredTo NVARCHAR(255),
+                    DataEntryMethod NVARCHAR(50),
                     OrderStatus INT,
                     TestDate DATETIME2,
                     AuthorisedDate DATETIME2,
@@ -323,8 +324,9 @@ def extract_and_insert_sample_data():
             rejectionReason as SampleRejectionReason, 
             sampleCollectionDate as CollectionDate, 
             dateReceivedLab as ReceivedDate, 
-            dateReceivedLab as ReferredDate,
-            testLocation as ReferredTo,
+            referredDate as ReferredDate,
+            referralFacility as ReferredTo,
+            dataEntryMethod as DataEntryMethod,
             orderStatus as OrderStatus,
             results as Results, 
             testedDate as TestDate, 
@@ -339,6 +341,7 @@ def extract_and_insert_sample_data():
         OR dateReceivedLab >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
         OR registeredDate >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
         OR testedDate >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
+        OR referredDate >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
         OR resultAuthorisedDate >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
         OR dateResultSentHub >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
     """
@@ -359,9 +362,9 @@ def extract_and_insert_sample_data():
         insert_query = """
             INSERT INTO source.tbl_Sample (sampletrackingid, LabHfrCode, HubHfrCode, EntryModality, SampleType, 
                                         TestName, SampleQualityStatus, Results, SampleRejectionReason, DeviceName, 
-                                        DeviceCode, CollectionDate, ReceivedDate, ReferredDate, ReferredTo, OrderStatus,
-                                        TestDate, AuthorisedDate, DispatchDate)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                        DeviceCode, CollectionDate, ReceivedDate, ReferredDate, ReferredTo, DataEntryMethod, 
+                                        OrderStatus, TestDate, AuthorisedDate, DispatchDate)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         insert_count = 0
         for _, row in sample_data.iterrows():
@@ -382,8 +385,9 @@ def extract_and_insert_sample_data():
                         row['DeviceCode'], 
                         format_datetime(row['CollectionDate']), 
                         format_datetime(row['ReceivedDate']), 
-                        format_datetime(row['ReferredDate']),
+                        row['ReferredDate'],
                         row['ReferredTo'],
+                        row['DataEntryMethod'],
                         row['OrderStatus'],
                         format_datetime(row['TestDate']), 
                         format_datetime(row['AuthorisedDate']), 
