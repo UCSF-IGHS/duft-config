@@ -1274,7 +1274,7 @@ DECLARE @quarter_period_calendar NVARCHAR (255);
 DECLARE @month_period NVARCHAR (255);
 DECLARE @month_number NVARCHAR (255);
 --SET @BeginDate = CONVERT(DATE, DATEADD(MONTH, -4, GETDATE()));
-SET @BeginDate = '2024-01-01';
+SET @BeginDate = '2025-04-01';
 SET @EndDate = DATEADD(DAY, -1, GETDATE());
 SET @DateCounter = @BeginDate;
 WHILE @DateCounter <= @EndDate
@@ -2370,6 +2370,8 @@ CREATE TABLE derived.dim_sample(
     tested_date DATE NULL,
     result_authorized_date DATE NULL,
     result_dispatched_date DATE NULL,
+    referred_date DATE NULL,
+    referral_facility_id UNIQUEIDENTIFIER NULL,
     is_valid_record INT NULL DEFAULT 1,
     cleaning_comment NVARCHAR(255) NULL
 );
@@ -2415,7 +2417,9 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_ins
         lab_received_date,
         tested_date,
         result_authorized_date,
-        result_dispatched_date
+        result_dispatched_date,
+        referred_date,
+        referral_facility_id
     )
     SELECT 
         sampletrackingid AS sample_tracking_id,
@@ -2438,11 +2442,25 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_ins
         ds.ReceivedDate AS lab_received_date,
         ds.TestDate AS tested_date,
         ds.AuthorisedDate AS result_authorized_date,
-        ds.DispatchDate AS result_dispatched_date
+        ds.DispatchDate AS result_dispatched_date,
+        CASE
+            WHEN
+                ds.OrderStatus IN (4,8)
+                AND ds.ReferredDate IS NOT NULL
+            THEN ds.ReferredDate
+        END AS referred_date,
+        CASE
+            WHEN
+                ds.OrderStatus IN (4,8)
+                AND ds.ReferredDate IS NOT NULL
+            THEN rf.facility_id
+        END AS referral_facility_id
     FROM
         [source].tbl_Sample ds
     LEFT JOIN
         [derived].dim_facility hf ON ds.HubHfrCode = hf.hfr_code COLLATE Latin1_General_100_CS_AS
+    LEFT JOIN
+        [derived].dim_facility rf ON ds.ReferredTo = rf.hfr_code COLLATE Latin1_General_100_CS_AS
     LEFT JOIN
         z.z_unique_device ud ON ud.original_device_name = ds.DeviceName COLLATE Latin1_General_100_CS_AS
      LEFT JOIN
@@ -2600,7 +2618,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_upd
         derived.dim_sample ds
     WHERE
         ds.is_valid_record = 1
-        AND ds.lab_received_date > ds.collected_date;
+        AND ds.lab_received_date < ds.collected_date;
     
     -------------------------------------------------------
     -- 'Earlier Dispatched date than Test date'
@@ -3463,6 +3481,9 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl
         is_collected INT NULL,
         is_accepted_on_report_date INT NULL,
         is_accepted INT NULL,
+        is_referred_on_report_date INT NULL,
+        is_referred INT NULL,
+        is_referral_result_received INT NULL,
         is_received_at_the_testing_lab_on_report_date INT NULL,
         is_received_at_testing_lab INT NULL,
         is_rejected_at_the_testing_lab_on_report_date INT NULL,
@@ -4157,6 +4178,105 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl
 -- $END
 
 EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_authorized';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_hvl_sample_update_is_referred_on_report_date
+--
+
+PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_referred_on_report_date'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_referred_on_report_date AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referred_on_report_date';
+
+-- $BEGIN
+
+	UPDATE
+		fs
+	SET
+		fs.is_referred_on_report_date = 1
+	FROM
+		[derived].fact_daily_hvl_sample_status fs
+	INNER JOIN
+		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
+	WHERE 
+		fs.report_date = ds.referred_date
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referred_on_report_date';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_hvl_sample_update_is_referred
+--
+
+PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_referred'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_referred AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referred';
+
+-- $BEGIN
+
+	UPDATE
+		fs
+	SET
+		fs.is_referred = 1
+	FROM
+		[derived].fact_daily_hvl_sample_status fs
+	INNER JOIN
+		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
+		AND fs.report_date >= ds.referred_date;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referred';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date
+--
+
+PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date';
+
+-- $BEGIN
+
+	UPDATE
+		fs
+	SET
+		fs.is_referral_result_received = 1
+	FROM
+		[derived].fact_daily_hvl_sample_status fs
+	INNER JOIN
+		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
+	WHERE 
+		fs.report_date = ds.referred_date
+		AND ds.result IS NOT NULL
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date';
 
 END
 GO
@@ -5523,6 +5643,9 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl
     EXEC derived.sp_fact_daily_hvl_sample_update_is_authorized_on_report_date;
     EXEC derived.sp_fact_daily_hvl_sample_update_is_authorized;
     EXEC derived.sp_fact_daily_hvl_sample_update_is_dispatched_on_report_date;
+    EXEC derived.sp_fact_daily_hvl_sample_update_is_referred_on_report_date; 
+    EXEC derived.sp_fact_daily_hvl_sample_update_is_referred;
+    EXEC derived.sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date;
     EXEC derived.sp_fact_daily_hvl_sample_update_hvl_plasma_dispatched;
     EXEC derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_dispatched;
     EXEC derived.sp_fact_daily_hvl_sample_update_result;
@@ -5589,6 +5712,9 @@ CREATE TABLE derived.fact_daily_eid_sample_status(
     is_collected INT NULL,
     is_accepted_on_report_date INT NULL,
     is_accepted INT NULL,
+    is_referred_on_report_date INT NULL,
+    is_referred INT NULL,
+    is_referral_result_received INT NULL,
     is_received_at_the_testing_lab_on_report_date INT NULL,
     is_rejected_at_the_testing_lab_on_report_date INT NULL,
     is_received_at_testing_lab INT NULL,
@@ -6077,6 +6203,108 @@ GO
         
 
 -----------------------------------------------------------------------------------------------
+-- sp_fact_daily_eid_sample_status_update_is_referred_on_report_date
+--
+
+PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_referred_on_report_date'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_referred_on_report_date AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referred_on_report_date';
+
+-- $BEGIN
+
+    UPDATE
+        fe
+    SET
+        fe.is_referred_on_report_date = 1
+    FROM 
+        [derived].fact_daily_eid_sample_status fe
+    INNER JOIN
+        [derived].dim_sample ds
+        ON fe.sample_id = ds.sample_id 
+        AND fe.report_date = ds.referred_date
+
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referred_on_report_date';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_eid_sample_status_update_is_referred
+--
+
+PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_referred'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_referred AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referred';
+
+-- $BEGIN
+    
+    UPDATE
+        fe
+    SET
+        fe.is_referred = 1
+    FROM 
+        [derived].fact_daily_eid_sample_status fe
+    INNER JOIN
+        [derived].dim_sample ds
+        ON fe.sample_id = ds.sample_id 
+        AND fe.report_date >= ds.referred_date;
+
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referred';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date
+--
+
+PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date';
+
+-- $BEGIN
+
+	UPDATE
+		fs
+	SET
+		fs.is_referral_result_received = 1
+	FROM
+		[derived].fact_daily_eid_sample_status fs
+	INNER JOIN
+		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
+	WHERE 
+		fs.report_date = ds.referred_date
+		AND ds.result IS NOT NULL
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
 -- sp_fact_daily_eid_sample_status_update_eid_sample_received_type_dbs
 --
 
@@ -6303,16 +6531,20 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid
 
     UPDATE fe
         SET fe.is_sample_tested_result_not_detected = 
-            CASE 
-                WHEN 
-                    LOWER(REPLACE(fe.result, ' ', '')) = 'targetnotdetected' 
-                THEN 1 
-                ELSE 0 
-            END
-    FROM
+            CASE
+                WHEN
+                    LOWER(REPLACE(ds.result, ' ', '')) IN ('targetnotdetected', 'tnd')
+                THEN 1
+                WHEN
+                    LOWER(REPLACE(ds.result, ' ', '')) NOT IN ('targetdetected', 'tnd')
+                THEN 0
+            END 
+    FROM 
         [derived].fact_daily_eid_sample_status fe
-    WHERE
-        fe.result IS NOT NULL
+    INNER JOIN
+        [derived].dim_sample ds
+        ON fe.sample_id = ds.sample_id 
+        AND fe.is_tested_on_report_date = 1
 
 -- $END
 
@@ -7323,6 +7555,9 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid
     EXEC derived.sp_fact_daily_eid_sample_status_update_is_accepted;
     EXEC derived.sp_fact_daily_eid_sample_status_update_is_authorized_on_report_date;
     EXEC derived.sp_fact_daily_eid_sample_status_update_is_authorized;
+    EXEC derived.sp_fact_daily_eid_sample_status_update_is_referred;
+    EXEC derived.sp_fact_daily_eid_sample_status_update_is_referred_on_report_date;
+    EXEC derived.sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date;
     EXEC derived.sp_fact_daily_eid_sample_status_update_eid_sample_received_type_dbs;
     EXEC derived.sp_fact_daily_eid_sample_status_update_result;
     EXEC derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_positive;
@@ -7410,6 +7645,100 @@ GO
         
 
 -----------------------------------------------------------------------------------------------
+-- sp_dim_week_create
+--
+
+PRINT 'Creating final.sp_dim_week_create'
+GO
+
+CREATE OR ALTER PROCEDURE final.sp_dim_week_create AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_dim_week_create';
+
+-- $BEGIN
+
+  CREATE TABLE final.dim_week  (
+    week_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    start_date DATE NULL,
+    end_date DATE NULL,
+    weekly_start_monday_period NVARCHAR (255),
+    weekly_start_monday_day_dates NVARCHAR (255)
+  );
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_dim_week_create';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_dim_week_insert
+--
+
+PRINT 'Creating final.sp_dim_week_insert'
+GO
+
+CREATE OR ALTER PROCEDURE final.sp_dim_week_insert AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_dim_week_insert';
+
+-- $BEGIN
+
+    INSERT INTO final.dim_week (
+      start_date,
+      end_date,
+      weekly_start_monday_period,
+      weekly_start_monday_day_dates
+    )
+    SELECT
+        MIN(date) AS start_date,
+        MAX(date) AS end_date,
+        weekly_start_monday_period,
+        weekly_start_monday_day_dates
+    FROM
+      derived.dim_date
+    GROUP BY
+        weekly_start_monday_period,
+        weekly_start_monday_day_dates;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_dim_week_insert';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_dim_week
+--
+
+PRINT 'Creating final.sp_dim_week'
+GO
+
+CREATE OR ALTER PROCEDURE final.sp_dim_week AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_dim_week';
+
+-- $BEGIN
+
+    EXEC final.sp_dim_week_create;
+    EXEC final.sp_dim_week_insert;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_dim_week';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
 -- sp_fact_daily_sample_summary_create
 --
 
@@ -7472,6 +7801,12 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         hvl_result_tnd INT NULL DEFAULT 0,
         eid_result_tnd INT NULL DEFAULT 0,
         result_tnd INT NULL DEFAULT 0,
+        hvl_sample_referred INT NULL DEFAULT 0,
+        eid_sample_referred INT NULL DEFAULT 0,
+        sample_referred INT NULL DEFAULT 0,
+        hvl_referral_result_received INT NULL DEFAULT 0,
+        eid_referral_result_received INT NULL DEFAULT 0,
+        referral_result_received INT NULL DEFAULT 0,
         result_indeterminate INT NULL DEFAULT 0,
         hvl_samples_with_results_equal_or_above_1000 INT NULL DEFAULT 0,
         hvl_samples_with_results_less_than_1000_or_above_50 INT NULL DEFAULT 0,
@@ -7602,6 +7937,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 			SUM(ISNULL(eid.is_invalid_result, 0)) AS eid_result_invalid,
 			SUM(ISNULL(eid.is_failed_result, 0)) AS eid_result_failed,
 			SUM(ISNULL(eid.is_sample_tested_result_not_detected, 0)) AS eid_result_tnd,
+			SUM(ISNULL(eid.is_referred_on_report_date, 0)) AS eid_sample_referred,
+			SUM(ISNULL(eid.is_referral_result_received, 0)) AS eid_referral_result_received,
 			SUM(ISNULL(eid.is_indeterminate_result, 0)) AS result_indeterminate,
 			SUM(ISNULL(eid.is_sample_tested_negative, 0)) AS eid_sample_tested_negative,
 			SUM(ISNULL(eid.is_sample_tested_positive, 0)) AS eid_sample_tested_positive,
@@ -7650,6 +7987,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 		fs.eid_result_invalid = ISNULL(eid.eid_result_invalid, 0),
 		fs.eid_result_failed = ISNULL(eid.eid_result_failed, 0),
 		fs.eid_result_tnd = ISNULL(eid.eid_result_tnd, 0),
+		fs.eid_sample_referred = ISNULL(eid.eid_sample_referred, 0),
+		fs.eid_referral_result_received = ISNULL(eid.eid_referral_result_received, 0),
 		fs.result_indeterminate = ISNULL(eid.result_indeterminate, 0),
 		fs.eid_sample_tested_negative = ISNULL(eid.eid_sample_tested_negative, 0),
 		fs.eid_sample_tested_positive = ISNULL(eid.eid_sample_tested_positive, 0),
@@ -7731,6 +8070,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 				SUM(ISNULL(hvl.is_invalid_result, 0)) AS hvl_result_invalid,
 				SUM(ISNULL(hvl.is_failed_result, 0)) AS hvl_result_failed,
 				SUM(ISNULL(hvl.is_target_not_detected, 0)) AS hvl_result_tnd,
+				SUM(ISNULL(hvl.is_referred_on_report_date, 0)) AS hvl_sample_referred,
+				SUM(ISNULL(hvl.is_referral_result_received, 0)) AS hvl_referral_result_received,
 				SUM(ISNULL(hvl.is_received_by_entry_modality_hub, 0)) AS hvl_samples_received_by_entry_modality_hub,
 				SUM(ISNULL(hvl.is_received_by_entry_modality_lab, 0)) AS hvl_samples_received_by_entry_modality_lab,
 				SUM(ISNULL(hvl.samples_tested_with_results_equal_or_above_1000, 0)) AS hvl_samples_with_results_equal_or_above_1000,
@@ -7786,6 +8127,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 		fs.hvl_result_invalid = ISNULL(hvl.hvl_result_invalid, 0),
 		fs.hvl_result_failed = ISNULL(hvl.hvl_result_failed, 0),
 		fs.hvl_result_tnd = ISNULL(hvl.hvl_result_tnd, 0),
+		fs.hvl_sample_referred = ISNULL(hvl.hvl_sample_referred, 0),
+		fs.hvl_referral_result_received = ISNULL(hvl.hvl_referral_result_received, 0),
 		fs.hvl_samples_received_by_entry_modality_hub = ISNULL(hvl.hvl_samples_received_by_entry_modality_hub, 0),
 		fs.hvl_samples_received_by_entry_modality_lab = ISNULL(hvl.hvl_samples_received_by_entry_modality_lab, 0),
 		fs.hvl_samples_with_results_equal_or_above_1000 = ISNULL(hvl.hvl_samples_with_results_equal_or_above_1000, 0),
@@ -7884,7 +8227,9 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 		result_accepted = eid_result_accepted + hvl_result_accepted,
 		result_invalid = eid_result_invalid + hvl_result_invalid,
         result_failed = eid_result_failed + hvl_result_failed,
-		result_tnd = eid_result_tnd + hvl_result_tnd;
+		result_tnd = eid_result_tnd + hvl_result_tnd,
+		sample_referred = eid_sample_referred + hvl_sample_referred,
+		referral_result_received = eid_referral_result_received + hvl_referral_result_received;
 
 -- $END
 
@@ -7936,13 +8281,14 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_data_processing'
 
 -- $BEGIN
 
-PRINT 'Dropping Foreign Keys'
-EXEC dbo.sp_xf_system_drop_all_foreign_keys_in_schema 'final'
+    PRINT 'Dropping Foreign Keys'
+    EXEC dbo.sp_xf_system_drop_all_foreign_keys_in_schema 'final'
 
-PRINT 'Dropping tables'
-EXEC dbo.sp_xf_system_drop_all_tables_in_schema 'final'
+    PRINT 'Dropping tables'
+    EXEC dbo.sp_xf_system_drop_all_tables_in_schema 'final'
 
-EXEC final.sp_fact_daily_sample_summary;
+    EXEC final.sp_dim_week;
+    EXEC final.sp_fact_daily_sample_summary;
 
 -- $END
 
