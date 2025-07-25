@@ -2488,48 +2488,15 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_upd
 
 -- $BEGIN
 
-    UPDATE 
+    UPDATE
         ds
     SET 
         clean_rejection_reason = 
         CASE 
             WHEN 
-                ds.rejection_reason = 'BLOOD' 
-                OR ds.rejection_reason = 'Blood spots in contact each other'
-                OR ds.rejection_reason = 'Old whole blood specimen with more than 24 hrs reaching the separation point' 
-                OR ds.rejection_reason LIKE '%Hemolysed%'
-                THEN  'Hemolysed sample'
-            WHEN 
-                ds.rejection_reason = 'Serum separation due to improper drying or collection' 
-                OR ds.rejection_reason = 'Clotted or layered blood spot'
-                OR ds.rejection_reason = 'Clotted Sample' 
-                OR ds.rejection_reason LIKE '%clot%'
-                OR ds.rejection_reason LIKE '%blood spot%'
-                THEN  'Clotted specimen'
-            WHEN 
-                ds.rejection_reason = 'Insufficient specimen as per specific SOP' 
-                OR ds.rejection_reason = 'Low volume'
-                OR ds.rejection_reason = 'Sample did not fill the cycle in the DBS card' 
-                OR ds.rejection_reason LIKE '%insufficient sample or specimen%' 
-                OR ds.rejection_reason LIKE '%poor quality%' 
-                THEN  'Insufficient sample has been submitted (Low volume)'
-            WHEN 
-                ds.rejection_reason = 'Unlabelled or mislabelled specimen' 
-                OR ds.rejection_reason = 'Mismatched information on request form and specimen'
-                OR ds.rejection_reason = 'Mismatched information between DBS card and laboratory test request form' 
-                OR ds.rejection_reason = 'Incompletely filled requisition form' 
-                OR ds.rejection_reason LIKE '%incomplete form or card%' 
-                THEN  'Incomplete form'
-            WHEN 
-                ds.rejection_reason = 'Old DBS card with more than 14 days of collection' 
-                OR ds.rejection_reason LIKE '%vacutainer%'
-                OR ds.rejection_reason LIKE '%expired%'
-                OR ds.rejection_reason LIKE '%more than days%'
-                THEN  'Expired vacutainer/DBS Card'
-            WHEN 
-                ds.rejection_reason = 'No humidity indicator' 
-                OR ds.rejection_reason = 'Indicating silica gel in the package' 
-                THEN  'Improper packaging'
+                ds.rejection_reason IS NOT NULL
+            THEN
+                TRIM(SUBSTRING(ds.rejection_reason, CHARINDEX('-', ds.rejection_reason) + 1, LEN(ds.rejection_reason)))
             ELSE 
                 'Others'
         END
