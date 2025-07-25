@@ -26,6 +26,7 @@
                     exportData="true"
                     header="HEI Missed EID Test &lt;2 Months"
                     variant="plain"
+                    initialColumns="Mother Patient ID, Exposed Infant ID, Date of Birth, HEI Age in Weeks at Last Visit, HEI Current Age in Weeks, HEI Current Age in Days, Sex, Last Visit Date, HEI Documented Risk Category, HEI Eligible for DNA PCR at Birth, HEI Eligible for DNA PCR at 4 to 6 Weeks"
                     detailsViewColumn="Mother Patient ID"
                 >
                 <Table data="needing_eid_test_2_months_hei_details_data" header="HEI details" />
@@ -50,6 +51,7 @@
                     exportData="true"
                     header="Misclassified High Risk HEI"
                     variant="plain"
+                    initialColumns="Mother Patient ID, Exposed Infant ID, Date of Birth, HEI Current Age in Days, Sex, Last Visit Date, HEI Documented Risk Category, HEI Calculated Risk Status"
                     detailsViewColumn="Mother Patient ID"
                 >
                 <Table data="risk_analysis_hei_details_data" header="HEI details" />
@@ -68,11 +70,11 @@
             </Table>
             </Tile>
 
-            <Tile data="tile_hei_pos_not_initiated_data" title="HEI_Pos Not on ART">
+            <Tile data="tile_hei_pos_not_initiated_data" title="HEI_POS not on ART">
                 <Table
                     data="hei_pos_not_initiated_data"
                     exportData="true"
-                    header="HEI POS Not Initiated on ART"
+                    header="HEI_POS Not Initiated on ART"
                     variant="plain"
                     detailsViewColumn="Mother Patient ID"
                 >

@@ -4,6 +4,7 @@ SELECT
     [Date of Birth],
     [HEI Age in Weeks at Last Visit],
     [HEI Current Age in Weeks],
+    [HEI Current Age in Days],
     [Sex],
     [Last Visit Date],
     [HEI Documented Risk Category],
@@ -26,4 +27,5 @@ WHERE
         )
     )
     AND ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
-    AND [HEI Current Age in Weeks] = 6
+    AND [First EID Test Date] IS NULL
+    AND [HEI Current Age in Days] < 60

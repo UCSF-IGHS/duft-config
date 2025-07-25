@@ -15,4 +15,5 @@ WHERE
         )
     )
     AND ISNULL([Infant Status], '') NOT IN ('TRN', 'DIE')
-    AND [HEI Current Age in Weeks] = 6
+    AND [First EID Test Date] IS NULL
+    AND [HEI Current Age in Days] < 60

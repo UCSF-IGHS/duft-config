@@ -1,6 +1,7 @@
 {
   "settings": {
     "appName": "Decisive App",
+    "iconKey": "CTCA",
     "footer": "© 2025 DUFT. Powered by DUFT."
   },
   "dataTasks": {

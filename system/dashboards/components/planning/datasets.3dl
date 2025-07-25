@@ -1,24 +1,28 @@
 <Datasets>
 
-    {/* Data definitions for HEI */}
+    {/* Data definitions for Planning */}
 
-        {/* Not Registered */}
+        {/* HVL Eligible Clients */}
 
             <SQLData
-                name="hei_not_registered_data"
-                queryName="hei/table/not_registered"
-                filterFrom="Date of Birth"
+                name="hvl_clients_data"
+                queryName="planning/table/hvl_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
-                searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Infant Status, Exposed Infant ID"
+                searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_not_registered_data" queryName="hei/tile/not_registered" />
+            <SQLData
+                name="tile_hvl_data"
+                queryName="planning/tile/hvl"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
             <SQLData
-                name="not_registered_hei_details_data"
-                detailsViewData="hei_not_registered_data"
-                detailsViewColumn="Mother Patient ID"
+                name="hvl_client_details_data"
+                detailsViewData="hvl_clients_data"
+                detailsViewColumn="Patient ID"
                 transpose="true"
             >
                 SELECT
@@ -38,26 +42,30 @@
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
-                    [Patient ID] = '[[Mother Patient ID]]'
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
-        {/* Needing EID Test 2 Months */}
+        {/* EAC Eligible Clients */}
 
             <SQLData
-                name="hei_needing_eid_test_2_months_data"
-                queryName="hei/table/needing_eid_test_2_months"
-                filterFrom="Date of Birth"
+                name="eac_clients_data"
+                queryName="planning/table/eac_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
-                searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Last EID Visit Date, Exposed Infant ID"
+                searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_needing_eid_test_2_months_data" queryName="hei/tile/needing_eid_test_2_months" />
+            <SQLData
+                name="tile_eac_data"
+                queryName="planning/tile/eac"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
             <SQLData
-                name="needing_eid_test_2_months_hei_details_data"
-                detailsViewData="hei_needing_eid_test_2_months_data"
-                detailsViewColumn="Mother Patient ID"
+                name="eac_client_details_data"
+                detailsViewData="eac_clients_data"
+                detailsViewColumn="Patient ID"
                 transpose="true"
             >
                 SELECT
@@ -77,26 +85,30 @@
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
-                    [Patient ID] = '[[Mother Patient ID]]'
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
-        {/* Needing EID Test 9+ months */}
+        {/* CD4 Eligible Clients */}
 
             <SQLData
-                name="hei_needing_eid_test_9_months_data"
-                queryName="hei/table/needing_eid_test_9_months"
-                filterFrom="Date of Birth"
+                name="cd4_clients_data"
+                queryName="planning/table/cd4_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
-                searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Last EID Visit Date, Exposed Infant ID"
+                searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_needing_eid_test_9_months_data" queryName="hei/tile/needing_eid_test_9_months" />
+            <SQLData
+                name="tile_cd4_data"
+                queryName="planning/tile/cd4"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
             <SQLData
-                name="needing_eid_test_9_months_hei_details_data"
-                detailsViewData="hei_needing_eid_test_9_months_data"
-                detailsViewColumn="Mother Patient ID"
+                name="cd4_client_details_data"
+                detailsViewData="cd4_clients_data"
+                detailsViewColumn="Patient ID"
                 transpose="true"
             >
                 SELECT
@@ -116,26 +128,30 @@
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
-                    [Patient ID] = '[[Mother Patient ID]]'
+                [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
-        {/* Misclassified High Risk HEI */}
+        {/* CrAg Eligible Clients */}
 
             <SQLData
-                name="hei_risk_analysis_data"
-                queryName="hei/table/risk_analysis"
-                filterFrom="Date of Birth"
+                name="crag_clients_data"
+                queryName="planning/table/crag_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
-                searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Last EID Visit Date, Exposed Infant ID"
+                searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_risk_analysis_data" queryName="hei/tile/risk_analysis" />
+            <SQLData
+                name="tile_crag_data"
+                queryName="planning/tile/crag"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
             <SQLData
-                name="risk_analysis_hei_details_data"
-                detailsViewData="hei_risk_analysis_data"
-                detailsViewColumn="Mother Patient ID"
+                name="crag_client_details_data"
+                detailsViewData="crag_clients_data"
+                detailsViewColumn="Patient ID"
                 transpose="true"
             >
                 SELECT
@@ -155,26 +171,30 @@
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
-                    [Patient ID] = '[[Mother Patient ID]]'
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
-        {/* 18-24 Months Without FO */}
+        {/* CPeT Eligible Clients */}
 
             <SQLData
-                name="hei_without_fo_data"
-                queryName="hei/table/without_fo"
-                filterFrom="Date of Birth"
+                name="cpet_clients_data"
+                queryName="planning/table/cpet_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
-                searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Exposed Infant ID"
+                searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_without_fo_data" queryName="hei/tile/without_fo" />
+            <SQLData
+                name="tile_cpet_data"
+                queryName="planning/tile/cpet"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
             <SQLData
-                name="without_fo_hei_details_data"
-                detailsViewData="hei_without_fo_data"
-                detailsViewColumn="Mother Patient ID"
+                name="cpet_client_details_data"
+                detailsViewData="cpet_clients_data"
+                detailsViewColumn="Patient ID"
                 transpose="true"
             >
                 SELECT
@@ -194,26 +214,30 @@
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
-                    [Patient ID] = '[[Mother Patient ID]]'
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
-        {/* HEI_POS Not Initiated */}
+        {/* CMT Eligible Clients */}
 
             <SQLData
-                name="hei_pos_not_initiated_data"
-                queryName="hei/table/pos_not_initiated"
-                filterFrom="Date of Birth"
+                name="cmt_clients_data"
+                queryName="planning/table/cmt_clients"
+                filterFrom="Last Visit Date, Next Appointment Date"
                 pageSize="15"
-                searchColumns="Patient ID, Date of Birth, HEI Current Age in Months, Sex, Last Antibody Result, Exposed Infant ID"
+                searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
                 sortColumn="Patient ID"
             />
 
-            <SQLData name="tile_hei_pos_not_initiated_data" queryName="hei/tile/pos_not_initiated" />
+            <SQLData
+                name="tile_cmt_data"
+                queryName="planning/tile/cmt"
+                filterFrom="Last Visit Date, Next Appointment Date"
+            />
 
             <SQLData
-                name="pos_not_initiated_hei_details_data"
-                detailsViewData="hei_pos_not_initiated_data"
-                detailsViewColumn="Mother Patient ID"
+                name="cmt_client_details_data"
+                detailsViewData="cmt_clients_data"
+                detailsViewColumn="Patient ID"
                 transpose="true"
             >
                 SELECT
@@ -233,7 +257,7 @@
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
-                    [Patient ID] = '[[Mother Patient ID]]'
+                    [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
 </Datasets>

@@ -7,16 +7,16 @@
             <SQLData
                 name="iit_clients_data"
                 queryName="plhiv/table/iit_clients"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [Number of Days Dispensed]"
                 sortColumn="Patient ID"
             />
 
             <SQLData
                 name="tile_iit_data"
                 queryName="plhiv/tile/iit"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
             />
 
             <SQLData
@@ -32,10 +32,13 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -49,16 +52,16 @@
             <SQLData
                 name="ahd_no_crag_clients_data"
                 queryName="plhiv/table/ahd_no_crag_clients"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [WHO Stage 3/4 Result]"
                 sortColumn="Patient ID"
             />
 
             <SQLData
                 name="tile_ahd_no_crag_data"
                 queryName="plhiv/tile/ahd_no_crag"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
             />
 
             <SQLData
@@ -74,10 +77,14 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -89,16 +96,16 @@
             <SQLData
                 name="confirmed_ahd_no_management_clients_data"
                 queryName="plhiv/table/confirmed_ahd_no_management_clients"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [WHO Stage 3/4 Result]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [WHO Stage 3/4 Result]"
                 sortColumn="Patient ID"
             />
 
             <SQLData
                 name="tile_confirmed_ahd_no_management_data"
                 queryName="plhiv/tile/confirmed_ahd_no_management"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
             />
 
             <SQLData
@@ -113,10 +120,14 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -128,16 +139,16 @@
             <SQLData
                 name="missed_vl_clients_data"
                 queryName="plhiv/table/missed_vl_clients"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [Last VL Result Numeric]"
                 sortColumn="Patient ID"
             />
 
             <SQLData
                 name="tile_missed_vl_data"
                 queryName="plhiv/tile/missed_vl"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
             />
 
             <SQLData
@@ -153,10 +164,14 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -168,16 +183,16 @@
             <SQLData
                 name="unsuppressed_clients_data"
                 queryName="plhiv/table/unsuppressed_clients"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [Last VL Result Numeric]"
                 sortColumn="Patient ID"
             />
 
             <SQLData
                 name="tile_unsuppressed_data"
                 queryName="plhiv/tile/unsuppressed"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
             />
 
             <SQLData
@@ -193,10 +208,14 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -208,16 +227,16 @@
             <SQLData
                 name="clhiv_nutrition_clients_data"
                 queryName="plhiv/table/clhiv_nutrition_clients"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [Last VL Result Numeric]"
                 sortColumn="Patient ID"
             />
 
             <SQLData
                 name="tile_clhiv_nutrition_data"
                 queryName="plhiv/tile/clhiv_nutrition"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
             />
 
             <SQLData
@@ -233,10 +252,14 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE
@@ -248,16 +271,16 @@
             <SQLData
                 name="missed_appointment_clients_data"
                 queryName="plhiv/table/missed_appointment_clients"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
                 pageSize="15"
-                searchColumns="[Patient ID], [Current Age], [Sex], [Last VL Result Numeric]"
+                searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [Last VL Result Numeric]"
                 sortColumn="Patient ID"
             />
 
             <SQLData
                 name="tile_missed_appointment_data"
                 queryName="plhiv/tile/missed_appointment"
-                filterFrom="Last Visit Date, Next Appointment Date"
+                filterFrom="Last Visit Date, Last Appointment Date"
             />
 
             <SQLData
@@ -273,10 +296,14 @@
                     [HIV Diagnosis Date] AS [Date Confirmed HIV],
                     [Date Start ART],
                     [Marital Status],
-                    [Last Pregnancy Status] AS [Pregnancy Status],
+                    CASE
+                        WHEN [Last Pregnancy Status] = 'Yes'
+                        THEN CONCAT([Last Pregnancy Status], ', ', [Pregnancy Due Date])
+                        ELSE [Last Pregnancy Status]
+                    END AS [Pregnancy Status],
                     [Now Pregnant/Breastfeeding] AS [Breastfeeding Status],
-                    [Pregnancy Due Date],
-                    [Last VL Result Numeric] AS [Last Viral Load]
+                    [Last VL Result Numeric] AS [Last Viral Load Result],
+                    [Last VL Result Date]
                 FROM
                     duft.fact_duft_sentinel_event
                 WHERE

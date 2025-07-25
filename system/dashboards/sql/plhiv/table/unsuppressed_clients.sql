@@ -1,29 +1,23 @@
-SELECT
+SELECT DISTINCT
     [Patient ID],
     [Current Age],
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Next Appointment Date],
-    [Last Prescription Regimen Line] AS [ARV Regimen],
-    [Now Pregnant/Breastfeeding] AS [Now Pregnant/ Breastfeeding],
-    [Last VL Test Date] AS [VL Test Date Before Start EAC],
-    [Last VL Result Numeric] AS [VL Result Before Start EAC],
-    [Last VL Result Date] AS [VL Result Return Date],
-    [Last Date Initiated EAC] AS [Previous Date Initiated EAC],
+    [Last Appointment Date_],
+    [VL Result Return Date],
+    [Last VL Test Date],
+    [Last VL Result Numeric],
+    [ARV Regimen],
+    [Now Pregnant/Breastfeeding],
+    [Previous Date Initiated EAC],
     [Last Visit Type],
     [Last Visit Refill Type],
     [Days Missed Appointment],
-    [Last Prescription Regimen Name] AS [ARV Regimen Description],
+    [ARV Regimen Description],
     [Current Height (CM)],
     [Current Weight (KG)],
-    [Last BP Systolic] AS [BP Reading (Systolic)],
-    [Last BP Diastolic] AS [BP Reading (Diastolic)]
+    [BP Reading (Systolic)],
+    [BP Reading (Diastolic)]
 FROM
-    duft.fact_duft_sentinel_event
-WHERE
-    [Last VL Is Unsuppressed] = 'Yes'
-    AND (
-        [Last Date Initiated EAC] IS NULL
-        OR [Last Date Initiated EAC] < [Last VL Result Date]
-    )
+    duft.fact_unsuppressed_no_eac_clients

@@ -4,11 +4,12 @@ SELECT
     [Sex],
     [Date Start ART],
     [Last Visit Date],
-    [Next Appointment Date],
+    [Last Appointment Date],
     [CrAg Test Date],
+    [Has CrAg Test],
     [CrAg Test Results],
-    [Has Cryptococcal Infection],
-    [Has Cryptococcal Meningitis],
+    [Has Cryptococcal Infection] AS [Cryptococcal Infection Diagnosis Done?],
+    [Has Cryptococcal Meningitis] AS [Cryptococcal Meningitis Diagnosis Done?],
     [CI Received Cryptococcal Prophylaxis],
     [CM Received Cryptococcal Treatment],
     [Last Visit Type],
@@ -24,7 +25,6 @@ FROM
 WHERE
     (
         [CrAg Test Results] = 'Pos'
-        AND [Crag Test Within 30 Days] = 'Yes'
         AND (
             [CI Received Cryptococcal Prophylaxis] = 'No'
             OR [CM Received Cryptococcal Treatment] = 'No'

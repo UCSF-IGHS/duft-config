@@ -1,0 +1,295 @@
+<Dashboards>
+
+    <Include file="components/common/datasets.3dl" />
+
+    <Include file="components/planning/datasets.3dl" />
+
+    <Dashboard
+        data="metadata"
+        tabName="A. Overview"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
+        </Filters>
+
+        <Include file="components/planning/overview.3dl" />
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="B. Eligible for HVL"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    Clients Eligible for HIV Viral Load
+                </Header>
+                <SubHeader>
+                    Table of clients who are eligible for HIV Viral Load next week.
+                </SubHeader>
+                <Table
+                    data="hvl_clients_data"
+                    header="Clients Eligible for HIV Viral Load"
+                    subHeader="Table of clients who are eligible for HIV Viral Load next week."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, VL Eligible Date, Eligible for HVL Next Week"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="hvl_client_details_data" variant="plain" header="Client Profile" />
+                </Table>
+            </Grid>
+        </SingleLayout>
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="B. Eligible for EAC"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    Clients Eligible for Enhanced Adherence Counselling
+                </Header>
+                <SubHeader>
+                    Table of clients who are eligible for enhanced adhrerence counselling (EAC) next week.
+                </SubHeader>
+                <Table
+                    data="eac_clients_data"
+                    header="Clients Eligible for Enhanced Adherence Counselling"
+                    subHeader="Table of clients who are eligible for enhanced adhrerence counselling (EAC) next week."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for EAC Date, Eligible for EAC Next Week"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="eac_client_details_data" variant="plain" header="Client Profile" />
+                </Table>
+            </Grid>
+        </SingleLayout>
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="B. Eligible for CD4"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    Clients Eligible for CD4 Test
+                </Header>
+                <SubHeader>
+                    Table of clients who are eligible for CD4 test next week.
+                </SubHeader>
+                <Table
+                    data="cd4_clients_data"
+                    header="Clients Eligible for CD4 Test"
+                    subHeader="Table of clients who are eligible for CD4 test next week."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CD4 Date, Eligible for CD4 Next Week"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="cd4_client_details_data" variant="plain" header="Client Profile" />
+                </Table>
+            </Grid>
+        </SingleLayout>
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="B. Eligible for CrAg"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    Clients Eligible for CrAg Test
+                </Header>
+                <SubHeader>
+                    Table of clients who are eligible for CrAg test next week.
+                </SubHeader>
+                <Table
+                    data="crag_clients_data"
+                    header="Clients Eligible for CrAg Test"
+                    subHeader="Table of clients who are eligible for CrAg test next week."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CrAg Date, Eligible for CrAg Next Week"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="crag_client_details_data" variant="plain" header="Client Profile" />
+                </Table>
+            </Grid>
+        </SingleLayout>
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="B. Eligible for CPeT"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    Clients Eligible for Cryptococcal Pre-emptive Therapy
+                </Header>
+                <SubHeader>
+                    Table of clients who are eligible for cryptococcal pre-emptive therapy next week.
+                </SubHeader>
+                <Table
+                    data="cpet_clients_data"
+                    header="Clients Eligible for Cryptococcal Pre-emptive Therapy"
+                    subHeader="Table of clients who are eligible for cryptococcal pre-emptive therapy next week."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CPeT Date, Eligible for CPeT Next Week"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="cpet_client_details_data" variant="plain" header="Client Profile" />
+                </Table>
+            </Grid>
+        </SingleLayout>
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="B. Eligible for CMT"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    Clients Eligible for Cryptococcal Treatment
+                </Header>
+                <SubHeader>
+                    Table of clients who are eligible for cryptococcal treatment next week.
+                </SubHeader>
+                <Table
+                    data="cmt_clients_data"
+                    header="Clients Eligible for Cryptococcal Treatment"
+                    subHeader="Table of clients who are eligible for cryptococcal treatment next week."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CMT Date, Eligible for CMT Next Week"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="cmt_client_details_data" variant="plain" header="Client Profile" />
+                </Table>
+            </Grid>
+        </SingleLayout>
+    </Dashboard>
+
+</Dashboards>

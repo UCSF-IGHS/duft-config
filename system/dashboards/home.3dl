@@ -12,7 +12,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <Include file="components/plhiv/overview.3dl" />
@@ -26,7 +36,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+                <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -43,7 +63,7 @@
                     subHeader="Table of clients missed appointments last week."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/ Breastfeeding, Last Viral Load High(>1000cps/ml, Last Visit Type, Last Visit Refill Type"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Number of Days Dispensed, Missed Appointment Date, Now Pregnant/Breastfeeding, Last Viral Load High(>1000cps/ml, Last Visit Type, Last Visit Refill Type"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="missed_appointment_client_details_data" variant="plain" header="PLHIV Client Profile" />
@@ -60,7 +80,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -77,7 +107,7 @@
                     subHeader="Table of clients who missed viral load test."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Now Pregnant/ Breastfeeding, Last VL Test Date, Last VL Result, VL Eligible PBFW, VL Eligible TX_CURR, VL Eligible TX_NEW"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Now Pregnant/Breastfeeding, Last VL Test Date, Last VL Result, VL Eligible PBFW, VL Eligible TX_CURR, VL Eligible TX_NEW"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="missed_vl_client_details_data" variant="plain" header="PLHIV Client Profile" />
@@ -88,13 +118,23 @@
 
     <Dashboard
         data="metadata"
-        tabName="D. Unsuppressed No EAC"
+        tabName="D. Unsuppressed no EAC"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -111,7 +151,7 @@
                         subHeader="Table of clients with appointments last week whose viral load is unsuppressed and are not initiated on EAC."
                         exportData="true"
                         variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, ARV Regimen, Now Pregnant/ Breastfeeding, VL Test Date Before Start EAC, VL Test Result Before Start EAC,VL Result Return Date"
+                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date_, ARV Regimen, Now Pregnant/Breastfeeding, Last VL Test Date, Last VL Result Numeric, VL Result Return Date"
                         detailsViewColumn="Patient ID"
                     >
                     <Table data="unsuppressed_client_details_data" variant="plain" header="PLHIV Client Profile" />
@@ -122,30 +162,40 @@
 
     <Dashboard
         data="metadata"
-        tabName="E. CLHIV Without Height and Weight"
+        tabName="E. CLHIV Nutritional Challenges"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <SingleLayout>
             <Grid>
                 <Header>
-                    Children Living with HIV (CLHIV) Without Height and Weight
+                    Children Living with HIV (CLHIV) with Nutritional Documentation Issues
                 </Header>
                 <SubHeader>
                     CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status.
                 </SubHeader>
                     <Table
                         data="clhiv_nutrition_clients_data"
-                        header="Children Living with HIV (CLHIV) Without Height and Weight"
+                        header="Children Living with HIV (CLHIV) with Nutritional Documentation Issues"
                         subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
                         exportData="true"
                         variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Documented Nutritional Status, Calculated Nutritional Status, Documented and Calculated Status Match, Last Visit Type, Last Visit Refill Type"
+                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Documented Nutritional Status, Calculated Nutritional Status, Documented and Calculated Status Match, Last Visit Type, Last Visit Refill Type"
                         detailsViewColumn="Patient ID"
                     >
                     <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
@@ -162,7 +212,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -179,7 +239,7 @@
                     subHeader="Clients without a CrAg test, confirmed as Advanced HIV Disease (AHD) suspects."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, TX_NEW, WHO Stage 3/4 (Yes/No), Traced Back After LTFU (TX_RTT), Persistent High VL After EAC, Last CD4 Test Date, Last CD4 Test Result"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, TX_NEW, WHO Stage 3/4 (Yes/No), Traced Back After LTFU (TX_RTT), Persistent High VL After EAC, Last CD4 Test Date, Last CD4 Test Result"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="ahd_no_crag_client_details_data" header="PLHIV Client Profile" />
@@ -196,7 +256,17 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" />
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
         </Filters>
 
             <Grid>
@@ -213,13 +283,13 @@
                     subHeader="Confirmed AHD clients with positive CrAg test and no follow-up for prophylaxis or treatment."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, CrAg Test Date, CrAg Test Results, Has Cryptococcal Infection, Has Cryptococcal Meningitis"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, CrAg Test Date, CrAg Test Results, Cryptococcal Infection Diagnosis Done?, Cryptococcal Meningitis Diagnosis Done?"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="confirmed_ahd_no_management_client_details_data" header="PLHIV Client Profile" />
                 </Table>
-        </SingleLayout>
-    </Grid>
-</Dashboard>
+            </SingleLayout>
+        </Grid>
+    </Dashboard>
 
 </Dashboards>
