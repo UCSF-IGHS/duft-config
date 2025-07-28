@@ -8,85 +8,85 @@
         filterFrom="weekly_start_monday_period"
     >
         WITH cte_selected_week AS (
-            SELECT DISTINCT weekly_start_monday_day_dates
-            FROM [final].dim_week
-            WHERE weekly_start_monday_period = $[weekly_start_monday_period]
+        SELECT DISTINCT weekly_start_monday_day_dates
+        FROM [final].dim_week
+        WHERE weekly_start_monday_period = $[weekly_start_monday_period]
         ),
         cte_date_bounds AS (
-            SELECT 
-                CAST(LEFT(weekly_start_monday_day_dates, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE) AS selected_week_start_date
-            FROM cte_selected_week
+        SELECT 
+        CAST(LEFT(weekly_start_monday_day_dates, CHARINDEX('-', weekly_start_monday_day_dates) - 2) AS DATE) AS selected_week_start_date
+        FROM cte_selected_week
         ),
         cte_target_weeks AS (
-            SELECT 
-                weekly_start_monday_day_dates,
-                weekly_start_monday_period
-            FROM [final].dim_week dw
-            CROSS JOIN cte_date_bounds db
-            WHERE dw.start_date BETWEEN DATEADD(DAY, -21, db.selected_week_start_date) AND db.selected_week_start_date
+        SELECT 
+        weekly_start_monday_day_dates,
+        weekly_start_monday_period
+        FROM [final].dim_week dw
+        CROSS JOIN cte_date_bounds db
+        WHERE dw.start_date BETWEEN DATEADD(DAY, -21, db.selected_week_start_date) AND db.selected_week_start_date
         ),
         cte_pending_data AS (
-            SELECT
-                dw.weekly_start_monday_day_dates,
-                dw.weekly_start_monday_period,
-                SUM(fs.hvl_result_pending) AS [Pending Results]
-            FROM
-                [final].fact_daily_sample_summary fs
-            INNER JOIN final.dim_week dw ON
-                fs.report_date = dw.end_date
-            INNER JOIN cte_target_weeks tw ON
-                dw.weekly_start_monday_day_dates = tw.weekly_start_monday_day_dates
-            GROUP BY
-                dw.weekly_start_monday_day_dates,
-                dw.weekly_start_monday_period
+        SELECT
+        dw.weekly_start_monday_day_dates,
+        dw.weekly_start_monday_period,
+        SUM(fs.hvl_result_pending) AS [Pending Results]
+        FROM
+        [final].fact_daily_sample_summary fs
+        INNER JOIN final.dim_week dw ON
+        fs.report_date = dw.end_date
+        INNER JOIN cte_target_weeks tw ON
+        dw.weekly_start_monday_day_dates = tw.weekly_start_monday_day_dates
+        GROUP BY
+        dw.weekly_start_monday_day_dates,
+        dw.weekly_start_monday_period
         ),
         cte_alldata AS (
-            SELECT
-                dd.weekly_start_monday_day_dates,
-                FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE),
-                    'yyyy-MM-dd') + ' to ' +
-                FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE),
-                    'yyyy-MM-dd') AS week,
-                SUM(fd.hvl_sample_collected) AS [Sample Collected],
-                SUM(fd.hvl_sample_received) AS [Sample Received],
-                SUM(fd.hvl_sample_accepted) AS [Sample Accepted],
-                SUM(fd.hvl_sample_rejected) AS [Sample Rejected],
-                SUM(fd.hvl_sample_tested) AS [Sample Tested],
-                SUM(fd.hvl_result_authorized) AS [Authorized Results],
-                SUM(fd.hvl_result_accepted) AS [Accepted Results],
-                SUM(fd.hvl_result_rejected) AS [Rejected Results],
-                SUM(fd.hvl_result_failed) AS [Failed Results],
-                SUM(fd.hvl_result_invalid) AS [Invalid Results]
-            FROM
-                [final].fact_daily_sample_summary fd
-            INNER JOIN [derived].dim_date dd ON
-                fd.report_date = dd.[date]
-            INNER JOIN cte_date_bounds db ON 1=1
-            WHERE
-                fd.report_date BETWEEN DATEADD(DAY, -21, db.selected_week_start_date)
-                AND db.selected_week_start_date
-            GROUP BY
-                dd.weekly_start_monday_day_dates
+        SELECT
+        dd.weekly_start_monday_day_dates,
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE),
+        'yyyy-MM-dd') + ' to ' +
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE),
+        'yyyy-MM-dd') AS week,
+        SUM(fd.hvl_sample_collected) AS [Sample Collected],
+        SUM(fd.hvl_sample_received) AS [Sample Received],
+        SUM(fd.hvl_sample_accepted) AS [Sample Accepted],
+        SUM(fd.hvl_sample_rejected) AS [Sample Rejected],
+        SUM(fd.hvl_sample_tested) AS [Sample Tested],
+        SUM(fd.hvl_result_authorized) AS [Authorized Results],
+        SUM(fd.hvl_result_accepted) AS [Accepted Results],
+        SUM(fd.hvl_result_rejected) AS [Rejected Results],
+        SUM(fd.hvl_result_failed) AS [Failed Results],
+        SUM(fd.hvl_result_invalid) AS [Invalid Results]
+        FROM
+        [final].fact_daily_sample_summary fd
+        INNER JOIN [derived].dim_date dd ON
+        fd.report_date = dd.[date]
+        INNER JOIN cte_date_bounds db ON 1=1
+        WHERE
+        fd.report_date BETWEEN DATEADD(DAY, -21, db.selected_week_start_date)
+        AND db.selected_week_start_date
+        GROUP BY
+        dd.weekly_start_monday_day_dates
         )
         SELECT
-            ad.week,
-            [Sample Collected],
-            [Sample Received],
-            [Sample Accepted],
-            [Sample Rejected],
-            [Sample Tested],
-            [Pending Results],
-            [Authorized Results],
-            [Accepted Results],
-            [Rejected Results],
-            [Failed Results],
-            [Invalid Results]
+        ad.week,
+        [Sample Collected],
+        [Sample Received],
+        [Sample Accepted],
+        [Sample Rejected],
+        [Sample Tested],
+        [Pending Results],
+        [Authorized Results],
+        [Accepted Results],
+        [Rejected Results],
+        [Failed Results],
+        [Invalid Results]
         FROM
-            cte_pending_data pn
+        cte_pending_data pn
         FULL OUTER JOIN cte_alldata ad ON
-            pn.weekly_start_monday_day_dates = ad.weekly_start_monday_day_dates
+        pn.weekly_start_monday_day_dates = ad.weekly_start_monday_day_dates
         ORDER BY
-            ad.week DESC
+        ad.week DESC
     </SQLData>
 
     <SQLData
@@ -173,94 +173,94 @@
         filterFrom="weekly_start_monday_period"
     >
         WITH cte_selected_week AS (
-            SELECT
-                DISTINCT weekly_start_monday_day_dates
-            FROM
-                [final].dim_week
-            WHERE
-                weekly_start_monday_period = $[weekly_start_monday_period]
-                    ),
-                    cte_date_bounds AS (
-            SELECT
-                CAST(LEFT(weekly_start_monday_day_dates,
-                CHARINDEX('-',
-                weekly_start_monday_day_dates) - 2) AS DATE) AS selected_week_start_date
-            FROM
-                cte_selected_week
-                    ),
-                    cte_target_weeks AS (
-            SELECT
-                weekly_start_monday_day_dates,
-                weekly_start_monday_period
-            FROM
-                [final].dim_week dw
-            CROSS JOIN cte_date_bounds db
-            WHERE
-                dw.start_date BETWEEN DATEADD(DAY, -21, db.selected_week_start_date) AND db.selected_week_start_date
-                    ),
-                    cte_pending_data AS (
-            SELECT
-                dw.weekly_start_monday_day_dates,
-                dw.weekly_start_monday_period,
-                SUM(fs.eid_result_pending) AS [Pending Results]
-            FROM
-                [final].fact_daily_sample_summary fs
-            INNER JOIN final.dim_week dw ON
-                fs.report_date = dw.end_date
-            INNER JOIN cte_target_weeks tw ON
-                dw.weekly_start_monday_day_dates = tw.weekly_start_monday_day_dates
-            GROUP BY
-                dw.weekly_start_monday_day_dates,
-                dw.weekly_start_monday_period
-                    ),
-                    cte_alldata AS (
-            SELECT
-                dd.weekly_start_monday_day_dates,
-                FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE),
-                'yyyy-MM-dd') + ' to ' +
-                            FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE),
-                'yyyy-MM-dd') AS week,
-                SUM(fd.eid_sample_collected) AS [Sample Collected],
-                SUM(fd.eid_sample_dbs_received) AS [Sample Received],
-                SUM(fd.eid_sample_accepted) AS [Sample Accepted],
-                SUM(fd.eid_sample_rejected) AS [Sample Rejected],
-                SUM(fd.eid_sample_tested) AS [Sample Tested],
-                SUM(fd.eid_result_authorized) AS [Authorized Results],
-                SUM(fd.eid_result_accepted) AS [Accepted Results],
-                SUM(fd.eid_result_rejected) AS [Rejected Results],
-                SUM(fd.eid_result_failed) AS [Failed Results],
-                SUM(fd.eid_result_invalid) AS [Invalid Results]
-            FROM
-                [final].fact_daily_sample_summary fd
-            INNER JOIN [derived].dim_date dd ON
-                fd.report_date = dd.[date]
-            INNER JOIN cte_date_bounds db ON
-                1 = 1
-            WHERE
-                fd.report_date BETWEEN DATEADD(DAY, -21, db.selected_week_start_date)
-                            AND db.selected_week_start_date
-            GROUP BY
-                dd.weekly_start_monday_day_dates
-                    )
-                    SELECT
-                ad.week,
-                [Sample Collected],
-                [Sample Received],
-                [Sample Accepted],
-                [Sample Rejected],
-                [Sample Tested],
-                [Pending Results],
-                [Authorized Results],
-                [Accepted Results],
-                [Rejected Results],
-                [Failed Results],
-                [Invalid Results]
-            FROM
-                cte_pending_data pn
-            FULL OUTER JOIN cte_alldata ad ON
-                pn.weekly_start_monday_day_dates = ad.weekly_start_monday_day_dates
-            ORDER BY
-                ad.week DESC
+        SELECT
+        DISTINCT weekly_start_monday_day_dates
+        FROM
+        [final].dim_week
+        WHERE
+        weekly_start_monday_period = $[weekly_start_monday_period]
+        ),
+        cte_date_bounds AS (
+        SELECT
+        CAST(LEFT(weekly_start_monday_day_dates,
+        CHARINDEX('-',
+        weekly_start_monday_day_dates) - 2) AS DATE) AS selected_week_start_date
+        FROM
+        cte_selected_week
+        ),
+        cte_target_weeks AS (
+        SELECT
+        weekly_start_monday_day_dates,
+        weekly_start_monday_period
+        FROM
+        [final].dim_week dw
+        CROSS JOIN cte_date_bounds db
+        WHERE
+        dw.start_date BETWEEN DATEADD(DAY, -21, db.selected_week_start_date) AND db.selected_week_start_date
+        ),
+        cte_pending_data AS (
+        SELECT
+        dw.weekly_start_monday_day_dates,
+        dw.weekly_start_monday_period,
+        SUM(fs.eid_result_pending) AS [Pending Results]
+        FROM
+        [final].fact_daily_sample_summary fs
+        INNER JOIN final.dim_week dw ON
+        fs.report_date = dw.end_date
+        INNER JOIN cte_target_weeks tw ON
+        dw.weekly_start_monday_day_dates = tw.weekly_start_monday_day_dates
+        GROUP BY
+        dw.weekly_start_monday_day_dates,
+        dw.weekly_start_monday_period
+        ),
+        cte_alldata AS (
+        SELECT
+        dd.weekly_start_monday_day_dates,
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE),
+        'yyyy-MM-dd') + ' to ' +
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE),
+        'yyyy-MM-dd') AS week,
+        SUM(fd.eid_sample_collected) AS [Sample Collected],
+        SUM(fd.eid_sample_dbs_received) AS [Sample Received],
+        SUM(fd.eid_sample_accepted) AS [Sample Accepted],
+        SUM(fd.eid_sample_rejected) AS [Sample Rejected],
+        SUM(fd.eid_sample_tested) AS [Sample Tested],
+        SUM(fd.eid_result_authorized) AS [Authorized Results],
+        SUM(fd.eid_result_accepted) AS [Accepted Results],
+        SUM(fd.eid_result_rejected) AS [Rejected Results],
+        SUM(fd.eid_result_failed) AS [Failed Results],
+        SUM(fd.eid_result_invalid) AS [Invalid Results]
+        FROM
+        [final].fact_daily_sample_summary fd
+        INNER JOIN [derived].dim_date dd ON
+        fd.report_date = dd.[date]
+        INNER JOIN cte_date_bounds db ON
+        1 = 1
+        WHERE
+        fd.report_date BETWEEN DATEADD(DAY, -21, db.selected_week_start_date)
+        AND db.selected_week_start_date
+        GROUP BY
+        dd.weekly_start_monday_day_dates
+        )
+        SELECT
+        ad.week,
+        [Sample Collected],
+        [Sample Received],
+        [Sample Accepted],
+        [Sample Rejected],
+        [Sample Tested],
+        [Pending Results],
+        [Authorized Results],
+        [Accepted Results],
+        [Rejected Results],
+        [Failed Results],
+        [Invalid Results]
+        FROM
+        cte_pending_data pn
+        FULL OUTER JOIN cte_alldata ad ON
+        pn.weekly_start_monday_day_dates = ad.weekly_start_monday_day_dates
+        ORDER BY
+        ad.week DESC
     </SQLData>
 
     <SQLData
