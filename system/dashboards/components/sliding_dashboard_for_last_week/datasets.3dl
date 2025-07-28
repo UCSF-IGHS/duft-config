@@ -6,6 +6,11 @@
     queryName="sliding_dashboard_queries_for_last_week/hvl_samples_tested_rejected_authorised"
   />
 
+  <SQLData 
+    name="hvl_samples_referred"
+    queryName="sliding_dashboard_queries_for_last_week/hvl_samples_referred"
+  />
+
   <SQLData
     name="hvl_samples_received_by_type"
     queryName="sliding_dashboard_queries_for_last_week/hvl_samples_received_by_type"
@@ -84,6 +89,11 @@
   <SQLData
     name="eid_samples_tested_rejected_authorised"
     queryName="sliding_dashboard_queries_for_last_week/eid_samples_tested_rejected_authorised"
+  />
+
+  <SQLData 
+    name="eid_samples_referred"
+    queryName="sliding_dashboard_queries_for_last_week/eid_samples_referred"
   />
 
   <SQLData
