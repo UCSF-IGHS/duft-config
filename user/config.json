@@ -3,16 +3,17 @@
         "ANA": {
             "type": "MSSQL",
             "server": "127.0.0.1",
-            "username": "sa",
-            "password": "root.R00T",
+            "sqlite3file": "",
+            "username": "user",
+            "password": "password",
             "port": 1433,
             "database": "lab_visual_analysis"
         },
         "LAB_DATA_SOURCE": {
             "type": "mysql",
             "server": "localhost",
-            "username": "root",
-            "password": "root",
+            "username": "user",
+            "password": "password",
             "port": "3306",
             "database": "labdashdb"
         }
