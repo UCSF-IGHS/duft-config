@@ -6398,7 +6398,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid
             fe.is_sample_tested_negative = 
             CASE 
                 WHEN 
-                    LOWER(fe.result) LIKE '%negative%' 
+                    TRIM(LOWER(fe.result)) IN ('negative', 'negetive') 
                 THEN 1 
                 ELSE 0 
             END
