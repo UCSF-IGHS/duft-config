@@ -63,11 +63,6 @@
         "title": "Data Management",
         "icon": "dashboard-icon",
         "dashboard": "/dashboard/data-management-dashboard"
-      },
-      {
-        "title": "Summary Dashboard",
-        "icon": "dashboard-icon",
-        "dashboard": "/dashboard/summary-page-dashboard"
       }
     ]
   },
@@ -86,12 +81,6 @@
         "icon": "update-icon",
         "task": "LABVISUALS_DUFT_CONFIGS_REFRESH",
         "prompt": "This task updates the system configurations. Click Execute to proceed, Cancel to abort."
-      },
-      {
-        "title": "Comparison Report",
-        "icon": "update-icon",
-        "task": "DATA-COMPARISON",
-        "prompt": "This task fetches data from source and analysis for comparison. Click Execute to proceed, Cancel to abort."
       }
     ]
   }
