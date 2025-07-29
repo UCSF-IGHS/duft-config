@@ -95,7 +95,7 @@
     >
         SELECT
         d.weekly_start_monday_period AS category,
-        SUM(hvl_samples_with_results_less_than_1000_or_above_50) + SUM(hvl_samples_with_results_less_than_50) AS Suppressed,
+        SUM(hvl_samples_with_results_less_than_1000_or_above_50) + SUM(hvl_samples_with_results_less_than_50) + SUM(hvl_result_tnd) AS Suppressed,
         SUM(hvl_samples_with_results_equal_or_above_1000) AS Unsuppressed
         FROM
         final.fact_daily_sample_summary s
