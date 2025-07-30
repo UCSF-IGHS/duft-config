@@ -2616,7 +2616,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_upd
     WHERE
         ds.is_valid_record = 1
         AND ds.clean_rejection_reason IS NOT NULL
-        AND ds.result IS NOT NULL;
+        AND ds.result IS NOT NULL
+        AND ds.sample_quality_status = 'RejectedLab';
 
 -- $END
 
