@@ -6,7 +6,7 @@
             "sqlite3file": "",
             "username": "user",
             "password": "password",
-            "port": 1433,
+            "port": "1443",
             "database": "lab_visual_analysis"
         },
         "LAB_DATA_SOURCE": {
