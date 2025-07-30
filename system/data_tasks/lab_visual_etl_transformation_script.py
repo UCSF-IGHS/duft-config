@@ -64,7 +64,7 @@ def create_connection_to_sql_server(db_name):
             user=db_params["username"],
             password=db_params["password"],
             database=db_name,
-            port=int(db_params.get("port", 1433)),
+            port=int(db_params.get("port", 1443)),
             autocommit=True
         )
         cursor = conn.cursor()
