@@ -3,6 +3,7 @@
         "ANA": {
             "type": "MSSQL",
             "server": "127.0.0.1",
+            "sqlite3file": "",
             "username": "user",
             "password": "password",
             "port": "1443",
