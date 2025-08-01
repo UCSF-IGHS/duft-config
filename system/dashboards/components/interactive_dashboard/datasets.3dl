@@ -29,6 +29,7 @@
         SELECT
         dw.weekly_start_monday_day_dates,
         dw.weekly_start_monday_period,
+        CAST(LEFT(dw.weekly_start_monday_day_dates, CHARINDEX('-', dw.weekly_start_monday_day_dates) - 2) AS DATE) AS week_start_date,
         SUM(fs.hvl_result_pending) AS [Pending Results]
         FROM
         [final].fact_daily_sample_summary fs
@@ -43,10 +44,9 @@
         cte_alldata AS (
         SELECT
         dd.weekly_start_monday_day_dates,
-        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE),
-        'yyyy-MM-dd') + ' to ' +
-        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE),
-        'yyyy-MM-dd') AS week,
+        CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE) AS week_start_date,
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' +
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week,
         SUM(fd.hvl_sample_collected) AS [Sample Collected],
         SUM(fd.hvl_sample_received) AS [Sample Received],
         SUM(fd.hvl_sample_accepted) AS [Sample Accepted],
@@ -86,7 +86,7 @@
         FULL OUTER JOIN cte_alldata ad ON
         pn.weekly_start_monday_day_dates = ad.weekly_start_monday_day_dates
         ORDER BY
-        ad.week DESC
+        COALESCE(ad.week_start_date, pn.week_start_date) DESC
     </SQLData>
 
     <SQLData
@@ -202,6 +202,7 @@
         SELECT
         dw.weekly_start_monday_day_dates,
         dw.weekly_start_monday_period,
+        CAST(LEFT(dw.weekly_start_monday_day_dates, CHARINDEX('-', dw.weekly_start_monday_day_dates) - 2) AS DATE) AS week_start_date,
         SUM(fs.eid_result_pending) AS [Pending Results]
         FROM
         [final].fact_daily_sample_summary fs
@@ -216,10 +217,9 @@
         cte_alldata AS (
         SELECT
         dd.weekly_start_monday_day_dates,
-        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE),
-        'yyyy-MM-dd') + ' to ' +
-        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE),
-        'yyyy-MM-dd') AS week,
+        CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE) AS week_start_date,
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, 1, CHARINDEX('-', dd.weekly_start_monday_day_dates) - 2) AS DATE), 'yyyy-MM-dd') + ' to ' +
+        FORMAT(CAST(SUBSTRING(dd.weekly_start_monday_day_dates, CHARINDEX('-', dd.weekly_start_monday_day_dates) + 2, LEN(dd.weekly_start_monday_day_dates)) AS DATE), 'yyyy-MM-dd') AS week,
         SUM(fd.eid_sample_collected) AS [Sample Collected],
         SUM(fd.eid_sample_dbs_received) AS [Sample Received],
         SUM(fd.eid_sample_accepted) AS [Sample Accepted],
@@ -260,7 +260,7 @@
         FULL OUTER JOIN cte_alldata ad ON
         pn.weekly_start_monday_day_dates = ad.weekly_start_monday_day_dates
         ORDER BY
-        ad.week DESC
+        COALESCE(ad.week_start_date, pn.week_start_date) DESC
     </SQLData>
 
     <SQLData
