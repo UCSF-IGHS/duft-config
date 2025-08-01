@@ -1,5 +1,6 @@
 import asyncio
 import pytds
+import threading
 from concurrent.futures import ThreadPoolExecutor
 
 from services.dte_tools.data_task_tools import (
@@ -8,57 +9,87 @@ from services.dte_tools.data_task_tools import (
     initialise_data_task,
 )
 
-# Optional: use a global thread pool executor
 executor = ThreadPoolExecutor(max_workers=2)
 
 
-# Blocking function to run the stored procedure
-def run_sp_data_processing(db_params, environment):
-    conn = None
+def run_stored_procedure_only(db_params, environment, sp_done_event):
     try:
-        conn = pytds.connect(
+        with pytds.connect(
             server=db_params["server"],
             user=db_params["username"],
             password=db_params["password"],
             database=db_params["database"],
             port=int(db_params.get("port", 1433)),
-            autocommit=False
-        )
-        with conn.cursor() as cursor:
-            environment.log_message("Started...")
-            cursor.execute("EXEC dbo.sp_data_processing")
+            autocommit=True
+        ) as conn:
+            with conn.cursor() as cursor:
+                environment.log_message("Starting SP...")
+                cursor.execute("EXEC dbo.sp_data_processing") 
 
-            while True:
-                try:
-                    if cursor.description:
-                        cursor.fetchall()
-                except Exception as e:
-                    environment.log_message(f"Ignored result set error: {e}")
-                if not cursor.nextset():
-                    break
+                # Wait until polling sets the event
+                environment.log_message("Waiting for polling to complete...")
+                sp_done_event.wait()
+                conn.commit()
 
-        conn.commit()
+            
     except Exception as e:
-        environment.log_message(f"Stored procedure execution failed: {e}")
-    finally:
-        if conn:
-            conn.close()
+        environment.log_message(f"SP failed: {e}")
 
 
-# Async wrapper to run the blocking function in a thread
-async def run_sp_data_processing_async(db_params, environment):
-    loop = asyncio.get_event_loop()
-    await loop.run_in_executor(executor, run_sp_data_processing, db_params, environment)
+async def poll_etl_tracking(db_params, environment, sp_done_event):
+    try:
+        await asyncio.sleep(10)
+        with pytds.connect(
+            server=db_params["server"],
+            user=db_params["username"],
+            password=db_params["password"],
+            database=db_params["database"],
+            port=int(db_params.get("port", 1433)),
+            autocommit=True
+        ) as conn:
+            while True:
+                with conn.cursor() as cursor:
+                    cursor.execute("""
+                        SELECT TOP 1 sp_name, status, start_time 
+                        FROM dbo.etl_tracking 
+                        WHERE status != 'COMPLETED' 
+                        ORDER BY start_time DESC
+                    """)
+                    rows = cursor.fetchall()
+
+                    if not rows:
+                        environment.log_message("All processes completed.")
+                        sp_done_event.set() 
+                        break
+
+
+                await asyncio.sleep(5)
+    except Exception as e:
+        environment.log_message(f"Polling failed: {e}")
 
 
 async def refresh_ctc_analytical_data():
     environment: DataTaskEnvironment = initialise_data_task("Data Refresh Task", params={})
     db_params = get_resolved_parameters_for_connection("ANA")
 
-    await run_sp_data_processing_async(db_params, environment)
+    # Use per-run event instead of global
+    sp_done_event = threading.Event()
 
-    environment.log_message("Completed.")
+    loop = asyncio.get_event_loop()
+    sp_future = loop.run_in_executor(
+        executor, 
+        run_stored_procedure_only, 
+        db_params, environment, sp_done_event
+    )
+    
+    polling_task = asyncio.create_task(
+        poll_etl_tracking(db_params, environment, sp_done_event)
+    )
+
+    await asyncio.gather(sp_future, polling_task)
+    environment.log_message("Task completed.")
 
 
-# Start main async function to run the task
+
+# Run the task
 asyncio.run(refresh_ctc_analytical_data())
