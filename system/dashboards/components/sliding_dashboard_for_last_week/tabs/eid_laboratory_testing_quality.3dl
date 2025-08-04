@@ -29,7 +29,7 @@
                 legend: { show: true },
                 dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
                 markers: { size: 5, hover: { size: 7 } },
-                yaxis: { title: { text: "Number of Samples" } },
+                yaxis: { title: { text: "% of Samples" } },
                 xaxis: { title: { text: "Weeks" } },
                 colors: ["#1e3799"]
             }}
@@ -50,7 +50,7 @@
                 legend: { show: true },
                 dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
                 markers: { size: 5, hover: { size: 7 } },
-                yaxis: { title: { text: "Number of Samples" } },
+                yaxis: { title: { text: "% of Samples" } },
                 xaxis: { title: { text: "Weeks" } },
                 colors: ["#1e3799"]
             }}
