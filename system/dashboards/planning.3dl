@@ -22,7 +22,7 @@
 
                 <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
 
-              </DateRangePicker>
+            </DateRangePicker>
         </Filters>
 
         <Include file="components/planning/overview.3dl" />
@@ -30,7 +30,7 @@
 
     <Dashboard
         data="metadata"
-        tabName="B. Eligible Next Week"
+        tabName="B. Eligible Up to Next Week"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
     >
@@ -46,24 +46,26 @@
 
                 <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
 
-              </DateRangePicker>
+            </DateRangePicker>
+
+            <Filter caption="Eligibility Area" name="Eligibility Area" data="eligibility_area_data" />
         </Filters>
 
         <SingleLayout>
             <Grid>
                 <Header>
-                    Clients With Appointments Next Week
+                    Clients With Appointments Up to Next Week
                 </Header>
                 <SubHeader>
-                    Table of clients who have appointments next week.
+                    Table of clients who have appointments from today up to Next Week.
                 </SubHeader>
                 <Table
-                    data="plhiv_next_week_client_data"
-                    header="Clients With Appointments Next Week"
-                    subHeader="Table of clients who have appointments next week."
+                    data="plhiv_next_week_clients_data"
+                    header="Clients With Appointments Up to Next Week"
+                    subHeader="Table of clients who have appointments from today up to Next Week."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Eligible Next Week, VL Eligible Date, Eligible for HVL Next Week, Eligible for EAC Next Week, Eligible for CD4 Next Week, Eligible for CrAg Next Week, Eligible for CPeT Next Week, Eligible for CMT Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, VL Eligible Date, Eligible for HVL Up to Next Week, Eligible for EAC Up to Next Week, Eligible for CD4 Up to Next Week, Eligible for CrAg Up to Next Week, Eligible for CPeT Up to Next Week, Eligible for CMT Up to Next Week"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="plhiv_next_week_client_details_data" variant="plain" header="Client Profile" />

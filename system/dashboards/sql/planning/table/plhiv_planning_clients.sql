@@ -6,20 +6,23 @@ SELECT
     [Last Visit Date],
     [Next Appointment Date],
     [Last VL Test Date],
+    [Last VL Result Date],
     [Last VL Result Numeric] AS [Last VL Result],
+    [Last Date Initiated EAC],
     [VL Eligible PGBF] AS [VL Eligible PBFW],
     [VL Eligible TX_CURR],
     [VL Eligible TX_NEW],
     [Last Visit Type],
     [Last Visit Refill Type],
     [Last Prescription Regimen Name] AS [ARV Regimen Description],
-    [Eligible Next Week],
-    [Eligible for HVL Next Week],
-    [Eligible for EAC Next Week],
-    [Eligible for CD4 Next Week],
-    [Eligible for CrAg Next Week],
-    [Eligible for CPeT Next Week],
-    [Eligible for CMT Next Week],
+    [Eligible Up to Next Week],
+    [Eligibility Area],
+    [Eligible for HVL Up to Next Week],
+    [Eligible for EAC Up to Next Week],
+    [Eligible for CD4 Up to Next Week],
+    [Eligible for CrAg Up to Next Week],
+    [Eligible for CPeT Up to Next Week],
+    [Eligible for CMT Up to Next Week],
     [Became Eligible for EAC Date],
     [Became Eligible for CD4 Date],
     [Became Eligible for CrAg Date],
@@ -32,6 +35,4 @@ SELECT
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    [Eligible Next Week] = 'Yes'
-AND
-    [Next Appointment in Next Week] = 'Yes'
+    [Eligible Up to Next Week] = 'Yes'
