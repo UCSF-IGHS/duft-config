@@ -7,7 +7,7 @@
         <SQLData
             name="plhiv_next_week_clients_data"
             queryName="planning/table/plhiv_planning_clients"
-            filterFrom="Sex, Eligibility Area"
+            filterFrom="Next Appointment Date, Eligibility Area"
             pageSize="15"
             searchColumns="Patient ID, Current Age, Sex, Number of Days Dispensed"
             sortColumn="Patient ID"

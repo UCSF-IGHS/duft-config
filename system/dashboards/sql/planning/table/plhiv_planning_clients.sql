@@ -8,6 +8,7 @@ SELECT
     [Last VL Test Date],
     [Last VL Result Date],
     [Last VL Result Numeric] AS [Last VL Result],
+    [Last CD4 Result Count],
     [Last Date Initiated EAC],
     [VL Eligible PGBF] AS [VL Eligible PBFW],
     [VL Eligible TX_CURR],
