@@ -352,10 +352,7 @@ def extract_and_insert_sample_data():
             log_message(f"{len(sample_data)} sample data fetched.")
 
         def extract_hfr_code(row):
-            if row['EntryModality'] == 'lab':
-                return row['facilityHfrID'], None
-            else:
-                return None, row['facilityHfrID']
+            return None, row['facilityHfrID']
 
         sample_data[['LabHfrCode', 'HubHfrCode']] = sample_data.apply(extract_hfr_code, axis=1, result_type='expand')
         
