@@ -249,7 +249,7 @@ create_lab_visual_analysis_database()
 # Function to extract and insert facility data
 def extract_and_insert_facility_data():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    health_facilities_masterlist = os.path.join(script_dir, "All_Operating_Health_Facilities_in_Tanzania-Lab-Visual-2021oct22.xlsx")
+    health_facilities_masterlist = os.path.join(script_dir, "All_Operating_Health_Facilities_in_Tanzania-Lab-Visual-2021-2025.xlsx")
 
     if not os.path.exists(health_facilities_masterlist):
         log_message(f"Excel file '{health_facilities_masterlist}' not found.")
