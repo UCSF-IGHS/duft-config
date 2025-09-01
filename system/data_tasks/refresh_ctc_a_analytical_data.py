@@ -24,7 +24,7 @@ def run_stored_procedure_only(db_params, environment, sp_done_event):
         ) as conn:
             with conn.cursor() as cursor:
                 environment.log_message("Starting SP...")
-                cursor.execute("EXEC dbo.sp_data_processing") 
+                cursor.execute("SET NOCOUNT ON; EXEC dbo.sp_data_processing") 
 
                 # Wait until polling sets the event
                 environment.log_message("Waiting for polling to complete...")
