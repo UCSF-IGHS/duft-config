@@ -1274,7 +1274,7 @@ DECLARE @quarter_period_pepfar NVARCHAR (255);
 DECLARE @quarter_period_calendar NVARCHAR (255);
 DECLARE @month_period NVARCHAR (255);
 DECLARE @month_number NVARCHAR (255);
-SET @BeginDate = '2025-04-01';
+SET @BeginDate = '2025-06-01';
 SET @EndDate = DATEADD(DAY, -1, GETDATE());
 SET @DateCounter = @BeginDate;
 WHILE @DateCounter <= @EndDate
@@ -3166,12 +3166,16 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
         is_authorised INT NULL,
         is_received_by_entry_modality_lab INT NULL,
         is_received_by_entry_modality_hub INT NULL,
+        is_received_by_entry_modality_ctc INT NULL,
+        is_received_by_entry_modality_other INT NULL,
         is_result_rejected INT NULL,
         is_result_invalid INT NULL,
         is_result_failed INT NULL,
         is_result_tnd INT NULL,
         is_eid_sample_tested_positive INT NULL,
         is_eid_sample_tested_negative INT NULL,
+        is_sample_tested_positive INT NULL,
+        is_sample_tested_negative INT NULL,
         is_result_indeterminate INT NULL,
         is_hvl_sample_plasma_received INT NULL,
         is_hvl_sample_wholeblood_received INT NULL,
@@ -3525,52 +3529,15 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     UPDATE
         st
     SET
-        st.clean_rejection_reason = 
+        clean_rejection_reason =
         CASE
-            WHEN 
-                st.rejection_reason IS NULL
-                OR st.rejection_reason = ''
-                THEN NULL
             WHEN
-                st.rejection_reason = 'BLOOD'
-                OR st.rejection_reason = 'Blood spots in contact each other'
-                OR st.rejection_reason = 'Old whole blood specimen with more than 24 hrs reaching the separation point'
-                OR st.rejection_reason LIKE '%Hemolysed%'
-                THEN  'Hemolysed sample'
-            WHEN
-                st.rejection_reason = 'Serum separation due to improper drying or collection'
-                OR st.rejection_reason = 'Clotted or layered blood spot'
-                OR st.rejection_reason = 'Clotted Sample'
-                OR st.rejection_reason LIKE '%clot%'
-                OR st.rejection_reason LIKE '%blood spot%'
-                THEN  'Clotted specimen'
-            WHEN
-                st.rejection_reason = 'Insufficient specimen as per specific SOP'
-                OR st.rejection_reason = 'Low volume'
-                OR st.rejection_reason = 'Sample did not fill the cycle in the DBS card'
-                OR st.rejection_reason LIKE '%insufficient sample or specimen%'
-                OR st.rejection_reason LIKE '%poor quality%'
-                THEN  'Insufficient sample (Low volume)'
-            WHEN
-                st.rejection_reason = 'Unlabelled or mislabelled specimen'
-                OR st.rejection_reason = 'Mismatched information on request form and specimen'
-                OR st.rejection_reason = 'Mismatched information between DBS card and laboratory test request form'
-                OR st.rejection_reason = 'Incompletely filled requisition form'
-                OR st.rejection_reason LIKE '%incomplete form or card%'
-                THEN  'Incomplete form'
-            WHEN
-                st.rejection_reason = 'old DBS card with more than 14 days of collection'
-                OR st.rejection_reason LIKE '%vacutainer%'
-                OR st.rejection_reason LIKE '%expired%'
-                OR st.rejection_reason LIKE '%more than days%'
-                THEN  'Expired vacutainer/DBS Card'
-            WHEN
-                st.rejection_reason = 'No humidity indicator'
-                OR st.rejection_reason = 'Indicating silica gel in the package'
-                THEN  'Improper packaging'
+                st.rejection_reason LIKE '%-%'
+            THEN
+                TRIM(SUBSTRING(st.rejection_reason, CHARINDEX('-', st.rejection_reason) + 1, LEN(st.rejection_reason)))
             ELSE
                 'Others'
-            END
+        END
     FROM
         [derived].fact_sample_testing st
     WHERE
@@ -3904,6 +3871,78 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
 -- $END
 
 EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_by_entry_modality_hub';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_received_by_entry_modality_ctc
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_by_entry_modality_ctc'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_by_entry_modality_ctc AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_by_entry_modality_ctc';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_received_by_entry_modality_ctc =
+        CASE
+            WHEN
+                fs.is_received = 1
+                AND fs.entry_modality = 'ctc'
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_by_entry_modality_ctc';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_received_by_entry_modality_other
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_by_entry_modality_other'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_by_entry_modality_other AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_by_entry_modality_other';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_received_by_entry_modality_other =
+        CASE
+            WHEN
+                fs.is_received = 1
+                AND fs.entry_modality NOT IN ('lab', 'hub', 'ctc')
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_by_entry_modality_other';
 
 END
 GO
@@ -4251,6 +4290,80 @@ GO
         
 
 -----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_sample_tested_positive
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_sample_tested_positive'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_sample_tested_positive AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_sample_tested_positive';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_sample_tested_positive =
+        CASE
+            WHEN
+                LOWER(fs.result) LIKE '%positive%'
+            THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.result IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_sample_tested_positive';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_sample_tested_negative
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_sample_tested_negative'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_sample_tested_negative AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_sample_tested_negative';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_sample_tested_negative =
+        CASE
+            WHEN
+                LOWER(fs.result) LIKE '%negative%'
+            THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.result IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_sample_tested_negative';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
 -- sp_fact_sample_testing_update_is_result_indeterminate
 --
 
@@ -4267,21 +4380,11 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     UPDATE
         fs
     SET
-        fs.is_result_indeterminate = 
-            CASE
-                WHEN
-                    fs.is_tested = 1
-                    AND (
-                        ISNULL(fs.is_eid_sample_tested_positive,0) != 1
-                        OR ISNULL(fs.is_eid_sample_tested_negative,0) != 1
-                        OR ISNULL(fs.is_result_tnd,0) != 1
-                        OR ISNULL(fs.is_result_failed,0) != 1
-                    )
-                    THEN 1
-                ELSE 0
-            END
+        fs.is_result_indeterminate = 1
     FROM
-        derived.fact_sample_testing fs;
+        derived.fact_sample_testing fs
+    WHERE
+        LOWER(result) = 'indeterminate';
 
 -- $END
 
@@ -5610,12 +5713,16 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood;
     EXEC derived.sp_fact_sample_testing_update_is_received_by_entry_modality_lab;
     EXEC derived.sp_fact_sample_testing_update_is_received_by_entry_modality_hub;
+    EXEC derived.sp_fact_sample_testing_update_is_received_by_entry_modality_ctc;
+    EXEC derived.sp_fact_sample_testing_update_is_received_by_entry_modality_other;
     EXEC derived.sp_fact_sample_testing_update_is_result_rejected;
     EXEC derived.sp_fact_sample_testing_update_is_result_invalid;
     EXEC derived.sp_fact_sample_testing_update_is_result_failed;
     EXEC derived.sp_fact_sample_testing_update_is_result_tnd;
     EXEC derived.sp_fact_sample_testing_update_is_eid_sample_tested_positive;
     EXEC derived.sp_fact_sample_testing_update_is_eid_sample_tested_negative;
+    EXEC derived.sp_fact_sample_testing_update_is_sample_tested_positive;
+    EXEC derived.sp_fact_sample_testing_update_is_sample_tested_negative;
     EXEC derived.sp_fact_sample_testing_update_is_result_indeterminate;
     EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_rejected;
     EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_rejected;
@@ -5949,45 +6056,65 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         report_date DATE NOT NULL,
         hvl_sample_collected INT NULL DEFAULT 0,
         eid_sample_collected INT NULL DEFAULT 0,
+        hpv_sample_collected INT NULL DEFAULT 0,
         sample_collected INT NULL DEFAULT 0,
         hvl_sample_plasma_received INT NULL DEFAULT 0,
+        hpv_sample_received INT NULL DEFAULT 0,
         hvl_sample_wholeblood_received INT NULL DEFAULT 0,
         hvl_sample_received INT NULL DEFAULT 0,
         eid_sample_dbs_received INT NULL DEFAULT 0,
         hvl_samples_received_by_entry_modality_lab INT NULL DEFAULT 0,
         hvl_samples_received_by_entry_modality_hub INT NULL DEFAULT 0,
+        hvl_samples_received_by_entry_modality_ctc INT NULL DEFAULT 0,
+        hvl_samples_received_by_entry_modality_other INT NULL DEFAULT 0,
         eid_samples_received_by_entry_modality_lab INT NULL DEFAULT 0,
         eid_samples_received_by_entry_modality_hub INT NULL DEFAULT 0,
+        eid_samples_received_by_entry_modality_ctc INT NULL DEFAULT 0,
+        eid_samples_received_by_entry_modality_other INT NULL DEFAULT 0,
+        hpv_samples_received_by_entry_modality_lab INT NULL DEFAULT 0,
+        hpv_samples_received_by_entry_modality_hub INT NULL DEFAULT 0,
+        hpv_samples_received_by_entry_modality_ctc INT NULL DEFAULT 0,
+        hpv_samples_received_by_entry_modality_other INT NULL DEFAULT 0,
         sample_received INT NULL DEFAULT 0,
         hvl_sample_accepted INT NULL DEFAULT 0,
         eid_sample_accepted INT NULL DEFAULT 0,
+        hpv_sample_accepted INT NULL DEFAULT 0,
         sample_accepted INT NULL DEFAULT 0,
         hvl_sample_rejected INT NULL DEFAULT 0,
         eid_sample_rejected INT NULL DEFAULT 0,
+        hpv_sample_rejected INT NULL DEFAULT 0,
         sample_rejected INT NULL DEFAULT 0,
         eid_sample_tested INT NULL DEFAULT 0, 
         hvl_sample_tested INT NULL DEFAULT 0,
+        hpv_sample_tested INT NULL DEFAULT 0,
         sample_tested INT NULL DEFAULT 0,
         hvl_result_pending INT NULL DEFAULT 0,
         eid_result_pending INT NULL DEFAULT 0,
+        hpv_result_pending INT NULL DEFAULT 0,
         result_pending INT NULL DEFAULT 0,
         hvl_result_authorized INT NULL DEFAULT 0,
         eid_result_authorized INT NULL DEFAULT 0,
+        hpv_result_authorized INT NULL DEFAULT 0,
         result_authorized INT NULL DEFAULT 0,
         hvl_result_dispatched INT NULL DEFAULT 0,
         eid_result_dispatched INT NULL DEFAULT 0,
+        hpv_result_dispatched INT NULL DEFAULT 0,
         result_dispatched INT NULL DEFAULT 0,
         hvl_result_rejected INT NULL DEFAULT 0,
         eid_result_rejected INT NULL DEFAULT 0,
+        hpv_result_rejected INT NULL DEFAULT 0,
         result_rejected INT NULL DEFAULT 0,
         hvl_result_accepted INT NULL DEFAULT 0,
         eid_result_accepted INT NULL DEFAULT 0,
+        hpv_result_accepted INT NULL DEFAULT 0,
         result_accepted INT NULL DEFAULT 0,
         hvl_result_invalid INT NULL DEFAULT 0,
         eid_result_invalid INT NULL DEFAULT 0,
+        hpv_result_invalid INT NULL DEFAULT 0,
         result_invalid INT NULL DEFAULT 0,
         hvl_result_failed INT NULL DEFAULT 0,
         eid_result_failed INT NULL DEFAULT 0,
+        hpv_result_failed INT NULL DEFAULT 0,
         result_failed INT NULL DEFAULT 0,
         hvl_result_tnd INT NULL DEFAULT 0,
         eid_result_tnd INT NULL DEFAULT 0,
@@ -6009,7 +6136,9 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         hvl_samples_with_results_less_than_1000_or_above_50 INT NULL DEFAULT 0,
         hvl_samples_with_results_less_than_50 INT NULL DEFAULT 0,
         eid_sample_tested_positive INT NULL DEFAULT 0,
+        hpv_sample_tested_positive INT NULL DEFAULT 0,
         eid_sample_tested_negative INT NULL DEFAULT 0,
+        hpv_sample_tested_negative INT NULL DEFAULT 0,
         eid_sample_tested_result_not_detected INT NULL DEFAULT 0,
         hvl_samples_aging_is_less_than_or_equal_to_7_days INT NULL DEFAULT 0,
         hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days INT NULL DEFAULT 0,
@@ -6122,7 +6251,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             fst.[_hfr_id] AS hfr_id_for_HUB_sample_is_coming_from,
             fst.collected_date AS report_date,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected ELSE 0 END) AS hvl_sample_collected,
-            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected ELSE 0 END) AS eid_sample_collected
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected ELSE 0 END) AS eid_sample_collected,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_collected ELSE 0 END) AS hpv_sample_collected
         FROM 
             [derived].fact_sample_testing fst
         WHERE
@@ -6136,7 +6266,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         target
     SET
         target.hvl_sample_collected = ISNULL(source.hvl_sample_collected, 0),
-        target.eid_sample_collected = ISNULL(source.eid_sample_collected, 0)
+        target.eid_sample_collected = ISNULL(source.eid_sample_collected, 0),
+        target.hpv_sample_collected = ISNULL(source.hpv_sample_collected, 0)
     FROM        
         [final].fact_daily_sample_summary AS target
     INNER JOIN
@@ -6175,10 +6306,14 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(is_hvl_sample_wholeblood_tested) AS hvl_sample_wholeblood_tested,
             SUM(is_eid_sample_tested_positive) AS eid_sample_tested_positive,
             SUM(is_eid_sample_tested_negative)AS eid_sample_tested_negative,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_sample_tested_positive ELSE 0 END) AS hpv_sample_tested_positive,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_sample_tested_negative ELSE 0 END) AS hpv_sample_tested_negative,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_tested ELSE 0 END) AS hvl_sample_tested,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_tested ELSE 0 END) AS eid_sample_tested,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_tested ELSE 0 END) AS hpv_sample_tested,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_rejected ELSE 0 END) AS hvl_result_rejected,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_result_rejected ELSE 0 END) AS eid_result_rejected,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_result_rejected ELSE 0 END) AS hpv_result_rejected,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_tested_date_in_less_or_equal_5_days ELSE 0 END) AS eid_sample_received_and_tested_date_in_less_or_equal_5_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_tested_date_between_6_to_10_days ELSE 0 END) AS eid_sample_received_and_tested_date_between_6_to_10_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_tested_date_between_11_to_15_days ELSE 0 END) AS eid_sample_received_and_tested_date_between_11_to_15_days,
@@ -6210,11 +6345,15 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             target.hvl_sample_plasma_tested = ISNULL(source.hvl_sample_plasma_tested, 0),
             target.hvl_sample_wholeblood_tested = ISNULL(source.hvl_sample_wholeblood_tested, 0),
             target.eid_sample_tested_positive = ISNULL(source.eid_sample_tested_positive, 0),
+            target.hpv_sample_tested_negative = ISNULL(source.hpv_sample_tested_negative, 0),
+            target.hpv_sample_tested_positive = ISNULL(source.hpv_sample_tested_positive, 0),
             target.eid_sample_tested_negative = ISNULL(source.eid_sample_tested_negative, 0),
             target.hvl_sample_tested = ISNULL(source.hvl_sample_tested, 0),
             target.eid_sample_tested = ISNULL(source.eid_sample_tested, 0),
+            target.hpv_sample_tested = ISNULL(source.hpv_sample_tested, 0),
             target.hvl_result_rejected = ISNULL(source.hvl_result_rejected, 0),
             target.eid_result_rejected = ISNULL(source.eid_result_rejected, 0),
+            target.hpv_result_rejected = ISNULL(source.hpv_result_rejected, 0),
             target.eid_sample_received_and_tested_date_in_less_or_equal_5_days = ISNULL(source.eid_sample_received_and_tested_date_in_less_or_equal_5_days, 0),
             target.eid_sample_received_and_tested_date_between_6_to_10_days = ISNULL(source.eid_sample_received_and_tested_date_between_6_to_10_days, 0),
             target.eid_sample_received_and_tested_date_between_11_to_15_days = ISNULL(source.eid_sample_received_and_tested_date_between_11_to_15_days, 0),
@@ -6269,12 +6408,22 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(is_hvl_sample_wholeblood_received) AS hvl_sample_wholeblood_received,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_by_entry_modality_lab ELSE 0 END) AS hvl_samples_received_by_entry_modality_lab,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_by_entry_modality_hub ELSE 0 END) AS hvl_samples_received_by_entry_modality_hub,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_by_entry_modality_ctc ELSE 0 END) AS hvl_samples_received_by_entry_modality_ctc,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_by_entry_modality_other ELSE 0 END) AS hvl_samples_received_by_entry_modality_other,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_received ELSE 0 END) AS hvl_sample_received,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_by_entry_modality_lab ELSE 0 END) AS eid_samples_received_by_entry_modality_lab,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_by_entry_modality_hub ELSE 0 END) AS eid_samples_received_by_entry_modality_hub,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_by_entry_modality_ctc ELSE 0 END) AS eid_samples_received_by_entry_modality_ctc,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_by_entry_modality_other ELSE 0 END) AS eid_samples_received_by_entry_modality_other,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received ELSE 0 END) AS eid_sample_dbs_received,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_by_entry_modality_lab ELSE 0 END) AS hpv_samples_received_by_entry_modality_lab,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_by_entry_modality_hub ELSE 0 END) AS hpv_samples_received_by_entry_modality_hub,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_by_entry_modality_ctc ELSE 0 END) AS hpv_samples_received_by_entry_modality_ctc,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_by_entry_modality_other ELSE 0 END) AS hpv_samples_received_by_entry_modality_other,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received ELSE 0 END) AS hpv_sample_received,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_accepted ELSE 0 END) AS hvl_sample_accepted,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_accepted ELSE 0 END) AS eid_sample_accepted,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_accepted ELSE 0 END) AS hpv_sample_accepted,
             SUM(is_hvl_sample_plasma_rejected) AS hvl_sample_plasma_rejected,
             SUM(is_hvl_sample_wholeblood_rejected) AS hvl_sample_wholeblood_rejected,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_received_in_less_or_equal_5_days ELSE 0 END) AS hvl_sample_collected_and_received_date_in_less_or_equal_5_days,
@@ -6286,7 +6435,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_received_between_11_to_15_days ELSE 0 END) AS eid_sample_collected_and_received_date_between_11_to_15_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_received_in_greater_than_15_days ELSE 0 END) AS eid_sample_collected_and_received_date_greater_than_15_days,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_sample_rejected ELSE 0 END) AS hvl_sample_rejected,
-            SUM(CASE WHEN is_eid_sample = 1 THEN is_sample_rejected ELSE 0 END) AS eid_sample_rejected
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_sample_rejected ELSE 0 END) AS eid_sample_rejected,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_sample_rejected ELSE 0 END) AS hpv_sample_rejected
         FROM 
             [derived].fact_sample_testing fst
         WHERE
@@ -6303,16 +6453,27 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         target.hvl_sample_wholeblood_received = ISNULL(source.hvl_sample_wholeblood_received, 0),
         target.hvl_samples_received_by_entry_modality_lab = ISNULL(source.hvl_samples_received_by_entry_modality_lab, 0),
         target.hvl_samples_received_by_entry_modality_hub = ISNULL(source.hvl_samples_received_by_entry_modality_hub, 0),
+        target.hvl_samples_received_by_entry_modality_ctc = ISNULL(source.hvl_samples_received_by_entry_modality_ctc, 0),
+        target.hvl_samples_received_by_entry_modality_other = ISNULL(source.hvl_samples_received_by_entry_modality_other, 0),
         target.hvl_sample_received = ISNULL(source.hvl_sample_received, 0),
+        target.hpv_sample_received = ISNULL(source.hpv_sample_received, 0),
         target.eid_samples_received_by_entry_modality_lab = ISNULL(source.eid_samples_received_by_entry_modality_lab, 0),
         target.eid_samples_received_by_entry_modality_hub = ISNULL(source.eid_samples_received_by_entry_modality_hub, 0),
+        target.eid_samples_received_by_entry_modality_ctc = ISNULL(source.eid_samples_received_by_entry_modality_ctc, 0),
+        target.eid_samples_received_by_entry_modality_other = ISNULL(source.eid_samples_received_by_entry_modality_other, 0),
+        target.hpv_samples_received_by_entry_modality_lab = ISNULL(source.hpv_samples_received_by_entry_modality_lab, 0),
+        target.hpv_samples_received_by_entry_modality_hub = ISNULL(source.hpv_samples_received_by_entry_modality_hub, 0),
+        target.hpv_samples_received_by_entry_modality_ctc = ISNULL(source.hpv_samples_received_by_entry_modality_ctc, 0),
+        target.hpv_samples_received_by_entry_modality_other = ISNULL(source.hpv_samples_received_by_entry_modality_other, 0),
         target.eid_sample_dbs_received = ISNULL(source.eid_sample_dbs_received, 0),
         target.hvl_sample_accepted = ISNULL(source.hvl_sample_accepted, 0),
         target.eid_sample_accepted = ISNULL(source.eid_sample_accepted, 0),
+        target.hpv_sample_accepted = ISNULL(source.hpv_sample_accepted, 0),
         target.hvl_sample_plasma_rejected = ISNULL(source.hvl_sample_plasma_rejected, 0),
         target.hvl_sample_wholeblood_rejected = ISNULL(source.hvl_sample_wholeblood_rejected, 0),
         target.hvl_sample_rejected = ISNULL(source.hvl_sample_rejected, 0),
         target.eid_sample_rejected = ISNULL(source.eid_sample_rejected, 0),
+        target.hpv_sample_rejected = ISNULL(source.hpv_sample_rejected, 0),
         target.hvl_sample_collected_and_received_date_in_less_or_equal_5_days = ISNULL(source.hvl_sample_collected_and_received_date_in_less_or_equal_5_days, 0),
         target.hvl_sample_collected_and_received_date_between_6_to_10_days = ISNULL(source.hvl_sample_collected_and_received_date_between_6_to_10_days, 0),
         target.hvl_sample_collected_and_received_date_between_11_to_15_days = ISNULL(source.hvl_sample_collected_and_received_date_between_11_to_15_days, 0),
@@ -6426,7 +6587,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             ft._hfr_id AS hfr_id_for_HUB_sample_is_coming_from,
             report_date,
             SUM(CASE WHEN is_hvl_sample = 1 THEN fd.is_result_pending ELSE 0 END) AS hvl_result_pending,
-            SUM(CASE WHEN is_eid_sample = 1 THEN fd.is_result_pending ELSE 0 END) AS eid_result_pending
+            SUM(CASE WHEN is_eid_sample = 1 THEN fd.is_result_pending ELSE 0 END) AS eid_result_pending,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN fd.is_result_pending ELSE 0 END) AS hpv_result_pending
         FROM 
             derived.fact_sample_daily_status fd
         INNER JOIN
@@ -6440,7 +6602,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             target
         SET
             target.hvl_result_pending = ISNULL(source.hvl_result_pending, 0),
-            target.eid_result_pending = ISNULL(source.eid_result_pending, 0)
+            target.eid_result_pending = ISNULL(source.eid_result_pending, 0),
+            target.hpv_result_pending = ISNULL(source.hpv_result_pending, 0)
         FROM
             final.fact_daily_sample_summary AS target
         INNER JOIN
@@ -6477,8 +6640,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             fst.result_authorized_date AS report_date,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_authorised ELSE 0 END) AS hvl_result_authorized,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_authorised ELSE 0 END) AS eid_result_authorized,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_authorised ELSE 0 END) AS hpv_result_authorized,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_accepted ELSE 0 END) AS hvl_result_accepted,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_accepted ELSE 0 END) AS eid_result_accepted,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_accepted ELSE 0 END) AS hpv_result_accepted,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_in_less_or_equal_10_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_between_11_to_14_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_between_11_to_14_days,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_between_15_to_21_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_between_15_to_21_days,
@@ -6497,8 +6662,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_in_greater_than_15_days ELSE 0 END) AS eid_sample_received_and_authorised_date_greater_than_15_days,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_invalid ELSE 0 END) AS hvl_result_invalid,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_result_invalid ELSE 0 END) AS eid_result_invalid,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_result_invalid ELSE 0 END) AS hpv_result_invalid,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_failed ELSE 0 END) AS hvl_result_failed,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_result_failed ELSE 0 END) AS eid_result_failed,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_result_failed ELSE 0 END) AS hpv_result_failed,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_tnd ELSE 0 END) AS hvl_result_tnd,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_result_tnd ELSE 0 END) AS eid_result_tnd,
             SUM(is_result_indeterminate) AS result_indeterminate,
@@ -6519,8 +6686,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
     SET
         target.hvl_result_authorized = ISNULL(source.hvl_result_authorized, 0),
         target.eid_result_authorized = ISNULL(source.eid_result_authorized, 0),
+        target.hpv_result_authorized = ISNULL(source.hpv_result_authorized, 0),
         target.hvl_result_accepted = ISNULL(source.hvl_result_accepted, 0),
         target.eid_result_accepted = ISNULL(source.eid_result_accepted, 0),
+        target.hpv_result_accepted = ISNULL(source.hpv_result_accepted, 0),
         target.hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days = ISNULL(source.hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days, 0),
         target.hvl_sample_collected_and_authorised_date_between_11_to_14_days = ISNULL(source.hvl_sample_collected_and_authorised_date_between_11_to_14_days, 0),
         target.hvl_sample_collected_and_authorised_date_between_15_to_21_days = ISNULL(source.hvl_sample_collected_and_authorised_date_between_15_to_21_days, 0),
@@ -6539,8 +6708,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         target.eid_sample_received_and_authorised_date_greater_than_15_days = ISNULL(source.eid_sample_received_and_authorised_date_greater_than_15_days, 0),
         target.hvl_result_invalid = ISNULL(source.hvl_result_invalid, 0),
         target.eid_result_invalid = ISNULL(source.eid_result_invalid, 0),
+        target.hpv_result_invalid = ISNULL(source.hpv_result_invalid, 0),
         target.hvl_result_failed = ISNULL(source.hvl_result_failed, 0),
         target.eid_result_failed = ISNULL(source.eid_result_failed, 0),
+        target.hpv_result_failed = ISNULL(source.hpv_result_failed, 0),
         target.hvl_result_tnd = ISNULL(source.hvl_result_tnd, 0),
         target.eid_result_tnd = ISNULL(source.eid_result_tnd, 0),
         target.result_indeterminate = ISNULL(source.result_indeterminate, 0),
@@ -6584,7 +6755,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(is_hvl_sample_plasma_dispatched) AS hvl_sample_plasma_dispatched,
             SUM(is_hvl_sample_wholeblood_dispatched) AS hvl_sample_wholeblood_dispatched,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_dispatched ELSE 0 END) AS hvl_result_dispatched,
-            SUM(CASE WHEN is_eid_sample = 1 THEN is_dispatched ELSE 0 END) AS eid_result_dispatched
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_dispatched ELSE 0 END) AS eid_result_dispatched,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_dispatched ELSE 0 END) AS hpv_result_dispatched
         FROM 
             [derived].fact_sample_testing fst
         WHERE
@@ -6600,7 +6772,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         target.hvl_sample_plasma_dispatched = ISNULL(source.hvl_sample_plasma_dispatched, 0),
         target.hvl_sample_wholeblood_dispatched = ISNULL(source.hvl_sample_wholeblood_dispatched, 0),
         target.hvl_result_dispatched = ISNULL(source.hvl_result_dispatched, 0),
-        target.eid_result_dispatched = ISNULL(source.eid_result_dispatched, 0)
+        target.eid_result_dispatched = ISNULL(source.eid_result_dispatched, 0),
+        target.hpv_result_dispatched = ISNULL(source.hpv_result_dispatched, 0)
     FROM
         [final].fact_daily_sample_summary AS target
     INNER JOIN
@@ -6635,18 +6808,18 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 	UPDATE
 		final.fact_daily_sample_summary
 	SET 
-		sample_collected = eid_sample_collected + hvl_sample_collected,
-        sample_received = eid_sample_dbs_received + hvl_sample_received,
-		sample_accepted = eid_sample_accepted + hvl_sample_accepted,
-        sample_rejected = hvl_sample_rejected + eid_sample_rejected,
-        sample_tested = hvl_sample_tested + eid_sample_tested,
-        result_pending = hvl_result_pending + eid_result_pending,
-		result_authorized = eid_result_authorized + hvl_result_authorized,
-		result_dispatched = eid_result_dispatched + hvl_result_dispatched,
-		result_rejected = eid_result_rejected + hvl_result_rejected,
-		result_accepted = eid_result_accepted + hvl_result_accepted,
-		result_invalid = eid_result_invalid + hvl_result_invalid,
-        result_failed = eid_result_failed + hvl_result_failed,
+		sample_collected = eid_sample_collected + hvl_sample_collected + hpv_sample_collected,
+        sample_received = eid_sample_dbs_received + hvl_sample_received +hpv_sample_received,
+		sample_accepted = eid_sample_accepted + hvl_sample_accepted + hpv_sample_accepted,
+        sample_rejected = hvl_sample_rejected + eid_sample_rejected +hpv_sample_rejected,
+        sample_tested = hvl_sample_tested + eid_sample_tested + hpv_sample_tested,
+        result_pending = hvl_result_pending + eid_result_pending + hpv_result_pending,
+		result_authorized = eid_result_authorized + hvl_result_authorized + hpv_result_authorized,
+		result_dispatched = eid_result_dispatched + hvl_result_dispatched + hpv_result_dispatched,
+		result_rejected = eid_result_rejected + hvl_result_rejected + hpv_result_rejected,
+		result_accepted = eid_result_accepted + hvl_result_accepted + hpv_result_accepted,
+		result_invalid = eid_result_invalid + hvl_result_invalid + hpv_result_invalid,
+        result_failed = eid_result_failed + hvl_result_failed + hpv_result_failed,
 		result_tnd = eid_result_tnd + hvl_result_tnd,
 		sample_referred = eid_sample_referred + hvl_sample_referred + hpv_sample_referred,
 		referral_result_received = eid_sample_referred_resulted + hvl_sample_referred_resulted + hpv_sample_referred_resulted,
