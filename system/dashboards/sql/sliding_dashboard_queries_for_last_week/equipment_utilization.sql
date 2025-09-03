@@ -1,9 +1,9 @@
 SELECT
 	dt.weekly_start_sunday_period AS week_name,
 	dd.device_name AS category,
-	COUNT(ds.sample_id) AS value
+	COUNT(ds.sample_testing_id ) AS value
 FROM
-	[derived].dim_sample ds
+	[derived].fact_sample_testing ds
 INNER JOIN [derived].dim_device dd ON
 	ds.device_id = dd.device_id
 INNER JOIN [derived].dim_date dt ON
