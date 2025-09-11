@@ -40,7 +40,7 @@
         <LineChart
             data="eid_trend_of_rejected_samples"
             detailsComponent="infinite-scroll-table"
-            header="EID: Trend of rejected samples"
+            header="EID: Trend of Sample Rejection Rate"
             subHeader=""
             exportData="true"
             downloadVisual="true"
