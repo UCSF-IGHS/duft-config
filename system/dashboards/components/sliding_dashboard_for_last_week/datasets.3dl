@@ -1,5 +1,5 @@
 <Datasets>
-  <SQLData name="current_date_data" queryName="common/last_week_ending_sunday" />
+  <SQLData name="current_date_data" queryName="common/week_ending_sunday" />
 
   <SQLData
     name="hvl_samples_tested_rejected_authorised"
