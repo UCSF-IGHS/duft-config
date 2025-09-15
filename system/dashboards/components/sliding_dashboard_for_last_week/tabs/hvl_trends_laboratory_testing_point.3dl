@@ -43,7 +43,7 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
-            header="HVL: Trend of rejected samples"
+            header="HVL: Trend of Sample Rejection Rate"
             subHeader=""
             userOptions={{
                 chart: { id: 15 },
