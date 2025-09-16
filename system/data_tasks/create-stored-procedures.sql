@@ -5,6 +5,7 @@ EXEC dbo.sp_xf_system_drop_all_stored_procedures_in_schema 'dbo'
 GO
 
         
+
 -----------------------------------------------------------------------------------------------
 -- sp_xf_system_drop_all_stored_procedures_in_schema
 --
@@ -3578,25 +3579,11 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
 
 -- $BEGIN
     UPDATE fs
-    SET result_numeric = 
-        CASE
-            WHEN 
-                fs.result IN ('TND', 'Target Not Detected')
-                OR (
-                    fs.result LIKE '<%' AND
-                    TRY_CAST(REPLACE(fs.result, '<', '') AS INT) < 50
-                )
-                THEN 11
-            WHEN
-                (
-                    (fs.result LIKE '<%' OR fs.result LIKE '>%' OR fs.result LIKE '%<%' OR fs.result LIKE '%>%') AND 
-                    TRY_CAST(REPLACE(REPLACE(fs.result, '<', ''), '>', '') AS INT) >= 50
-                )
-                THEN TRY_CAST(REPLACE(REPLACE(fs.result, '<', ''), '>', '') AS INT)
-            ELSE TRY_CAST(fs.result AS INT)
-        END
-    FROM [derived].fact_sample_testing fs
-    WHERE fs.result IS NOT NULL;
+        SET result_numeric = TRY_CAST(REPLACE(REPLACE(REPLACE(result, ',', ''), '<', ''), '>', '') AS INT)
+    FROM
+        [derived].fact_sample_testing fs
+    WHERE
+        fs.result IS NOT NULL;
 
 -- $END
 
@@ -4034,18 +4021,16 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     UPDATE
         fs
     SET
-        fs.is_result_tnd = 
-        CASE
-            WHEN
-                LOWER(REPLACE(fs.result, ' ', '')) = 'targetnotdetected'
-                THEN 1
-            ELSE 0
-        END
+        fs.is_result_tnd = 1
     FROM
         derived.fact_sample_testing fs
     WHERE
         fs.result IS NOT NULL
-        AND fs.is_tested = 1;
+        AND fs.is_tested = 1
+        AND (
+            LOWER(REPLACE(fs.result, ' ', '')) = 'targetnotdetected'
+            OR LOWER(REPLACE(fs.result, ' ', '')) = 'tnd'
+        );
 
 -- $END
 
@@ -4374,7 +4359,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     UPDATE
         fs
     SET
-        fs.is_hvl_Sample_wholeblood_tested =
+        fs.is_hvl_sample_wholeblood_tested =
         CASE
             WHEN
                 fs.is_tested = 1
@@ -6051,13 +6036,6 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(CASE WHEN is_eid_sample = 1 THEN is_tested ELSE 0 END) AS eid_sample_tested,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_rejected ELSE 0 END) AS hvl_result_rejected,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_result_rejected ELSE 0 END) AS eid_result_rejected,
-            SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_invalid ELSE 0 END) AS hvl_result_invalid,
-            SUM(CASE WHEN is_eid_sample = 1 THEN is_result_invalid ELSE 0 END) AS eid_result_invalid,
-            SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_failed ELSE 0 END) AS hvl_result_failed,
-            SUM(CASE WHEN is_eid_sample = 1 THEN is_result_failed ELSE 0 END) AS eid_result_failed,
-            SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_tnd ELSE 0 END) AS hvl_result_tnd,
-            SUM(CASE WHEN is_eid_sample = 1 THEN is_result_tnd ELSE 0 END) AS eid_result_tnd,
-            SUM(is_result_indeterminate) AS result_indeterminate,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_tested_date_in_less_or_equal_5_days ELSE 0 END) AS eid_sample_received_and_tested_date_in_less_or_equal_5_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_tested_date_between_6_to_10_days ELSE 0 END) AS eid_sample_received_and_tested_date_between_6_to_10_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_tested_date_between_11_to_15_days ELSE 0 END) AS eid_sample_received_and_tested_date_between_11_to_15_days,
@@ -6073,10 +6051,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(CASE WHEN is_eid_sample = 1 THEN is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging ELSE 0 END) AS eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_greater_than_21_days_aging ELSE 0 END) AS eid_samples_greater_than_21_days_aging,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_less_than_or_equal_to_7_days_aging ELSE 0 END) AS hvl_samples_aging_is_less_than_or_equal_to_7_days,
-            SUM(CASE WHEN is_eid_sample = 1 THEN is_less_than_or_equal_to_7_days_aging ELSE 0 END) AS eid_samples_aging_less_than_or_equal_to_7_days_aging,
-            SUM(is_hvl_samples_with_results_equal_or_above_1000) AS hvl_samples_with_results_equal_or_above_1000,
-            SUM(is_hvl_samples_with_results_less_than_1000_or_above_50) AS hvl_samples_with_results_less_than_1000_or_above_50,
-            SUM(is_hvl_samples_with_results_less_than_50) AS hvl_samples_with_results_less_than_50
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_less_than_or_equal_to_7_days_aging ELSE 0 END) AS eid_samples_aging_less_than_or_equal_to_7_days_aging
         FROM 
             [derived].fact_sample_testing fst
         WHERE
@@ -6097,13 +6072,6 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             target.eid_sample_tested = ISNULL(source.eid_sample_tested, 0),
             target.hvl_result_rejected = ISNULL(source.hvl_result_rejected, 0),
             target.eid_result_rejected = ISNULL(source.eid_result_rejected, 0),
-            target.hvl_result_invalid = ISNULL(source.hvl_result_invalid, 0),
-            target.eid_result_invalid = ISNULL(source.eid_result_invalid, 0),
-            target.hvl_result_failed = ISNULL(source.hvl_result_failed, 0),
-            target.eid_result_failed = ISNULL(source.eid_result_failed, 0),
-            target.hvl_result_tnd = ISNULL(source.hvl_result_tnd, 0),
-            target.eid_result_tnd = ISNULL(source.eid_result_tnd, 0),
-            target.result_indeterminate = ISNULL(source.result_indeterminate, 0),
             target.eid_sample_received_and_tested_date_in_less_or_equal_5_days = ISNULL(source.eid_sample_received_and_tested_date_in_less_or_equal_5_days, 0),
             target.eid_sample_received_and_tested_date_between_6_to_10_days = ISNULL(source.eid_sample_received_and_tested_date_between_6_to_10_days, 0),
             target.eid_sample_received_and_tested_date_between_11_to_15_days = ISNULL(source.eid_sample_received_and_tested_date_between_11_to_15_days, 0),
@@ -6119,10 +6087,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             target.eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging = ISNULL(source.eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging, 0),
             target.eid_samples_greater_than_21_days_aging = ISNULL(source.eid_samples_greater_than_21_days_aging, 0),
             target.hvl_samples_aging_is_less_than_or_equal_to_7_days = ISNULL(source.hvl_samples_aging_is_less_than_or_equal_to_7_days, 0),
-            target.eid_samples_aging_less_than_or_equal_to_7_days_aging = ISNULL(source.eid_samples_aging_less_than_or_equal_to_7_days_aging, 0),
-            target.hvl_samples_with_results_equal_or_above_1000 = ISNULL(source.hvl_samples_with_results_equal_or_above_1000, 0),
-            target.hvl_samples_with_results_less_than_1000_or_above_50 = ISNULL(source.hvl_samples_with_results_less_than_1000_or_above_50, 0),
-            target.hvl_samples_with_results_less_than_50 = ISNULL(source.hvl_samples_with_results_less_than_50, 0)
+            target.eid_samples_aging_less_than_or_equal_to_7_days_aging = ISNULL(source.eid_samples_aging_less_than_or_equal_to_7_days_aging, 0)
         FROM
             final.fact_daily_sample_summary AS target
         INNER JOIN
@@ -6316,7 +6281,17 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_in_less_or_equal_5_days ELSE 0 END) AS eid_sample_received_and_authorised_date_in_less_or_equal_5_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_between_6_to_10_days ELSE 0 END) AS eid_sample_received_and_authorised_date_between_6_to_10_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_between_11_to_15_days ELSE 0 END) AS eid_sample_received_and_authorised_date_between_11_to_15_days,
-            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_in_greater_than_15_days ELSE 0 END) AS eid_sample_received_and_authorised_date_greater_than_15_days
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_in_greater_than_15_days ELSE 0 END) AS eid_sample_received_and_authorised_date_greater_than_15_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_invalid ELSE 0 END) AS hvl_result_invalid,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_result_invalid ELSE 0 END) AS eid_result_invalid,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_failed ELSE 0 END) AS hvl_result_failed,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_result_failed ELSE 0 END) AS eid_result_failed,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_tnd ELSE 0 END) AS hvl_result_tnd,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_result_tnd ELSE 0 END) AS eid_result_tnd,
+            SUM(is_result_indeterminate) AS result_indeterminate,
+            SUM(is_hvl_samples_with_results_equal_or_above_1000) AS hvl_samples_with_results_equal_or_above_1000,
+            SUM(is_hvl_samples_with_results_less_than_1000_or_above_50) AS hvl_samples_with_results_less_than_1000_or_above_50,
+            SUM(is_hvl_samples_with_results_less_than_50) AS hvl_samples_with_results_less_than_50
         FROM 
             [derived].fact_sample_testing fst
         WHERE
@@ -6348,7 +6323,17 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         target.eid_sample_received_and_authorised_date_in_less_or_equal_5_days = ISNULL(source.eid_sample_received_and_authorised_date_in_less_or_equal_5_days, 0),
         target.eid_sample_received_and_authorised_date_between_6_to_10_days = ISNULL(source.eid_sample_received_and_authorised_date_between_6_to_10_days, 0),
         target.eid_sample_received_and_authorised_date_between_11_to_15_days = ISNULL(source.eid_sample_received_and_authorised_date_between_11_to_15_days, 0),
-        target.eid_sample_received_and_authorised_date_greater_than_15_days = ISNULL(source.eid_sample_received_and_authorised_date_greater_than_15_days, 0)
+        target.eid_sample_received_and_authorised_date_greater_than_15_days = ISNULL(source.eid_sample_received_and_authorised_date_greater_than_15_days, 0),
+        target.hvl_result_invalid = ISNULL(source.hvl_result_invalid, 0),
+        target.eid_result_invalid = ISNULL(source.eid_result_invalid, 0),
+        target.hvl_result_failed = ISNULL(source.hvl_result_failed, 0),
+        target.eid_result_failed = ISNULL(source.eid_result_failed, 0),
+        target.hvl_result_tnd = ISNULL(source.hvl_result_tnd, 0),
+        target.eid_result_tnd = ISNULL(source.eid_result_tnd, 0),
+        target.result_indeterminate = ISNULL(source.result_indeterminate, 0),
+        target.hvl_samples_with_results_equal_or_above_1000 = ISNULL(source.hvl_samples_with_results_equal_or_above_1000, 0),
+        target.hvl_samples_with_results_less_than_1000_or_above_50 = ISNULL(source.hvl_samples_with_results_less_than_1000_or_above_50, 0),
+        target.hvl_samples_with_results_less_than_50 = ISNULL(source.hvl_samples_with_results_less_than_50, 0)
     FROM
         [final].fact_daily_sample_summary AS target
     INNER JOIN
