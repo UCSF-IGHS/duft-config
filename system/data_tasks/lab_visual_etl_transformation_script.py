@@ -7,12 +7,13 @@ from sqlalchemy.exc import SQLAlchemyError # type: ignore
 import sys
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
+from urllib.parse import quote_plus
 from services.dte_tools.data_task_tools import ( # type: ignore
     DataTaskEnvironment,
     get_resolved_parameters_for_connection,
     initialise_data_task,
 )
-from urllib.parse import quote_plus
+
 
 executor = ThreadPoolExecutor(max_workers=4)
 environment: DataTaskEnvironment = initialise_data_task("Tille Lab transformation Task", params={})
