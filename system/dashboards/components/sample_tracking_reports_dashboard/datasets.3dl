@@ -12,7 +12,7 @@
         name="eid_sample_tracking_report_data"
         queryName="sample_tracking_reports_dashboard_queries/eid_sample_tracking_report"
         filterFrom="start_date, end_date"
-        searchColumns="dim_sample.sample_tracking_id"
+        searchColumns="dim_sample.sample_tracking_id, dim_facility.region, dim_facility.council, dim_facility.facility_name"
         allowFutureDates="false" 
         pageSize="10"
     />
