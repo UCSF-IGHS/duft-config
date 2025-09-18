@@ -34,5 +34,7 @@ JOIN [derived].dim_facility AS dim_facility ON
 	fact_daily_hvl_sample_status._hfr_id = dim_facility.hfr_code
 WHERE
 	fact_daily_hvl_sample_status.sample_rank = 1
+	AND dim_sample.lab_received_date >= $[start_date%d]
+	AND dim_sample.lab_received_date <= $[end_date%d]
 ORDER BY
 	dim_sample.lab_received_date DESC
