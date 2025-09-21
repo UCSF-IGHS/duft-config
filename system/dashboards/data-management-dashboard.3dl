@@ -20,6 +20,7 @@
                     header="All Samples with Data Related Issues"
                     exportData="true"
                     expand="true"
+                    showEntries="true"
                 />
             </Row>
         </Grid>
@@ -48,6 +49,7 @@
                         header="Samples Missing HFR Code"
                         exportData="true"
                         expand="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>
@@ -77,6 +79,7 @@
                         header="Samples that haven't specified whether they are HVL or EID"
                         exportData="true"
                         expand="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>
@@ -102,6 +105,7 @@
                     header="Samples Without a Collected Date or Received Date"
                     exportData="true"
                     expand="true"
+                    showEntries="true"
                 />
             </Row>
         </Grid>
@@ -125,6 +129,7 @@
                     header="Samples With Received Date earlier than the Collected Date"
                     exportData="true"
                     expand="true"
+                    showEntries="true"
                 />
             </Row>
         </Grid>
@@ -153,6 +158,7 @@
                         header="Samples with Authorized Date earlier than the Tested Date"
                         exportData="true"
                         expand="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>
@@ -182,6 +188,7 @@
                         header="Samples with Rejection Reasons but have Results"
                         exportData="true"
                         expand="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>

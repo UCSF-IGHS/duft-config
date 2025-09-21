@@ -23,6 +23,7 @@
                         subHeader=""
                         exportData="true"
                         expand="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>
@@ -50,6 +51,7 @@
                         subHeader=""
                         exportData="true"
                         expand="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>
