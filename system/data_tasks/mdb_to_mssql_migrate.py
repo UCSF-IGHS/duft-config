@@ -35,7 +35,7 @@ TYPE_MAP = {
     "DateTime": lambda _: "DATETIME",
     "Single": lambda _: "REAL",
     "Double": lambda _: "FLOAT",
-    "Long": lambda _: "BIGINT",  # Consider INT if your Access Long fits 32-bit only
+    "Long": lambda _: "BIGINT",
     "Integer": lambda _: "INT",
     "Byte": lambda _: "TINYINT",
     "Yes/No": lambda _: "BIT",
@@ -315,7 +315,4 @@ def main():
     logging.info("✅ Migration completed successfully!")
 
 
-# =========================
-#
-# =========================
 main()
