@@ -5,28 +5,24 @@
         name="all_data_issues_data"
         queryName="data_management_queries/all_data_issues"
         searchColumns="sample_tracking_id"
-        pageSize="10"
     />
 
     <SQLData
         name="missing_collected_or_received_date_data"
         queryName="data_management_queries/missing_collected_or_received_date"
         searchColumns="sample_tracking_id"
-        pageSize="10"
     />
 
     <SQLData
         name="earlier_received_date_than_collected_date_data"
         queryName="data_management_queries/earlier_received_date_than_collected_date"
         searchColumns="sample_tracking_id"
-        pageSize="10"
     />
 
     <SQLData
         name="missing_hfr_code_data"
         filterFrom="weekly_start_monday_period"
         searchColumns="sample_tracking_id"
-        pageSize="10"
     >
         SELECT
         dim_facility.region AS Region,
@@ -77,7 +73,6 @@
         name="missing_test_name_data"
         filterFrom="weekly_start_monday_period"
         searchColumns="sample_tracking_id"
-        pageSize="10"
     >
         SELECT
         dim_facility.region AS Region,
@@ -128,7 +123,6 @@
         name="samples_with_authorized_date_earlier_than_tested_date_data"
         filterFrom="weekly_start_monday_period"
         searchColumns="sample_tracking_id"
-        pageSize="10"
     >
         SELECT
         dim_facility.region AS Region,
@@ -179,7 +173,6 @@
         name="samples_with_rejection_reasons_but_have_results_data"
         filterFrom="weekly_start_monday_period"
         searchColumns="sample_tracking_id"
-        pageSize="10"
     >
         SELECT
         dim_facility.region AS Region,

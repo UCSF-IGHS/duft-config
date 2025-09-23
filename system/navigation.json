@@ -13,19 +13,19 @@
         "dashboards": [
           {
             "title": "Last week",
-            "icon": "dashboard-icon",
+            "icon": "calendar-icon",
             "dashboard": "/dashboard/sliding-dashboard-for-last-week"
           },
           {
             "title": "Last week ending yesterday",
-            "icon": "dashboard-icon",
+            "icon": "clock-icon",
             "dashboard": "/dashboard/home"
           }
         ]
       },
       {
         "title": "Interactive Dashboard",
-        "icon": "dashboard-icon",
+        "icon": "chartline-icon",
         "dashboard": "/dashboard/interactive-dashboard"
       },
       {
@@ -34,34 +34,34 @@
         "dashboards": [
           {
             "title": "HVL & EID Report",
-            "icon": "dashboard-icon",
+            "icon": "beaker-icon",
             "dashboard": "/dashboard/hvl-and-eid-reports-dashboard"
           },
           {
             "title": "Sample Tracking Report",
-            "icon": "dashboard-icon",
+            "icon": "blood-sample-icon",
             "dashboard": "/dashboard/sample-tracking-reports-dashboard"
           },
           {
             "title": "TAT Report",
-            "icon": "dashboard-icon",
+            "icon": "trend-icon",
             "dashboard": "/dashboard/tat-reports-dashboard"
           },
           {
             "title": "Invalid Report",
-            "icon": "dashboard-icon",
+            "icon": "circle-icon",
             "dashboard": "/dashboard/invalid-reports-dashboard"
           },
           {
             "title": "Rejection Report",
-            "icon": "dashboard-icon",
+            "icon": "ban-icon",
             "dashboard": "/dashboard/rejection-reports-dashboard"
           }
         ]
       },
       {
         "title": "Data Management",
-        "icon": "dashboard-icon",
+        "icon": "db-icon",
         "dashboard": "/dashboard/data-management-dashboard"
       }
     ]
@@ -71,14 +71,14 @@
     "items": [
       {
         "title": "Refresh data",
-        "icon": "update-icon",
+        "icon": "refresh-data-icon",
         "task": "LAB-VISUAL-ETL",
         "dashboard": "refresh-data",
         "prompt": "This task refreshes the data in the dashboards. Click Execute to proceed, Cancel to abort."
       },
       {
         "title": "Update System",
-        "icon": "update-icon",
+        "icon": "update-system-icon",
         "task": "LABVISUALS_DUFT_CONFIGS_REFRESH",
         "prompt": "This task updates the system configurations. Click Execute to proceed, Cancel to abort."
       }

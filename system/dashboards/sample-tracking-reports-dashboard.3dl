@@ -10,11 +10,12 @@
         lastRefresh=""
     >
         <Filters>
-            <DateRangePicker type="date" name="lab_received_date" />
+            <DatePicker type="date" name="start_date" />
+            <DatePicker type="date" name="end_date" />
         </Filters>
 
         <Grid>
-            <PrefilteredDashboard filters="lab_received_date%r">
+            <PrefilteredDashboard filters="start_date%d, end_date%d">
                 <Row columns="1">
                     <Table
                         data="hvl_sample_tracking_report_data"
@@ -22,8 +23,7 @@
                         subHeader=""
                         exportData="true"
                         expand="true"
-                        searchValue="Sample Tracking ID"
-                        hasFilter="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>
@@ -38,11 +38,12 @@
         lastRefresh=""
     >
         <Filters>
-            <DateRangePicker type="date" name="lab_received_date" />
+            <DatePicker type="date" name="start_date" />
+            <DatePicker type="date" name="end_date" />
         </Filters>
 
         <Grid>
-            <PrefilteredDashboard filters="lab_received_date%r">
+            <PrefilteredDashboard filters="start_date%d, end_date%d">
                 <Row columns="1">
                     <Table
                         data="eid_sample_tracking_report_data"
@@ -50,8 +51,7 @@
                         subHeader=""
                         exportData="true"
                         expand="true"
-                        searchValue="Sample Tracking ID"
-                        hasFilter="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>
