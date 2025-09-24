@@ -5,6 +5,7 @@ EXEC dbo.sp_xf_system_drop_all_stored_procedures_in_schema 'dbo'
 GO
 
         
+
 -----------------------------------------------------------------------------------------------
 -- sp_xf_system_drop_all_stored_procedures_in_schema
 --
@@ -2340,321 +2341,6 @@ GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_dim_sample_create
---
-
-PRINT 'Creating derived.sp_dim_sample_create'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_dim_sample_create AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_create';
-
--- $BEGIN
-CREATE TABLE derived.dim_sample(
-    sample_id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
-    sample_tracking_id NVARCHAR(255) NOT NULL,
-    sample_type NVARCHAR(255) NULL,
-    test_name NVARCHAR(255) NULL,
-    sample_quality_status NVARCHAR(255) NULL,
-    rejection_reason NVARCHAR(255) NULL,
-    clean_rejection_reason NVARCHAR(255) NULL,
-    entry_modality NVARCHAR(255) NULL,
-    hub_facility_id UNIQUEIDENTIFIER NULL,
-    is_accepted INT NULL,
-    device_id UNIQUEIDENTIFIER NULL,
-    result  NVARCHAR(255) NULL,
-    collected_date DATE NULL,
-    lab_received_date DATE NULL,
-    tested_date DATE NULL,
-    result_authorized_date DATE NULL,
-    result_dispatched_date DATE NULL,
-    referred_date DATE NULL,
-    referral_facility_id UNIQUEIDENTIFIER NULL,
-    is_valid_record INT NULL DEFAULT 1,
-    cleaning_comment NVARCHAR(255) NULL
-);
-
-ALTER TABLE derived.dim_sample ADD CONSTRAINT FK_derived_dim_sample_hub_facility FOREIGN KEY (hub_facility_id) REFERENCES derived.dim_facility(facility_id);
-ALTER TABLE derived.dim_sample ADD CONSTRAINT FK_derived_dim_sample_device FOREIGN KEY (device_id) REFERENCES derived.dim_device(device_id);
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_dim_sample_create';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_dim_sample_insert
---
-
-PRINT 'Creating derived.sp_dim_sample_insert'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_dim_sample_insert AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_insert';
-
--- $BEGIN
-
-    INSERT INTO [derived].dim_sample
-    (
-        sample_tracking_id,
-        sample_type,
-        test_name,
-        sample_quality_status,
-        rejection_reason,
-        entry_modality,
-        hub_facility_id,
-        is_accepted,
-        device_id,
-        result,
-        collected_date,
-        lab_received_date,
-        tested_date,
-        result_authorized_date,
-        result_dispatched_date,
-        referred_date,
-        referral_facility_id
-    )
-    SELECT 
-        sampletrackingid AS sample_tracking_id,
-        ds.SampleType AS sample_type,
-        ds.TestName AS test_name,
-        ds.SampleQualityStatus AS sample_quality_status,
-        NULLIF(ds.SampleRejectionReason, '') AS rejection_reason,
-        ds.EntryModality AS entry_modality,
-        hf.facility_id AS hub_facility_id,
-        CASE
-            WHEN
-                SampleQualityStatus ='Accepted'
-            THEN 1
-            ELSE
-                0
-        END AS is_accepted,
-        dv.device_id,
-        NULLIF(LTRIM(RTRIM(ds.Results)), ''),
-        ds.CollectionDate AS collected_date,
-        ds.ReceivedDate AS lab_received_date,
-        ds.TestDate AS tested_date,
-        ds.AuthorisedDate AS result_authorized_date,
-        ds.DispatchDate AS result_dispatched_date,
-        CASE
-            WHEN
-                ds.OrderStatus IN (4,8)
-                AND ds.ReferredDate IS NOT NULL
-            THEN ds.ReferredDate
-        END AS referred_date,
-        CASE
-            WHEN
-                ds.OrderStatus IN (4,8)
-                AND ds.ReferredDate IS NOT NULL
-            THEN rf.facility_id
-        END AS referral_facility_id
-    FROM
-        [source].tbl_Sample ds
-    LEFT JOIN
-        [derived].dim_facility hf ON ds.HubHfrCode = hf.hfr_code COLLATE Latin1_General_100_CS_AS
-    LEFT JOIN
-        [derived].dim_facility rf ON ds.ReferredTo = rf.hfr_code COLLATE Latin1_General_100_CS_AS
-    LEFT JOIN
-        z.z_unique_device ud ON ud.original_device_name = ds.DeviceName COLLATE Latin1_General_100_CS_AS
-     LEFT JOIN
-        [derived].dim_device dv ON ud.device_name = dv.device_name COLLATE Latin1_General_100_CS_AS
-   
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_dim_sample_insert';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_dim_sample_update_clean_rejection_reason
---
-
-PRINT 'Creating derived.sp_dim_sample_update_clean_rejection_reason'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_dim_sample_update_clean_rejection_reason AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_update_clean_rejection_reason';
-
--- $BEGIN
-
-    UPDATE
-        ds
-    SET 
-        clean_rejection_reason = 
-        CASE 
-            WHEN 
-                ds.rejection_reason IS NOT NULL
-            THEN
-                TRIM(SUBSTRING(ds.rejection_reason, CHARINDEX('-', ds.rejection_reason) + 1, LEN(ds.rejection_reason)))
-            ELSE 
-                'Others'
-        END
-    FROM [derived].[dim_sample] AS ds
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_dim_sample_update_clean_rejection_reason';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_dim_sample_update_is_valid_record
---
-
-PRINT 'Creating derived.sp_dim_sample_update_is_valid_record'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_dim_sample_update_is_valid_record AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample_update_is_valid_record';
-
--- $BEGIN
-
-    -------------------------------------------------------
-    -- 'Missing HFR code'
-    -------------------------------------------------------
-
-    UPDATE
-    ds
-        SET
-            ds.cleaning_comment = 'Missing HFR code',
-            ds.is_valid_record = 0
-    FROM
-        derived.dim_sample ds
-    WHERE
-        ds.is_valid_record = 1
-        AND ds.hub_facility_id IS NULL;
-    
-    -------------------------------------------------------
-    -- 'Missing Test Name'
-    -------------------------------------------------------
-
-    UPDATE
-    ds
-        SET
-            ds.cleaning_comment = 'Missing Test Name',
-            ds.is_valid_record = 0
-    FROM
-        derived.dim_sample ds
-    WHERE
-        ds.is_valid_record = 1
-        AND ds.test_name NOT IN ('HIVVL','EID');
-    
-    -------------------------------------------------------
-    -- 'Missing Collected Or Received date'
-    -------------------------------------------------------
-
-    UPDATE
-    ds
-        SET
-            ds.cleaning_comment = 'Missing Collected Or Received date',
-            ds.is_valid_record = 0
-    FROM
-        derived.dim_sample ds
-    WHERE
-        ds.is_valid_record = 1
-        AND (
-            ds.collected_date IS NULL
-            OR ds.lab_received_date IS NULL
-        );
-
-    -------------------------------------------------------
-    -- 'Earlier Received date than Collected date'
-    -------------------------------------------------------
-
-    UPDATE
-    ds
-        SET
-            ds.cleaning_comment = 'Earlier Received date than Collected date',
-            ds.is_valid_record = 0
-    FROM
-        derived.dim_sample ds
-    WHERE
-        ds.is_valid_record = 1
-        AND ds.lab_received_date < ds.collected_date;
-    
-    -------------------------------------------------------
-    -- 'Earlier Dispatched date than Test date'
-    -------------------------------------------------------
-
-    UPDATE
-    ds
-        SET
-            ds.cleaning_comment = 'Earlier Dispatched date than Test date',
-            ds.is_valid_record = 0
-    FROM
-        derived.dim_sample ds
-    WHERE
-        ds.is_valid_record = 1
-        AND ds.tested_date > ds.result_dispatched_date;
-
-    -------------------------------------------------------
-    -- 'Rejected but has Result'
-    -------------------------------------------------------
-
-    UPDATE
-    ds
-        SET
-            ds.cleaning_comment = 'Rejected but has Result',
-            ds.is_valid_record = 0
-    FROM
-        derived.dim_sample ds
-    WHERE
-        ds.is_valid_record = 1
-        AND ds.clean_rejection_reason IS NOT NULL
-        AND ds.result IS NOT NULL
-        AND ds.sample_quality_status = 'RejectedLab';
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_dim_sample_update_is_valid_record';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_dim_sample
---
-
-PRINT 'Creating derived.sp_dim_sample'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_dim_sample AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_sample';
-
--- $BEGIN
-
-EXEC derived.sp_dim_sample_create;
-EXEC derived.sp_dim_sample_insert;
-EXEC derived.sp_dim_sample_update_clean_rejection_reason;
-EXEC derived.sp_dim_sample_update_is_valid_record;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_dim_sample';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
 -- sp_fact_daily_commodity_status_create
 --
 
@@ -3427,4142 +3113,2543 @@ GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_status_create
+-- sp_fact_sample_testing_create
 --
 
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_status_create'
+PRINT 'Creating derived.sp_fact_sample_testing_create'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_status_create AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_create AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_create';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_create';
 
 -- $BEGIN
 
-    CREATE TABLE derived.fact_daily_hvl_sample_status (
-        daily_hvl_sample_status_id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    CREATE TABLE derived.fact_sample_testing(
+        sample_testing_id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+        sample_tracking_id NVARCHAR(255) NOT NULL,
+        facility_id UNIQUEIDENTIFIER NULL,
         _hfr_id NVARCHAR(255) NOT NULL,
-        sample_id UNIQUEIDENTIFIER NOT NULL,
-        report_date DATE NOT NULL,
-        is_collected_on_report_date INT NULL,
+        device_id UNIQUEIDENTIFIER NULL,
+        sample_type NVARCHAR(255) NULL,
+        test_name NVARCHAR(255) NULL,
+        sample_quality_status NVARCHAR(255) NULL,
+        rejection_reason NVARCHAR(255) NULL,
+        clean_rejection_reason NVARCHAR(255) NULL,
+        entry_modality NVARCHAR(255) NULL,
+        collected_date DATE NULL,
+        lab_received_date DATE NULL,
+        tested_date DATE NULL,
+        result_authorized_date DATE NULL,
+        result_dispatched_date DATE NULL,
+        result NVARCHAR(255) NULL,
+        result_numeric INT NULL,
+        is_valid_record INT NULL DEFAULT 1,
+        is_eid_sample INT NULL,
+        is_hvl_sample INT NULL,
+        cleaning_comment NVARCHAR(255) NULL,
+        is_sample_rejected INT NULL,
+        is_hvl_sample_plasma INT NULL,
+        is_hvl_sample_wholeblood INT NULL,
         is_collected INT NULL,
-        is_accepted_on_report_date INT NULL,
         is_accepted INT NULL,
-        is_referred_on_report_date INT NULL,
-        is_referred INT NULL,
-        is_referral_result_received INT NULL,
-        is_received_at_the_testing_lab_on_report_date INT NULL,
-        is_received_at_testing_lab INT NULL,
-        is_rejected_at_the_testing_lab_on_report_date INT NULL,
-        hvl_plasma_rejected_at_the_testing_lab INT NULL,
-        hvl_wholeblood_rejected_at_the_testing_lab INT NULL,
+        is_received INT NULL,
+        is_tested INT NULL,
+        is_dispatched INT NULL,
+        is_authorised INT NULL,
         is_received_by_entry_modality_lab INT NULL,
         is_received_by_entry_modality_hub INT NULL,
-        is_tested_on_report_date INT NULL,
-        hvl_plasma_tested_at_the_testing_lab INT NULL,
-        hvl_wholeblood_tested_at_the_testing_lab INT NULL,
-        hvl_sample_received_type_plasma INT NULL,
-        hvl_sample_received_type_wholeblood INT NULL,
-        result NVARCHAR (255) NULL,
-        result_numeric INT NULL,
-        samples_tested_with_results_equal_or_above_1000 INT NULL,
-        samples_tested_with_results_less_than_1000_or_above_50 INT NULL,
-        samples_tested_with_results_less_than_50 INT NULL,
-        is_invalid_result INT NULL,
-        is_failed_result INT NULL,
-        is_result_pending INT NULL,
-        is_target_not_detected INT NULL,
-        is_authorized_on_report_date INT NULL,
-        is_authorized INT NULL,
-        is_dispatched_on_report_date INT NULL,
-        hvl_plasma_dispatched INT NULL,
-        hvl_wholeblood_dispatched INT NULL,
-        days_in_wait_at_the_lab INT NULL,
-        days_waited_at_the_lab INT NULL,
+        is_result_rejected INT NULL,
+        is_result_invalid INT NULL,
+        is_result_failed INT NULL,
+        is_result_tnd INT NULL,
+        is_eid_sample_tested_positive INT NULL,
+        is_eid_sample_tested_negative INT NULL,
+        is_result_indeterminate INT NULL,
+        is_hvl_sample_plasma_received INT NULL,
+        is_hvl_sample_wholeblood_received INT NULL,
+        is_hvl_sample_plasma_rejected INT NULL,
+        is_hvl_sample_wholeblood_rejected INT NULL,
+        is_hvl_sample_plasma_tested INT NULL,
+        is_hvl_sample_wholeblood_tested INT NULL,
+        is_hvl_sample_plasma_dispatched INT NULL,
+        is_hvl_sample_wholeblood_dispatched INT NULL,
+        days_between_collected_and_authorised INT NULL,
+        days_between_received_and_authorised INT NULL,
+        days_between_collected_and_received INT NULL,
+        days_between_received_and_tested INT NULL,
+        is_collected_and_received_in_less_or_equal_5_days INT NULL,
+        is_collected_and_received_between_6_to_10_days INT NULL,
+        is_collected_and_received_between_11_to_15_days INT NULL,
+        is_collected_and_received_in_greater_than_15_days INT NULL,
+        is_hvl_samples_with_results_equal_or_above_1000 INT NULL,
+        is_hvl_samples_with_results_less_than_1000_or_above_50 INT NULL,
+        is_hvl_samples_with_results_less_than_50 INT NULL,
+        is_received_and_authorised_in_less_or_equal_5_days INT NULL,
+        is_received_and_authorised_between_6_to_10_days INT NULL,
+        is_received_and_authorised_between_11_to_15_days INT NULL,
+        is_received_and_authorised_in_greater_than_15_days INT NULL,
+        is_collected_and_authorised_date_in_less_or_equal_10_days INT NULL,
+        is_collected_and_authorised_date_between_11_to_14_days INT NULL,
+        is_collected_and_authorised_date_between_15_to_21_days INT NULL,
+        is_collected_and_authorised_date_greater_than_21_days INT NULL,
+        is_received_and_tested_date_in_less_or_equal_5_days INT NULL,
+        is_received_and_tested_date_between_6_to_10_days INT NULL,
+        is_received_and_tested_date_between_11_to_15_days INT NULL,
+        is_received_and_tested_date_greater_than_15_days INT NULL,
         is_less_than_or_equal_to_7_days_aging INT NULL,
         is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging INT NULL,
         is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging INT NULL,
-        is_greater_than_21_days_aging INT NULL,
-        days_between_sample_collected_and_received_date INT NULL,
-        sample_collected_and_received_date_in_less_or_equal_5_days INT NULL,
-        sample_collected_and_received_date_between_6_to_10_days INT NULL,
-        sample_collected_and_received_date_between_11_to_15_days INT NULL,
-        sample_collected_and_received_date_greater_than_15_days INT NULL,
-        days_between_sample_received_and_authorised_date INT NULL,
-        sample_received_and_authorised_date_in_less_or_equal_5_days INT NULL,
-        sample_received_and_authorised_date_between_6_to_10_days INT NULL,
-        sample_received_and_authorised_date_between_11_to_15_days INT NULL,
-        sample_received_and_authorised_date_greater_than_15_days INT NULL,
-        days_between_sample_collected_and_authorised_date INT NULL,
-        sample_collected_and_authorised_date_in_less_or_equal_10_days INT NULL,
-        sample_collected_and_authorised_date_between_11_to_14_days INT NULL,
-        sample_collected_and_authorised_date_between_15_to_21_days INT NULL,
-        sample_collected_and_authorised_date_greater_than_21_days INT NULL,
-        days_between_sample_received_and_tested_date INT NULL,
-        sample_received_and_tested_date_in_less_or_equal_5_days INT NULL,
-        sample_received_and_tested_date_between_6_to_10_days INT NULL,
-        sample_received_and_tested_date_between_11_to_15_days INT NULL,
-        sample_received_and_tested_date_greater_than_15_days INT NULL
+        is_greater_than_21_days_aging INT NULL
     );
-    ALTER TABLE derived.fact_daily_hvl_sample_status ADD CONSTRAINT fk_derived_fact_daily_hvl_sample_status_sample FOREIGN KEY (sample_id) REFERENCES derived.dim_sample(sample_id);
+
+    ALTER TABLE derived.fact_sample_testing ADD CONSTRAINT FK_device_id FOREIGN KEY(device_id) REFERENCES derived.dim_device(device_id);
+    ALTER TABLE derived.fact_sample_testing ADD CONSTRAINT FK_facility_id FOREIGN KEY(facility_id) REFERENCES derived.dim_facility(facility_id);
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_create';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_create';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_status_insert
+-- sp_fact_sample_testing_insert
 --
 
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_status_insert'
+PRINT 'Creating derived.sp_fact_sample_testing_insert'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_status_insert AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_insert AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_insert';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_insert';
 
 -- $BEGIN
 
-    INSERT INTO [derived].fact_daily_hvl_sample_status
+    INSERT INTO [derived].fact_sample_testing
     (
-		_hfr_id,
-        sample_id,
-        report_date
+        sample_tracking_id,
+        sample_type,
+        test_name,
+        is_eid_sample,
+        is_hvl_sample,
+        device_id,
+        facility_id,
+        _hfr_id,
+        collected_date,
+        lab_received_date,
+        tested_date,
+        result_authorized_date,
+        result_dispatched_date,
+        result,
+        entry_modality,
+        rejection_reason,
+        sample_quality_status
     )
-
-	SELECT
-		ISNULL(df.hfr_code, uf.hfr_code) AS _hfr_id,
-		ds.sample_id,
-		ISNULL(dd.[date], ds.collected_date) report_date
-	FROM
-		[derived].dim_sample ds
-	INNER JOIN
-		[derived].dim_date dd 
-		ON dd.[date] >= ds.collected_date 
-		AND dd.[date] <= COALESCE(ds.result_dispatched_date, ds.result_authorized_date, ds.tested_date, ds.lab_received_date, ds.collected_date)
-	LEFT JOIN
-		[derived].dim_facility df
-		ON df.facility_id = ds.hub_facility_id
-	LEFT JOIN
+    SELECT
+        ts.sampletrackingid AS sample_tracking_id,
+        ts.sampletype AS sample_type,
+        ts.testname AS test_name,
+        CASE
+            WHEN ts.testname = 'EID' THEN 1
+            ELSE 0
+        END AS is_eid_sample,
+        CASE
+            WHEN ts.testname = 'HIVVL' THEN 1
+            ELSE 0
+        END AS is_hvl_sample,
+        dv.device_id,
+        df.facility_id,
+        ISNULL(df.hfr_code, uf.hfr_code) AS _hfr_id,
+        ts.CollectionDate AS collected_date,
+        ts.ReceivedDate AS lab_received_date,
+        ts.TestDate AS tested_date,
+        ts.AuthorisedDate AS result_authorized_date,
+        ts.DispatchDate AS result_dispatched_date,
+        NULLIF(LTRIM(RTRIM(ts.Results)), ''),
+        ts.entrymodality AS entry_modality,
+        NULLIF(ts.SampleRejectionReason, '') AS rejection_reason,
+        ts.samplequalitystatus AS sample_quality_status
+    FROM
+        [source].tbl_sample ts
+    LEFT JOIN
+        [derived].dim_facility df ON ts.HubHfrCode = df.hfr_code COLLATE Latin1_General_100_CS_AS
+    LEFT JOIN
+        z.z_unique_device ud ON ud.original_device_name = ts.DeviceName COLLATE Latin1_General_100_CS_AS
+    LEFT JOIN
+        [derived].dim_device dv ON ud.device_name = dv.device_name COLLATE Latin1_General_100_CS_AS
+    LEFT JOIN
 		[derived].dim_facility uf
-		ON uf.facility_name = 'UNKNOWN'
-	WHERE
-		test_name = 'HIVVL'
-	;
+		ON uf.facility_name = 'UNKNOWN';
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_insert';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_insert';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_collected_on_report_date
+-- sp_fact_sample_testing_update_is_collected
 --
 
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_collected_on_report_date'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_collected'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_collected_on_report_date AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_collected AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_collected_on_report_date';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_collected_on_report_date = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
-	WHERE 
-		fs.report_date = ds.collected_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_collected_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_collected
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_collected'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_collected AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_collected';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_collected =  CASE
-								WHEN fs.report_date > = ds.collected_date THEN 1
-							ELSE 0
-							END
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
-		AND fs.report_date >= ds.collected_date;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_collected';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_status_update_is_accepted
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_status_update_is_accepted'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_status_update_is_accepted AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_update_is_accepted';
-
--- $BEGIN
-    
-    UPDATE
-        fe
-    SET
-        fe.is_accepted = 1
-    FROM 
-        [derived].fact_daily_hvl_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.report_date >= ds.lab_received_date
-	WHERE 
-	    ds.sample_quality_status ='Accepted';
-
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_update_is_accepted';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_status_update_is_accepted_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_status_update_is_accepted_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_status_update_is_accepted_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_update_is_accepted_on_report_date';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected';
 
 -- $BEGIN
 
     UPDATE
-        fe
+        fs
     SET
-        fe.is_accepted_on_report_date = 1
-    FROM 
-        [derived].fact_daily_hvl_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.report_date = ds.lab_received_date
-        AND ds.sample_quality_status ='Accepted'
-
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_update_is_accepted_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_received_at_the_testing_lab_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_received_at_the_testing_lab_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_received_at_the_testing_lab_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_received_at_the_testing_lab_on_report_date';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_received_at_the_testing_lab_on_report_date = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds 
-		ON fs.sample_id = ds.sample_id 
-		AND fs.report_date = ds.lab_received_date;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_received_at_the_testing_lab_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_rejected_at_the_testing_lab_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_rejected_at_the_testing_lab_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_rejected_at_the_testing_lab_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_rejected_at_the_testing_lab_on_report_date';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_rejected_at_the_testing_lab_on_report_date = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds 
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.lab_received_date 
-	WHERE
-		ds.sample_quality_status = 'RejectedLab'
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_rejected_at_the_testing_lab_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_hvl_plasma_rejected_at_the_testing_lab
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_hvl_plasma_rejected_at_the_testing_lab'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_hvl_plasma_rejected_at_the_testing_lab AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_plasma_rejected_at_the_testing_lab';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.hvl_plasma_rejected_at_the_testing_lab = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds 
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.lab_received_date
-	WHERE
-		ds.sample_quality_status = 'RejectedLab'
-		AND ds.sample_type = 'Plasma'
-	
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_plasma_rejected_at_the_testing_lab';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_hvl_wholeblood_rejected_at_the_testing_lab
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_rejected_at_the_testing_lab'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_rejected_at_the_testing_lab AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_rejected_at_the_testing_lab';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.hvl_wholeblood_rejected_at_the_testing_lab = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds 
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.lab_received_date
-	WHERE
-		ds.sample_quality_status = 'RejectedLab'
-		AND ds.sample_type = 'Wholeblood'
-	
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_rejected_at_the_testing_lab';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_lab
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_lab'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_lab AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_lab';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_received_by_entry_modality_lab = 1
-FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.lab_received_date
-	WHERE
-		ds.entry_modality = 'lab'
-	
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_lab';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_hub
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_hub'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_hub AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_hub';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_received_by_entry_modality_hub = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds 
-		ON fs.sample_id = ds.sample_id
-		AND report_date = ds.lab_received_date
-	WHERE
-		ds.entry_modality = 'hub'
-	
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_hub';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_tested_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_tested_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_tested_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_tested_on_report_date';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_tested_on_report_date = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
-		AND fs.report_date = ds.tested_date;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_tested_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_hvl_plasma_tested_at_the_testing_lab
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_hvl_plasma_tested_at_the_testing_lab'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_hvl_plasma_tested_at_the_testing_lab AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_plasma_tested_at_the_testing_lab';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.hvl_plasma_tested_at_the_testing_lab = 
-		CASE
-			WHEN 
-				ds.sample_type = 'Plasma' 
-			THEN 1
-			ELSE 0
-		END
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds ON fs.sample_id = ds.sample_id
-		AND is_tested_on_report_date = 1
-	
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_plasma_tested_at_the_testing_lab';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_hvl_wholeblood_tested_at_the_testing_lab
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_tested_at_the_testing_lab'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_tested_at_the_testing_lab AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_tested_at_the_testing_lab';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.hvl_wholeblood_tested_at_the_testing_lab = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds 
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.tested_date
-	WHERE
-		ds.sample_type = 'Wholeblood'
-	
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_tested_at_the_testing_lab';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_hvl_sample_received_type_plasma
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_hvl_sample_received_type_plasma'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_hvl_sample_received_type_plasma AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_sample_received_type_plasma';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.hvl_sample_received_type_plasma = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds 
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.lab_received_date 
-	WHERE
-		ds.sample_type = 'plasma'
-	
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_sample_received_type_plasma';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_hvl_sample_received_type_wholeblood
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_hvl_sample_received_type_wholeblood'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_hvl_sample_received_type_wholeblood AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_sample_received_type_wholeblood';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.hvl_sample_received_type_wholeblood = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds 
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.lab_received_date
-	WHERE
-		ds.sample_type = 'wholeblood'
-	
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_sample_received_type_wholeblood';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_authorized_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_authorized_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_authorized_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_authorized_on_report_date';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_authorized_on_report_date = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.result_authorized_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_authorized_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_authorized
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_authorized'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_authorized AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_authorized';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_authorized = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
-		AND fs.report_date >= ds.result_authorized_date;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_authorized';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_referred_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_referred_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_referred_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referred_on_report_date';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_referred_on_report_date = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
-	WHERE 
-		fs.report_date = ds.referred_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referred_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_referred
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_referred'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_referred AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referred';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_referred = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
-		AND fs.report_date >= ds.referred_date;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referred';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_referral_result_received = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
-	WHERE 
-		fs.report_date = ds.referred_date
-		AND ds.result IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_dispatched_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_dispatched_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_dispatched_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_dispatched_on_report_date';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_dispatched_on_report_date = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds ON fs.sample_id = ds.sample_id
-	WHERE 
-		fs.report_date = ds.result_dispatched_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_dispatched_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_hvl_plasma_dispatched
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_hvl_plasma_dispatched'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_hvl_plasma_dispatched AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_plasma_dispatched';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.hvl_plasma_dispatched = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds 
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.result_dispatched_date
-	WHERE
-		ds.sample_type = 'Plasma'
-	
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_plasma_dispatched';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_hvl_wholeblood_dispatched
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_dispatched'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_dispatched AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_dispatched';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.hvl_wholeblood_dispatched = 1
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds 
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.result_dispatched_date
-	WHERE
-		ds.sample_type = 'Wholeblood'
-	
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_dispatched';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_result
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_result'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_result AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_result';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.result  = ts.Results 
-	FROM
-		derived.fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds ON fs.sample_id = ds.sample_id
-	INNER JOIN 
-		source.tbl_Sample ts ON ts.sampleTrackingId = ds.sample_tracking_id 
-	WHERE
-		ds.result_authorized_date = fs.report_date;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_result';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_result_numeric
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_result_numeric'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_result_numeric AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_result_numeric';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.result_numeric  = 
-		CASE
-			WHEN fs.result LIKE '%<20%'
-				OR fs.result LIKE '%<40%'
-				OR fs.result LIKE '%< 40%'
-				OR fs.result LIKE '%Target Not Detected%'
-			THEN 11
-			WHEN fs.result LIKE '%150%'
-				OR fs.result LIKE '%< 150%'
-			THEN 150
-			ELSE TRY_CAST(fs.result AS INT)
-		END
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	WHERE
-		fs.result IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_result_numeric';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_status_update_is_target_not_detected
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_status_update_is_target_not_detected'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_status_update_is_target_not_detected AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_update_is_target_not_detected';
-
--- $BEGIN
-
-    UPDATE
-        fe
-    SET
-        fe.is_target_not_detected = 
+        fs.is_collected = 
         CASE
-            WHEN LOWER(REPLACE(ds.result, ' ', '')) IN ('targetnotdetected', 'tnd')
-            THEN 1
-            WHEN LOWER(REPLACE(ds.result, ' ', '')) NOT IN ('targetdetected', 'tnd')
-            THEN 0
-        END 
-    FROM 
-        [derived].fact_daily_hvl_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.is_tested_on_report_date = 1;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_update_is_target_not_detected';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_status_update_is_result_pending
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_status_update_is_result_pending'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_status_update_is_result_pending AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_update_is_result_pending';
-
--- $BEGIN
-
-    UPDATE
-        fe
-    SET
-        fe.is_result_pending = 1
-    FROM 
-        [derived].fact_daily_hvl_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.report_date >= ds.tested_date
-        AND fe.report_date < ds.result_authorized_date ;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status_update_is_result_pending';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_samples_tested_with_results_equal_or_above_1000
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_equal_or_above_1000'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_equal_or_above_1000 AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_equal_or_above_1000';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.samples_tested_with_results_equal_or_above_1000 = 
-		CASE
-			WHEN 
-				fs.result_numeric >= 1000 
-			THEN 1
-			ELSE 0
-		END
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	WHERE 
-		is_tested_on_report_date = 1
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_equal_or_above_1000';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_1000_or_above_50
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_1000_or_above_50'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_1000_or_above_50 AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_1000_or_above_50';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.samples_tested_with_results_less_than_1000_or_above_50 = 
-		CASE
-			WHEN 
-				fs.result_numeric < 1000
-				AND fs.result_numeric > 50  
-			THEN 1
-			ELSE 0
-		END
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	WHERE 
-		is_tested_on_report_date = 1
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_1000_or_above_50';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_50
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_50'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_50 AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_50';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.samples_tested_with_results_less_than_50 = 
-		CASE
-			WHEN 
-				fs.result_numeric < 50 
-			THEN 1
-			ELSE 0
-		END
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	WHERE 
-		is_tested_on_report_date = 1
-
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_50';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_invalid_result
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_invalid_result'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_invalid_result AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_invalid_result';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_invalid_result = 
-		CASE
-			WHEN 
-				LOWER(fs.result) = 'invalid'  
-			THEN 1
-			ELSE 0
-		END
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.tested_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_invalid_result';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_is_failed_result
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_is_failed_result'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_is_failed_result AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_failed_result';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_failed_result = 
-		CASE
-			WHEN 
-				fs.result = 'Failed' 
-			THEN 1
-			ELSE 0
-		END
-	FROM
-		[derived].fact_daily_hvl_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.tested_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_is_failed_result';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_days_in_wait_at_the_lab
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_days_in_wait_at_the_lab'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_days_in_wait_at_the_lab AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_in_wait_at_the_lab';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.days_in_wait_at_the_lab = 
-			DATEDIFF(DAY,ds.lab_received_date, fs.report_date)
-	FROM
-		derived.fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds 
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date <= ds.tested_date 
-		AND fs.report_date >= ds.lab_received_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_in_wait_at_the_lab';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_days_waited_at_the_lab
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_days_waited_at_the_lab'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_days_waited_at_the_lab AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_waited_at_the_lab';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.days_waited_at_the_lab = 
-			DATEDIFF(DAY,ds.lab_received_date, ds.tested_date)
-	FROM
-		derived.fact_daily_hvl_sample_status fs
-	INNER JOIN
-		derived.dim_sample ds 
-		ON fs.sample_id = ds.sample_id
-		AND fs.report_date = ds.tested_date 
-		AND ds.tested_date >= ds.lab_received_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_waited_at_the_lab';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_aging
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_aging'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_aging AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_aging';
-
--- $BEGIN
-
-	UPDATE fh
-        SET
-            fh.is_less_than_or_equal_to_7_days_aging = 
-                CASE
-                    WHEN
-                        fh.days_in_wait_at_the_lab <= 7  
-                    THEN 1
-                    ELSE 0
-                END,
-			fh.is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging =
-                CASE
-                    WHEN
-                        fh.days_in_wait_at_the_lab > 7
-                        AND fh.days_in_wait_at_the_lab <= 14  
-                    THEN 1
-                    ELSE 0
-                END,
-			fh.is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging = 
-                CASE
-                    WHEN
-                        fh.days_in_wait_at_the_lab > 14 
-                        AND fh.days_in_wait_at_the_lab <= 21 
-                    THEN 1
-                    ELSE 0
-                END,
-			fh.is_greater_than_21_days_aging = 
-                CASE
-                    WHEN
-                        fh.days_in_wait_at_the_lab > 21 
-                    THEN 1
-                    ELSE 0
-                END
-    FROM
-        [derived].fact_daily_hvl_sample_status fh
-    WHERE
-        fh.days_in_wait_at_the_lab IS NOT NULL
-        AND fh.is_tested_on_report_date = 1
-
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_aging';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_received_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_received_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_received_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_received_date';
-
--- $BEGIN
-
-    UPDATE 
-        fs
-        SET 
-            days_between_sample_collected_and_received_date = 
-            DATEDIFF(day, ds.collected_date, ds.lab_received_date)
-    FROM
-        [derived].fact_daily_hvl_sample_status fs
-    INNER JOIN
-        [derived].dim_sample ds 
-        ON fs.sample_id = ds.sample_id
-        AND report_date = ds.lab_received_date
-        AND ds.collected_date <= ds.lab_received_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_received_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_authorised_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_authorised_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_authorised_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_authorised_date';
-
--- $BEGIN
-
-    UPDATE 
-        fs
-    SET 
-        fs.days_between_sample_collected_and_authorised_date = 
-        DATEDIFF(day, ds.collected_date, ds.result_authorized_date)
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    INNER JOIN
-        derived.dim_sample ds 
-        ON fs.sample_id = ds.sample_id 
-        AND fs.report_date = ds.result_authorized_date
-    WHERE
-        ds.collected_date <= ds.result_authorized_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_authorised_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_days_between_sample_received_and_authorised_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_days_between_sample_received_and_authorised_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_days_between_sample_received_and_authorised_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_between_sample_received_and_authorised_date';
-
--- $BEGIN
-
-    UPDATE 
-        fs
-        SET 
-            days_between_sample_received_and_authorised_date = 
-            DATEDIFF(day, ds.lab_received_date, ds.result_authorized_date)
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    INNER JOIN
-        [derived].dim_sample ds ON fs.sample_id = ds.sample_id
-        AND report_date = ds.result_authorized_date
-        AND ds.lab_received_date <= ds.result_authorized_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_between_sample_received_and_authorised_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_days_between_sample_received_and_tested_date
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_days_between_sample_received_and_tested_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_days_between_sample_received_and_tested_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_between_sample_received_and_tested_date';
-
--- $BEGIN
-
-    UPDATE
-        fs
-    SET
-        fs.days_between_sample_received_and_tested_date = 
-        DATEDIFF(day, ds.lab_received_date, ds.tested_date)
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fs.sample_id = ds.sample_id
-        AND fs.report_date = ds.tested_date
-    WHERE
-        ds.lab_received_date <= ds.tested_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_days_between_sample_received_and_tested_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_6_to_10_days
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_6_to_10_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_6_to_10_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_6_to_10_days';
-
--- $BEGIN
-
-    UPDATE 
-            fs
-        SET
-            fs.sample_collected_and_received_date_between_6_to_10_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_collected_and_received_date >= 6
-                        AND days_between_sample_collected_and_received_date <= 10
-                    THEN 1
-                    ELSE 0
-                END
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        is_received_at_the_testing_lab_on_report_date = 1
-        AND days_between_sample_collected_and_received_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_6_to_10_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_11_to_15_days
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_11_to_15_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_11_to_15_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_11_to_15_days';
-
--- $BEGIN
-
-    UPDATE 
-            fs
-        SET
-            fs.sample_collected_and_received_date_between_11_to_15_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_collected_and_received_date >= 11 
-                        AND days_between_sample_collected_and_received_date <= 15 
-                    THEN 1
-                    ELSE 0
-                END
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        is_received_at_the_testing_lab_on_report_date = 1
-        AND days_between_sample_collected_and_received_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_11_to_15_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_greater_than_15_days
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_greater_than_15_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_greater_than_15_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_greater_than_15_days';
-
--- $BEGIN
-
-    UPDATE 
-            fs
-        SET
-            fs.sample_collected_and_received_date_greater_than_15_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_collected_and_received_date > 15 
-                    THEN 1
-                    ELSE 0
-                END
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        is_received_at_the_testing_lab_on_report_date = 1
-        AND days_between_sample_collected_and_received_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_greater_than_15_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_in_less_or_equal_5_days
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_in_less_or_equal_5_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_in_less_or_equal_5_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_in_less_or_equal_5_days';
-
--- $BEGIN
-
-    UPDATE 
-            fs
-    SET
-        fs.sample_collected_and_received_date_in_less_or_equal_5_days = 
-        CASE
-            WHEN
-                days_between_sample_collected_and_received_date <= 5 
-            THEN 1
+            WHEN fs.collected_date IS NOT NULL THEN 1
             ELSE 0
         END
     FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        is_received_at_the_testing_lab_on_report_date = 1
-        AND days_between_sample_collected_and_received_date IS NOT NULL
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_in_less_or_equal_5_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_in_less_or_equal_5_days
+-- sp_fact_sample_testing_update_is_accepted
 --
 
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_in_less_or_equal_5_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_accepted'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_in_less_or_equal_5_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_accepted AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_in_less_or_equal_5_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_accepted';
 
 -- $BEGIN
 
-    UPDATE 
-            fs
+    UPDATE
+        fs
     SET
-        fs.sample_received_and_authorised_date_in_less_or_equal_5_days = 
+        fs.is_accepted = 
         CASE
-            WHEN
-                days_between_sample_received_and_authorised_date <= 5 THEN 1
+            WHEN fs.sample_quality_status ='Accepted' THEN 1
             ELSE 0
         END
     FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_received_and_authorised_date IS NOT NULL
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_in_less_or_equal_5_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_accepted';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_6_to_10_days
+-- sp_fact_sample_testing_update_is_received
 --
 
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_6_to_10_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_6_to_10_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_6_to_10_days';
-
--- $BEGIN
-
-    UPDATE 
-            fs
-        SET
-            fs.sample_received_and_authorised_date_between_6_to_10_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_received_and_authorised_date >= 6
-                        AND days_between_sample_received_and_authorised_date <= 10
-                    THEN 1
-                    ELSE 0
-                END
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_received_and_authorised_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_6_to_10_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_11_to_15_days
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_11_to_15_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_11_to_15_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_11_to_15_days';
-
--- $BEGIN
-
-
-    UPDATE 
-            fs
-        SET
-            fs.sample_received_and_authorised_date_between_11_to_15_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_received_and_authorised_date >= 11
-                        AND days_between_sample_received_and_authorised_date <= 15
-                    THEN 1
-                    ELSE 0
-                END
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_received_and_authorised_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_11_to_15_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_greater_than_15_days
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_greater_than_15_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_greater_than_15_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_greater_than_15_days';
-
--- $BEGIN
-
-    UPDATE 
-            fs
-        SET
-            fs.sample_received_and_authorised_date_greater_than_15_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_received_and_authorised_date >= 15 THEN 1
-                    ELSE 0
-                END
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_received_and_authorised_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_greater_than_15_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_in_less_or_equal_10_days
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_in_less_or_equal_10_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_in_less_or_equal_10_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_in_less_or_equal_10_days';
-
--- $BEGIN
-
-    UPDATE 
-        fs
-    SET
-        fs.sample_collected_and_authorised_date_in_less_or_equal_10_days = 
-        CASE
-            WHEN
-                fs.days_between_sample_collected_and_authorised_date <= 10 
-            THEN 1
-            ELSE NULL
-        END
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE 
-        fs.days_between_sample_collected_and_authorised_date IS NOT NULL
-        AND fs.is_authorized_on_report_date = 1
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_in_less_or_equal_10_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_11_to_14_days
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_11_to_14_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_11_to_14_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_11_to_14_days';
-
--- $BEGIN
-
-    UPDATE 
-        fs
-    SET
-        fs.sample_collected_and_authorised_date_between_11_to_14_days = 
-        CASE
-            WHEN
-                fs.days_between_sample_collected_and_authorised_date >= 11 
-                AND fs.days_between_sample_collected_and_authorised_date <= 14 
-            THEN 1
-            ELSE NULL
-        END
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        fs.days_between_sample_collected_and_authorised_date IS NOT NULL
-        AND fs.is_authorized_on_report_date = 1
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_11_to_14_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_15_to_21_days
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_15_to_21_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_15_to_21_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_15_to_21_days';
-
--- $BEGIN
-
-    UPDATE 
-        fs
-    SET
-        fs.sample_collected_and_authorised_date_between_15_to_21_days = 
-        CASE
-            WHEN
-                fs.days_between_sample_collected_and_authorised_date >= 15 
-                AND fs.days_between_sample_collected_and_authorised_date <= 21 
-            THEN 1
-            ELSE NULL
-        END
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        fs.days_between_sample_collected_and_authorised_date IS NOT NULL
-        AND fs.is_authorized_on_report_date = 1
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_15_to_21_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_greater_than_21_days
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_greater_than_21_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_greater_than_21_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_greater_than_21_days';
-
--- $BEGIN
-
-    UPDATE 
-        fs
-    SET
-        fs.sample_collected_and_authorised_date_greater_than_21_days = 
-        CASE
-            WHEN
-                fs.days_between_sample_collected_and_authorised_date > 21 
-            THEN 1
-            ELSE NULL
-        END
-    FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        fs.days_between_sample_collected_and_authorised_date IS NOT NULL
-        AND fs.is_authorized_on_report_date = 1
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_greater_than_21_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_in_less_or_equal_to_5_days
---
-
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_in_less_or_equal_to_5_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_in_less_or_equal_to_5_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_in_less_or_equal_to_5_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received';
 
 -- $BEGIN
 
     UPDATE
         fs
     SET
-        fs.sample_received_and_tested_date_in_less_or_equal_5_days = 
+        is_received = 
         CASE
-            WHEN
-                fs.days_between_sample_received_and_tested_date <= 5
-            THEN 1
-            ELSE NULL
+            WHEN fs.lab_received_date IS NOT NULL THEN 1
+            ELSE 0
         END
     FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        fs.days_between_sample_received_and_tested_date IS NOT NULL
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_in_less_or_equal_to_5_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_6_to_10_days
+-- sp_fact_sample_testing_update_is_tested
 --
 
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_6_to_10_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_tested'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_6_to_10_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_tested AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_6_to_10_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_tested';
 
 -- $BEGIN
 
     UPDATE
         fs
     SET
-        fs.sample_received_and_tested_date_between_6_to_10_days = 
+        fs.is_tested = 
         CASE
-            WHEN
-                fs.days_between_sample_received_and_tested_date >= 6
-                AND fs.days_between_sample_received_and_tested_date <= 10
-            THEN 1
-            ELSE NULL
+            WHEN fs.tested_date IS NOT NULL THEN 1
+            ELSE 0
         END
     FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        fs.days_between_sample_received_and_tested_date IS NOT NULL
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_6_to_10_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_tested';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_11_to_15_days
+-- sp_fact_sample_testing_update_is_dispatched
 --
 
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_11_to_15_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_dispatched'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_11_to_15_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_dispatched AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_11_to_15_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_dispatched';
 
 -- $BEGIN
 
     UPDATE
         fs
     SET
-        fs.sample_received_and_tested_date_between_11_to_15_days = 
+        fs.is_dispatched = 
         CASE
-            WHEN
-                fs.days_between_sample_received_and_tested_date >= 11
-                AND fs.days_between_sample_received_and_tested_date <= 15
-            THEN 1
-            ELSE NULL
+            WHEN fs.result_dispatched_date IS NOT NULL THEN 1
+            ELSE 0
         END
     FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        fs.days_between_sample_received_and_tested_date IS NOT NULL
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_11_to_15_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_dispatched';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_greater_than_15_days
+-- sp_fact_sample_testing_update_is_authorised
 --
 
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_greater_than_15_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_authorised'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_greater_than_15_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_authorised AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_greater_than_15_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_authorised';
 
 -- $BEGIN
 
     UPDATE
         fs
     SET
-        fs.sample_received_and_tested_date_greater_than_15_days = 
+        fs.is_authorised = 
         CASE
-            WHEN
-                fs.days_between_sample_received_and_tested_date > 15
-            THEN 1
-            ELSE NULL
+            WHEN fs.result_authorized_date IS NOT NULL THEN 1
+            ELSE 0
         END
     FROM
-        derived.fact_daily_hvl_sample_status fs
-    WHERE
-        fs.days_between_sample_received_and_tested_date IS NOT NULL
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_greater_than_15_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_authorised';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_hvl_sample_status
+-- sp_fact_sample_testing_update_clean_rejection_reason
 --
 
-PRINT 'Creating derived.sp_fact_daily_hvl_sample_status'
+PRINT 'Creating derived.sp_fact_sample_testing_update_clean_rejection_reason'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_hvl_sample_status AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_clean_rejection_reason AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status';
-
--- $BEGIN
-
-    EXEC derived.sp_fact_daily_hvl_sample_status_create;
-    EXEC derived.sp_fact_daily_hvl_sample_status_insert;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_collected_on_report_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_collected;
-    EXEC derived.sp_fact_daily_hvl_sample_status_update_is_accepted;
-    EXEC derived.sp_fact_daily_hvl_sample_status_update_is_accepted_on_report_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_received_at_the_testing_lab_on_report_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_rejected_at_the_testing_lab_on_report_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_hvl_plasma_rejected_at_the_testing_lab;
-    EXEC derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_rejected_at_the_testing_lab;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_lab;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_received_by_entry_modality_hub;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_tested_on_report_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_hvl_plasma_tested_at_the_testing_lab;
-    EXEC derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_tested_at_the_testing_lab;
-    EXEC derived.sp_fact_daily_hvl_sample_update_hvl_sample_received_type_plasma;
-    EXEC derived.sp_fact_daily_hvl_sample_update_hvl_sample_received_type_wholeblood;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_authorized_on_report_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_authorized;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_dispatched_on_report_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_referred_on_report_date; 
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_referred;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_referral_result_received_on_report_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_hvl_plasma_dispatched;
-    EXEC derived.sp_fact_daily_hvl_sample_update_hvl_wholeblood_dispatched;
-    EXEC derived.sp_fact_daily_hvl_sample_update_result;
-    EXEC derived.sp_fact_daily_hvl_sample_update_result_numeric;
-    EXEC derived.sp_fact_daily_hvl_sample_status_update_is_target_not_detected;
-    EXEC derived.sp_fact_daily_hvl_sample_status_update_is_result_pending;
-    EXEC derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_equal_or_above_1000;
-    EXEC derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_1000_or_above_50;
-    EXEC derived.sp_fact_daily_hvl_sample_update_samples_tested_with_results_less_than_50;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_invalid_result;
-    EXEC derived.sp_fact_daily_hvl_sample_update_is_failed_result;
-    EXEC derived.sp_fact_daily_hvl_sample_update_days_in_wait_at_the_lab;
-    EXEC derived.sp_fact_daily_hvl_sample_update_days_waited_at_the_lab;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_aging;
-    EXEC derived.sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_received_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_days_between_sample_collected_and_authorised_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_days_between_sample_received_and_authorised_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_days_between_sample_received_and_tested_date;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_6_to_10_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_between_11_to_15_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_greater_than_15_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_collected_and_received_date_in_less_or_equal_5_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_in_less_or_equal_5_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_6_to_10_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_between_11_to_15_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_received_and_authorised_date_greater_than_15_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_in_less_or_equal_10_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_11_to_14_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_between_15_to_21_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_collected_and_authorised_date_greater_than_21_days;
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_in_less_or_equal_to_5_days;    
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_6_to_10_days;  
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_between_11_to_15_days; 
-    EXEC derived.sp_fact_daily_hvl_sample_update_sample_received_and_tested_date_greater_than_15_days;  
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_hvl_sample_status';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_create
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_create'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_create AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_create';
-
--- $BEGIN
-
-CREATE TABLE derived.fact_daily_eid_sample_status(
-    daily_eid_sample_status_id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
-    _hfr_id NVARCHAR(255) NOT NULL,
-    sample_id UNIQUEIDENTIFIER NOT NULL,
-    report_date DATE NOT NULL,
-    is_collected_on_report_date INT NULL,
-    is_collected INT NULL,
-    is_accepted_on_report_date INT NULL,
-    is_accepted INT NULL,
-    is_referred_on_report_date INT NULL,
-    is_referred INT NULL,
-    is_referral_result_received INT NULL,
-    is_received_at_the_testing_lab_on_report_date INT NULL,
-    is_rejected_at_the_testing_lab_on_report_date INT NULL,
-    is_received_at_testing_lab INT NULL,
-    is_received_by_entry_modality_lab INT NULL,
-    is_received_by_entry_modality_hub INT NULL,
-    is_tested_on_report_date INT NULL,
-    eid_sample_received_type_dbs INT NULL,
-    result NVARCHAR(255) NULL,
-    is_sample_tested_positive INT NULL,
-    is_sample_tested_negative INT NULL,
-    is_sample_tested_result_not_detected INT NULL,
-    is_invalid_result INT NULL,
-    is_failed_result INT NULL,
-    is_indeterminate_result INT NULL,
-    is_result_pending INT NULL,
-    is_authorized INT NULL,
-    is_authorized_on_report_date INT NULL,
-    is_dispatched_on_report_date INT NULL,
-    days_between_sample_collected_and_received_date INT NULL,
-    sample_collected_and_received_date_in_less_or_equal_5_days INT NULL,
-    sample_collected_and_received_date_between_6_to_10_days INT NULL,
-    sample_collected_and_received_date_between_11_to_15_days INT NULL,
-    sample_collected_and_received_date_greater_than_15_days INT NULL,
-    sample_received_and_authorised_date_in_less_or_equal_5_days INT NULL,
-    sample_received_and_authorised_date_between_6_to_10_days INT NULL,
-    sample_received_and_authorised_date_between_11_to_15_days INT NULL,
-    sample_received_and_authorised_date_greater_than_15_days INT NULL,
-    days_between_sample_collected_and_authorised_date INT NULL,
-    days_between_sample_received_and_authorised_date INT NULL,
-    sample_collected_and_authorised_date_in_less_or_equal_10_days INT NULL,
-    sample_collected_and_authorised_date_between_11_to_14_days INT NULL,
-    sample_collected_and_authorised_date_between_15_to_21_days INT NULL,
-    sample_collected_and_authorised_date_greater_than_21_days INT NULL,
-    days_between_sample_received_and_tested_date INT NULL,
-    sample_received_and_tested_date_in_less_or_equal_5_days INT NULL,
-    sample_received_and_tested_date_between_6_to_10_days INT NULL,
-    sample_received_and_tested_date_between_11_to_15_days INT NULL,
-    sample_received_and_tested_date_greater_than_15_days INT NULL,
-    days_in_wait_at_the_lab INT NULL,
-    days_waited_at_the_lab INT NULL,
-    is_less_than_or_equal_to_7_days_aging INT NULL,
-    is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging INT NULL,
-    is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging INT NULL,
-    is_greater_than_21_days_aging INT NULL
-);
-
-ALTER TABLE derived.fact_daily_eid_sample_status ADD CONSTRAINT fk_derived_fact_daily_eid_sample_status FOREIGN KEY (sample_id) REFERENCES derived.dim_sample(sample_id);
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_create';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_insert
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_insert'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_insert AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_insert';
-
--- $BEGIN
-
-    INSERT INTO [derived].fact_daily_eid_sample_status
-    (
-		_hfr_id,
-        sample_id,
-        report_date
-    )
-	SELECT
-		ISNULL(df.hfr_code, uf.hfr_code) AS _hfr_id,
-		ds.sample_id,
-		ISNULL(dd.[date], ds.collected_date) report_date
-	FROM
-		[derived].dim_sample ds
-	INNER JOIN
-		[derived].dim_date dd 
-		ON dd.[date] >= ds.collected_date 
-		AND dd.[date] <= COALESCE(ds.result_dispatched_date, ds.result_authorized_date, ds.tested_date, ds.lab_received_date, ds.collected_date)
-	LEFT JOIN
-		[derived].dim_facility df
-		ON df.facility_id = ds.hub_facility_id
-	LEFT JOIN
-		[derived].dim_facility uf
-		ON uf.facility_name = 'UNKNOWN'
-	WHERE 
-		ds.test_name = 'EID'
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_insert';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_received_at_the_testing_lab_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_received_at_the_testing_lab_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_received_at_the_testing_lab_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_received_at_the_testing_lab_on_report_date';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_clean_rejection_reason';
 
 -- $BEGIN
 
     UPDATE
-        fe
+        st
     SET
-        fe.is_received_at_the_testing_lab_on_report_date = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id
-        AND fe.report_date = ds.lab_received_date
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_received_at_the_testing_lab_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_rejected_at_the_testing_lab_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_rejected_at_the_testing_lab_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_rejected_at_the_testing_lab_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_rejected_at_the_testing_lab_on_report_date';
-
--- $BEGIN
-
-    UPDATE
-        fe
-    SET
-        fe.is_rejected_at_the_testing_lab_on_report_date = 
-        CASE 
+        st.clean_rejection_reason = 
+        CASE
             WHEN 
-                ds.sample_quality_status = 'RejectedLab'
-            THEN 1
+                st.rejection_reason IS NULL
+                OR st.rejection_reason = ''
+                THEN NULL
+            WHEN
+                st.rejection_reason = 'BLOOD'
+                OR st.rejection_reason = 'Blood spots in contact each other'
+                OR st.rejection_reason = 'Old whole blood specimen with more than 24 hrs reaching the separation point'
+                OR st.rejection_reason LIKE '%Hemolysed%'
+                THEN  'Hemolysed sample'
+            WHEN
+                st.rejection_reason = 'Serum separation due to improper drying or collection'
+                OR st.rejection_reason = 'Clotted or layered blood spot'
+                OR st.rejection_reason = 'Clotted Sample'
+                OR st.rejection_reason LIKE '%clot%'
+                OR st.rejection_reason LIKE '%blood spot%'
+                THEN  'Clotted specimen'
+            WHEN
+                st.rejection_reason = 'Insufficient specimen as per specific SOP'
+                OR st.rejection_reason = 'Low volume'
+                OR st.rejection_reason = 'Sample did not fill the cycle in the DBS card'
+                OR st.rejection_reason LIKE '%insufficient sample or specimen%'
+                OR st.rejection_reason LIKE '%poor quality%'
+                THEN  'Insufficient sample (Low volume)'
+            WHEN
+                st.rejection_reason = 'Unlabelled or mislabelled specimen'
+                OR st.rejection_reason = 'Mismatched information on request form and specimen'
+                OR st.rejection_reason = 'Mismatched information between DBS card and laboratory test request form'
+                OR st.rejection_reason = 'Incompletely filled requisition form'
+                OR st.rejection_reason LIKE '%incomplete form or card%'
+                THEN  'Incomplete form'
+            WHEN
+                st.rejection_reason = 'old DBS card with more than 14 days of collection'
+                OR st.rejection_reason LIKE '%vacutainer%'
+                OR st.rejection_reason LIKE '%expired%'
+                OR st.rejection_reason LIKE '%more than days%'
+                THEN  'Expired vacutainer/DBS Card'
+            WHEN
+                st.rejection_reason = 'No humidity indicator'
+                OR st.rejection_reason = 'Indicating silica gel in the package'
+                THEN  'Improper packaging'
+            ELSE
+                'Others'
+            END
+    FROM
+        [derived].fact_sample_testing st
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_clean_rejection_reason';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_result_numeric
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_result_numeric'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_result_numeric AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_result_numeric';
+
+-- $BEGIN
+    UPDATE fs
+        SET result_numeric = TRY_CAST(REPLACE(REPLACE(REPLACE(result, ',', ''), '<', ''), '>', '') AS INT)
+    FROM
+        [derived].fact_sample_testing fs
+    WHERE
+        fs.result IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_result_numeric';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_valid_record
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_valid_record'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_valid_record AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_valid_record';
+
+-- $BEGIN
+
+    -------------------------------------------------------
+    -- 'Missing HFR code'
+    -------------------------------------------------------
+
+    UPDATE
+    fs
+        SET
+            fs.cleaning_comment = 'Missing HFR code',
+            fs.is_valid_record = 0
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_valid_record = 1
+        AND fs.facility_id IS NULL;
+    
+    -------------------------------------------------------
+    -- 'Missing Test Name'
+    -------------------------------------------------------
+
+    UPDATE
+    fs
+        SET
+            fs.cleaning_comment = 'Missing Test Name',
+            fs.is_valid_record = 0
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_valid_record = 1
+        AND (fs.test_name NOT IN ('HIVVL','EID') OR fs.test_name is null);
+    
+    -------------------------------------------------------
+    -- 'Missing Collected Or Received date'
+    -------------------------------------------------------
+
+    UPDATE
+    fs
+        SET
+            fs.cleaning_comment = 'Missing Collected Or Received date',
+            fs.is_valid_record = 0
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_valid_record = 1
+        AND (
+            fs.collected_date IS NULL
+            OR fs.lab_received_date IS NULL
+        );
+
+    -------------------------------------------------------
+    -- 'Earlier Received date than Collected date'
+    -------------------------------------------------------
+
+    UPDATE
+    fs
+        SET
+            fs.cleaning_comment = 'Earlier Received date than Collected date',
+            fs.is_valid_record = 0
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_valid_record = 1
+        AND fs.collected_date > fs.lab_received_date;
+    
+    -------------------------------------------------------
+    -- 'Earlier Dispatched date than Test date'
+    -------------------------------------------------------
+
+    UPDATE
+    fs
+        SET
+            fs.cleaning_comment = 'Earlier Dispatched date than Test date',
+            fs.is_valid_record = 0
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_valid_record = 1
+        AND fs.tested_date > fs.result_dispatched_date;
+
+    -------------------------------------------------------
+    -- 'Rejected but has Result'
+    -------------------------------------------------------
+
+    UPDATE
+    fs
+        SET
+            fs.cleaning_comment = 'Rejected but has Result',
+            fs.is_valid_record = 0
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_valid_record = 1
+        AND fs.clean_rejection_reason IS NOT NULL
+        AND fs.result IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_valid_record';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_sample_rejected
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_sample_rejected'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_sample_rejected AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_sample_rejected';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_sample_rejected = 
+        CASE
+            WHEN
+                fs.sample_quality_status = 'RejectedLab'
+                THEN 1
             ELSE 0
         END
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id
-        AND fe.report_date = ds.lab_received_date;
-        
+    FROM
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_rejected_at_the_testing_lab_on_report_date';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_sample_rejected';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_hub
+-- sp_fact_sample_testing_update_is_hvl_sample_plasma
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_hub'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_sample_plasma'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_hub AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_sample_plasma AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_hub';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_plasma';
 
 -- $BEGIN
 
     UPDATE
-        fe
+        fs
     SET
-        fe.is_received_by_entry_modality_hub = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id
-        AND fe.report_date = ds.lab_received_date 
+        is_hvl_sample_plasma = 
+        CASE
+            WHEN
+                LOWER(fs.sample_type) = 'plasma'
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
     WHERE
-        ds.entry_modality = 'hub' 
+        fs.is_hvl_sample = 1;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_hub';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_plasma';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_lab
+-- sp_fact_sample_testing_update_is_hvl_sample_wholeblood
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_lab'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_lab AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_lab';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood';
 
 -- $BEGIN
 
     UPDATE
-        fe
+        fs
     SET
-        fe.is_received_by_entry_modality_lab = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id
-        AND fe.report_date = ds.lab_received_date
+        is_hvl_sample_wholeblood = 
+        CASE
+            WHEN
+                LOWER(fs.sample_type) = 'wholeblood'
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
     WHERE
-        ds.entry_modality = 'lab' 
+        fs.is_hvl_sample = 1;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_lab';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_tested_on_report_date
+-- sp_fact_sample_testing_update_is_received_by_entry_modality_lab
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_tested_on_report_date'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_by_entry_modality_lab'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_tested_on_report_date AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_by_entry_modality_lab AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_tested_on_report_date';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_by_entry_modality_lab';
 
 -- $BEGIN
 
     UPDATE
-        fe
+        fs
     SET
-        fe.is_tested_on_report_date = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id
-        AND fe.report_date = ds.tested_date
+        fs.is_received_by_entry_modality_lab =
+        CASE
+            WHEN
+                fs.is_received = 1
+                AND fs.entry_modality = 'lab'
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_tested_on_report_date';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_by_entry_modality_lab';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_collected_on_report_date
+-- sp_fact_sample_testing_update_is_received_by_entry_modality_hub
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_collected_on_report_date'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_by_entry_modality_hub'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_collected_on_report_date AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_by_entry_modality_hub AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_collected_on_report_date';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_by_entry_modality_hub';
 
 -- $BEGIN
 
     UPDATE
-        fe
+        fs
     SET
-        fe.is_collected_on_report_date = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.report_date = ds.collected_date
-
+        fs.is_received_by_entry_modality_hub =
+        CASE
+            WHEN
+                fs.is_received = 1
+                AND fs.entry_modality = 'hub'
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_collected_on_report_date';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_by_entry_modality_hub';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_collected
+-- sp_fact_sample_testing_update_is_result_rejected
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_collected'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_result_rejected'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_collected AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_result_rejected AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_collected';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_result_rejected';
 
 -- $BEGIN
 
-    UPDATE fe
-        SET
-            fe.is_collected = 
+    UPDATE
+        fs
+    SET
+        fs.is_result_rejected =
+        CASE
+            WHEN
+                LOWER(fs.result) = 'rejectedlab'
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.result IS NOT NULL
+        AND fs.is_tested = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_result_rejected';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_result_invalid
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_result_invalid'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_result_invalid AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_result_invalid';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_result_invalid = 
+        CASE
+            WHEN
+                LOWER(fs.result) = 'invalid'
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.result IS NOT NULL
+        AND fs.is_tested = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_result_invalid';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_result_failed
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_result_failed'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_result_failed AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_result_failed';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_result_failed = 
             CASE
                 WHEN
-                    ds.collected_date <= fe.report_date THEN 1
+                    LOWER(fs.result) = 'failed'
+                    THEN 1
                 ELSE 0
             END
     FROM
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds 
-    ON 
-        fe.sample_id = ds.sample_id 
-
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_collected';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_accepted_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_accepted_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_accepted_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_accepted_on_report_date';
-
--- $BEGIN
-
-    UPDATE
-        fe
-    SET
-        fe.is_accepted_on_report_date = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.report_date = ds.lab_received_date
-        AND ds.sample_quality_status ='Accepted'
-
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_accepted_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_accepted
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_accepted'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_accepted AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_accepted';
-
--- $BEGIN
-    
-    UPDATE
-        fe
-    SET
-        fe.is_accepted = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.report_date >= ds.lab_received_date
-	WHERE 
-	    ds.sample_quality_status ='Accepted';
-
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_accepted';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_authorized_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_authorized_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_authorized_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_authorized_on_report_date';
-
--- $BEGIN
-
-    UPDATE
-        fe
-    SET
-        fe.is_authorized_on_report_date = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.report_date = ds.result_authorized_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_authorized_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_authorized
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_authorized'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_authorized AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_authorized';
-
--- $BEGIN
-
-    UPDATE
-        fe
-    SET
-        fe.is_authorized = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.report_date >= ds.result_authorized_date;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_authorized';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_referred_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_referred_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_referred_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referred_on_report_date';
-
--- $BEGIN
-
-    UPDATE
-        fe
-    SET
-        fe.is_referred_on_report_date = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.report_date = ds.referred_date
-
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referred_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_referred
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_referred'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_referred AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referred';
-
--- $BEGIN
-    
-    UPDATE
-        fe
-    SET
-        fe.is_referred = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.report_date >= ds.referred_date;
-
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referred';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date';
-
--- $BEGIN
-
-	UPDATE
-		fs
-	SET
-		fs.is_referral_result_received = 1
-	FROM
-		[derived].fact_daily_eid_sample_status fs
-	INNER JOIN
-		[derived].dim_sample ds ON fs.sample_id = ds.sample_id 
-	WHERE 
-		fs.report_date = ds.referred_date
-		AND ds.result IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_eid_sample_received_type_dbs
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_eid_sample_received_type_dbs'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_eid_sample_received_type_dbs AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_eid_sample_received_type_dbs';
-
--- $BEGIN
-
-    UPDATE
-        fe
-    SET
-        fe.eid_sample_received_type_dbs = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id
-        AND fe.report_date = ds.lab_received_date
+        derived.fact_sample_testing fs
     WHERE
-        ds.sample_type = 'dbs'
+        fs.result IS NOT NULL
+        AND fs.is_tested = 1;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_eid_sample_received_type_dbs';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_result_failed';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_result
+-- sp_fact_sample_testing_update_is_result_tnd
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_result'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_result_tnd'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_result AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_result_tnd AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_result';
-
--- $BEGIN
-
-    UPDATE fe
-        SET
-            fe.result = ts.Results
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        derived.dim_sample ds 
-    ON
-        fe.sample_id = ds.sample_id
-    INNER JOIN
-        [source].tbl_Sample ts 
-    ON 
-        ts.SampleTrackingId = ds.sample_tracking_id
-    AND
-        ds.tested_date = fe.report_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_result';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_sample_tested_positive
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_positive'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_positive AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_positive';
-
--- $BEGIN
-
-    UPDATE fe
-        SET fe.is_sample_tested_positive = 
-            CASE 
-                WHEN 
-                    LOWER(fe.result) LIKE '%positive%'
-                THEN 1 
-                ELSE 0 
-            END
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        fe.result IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_positive';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_sample_tested_negative
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_negative'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_negative AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_negative';
-
--- $BEGIN
-
-    UPDATE fe
-        SET 
-            fe.is_sample_tested_negative = 
-            CASE 
-                WHEN 
-                    TRIM(LOWER(fe.result)) IN ('negative', 'negetive') 
-                THEN 1 
-                ELSE 0 
-            END
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        fe.result IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_negative';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_indeterminate_result
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_indeterminate_result'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_indeterminate_result AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_indeterminate_result';
-
--- $BEGIN
-
-    UPDATE
-        fe
-    SET
-        fe.is_indeterminate_result = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        fe.is_tested_on_report_date = 1
-        AND ISNULL(fe.is_sample_tested_positive,0) != 1
-        AND ISNULL(fe.is_sample_tested_negative,0) != 1;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_indeterminate_result';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_result_pending
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_result_pending'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_result_pending AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_result_pending';
-
--- $BEGIN
-
-    UPDATE
-        fe
-    SET
-        fe.is_result_pending = 1
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.report_date >= ds.tested_date
-        AND fe.report_date < ds.result_authorized_date ;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_result_pending';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_sample_tested_result_not_detected
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_result_not_detected'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_result_not_detected AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_result_not_detected';
-
--- $BEGIN
-
-    UPDATE fe
-        SET fe.is_sample_tested_result_not_detected = 
-            CASE
-                WHEN
-                    LOWER(REPLACE(ds.result, ' ', '')) IN ('targetnotdetected', 'tnd')
-                THEN 1
-                WHEN
-                    LOWER(REPLACE(ds.result, ' ', '')) NOT IN ('targetdetected', 'tnd')
-                THEN 0
-            END 
-    FROM 
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fe.sample_id = ds.sample_id 
-        AND fe.is_tested_on_report_date = 1
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_result_not_detected';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_invalid_result
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_invalid_result'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_invalid_result AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_invalid_result';
-
--- $BEGIN
-
-UPDATE fe
-    SET fe.is_invalid_result = 
-        CASE 
-            WHEN 
-                LOWER(fe.result) = 'invalid' 
-            THEN 1 
-            ELSE 0 
-        END
-FROM
-    [derived].fact_daily_eid_sample_status fe
-WHERE
-    fe.result IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_invalid_result';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_failed_result
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_failed_result'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_failed_result AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_failed_result';
-
--- $BEGIN
-
-UPDATE fe
-    SET fe.is_failed_result = 
-        CASE 
-            WHEN 
-                fe.result = 'Failed' 
-            THEN 1 
-            ELSE 0 
-        END
-FROM
-    [derived].fact_daily_eid_sample_status fe
-WHERE
-    fe.result IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_failed_result';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_is_dispatched_on_report_date
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_is_dispatched_on_report_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_is_dispatched_on_report_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_dispatched_on_report_date';
-
--- $BEGIN
-
-    UPDATE fe
-        SET
-            fe.is_dispatched_on_report_date = 1
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds 
-        ON fe.sample_id = ds.sample_id 
-        AND ds.result_dispatched_date = fe.report_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_is_dispatched_on_report_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_received_date
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_received_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_received_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_received_date';
-
--- $BEGIN
-
-    UPDATE 
-        fe
-        SET 
-            days_between_sample_collected_and_received_date = 
-            DATEDIFF(day, ds.collected_date, ds.lab_received_date)
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds 
-        ON fe.sample_id = ds.sample_id
-        AND report_date = ds.lab_received_date
-        AND ds.collected_date <= ds.lab_received_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_received_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_authorised_date
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_authorised_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_authorised_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_authorised_date';
-
--- $BEGIN
-
-    UPDATE 
-        fe
-        SET 
-            fe.days_between_sample_collected_and_authorised_date = 
-            DATEDIFF(day, ds.collected_date, ds.result_authorized_date)
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds ON fe.sample_id = ds.sample_id
-        AND fe.report_date = ds.result_authorized_date
-        AND ds.collected_date <= ds.result_authorized_date
-
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_authorised_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_authorised_date
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_authorised_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_authorised_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_authorised_date';
-
--- $BEGIN
-
-    UPDATE 
-        fe
-        SET 
-            days_between_sample_received_and_authorised_date = 
-            DATEDIFF(day, ds.lab_received_date, ds.result_authorized_date)
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds 
-        ON fe.sample_id = ds.sample_id
-        AND report_date = ds.result_authorized_date
-        AND ds.lab_received_date <= ds.result_authorized_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_authorised_date';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_tested_date
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_tested_date'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_tested_date AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_tested_date';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_result_tnd';
 
 -- $BEGIN
 
     UPDATE
         fs
     SET
-        fs.days_between_sample_received_and_tested_date = 
-        DATEDIFF(day, ds.lab_received_date, ds.tested_date)
+        fs.is_result_tnd = 1
     FROM
-        derived.fact_daily_eid_sample_status fs
-    INNER JOIN
-        [derived].dim_sample ds
-        ON fs.sample_id = ds.sample_id
-        AND fs.report_date = ds.tested_date
+        derived.fact_sample_testing fs
     WHERE
-        ds.lab_received_date <= ds.tested_date
+        fs.result IS NOT NULL
+        AND fs.is_tested = 1
+        AND (
+            LOWER(REPLACE(fs.result, ' ', '')) = 'targetnotdetected'
+            OR LOWER(REPLACE(fs.result, ' ', '')) = 'tnd'
+        );
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_tested_date';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_result_tnd';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_6_to_10_days
+-- sp_fact_sample_testing_update_is_eid_sample_tested_positive
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_6_to_10_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_eid_sample_tested_positive'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_6_to_10_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_eid_sample_tested_positive AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_6_to_10_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_eid_sample_tested_positive';
 
 -- $BEGIN
 
-    UPDATE 
-            fe
-        SET
-            fe.sample_collected_and_received_date_between_6_to_10_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_collected_and_received_date >= 6
-                        AND days_between_sample_collected_and_received_date <= 10
-                    THEN 1
-                END
-    FROM
-       [derived].fact_daily_eid_sample_status fe
-    WHERE
-        is_received_at_the_testing_lab_on_report_date = 1
-        AND days_between_sample_collected_and_received_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_6_to_10_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_11_to_15_days
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_11_to_15_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_11_to_15_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_11_to_15_days';
-
--- $BEGIN
-
-    UPDATE 
-            fe
-        SET
-            fe.sample_collected_and_received_date_between_11_to_15_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_collected_and_received_date >= 11
-                        AND days_between_sample_collected_and_received_date <= 15
-                    THEN 1
-                END
-    FROM
-       [derived].fact_daily_eid_sample_status fe
-    WHERE
-        is_received_at_the_testing_lab_on_report_date = 1
-        AND days_between_sample_collected_and_received_date IS NOT NULL
-
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_11_to_15_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_greater_than_15_days
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_greater_than_15_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_greater_than_15_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_greater_than_15_days';
-
--- $BEGIN
-
-    UPDATE 
-            fe
-        SET
-            fe.sample_collected_and_received_date_greater_than_15_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_collected_and_received_date > 15 THEN 1
-                END
-    FROM
-       [derived].fact_daily_eid_sample_status fe
-    WHERE
-        is_received_at_the_testing_lab_on_report_date = 1
-        AND days_between_sample_collected_and_received_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_greater_than_15_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_in_less_or_equal_5_days
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_in_less_or_equal_5_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_in_less_or_equal_5_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_in_less_or_equal_5_days';
-
--- $BEGIN
-
-	UPDATE 
-            fe
+    UPDATE
+        fs
     SET
-        fe.sample_collected_and_received_date_in_less_or_equal_5_days = 
+        fs.is_eid_sample_tested_positive =
         CASE
             WHEN
-                days_between_sample_collected_and_received_date <= 5 
+                LOWER(fs.result) LIKE '%positive%'
             THEN 1
             ELSE 0
         END
     FROM
-        [derived].fact_daily_eid_sample_status fe
+        derived.fact_sample_testing fs
     WHERE
-        is_received_at_the_testing_lab_on_report_date = 1
-        AND days_between_sample_collected_and_received_date IS NOT NULL
-
+        fs.is_eid_sample = 1
+        AND fs.result IS NOT NULL;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_in_less_or_equal_5_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_eid_sample_tested_positive';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_6_to_10_days
+-- sp_fact_sample_testing_update_is_eid_sample_tested_negative
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_6_to_10_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_eid_sample_tested_negative'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_6_to_10_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_eid_sample_tested_negative AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_6_to_10_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_eid_sample_tested_negative';
 
 -- $BEGIN
 
-    UPDATE 
-            fe
-        SET
-            fe.sample_received_and_authorised_date_between_6_to_10_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_received_and_authorised_date >= 6
-                        AND days_between_sample_received_and_authorised_date <= 10
-                    THEN 1
-                END
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_received_and_authorised_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_6_to_10_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_11_to_15_days
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_11_to_15_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_11_to_15_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_11_to_15_days';
-
--- $BEGIN
-
-    UPDATE 
-            fe
-        SET
-            fe.sample_received_and_authorised_date_between_11_to_15_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_received_and_authorised_date >= 11
-                        AND days_between_sample_received_and_authorised_date <= 15
-                    THEN 1
-                END
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_received_and_authorised_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_11_to_15_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_greater_than_15_days
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_greater_than_15_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_greater_than_15_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_greater_than_15_days';
-
--- $BEGIN
-
-    UPDATE 
-            fe
-        SET
-            fe.sample_received_and_authorised_date_greater_than_15_days = 
-                CASE
-                    WHEN 
-                        days_between_sample_received_and_authorised_date >= 15 THEN 1
-                END
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_received_and_authorised_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_greater_than_15_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_in_less_or_equal_5_days
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_in_less_or_equal_5_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_in_less_or_equal_5_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_in_less_or_equal_5_days';
-
--- $BEGIN
-
-	UPDATE 
-            fe
+    UPDATE
+        fs
     SET
-        fe.sample_received_and_authorised_date_in_less_or_equal_5_days = 
+        fs.is_eid_sample_tested_positive =
         CASE
             WHEN
-                days_between_sample_received_and_authorised_date <= 5 THEN 1
+                LOWER(fs.result) LIKE '%negative%'
+            THEN 1
+            ELSE 0
         END
     FROM
-        [derived].fact_daily_eid_sample_status fe
+        derived.fact_sample_testing fs
     WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_received_and_authorised_date IS NOT NULL
+        fs.is_eid_sample = 1
+        AND fs.result IS NOT NULL;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_in_less_or_equal_5_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_eid_sample_tested_negative';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_in_less_or_equal_10_days
+-- sp_fact_sample_testing_update_is_result_indeterminate
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_in_less_or_equal_10_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_result_indeterminate'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_in_less_or_equal_10_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_result_indeterminate AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_in_less_or_equal_10_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_result_indeterminate';
 
 -- $BEGIN
 
-    UPDATE 
-        fe
+    UPDATE
+        fs
     SET
-        fe.sample_collected_and_authorised_date_in_less_or_equal_10_days = 
-        CASE
-            WHEN
-                days_between_sample_collected_and_authorised_date <= 10 
-                THEN 1
-                ELSE NULL
-        END
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_collected_and_authorised_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_in_less_or_equal_10_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_11_to_14_days
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_11_to_14_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_11_to_14_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_11_to_14_days';
-
--- $BEGIN
-
-    UPDATE 
-        fe
-    SET
-        fe.sample_collected_and_authorised_date_between_11_to_14_days = 
-        CASE
-            WHEN 
-                days_between_sample_collected_and_authorised_date >= 11
-                AND days_between_sample_collected_and_authorised_date <= 14 
-                THEN 1
-                ELSE NULL
-        END
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_collected_and_authorised_date IS NOT NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_11_to_14_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_15_to_21_days
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_15_to_21_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_15_to_21_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_15_to_21_days';
-
--- $BEGIN
-
-    UPDATE 
-          fe
-        SET
-            fe.sample_collected_and_authorised_date_between_15_to_21_days = 
+        fs.is_result_indeterminate = 
             CASE
-                WHEN 
-                    days_between_sample_collected_and_authorised_date >= 15
-                    AND days_between_sample_collected_and_authorised_date <= 21 THEN 1
+                WHEN
+                    fs.is_tested = 1
+                    AND (
+                        ISNULL(fs.is_eid_sample_tested_positive,0) != 1
+                        OR ISNULL(fs.is_eid_sample_tested_negative,0) != 1
+                        OR ISNULL(fs.is_result_tnd,0) != 1
+                        OR ISNULL(fs.is_result_failed,0) != 1
+                    )
+                    THEN 1
+                ELSE 0
             END
     FROM
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_collected_and_authorised_date IS NOT NULL
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_15_to_21_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_result_indeterminate';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_greater_than_21_days
+-- sp_fact_sample_testing_update_is_hvl_sample_plasma_received
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_greater_than_21_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_received'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_greater_than_21_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_received AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_greater_than_21_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_received';
 
 -- $BEGIN
 
-    UPDATE 
-          fe
-        SET
-            fe.sample_collected_and_authorised_date_greater_than_21_days = 
+    UPDATE
+        fs
+    SET
+        fs.is_hvl_sample_plasma_received =
+        CASE
+            WHEN
+                fs.is_received = 1
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_hvl_sample_plasma = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_received';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_hvl_sample_wholeblood_received
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_received'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_received AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_received';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_hvl_sample_wholeblood_received =
+        CASE
+            WHEN
+                fs.is_received = 1
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_hvl_sample_wholeblood = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_received';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_hvl_sample_plasma_rejected
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_rejected'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_rejected AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_rejected';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_hvl_sample_plasma_rejected =
+        CASE
+            WHEN
+                fs.is_sample_rejected = 1
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_hvl_sample_plasma = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_rejected';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_hvl_sample_wholeblood_rejected
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_rejected'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_rejected AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_rejected';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_hvl_sample_wholeblood_rejected =
+        CASE
+            WHEN
+                fs.is_sample_rejected = 1
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_hvl_sample_wholeblood = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_rejected';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_hvl_sample_plasma_tested
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_tested'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_tested AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_tested';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_hvl_sample_plasma_tested =
+        CASE
+            WHEN
+                fs.is_tested = 1
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_hvl_sample_plasma = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_tested';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_hvl_sample_wholeblood_tested
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_tested'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_tested AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_tested';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_hvl_sample_wholeblood_tested =
+        CASE
+            WHEN
+                fs.is_tested = 1
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_hvl_sample_wholeblood = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_tested';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_hvl_sample_plasma_dispatched
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_dispatched'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_dispatched AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_dispatched';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_hvl_sample_plasma_dispatched = 
+        CASE
+            WHEN
+                fs.is_dispatched = 1
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_hvl_sample_plasma = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_dispatched';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_hvl_sample_wholeblood_dispatched
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_dispatched'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_dispatched AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_dispatched';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_hvl_sample_wholeblood_dispatched = 
+        CASE
+            WHEN
+                fs.is_dispatched = 1
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_hvl_sample_wholeblood = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_dispatched';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_days_between_collected_and_received
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_days_between_collected_and_received'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_days_between_collected_and_received AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_days_between_collected_and_received';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.days_between_collected_and_received = 
+            DATEDIFF(DAY, fs.collected_date, fs.lab_received_date)
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_valid_record = 1
+        AND fs.collected_date <= fs.lab_received_date;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_days_between_collected_and_received';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_days_between_received_and_authorised
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_days_between_received_and_authorised'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_days_between_received_and_authorised AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_days_between_received_and_authorised';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        days_between_received_and_authorised = 
+            DATEDIFF(DAY, fs.lab_received_date, fs.result_authorized_date)
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_valid_record = 1
+        AND fs.lab_received_date <= fs.result_authorized_date;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_days_between_received_and_authorised';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_days_between_collected_and_authorised
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_days_between_collected_and_authorised'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_days_between_collected_and_authorised AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_days_between_collected_and_authorised';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.days_between_collected_and_authorised =
+        DATEDIFF(DAY, fs.collected_date, fs.result_authorized_date)
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_valid_record = 1
+        AND fs.collected_date <= fs.result_authorized_date;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_days_between_collected_and_authorised';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_days_between_received_and_tested
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_days_between_received_and_tested'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_days_between_received_and_tested AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_days_between_received_and_tested';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.days_between_received_and_tested = 
+            DATEDIFF(DAY, fs.lab_received_date, fs.tested_date)
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_valid_record = 1
+        AND fs.lab_received_date <= fs.tested_date;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_days_between_received_and_tested';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_less_than_or_equal_to_7_days_aging
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_less_than_or_equal_to_7_days_aging'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_less_than_or_equal_to_7_days_aging AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_less_than_or_equal_to_7_days_aging';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_less_than_or_equal_to_7_days_aging = 
             CASE
-                WHEN 
-                    days_between_sample_collected_and_authorised_date > 21 THEN 1
-            END
+                WHEN
+                    fs.days_between_received_and_tested <= 7
+                    THEN 1
+                ELSE 0
+        END
     FROM
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        is_authorized_on_report_date = 1
-        AND days_between_sample_collected_and_authorised_date IS NOT NULL
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_greater_than_21_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_less_than_or_equal_to_7_days_aging';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_in_less_or_equal_5_days
+-- sp_fact_sample_testing_update_is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_in_less_or_equal_5_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_in_less_or_equal_5_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_in_less_or_equal_5_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging';
 
 -- $BEGIN
 
     UPDATE
         fs
     SET
-        fs.sample_received_and_tested_date_in_less_or_equal_5_days = 
-        CASE
-            WHEN
-                days_between_sample_received_and_tested_date <= 5
-            THEN 1
-            ELSE NULL
+        fs.is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging = 
+            CASE
+                WHEN
+                    fs.days_between_received_and_tested > 7
+                    AND days_between_received_and_tested <=14
+                    THEN 1
+                ELSE 0
         END
     FROM
-        derived.fact_daily_eid_sample_status fs
-    WHERE
-        days_between_sample_received_and_tested_date IS NOT NULL
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_in_less_or_equal_5_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_6_to_10_days
+-- sp_fact_sample_testing_update_is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_6_to_10_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_6_to_10_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_6_to_10_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging';
 
 -- $BEGIN
 
     UPDATE
         fs
     SET
-        fs.sample_received_and_tested_date_between_6_to_10_days = 
-        CASE
-            WHEN
-                days_between_sample_received_and_tested_date >= 6
-                AND days_between_sample_received_and_tested_date <= 10
-            THEN 1
-            ELSE NULL
+        fs.is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging = 
+            CASE
+                WHEN
+                    fs.days_between_received_and_tested > 14
+                    AND fs.days_between_received_and_tested <= 21
+                    THEN 1
+                ELSE 0
         END
     FROM
-        derived.fact_daily_eid_sample_status fs
-    WHERE
-        days_between_sample_received_and_tested_date IS NOT NULL
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_6_to_10_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_11_to_15_days
+-- sp_fact_sample_testing_update_is_greater_than_21_days_aging
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_11_to_15_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_greater_than_21_days_aging'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_11_to_15_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_greater_than_21_days_aging AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_11_to_15_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_greater_than_21_days_aging';
 
 -- $BEGIN
 
     UPDATE
         fs
     SET
-        fs.sample_received_and_tested_date_between_11_to_15_days = 
-        CASE
-            WHEN
-                days_between_sample_received_and_tested_date >= 11
-                AND days_between_sample_received_and_tested_date <= 15
-            THEN 1
-            ELSE NULL
+        fs.is_greater_than_21_days_aging = 
+            CASE
+                WHEN
+                    fs.days_between_received_and_tested > 21
+                    THEN 1
+                ELSE 0
         END
     FROM
-        derived.fact_daily_eid_sample_status fs
-    WHERE
-        days_between_sample_received_and_tested_date IS NOT NULL
+        derived.fact_sample_testing fs;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_11_to_15_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_greater_than_21_days_aging';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_greater_than_15_days
+-- sp_fact_sample_testing_update_is_collected_and_received_in_less_or_equal_5_days
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_greater_than_15_days'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_collected_and_received_in_less_or_equal_5_days'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_greater_than_15_days AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_collected_and_received_in_less_or_equal_5_days AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_greater_than_15_days';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_received_in_less_or_equal_5_days';
 
 -- $BEGIN
 
     UPDATE
         fs
     SET
-        fs.sample_received_and_tested_date_greater_than_15_days = 
+
+        fs.is_collected_and_received_in_less_or_equal_5_days = 
         CASE
             WHEN
-                days_between_sample_received_and_tested_date > 15
-            THEN 1
-            ELSE NULL
+                fs.days_between_collected_and_received <= 5
+                THEN 1
+            ELSE 0
         END
     FROM
-        derived.fact_daily_eid_sample_status fs
+        derived.fact_sample_testing fs
     WHERE
-        days_between_sample_received_and_tested_date IS NOT NULL
+        fs.days_between_collected_and_received IS NOT NULL;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_greater_than_15_days';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_received_in_less_or_equal_5_days';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_days_in_wait_at_the_lab
+-- sp_fact_sample_testing_update_is_collected_and_received_between_6_to_10_days
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_days_in_wait_at_the_lab'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_collected_and_received_between_6_to_10_days'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_days_in_wait_at_the_lab AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_collected_and_received_between_6_to_10_days AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_in_wait_at_the_lab';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_received_between_6_to_10_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+
+        fs.is_collected_and_received_between_6_to_10_days =
+        CASE
+            WHEN
+                fs.days_between_collected_and_received >= 6
+                AND fs.days_between_collected_and_received <= 10
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_collected_and_received IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_received_between_6_to_10_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_collected_and_received_between_11_to_15_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_collected_and_received_between_11_to_15_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_collected_and_received_between_11_to_15_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_received_between_11_to_15_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+
+        fs.is_collected_and_received_between_11_to_15_days = 
+        CASE
+            WHEN
+                fs.days_between_collected_and_received >= 11
+                AND fs.days_between_collected_and_received <= 15
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_collected_and_received IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_received_between_11_to_15_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_collected_and_received_in_greater_than_15_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_collected_and_received_in_greater_than_15_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_collected_and_received_in_greater_than_15_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_received_in_greater_than_15_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+
+        fs.is_collected_and_received_in_greater_than_15_days =
+        CASE
+            WHEN
+                fs.days_between_collected_and_received > 15
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_collected_and_received IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_received_in_greater_than_15_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_hvl_samples_with_results_equal_or_above_1000
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_equal_or_above_1000'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_equal_or_above_1000 AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_equal_or_above_1000';
+
+-- $BEGIN
+
+    UPDATE
+    fs
+    SET
+        fs.is_hvl_samples_with_results_equal_or_above_1000 =
+        CASE
+            WHEN
+                fs.result_numeric >= 1000
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_tested = 1
+        AND fs.is_hvl_sample = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_equal_or_above_1000';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_1000_or_above_50
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_1000_or_above_50'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_1000_or_above_50 AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_1000_or_above_50';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_hvl_samples_with_results_less_than_1000_or_above_50 = 
+        CASE
+            WHEN fs.result_numeric >= 50
+                AND fs.result_numeric < 1000 
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_tested = 1
+        AND fs.is_hvl_sample = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_1000_or_above_50';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_50
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_50'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_50 AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_50';
 
 -- $BEGIN
 
     UPDATE 
-        fe
-    SET 
-        days_in_wait_at_the_lab = 
-            DATEDIFF(DAY,ds.lab_received_date, fe.report_date)
+        fs
+    SET
+        fs.is_hvl_samples_with_results_less_than_50 =
+        CASE
+            WHEN fs.result_numeric < 50 THEN 1
+            ELSE 0
+        END
     FROM
-        [derived].fact_daily_eid_sample_status fe
-    INNER JOIN
-        [derived].dim_sample ds 
-        ON fe.sample_id = ds.sample_id
-        AND fe.report_date <= ds.tested_date 
-		AND fe.report_date >= ds.lab_received_date
+        derived.fact_sample_testing fs
+    WHERE 
+		fs.is_tested = 1
+        AND fs.is_hvl_sample = 1;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_in_wait_at_the_lab';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_50';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_days_waited_at_the_lab
+-- sp_fact_sample_testing_update_is_received_and_authorised_in_less_or_equal_5_days
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_days_waited_at_the_lab'
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_and_authorised_in_less_or_equal_5_days'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_days_waited_at_the_lab AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_and_authorised_in_less_or_equal_5_days AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_waited_at_the_lab';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_authorised_in_less_or_equal_5_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_received_and_authorised_in_less_or_equal_5_days =
+        CASE
+            WHEN
+                fs.days_between_received_and_authorised <= 5
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_received_and_authorised IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_authorised_in_less_or_equal_5_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_received_and_authorised_between_6_to_10_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_and_authorised_between_6_to_10_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_and_authorised_between_6_to_10_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_authorised_between_6_to_10_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_received_and_authorised_between_6_to_10_days = 
+        CASE
+            WHEN
+                fs.days_between_received_and_authorised >= 6
+                AND fs.days_between_received_and_authorised <= 10
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_received_and_authorised IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_authorised_between_6_to_10_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_received_and_authorised_between_11_to_15_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_and_authorised_between_11_to_15_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_and_authorised_between_11_to_15_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_authorised_between_11_to_15_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_received_and_authorised_between_11_to_15_days =
+        CASE
+            WHEN
+                fs.days_between_received_and_authorised >= 11 
+                AND fs.days_between_received_and_authorised <= 15
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_received_and_authorised IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_authorised_between_11_to_15_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_received_and_authorised_in_greater_than_15_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_and_authorised_in_greater_than_15_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_and_authorised_in_greater_than_15_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_authorised_in_greater_than_15_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_received_and_authorised_in_greater_than_15_days =
+        CASE
+            WHEN
+                fs.days_between_received_and_authorised > 15
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_received_and_authorised IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_authorised_in_greater_than_15_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_collected_and_authorised_date_in_less_or_equal_10_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_in_less_or_equal_10_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_in_less_or_equal_10_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_in_less_or_equal_10_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_collected_and_authorised_date_in_less_or_equal_10_days =
+        CASE
+            WHEN
+                fs.days_between_collected_and_authorised <= 10
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_collected_and_authorised IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_in_less_or_equal_10_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_collected_and_authorised_date_between_11_to_14_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_11_to_14_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_11_to_14_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_11_to_14_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_collected_and_authorised_date_between_11_to_14_days =
+        CASE
+            WHEN
+                fs.days_between_collected_and_authorised >= 11
+                AND fs.days_between_collected_and_authorised <= 14
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_collected_and_authorised IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_11_to_14_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_collected_and_authorised_date_between_15_to_21_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_15_to_21_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_15_to_21_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_15_to_21_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_collected_and_authorised_date_between_15_to_21_days =
+        CASE
+            WHEN
+                fs.days_between_collected_and_authorised >= 15
+                AND fs.days_between_collected_and_authorised <= 21
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_collected_and_authorised IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_15_to_21_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_collected_and_authorised_date_greater_than_21_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_greater_than_21_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_greater_than_21_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_greater_than_21_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_collected_and_authorised_date_greater_than_21_days =
+        CASE
+            WHEN
+                fs.days_between_collected_and_authorised > 21
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_collected_and_authorised IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_greater_than_21_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_received_and_tested_date_in_less_or_equal_5_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_and_tested_date_in_less_or_equal_5_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_and_tested_date_in_less_or_equal_5_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_tested_date_in_less_or_equal_5_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_received_and_tested_date_in_less_or_equal_5_days =
+        CASE
+            WHEN
+                fs.days_between_received_and_tested <= 5
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_received_and_tested IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_tested_date_in_less_or_equal_5_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_received_and_tested_date_between_6_to_10_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_and_tested_date_between_6_to_10_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_and_tested_date_between_6_to_10_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_tested_date_between_6_to_10_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_received_and_tested_date_between_6_to_10_days = 
+        CASE
+            WHEN
+                fs.days_between_received_and_tested >= 6
+                AND fs.days_between_received_and_tested <= 10
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_received_and_tested IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_tested_date_between_6_to_10_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_received_and_tested_date_between_11_to_15_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_and_tested_date_between_11_to_15_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_and_tested_date_between_11_to_15_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_tested_date_between_11_to_15_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_received_and_tested_date_between_11_to_15_days =
+        CASE
+            WHEN
+                fs.days_between_received_and_tested >= 11
+                AND fs.days_between_received_and_tested <= 15
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_received_and_tested IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_tested_date_between_11_to_15_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_received_and_tested_date_greater_than_15_days
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_received_and_tested_date_greater_than_15_days'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_received_and_tested_date_greater_than_15_days AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_tested_date_greater_than_15_days';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_received_and_tested_date_greater_than_15_days = 
+        CASE
+            WHEN
+                fs.days_between_received_and_tested > 15
+                THEN 1
+            ELSE 0
+        END
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.days_between_received_and_tested IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_and_tested_date_greater_than_15_days';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing';
+
+-- $BEGIN
+
+    EXEC derived.sp_fact_sample_testing_create;
+    EXEC derived.sp_fact_sample_testing_insert;
+    EXEC derived.sp_fact_sample_testing_update_is_collected;
+    EXEC derived.sp_fact_sample_testing_update_is_accepted;
+    EXEC derived.sp_fact_sample_testing_update_is_received;
+    EXEC derived.sp_fact_sample_testing_update_is_tested;
+    EXEC derived.sp_fact_sample_testing_update_is_dispatched;
+    EXEC derived.sp_fact_sample_testing_update_is_authorised;
+    EXEC derived.sp_fact_sample_testing_update_clean_rejection_reason;
+    EXEC derived.sp_fact_sample_testing_update_result_numeric;
+    EXEC derived.sp_fact_sample_testing_update_is_valid_record;
+    EXEC derived.sp_fact_sample_testing_update_is_sample_rejected;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_plasma;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood;
+    EXEC derived.sp_fact_sample_testing_update_is_received_by_entry_modality_lab;
+    EXEC derived.sp_fact_sample_testing_update_is_received_by_entry_modality_hub;
+    EXEC derived.sp_fact_sample_testing_update_is_result_rejected;
+    EXEC derived.sp_fact_sample_testing_update_is_result_invalid;
+    EXEC derived.sp_fact_sample_testing_update_is_result_failed;
+    EXEC derived.sp_fact_sample_testing_update_is_result_tnd;
+    EXEC derived.sp_fact_sample_testing_update_is_eid_sample_tested_positive;
+    EXEC derived.sp_fact_sample_testing_update_is_eid_sample_tested_negative;
+    EXEC derived.sp_fact_sample_testing_update_is_result_indeterminate;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_rejected;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_rejected;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_received;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_received;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_tested;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_tested;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_plasma_dispatched;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_sample_wholeblood_dispatched;
+    EXEC derived.sp_fact_sample_testing_update_days_between_collected_and_received;
+    EXEC derived.sp_fact_sample_testing_update_days_between_received_and_authorised;
+    EXEC derived.sp_fact_sample_testing_update_days_between_collected_and_authorised;
+    EXEC derived.sp_fact_sample_testing_update_days_between_received_and_tested;
+    EXEC derived.sp_fact_sample_testing_update_is_less_than_or_equal_to_7_days_aging;
+    EXEC derived.sp_fact_sample_testing_update_is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging;
+    EXEC derived.sp_fact_sample_testing_update_is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging;
+    EXEC derived.sp_fact_sample_testing_update_is_greater_than_21_days_aging;
+    EXEC derived.sp_fact_sample_testing_update_is_collected_and_received_in_less_or_equal_5_days;
+    EXEC derived.sp_fact_sample_testing_update_is_collected_and_received_between_6_to_10_days;
+    EXEC derived.sp_fact_sample_testing_update_is_collected_and_received_between_11_to_15_days;
+    EXEC derived.sp_fact_sample_testing_update_is_collected_and_received_in_greater_than_15_days;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_equal_or_above_1000;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_1000_or_above_50;
+    EXEC derived.sp_fact_sample_testing_update_is_hvl_samples_with_results_less_than_50;
+    EXEC derived.sp_fact_sample_testing_update_is_received_and_authorised_in_less_or_equal_5_days;
+    EXEC derived.sp_fact_sample_testing_update_is_received_and_authorised_between_6_to_10_days;
+    EXEC derived.sp_fact_sample_testing_update_is_received_and_authorised_between_11_to_15_days;
+    EXEC derived.sp_fact_sample_testing_update_is_received_and_authorised_in_greater_than_15_days;
+    EXEC derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_in_less_or_equal_10_days;
+    EXEC derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_11_to_14_days;
+    EXEC derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_15_to_21_days;
+    EXEC derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_greater_than_21_days;
+    EXEC derived.sp_fact_sample_testing_update_is_received_and_tested_date_in_less_or_equal_5_days;
+    EXEC derived.sp_fact_sample_testing_update_is_received_and_tested_date_between_6_to_10_days;
+    EXEC derived.sp_fact_sample_testing_update_is_received_and_tested_date_between_11_to_15_days;
+    EXEC derived.sp_fact_sample_testing_update_is_received_and_tested_date_greater_than_15_days;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_daily_status_create
+--
+
+PRINT 'Creating derived.sp_fact_sample_daily_status_create'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_daily_status_create AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_daily_status_create';
+
+-- $BEGIN
+
+    CREATE TABLE derived.fact_sample_daily_status(
+        sample_testing_id UNIQUEIDENTIFIER NOT NULL,
+        report_date DATE NOT NULL,
+        is_result_pending INT NOT NULL DEFAULT 0
+    );
+
+    ALTER TABLE derived.fact_sample_daily_status ADD CONSTRAINT fk_derived_fact_sample_daily_status FOREIGN KEY (sample_testing_id) REFERENCES derived.fact_sample_testing(sample_testing_id);
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_daily_status_create';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_daily_status_insert
+--
+
+PRINT 'Creating derived.sp_fact_sample_daily_status_insert'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_daily_status_insert AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_daily_status_insert';
+
+-- $BEGIN
+
+    INSERT INTO derived.fact_sample_daily_status
+    (
+        sample_testing_id,
+		report_date
+    )
+	SELECT
+		fs.sample_testing_id,
+		ISNULL(dd.[date], fs.collected_date) report_date
+	FROM
+		[derived].fact_sample_testing fs
+	INNER JOIN
+		[derived].dim_date dd 
+		ON dd.[date] >= fs.collected_date 
+		AND dd.[date] <= COALESCE(fs.result_dispatched_date, fs.result_authorized_date, fs.tested_date, fs.lab_received_date, fs.collected_date)
+ 
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_daily_status_insert';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_daily_status_update_is_result_pending
+--
+
+PRINT 'Creating derived.sp_fact_sample_daily_status_update_is_result_pending'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_daily_status_update_is_result_pending AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_daily_status_update_is_result_pending';
 
 -- $BEGIN
 
     UPDATE 
-        fe
+        fd
     SET 
-        days_waited_at_the_lab = 
-            DATEDIFF(DAY,ds.lab_received_date, ds.tested_date)
+        fd.is_result_pending = 1
     FROM
-        [derived].fact_daily_eid_sample_status fe
+        derived.fact_sample_daily_status fd
     INNER JOIN
-        [derived].dim_sample ds 
-        ON fe.sample_id = ds.sample_id
-        AND fe.report_date = ds.tested_date 
-		AND ds.tested_date >= ds.lab_received_date
+        derived.fact_sample_testing ft 
+        ON fd.sample_testing_id = ft.sample_testing_id
+        AND fd.report_date >= ft.tested_date
+        AND (
+            ft.result_authorized_date IS NULL 
+            OR fd.report_date < ft.result_authorized_date
+        );
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_days_waited_at_the_lab';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_daily_status_update_is_result_pending';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status_update_sample_aging
+-- sp_fact_sample_daily_status
 --
 
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status_update_sample_aging'
+PRINT 'Creating derived.sp_fact_sample_daily_status'
 GO
 
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status_update_sample_aging AS
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_daily_status AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_aging';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_daily_status';
 
 -- $BEGIN
 
-	UPDATE fe
-        SET
-            fe.is_less_than_or_equal_to_7_days_aging = 
-                CASE
-                    WHEN
-                        fe.days_in_wait_at_the_lab <=7  
-                    THEN 1
-                    ELSE 0
-                END,
-			fe.is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging =
-                CASE
-                    WHEN
-                        fe.days_in_wait_at_the_lab >7
-                        AND fe.days_in_wait_at_the_lab <=14  
-                    THEN 1
-                    ELSE 0
-                END,
-			fe.is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging = 
-                CASE
-                    WHEN
-                        fe.days_in_wait_at_the_lab > 14 
-                        AND fe.days_in_wait_at_the_lab <= 21 
-                    THEN 1
-                    ELSE 0
-                END,
-			fe.is_greater_than_21_days_aging = 
-                CASE
-                    WHEN
-                        fe.days_in_wait_at_the_lab > 21 
-                    THEN 1
-                    ELSE 0
-                END
-    FROM
-        [derived].fact_daily_eid_sample_status fe
-    WHERE
-        fe.days_in_wait_at_the_lab IS NOT NULL
-        AND fe.is_tested_on_report_date = 1
-
+    EXEC derived.sp_fact_sample_daily_status_create;
+    EXEC derived.sp_fact_sample_daily_status_insert;
+    EXEC derived.sp_fact_sample_daily_status_update_is_result_pending;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status_update_sample_aging';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_eid_sample_status
---
-
-PRINT 'Creating derived.sp_fact_daily_eid_sample_status'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_eid_sample_status AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_eid_sample_status';
-
--- $BEGIN
-
-    EXEC derived.sp_fact_daily_eid_sample_status_create;
-    EXEC derived.sp_fact_daily_eid_sample_status_insert;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_received_at_the_testing_lab_on_report_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_rejected_at_the_testing_lab_on_report_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_hub;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_received_by_entry_modality_lab;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_tested_on_report_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_collected_on_report_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_collected;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_accepted_on_report_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_accepted;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_authorized_on_report_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_authorized;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_referred;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_referred_on_report_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_referral_result_received_on_report_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_eid_sample_received_type_dbs;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_result;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_positive;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_negative;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_indeterminate_result;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_result_pending;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_sample_tested_result_not_detected;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_invalid_result;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_failed_result;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_is_dispatched_on_report_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_received_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_days_between_sample_collected_and_authorised_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_authorised_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_days_between_sample_received_and_tested_date;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_6_to_10_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_between_11_to_15_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_greater_than_15_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_received_date_in_less_or_equal_5_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_6_to_10_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_between_11_to_15_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_greater_than_15_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_received_and_authorised_date_in_less_or_equal_5_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_in_less_or_equal_10_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_11_to_14_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_between_15_to_21_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_collected_and_authorised_date_greater_than_21_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_in_less_or_equal_5_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_6_to_10_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_between_11_to_15_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_received_and_tested_date_greater_than_15_days;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_days_in_wait_at_the_lab;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_days_waited_at_the_lab;
-    EXEC derived.sp_fact_daily_eid_sample_status_update_sample_aging;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_eid_sample_status';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_daily_status';
 
 END
 GO
@@ -7592,11 +5679,10 @@ EXEC derived.sp_dim_facility;
 EXEC derived.sp_dim_date;
 EXEC derived.sp_dim_commodity;
 EXEC derived.sp_dim_device;
-EXEC derived.sp_dim_sample;
 EXEC derived.sp_fact_daily_commodity_status;
 EXEC derived.sp_fact_daily_device_status;
-EXEC derived.sp_fact_daily_eid_sample_status;
-EXEC derived.sp_fact_daily_hvl_sample_status;
+EXEC derived.sp_fact_sample_testing;
+EXEC derived.sp_fact_sample_daily_status;
 
 -- $END
 
@@ -7722,8 +5808,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 
     CREATE TABLE final.fact_daily_sample_summary(
         daily_sample_summary_id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
-        report_date DATE NOT NULL,
         hfr_id_for_HUB_sample_is_coming_from NVARCHAR(255) NOT NULL,
+        report_date DATE NOT NULL,
         hvl_sample_collected INT NULL DEFAULT 0,
         eid_sample_collected INT NULL DEFAULT 0,
         sample_collected INT NULL DEFAULT 0,
@@ -7874,293 +5960,446 @@ GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_sample_summary_update_eid_samples
+-- sp_fact_daily_sample_summary_update_columns_group_by_collected_date
 --
 
-PRINT 'Creating final.sp_fact_daily_sample_summary_update_eid_samples'
+PRINT 'Creating final.sp_fact_daily_sample_summary_update_columns_group_by_collected_date'
 GO
 
-CREATE OR ALTER PROCEDURE final.sp_fact_daily_sample_summary_update_eid_samples AS
+CREATE OR ALTER PROCEDURE final.sp_fact_daily_sample_summary_update_columns_group_by_collected_date AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sample_summary_update_eid_samples';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_collected_date';
 
 -- $BEGIN
 
-	WITH cte_eid_samples AS
-		(
-		SELECT 
-			eid.report_date AS report_date,
-			eid.[_hfr_id] AS hfr_id_for_HUB_sample_is_coming_from,
-			SUM(ISNULL(eid.is_collected_on_report_date, 0)) AS eid_sample_collected,
-			SUM(ISNULL(eid.eid_sample_received_type_dbs, 0)) AS eid_sample_dbs_received,
-			SUM(ISNULL(eid.is_accepted_on_report_date, 0)) AS eid_sample_accepted,
-			SUM(ISNULL(eid.is_rejected_at_the_testing_lab_on_report_date, 0)) AS eid_sample_rejected,
-			SUM(ISNULL(eid.is_tested_on_report_date, 0)) AS eid_sample_tested,
-			SUM(ISNULL(eid.is_result_pending, 0)) AS eid_result_pending,
-			SUM(ISNULL(eid.is_authorized_on_report_date, 0)) AS eid_result_authorized,
-			SUM(ISNULL(eid.is_dispatched_on_report_date, 0)) AS eid_result_dispatched,
-			SUM(ISNULL(eid.is_invalid_result, 0) + ISNULL(eid.is_failed_result, 0)) AS eid_result_rejected,
-			SUM(ISNULL(eid.is_authorized_on_report_date, 0)) AS eid_result_accepted,
-			SUM(ISNULL(eid.is_invalid_result, 0)) AS eid_result_invalid,
-			SUM(ISNULL(eid.is_failed_result, 0)) AS eid_result_failed,
-			SUM(ISNULL(eid.is_sample_tested_result_not_detected, 0)) AS eid_result_tnd,
-			SUM(ISNULL(eid.is_referred_on_report_date, 0)) AS eid_sample_referred,
-			SUM(ISNULL(eid.is_referral_result_received, 0)) AS eid_referral_result_received,
-			SUM(ISNULL(eid.is_indeterminate_result, 0)) AS result_indeterminate,
-			SUM(ISNULL(eid.is_sample_tested_negative, 0)) AS eid_sample_tested_negative,
-			SUM(ISNULL(eid.is_sample_tested_positive, 0)) AS eid_sample_tested_positive,
-			SUM(ISNULL(eid.is_received_by_entry_modality_hub, 0)) AS eid_samples_received_by_entry_modality_hub,
-			SUM(ISNULL(eid.is_received_by_entry_modality_lab, 0)) AS eid_samples_received_by_entry_modality_lab,
-			SUM(ISNULL(eid.is_sample_tested_result_not_detected, 0)) AS eid_sample_tested_result_not_detected,
-			SUM(ISNULL(eid.is_less_than_or_equal_to_7_days_aging, 0)) AS eid_samples_aging_less_than_or_equal_to_7_days_aging,
-			SUM(ISNULL(eid.is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging, 0)) AS eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging,
-			SUM(ISNULL(eid.is_greater_than_21_days_aging, 0)) AS eid_samples_greater_than_21_days_aging,
-			SUM(ISNULL(eid.is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging, 0)) AS eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging,
-			SUM(ISNULL(eid.sample_collected_and_received_date_between_6_to_10_days, 0)) AS eid_sample_collected_and_received_date_between_6_to_10_days,
-			SUM(ISNULL(eid.sample_collected_and_received_date_between_11_to_15_days, 0)) AS eid_sample_collected_and_received_date_between_11_to_15_days,
-			SUM(ISNULL(eid.sample_collected_and_received_date_greater_than_15_days, 0)) AS eid_sample_collected_and_received_date_greater_than_15_days,
-			SUM(ISNULL(eid.sample_collected_and_received_date_in_less_or_equal_5_days, 0)) AS eid_sample_collected_and_received_date_in_less_or_equal_5_days,
-			SUM(ISNULL(eid.sample_received_and_authorised_date_between_6_to_10_days, 0)) AS eid_sample_received_and_authorised_date_between_6_to_10_days,
-			SUM(ISNULL(eid.sample_received_and_authorised_date_between_11_to_15_days, 0)) AS eid_sample_received_and_authorised_date_between_11_to_15_days,
-			SUM(ISNULL(eid.sample_received_and_authorised_date_greater_than_15_days, 0)) AS eid_sample_received_and_authorised_date_greater_than_15_days,
-			SUM(ISNULL(eid.sample_received_and_authorised_date_in_less_or_equal_5_days, 0)) AS eid_sample_received_and_authorised_date_in_less_or_equal_5_days,
-			SUM(ISNULL(eid.sample_collected_and_authorised_date_between_11_to_14_days, 0)) AS eid_sample_collected_and_authorised_date_between_11_to_14_days,
-			SUM(ISNULL(eid.sample_collected_and_authorised_date_between_15_to_21_days, 0)) AS eid_sample_collected_and_authorised_date_between_15_to_21_days,
-			SUM(ISNULL(eid.sample_collected_and_authorised_date_greater_than_21_days, 0)) AS eid_sample_collected_and_authorised_date_greater_than_21_days,
-			SUM(ISNULL(eid.sample_collected_and_authorised_date_in_less_or_equal_10_days, 0)) AS eid_sample_collected_and_authorised_date_in_less_or_equal_10_days,
-			SUM(ISNULL(eid.sample_received_and_tested_date_in_less_or_equal_5_days, 0)) AS eid_sample_received_and_tested_date_in_less_or_equal_5_days,
-			SUM(ISNULL(eid.sample_received_and_tested_date_between_6_to_10_days, 0)) AS eid_sample_received_and_tested_date_between_6_to_10_days,
-			SUM(ISNULL(eid.sample_received_and_tested_date_between_11_to_15_days, 0)) AS eid_sample_received_and_tested_date_between_11_to_15_days,
-			SUM(ISNULL(eid.sample_received_and_tested_date_greater_than_15_days, 0)) AS eid_sample_received_and_tested_date_greater_than_15_days
-		FROM 
-			[derived].fact_daily_eid_sample_status eid
-		GROUP BY
-			eid.report_date, 
-			eid.[_hfr_id]
-		)
-	UPDATE
-		fs
-	SET
-		fs.eid_sample_collected = ISNULL(eid.eid_sample_collected, 0),
-		fs.eid_sample_dbs_received = ISNULL(eid.eid_sample_dbs_received, 0),
-		fs.eid_sample_accepted = ISNULL(eid.eid_sample_accepted, 0),
-		fs.eid_sample_rejected = ISNULL(eid.eid_sample_rejected, 0),
-		fs.eid_sample_tested = ISNULL(eid.eid_sample_tested, 0),
-		fs.eid_result_pending = ISNULL(eid.eid_result_pending, 0),
-		fs.eid_result_authorized = ISNULL(eid.eid_result_authorized, 0),
-		fs.eid_result_dispatched = ISNULL(eid.eid_result_dispatched, 0),
-		fs.eid_result_rejected = ISNULL(eid.eid_result_rejected, 0),
-		fs.eid_result_accepted = ISNULL(eid.eid_result_accepted, 0),
-		fs.eid_result_invalid = ISNULL(eid.eid_result_invalid, 0),
-		fs.eid_result_failed = ISNULL(eid.eid_result_failed, 0),
-		fs.eid_result_tnd = ISNULL(eid.eid_result_tnd, 0),
-		fs.eid_sample_referred = ISNULL(eid.eid_sample_referred, 0),
-		fs.eid_referral_result_received = ISNULL(eid.eid_referral_result_received, 0),
-		fs.result_indeterminate = ISNULL(eid.result_indeterminate, 0),
-		fs.eid_sample_tested_negative = ISNULL(eid.eid_sample_tested_negative, 0),
-		fs.eid_sample_tested_positive = ISNULL(eid.eid_sample_tested_positive, 0),
-		fs.eid_samples_received_by_entry_modality_hub = ISNULL(eid.eid_samples_received_by_entry_modality_hub, 0),
-		fs.eid_samples_received_by_entry_modality_lab = ISNULL(eid.eid_samples_received_by_entry_modality_lab, 0),
-		fs.eid_sample_tested_result_not_detected = ISNULL(eid.eid_sample_tested_result_not_detected, 0),
-		fs.eid_samples_aging_less_than_or_equal_to_7_days_aging = ISNULL(eid.eid_samples_aging_less_than_or_equal_to_7_days_aging, 0),
-		fs.eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging = ISNULL(eid.eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging, 0),
-		fs.eid_samples_greater_than_21_days_aging = ISNULL(eid.eid_samples_greater_than_21_days_aging, 0),
-		fs.eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging = ISNULL(eid.eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging, 0),
-		fs.eid_sample_collected_and_received_date_between_6_to_10_days = ISNULL(eid.eid_sample_collected_and_received_date_between_6_to_10_days, 0),
-		fs.eid_sample_collected_and_received_date_between_11_to_15_days = ISNULL(eid.eid_sample_collected_and_received_date_between_11_to_15_days, 0),
-		fs.eid_sample_collected_and_received_date_greater_than_15_days = ISNULL(eid.eid_sample_collected_and_received_date_greater_than_15_days, 0),
-		fs.eid_sample_collected_and_received_date_in_less_or_equal_5_days = ISNULL(eid.eid_sample_collected_and_received_date_in_less_or_equal_5_days, 0),
-		fs.eid_sample_received_and_authorised_date_between_6_to_10_days = ISNULL(eid.eid_sample_received_and_authorised_date_between_6_to_10_days, 0),
-		fs.eid_sample_received_and_authorised_date_between_11_to_15_days = ISNULL(eid.eid_sample_received_and_authorised_date_between_11_to_15_days, 0),
-		fs.eid_sample_received_and_authorised_date_greater_than_15_days = ISNULL(eid.eid_sample_received_and_authorised_date_greater_than_15_days, 0),
-		fs.eid_sample_received_and_authorised_date_in_less_or_equal_5_days = ISNULL(eid.eid_sample_received_and_authorised_date_in_less_or_equal_5_days, 0),
-		fs.eid_sample_collected_and_authorised_date_between_11_to_14_days = ISNULL(eid.eid_sample_collected_and_authorised_date_between_11_to_14_days, 0),
-		fs.eid_sample_collected_and_authorised_date_between_15_to_21_days = ISNULL(eid.eid_sample_collected_and_authorised_date_between_15_to_21_days, 0),
-		fs.eid_sample_collected_and_authorised_date_greater_than_21_days = ISNULL(eid.eid_sample_collected_and_authorised_date_greater_than_21_days, 0),
-		fs.eid_sample_collected_and_authorised_date_in_less_or_equal_10_days = ISNULL(eid.eid_sample_collected_and_authorised_date_in_less_or_equal_10_days, 0),
-		fs.eid_sample_received_and_tested_date_in_less_or_equal_5_days = ISNULL(eid.eid_sample_received_and_tested_date_in_less_or_equal_5_days, 0),
-		fs.eid_sample_received_and_tested_date_between_6_to_10_days = ISNULL(eid.eid_sample_received_and_tested_date_between_6_to_10_days, 0),
-		fs.eid_sample_received_and_tested_date_between_11_to_15_days = ISNULL(eid.eid_sample_received_and_tested_date_between_11_to_15_days, 0),
-		fs.eid_sample_received_and_tested_date_greater_than_15_days = ISNULL(eid.eid_sample_received_and_tested_date_greater_than_15_days, 0)
-	FROM
-		[final].fact_daily_sample_summary fs
-	LEFT JOIN
-		cte_eid_samples eid
-		ON fs.report_date = eid.report_date
-		AND fs.hfr_id_for_HUB_sample_is_coming_from = eid.hfr_id_for_HUB_sample_is_coming_from;
-			
+    WITH cte_samples AS
+    (
+        SELECT 
+            fst.[_hfr_id] AS hfr_id_for_HUB_sample_is_coming_from,
+            fst.collected_date AS report_date,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected ELSE 0 END) AS hvl_sample_collected,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected ELSE 0 END) AS eid_sample_collected
+        FROM 
+            [derived].fact_sample_testing fst
+        WHERE
+            fst.collected_date IS NOT NULL
+            AND fst.is_valid_record = 1
+        GROUP BY
+            fst.[_hfr_id], 
+            fst.collected_date
+    )
+    UPDATE
+        target
+    SET
+        target.hvl_sample_collected = ISNULL(source.hvl_sample_collected, 0),
+        target.eid_sample_collected = ISNULL(source.eid_sample_collected, 0)
+    FROM        
+        [final].fact_daily_sample_summary AS target
+    INNER JOIN
+        cte_samples AS source
+    ON
+        target.hfr_id_for_HUB_sample_is_coming_from = source.hfr_id_for_HUB_sample_is_coming_from
+        AND target.report_date = source.report_date;
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_fact_daily_sample_summary_update_eid_samples';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_collected_date';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_sample_summary_update_hvl_samples
+-- sp_fact_daily_sample_summary_update_columns_group_by_tested_date
 --
 
-PRINT 'Creating final.sp_fact_daily_sample_summary_update_hvl_samples'
+PRINT 'Creating final.sp_fact_daily_sample_summary_update_columns_group_by_tested_date'
 GO
 
-CREATE OR ALTER PROCEDURE final.sp_fact_daily_sample_summary_update_hvl_samples AS
+CREATE OR ALTER PROCEDURE final.sp_fact_daily_sample_summary_update_columns_group_by_tested_date AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sample_summary_update_hvl_samples';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_tested_date';
 
 -- $BEGIN
 
-	WITH CTE_hvl_samples AS 
-		(
-			SELECT 
-				hvl.report_date,
-				hvl.[_hfr_id] AS hfr_id_for_HUB_sample_is_coming_from,
-				SUM(ISNULL(hvl.is_collected_on_report_date, 0)) AS hvl_sample_collected,
-				SUM(ISNULL(hvl.hvl_sample_received_type_plasma, 0)) AS hvl_sample_plasma_received,
-				SUM(ISNULL(hvl.hvl_sample_received_type_wholeblood, 0)) AS hvl_sample_wholeblood_received,
-				SUM(ISNULL(hvl.hvl_sample_received_type_wholeblood, 0) + ISNULL(hvl.hvl_sample_received_type_plasma, 0)) AS hvl_sample_received,
-				SUM(ISNULL(hvl.is_accepted_on_report_date, 0)) AS hvl_sample_accepted,
-				SUM(ISNULL(hvl.hvl_plasma_rejected_at_the_testing_lab, 0)) AS hvl_sample_plasma_rejected,
-				SUM(ISNULL(hvl.hvl_wholeblood_rejected_at_the_testing_lab, 0)) AS hvl_sample_wholeblood_rejected,
-				SUM(ISNULL(hvl.is_rejected_at_the_testing_lab_on_report_date, 0)) AS hvl_sample_rejected,
-				SUM(ISNULL(hvl.hvl_plasma_tested_at_the_testing_lab, 0)) AS hvl_sample_plasma_tested,
-				SUM(ISNULL(hvl.hvl_wholeblood_tested_at_the_testing_lab, 0)) AS hvl_sample_wholeblood_tested,
-				SUM(ISNULL(hvl.is_tested_on_report_date, 0)) AS hvl_sample_tested,
-				SUM(ISNULL(hvl.is_result_pending, 0)) AS hvl_result_pending,
-				SUM(ISNULL(hvl.is_authorized_on_report_date, 0)) AS hvl_result_authorized,
-				SUM(ISNULL(hvl.hvl_plasma_dispatched, 0)) AS hvl_sample_plasma_dispatched,
-				SUM(ISNULL(hvl.hvl_wholeblood_dispatched, 0)) AS hvl_sample_wholeblood_dispatched,
-				SUM(ISNULL(hvl.is_dispatched_on_report_date, 0)) AS hvl_result_dispatched,
-				SUM(ISNULL(hvl.is_invalid_result, 0) + ISNULL(hvl.is_failed_result, 0)) AS hvl_result_rejected,
-				SUM(ISNULL(hvl.is_authorized_on_report_date, 0)) AS hvl_result_accepted,
-				SUM(ISNULL(hvl.is_invalid_result, 0)) AS hvl_result_invalid,
-				SUM(ISNULL(hvl.is_failed_result, 0)) AS hvl_result_failed,
-				SUM(ISNULL(hvl.is_target_not_detected, 0)) AS hvl_result_tnd,
-				SUM(ISNULL(hvl.is_referred_on_report_date, 0)) AS hvl_sample_referred,
-				SUM(ISNULL(hvl.is_referral_result_received, 0)) AS hvl_referral_result_received,
-				SUM(ISNULL(hvl.is_received_by_entry_modality_hub, 0)) AS hvl_samples_received_by_entry_modality_hub,
-				SUM(ISNULL(hvl.is_received_by_entry_modality_lab, 0)) AS hvl_samples_received_by_entry_modality_lab,
-				SUM(ISNULL(hvl.samples_tested_with_results_equal_or_above_1000, 0)) AS hvl_samples_with_results_equal_or_above_1000,
-				SUM(ISNULL(hvl.samples_tested_with_results_less_than_50, 0)) AS hvl_samples_with_results_less_than_50,
-				SUM(ISNULL(hvl.samples_tested_with_results_less_than_1000_or_above_50, 0)) AS hvl_samples_with_results_less_than_1000_or_above_50,
-				SUM(ISNULL(hvl.is_less_than_or_equal_to_7_days_aging, 0)) AS hvl_samples_aging_is_less_than_or_equal_to_7_days,
-				SUM(ISNULL(hvl.is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging, 0)) AS hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days,
-				SUM(ISNULL(hvl.is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging, 0)) AS hvl_samples_aging_is_greater_than_14_days_and_less_than_or_equal_to_21_days,
-				SUM(ISNULL(hvl.is_greater_than_21_days_aging, 0)) AS hvl_samples_aging_is_greater_than_21_days,
-				SUM(ISNULL(hvl.sample_collected_and_received_date_between_6_to_10_days, 0)) AS hvl_sample_collected_and_received_date_between_6_to_10_days,
-				SUM(ISNULL(hvl.sample_collected_and_received_date_between_11_to_15_days, 0)) AS hvl_sample_collected_and_received_date_between_11_to_15_days,
-				SUM(ISNULL(hvl.sample_collected_and_received_date_greater_than_15_days, 0)) AS hvl_sample_collected_and_received_date_greater_than_15_days,
-				SUM(ISNULL(hvl.sample_collected_and_received_date_in_less_or_equal_5_days, 0)) AS hvl_sample_collected_and_received_date_in_less_or_equal_5_days,
-				SUM(ISNULL(hvl.sample_received_and_authorised_date_between_6_to_10_days, 0)) AS hvl_sample_received_and_authorised_date_between_6_to_10_days,
-				SUM(ISNULL(hvl.sample_received_and_authorised_date_between_11_to_15_days, 0)) AS hvl_sample_received_and_authorised_date_between_11_to_15_days,
-				SUM(ISNULL(hvl.sample_received_and_authorised_date_greater_than_15_days, 0)) AS hvl_sample_received_and_authorised_date_greater_than_15_days,
-				SUM(ISNULL(hvl.sample_received_and_authorised_date_in_less_or_equal_5_days, 0)) AS hvl_sample_received_and_authorised_date_in_less_or_equal_5_days,
-				SUM(ISNULL(hvl.sample_collected_and_authorised_date_between_11_to_14_days, 0)) AS hvl_sample_collected_and_authorised_date_between_11_to_14_days,
-				SUM(ISNULL(hvl.sample_collected_and_authorised_date_between_15_to_21_days, 0)) AS hvl_sample_collected_and_authorised_date_between_15_to_21_days,
-				SUM(ISNULL(hvl.sample_collected_and_authorised_date_greater_than_21_days, 0)) AS hvl_sample_collected_and_authorised_date_greater_than_21_days,
-				SUM(ISNULL(hvl.sample_collected_and_authorised_date_in_less_or_equal_10_days, 0)) AS hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days,
-				SUM(ISNULL(hvl.sample_received_and_tested_date_in_less_or_equal_5_days, 0)) AS hvl_sample_received_and_tested_date_in_less_or_equal_5_days,
-				SUM(ISNULL(hvl.sample_received_and_tested_date_between_6_to_10_days, 0)) AS hvl_sample_received_and_tested_date_between_6_to_10_days,
-				SUM(ISNULL(hvl.sample_received_and_tested_date_between_11_to_15_days, 0)) AS hvl_sample_received_and_tested_date_between_11_to_15_days,
-				SUM(ISNULL(hvl.sample_received_and_tested_date_greater_than_15_days, 0)) AS hvl_sample_received_and_tested_date_greater_than_15_days
-			FROM 
-				[derived].fact_daily_hvl_sample_status hvl
-			GROUP BY
-				hvl.report_date, 
-				hvl.[_hfr_id]
-		)
-	UPDATE
-		fs
-	SET
-		fs.hvl_sample_collected = ISNULL(hvl.hvl_sample_collected, 0),
-		fs.hvl_sample_plasma_received = ISNULL(hvl.hvl_sample_plasma_received, 0),
-		fs.hvl_sample_wholeblood_received = ISNULL(hvl.hvl_sample_wholeblood_received, 0),
-		fs.hvl_sample_received = ISNULL(hvl.hvl_sample_received, 0),
-		fs.hvl_sample_accepted = ISNULL(hvl.hvl_sample_accepted, 0),
-		fs.hvl_sample_plasma_rejected = ISNULL(hvl.hvl_sample_plasma_rejected, 0),
-		fs.hvl_sample_wholeblood_rejected = ISNULL(hvl.hvl_sample_wholeblood_rejected, 0),
-		fs.hvl_sample_rejected = ISNULL(hvl.hvl_sample_rejected, 0),
-		fs.hvl_sample_plasma_tested = ISNULL(hvl.hvl_sample_plasma_tested, 0),
-		fs.hvl_sample_wholeblood_tested = ISNULL(hvl.hvl_sample_wholeblood_tested, 0),
-		fs.hvl_sample_tested = ISNULL(hvl.hvl_sample_tested, 0),
-		fs.hvl_result_pending = ISNULL(hvl.hvl_result_pending, 0),
-		fs.hvl_result_authorized = ISNULL(hvl.hvl_result_authorized, 0),
-		fs.hvl_sample_plasma_dispatched = ISNULL(hvl.hvl_sample_plasma_dispatched, 0),
-		fs.hvl_sample_wholeblood_dispatched = ISNULL(hvl.hvl_sample_wholeblood_dispatched, 0),
-		fs.hvl_result_dispatched = ISNULL(hvl.hvl_result_dispatched, 0),
-		fs.hvl_result_rejected = ISNULL(hvl.hvl_result_rejected, 0),
-		fs.hvl_result_accepted = ISNULL(hvl.hvl_result_accepted, 0),
-		fs.hvl_result_invalid = ISNULL(hvl.hvl_result_invalid, 0),
-		fs.hvl_result_failed = ISNULL(hvl.hvl_result_failed, 0),
-		fs.hvl_result_tnd = ISNULL(hvl.hvl_result_tnd, 0),
-		fs.hvl_sample_referred = ISNULL(hvl.hvl_sample_referred, 0),
-		fs.hvl_referral_result_received = ISNULL(hvl.hvl_referral_result_received, 0),
-		fs.hvl_samples_received_by_entry_modality_hub = ISNULL(hvl.hvl_samples_received_by_entry_modality_hub, 0),
-		fs.hvl_samples_received_by_entry_modality_lab = ISNULL(hvl.hvl_samples_received_by_entry_modality_lab, 0),
-		fs.hvl_samples_with_results_equal_or_above_1000 = ISNULL(hvl.hvl_samples_with_results_equal_or_above_1000, 0),
-		fs.hvl_samples_with_results_less_than_50 = ISNULL(hvl.hvl_samples_with_results_less_than_50, 0),
-		fs.hvl_samples_with_results_less_than_1000_or_above_50 = ISNULL(hvl.hvl_samples_with_results_less_than_1000_or_above_50, 0),
-		fs.hvl_samples_aging_is_less_than_or_equal_to_7_days = ISNULL(hvl.hvl_samples_aging_is_less_than_or_equal_to_7_days, 0),
-		fs.hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days = ISNULL(hvl.hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days, 0),
-		fs.hvl_samples_aging_is_greater_than_14_days_and_less_than_or_equal_to_21_days = ISNULL(hvl.hvl_samples_aging_is_greater_than_14_days_and_less_than_or_equal_to_21_days, 0),
-		fs.hvl_samples_aging_is_greater_than_21_days = ISNULL(hvl.hvl_samples_aging_is_greater_than_21_days, 0),
-		fs.hvl_sample_collected_and_received_date_between_6_to_10_days = ISNULL(hvl.hvl_sample_collected_and_received_date_between_6_to_10_days, 0),
-		fs.hvl_sample_collected_and_received_date_between_11_to_15_days = ISNULL(hvl.hvl_sample_collected_and_received_date_between_11_to_15_days, 0),
-		fs.hvl_sample_collected_and_received_date_greater_than_15_days = ISNULL(hvl.hvl_sample_collected_and_received_date_greater_than_15_days, 0),
-		fs.hvl_sample_collected_and_received_date_in_less_or_equal_5_days = ISNULL(hvl.hvl_sample_collected_and_received_date_in_less_or_equal_5_days, 0),
-		fs.hvl_sample_received_and_authorised_date_between_6_to_10_days = ISNULL(hvl.hvl_sample_received_and_authorised_date_between_6_to_10_days, 0),
-		fs.hvl_sample_received_and_authorised_date_between_11_to_15_days = ISNULL(hvl.hvl_sample_received_and_authorised_date_between_11_to_15_days, 0),
-		fs.hvl_sample_received_and_authorised_date_greater_than_15_days = ISNULL(hvl.hvl_sample_received_and_authorised_date_greater_than_15_days, 0),
-		fs.hvl_sample_received_and_authorised_date_in_less_or_equal_5_days = ISNULL(hvl.hvl_sample_received_and_authorised_date_in_less_or_equal_5_days, 0),
-		fs.hvl_sample_collected_and_authorised_date_between_11_to_14_days = ISNULL(hvl.hvl_sample_collected_and_authorised_date_between_11_to_14_days, 0),
-		fs.hvl_sample_collected_and_authorised_date_between_15_to_21_days = ISNULL(hvl.hvl_sample_collected_and_authorised_date_between_15_to_21_days, 0),
-		fs.hvl_sample_collected_and_authorised_date_greater_than_21_days = ISNULL(hvl.hvl_sample_collected_and_authorised_date_greater_than_21_days, 0),
-		fs.hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days = ISNULL(hvl.hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days, 0),
-		fs.hvl_sample_received_and_tested_date_in_less_or_equal_5_days = ISNULL(hvl.hvl_sample_received_and_tested_date_in_less_or_equal_5_days, 0),
-		fs.hvl_sample_received_and_tested_date_between_6_to_10_days = ISNULL(hvl.hvl_sample_received_and_tested_date_between_6_to_10_days, 0),
-		fs.hvl_sample_received_and_tested_date_between_11_to_15_days = ISNULL(hvl.hvl_sample_received_and_tested_date_between_11_to_15_days, 0),
-		fs.hvl_sample_received_and_tested_date_greater_than_15_days = ISNULL(hvl.hvl_sample_received_and_tested_date_greater_than_15_days, 0)	
-	FROM
-		[final].fact_daily_sample_summary fs
-	LEFT JOIN
-		CTE_hvl_samples hvl
-		ON fs.report_date = hvl.report_date 
-		AND fs.hfr_id_for_HUB_sample_is_coming_from = hvl.hfr_id_for_HUB_sample_is_coming_from;
+    WITH cte_samples AS
+    (
+        SELECT 
+            fst.[_hfr_id] AS hfr_id_for_HUB_sample_is_coming_from,
+            fst.tested_date AS report_date,
+            SUM(is_hvl_sample_plasma_tested) AS hvl_sample_plasma_tested,
+            SUM(is_hvl_sample_wholeblood_tested) AS hvl_sample_wholeblood_tested,
+            SUM(is_eid_sample_tested_positive) AS eid_sample_tested_positive,
+            SUM(is_eid_sample_tested_negative)AS eid_sample_tested_negative,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_tested ELSE 0 END) AS hvl_sample_tested,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_tested ELSE 0 END) AS eid_sample_tested,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_rejected ELSE 0 END) AS hvl_result_rejected,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_result_rejected ELSE 0 END) AS eid_result_rejected,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_tested_date_in_less_or_equal_5_days ELSE 0 END) AS eid_sample_received_and_tested_date_in_less_or_equal_5_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_tested_date_between_6_to_10_days ELSE 0 END) AS eid_sample_received_and_tested_date_between_6_to_10_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_tested_date_between_11_to_15_days ELSE 0 END) AS eid_sample_received_and_tested_date_between_11_to_15_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_tested_date_greater_than_15_days ELSE 0 END) AS eid_sample_received_and_tested_date_greater_than_15_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_and_tested_date_in_less_or_equal_5_days ELSE 0 END) AS hvl_sample_received_and_tested_date_in_less_or_equal_5_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_and_tested_date_between_6_to_10_days ELSE 0 END) AS hvl_sample_received_and_tested_date_between_6_to_10_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_and_tested_date_between_11_to_15_days ELSE 0 END) AS hvl_sample_received_and_tested_date_between_11_to_15_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_and_tested_date_greater_than_15_days ELSE 0 END) AS hvl_sample_received_and_tested_date_greater_than_15_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging ELSE 0 END) AS hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging ELSE 0 END) AS hvl_samples_aging_is_greater_than_14_days_and_less_than_or_equal_to_21_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_greater_than_21_days_aging ELSE 0 END) AS hvl_samples_aging_is_greater_than_21_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging ELSE 0 END) AS eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging ELSE 0 END) AS eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_greater_than_21_days_aging ELSE 0 END) AS eid_samples_greater_than_21_days_aging,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_less_than_or_equal_to_7_days_aging ELSE 0 END) AS hvl_samples_aging_is_less_than_or_equal_to_7_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_less_than_or_equal_to_7_days_aging ELSE 0 END) AS eid_samples_aging_less_than_or_equal_to_7_days_aging
+        FROM 
+            [derived].fact_sample_testing fst
+        WHERE
+            fst.tested_date IS NOT NULL
+            AND fst.is_valid_record = 1
+        GROUP BY
+            fst.[_hfr_id], 
+            fst.tested_date
+    )
+        UPDATE
+            target
+        SET
+            target.hvl_sample_plasma_tested = ISNULL(source.hvl_sample_plasma_tested, 0),
+            target.hvl_sample_wholeblood_tested = ISNULL(source.hvl_sample_wholeblood_tested, 0),
+            target.eid_sample_tested_positive = ISNULL(source.eid_sample_tested_positive, 0),
+            target.eid_sample_tested_negative = ISNULL(source.eid_sample_tested_negative, 0),
+            target.hvl_sample_tested = ISNULL(source.hvl_sample_tested, 0),
+            target.eid_sample_tested = ISNULL(source.eid_sample_tested, 0),
+            target.hvl_result_rejected = ISNULL(source.hvl_result_rejected, 0),
+            target.eid_result_rejected = ISNULL(source.eid_result_rejected, 0),
+            target.eid_sample_received_and_tested_date_in_less_or_equal_5_days = ISNULL(source.eid_sample_received_and_tested_date_in_less_or_equal_5_days, 0),
+            target.eid_sample_received_and_tested_date_between_6_to_10_days = ISNULL(source.eid_sample_received_and_tested_date_between_6_to_10_days, 0),
+            target.eid_sample_received_and_tested_date_between_11_to_15_days = ISNULL(source.eid_sample_received_and_tested_date_between_11_to_15_days, 0),
+            target.eid_sample_received_and_tested_date_greater_than_15_days = ISNULL(source.eid_sample_received_and_tested_date_greater_than_15_days, 0),
+            target.hvl_sample_received_and_tested_date_in_less_or_equal_5_days = ISNULL(source.hvl_sample_received_and_tested_date_in_less_or_equal_5_days, 0),
+            target.hvl_sample_received_and_tested_date_between_6_to_10_days = ISNULL(source.hvl_sample_received_and_tested_date_between_6_to_10_days, 0),
+            target.hvl_sample_received_and_tested_date_between_11_to_15_days = ISNULL(source.hvl_sample_received_and_tested_date_between_11_to_15_days, 0),
+            target.hvl_sample_received_and_tested_date_greater_than_15_days = ISNULL(source.hvl_sample_received_and_tested_date_greater_than_15_days, 0),
+            target.hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days = ISNULL(source.hvl_samples_aging_is_greater_than_7_days_and_less_than_or_equal_to_14_days, 0),
+            target.hvl_samples_aging_is_greater_than_14_days_and_less_than_or_equal_to_21_days = ISNULL(source.hvl_samples_aging_is_greater_than_14_days_and_less_than_or_equal_to_21_days, 0),
+            target.hvl_samples_aging_is_greater_than_21_days = ISNULL(source.hvl_samples_aging_is_greater_than_21_days, 0),
+            target.eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging = ISNULL(source.eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging, 0),
+            target.eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging = ISNULL(source.eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging, 0),
+            target.eid_samples_greater_than_21_days_aging = ISNULL(source.eid_samples_greater_than_21_days_aging, 0),
+            target.hvl_samples_aging_is_less_than_or_equal_to_7_days = ISNULL(source.hvl_samples_aging_is_less_than_or_equal_to_7_days, 0),
+            target.eid_samples_aging_less_than_or_equal_to_7_days_aging = ISNULL(source.eid_samples_aging_less_than_or_equal_to_7_days_aging, 0)
+        FROM
+            final.fact_daily_sample_summary AS target
+        INNER JOIN
+            cte_samples AS source
+            ON target.hfr_id_for_HUB_sample_is_coming_from = source.hfr_id_for_HUB_sample_is_coming_from
+            AND target.report_date = source.report_date;
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_fact_daily_sample_summary_update_hvl_samples';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_tested_date';
 
 END
 GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_daily_sample_summary_update_hvl_sample_received
+-- sp_fact_daily_sample_summary_update_columns_group_by_lab_received_date
 --
 
-PRINT 'Creating final.sp_fact_daily_sample_summary_update_hvl_sample_received'
+PRINT 'Creating final.sp_fact_daily_sample_summary_update_columns_group_by_lab_received_date'
 GO
 
-CREATE OR ALTER PROCEDURE final.sp_fact_daily_sample_summary_update_hvl_sample_received AS
+CREATE OR ALTER PROCEDURE final.sp_fact_daily_sample_summary_update_columns_group_by_lab_received_date AS
 BEGIN
 
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sample_summary_update_hvl_sample_received';
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_lab_received_date';
 
 -- $BEGIN
 
-	UPDATE
-        final.fact_daily_sample_summary
-    SET 
-        hvl_sample_received = hvl_sample_plasma_received + hvl_sample_wholeblood_received
-    WHERE 
-        hvl_sample_plasma_received + hvl_sample_wholeblood_received  > 0;
+    WITH cte_samples AS
+    (
+        SELECT 
+            fst.[_hfr_id] AS hfr_id_for_HUB_sample_is_coming_from,
+            fst.lab_received_date AS report_date,
+            SUM(is_hvl_sample_plasma_received) AS hvl_sample_plasma_received,
+            SUM(is_hvl_sample_wholeblood_received) AS hvl_sample_wholeblood_received,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_by_entry_modality_lab ELSE 0 END) AS hvl_samples_received_by_entry_modality_lab,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_by_entry_modality_hub ELSE 0 END) AS hvl_samples_received_by_entry_modality_hub,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received ELSE 0 END) AS hvl_sample_received,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_by_entry_modality_lab ELSE 0 END) AS eid_samples_received_by_entry_modality_lab,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_by_entry_modality_hub ELSE 0 END) AS eid_samples_received_by_entry_modality_hub,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received ELSE 0 END) AS eid_sample_dbs_received,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_accepted ELSE 0 END) AS hvl_sample_accepted,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_accepted ELSE 0 END) AS eid_sample_accepted,
+            SUM(is_hvl_sample_plasma_rejected) AS hvl_sample_plasma_rejected,
+            SUM(is_hvl_sample_wholeblood_rejected) AS hvl_sample_wholeblood_rejected,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_received_in_less_or_equal_5_days ELSE 0 END) AS hvl_sample_collected_and_received_date_in_less_or_equal_5_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_received_between_6_to_10_days ELSE 0 END) AS hvl_sample_collected_and_received_date_between_6_to_10_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_received_between_11_to_15_days ELSE 0 END) AS hvl_sample_collected_and_received_date_between_11_to_15_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_received_in_greater_than_15_days ELSE 0 END) AS hvl_sample_collected_and_received_date_greater_than_15_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_received_in_less_or_equal_5_days ELSE 0 END) AS eid_sample_collected_and_received_date_in_less_or_equal_5_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_received_between_6_to_10_days ELSE 0 END) AS eid_sample_collected_and_received_date_between_6_to_10_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_received_between_11_to_15_days ELSE 0 END) AS eid_sample_collected_and_received_date_between_11_to_15_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_received_in_greater_than_15_days ELSE 0 END) AS eid_sample_collected_and_received_date_greater_than_15_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_sample_rejected ELSE 0 END) AS hvl_sample_rejected,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_sample_rejected ELSE 0 END) AS eid_sample_rejected
+        FROM 
+            [derived].fact_sample_testing fst
+        WHERE
+            fst.lab_received_date IS NOT NULL
+            AND fst.is_valid_record = 1
+        GROUP BY
+            fst.[_hfr_id], 
+            fst.lab_received_date
+    )
+    UPDATE
+        target
+    SET
+        target.hvl_sample_plasma_received = ISNULL(source.hvl_sample_plasma_received, 0),
+        target.hvl_sample_wholeblood_received = ISNULL(source.hvl_sample_wholeblood_received, 0),
+        target.hvl_samples_received_by_entry_modality_lab = ISNULL(source.hvl_samples_received_by_entry_modality_lab, 0),
+        target.hvl_samples_received_by_entry_modality_hub = ISNULL(source.hvl_samples_received_by_entry_modality_hub, 0),
+        target.hvl_sample_received = ISNULL(source.hvl_sample_received, 0),
+        target.eid_samples_received_by_entry_modality_lab = ISNULL(source.eid_samples_received_by_entry_modality_lab, 0),
+        target.eid_samples_received_by_entry_modality_hub = ISNULL(source.eid_samples_received_by_entry_modality_hub, 0),
+        target.eid_sample_dbs_received = ISNULL(source.eid_sample_dbs_received, 0),
+        target.hvl_sample_accepted = ISNULL(source.hvl_sample_accepted, 0),
+        target.eid_sample_accepted = ISNULL(source.eid_sample_accepted, 0),
+        target.hvl_sample_plasma_rejected = ISNULL(source.hvl_sample_plasma_rejected, 0),
+        target.hvl_sample_wholeblood_rejected = ISNULL(source.hvl_sample_wholeblood_rejected, 0),
+        target.hvl_sample_rejected = ISNULL(source.hvl_sample_rejected, 0),
+        target.eid_sample_rejected = ISNULL(source.eid_sample_rejected, 0),
+        target.hvl_sample_collected_and_received_date_in_less_or_equal_5_days = ISNULL(source.hvl_sample_collected_and_received_date_in_less_or_equal_5_days, 0),
+        target.hvl_sample_collected_and_received_date_between_6_to_10_days = ISNULL(source.hvl_sample_collected_and_received_date_between_6_to_10_days, 0),
+        target.hvl_sample_collected_and_received_date_between_11_to_15_days = ISNULL(source.hvl_sample_collected_and_received_date_between_11_to_15_days, 0),
+        target.hvl_sample_collected_and_received_date_greater_than_15_days = ISNULL(source.hvl_sample_collected_and_received_date_greater_than_15_days, 0),
+        target.eid_sample_collected_and_received_date_in_less_or_equal_5_days = ISNULL(source.eid_sample_collected_and_received_date_in_less_or_equal_5_days, 0),
+        target.eid_sample_collected_and_received_date_between_6_to_10_days = ISNULL(source.eid_sample_collected_and_received_date_between_6_to_10_days, 0),
+        target.eid_sample_collected_and_received_date_between_11_to_15_days = ISNULL(source.eid_sample_collected_and_received_date_between_11_to_15_days, 0),
+        target.eid_sample_collected_and_received_date_greater_than_15_days = ISNULL(source.eid_sample_collected_and_received_date_greater_than_15_days, 0)
+    FROM
+        [final].fact_daily_sample_summary AS target
+    INNER JOIN
+        cte_samples AS source
+        ON target.hfr_id_for_HUB_sample_is_coming_from = source.hfr_id_for_HUB_sample_is_coming_from
+        AND target.report_date = source.report_date
 
 -- $END
 
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_fact_daily_sample_summary_update_hvl_sample_received';
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_lab_received_date';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_sample_summary_update_pending_result
+--
+
+PRINT 'Creating final.sp_fact_daily_sample_summary_update_pending_result'
+GO
+
+CREATE OR ALTER PROCEDURE final.sp_fact_daily_sample_summary_update_pending_result AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sample_summary_update_pending_result';
+
+-- $BEGIN
+
+    WITH cte_samples AS
+    (
+        SELECT 
+            ft._hfr_id AS hfr_id_for_HUB_sample_is_coming_from,
+            report_date,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN fd.is_result_pending ELSE 0 END) AS hvl_result_pending,
+            SUM(CASE WHEN is_eid_sample = 1 THEN fd.is_result_pending ELSE 0 END) AS eid_result_pending
+        FROM 
+            derived.fact_sample_daily_status fd
+        INNER JOIN
+            derived.fact_sample_testing ft 
+            ON fd.sample_testing_id = ft.sample_testing_id
+        GROUP BY
+            ft._hfr_id, 
+            report_date
+    )
+        UPDATE 
+            target
+        SET
+            target.hvl_result_pending = ISNULL(source.hvl_result_pending, 0),
+            target.eid_result_pending = ISNULL(source.eid_result_pending, 0)
+        FROM
+            final.fact_daily_sample_summary AS target
+        INNER JOIN
+            cte_samples AS source
+        ON target.hfr_id_for_HUB_sample_is_coming_from = source.hfr_id_for_HUB_sample_is_coming_from
+        AND target.report_date = source.report_date;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_fact_daily_sample_summary_update_pending_result';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_sample_summary_update_columns_group_by_result_authorised_date
+--
+
+PRINT 'Creating final.sp_fact_daily_sample_summary_update_columns_group_by_result_authorised_date'
+GO
+
+CREATE OR ALTER PROCEDURE final.sp_fact_daily_sample_summary_update_columns_group_by_result_authorised_date AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_result_authorised_date';
+
+-- $BEGIN
+
+    WITH cte_samples AS
+    (
+        SELECT 
+            fst.[_hfr_id] AS hfr_id_for_HUB_sample_is_coming_from,
+            fst.result_authorized_date AS report_date,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_authorised ELSE 0 END) AS hvl_result_authorized,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_authorised ELSE 0 END) AS eid_result_authorized,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_accepted ELSE 0 END) AS hvl_result_accepted,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_accepted ELSE 0 END) AS eid_result_accepted,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_in_less_or_equal_10_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_between_11_to_14_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_between_11_to_14_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_between_15_to_21_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_between_15_to_21_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_greater_than_21_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_greater_than_21_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_authorised_date_in_less_or_equal_10_days ELSE 0 END) AS eid_sample_collected_and_authorised_date_in_less_or_equal_10_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_authorised_date_between_11_to_14_days ELSE 0 END) AS eid_sample_collected_and_authorised_date_between_11_to_14_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_authorised_date_between_15_to_21_days ELSE 0 END) AS eid_sample_collected_and_authorised_date_between_15_to_21_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_authorised_date_greater_than_21_days ELSE 0 END) AS eid_sample_collected_and_authorised_date_greater_than_21_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_and_authorised_in_less_or_equal_5_days ELSE 0 END) AS hvl_sample_received_and_authorised_date_in_less_or_equal_5_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_and_authorised_between_6_to_10_days ELSE 0 END) AS hvl_sample_received_and_authorised_date_between_6_to_10_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_and_authorised_between_11_to_15_days ELSE 0 END) AS hvl_sample_received_and_authorised_date_between_11_to_15_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_and_authorised_in_greater_than_15_days ELSE 0 END) AS hvl_sample_received_and_authorised_date_greater_than_15_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_in_less_or_equal_5_days ELSE 0 END) AS eid_sample_received_and_authorised_date_in_less_or_equal_5_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_between_6_to_10_days ELSE 0 END) AS eid_sample_received_and_authorised_date_between_6_to_10_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_between_11_to_15_days ELSE 0 END) AS eid_sample_received_and_authorised_date_between_11_to_15_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_in_greater_than_15_days ELSE 0 END) AS eid_sample_received_and_authorised_date_greater_than_15_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_invalid ELSE 0 END) AS hvl_result_invalid,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_result_invalid ELSE 0 END) AS eid_result_invalid,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_failed ELSE 0 END) AS hvl_result_failed,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_result_failed ELSE 0 END) AS eid_result_failed,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_tnd ELSE 0 END) AS hvl_result_tnd,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_result_tnd ELSE 0 END) AS eid_result_tnd,
+            SUM(is_result_indeterminate) AS result_indeterminate,
+            SUM(is_hvl_samples_with_results_equal_or_above_1000) AS hvl_samples_with_results_equal_or_above_1000,
+            SUM(is_hvl_samples_with_results_less_than_1000_or_above_50) AS hvl_samples_with_results_less_than_1000_or_above_50,
+            SUM(is_hvl_samples_with_results_less_than_50) AS hvl_samples_with_results_less_than_50
+        FROM 
+            [derived].fact_sample_testing fst
+        WHERE
+            fst.result_authorized_date IS NOT NULL
+            AND fst.is_valid_record = 1
+        GROUP BY
+            fst.[_hfr_id], 
+            fst.result_authorized_date
+    )
+    UPDATE 
+        target
+    SET
+        target.hvl_result_authorized = ISNULL(source.hvl_result_authorized, 0),
+        target.eid_result_authorized = ISNULL(source.eid_result_authorized, 0),
+        target.hvl_result_accepted = ISNULL(source.hvl_result_accepted, 0),
+        target.eid_result_accepted = ISNULL(source.eid_result_accepted, 0),
+        target.hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days = ISNULL(source.hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days, 0),
+        target.hvl_sample_collected_and_authorised_date_between_11_to_14_days = ISNULL(source.hvl_sample_collected_and_authorised_date_between_11_to_14_days, 0),
+        target.hvl_sample_collected_and_authorised_date_between_15_to_21_days = ISNULL(source.hvl_sample_collected_and_authorised_date_between_15_to_21_days, 0),
+        target.hvl_sample_collected_and_authorised_date_greater_than_21_days = ISNULL(source.hvl_sample_collected_and_authorised_date_greater_than_21_days, 0),
+        target.eid_sample_collected_and_authorised_date_in_less_or_equal_10_days = ISNULL(source.eid_sample_collected_and_authorised_date_in_less_or_equal_10_days, 0),
+        target.eid_sample_collected_and_authorised_date_between_11_to_14_days = ISNULL(source.eid_sample_collected_and_authorised_date_between_11_to_14_days, 0),
+        target.eid_sample_collected_and_authorised_date_between_15_to_21_days = ISNULL(source.eid_sample_collected_and_authorised_date_between_15_to_21_days, 0),
+        target.eid_sample_collected_and_authorised_date_greater_than_21_days = ISNULL(source.eid_sample_collected_and_authorised_date_greater_than_21_days, 0),
+        target.hvl_sample_received_and_authorised_date_in_less_or_equal_5_days = ISNULL(source.hvl_sample_received_and_authorised_date_in_less_or_equal_5_days, 0),
+        target.hvl_sample_received_and_authorised_date_between_6_to_10_days = ISNULL(source.hvl_sample_received_and_authorised_date_between_6_to_10_days, 0),
+        target.hvl_sample_received_and_authorised_date_between_11_to_15_days = ISNULL(source.hvl_sample_received_and_authorised_date_between_11_to_15_days, 0),
+        target.hvl_sample_received_and_authorised_date_greater_than_15_days = ISNULL(source.hvl_sample_received_and_authorised_date_greater_than_15_days, 0),
+        target.eid_sample_received_and_authorised_date_in_less_or_equal_5_days = ISNULL(source.eid_sample_received_and_authorised_date_in_less_or_equal_5_days, 0),
+        target.eid_sample_received_and_authorised_date_between_6_to_10_days = ISNULL(source.eid_sample_received_and_authorised_date_between_6_to_10_days, 0),
+        target.eid_sample_received_and_authorised_date_between_11_to_15_days = ISNULL(source.eid_sample_received_and_authorised_date_between_11_to_15_days, 0),
+        target.eid_sample_received_and_authorised_date_greater_than_15_days = ISNULL(source.eid_sample_received_and_authorised_date_greater_than_15_days, 0),
+        target.hvl_result_invalid = ISNULL(source.hvl_result_invalid, 0),
+        target.eid_result_invalid = ISNULL(source.eid_result_invalid, 0),
+        target.hvl_result_failed = ISNULL(source.hvl_result_failed, 0),
+        target.eid_result_failed = ISNULL(source.eid_result_failed, 0),
+        target.hvl_result_tnd = ISNULL(source.hvl_result_tnd, 0),
+        target.eid_result_tnd = ISNULL(source.eid_result_tnd, 0),
+        target.result_indeterminate = ISNULL(source.result_indeterminate, 0),
+        target.hvl_samples_with_results_equal_or_above_1000 = ISNULL(source.hvl_samples_with_results_equal_or_above_1000, 0),
+        target.hvl_samples_with_results_less_than_1000_or_above_50 = ISNULL(source.hvl_samples_with_results_less_than_1000_or_above_50, 0),
+        target.hvl_samples_with_results_less_than_50 = ISNULL(source.hvl_samples_with_results_less_than_50, 0)
+    FROM
+        [final].fact_daily_sample_summary AS target
+    INNER JOIN
+        cte_samples AS source
+        ON target.hfr_id_for_HUB_sample_is_coming_from = source.hfr_id_for_HUB_sample_is_coming_from
+        AND target.report_date = source.report_date
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_result_authorised_date';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_sample_summary_update_columns_group_by_result_dispatched_date
+--
+
+PRINT 'Creating final.sp_fact_daily_sample_summary_update_columns_group_by_result_dispatched_date'
+GO
+
+CREATE OR ALTER PROCEDURE final.sp_fact_daily_sample_summary_update_columns_group_by_result_dispatched_date AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_result_dispatched_date';
+
+-- $BEGIN
+
+    WITH cte_samples AS
+    (
+        SELECT 
+            fst.[_hfr_id] AS hfr_id_for_HUB_sample_is_coming_from,
+            fst.result_dispatched_date AS report_date,
+            SUM(is_hvl_sample_plasma_dispatched) AS hvl_sample_plasma_dispatched,
+            SUM(is_hvl_sample_wholeblood_dispatched) AS hvl_sample_wholeblood_dispatched,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_dispatched ELSE 0 END) AS hvl_result_dispatched,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_dispatched ELSE 0 END) AS eid_result_dispatched
+        FROM 
+            [derived].fact_sample_testing fst
+        WHERE
+            fst.result_dispatched_date IS NOT NULL
+            AND fst.is_valid_record = 1
+        GROUP BY
+            fst.[_hfr_id], 
+            fst.result_dispatched_date
+    )
+    UPDATE
+        target
+    SET
+        target.hvl_sample_plasma_dispatched = ISNULL(source.hvl_sample_plasma_dispatched, 0),
+        target.hvl_sample_wholeblood_dispatched = ISNULL(source.hvl_sample_wholeblood_dispatched, 0),
+        target.hvl_result_dispatched = ISNULL(source.hvl_result_dispatched, 0),
+        target.eid_result_dispatched = ISNULL(source.eid_result_dispatched, 0)
+    FROM
+        [final].fact_daily_sample_summary AS target
+    INNER JOIN
+        cte_samples AS source
+        ON target.hfr_id_for_HUB_sample_is_coming_from = source.hfr_id_for_HUB_sample_is_coming_from
+        AND target.report_date = source.report_date
+
+   
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_result_dispatched_date';
 
 END
 GO
@@ -8223,8 +6462,12 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 
     EXEC final.sp_fact_daily_sample_summary_create;
     EXEC final.sp_fact_daily_sample_summary_insert;
-    EXEC final.sp_fact_daily_sample_summary_update_eid_samples;
-    EXEC final.sp_fact_daily_sample_summary_update_hvl_samples;
+    EXEC final.sp_fact_daily_sample_summary_update_columns_group_by_lab_received_date;
+    EXEC final.sp_fact_daily_sample_summary_update_columns_group_by_tested_date;
+    EXEC final.sp_fact_daily_sample_summary_update_columns_group_by_collected_date;
+    EXEC final.sp_fact_daily_sample_summary_update_pending_result;
+    EXEC final.sp_fact_daily_sample_summary_update_columns_group_by_result_authorised_date;
+    EXEC final.sp_fact_daily_sample_summary_update_columns_group_by_result_dispatched_date;
     EXEC final.sp_fact_daily_sample_summary_update_total_samples;
     
 -- $END

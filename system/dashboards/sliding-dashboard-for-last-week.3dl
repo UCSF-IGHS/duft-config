@@ -2,7 +2,7 @@
 
   <Include file="components/sliding_dashboard_for_last_week/datasets.3dl" />
 
-  <Slider interval="20">
+  <Slider interval="20" pauseOnHover="true">
     <Dashboard
       data="current_date_data"
       title="HIV Viral Load (HVL) - Overview of samples received and tested for last week"
@@ -24,7 +24,7 @@
     <Dashboard
       data="current_date_data"
       title="HIV Viral Load (HVL) trends in samples received, tested, and results authorized for last 4 weeks"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
+      subTitle="Data From %first_day_of_the_last_four_weeks% to %lastDay%"
       lastRefresh="Last updated on : %today%"
     >
       <Include file="components/sliding_dashboard_for_last_week/tabs/hvl_trends_samples_received_tested_results_authorized_for_last_4_weeks.3dl" />
@@ -33,7 +33,7 @@
     <Dashboard
       data="current_date_data"
       title="HIV Viral Load (HVL) Trends- Turn Around Time"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
+      subTitle="Data From %first_day_of_the_last_four_weeks% to %lastDay%"
       lastRefresh="Last updated on : %today%"
     >
       <Include file="components/sliding_dashboard_for_last_week/tabs/hvl_trends_TAT.3dl" />
@@ -42,7 +42,7 @@
     <Dashboard
       data="current_date_data"
       title="HIV Viral Load (HVL) Trends- Laboratory Testing Point"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
+      subTitle="%week_name% (Data from %firstDay% to %lastDay%) | Data From %first_day_of_the_last_four_weeks% to %lastDay% for Trend Graphs"
       lastRefresh="Last updated on : %today%"
     >
       <Include file="components/sliding_dashboard_for_last_week/tabs/hvl_trends_laboratory_testing_point.3dl" />
@@ -51,7 +51,7 @@
     <Dashboard
       data="current_date_data"
       title="EID - Overview of samples received and testing for last week"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
+      subTitle="%week_name% (Data from %firstDay% to %lastDay%) | Data From %first_day_of_the_last_four_weeks% to %lastDay% for Trend Graphs"
       lastRefresh="Last updated on : %today%"
     >
       <Include file="components/sliding_dashboard_for_last_week/tabs/eid_overview_of_samples_received_and_tested_for_last_week.3dl" />
@@ -69,7 +69,7 @@
     <Dashboard
       data="current_date_data"
       title="Early Infant HIV Diagnosis (EID) Trends- Turn Around Time"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
+      subTitle="Data From %first_day_of_the_last_four_weeks% to %lastDay%"
       lastRefresh="Last updated on : %today%"
     >
       <Include file="components/sliding_dashboard_for_last_week/tabs/eid_trends_TAT.3dl" />
@@ -78,7 +78,7 @@
     <Dashboard
       data="current_date_data"
       title="EID - Laboratory Testing Quality"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
+      subTitle="%week_name% (Data from %firstDay% to %lastDay%) | Data From %first_day_of_the_last_four_weeks% to %lastDay% for Trend Graphs"
       lastRefresh="Last updated on : %today%"
     >
       <Include file="components/sliding_dashboard_for_last_week/tabs/eid_laboratory_testing_quality.3dl" />

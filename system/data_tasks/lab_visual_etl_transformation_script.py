@@ -14,6 +14,7 @@ from services.dte_tools.data_task_tools import ( # type: ignore
     initialise_data_task,
 )
 
+
 executor = ThreadPoolExecutor(max_workers=4)
 environment: DataTaskEnvironment = initialise_data_task("Tille Lab transformation Task", params={})
 db_params = get_resolved_parameters_for_connection("ANA")
@@ -43,6 +44,8 @@ log_message(f"Started Tille Lab Transformation {datetime.now().strftime('%d/%m/%
 
 # Function to connect to the Tille Lab database
 def connect_to_tille_lab_db():
+    password = quote_plus(tillelab_db_params['password'])
+    tillelab_db_params['password'] = password
     url = f"mysql+pymysql://{tillelab_db_params['username']}:{tillelab_db_params['password']}@{tillelab_db_params['server']}:{tillelab_db_params['port']}/{tillelab_db_params['database']}"
     try:
         engine = create_engine(url)
@@ -59,6 +62,8 @@ labdashdb_conn = connect_to_tille_lab_db()
 
 # Function to create a connection to SQL Server
 def create_connection_to_sql_server(db_name):
+    password = quote_plus(db_params['password'])
+    db_params['password'] = password
     try:
         conn = pytds.connect(
             server=db_params["server"],

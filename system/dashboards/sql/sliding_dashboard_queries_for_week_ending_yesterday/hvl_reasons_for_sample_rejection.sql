@@ -1,11 +1,10 @@
 SELECT
-	ds.clean_rejection_reason AS category,
+	fs.clean_rejection_reason AS category,
 	ca.week_name,
-	COUNT(*) AS value
+	SUM(fs.is_sample_rejected) AS value
 FROM
-	[derived].dim_sample ds
-LEFT JOIN [derived].dim_date dd ON
-	dd.date = ds.lab_received_date
+	[derived].fact_sample_testing fs
+INNER JOIN derived.dim_date dd on fs.lab_received_date = dd.[date] 
 CROSS APPLY (
         SELECT
             CASE DATENAME(WEEKDAY, GETDATE())
@@ -21,11 +20,10 @@ CROSS APPLY (
 WHERE
 	dd.[date] >= DATEADD(DAY, -7, CAST(GETDATE() AS DATE))
     AND dd.[date] <= DATEADD(DAY, -1, CAST(GETDATE() AS DATE))
-	AND ds.test_name = 'HIVVL'
-	AND ds.sample_quality_status = 'RejectedLab'
-	AND ds.clean_rejection_reason <> ''
+    AND fs.is_sample_rejected  = 1
+    AND fs.is_hvl_sample = 1
 GROUP BY
 	ca.week_name,
-	ds.clean_rejection_reason
+	fs.clean_rejection_reason
 ORDER BY
 	value DESC;

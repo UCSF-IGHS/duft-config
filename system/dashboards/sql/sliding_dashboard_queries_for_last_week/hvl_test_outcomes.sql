@@ -8,7 +8,8 @@ FROM
 		s.hvl_samples_with_results_equal_or_above_1000 AS [>=1000 copies],
 		s.hvl_samples_with_results_less_than_1000_or_above_50 AS [50-999 copies],
 		s.hvl_samples_with_results_less_than_50 AS [<=50 copies],
-		s.hvl_result_tnd AS [TND]
+		s.hvl_result_tnd AS [TND],
+		s.hvl_result_failed AS [Failed]
 	FROM
 		final.fact_daily_sample_summary s
 	INNER JOIN derived.dim_date d ON
@@ -17,7 +18,7 @@ FROM
 		s.report_date BETWEEN 
 		DATEADD(DAY, -(DATEPART(WEEKDAY, GETDATE()) + 6), GETDATE()) 
 		AND DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), GETDATE())) AS SampleData 
-	UNPIVOT (value FOR category IN ([>=1000 copies], [50-999 copies], [<=50 copies], [TND])) AS unpvt
+	UNPIVOT (value FOR category IN ([>=1000 copies], [50-999 copies], [<=50 copies], [TND], [Failed])) AS unpvt
 GROUP BY
 	category
 ORDER BY

@@ -14,16 +14,27 @@ FROM
 	(
 	SELECT
 		*,
-		ROW_NUMBER() OVER (PARTITION BY sample_id
+		ROW_NUMBER() OVER (PARTITION BY sample_testing_id
 	ORDER BY
-		report_date DESC) AS sample_rank
+		collected_date DESC) AS sample_rank
 	FROM
-		[derived].fact_daily_hvl_sample_status) AS fact_daily_hvl_sample_status
-JOIN [derived].dim_sample AS dim_sample ON
-	fact_daily_hvl_sample_status.sample_id = dim_sample.sample_id
+		[derived].fact_sample_testing
+	where
+		is_hvl_sample = 1) AS fact_daily_hvl_sample_status
+JOIN (
+	Select
+		*
+	from
+		[derived].fact_sample_testing fst
+	where
+		fst.is_hvl_sample = 1
+) AS dim_sample ON
+	fact_daily_hvl_sample_status.sample_testing_id = dim_sample.sample_testing_id
 JOIN [derived].dim_facility AS dim_facility ON
 	fact_daily_hvl_sample_status._hfr_id = dim_facility.hfr_code
 WHERE
 	fact_daily_hvl_sample_status.sample_rank = 1
+	AND dim_sample.lab_received_date >= $[start_date%d]
+	AND dim_sample.lab_received_date <= $[end_date%d]
 ORDER BY
- dim_sample.lab_received_date DESC
+	dim_sample.lab_received_date DESC

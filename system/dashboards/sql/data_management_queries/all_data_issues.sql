@@ -15,9 +15,9 @@ SELECT
 	dim_samples.rejection_reason AS [Rejection Reason],
 	dim_samples.cleaning_comment AS [Data Issue]
 FROM
-	[derived].dim_sample AS dim_samples
+	[derived].fact_sample_testing AS dim_samples
 LEFT JOIN [derived].dim_facility AS dim_facility ON
-	dim_samples.hub_facility_id = dim_facility.facility_id
+	dim_samples.facility_id = dim_facility.facility_id
 WHERE
 	dim_samples.cleaning_comment IS NOT NULL
 ORDER BY 
