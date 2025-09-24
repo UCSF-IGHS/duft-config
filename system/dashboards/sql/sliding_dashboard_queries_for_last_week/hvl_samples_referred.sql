@@ -14,7 +14,7 @@ FROM
 		d.weekly_start_monday_period AS week_name,
 		SUM(s.hvl_sample_received) AS [Received Samples],
 	    SUM(s.hvl_sample_referred) AS [Referred Samples],
-        SUM(s.hvl_referral_result_received) AS [Results Out]
+        SUM(s.hvl_sample_referred_resulted) AS [Results Out]
 	FROM
 		final.fact_daily_sample_summary s
 	INNER JOIN derived.dim_date d ON

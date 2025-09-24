@@ -1,5 +1,5 @@
 <Grid>
-    <Row columns="2">
+    <Row columns="1">
         <BarChart
             data="hvl_samples_referred"
             exportData="true"
@@ -18,6 +18,28 @@
                     }
                 },
                 yaxis: { title: { text: "Number of Samples" } }
+            }}
+        />
+    </Row>
+
+    <Row columns="1">
+        <ClusteredBarChart
+            data="hvl_samples_referred_rejected_and_results_out_by_facility"
+            header="Number of Samples Referred and Their Corresponding Receiving Laboratories"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 40 },
+                dataLabels: { enabled: true },
+                legend: { show: true, position: "bottom" },
+                yaxis: { title: { text: "Number of Samples" } },
+                xaxis: { title: { text: "Receiving Laboratories" } },
+                tooltip: { shared: true },
+                stroke: { width: 2 },
+                colors: ["#008000", "#FF0000", "#FFA500"]
             }}
         />
     </Row>

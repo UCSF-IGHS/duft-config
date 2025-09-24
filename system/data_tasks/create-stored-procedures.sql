@@ -3148,6 +3148,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
         is_valid_record INT NULL DEFAULT 1,
         is_eid_sample INT NULL,
         is_hvl_sample INT NULL,
+        is_hpv_sample INT NULL,
         cleaning_comment NVARCHAR(255) NULL,
         is_sample_rejected INT NULL,
         is_hvl_sample_plasma INT NULL,
@@ -3155,6 +3156,12 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
         is_collected INT NULL,
         is_accepted INT NULL,
         is_received INT NULL,
+        is_referred INT NULL,
+        is_referred_rejected INT NULL,
+        is_referred_resulted INT NULL,
+        referral_facility_id NVARCHAR(255) NULL,
+        referred_date DATE NULL,
+        order_status INT NULL,
         is_tested INT NULL,
         is_dispatched INT NULL,
         is_authorised INT NULL,
@@ -3236,9 +3243,13 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
         test_name,
         is_eid_sample,
         is_hvl_sample,
+        is_hpv_sample,
         device_id,
         facility_id,
         _hfr_id,
+        referral_facility_id,
+        referred_date,
+        order_status,
         collected_date,
         lab_received_date,
         tested_date,
@@ -3261,9 +3272,16 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
             WHEN ts.testname = 'HIVVL' THEN 1
             ELSE 0
         END AS is_hvl_sample,
+        CASE
+            WHEN ts.testname = 'HPV' THEN 1
+            ELSE 0
+        END AS is_hpv_sample,
         dv.device_id,
         df.facility_id,
         ISNULL(df.hfr_code, uf.hfr_code) AS _hfr_id,
+        ts.ReferredTo AS referral_facility_id,
+        ts.ReferredDate AS referred_date,
+        ts.OrderStatus AS order_status,
         ts.CollectionDate AS collected_date,
         ts.ReceivedDate AS lab_received_date,
         ts.TestDate AS tested_date,
@@ -3635,7 +3653,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
         derived.fact_sample_testing fs
     WHERE
         fs.is_valid_record = 1
-        AND (fs.test_name NOT IN ('HIVVL','EID') OR fs.test_name is null);
+        AND (fs.test_name NOT IN ('HIVVL','EID','TB','HPV') OR fs.test_name is null);
     
     -------------------------------------------------------
     -- 'Missing Collected Or Received date'
@@ -3885,6 +3903,101 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
 -- $END
 
 EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_received_by_entry_modality_hub';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_referred
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_referred'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_referred AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_referred';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_referred = 1
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.referral_facility_id IS NOT NULL;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_referred';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_referred_resulted
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_referred_resulted'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_referred_resulted AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_referred_resulted';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_referred_resulted = 1
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_referred = 1
+        AND fs.order_status = 4;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_referred_resulted';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_sample_testing_update_is_referred_rejected
+--
+
+PRINT 'Creating derived.sp_fact_sample_testing_update_is_referred_rejected'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_referred_rejected AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_referred_rejected';
+
+-- $BEGIN
+
+    UPDATE
+        fs
+    SET
+        fs.is_referred_rejected = 1
+    FROM
+        derived.fact_sample_testing fs
+    WHERE
+        fs.is_referred = 1
+        AND fs.order_status = 6;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_referred_rejected';
 
 END
 GO
@@ -5462,6 +5575,9 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     EXEC derived.sp_fact_sample_testing_update_is_collected;
     EXEC derived.sp_fact_sample_testing_update_is_accepted;
     EXEC derived.sp_fact_sample_testing_update_is_received;
+    EXEC derived.sp_fact_sample_testing_update_is_referred;
+    EXEC derived.sp_fact_sample_testing_update_is_referred_rejected;
+    EXEC derived.sp_fact_sample_testing_update_is_referred_resulted;
     EXEC derived.sp_fact_sample_testing_update_is_tested;
     EXEC derived.sp_fact_sample_testing_update_is_dispatched;
     EXEC derived.sp_fact_sample_testing_update_is_authorised;
@@ -5857,10 +5973,16 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         result_tnd INT NULL DEFAULT 0,
         hvl_sample_referred INT NULL DEFAULT 0,
         eid_sample_referred INT NULL DEFAULT 0,
+        hpv_sample_referred INT NULL DEFAULT 0,
         sample_referred INT NULL DEFAULT 0,
-        hvl_referral_result_received INT NULL DEFAULT 0,
-        eid_referral_result_received INT NULL DEFAULT 0,
-        referral_result_received INT NULL DEFAULT 0,
+        hvl_sample_referred_resulted INT NULL DEFAULT 0,
+        hvl_sample_referred_rejected INT NULL DEFAULT 0,
+        eid_sample_referred_resulted INT NULL DEFAULT 0,
+        eid_sample_referred_rejected INT NULL DEFAULT 0,
+        hpv_sample_referred_resulted INT NULL DEFAULT 0,
+        hpv_sample_referred_rejected INT NULL DEFAULT 0,
+        sample_referred_resulted INT NULL DEFAULT 0,
+        sample_referred_rejected INT NULL DEFAULT 0,
         result_indeterminate INT NULL DEFAULT 0,
         hvl_samples_with_results_equal_or_above_1000 INT NULL DEFAULT 0,
         hvl_samples_with_results_less_than_1000_or_above_50 INT NULL DEFAULT 0,
@@ -6194,6 +6316,76 @@ GO
         
 
 -----------------------------------------------------------------------------------------------
+-- sp_fact_daily_sample_summary_update_columns_group_by_referred_date
+--
+
+PRINT 'Creating final.sp_fact_daily_sample_summary_update_columns_group_by_referred_date'
+GO
+
+CREATE OR ALTER PROCEDURE final.sp_fact_daily_sample_summary_update_columns_group_by_referred_date AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_referred_date';
+
+-- $BEGIN
+
+    WITH cte_samples AS
+    (
+        SELECT 
+            fst.[_hfr_id] AS hfr_id_for_HUB_sample_is_coming_from,
+            fst.referred_date AS report_date,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_referred ELSE 0 END) AS hvl_sample_referred,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_referred ELSE 0 END) AS eid_sample_referred,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_referred ELSE 0 END) AS hpv_sample_referred,
+            SUM(is_referred) AS sample_referred,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_referred_resulted ELSE 0 END) AS hvl_sample_referred_resulted,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_referred_resulted ELSE 0 END) AS eid_sample_referred_resulted,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_referred_resulted ELSE 0 END) AS hpv_sample_referred_resulted,
+            SUM(is_referred_resulted) AS sample_referred_resulted,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_referred_rejected ELSE 0 END) AS hvl_sample_referred_rejected,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_referred_rejected ELSE 0 END) AS eid_sample_referred_rejected,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_referred_rejected ELSE 0 END) AS hpv_sample_referred_rejected,
+            SUM(is_referred_rejected) AS sample_referred_rejected
+        FROM 
+            [derived].fact_sample_testing fst
+        WHERE
+            fst.referred_date IS NOT NULL
+            AND fst.is_valid_record = 1
+        GROUP BY
+            fst.[_hfr_id], 
+            fst.referred_date
+    )
+    UPDATE
+        target
+    SET
+        target.hvl_sample_referred = ISNULL(source.hvl_sample_referred, 0),
+        target.eid_sample_referred = ISNULL(source.eid_sample_referred, 0),
+        target.hpv_sample_referred = ISNULL(source.hpv_sample_referred, 0),
+        target.sample_referred = ISNULL(source.sample_referred, 0),
+        target.hvl_sample_referred_resulted = ISNULL(source.hvl_sample_referred_resulted, 0),
+        target.eid_sample_referred_resulted = ISNULL(source.eid_sample_referred_resulted, 0),
+        target.hpv_sample_referred_resulted = ISNULL(source.hpv_sample_referred_resulted, 0),
+        target.sample_referred_resulted = ISNULL(source.sample_referred_resulted, 0),
+        target.hvl_sample_referred_rejected = ISNULL(source.hvl_sample_referred_rejected, 0),
+        target.eid_sample_referred_rejected = ISNULL(source.eid_sample_referred_rejected, 0),
+        target.hpv_sample_referred_rejected = ISNULL(source.hpv_sample_referred_rejected, 0),
+        target.sample_referred_rejected = ISNULL(source.sample_referred_rejected, 0)
+    FROM
+        [final].fact_daily_sample_summary AS target
+    INNER JOIN
+        cte_samples AS source
+    ON
+        target.hfr_id_for_HUB_sample_is_coming_from = source.hfr_id_for_HUB_sample_is_coming_from
+        AND target.report_date = source.report_date;
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'final.sp_fact_daily_sample_summary_update_columns_group_by_referred_date';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
 -- sp_fact_daily_sample_summary_update_pending_result
 --
 
@@ -6435,8 +6627,9 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
 		result_invalid = eid_result_invalid + hvl_result_invalid,
         result_failed = eid_result_failed + hvl_result_failed,
 		result_tnd = eid_result_tnd + hvl_result_tnd,
-		sample_referred = eid_sample_referred + hvl_sample_referred,
-		referral_result_received = eid_referral_result_received + hvl_referral_result_received;
+		sample_referred = eid_sample_referred + hvl_sample_referred + hpv_sample_referred,
+		sample_referred_resulted = eid_sample_referred_resulted + hvl_sample_referred_resulted + hpv_sample_referred_resulted,
+		sample_referred_rejected = eid_sample_referred_rejected + hvl_sample_referred_rejected + hpv_sample_referred_rejected;
 
 -- $END
 
@@ -6465,6 +6658,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
     EXEC final.sp_fact_daily_sample_summary_update_columns_group_by_lab_received_date;
     EXEC final.sp_fact_daily_sample_summary_update_columns_group_by_tested_date;
     EXEC final.sp_fact_daily_sample_summary_update_columns_group_by_collected_date;
+    EXEC final.sp_fact_daily_sample_summary_update_columns_group_by_referred_date;
     EXEC final.sp_fact_daily_sample_summary_update_pending_result;
     EXEC final.sp_fact_daily_sample_summary_update_columns_group_by_result_authorised_date;
     EXEC final.sp_fact_daily_sample_summary_update_columns_group_by_result_dispatched_date;
