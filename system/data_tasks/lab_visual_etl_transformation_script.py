@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError # type: ignore
 import sys
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
+from data_task_helpers import something
 from services.dte_tools.data_task_tools import ( # type: ignore
     DataTaskEnvironment,
     get_resolved_parameters_for_connection,
@@ -334,7 +335,10 @@ def extract_and_insert_sample_data():
             resultAuthorisedDate as DispatchDate,
             testInstrument as DeviceName,
             NULL as DeviceCode,
-            IF(SUBSTR(trackingID, 1, 4) = 'BC03', 'lab', 'hub') as EntryModality
+            CASE dataFrom
+                WHEN 0 THEN 'lab'
+                WHEN 1 THEN 'hub'
+            END AS EntryModality
         FROM tbl_labtests
         WHERE sampleCollectionDate >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
         OR dateSentLab >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
