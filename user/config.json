@@ -5,7 +5,7 @@
             "server": "127.0.0.1",
             "username": "user",
             "password": "password",
-            "port": "port",
+            "port": "1443",
             "database": "lab_visual_analysis"
         },
         "LAB_DATA_SOURCE": {
@@ -13,7 +13,7 @@
             "server": "localhost",
             "username": "user",
             "password": "password",
-            "port": "port",
+            "port": "3306",
             "database": "labdashdb"
         }
     },
