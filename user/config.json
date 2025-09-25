@@ -3,17 +3,17 @@
         "ANA": {
             "type": "MSSQL",
             "server": "127.0.0.1",
-            "username": "sa",
-            "password": "Hotdar2007*",
-            "port": "1433",
+            "username": "user",
+            "password": "password",
+            "port": "port",
             "database": "lab_visual_analysis"
         },
         "LAB_DATA_SOURCE": {
             "type": "mysql",
             "server": "localhost",
-            "username": "root",
-            "password": "",
-            "port": "3306",
+            "username": "user",
+            "password": "password",
+            "port": "port",
             "database": "labdashdb"
         }
     },
