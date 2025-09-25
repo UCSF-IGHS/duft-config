@@ -1,0 +1,43 @@
+<Datasets>
+  <SQLData name="current_date_data" queryName="common/current_date_time.sql" />
+
+  <SQLData
+    name="hvl_samples_received_to_authorised"
+    queryName="sliding_dashboard_queries_for_current_day/hvl_samples_received_to_authorised"
+  />
+
+  <SQLData
+    name="hvl_samples_reffered_to_other_lab"
+    queryName="sliding_dashboard_queries_for_current_day/hvl_samples_reffered_to_other_lab"
+  />
+
+  <SQLData
+    name="hvl_testoutcome"
+    queryName="sliding_dashboard_queries_for_current_day/hvl_test_outcomeS"
+  />
+
+  <SQLData
+    name="hvl_sample_received_by_entry_modality"
+    queryName="sliding_dashboard_queries_for_current_day/hvl_trend_of_samples_received_by_entry_modality"
+  />
+
+  <SQLData
+    name="eid_samples_received_to_authorised"
+    queryName="sliding_dashboard_queries_for_current_day/eid_samples_received_to_authorised"
+  />
+
+  <SQLData
+    name="eid_samples_reffered_to_other_lab"
+    queryName="sliding_dashboard_queries_for_current_day/eid_samples_reffered_to_other_lab"
+  />
+
+  <SQLData
+    name="eid_test_outcomes"
+    queryName="sliding_dashboard_queries_for_current_day/eid_test_outcomes"
+  />
+
+  <SQLData
+    name="eid_trend_of_samples_received_by_entry_modality"
+    queryName="sliding_dashboard_queries_for_current_day/eid_trend_of_samples_received_by_entry_modality"
+  />
+</Datasets>

@@ -3,17 +3,16 @@
         "ANA": {
             "type": "MSSQL",
             "server": "127.0.0.1",
-            "sqlite3file": "",
-            "username": "user",
-            "password": "password",
-            "port": "1443",
+            "username": "sa",
+            "password": "Hotdar2007*",
+            "port": "1433",
             "database": "lab_visual_analysis"
         },
         "LAB_DATA_SOURCE": {
             "type": "mysql",
             "server": "localhost",
-            "username": "user",
-            "password": "password",
+            "username": "root",
+            "password": "",
             "port": "3306",
             "database": "labdashdb"
         }
@@ -32,6 +31,19 @@
                     "second": "0",
                     "minute": "0",
                     "hour": "0",
+                    "day_of_month": "*",
+                    "month": "*",
+                    "day_of_week": "*"
+                }
+            }
+        },
+        "TODAYS-DATA-ANALYSIS": {
+            "description": "A notebook that runs the Lab Visual ETL Transformation Task",
+            "schedule": {
+                "cron": {
+                    "second": "0",
+                    "minute": "*/10",
+                    "hour": "*",
                     "day_of_month": "*",
                     "month": "*",
                     "day_of_week": "*"

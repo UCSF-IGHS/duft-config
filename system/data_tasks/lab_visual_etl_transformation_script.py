@@ -62,15 +62,15 @@ labdashdb_conn = connect_to_tille_lab_db()
 
 # Function to create a connection to SQL Server
 def create_connection_to_sql_server(db_name):
-    password = quote_plus(db_params['password'])
-    db_params['password'] = password
+    #password = quote_plus(db_params['password'])
+    #db_params['password'] = password
     try:
         conn = pytds.connect(
             server=db_params["server"],
             user=db_params["username"],
             password=db_params["password"],
             database=db_name,
-            port=int(db_params.get("port", 1443)),
+            port=int(db_params.get("port", 1433)),
             autocommit=True
         )
         cursor = conn.cursor()
