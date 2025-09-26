@@ -12,14 +12,19 @@
         "icon": "dashboards-icon",
         "dashboards": [
           {
+            "title": "Current Day",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/home"
+          },
+          {
             "title": "Last week",
             "icon": "calendar-icon",
             "dashboard": "/dashboard/sliding-dashboard-for-last-week"
           },
           {
             "title": "Last week ending yesterday",
-            "icon": "clock-icon",
-            "dashboard": "/dashboard/home"
+            "icon": "calendar-icon",
+            "dashboard": "/dashboard/sliding-dashboard-for-week-ending-yesterday"
           }
         ]
       },

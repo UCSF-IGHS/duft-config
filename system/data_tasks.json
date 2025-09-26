@@ -48,6 +48,30 @@
       }
     },
     {
+      "id": "TODAYS-DATA-ANALYSIS",
+      "name": "TODAYS DATA ANALYSIS",
+      "description": "GET LAB CURRENT DATE DATA FROM LABDASH TO LAB VISUAL ANALYSIS",
+      "pythonFile": "todays_data_analysis.py",
+      "hideInUI": true,
+      "dataConnections": ["ANA", "MyOwnConnection"],
+      "supportedParameters": {
+        "name": {
+          "title": "TODAYS DATA ANALYSIS",
+          "description": "TODAYS DATA ANALYSIS.",
+          "defaultValue": "Daenerys",
+          "allowOverride": true,
+          "promptUser": false
+        },
+        "sleep_time": {
+          "title": "Sleep Time",
+          "description": "Time to wait between execution steps in seconds.",
+          "defaultValue": 2.0,
+          "allowOverride": false,
+          "promptUser": false
+        }
+      }
+    },
+    {
       "id": "DATA-COMPARISON",
       "name": "Data Comparison Task",
       "description": "A task to compare data from source and analysis databases",
