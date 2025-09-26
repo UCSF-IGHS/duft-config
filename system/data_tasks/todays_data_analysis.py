@@ -43,7 +43,7 @@ def connect_sql_server() -> Connection:
             user=ana_db_params["username"],
             password=ana_db_params["password"],
             database=ana_db_params["database"],
-            port=int(ana_db_params.get("port", 1433)),
+            port=int(ana_db_params.get("port", 1443)),
             autocommit=True,
         )
         with conn.cursor() as cursor:
