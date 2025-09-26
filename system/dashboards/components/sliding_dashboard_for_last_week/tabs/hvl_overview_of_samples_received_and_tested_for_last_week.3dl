@@ -8,16 +8,18 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
+            headerSize="large"
             userOptions={{
                 chart: { id: 1 },
-                dataLabels: { enabled: true },
+                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
                 colors: ['#008000'],
                 plotOptions: {
                     bar: {
                         distributed: false
                     }
                 },
-                yaxis: { title: { text: "Number of Samples" } }
+                yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
+                xaxis: { title: { style: { fontSize: "16px", fontWeight: 600 } } }
             }}
         />
 
@@ -29,11 +31,12 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
+            headerSize="large"
             userOptions={{
                 chart: { id: 2 },
                 colors: ["#156082", "#e97132"],
-                legend: { show: true, position: "bottom" },
-                dataLabels: { enabled: true, dropShadow: { enabled: false } }
+                legend: { show: true, position: "bottom", fontSize: '16px', fontWeight: 700 },
+                dataLabels: { enabled: true, dropShadow: { enabled: false }, style: { fontSize: "16px", fontWeight: 700 } }
             }}
         />
     </Row>
@@ -47,10 +50,11 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
+            headerSize="large"
             userOptions={{
                 chart: { id: 3 },
-                legend: { show: true, position: "bottom" },
-                dataLabels: { enabled: true, dropShadow: { enabled: false } }
+                legend: { show: true, position: "bottom", fontSize: '16px', fontWeight: 700 },
+                dataLabels: { enabled: true, dropShadow: { enabled: false }, style: { fontSize: "16px", fontWeight: 700 } }
             }}
         />
 
@@ -62,11 +66,12 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
+            headerSize="large"
             userOptions={{
                 chart: { id: 4 },
-                dataLabels: { enabled: true },
-                yaxis: { title: { text: 'Number of Samples' } },
-                xaxis: { title: { text: 'Region' } },
+                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
+                yaxis: { title: { text: 'Number of Samples', style: { fontSize: "16px", fontWeight: 600 } } },
+                xaxis: { title: { text: 'Region', style: { fontSize: "16px", fontWeight: 600 } } },
                 colors: ['#008000'],
                 plotOptions: {
                     bar: {
@@ -75,7 +80,7 @@
                 },
                 legend: {
                     position: "top",
-                    fontSize: "14px",
+                    fontSize: "16px",
                     labels: { colors: "#333" },
                     itemMargin: { horizontal: 10, vertical: 5 },
                     markers: { width: 12, height: 12 }

@@ -6,6 +6,7 @@
             subHeader=""
             expand="true"
             exportData="true"
+            headerSize="large"
         />
 
         <BarChart
@@ -16,11 +17,14 @@
             detailsComponent="infinite-scroll-table"
             header="Equipment utilization (Actual Sample Tested) within the Lab"
             subHeader=""
+            headerSize="large"
             userOptions={{
                 chart: { id: 29 },
-                tooltip: { shared: true },
-                dataLabels: { enabled: true },
-                legend: { show: true, position: "bottom" }
+                tooltip: { shared: true, style: { fontSize: "16px", fontWeight: 700 } },
+                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
+                legend: { show: true, position: "bottom", fontSize: '16px', fontWeight: 700 },
+                xaxis: { title: { style: { fontSize: "16px", fontWeight: 600 } } },
+                yaxis: { title: { style: { fontSize: "16px", fontWeight: 600 } } }
             }}
         />
     </Row>
