@@ -3511,6 +3511,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
         CASE
             WHEN
                 st.rejection_reason IS NOT NULL
+                AND st.rejection_reason LIKE '%-%'
             THEN
                 TRIM(SUBSTRING(st.rejection_reason, CHARINDEX('-', st.rejection_reason) + 1, LEN(st.rejection_reason)))
             ELSE
