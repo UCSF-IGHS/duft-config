@@ -20,7 +20,6 @@
                 chart: { id: 29 },
                 tooltip: { shared: true },
                 dataLabels: { enabled: true },
-                yaxis: { title: { text: "Number of samples" } },
                 legend: { show: true, position: "bottom" }
             }}
         />
