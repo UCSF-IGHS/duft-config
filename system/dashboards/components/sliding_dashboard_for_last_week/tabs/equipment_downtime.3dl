@@ -19,6 +19,7 @@
             userOptions={{
                 chart: { id: 29 },
                 tooltip: { shared: true },
+                yaxis: { title: { text: "Number of Samples" } },
                 dataLabels: { enabled: true },
                 legend: { show: true, position: "bottom" }
             }}
