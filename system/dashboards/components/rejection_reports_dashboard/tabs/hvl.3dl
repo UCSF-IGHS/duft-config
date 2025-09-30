@@ -9,13 +9,47 @@
         detailsComponent="infinite-scroll-table"
         header="HVL Rejection with reasons at Lab"
         subHeader=""
+        headerSize="large"
         userOptions={{
           chart: { id: 20 },
-          tooltip: { shared: true },
-          dataLabels: { enabled: true },
-          legend: { show: false },
-          yaxis: { title: { text: "Number of Samples" } },
-          xaxis: { title: { text: "Rejection Reasons" } },
+          tooltip: {
+            shared: true,
+            style: {
+              fontSize: "16px",
+              fontWeight: 700
+            }
+          },
+          legend: {
+            show: true,
+            position: "bottom",
+            fontSize: '16px',
+            fontWeight: 700
+          },
+          dataLabels: {
+            enabled: true,
+            style: {
+              fontSize: "16px",
+              fontWeight: 700
+            }
+          },
+          yaxis: {
+            title: {
+              text: "Number of Samples",
+              style: {
+                fontSize: "16px",
+                fontWeight: 600
+              }
+            }
+          },
+          xaxis: {
+            title: {
+              text: "Rejection Reasons",
+              style: {
+                fontSize: "16px",
+                fontWeight: 600
+              }
+            }
+          }
         }}
       />
     </Row>

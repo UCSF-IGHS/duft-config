@@ -37,6 +37,19 @@
                     "day_of_week": "*"
                 }
             }
+        },
+        "TODAYS-DATA-ANALYSIS": {
+            "description": "A notebook that runs the Lab Visual ETL Transformation Task",
+            "schedule": {
+                "cron": {
+                    "second": "0",
+                    "minute": "*/10",
+                    "hour": "*",
+                    "day_of_month": "*",
+                    "month": "*",
+                    "day_of_week": "*"
+                }
+            }
         }
     },
     "test": {},

@@ -1,96 +1,25 @@
 <Dashboards>
 
-  <Include file="components/sliding_dashboard_for_week_ending_yesterday/datasets.3dl" />
+  <Include file="components/sliding_dashboard_for_current_day/datasets.3dl" />
 
   <Slider interval="20" pauseOnHover="true">
     <Dashboard
       data="current_date_data"
-      title="HIV Viral Load (HVL) - Overview of samples received and tested for the reporting week"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
-      lastRefresh="Last updated on : %today%"
+      title="HIV Viral Load (HVL) - Overview of samples Received, Testing and Authorised and Reffered"
+      subTitle="Date: %today%"
+      lastRefresh="Last updated on : %lastUpdated%"
     >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/hvl_overview_of_samples_received_and_tested_for_last_week.3dl" />
+      <Include file="components/sliding_dashboard_for_current_day/tabs/hvl_overview_of_samples_received_tested_authorised_and_reffered.3dl" />
     </Dashboard>
 
     <Dashboard
       data="current_date_data"
-      title="HIV Viral Load (HVL) - Overview of samples received and referred for the reporting week"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
-      lastRefresh="Last updated on : %today%"
+      title="EID - Overview of samples Received, Testing and Authorised and Reffered"
+      subTitle="Date: %today%"
+      lastRefresh="Last updated on : %lastUpdated%"
     >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/hvl_referral.3dl" />
+      <Include file="components/sliding_dashboard_for_current_day/tabs/eid_overview_of_samples_received_tested_authorised_and_reffered.3dl" />
     </Dashboard>
 
-    <Dashboard
-      data="current_date_data"
-      title="HIV Viral Load (HVL) trends in samples received, tested, and results authorized for last 4 weeks"
-      subTitle="Data From %first_day_of_the_last_four_weeks% to %lastDay%"
-      lastRefresh="Last updated on : %today%"
-    >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/hvl_trends_samples_received_tested_results_authorized_for_last_4_weeks.3dl" />
-    </Dashboard>
-
-    <Dashboard
-      data="current_date_data"
-      title="HIV Viral Load (HVL) Trends- Turn Around Time"
-      subTitle="Data From %first_day_of_the_last_four_weeks% to %lastDay%"
-      lastRefresh="Last updated on : %today%"
-    >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/hvl_trends_TAT.3dl" />
-    </Dashboard>
-
-    <Dashboard
-      data="current_date_data"
-      title="HIV Viral Load (HVL) Trends- Laboratory Testing Point"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%) | Data From %first_day_of_the_last_four_weeks% to %lastDay% for Trend Graphs"
-      lastRefresh="Last updated on : %today%"
-    >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/hvl_trends_laboratory_testing_point.3dl" />
-    </Dashboard>
-
-    <Dashboard
-      data="current_date_data"
-      title="EID - Overview of samples received and testing for the reporting week"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%) | Data From %first_day_of_the_last_four_weeks% to %lastDay% for Trend Graphs"
-      lastRefresh="Last updated on : %today%"
-    >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/eid_overview_of_samples_received_and_tested_for_last_week.3dl" />
-    </Dashboard>
-
-    <Dashboard
-      data="current_date_data"
-      title="EID - Overview of samples received and referred for the reporting week"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
-      lastRefresh="Last updated on : %today%"
-    >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/eid_referral.3dl" />
-    </Dashboard>
-
-    <Dashboard
-      data="current_date_data"
-      title="Early Infant HIV Diagnosis (EID) Trends- Turn Around Time"
-      subTitle="Data From %first_day_of_the_last_four_weeks% to %lastDay%"
-      lastRefresh="Last updated on : %today%"
-    >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/eid_trends_TAT.3dl" />
-    </Dashboard>
-
-    <Dashboard
-      data="current_date_data"
-      title="EID - Laboratory Testing Quality"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%) | Data From %first_day_of_the_last_four_weeks% to %lastDay% for Trend Graphs"
-      lastRefresh="Last updated on : %today%"
-    >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/eid_laboratory_testing_quality.3dl" />
-    </Dashboard>
-
-    <Dashboard
-      data="current_date_data"
-      title="Equipment Downtime"
-      subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
-      lastRefresh="Last updated on : %today%"
-    >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/equipment_downtime.3dl" />
-    </Dashboard>
   </Slider>
 </Dashboards>

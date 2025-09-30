@@ -1,0 +1,83 @@
+<Grid>
+    <Row columns="2">
+        <BarChart
+            data="eid_samples_received_to_authorised"
+            header="EID - Number of Samples received, tested, rejected and results authorized in the lab"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            headerSize="large"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 1 },
+                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
+                colors: ["#008000", "#FFA500", "#FF0000"],
+                plotOptions: {
+                    bar: {
+                        distributed: false
+                    }
+                },
+                yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 700 } } },
+                xaxis: { title: { style: { fontSize: "16px", fontWeight: 700 } } }
+            }}
+        />
+
+        <BarChart
+            data="eid_samples_reffered_to_other_lab"
+            header="EID - Reffered Samples, rejected at other lab, samples with results"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            headerSize="large"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 2 },
+                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
+                colors: ['#008000'],
+                plotOptions: {
+                    bar: {
+                        distributed: false
+                    }
+                },
+                yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 700 } } },
+                xaxis: { title: { style: { fontSize: "16px", fontWeight: 700 } } }
+            }}
+        />
+</Row>
+    <Row columns="2">
+        <PieChart
+            data="eid_test_outcomes"
+            header="EID - Test Outcome"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            headerSize="large"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 3 },
+                colors: ["#008000", "#FF0000", "#FFA500"],
+                legend: { show: true, position: "bottom", fontSize: '16px', fontWeight: 700 },
+                dataLabels: { enabled: true, dropShadow: { enabled: false }, style: { fontSize: "16px", fontWeight: 700 } }
+            }}
+        />
+
+        <PieChart
+            data="eid_trend_of_samples_received_by_entry_modality"
+            header="EID - Sample Received By Entry Modality"
+            subHeader=""
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            headerSize="large"
+            detailsComponent="infinite-scroll-table"
+            userOptions={{
+                chart: { id: 4 },
+                legend: { show: true, position: "bottom", fontSize: '16px', fontWeight: 700 },
+                dataLabels: { enabled: true, dropShadow: { enabled: false }, style: { fontSize: "16px", fontWeight: 700 } }
+            }}
+        />
+    </Row>
+</Grid>

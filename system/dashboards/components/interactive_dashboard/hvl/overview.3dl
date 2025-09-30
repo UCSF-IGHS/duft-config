@@ -12,6 +12,7 @@
                 exportData="true"
                 expand="true"
                 variant="plain"
+                headerSize="large"
             />
         </Row>
 
@@ -27,18 +28,35 @@
                 exportData="true"
                 detailsComponent="infinite-scroll-table"
                 expand="true"
+                headerSize="large"
                 userOptions={
                     {
                         chart: { id: 31 },
-                        tooltip: { shared: true },
-                        legend: { show: true, position: "bottom" },
+                        tooltip: { 
+                            shared: true, 
+                            style: { 
+                                fontSize: "16px", 
+                                fontWeight: 700 
+                            } 
+                        },
+                        legend: { 
+                            show: true, 
+                            position: "bottom", 
+                            fontSize: '16px', 
+                            fontWeight: 700 
+                        },
                         dataLabels: {
                             enabled: true,
+                            style: {
+                                    fontSize: "16px",
+                                    fontWeight: 700,
+                                    fontColor: "#fff"
+                                },
                             total: {
                                 enabled: true,
                                 style: {
-                                    fontSize: "14px",
-                                    fontWeight: 900,
+                                    fontSize: "16px",
+                                    fontWeight: 700,
                                     fontColor: "#fff"
                                 },
                                 offsetX: 10
@@ -46,12 +64,32 @@
                         },
                         yaxis: {
                             title: {
-                                text: "Number of Samples"
+                                text: "Number of Samples",
+                                style: {
+                                    fontSize: "16px", 
+                                    fontWeight: 600
+                                }
+                            },
+                            labels: {
+                                style: {
+                                    fontSize: "16px", 
+                                    fontWeight: 400
+                                }
                             }
                         },
                         xaxis: {
                             title: {
-                                text: "Week Number"
+                                text: "Week Number",
+                                style: {
+                                    fontSize: "16px", 
+                                    fontWeight: 600
+                                }
+                            },
+                            labels: {
+                                style: {
+                                    fontSize: "16px",
+                                    fontWeight: 400
+                                }
                             }
                         },
                         colors: ["#00BFFF", "#FFA500"]
@@ -66,25 +104,32 @@
                 exportData="true"
                 expand="true"
                 detailsComponent="infinite-scroll-table"
+                headerSize="large"
                 userOptions={
                     {
                         chart: {
                             id: 32
                         },
                         tooltip: {
-                            shared: true
+                            shared: true,
+                            style: {
+                                fontSize: "16px",
+                                fontWeight: 700
+                            }
                         },
                         legend: {
                             show: true,
-                            position: "bottom"
+                            position: "bottom",
+                            fontSize: '16px',
+                            fontWeight: 700
                         },
                         dataLabels: {
                             enabled: true,
                             total: {
                                 enabled: true,
                                 style: {
-                                    fontSize: "14px",
-                                    fontWeight: 900,
+                                    fontSize: "16px",
+                                    fontWeight: 700,
                                     fontColor: "#fff"
                                 },
                                 offsetX: 10
@@ -92,12 +137,32 @@
                         },
                         yaxis: {
                             title: {
-                                text: "Number of Samples"
+                                text: "Number of Samples",
+                                style: {
+                                    fontSize: "16px", 
+                                    fontWeight: 600
+                                }
+                            },
+                            labels: {
+                                style: {
+                                    fontSize: "16px", 
+                                    fontWeight: 400
+                                }
                             }
                         },
                         xaxis: {
                             title: {
-                                text: "Week Number"
+                                text: "Week Number",
+                                style: {
+                                    fontSize: "16px",
+                                    fontWeight: 600
+                                }
+                            },
+                            labels: {
+                                style: {
+                                    fontSize: "16px",
+                                    fontWeight: 400
+                                }
                             }
                         }
                     }
@@ -113,25 +178,32 @@
                 exportData="true"
                 expand="true"
                 detailsComponent="infinite-scroll-table"
+                headerSize="large"
                 userOptions={
                     {
                         chart: {
                             id: 33
                         },
                         tooltip: {
-                            shared: true
+                            shared: true,
+                            style: { 
+                                fontSize: "16px", 
+                                fontWeight: 700 
+                            }
                         },
                         legend: {
                             show: true,
-                            position: "bottom"
+                            position: "bottom",
+                            fontSize: '16px', 
+                            fontWeight: 700 
                         },
                         dataLabels: {
                             enabled: true,
                             total: {
                                 enabled: true,
                                 style: {
-                                    fontSize: "14px",
-                                    fontWeight: 900,
+                                    fontSize: "16px",
+                                    fontWeight: 700,
                                     fontColor: "#fff"
                                 },
                                 offsetX: 10
@@ -139,12 +211,32 @@
                         },
                         yaxis: {
                             title: {
-                                text: "Number of Samples"
+                                text: "Number of Samples",
+                                style: {
+                                    fontSize: "16px", 
+                                    fontWeight: 600
+                                }
+                            },
+                            labels: {
+                                style: {
+                                    fontSize: "16px", 
+                                    fontWeight: 400
+                                }
                             }
                         },
                         xaxis: {
                             title: {
-                                text: "Week Number"
+                                text: "Week Number",
+                                style: {
+                                    fontSize: "16px", 
+                                    fontWeight: 600
+                                }
+                            },
+                            labels: {
+                                style: {
+                                    fontSize: "16px",
+                                    fontWeight: 400
+                                }
                             }
                         }
                     }
@@ -158,25 +250,32 @@
                 exportData="true"
                 expand="true"
                 detailsComponent="infinite-scroll-table"
+                headerSize="large"
                 userOptions={
                     {
                         chart: {
                             id: 34
                         },
                         tooltip: {
-                            shared: true
+                            shared: true,
+                            style: { 
+                                fontSize: "16px", 
+                                fontWeight: 700 
+                            } 
                         },
                         legend: {
                             show: true,
-                            position: "bottom"
+                            position: "bottom",
+                            fontSize: '16px', 
+                            fontWeight: 700 
                         },
                         dataLabels: {
                             enabled: true,
                             total: {
                                 enabled: true,
                                 style: {
-                                    fontSize: "14px",
-                                    fontWeight: 900,
+                                    fontSize: "16px",
+                                    fontWeight: 700,
                                     fontColor: "#fff"
                                 },
                                 offsetX: 10
@@ -184,12 +283,32 @@
                         },
                         yaxis: {
                             title: {
-                                text: "Number of Samples"
+                                text: "Number of Samples",
+                                style: {
+                                    fontSize: "16px", 
+                                    fontWeight: 600
+                                }
+                            },
+                            labels: {
+                                style: {
+                                    fontSize: "16px", 
+                                    fontWeight: 400
+                                }
                             }
                         },
                         xaxis: {
                             title: {
-                                text: "Week Number"
+                                text: "Week Number",
+                                style: {
+                                    fontSize: "16px", 
+                                    fontWeight: 600
+                                }
+                            },
+                            labels: {
+                                style: {
+                                    fontSize: "16px",
+                                    fontWeight: 400
+                                }
                             }
                         }
                     }
