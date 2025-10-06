@@ -19,14 +19,5 @@
         }}
       />
     </Row>
-    <Row columns="1">
-     <Table
-            data="eid_rejection_detailed_report"
-            header="EID SAMPLE REJECTION DETAILED"
-            subHeader=""
-            expand="true"
-            exportData="true"
-          />
-    </Row>
   </PrefilteredDashboard>
 </Grid>;
