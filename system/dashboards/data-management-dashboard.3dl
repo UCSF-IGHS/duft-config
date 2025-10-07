@@ -18,9 +18,9 @@
                 <Table
                     data="all_data_issues_data"
                     header="All Samples with Data Related Issues"
-                    variant="plain"
                     exportData="true"
                     expand="true"
+                    showEntries="true"
                 />
             </Row>
         </Grid>
@@ -47,9 +47,9 @@
                     <Table
                         data="missing_hfr_code_data"
                         header="Samples Missing HFR Code"
-                        variant="plain"
                         exportData="true"
                         expand="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>
@@ -77,9 +77,9 @@
                     <Table
                         data="missing_test_name_data"
                         header="Samples that haven't specified whether they are HVL or EID"
-                        variant="plain"
                         exportData="true"
                         expand="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>
@@ -103,9 +103,9 @@
                 <Table
                     data="missing_collected_or_received_date_data"
                     header="Samples Without a Collected Date or Received Date"
-                    variant="plain"
                     exportData="true"
                     expand="true"
+                    showEntries="true"
                 />
             </Row>
         </Grid>
@@ -127,9 +127,9 @@
                 <Table
                     data="earlier_received_date_than_collected_date_data"
                     header="Samples With Received Date earlier than the Collected Date"
-                    variant="plain"
                     exportData="true"
                     expand="true"
+                    showEntries="true"
                 />
             </Row>
         </Grid>
@@ -156,9 +156,9 @@
                     <Table
                         data="samples_with_authorized_date_earlier_than_tested_date_data"
                         header="Samples with Authorized Date earlier than the Tested Date"
-                        variant="plain"
                         exportData="true"
                         expand="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>
@@ -186,9 +186,9 @@
                     <Table
                         data="samples_with_rejection_reasons_but_have_results_data"
                         header="Samples with Rejection Reasons but have Results"
-                        variant="plain"
                         exportData="true"
                         expand="true"
+                        showEntries="true"
                     />
                 </Row>
             </PrefilteredDashboard>

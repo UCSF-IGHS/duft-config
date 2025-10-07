@@ -1,6 +1,6 @@
 <Dashboards>
 
-  <Include file="components/sliding_dashboard_for_week_ending_yesterday/datasets.3dl" />
+  <Include file="components/sliding_dashboard_for_current_day/datasets.3dl" />
 
   <Slider interval="20">
     <Dashboard
@@ -9,7 +9,7 @@
       subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
       lastRefresh="Last updated on : %today%"
     >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/hvl_overview_of_samples_received_and_tested_for_last_week.3dl" />
+      <Include file="components/sliding_dashboard_for_current_day/tabs/hvl_overview_of_samples_received_tested_authorised_and_reffered.3dl" />
     </Dashboard>
 
     <Dashboard
@@ -18,10 +18,10 @@
       subTitle="%week_name% (Data from %firstDay% to %lastDay%)"
       lastRefresh="Last updated on : %today%"
     >
-      <Include file="components/sliding_dashboard_for_week_ending_yesterday/tabs/hvl_referral.3dl" />
+      <Include file="components/sliding_dashboard_for_current_day/tabs/eid_overview_of_samples_received_tested_authorised_and_reffered.3dl" />
     </Dashboard>
 
-    <Dashboard
+      <Dashboard
       data="current_date_data"
       title="3. HIV Viral Load (HVL) trends in samples received, tested, and results authorized for last 4 weeks"
       subTitle="Data From %first_day_of_the_last_four_weeks% to %lastDay%"

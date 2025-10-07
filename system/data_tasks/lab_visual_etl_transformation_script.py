@@ -7,11 +7,14 @@ from sqlalchemy.exc import SQLAlchemyError # type: ignore
 import sys
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
+from data_task_helpers import something
+from urllib.parse import quote_plus
 from services.dte_tools.data_task_tools import ( # type: ignore
     DataTaskEnvironment,
     get_resolved_parameters_for_connection,
     initialise_data_task,
 )
+
 
 executor = ThreadPoolExecutor(max_workers=4)
 environment: DataTaskEnvironment = initialise_data_task("Tille Lab transformation Task", params={})
@@ -42,6 +45,8 @@ log_message(f"Started Tille Lab Transformation {datetime.now().strftime('%d/%m/%
 
 # Function to connect to the Tille Lab database
 def connect_to_tille_lab_db():
+    password = quote_plus(tillelab_db_params['password'])
+    tillelab_db_params['password'] = password
     url = f"mysql+pymysql://{tillelab_db_params['username']}:{tillelab_db_params['password']}@{tillelab_db_params['server']}:{tillelab_db_params['port']}/{tillelab_db_params['database']}"
     try:
         engine = create_engine(url)
@@ -253,50 +258,44 @@ def extract_and_insert_facility_data():
 
     if not os.path.exists(health_facilities_masterlist):
         log_message(f"Excel file '{health_facilities_masterlist}' not found.")
+        return  # stop execution if file not found
         
+    # Load Excel data
     df_excel = pd.read_excel(health_facilities_masterlist)
-    df_excel.rename(columns={"Facility Number": "HfrCode", "Facility Name": "Name"}, inplace=True)
+    df_excel.rename(
+        columns={
+            "hfr_id": "HfrCode",
+            "facility_name": "Name",
+            "region_name": "Region",
+            "district": "District",
+            "council_name": "Council",
+        },
+        inplace=True,
+    )
     df_excel = df_excel[['HfrCode', 'Name', 'Region', 'District', 'Council']]
     df_excel['Region'] = df_excel['Region'].str.replace("Region", "", regex=True).str.strip()
-    
-    mysql_query = """
-        SELECT
-            mohswid AS HfrCode,
-            facilityname AS Name,
-            regionname AS Region,
-            districtname AS District,
-            council AS Council
-        FROM hubfacilities
-    """
+    df_excel['District'] = df_excel['District'].str.replace("District", "", regex=True).str.strip()
+    df_excel['Council'] = df_excel['Council'].str.replace("Council", "", regex=True).str.strip()
 
-    try:
-        df_mysql = pd.read_sql(mysql_query, labdashdb_conn)
-        if len(df_mysql) > 0:
-            log_message(f"{len(df_mysql)} facilities fetched")
-    except Exception as e:
-        log_message(f"Error fetching data from MySQL: {e}")
-        sys.stdout.flush()
-        sys.exit(1) 
-    
-    df_combined = pd.concat([df_excel, df_mysql], ignore_index=True)
-    df_combined.drop_duplicates(subset=['HfrCode'], keep='first', inplace=True)
-    df_combined = df_combined.where(pd.notnull(df_combined), None)
+    # Replace NaNs, None, and empty strings with "UNKNOWN"
+    df_excel = df_excel.fillna("UNKNOWN")
+    df_excel = df_excel.replace(r'^\s*$', "UNKNOWN", regex=True)
 
     insert_query = """
         INSERT INTO source.tbl_Facilities (HfrCode, Name, Region, District, Council)
         VALUES (%s, %s, %s, %s, %s);
     """
     insert_count = 0
-    
+
     try:
-        for _, row in df_combined.iterrows():
+        for _, row in df_excel.iterrows():
             labvisualDB_cursor.execute(
-                insert_query, 
+                insert_query,
                 (
-                    row['HfrCode'], 
-                    row['Name'], 
-                    row['Region'], 
-                    row['District'], 
+                    row['HfrCode'],
+                    row['Name'],
+                    row['Region'],
+                    row['District'],
                     row['Council']
                 )
             )
@@ -308,7 +307,7 @@ def extract_and_insert_facility_data():
         log_message(f"Error inserting data: {e}")
         labvisualDB_conn.rollback()
         sys.stdout.flush()
-        sys.exit(1) 
+        sys.exit(1)
 extract_and_insert_facility_data()
 
 
@@ -334,7 +333,10 @@ def extract_and_insert_sample_data():
             resultAuthorisedDate as DispatchDate,
             testInstrument as DeviceName,
             NULL as DeviceCode,
-            IF(SUBSTR(trackingID, 1, 4) = 'BC03', 'lab', 'hub') as EntryModality
+            CASE dataFrom
+                WHEN 0 THEN 'lab'
+                WHEN 1 THEN 'hub'
+            END AS EntryModality
         FROM tbl_labtests
         WHERE sampleCollectionDate >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
         OR dateSentLab >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
