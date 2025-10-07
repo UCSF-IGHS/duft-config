@@ -1,0 +1,26 @@
+<Datasets>
+  <SQLData
+    name="hpv_samples_received_tested_rejectes_result_and_authorized"
+    queryName="hpv_reports_dashboard_queries/hpv_samples_received_tested_rejectes_result_and_authorized"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="hpv_sample_received_by_region"
+    queryName="hpv_reports_dashboard_queries/hpv_sample_received_by_region"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="hpv_sample_test_outcome" 
+    queryName="hpv_reports_dashboard_queries/hpv_sample_test_outcome"
+    filterFrom="start_date, end_date"
+  />
+
+  <SQLData
+    name="hpv_reason_sample_rejected"
+    queryName="hpv_reports_dashboard_queries/hpv_reason_sample_rejection"
+    filterFrom="start_date, end_date"
+  />
+
+</Datasets>

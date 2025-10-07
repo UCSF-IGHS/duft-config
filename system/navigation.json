@@ -53,6 +53,11 @@
             "dashboard": "/dashboard/tat-reports-dashboard"
           },
           {
+            "title": "HPV Report",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/hpv-reports-dashboard"
+          },
+          {
             "title": "Invalid Report",
             "icon": "circle-icon",
             "dashboard": "/dashboard/invalid-reports-dashboard"
