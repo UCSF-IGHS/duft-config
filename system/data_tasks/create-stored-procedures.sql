@@ -3525,16 +3525,52 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     UPDATE
         st
     SET
-        clean_rejection_reason =
+        st.clean_rejection_reason = 
         CASE
+            WHEN 
+                st.rejection_reason IS NULL
+                OR st.rejection_reason = ''
+                THEN NULL
             WHEN
-                st.rejection_reason IS NOT NULL
-                AND st.rejection_reason LIKE '%-%'
-            THEN
-                TRIM(SUBSTRING(st.rejection_reason, CHARINDEX('-', st.rejection_reason) + 1, LEN(st.rejection_reason)))
+                st.rejection_reason = 'BLOOD'
+                OR st.rejection_reason = 'Blood spots in contact each other'
+                OR st.rejection_reason = 'Old whole blood specimen with more than 24 hrs reaching the separation point'
+                OR st.rejection_reason LIKE '%Hemolysed%'
+                THEN  'Hemolysed sample'
+            WHEN
+                st.rejection_reason = 'Serum separation due to improper drying or collection'
+                OR st.rejection_reason = 'Clotted or layered blood spot'
+                OR st.rejection_reason = 'Clotted Sample'
+                OR st.rejection_reason LIKE '%clot%'
+                OR st.rejection_reason LIKE '%blood spot%'
+                THEN  'Clotted specimen'
+            WHEN
+                st.rejection_reason = 'Insufficient specimen as per specific SOP'
+                OR st.rejection_reason = 'Low volume'
+                OR st.rejection_reason = 'Sample did not fill the cycle in the DBS card'
+                OR st.rejection_reason LIKE '%insufficient sample or specimen%'
+                OR st.rejection_reason LIKE '%poor quality%'
+                THEN  'Insufficient sample (Low volume)'
+            WHEN
+                st.rejection_reason = 'Unlabelled or mislabelled specimen'
+                OR st.rejection_reason = 'Mismatched information on request form and specimen'
+                OR st.rejection_reason = 'Mismatched information between DBS card and laboratory test request form'
+                OR st.rejection_reason = 'Incompletely filled requisition form'
+                OR st.rejection_reason LIKE '%incomplete form or card%'
+                THEN  'Incomplete form'
+            WHEN
+                st.rejection_reason = 'old DBS card with more than 14 days of collection'
+                OR st.rejection_reason LIKE '%vacutainer%'
+                OR st.rejection_reason LIKE '%expired%'
+                OR st.rejection_reason LIKE '%more than days%'
+                THEN  'Expired vacutainer/DBS Card'
+            WHEN
+                st.rejection_reason = 'No humidity indicator'
+                OR st.rejection_reason = 'Indicating silica gel in the package'
+                THEN  'Improper packaging'
             ELSE
                 'Others'
-        END
+            END
     FROM
         [derived].fact_sample_testing st
 
@@ -3888,11 +3924,15 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     UPDATE
         fs
     SET
-        fs.is_referred = 1
+        fs.is_referred = 
+        CASE
+            WHEN
+                fs.referral_facility_id IS NOT NULL
+                THEN 1
+            ELSE 0
+        END
     FROM
-        derived.fact_sample_testing fs
-    WHERE
-        fs.referral_facility_id IS NOT NULL;
+        derived.fact_sample_testing fs;
 
 -- $END
 
@@ -3919,12 +3959,20 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     UPDATE
         fs
     SET
-        fs.is_referred_resulted = 1
+        fs.is_referred_resulted = 
+        CASE
+            WHEN
+                fs.order_status = 4
+                THEN 1
+            WHEN
+                fs.order_status != 4
+                THEN 0
+            ELSE NULL
+        END
     FROM
         derived.fact_sample_testing fs
     WHERE
-        fs.is_referred = 1
-        AND fs.order_status = 4;
+        fs.is_referred = 1;
 
 -- $END
 
@@ -3951,12 +3999,20 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     UPDATE
         fs
     SET
-        fs.is_referred_rejected = 1
+        fs.is_referred_rejected = 
+        CASE
+            WHEN
+                fs.order_status = 6
+                THEN 1
+            WHEN
+                fs.order_status != 6
+                THEN 0
+            ELSE NULL
+        END
     FROM
         derived.fact_sample_testing fs
     WHERE
-        fs.is_referred = 1
-        AND fs.order_status = 6;
+        fs.is_referred = 1;
 
 -- $END
 
@@ -4209,11 +4265,21 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     UPDATE
         fs
     SET
-        fs.is_result_indeterminate = 1
+        fs.is_result_indeterminate = 
+            CASE
+                WHEN
+                    fs.is_tested = 1
+                    AND (
+                        ISNULL(fs.is_eid_sample_tested_positive,0) != 1
+                        OR ISNULL(fs.is_eid_sample_tested_negative,0) != 1
+                        OR ISNULL(fs.is_result_tnd,0) != 1
+                        OR ISNULL(fs.is_result_failed,0) != 1
+                    )
+                    THEN 1
+                ELSE 0
+            END
     FROM
-        derived.fact_sample_testing fs
-    WHERE
-        LOWER(result) = 'indeterminate';
+        derived.fact_sample_testing fs;
 
 -- $END
 
@@ -5934,7 +6000,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         eid_sample_referred_rejected INT NULL DEFAULT 0,
         hpv_sample_referred_resulted INT NULL DEFAULT 0,
         hpv_sample_referred_rejected INT NULL DEFAULT 0,
-        sample_referred_resulted INT NULL DEFAULT 0,
+        referral_result_received INT NULL DEFAULT 0,
         sample_referred_rejected INT NULL DEFAULT 0,
         result_indeterminate INT NULL DEFAULT 0,
         hvl_samples_with_results_equal_or_above_1000 INT NULL DEFAULT 0,
@@ -6294,7 +6360,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_referred_resulted ELSE 0 END) AS hvl_sample_referred_resulted,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_referred_resulted ELSE 0 END) AS eid_sample_referred_resulted,
             SUM(CASE WHEN is_hpv_sample = 1 THEN is_referred_resulted ELSE 0 END) AS hpv_sample_referred_resulted,
-            SUM(is_referred_resulted) AS sample_referred_resulted,
+            SUM(is_referred_resulted) AS referral_result_received,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_referred_rejected ELSE 0 END) AS hvl_sample_referred_rejected,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_referred_rejected ELSE 0 END) AS eid_sample_referred_rejected,
             SUM(CASE WHEN is_hpv_sample = 1 THEN is_referred_rejected ELSE 0 END) AS hpv_sample_referred_rejected,
@@ -6318,7 +6384,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         target.hvl_sample_referred_resulted = ISNULL(source.hvl_sample_referred_resulted, 0),
         target.eid_sample_referred_resulted = ISNULL(source.eid_sample_referred_resulted, 0),
         target.hpv_sample_referred_resulted = ISNULL(source.hpv_sample_referred_resulted, 0),
-        target.sample_referred_resulted = ISNULL(source.sample_referred_resulted, 0),
+        target.referral_result_received = ISNULL(source.referral_result_received, 0),
         target.hvl_sample_referred_rejected = ISNULL(source.hvl_sample_referred_rejected, 0),
         target.eid_sample_referred_rejected = ISNULL(source.eid_sample_referred_rejected, 0),
         target.hpv_sample_referred_rejected = ISNULL(source.hpv_sample_referred_rejected, 0),
@@ -6581,7 +6647,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         result_failed = eid_result_failed + hvl_result_failed,
 		result_tnd = eid_result_tnd + hvl_result_tnd,
 		sample_referred = eid_sample_referred + hvl_sample_referred + hpv_sample_referred,
-		sample_referred_resulted = eid_sample_referred_resulted + hvl_sample_referred_resulted + hpv_sample_referred_resulted,
+		referral_result_received = eid_sample_referred_resulted + hvl_sample_referred_resulted + hpv_sample_referred_resulted,
 		sample_referred_rejected = eid_sample_referred_rejected + hvl_sample_referred_rejected + hpv_sample_referred_rejected;
 
 -- $END
