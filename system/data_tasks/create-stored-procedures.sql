@@ -1274,7 +1274,6 @@ DECLARE @quarter_period_pepfar NVARCHAR (255);
 DECLARE @quarter_period_calendar NVARCHAR (255);
 DECLARE @month_period NVARCHAR (255);
 DECLARE @month_number NVARCHAR (255);
---SET @BeginDate = CONVERT(DATE, DATEADD(MONTH, -4, GETDATE()));
 SET @BeginDate = '2025-04-01';
 SET @EndDate = DATEADD(DAY, -1, GETDATE());
 SET @DateCounter = @BeginDate;
@@ -3526,54 +3525,19 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     UPDATE
         st
     SET
-        st.clean_rejection_reason = 
+        clean_rejection_reason =
         CASE
-            WHEN 
-                st.rejection_reason IS NULL
-                OR st.rejection_reason = ''
-                THEN NULL
             WHEN
-                st.rejection_reason = 'BLOOD'
-                OR st.rejection_reason = 'Blood spots in contact each other'
-                OR st.rejection_reason = 'Old whole blood specimen with more than 24 hrs reaching the separation point'
-                OR st.rejection_reason LIKE '%Hemolysed%'
-                THEN  'Hemolysed sample'
-            WHEN
-                st.rejection_reason = 'Serum separation due to improper drying or collection'
-                OR st.rejection_reason = 'Clotted or layered blood spot'
-                OR st.rejection_reason = 'Clotted Sample'
-                OR st.rejection_reason LIKE '%clot%'
-                OR st.rejection_reason LIKE '%blood spot%'
-                THEN  'Clotted specimen'
-            WHEN
-                st.rejection_reason = 'Insufficient specimen as per specific SOP'
-                OR st.rejection_reason = 'Low volume'
-                OR st.rejection_reason = 'Sample did not fill the cycle in the DBS card'
-                OR st.rejection_reason LIKE '%insufficient sample or specimen%'
-                OR st.rejection_reason LIKE '%poor quality%'
-                THEN  'Insufficient sample (Low volume)'
-            WHEN
-                st.rejection_reason = 'Unlabelled or mislabelled specimen'
-                OR st.rejection_reason = 'Mismatched information on request form and specimen'
-                OR st.rejection_reason = 'Mismatched information between DBS card and laboratory test request form'
-                OR st.rejection_reason = 'Incompletely filled requisition form'
-                OR st.rejection_reason LIKE '%incomplete form or card%'
-                THEN  'Incomplete form'
-            WHEN
-                st.rejection_reason = 'old DBS card with more than 14 days of collection'
-                OR st.rejection_reason LIKE '%vacutainer%'
-                OR st.rejection_reason LIKE '%expired%'
-                OR st.rejection_reason LIKE '%more than days%'
-                THEN  'Expired vacutainer/DBS Card'
-            WHEN
-                st.rejection_reason = 'No humidity indicator'
-                OR st.rejection_reason = 'Indicating silica gel in the package'
-                THEN  'Improper packaging'
+                st.rejection_reason LIKE '%-%'
+            THEN
+                TRIM(SUBSTRING(st.rejection_reason, CHARINDEX('-', st.rejection_reason) + 1, LEN(st.rejection_reason)))
             ELSE
                 'Others'
-            END
+        END
     FROM
         [derived].fact_sample_testing st
+    WHERE
+        st.rejection_reason IS NOT NULL;
 
 -- $END
 
@@ -4246,21 +4210,11 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     UPDATE
         fs
     SET
-        fs.is_result_indeterminate = 
-            CASE
-                WHEN
-                    fs.is_tested = 1
-                    AND (
-                        ISNULL(fs.is_eid_sample_tested_positive,0) != 1
-                        OR ISNULL(fs.is_eid_sample_tested_negative,0) != 1
-                        OR ISNULL(fs.is_result_tnd,0) != 1
-                        OR ISNULL(fs.is_result_failed,0) != 1
-                    )
-                    THEN 1
-                ELSE 0
-            END
+        fs.is_result_indeterminate = 1
     FROM
-        derived.fact_sample_testing fs;
+        derived.fact_sample_testing fs
+    WHERE
+        LOWER(result) = 'indeterminate';
 
 -- $END
 

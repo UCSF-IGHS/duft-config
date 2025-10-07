@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError # type: ignore
 import sys
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
+from data_task_helpers import something
 from urllib.parse import quote_plus
 from data_task_helpers import something
 from services.dte_tools.data_task_tools import ( # type: ignore
@@ -307,7 +308,7 @@ def extract_and_insert_facility_data():
         log_message(f"Error inserting data: {e}")
         labvisualDB_conn.rollback()
         sys.stdout.flush()
-        sys.exit(1) 
+        sys.exit(1)
 extract_and_insert_facility_data()
 
 
