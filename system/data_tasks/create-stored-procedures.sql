@@ -3573,6 +3573,8 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
             END
     FROM
         [derived].fact_sample_testing st
+    WHERE
+        st.rejection_reason IS NOT NULL;
 
 -- $END
 

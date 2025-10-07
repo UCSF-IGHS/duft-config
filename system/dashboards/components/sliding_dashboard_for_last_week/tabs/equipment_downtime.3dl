@@ -21,6 +21,7 @@
             userOptions={{
                 chart: { id: 29 },
                 tooltip: { shared: true, style: { fontSize: "16px", fontWeight: 700 } },
+                yaxis: { title: { text: "Number of Samples" } },
                 dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
                 legend: { show: true, position: "bottom", fontSize: '16px', fontWeight: 700 },
                 xaxis: { title: { style: { fontSize: "16px", fontWeight: 600 } } },
