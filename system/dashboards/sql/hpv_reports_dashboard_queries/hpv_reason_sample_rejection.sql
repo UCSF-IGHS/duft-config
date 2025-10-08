@@ -11,6 +11,7 @@ WHERE
     AND dd.date <= $[end_date%d]
     AND fst.is_sample_rejected = 1
 		AND is_hpv_sample  = 1
+        AND is_valid_record = 1
 GROUP BY
     fst.rejection_reason
 ORDER BY
