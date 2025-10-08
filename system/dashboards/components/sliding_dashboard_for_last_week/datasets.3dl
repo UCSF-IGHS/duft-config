@@ -12,6 +12,11 @@
   />
 
   <SQLData
+    name="hvl_samples_referred_rejected_and_results_out_by_facility"
+    queryName="sliding_dashboard_queries_for_last_week/hvl_samples_referred_rejected_and_results_out_by_facility"
+  />
+
+  <SQLData
     name="hvl_samples_received_by_type"
     queryName="sliding_dashboard_queries_for_last_week/hvl_samples_received_by_type"
   />
@@ -94,6 +99,11 @@
   <SQLData 
     name="eid_samples_referred"
     queryName="sliding_dashboard_queries_for_last_week/eid_samples_referred"
+  />
+
+  <SQLData
+    name="eid_samples_referred_rejected_and_results_out_by_facility"
+    queryName="sliding_dashboard_queries_for_last_week/eid_samples_referred_rejected_and_results_out_by_facility"
   />
 
   <SQLData

@@ -22,6 +22,7 @@
                         header="HVL Reporting Form"
                         exportData="true"
                         expand="true"
+                        headerSize="large"
                     />
 
                     <Table
@@ -29,6 +30,7 @@
                         header="EID Reporting Form"
                         exportData="true"
                         expand="true"
+                        headerSize="large"
                     />
                 </Row>
             </PrefilteredDashboard>
