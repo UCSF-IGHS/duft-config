@@ -8,16 +8,18 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
+            headerSize="large"
             userOptions={{
                 chart: { id: 5 },
                 colors: ["#FFA500", "#008000"],
                 dataLabels: {
-                    enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] },
+                    enabled: true, background: { enabled: true, foreColor: "#000" }, 
+                    style: { colors: ["#fff"], fontSize: "16px", fontWeight: 700 },
                     offsetY: -10
                 },
-                legend: { show: true, position: "bottom" },
-                yaxis: { title: { text: "Number of Samples" } },
-                xaxis: { title: { text: "Weeks" } },
+                legend: { show: true, position: "bottom", fontSize: "16px", fontWeight: 700 },
+                yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
+                xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } },
                 markers: { size: 5, hover: { size: 7 } }
             }}
         />
@@ -30,13 +32,14 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
+            headerSize="large"
             userOptions={{
                 chart: { id: 6 },
                 colors: ["#008000", "#FFA500"],
-                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
-                legend: { show: true, position: "bottom" },
-                yaxis: { title: { text: "Number of Samples" } },
-                xaxis: { title: { text: "Weeks" } },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"], fontSize: "16px", fontWeight: 700 }, offsetY: -10 },
+                legend: { show: true, position: "bottom", fontSize: "16px", fontWeight: 700 },
+                yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
+                xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } },
                 markers: { size: 5, hover: { size: 7 } }
             }}
         />
@@ -51,12 +54,13 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
+            headerSize="large"
             userOptions={{
                 chart: { id: 7 },
-                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
-                legend: { show: true },
-                yaxis: { title: { text: "Number of Samples" } },
-                xaxis: { title: { text: "Weeks" } },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"], fontSize: "16px", fontWeight: 700 }, offsetY: -10 },
+                legend: { show: true, position: "bottom", fontSize: "16px", fontWeight: 700 },
+                yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
+                xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } },
                 markers: { size: 5, hover: { size: 5 } }
             }}
         />
@@ -69,12 +73,13 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
+            headerSize="large"
             userOptions={{
                 chart: { id: 8 },
-                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
-                legend: { show: true },
-                yaxis: { title: { text: "Number of Samples" } },
-                xaxis: { title: { text: "Weeks" } },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"], fontSize: "16px", fontWeight: 700 }, offsetY: -10 },
+                legend: { show: true, position: "bottom", fontSize: "16px", fontWeight: 700 },
+                yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
+                xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } },
                 markers: { size: 5, hover: { size: 5 } }
             }}
         />
