@@ -1,0 +1,13 @@
+<Dashboards>
+  
+  <Include file="components/hpv_reports_dashboard/datasets.3dl" />
+
+  <Dashboard data="" tabName="HPV" title="Human Papiloma Virus (HPV) - Overview of samples received, tested and authorized" subTitle="" lastRefresh="">
+    <Filters>
+      <DatePicker type="date" name="start_date" />
+      <DatePicker type="date" name="end_date" />
+    </Filters>
+    
+    <Include file="components/hpv_reports_dashboard/tabs/hpv.3dl" />
+  </Dashboard>
+</Dashboards>;
