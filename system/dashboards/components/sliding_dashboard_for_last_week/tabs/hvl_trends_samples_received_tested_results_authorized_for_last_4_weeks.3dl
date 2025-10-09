@@ -32,7 +32,7 @@
             detailsComponent="infinite-scroll-table"
             userOptions={{
                 chart: { id: 6 },
-                colors: ["#008000", "#FFA500"],
+                colors: ["#008000", "#FFA500","#3c00ffff" , "#ff0066ff"],
                 dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
                 legend: { show: true, position: "bottom" },
                 yaxis: { title: { text: "Number of Samples" } },
