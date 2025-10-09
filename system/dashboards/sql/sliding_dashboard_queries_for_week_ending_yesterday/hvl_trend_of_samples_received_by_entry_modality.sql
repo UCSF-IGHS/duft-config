@@ -2,7 +2,7 @@ SELECT
 	ca.category,
 	SUM(s.hvl_samples_received_by_entry_modality_lab) AS [Entered in the Lab],
 	SUM(s.hvl_samples_received_by_entry_modality_hub) AS [Entered in the Hub],
-	SUM(s.hvl_samples_received_by_entry_modality_ctc) AS [Entered from Ctc],
+	SUM(s.hvl_samples_received_by_entry_modality_ctc) AS [Entered from ctc],
 	SUM(s.hvl_samples_received_by_entry_modality_other) AS [Other]
 FROM
 	final.fact_daily_sample_summary s
