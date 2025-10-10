@@ -9,6 +9,7 @@ from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 from data_task_helpers import something
 from urllib.parse import quote_plus
+from data_task_helpers import something
 from services.dte_tools.data_task_tools import ( # type: ignore
     DataTaskEnvironment,
     get_resolved_parameters_for_connection,
@@ -63,8 +64,6 @@ labdashdb_conn = connect_to_tille_lab_db()
 
 # Function to create a connection to SQL Server
 def create_connection_to_sql_server(db_name):
-    password = quote_plus(db_params['password'])
-    db_params['password'] = password
     try:
         conn = pytds.connect(
             server=db_params["server"],
