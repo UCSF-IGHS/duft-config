@@ -60,6 +60,7 @@
             subHeader=""
             expand="true"
             exportData="true"
+            showEntries="true"
           />
     </Row>
   </PrefilteredDashboard>
