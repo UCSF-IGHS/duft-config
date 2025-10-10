@@ -6,16 +6,50 @@
         exportData="true"
         downloadVisual="true"
         expand="true"
+        headerSize="large"
         detailsComponent="infinite-scroll-table"
         header="Number of days from sample collection to authorization of results"
         subHeader=""
         userOptions={{
           chart: { id: 21 },
-          tooltip: { shared: true },
-          legend: { show: true, position: "bottom" },
-          dataLabels: { enabled: true },
-          yaxis: { title: { text: "Number of Samples" } },
-          xaxis: { title: { text: "Number of Days" } },
+          tooltip: {
+            shared: true,
+            style: {
+              fontSize: "16px",
+              fontWeight: 700
+            }
+          },
+          legend: {
+            show: true,
+            position: "bottom",
+            fontSize: '16px',
+            fontWeight: 700
+          },
+          dataLabels: {
+            enabled: true,
+            style: {
+              fontSize: "16px",
+              fontWeight: 700
+            }
+          },
+          yaxis: {
+            title: {
+              text: "Number of Samples",
+              style: {
+                fontSize: "16px",
+                fontWeight: 600
+              }
+            }
+          },
+          xaxis: {
+            title: {
+              text: "Number of Days",
+              style: {
+                fontSize: "16px",
+                fontWeight: 600
+              }
+            }
+          }
         }}
       />
 
@@ -24,16 +58,50 @@
         exportData="true"
         downloadVisual="true"
         expand="true"
+        headerSize="large"
         detailsComponent="infinite-scroll-table"
         header="Number of days from sample collection to lab reception"
         subHeader=""
         userOptions={{
           chart: { id: 22 },
-          tooltip: { shared: true },
-          legend: { show: true, position: "bottom" },
-          dataLabels: { enabled: true },
-          yaxis: { title: { text: "Number of Samples" } },
-          xaxis: { title: { text: "Number of Days" } },
+          tooltip: {
+            shared: true,
+            style: {
+              fontSize: "16px",
+              fontWeight: 700
+            }
+          },
+          legend: {
+            show: true,
+            position: "bottom",
+            fontSize: '16px',
+            fontWeight: 700
+          },
+          dataLabels: {
+            enabled: true,
+            style: {
+              fontSize: "16px",
+              fontWeight: 700
+            }
+          },
+          yaxis: {
+            title: {
+              text: "Number of Samples",
+              style: {
+                fontSize: "16px",
+                fontWeight: 600
+              }
+            }
+          },
+          xaxis: {
+            title: {
+              text: "Number of Days",
+              style: {
+                fontSize: "16px",
+                fontWeight: 600
+              }
+            }
+          }
         }}
       />
     </Row>
@@ -46,14 +114,48 @@
         exportData="true"
         downloadVisual="true"
         expand="true"
+        headerSize="large"
         detailsComponent="infinite-scroll-table"
         userOptions={{
           chart: { id: 23 },
-          tooltip: { shared: true },
-          legend: { show: true, position: "bottom" },
-          dataLabels: { enabled: true },
-          yaxis: { title: { text: "Number of Samples" } },
-          xaxis: { title: { text: "Number of Days" } },
+          tooltip: {
+            shared: true,
+            style: {
+              fontSize: "16px",
+              fontWeight: 700
+            }
+          },
+          legend: {
+            show: true,
+            position: "bottom",
+            fontSize: '16px',
+            fontWeight: 700
+          },
+          dataLabels: {
+            enabled: true,
+            style: {
+              fontSize: "16px",
+              fontWeight: 700
+            }
+          },
+          yaxis: {
+            title: {
+              text: "Number of Samples",
+              style: {
+                fontSize: "16px",
+                fontWeight: 600
+              }
+            }
+          },
+          xaxis: {
+            title: {
+              text: "Number of Days",
+              style: {
+                fontSize: "16px",
+                fontWeight: 600
+              }
+            }
+          }
         }}
       />
 
@@ -64,14 +166,48 @@
         exportData="true"
         downloadVisual="true"
         expand="true"
+        headerSize="large"
         detailsComponent="infinite-scroll-table"
         userOptions={{
           chart: { id: 24 },
-          tooltip: { shared: true },
-          legend: { show: true, position: "bottom" },
-          dataLabels: { enabled: true },
-          yaxis: { title: { text: "Number of Samples" } },
-          xaxis: { title: { text: "Number of Days" } },
+          tooltip: {
+            shared: true,
+            style: {
+              fontSize: "16px",
+              fontWeight: 700
+            }
+          },
+          legend: {
+            show: true,
+            position: "bottom",
+            fontSize: '16px',
+            fontWeight: 700
+          },
+          dataLabels: {
+            enabled: true,
+            style: {
+              fontSize: "16px",
+              fontWeight: 700
+            }
+          },
+          yaxis: {
+            title: {
+              text: "Number of Samples",
+              style: {
+                fontSize: "16px",
+                fontWeight: 600
+              }
+            }
+          },
+          xaxis: {
+            title: {
+              text: "Number of Days",
+              style: {
+                fontSize: "16px",
+                fontWeight: 600
+              }
+            }
+          }
         }}
       />
     </Row>

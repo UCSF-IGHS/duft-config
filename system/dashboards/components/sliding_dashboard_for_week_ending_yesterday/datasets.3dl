@@ -27,6 +27,11 @@
   />
 
   <SQLData
+    name="hvl_samples_referred_rejected_and_results_out_by_facility"
+    queryName="sliding_dashboard_queries_for_week_ending_yesterday/hvl_samples_referred_rejected_and_results_out_by_facility"
+  />
+
+  <SQLData
     name="hvl_trend_of_samples_received_by_sample_type"
     queryName="sliding_dashboard_queries_for_week_ending_yesterday/hvl_trend_of_samples_received_by_sample_type"
   />
@@ -109,6 +114,11 @@
   <SQLData 
     name="eid_samples_referred"
     queryName="sliding_dashboard_queries_for_week_ending_yesterday/eid_samples_referred"
+  />
+
+  <SQLData
+    name="eid_samples_referred_rejected_and_results_out_by_facility"
+    queryName="sliding_dashboard_queries_for_week_ending_yesterday/eid_samples_referred_rejected_and_results_out_by_facility"
   />
 
   <SQLData

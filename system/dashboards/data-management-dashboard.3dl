@@ -9,9 +9,6 @@
         subTitle="All Data Issues"
         lastRefresh=""
     >
-        <Row columns="1">
-            <Header small="true">All Samples with Data Related Issues</Header>
-        </Row>
 
         <Grid>
             <Row columns="1">
@@ -21,6 +18,7 @@
                     exportData="true"
                     expand="true"
                     showEntries="true"
+                    headerSize="large"
                 />
             </Row>
         </Grid>
@@ -37,10 +35,6 @@
             <Filter caption="Select Week" name="weekly_start_monday_period" data="week_data" />
         </Filters>
 
-        <Row columns="1">
-            <Header small="true">Samples Missing HFR Code</Header>
-        </Row>
-
         <Grid>
             <PrefilteredDashboard filters="weekly_start_monday_period">
                 <Row columns="1">
@@ -50,6 +44,7 @@
                         exportData="true"
                         expand="true"
                         showEntries="true"
+                        headerSize="large"
                     />
                 </Row>
             </PrefilteredDashboard>
@@ -67,10 +62,6 @@
             <Filter caption="Select Week" name="weekly_start_monday_period" data="week_data" />
         </Filters>
 
-        <Row columns="1">
-            <Header small="true">Samples that haven't specified whether they are HVL or EID</Header>
-        </Row>
-
         <Grid>
             <PrefilteredDashboard filters="weekly_start_monday_period">
                 <Row columns="1">
@@ -80,6 +71,7 @@
                         exportData="true"
                         expand="true"
                         showEntries="true"
+                        headerSize="large"
                     />
                 </Row>
             </PrefilteredDashboard>
@@ -94,10 +86,6 @@
         lastRefresh=""
     >
 
-        <Row columns="1">
-            <Header small="true">Samples Without a Collected Date or Received Date</Header>
-        </Row>
-
         <Grid>
             <Row columns="1">
                 <Table
@@ -106,6 +94,7 @@
                     exportData="true"
                     expand="true"
                     showEntries="true"
+                    headerSize="large"
                 />
             </Row>
         </Grid>
@@ -118,9 +107,6 @@
         subTitle="Earlier Received Date than Collected Date"
         lastRefresh=""
     >
-        <Row columns="1">
-            <Header small="true">Samples With Received Date earlier than the Collected Date</Header>
-        </Row>
 
         <Grid>
             <Row columns="1">
@@ -130,6 +116,7 @@
                     exportData="true"
                     expand="true"
                     showEntries="true"
+                    headerSize="large"
                 />
             </Row>
         </Grid>
@@ -146,10 +133,6 @@
             <Filter caption="Select Week" name="weekly_start_monday_period" data="week_data" />
         </Filters>
 
-        <Row columns="1">
-            <Header small="true">Samples with Authorized Date earlier than the Tested Date</Header>
-        </Row>
-
         <Grid>
             <PrefilteredDashboard filters="weekly_start_monday_period">
                 <Row columns="1">
@@ -159,6 +142,7 @@
                         exportData="true"
                         expand="true"
                         showEntries="true"
+                        headerSize="large"
                     />
                 </Row>
             </PrefilteredDashboard>
@@ -176,10 +160,6 @@
             <Filter caption="Select Week" name="weekly_start_monday_period" data="week_data" />
         </Filters>
 
-        <Row columns="1">
-            <Header small="true">Samples with Rejection Reasons but have Results</Header>
-        </Row>
-
         <Grid>
             <PrefilteredDashboard filters="weekly_start_monday_period">
                 <Row columns="1">
@@ -189,6 +169,7 @@
                         exportData="true"
                         expand="true"
                         showEntries="true"
+                        headerSize="large"
                     />
                 </Row>
             </PrefilteredDashboard>

@@ -7,17 +7,19 @@
             exportData="true"
             downloadVisual="true"
             expand="true"
+            headerSize="large"
             detailsComponent="infinite-scroll-table"
             userOptions={{
                 chart: { id: 1 },
-                dataLabels: { enabled: true },
+                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
                 colors: ["#008000", "#FFA500", "#FF0000"],
                 plotOptions: {
                     bar: {
                         distributed: false
                     }
                 },
-                yaxis: { title: { text: "Number of Samples" } }
+                yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 700 } } },
+                xaxis: { title: { style: { fontSize: "16px", fontWeight: 700 } } }
             }}
         />
 
@@ -28,17 +30,19 @@
             exportData="true"
             downloadVisual="true"
             expand="true"
+            headerSize="large"
             detailsComponent="infinite-scroll-table"
             userOptions={{
                 chart: { id: 2 },
-                dataLabels: { enabled: true },
+                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
                 colors: ['#008000'],
                 plotOptions: {
                     bar: {
                         distributed: false
                     }
                 },
-                yaxis: { title: { text: "Number of Samples" } }
+                yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 700 } } },
+                xaxis: { title: { style: { fontSize: "16px", fontWeight: 700 } } }
             }}
         />
 </Row>
@@ -50,12 +54,13 @@
             exportData="true"
             downloadVisual="true"
             expand="true"
+            headerSize="large"
             detailsComponent="infinite-scroll-table"
             userOptions={{
                 chart: { id: 3 },
                 colors: ["#008000", "#FF0000", "#FFA500"],
-                legend: { show: true, position: "bottom" },
-                dataLabels: { enabled: true, dropShadow: { enabled: false } }
+                legend: { show: true, position: "bottom", fontSize: '16px', fontWeight: 700 },
+                dataLabels: { enabled: true, dropShadow: { enabled: false }, style: { fontSize: "16px", fontWeight: 700 } }
             }}
         />
 
@@ -66,11 +71,12 @@
             exportData="true"
             downloadVisual="true"
             expand="true"
+            headerSize="large"
             detailsComponent="infinite-scroll-table"
             userOptions={{
                 chart: { id: 4 },
-                legend: { show: true, position: "bottom" },
-                dataLabels: { enabled: true, dropShadow: { enabled: false } }
+                legend: { show: true, position: "bottom", fontSize: '16px', fontWeight: 700 },
+                dataLabels: { enabled: true, dropShadow: { enabled: false }, style: { fontSize: "16px", fontWeight: 700 } }
             }}
         />
     </Row>

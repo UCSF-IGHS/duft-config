@@ -22,6 +22,7 @@
             subHeader=""
             expand="true"
             exportData="true"
+            headerSize="large"
           />
 
           <Table
@@ -30,6 +31,7 @@
             subHeader=""
             expand="true"
             exportData="true"
+            headerSize="large"
           />
         </Row>
       </PrefilteredDashboard>

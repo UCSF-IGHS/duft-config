@@ -8,10 +8,11 @@
             detailsComponent="infinite-scroll-table"
             header="HVL: Test outcomes for last week"
             subHeader=""
+            headerSize="large"
             userOptions={{
                 chart: { id: 13 },
-                legend: { show: true, position: "right" },
-                dataLabels: { enabled: true, dropShadow: { enabled: false } },
+                legend: { show: true, position: "right", fontSize: '16px', fontWeight: 700 },
+                dataLabels: { enabled: true, dropShadow: { enabled: false }, style: { fontSize: "16px", fontWeight: 700 } },
                 colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500", "#00BFFF"]
             }}
         />
@@ -24,12 +25,13 @@
             detailsComponent="infinite-scroll-table"
             header="HVL: Trend of invalid test results"
             subHeader=""
+            headerSize="large"
             userOptions={{
                 chart: { id: 14 },
-                legend: { show: true },
-                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
-                yaxis: { title: { text: "% of Samples" } },
-                xaxis: { title: { text: "Weeks" } },
+                legend: { show: true, style: { fontSize: "16px", fontWeight: 700 } },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"], fontSize: "16px", fontWeight: 700 }, offsetY: -10 },
+                yaxis: { title: { text: "% of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
+                xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } },
                 colors: ["#1e3799"],
                 markers: { size: 5, hover: { size: 7 } }
             }}
@@ -45,13 +47,14 @@
             detailsComponent="infinite-scroll-table"
             header="HVL: Trend of Sample Rejection Rate"
             subHeader=""
+            headerSize="large"
             userOptions={{
                 chart: { id: 15 },
-                legend: { show: true },
-                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"] }, offsetY: -10 },
+                legend: { show: true, style: { fontSize: "16px", fontWeight: 700 } },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"], fontSize: "16px", fontWeight: 700 }, offsetY: -10 },
                 markers: { size: 5, hover: { size: 7 } },
-                yaxis: { title: { text: "% of Samples" } },
-                xaxis: { title: { text: "Weeks" } },
+                yaxis: { title: { text: "% of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
+                xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } },
                 colors: ["#1e3799"]
             }}
         />
@@ -64,13 +67,14 @@
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
+            headerSize="large"
             userOptions={{
                 chart: { id: 16 },
-                dataLabels: { enabled: true },
+                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
                 plotOptions: { bar: { horizontal: true } },
-                legend: { show: true, position: "bottom" },
-                yaxis: { title: { text: "Week" } },
-                xaxis: { title: { text: "Number of Samples" } },
+                legend: { show: true, position: "bottom", fontSize: "16px", fontWeight: 700 },
+                yaxis: { title: { text: "Week", style: { fontSize: "16px", fontWeight: 600 } } },
+                xaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
                 tooltip: { shared: true },
                 stroke: { width: 2 }
             }}
