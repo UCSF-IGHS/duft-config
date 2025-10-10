@@ -3,7 +3,7 @@ SELECT
         df.region, df.council, fst.collected_date, fst.lab_received_date AS received_date,
         fst.rejection_reason 
 FROM [derived].fact_sample_testing fst 
-INNER JOIN [derived].dim_facility df on df.facility_id = fst.facility_id
+INNER JOIN [derived].dim_facility as df on df.facility_id = fst.facility_id
 WHERE is_sample_rejected = 1
     AND is_hvl_sample = 1
     AND lab_received_date >= $[start_date%d]
