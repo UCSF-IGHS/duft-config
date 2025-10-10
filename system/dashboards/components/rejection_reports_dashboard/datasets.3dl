@@ -8,6 +8,8 @@
     name="hvl_rejection_detailed_report"
     queryName="rejection_reports_dashboard_queries/hvl_rejection_detailed_report"
     filterFrom="start_date, end_date"
+    searchColumns="dim_facility.region, dim_facility.council, dim_facility.facility_name"
+    allowFutureDates="false"
   />
 
   <SQLData
@@ -20,5 +22,7 @@
     name="eid_rejection_detailed_report"
     queryName="rejection_reports_dashboard_queries/eid_rejection_detailed_report"
     filterFrom="start_date, end_date"
+    searchColumns="dim_facility.region, dim_facility.council, dim_facility.facility_name"
+    allowFutureDates="false"
   />
 </Datasets>

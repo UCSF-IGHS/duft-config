@@ -180,19 +180,6 @@ def fetch_source_data(engine: Engine) -> pd.DataFrame:
         AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
     UNION ALL
     SELECT 
-        testName,
-        CASE WHEN hubCode = testCenter THEN 'LAB' ELSE 'HUB' END AS metric_name,
-        COUNT(trackingID) AS metric_value,
-        CONCAT('Total ', testName, ' REGISTERED in ', 
-            CASE WHEN hubCode = testCenter THEN 'LAB' ELSE 'HUB' END) AS metric_description
-    FROM tbl_labtests
-    WHERE dateReceivedLab >= CURDATE() 
-        AND dateReceivedLab < CURDATE() + INTERVAL 1 DAY
-    GROUP BY 
-        testName,
-        CASE WHEN hubCode = testCenter THEN 'LAB' ELSE 'HUB' END
-    UNION ALL
-    SELECT 
 		testName, 
 		'Reffered',
 		SUM(referredDate >= CURDATE() AND referredDate < CURDATE() + INTERVAL 1 DAY),
