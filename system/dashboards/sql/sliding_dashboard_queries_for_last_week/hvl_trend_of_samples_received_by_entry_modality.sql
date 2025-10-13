@@ -1,7 +1,9 @@
 SELECT
 	d.weekly_start_monday_period AS category,
 	SUM(s.hvl_samples_received_by_entry_modality_lab) AS [Entered in the Lab],
-	SUM(s.hvl_samples_received_by_entry_modality_hub) AS [Entered in the Hub]
+	SUM(s.hvl_samples_received_by_entry_modality_hub) AS [Entered in the Hub],
+    SUM(s.hvl_samples_received_by_entry_modality_ctc) AS [Entered from ctc],
+    SUM(s.hvl_samples_received_by_entry_modality_other) AS [Other]
 FROM
 	final.fact_daily_sample_summary s
 INNER JOIN derived.dim_date d ON
