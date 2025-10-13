@@ -337,6 +337,7 @@ def extract_and_insert_sample_data():
             CASE dataFrom
                 WHEN 0 THEN 'lab'
                 WHEN 1 THEN 'hub'
+                WHEN 2 THEN 'ctc'
             END AS EntryModality
         FROM tbl_labtests
         WHERE sampleCollectionDate >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
