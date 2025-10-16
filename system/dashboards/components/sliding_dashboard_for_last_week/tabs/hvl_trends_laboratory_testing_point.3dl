@@ -1,6 +1,22 @@
 <Grid>
     <Row columns="2">
         <PieChart
+            data="hvl_test_supp_unsuppress"
+            exportData="true"
+            downloadVisual="true"
+            expand="true"
+            detailsComponent="infinite-scroll-table"
+            header="HVL: Suppressed and Unsuppressed Results"
+            subHeader=""
+            headerSize="large"
+            userOptions={{
+                chart: { id: 13 },
+                legend: { show: true, position: "right", fontSize: '16px', fontWeight: 700 },
+                dataLabels: { enabled: true, dropShadow: { enabled: false }, style: { fontSize: "16px", fontWeight: 700 } },
+                colors: ["#FF0000", "#94da94ff"]
+            }}
+        />
+    <PieChart
             data="hvl_test_outcomes"
             exportData="true"
             downloadVisual="true"
@@ -16,26 +32,7 @@
                 colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500", "#00BFFF"]
             }}
         />
-
-        <LineChart
-            data="hvl_trend_of_invalid_test_results"
-            exportData="true"
-            downloadVisual="true"
-            expand="true"
-            detailsComponent="infinite-scroll-table"
-            header="HVL: Trend of invalid test results"
-            subHeader=""
-            headerSize="large"
-            userOptions={{
-                chart: { id: 14 },
-                legend: { show: true, style: { fontSize: "16px", fontWeight: 700 } },
-                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"], fontSize: "16px", fontWeight: 700 }, offsetY: -10 },
-                yaxis: { title: { text: "% of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
-                xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } },
-                colors: ["#1e3799"],
-                markers: { size: 5, hover: { size: 7 } }
-            }}
-        />
+        
     </Row>
 
     <Row columns="2">
@@ -59,24 +56,23 @@
             }}
         />
 
-        <ClusteredBarChart
-            data="hvl_sample_aging"
-            header="HVL: Sample age for samples still in the lab at the end of reporting week"
-            subHeader=""
+        <LineChart
+            data="hvl_trend_of_invalid_test_results"
             exportData="true"
             downloadVisual="true"
             expand="true"
             detailsComponent="infinite-scroll-table"
+            header="HVL: Trend of invalid test results"
+            subHeader=""
             headerSize="large"
             userOptions={{
-                chart: { id: 16 },
-                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
-                plotOptions: { bar: { horizontal: true } },
-                legend: { show: true, position: "bottom", fontSize: "16px", fontWeight: 700 },
-                yaxis: { title: { text: "Week", style: { fontSize: "16px", fontWeight: 600 } } },
-                xaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
-                tooltip: { shared: true },
-                stroke: { width: 2 }
+                chart: { id: 14 },
+                legend: { show: true, style: { fontSize: "16px", fontWeight: 700 } },
+                dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"], fontSize: "16px", fontWeight: 700 }, offsetY: -10 },
+                yaxis: { title: { text: "% of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
+                xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } },
+                colors: ["#1e3799"],
+                markers: { size: 5, hover: { size: 7 } }
             }}
         />
     </Row>
