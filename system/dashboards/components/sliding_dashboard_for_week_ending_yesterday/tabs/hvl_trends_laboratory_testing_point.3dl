@@ -26,7 +26,7 @@
             subHeader=""
             headerSize="large"
             userOptions={{
-                chart: { id: 13 },
+                chart: { id: 14 },
                 legend: { show: true, position: "right", fontSize: "16px", fontWeight: 700 },
                 dataLabels: { enabled: true, dropShadow: { enabled: false }, style: { fontSize: "16px", fontWeight: 700 } },
                 colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500", "#00BFFF"],
@@ -67,7 +67,7 @@
             subHeader=""
             headerSize="large"
             userOptions={{
-                chart: { id: 14 },
+                chart: { id: 16 },
                 legend: { show: true, fontSize: "16px", fontWeight: 700 },
                 dataLabels: { enabled: true, background: { enabled: true, foreColor: "#000" }, style: { colors: ["#fff"], fontSize: "16px", fontWeight: 700 }, offsetY: -10 },
                 yaxis: { title: { text: "% of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
