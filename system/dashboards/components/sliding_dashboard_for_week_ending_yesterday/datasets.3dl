@@ -72,6 +72,11 @@
   />
 
   <SQLData
+    name="hvl_test_supp_unsuppress"
+    queryName="sliding_dashboard_queries_for_week_ending_yesterday/hvl_test_supp_unsuppress"
+  />
+
+   <SQLData
     name="hvl_test_outcomes"
     queryName="sliding_dashboard_queries_for_week_ending_yesterday/hvl_test_outcomes"
   />
