@@ -6,13 +6,9 @@ SELECT
 FROM
     [final].fact_daily_sample_summary s
     INNER JOIN [derived].dim_facility f ON s.hfr_id_for_HUB_sample_is_coming_from = f.hfr_code
-    INNER JOIN [derived].fact_sample_testing fst ON s.hfr_id_for_HUB_sample_is_coming_from = fst.[_hfr_id] 
 WHERE
-	fst.lab_received_date >= $[start_date%d]
-    AND fst.lab_received_date <= $[end_date%d]
-    AND fst.is_eid_sample = 1
-	AND fst.is_valid_record  = 1
-	AND fst.is_received  = 1
+	s.report_date >= $[start_date%d]
+    AND s.report_date <= $[end_date%d]
 GROUP BY
     TRIM(f.region),
     TRIM(f.council),
