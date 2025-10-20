@@ -38,32 +38,37 @@
         "icon": "dashboards-icon",
         "dashboards": [
           {
-            "title": "HVL & EID Report",
+            "title": "HVL & EID",
             "icon": "beaker-icon",
             "dashboard": "/dashboard/hvl-and-eid-reports-dashboard"
           },
           {
-            "title": "Sample Tracking Report",
+            "title": "Sample Received",
             "icon": "blood-sample-icon",
+            "dashboard": "/dashboard/sample-received-by-facility-reports-dashboard"
+          },
+          {
+            "title": "Sample Tracking",
+            "icon": "blood-icon",
             "dashboard": "/dashboard/sample-tracking-reports-dashboard"
           },
           {
-            "title": "TAT Report",
+            "title": "TAT",
             "icon": "trend-icon",
             "dashboard": "/dashboard/tat-reports-dashboard"
           },
           {
-            "title": "HPV Report",
-            "icon": "dashboard-icon",
+            "title": "HPV",
+            "icon": "virus-icon",
             "dashboard": "/dashboard/hpv-reports-dashboard"
           },
           {
-            "title": "Invalid Report",
+            "title": "Invalid",
             "icon": "circle-icon",
             "dashboard": "/dashboard/invalid-reports-dashboard"
           },
           {
-            "title": "Rejection Report",
+            "title": "Rejection",
             "icon": "ban-icon",
             "dashboard": "/dashboard/rejection-reports-dashboard"
           }
