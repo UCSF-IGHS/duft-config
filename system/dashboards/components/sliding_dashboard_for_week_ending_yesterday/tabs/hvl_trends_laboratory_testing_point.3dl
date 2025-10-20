@@ -25,11 +25,12 @@
             header="HVL: Test outcomes for the reporting week"
             subHeader=""
             headerSize="large"
+            useDarkText="true"
             userOptions={{
                 chart: { id: 14 },
                 legend: { show: true, position: "right", fontSize: "16px", fontWeight: 700 },
                 dataLabels: { enabled: true, dropShadow: { enabled: false }, style: { fontSize: "16px", fontWeight: 700 } },
-                colors: ["#008000", "#FFFF00", "#FF0000", "#FFA500", "#00BFFF"],
+                colors: ["#47D45A", "#D9F2D0", "#FF0000", "#4FA72E", "#FFC002"],
                 xaxis: { title: { style: { fontSize: "16px", fontWeight: 600 } } },
                 yaxis: { title: { style: { fontSize: "16px", fontWeight: 600 } } }
             }}
