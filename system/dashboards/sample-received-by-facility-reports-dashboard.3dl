@@ -19,7 +19,7 @@
                 <Row columns="1">
                     <Table
                         data="hvl_sample_received_by_facility_report_data"
-                        header="Sample Received By Facility Report for HVL Test Name"
+                        header="Sample Received By Facility - HVL"
                         subHeader=""
                         exportData="true"
                         expand="true"
@@ -48,7 +48,7 @@
                 <Row columns="1">
                     <Table
                         data="eid_sample_received_by_facility_report_data"
-                        header="Sample Received By Facility Report for EID Test Name"
+                        header="Sample Received By Facility - EID"
                         subHeader=""
                         exportData="true"
                         expand="true"

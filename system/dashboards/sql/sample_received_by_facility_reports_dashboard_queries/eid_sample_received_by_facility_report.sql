@@ -13,5 +13,7 @@ GROUP BY
     TRIM(f.region),
     TRIM(f.council),
     TRIM(f.facility_name)
+HAVING
+    SUM(s.eid_sample_dbs_received) <> 0
 ORDER BY
     Facility ASC;
