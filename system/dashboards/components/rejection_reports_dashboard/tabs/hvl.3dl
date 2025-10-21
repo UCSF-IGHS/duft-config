@@ -11,47 +11,31 @@
         subHeader=""
         headerSize="large"
         userOptions={{
-          chart: { id: 20 },
-          tooltip: {
-            shared: true,
-            style: {
-              fontSize: "16px",
-              fontWeight: 700
-            }
-          },
-          legend: {
-            show: true,
-            position: "bottom",
-            fontSize: '16px',
-            fontWeight: 700
-          },
-          dataLabels: {
-            enabled: true,
-            style: {
-              fontSize: "16px",
-              fontWeight: 700
-            }
-          },
-          yaxis: {
-            title: {
-              text: "Number of Samples",
-              style: {
+                chart: { id: 2 },
+                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 800 } },
+                colors: ['#008000'],
+                plotOptions: {
+                    bar: {
+                        distributed: false
+                    }
+                },
+                tooltip: {
+                shared: true,
+                style: {
                 fontSize: "16px",
-                fontWeight: 600
-              }
-            }
-          },
-          xaxis: {
-            title: {
-              text: "Rejection Reasons",
-              style: {
-                fontSize: "16px",
-                fontWeight: 600
-              }
-            }
-          }
-        }}
-      />
+                fontWeight: 700
+                      }
+                },
+                legend: {
+                show: true,
+                position: "bottom",
+                fontSize: '16px',
+                fontWeight: 700
+                },
+                yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 700 } } },
+                xaxis: { title: { text: "Rejection Reasons", style: { fontSize: "16px", fontWeight: 700 } } }
+            }}
+        />
     </Row>
     <Row columns="1">
      <Table
