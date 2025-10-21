@@ -1,0 +1,62 @@
+<Dashboards>
+
+    <Include file="components/sample_received_by_facility_reports_dashboard/datasets.3dl" />
+
+    <Dashboard
+        data="hvl_sample_received_by_facility_report_data"
+        tabName="HVL Received Report"
+        title=""
+        subTitle="HVL Received Report"
+        lastRefresh=""
+    >
+        <Filters>
+            <DatePicker type="date" name="start_date" />
+            <DatePicker type="date" name="end_date" />
+        </Filters>
+
+        <Grid>
+            <PrefilteredDashboard filters="start_date%d, end_date%d">
+                <Row columns="1">
+                    <Table
+                        data="hvl_sample_received_by_facility_report_data"
+                        header="Sample Received By Facility Report for HVL Test Name"
+                        subHeader=""
+                        exportData="true"
+                        expand="true"
+                        showEntries="true"
+                        headerSize="large"
+                    />
+                </Row>
+            </PrefilteredDashboard>
+        </Grid>
+    </Dashboard>
+
+    <Dashboard
+        data="eid_sample_received_by_facility_report_data"
+        tabName="EID Received Report"
+        title=""
+        subTitle="EID Received Report"
+        lastRefresh=""
+    >
+        <Filters>
+            <DatePicker type="date" name="start_date" />
+            <DatePicker type="date" name="end_date" />
+        </Filters>
+
+        <Grid>
+            <PrefilteredDashboard filters="start_date%d, end_date%d">
+                <Row columns="1">
+                    <Table
+                        data="eid_sample_received_by_facility_report_data"
+                        header="Sample Received By Facility Report for EID Test Name"
+                        subHeader=""
+                        exportData="true"
+                        expand="true"
+                        showEntries="true"
+                        headerSize="large"
+                    />
+                </Row>
+            </PrefilteredDashboard>
+        </Grid>
+    </Dashboard>
+</Dashboards>
