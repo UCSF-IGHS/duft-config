@@ -30,7 +30,7 @@
                 chart: { id: 14 },
                 legend: { show: true, position: "right", fontSize: '16px', fontWeight: 700 },
                 dataLabels: { enabled: true, dropShadow: { enabled: false }, style: { fontSize: "16px", fontWeight: 700 } },
-                colors: ["#47D45A", "#D9F2D0", "#FF0000", "#4FA72E", "#FFC002"]
+                colors: ["#47D45A", "#94da94ff", "#FF0000", "#4FA72E", "#FFC002"]
             }}
         />
         
