@@ -19,7 +19,7 @@
                 <Row columns="1">
                     <Table
                         data="hvl_sample_tracking_report_data"
-                        header="Sample Tracking Report for HVL Test Name"
+                        header="Sample Tracking Report - HVL"
                         subHeader=""
                         exportData="true"
                         expand="true"
@@ -48,7 +48,7 @@
                 <Row columns="1">
                     <Table
                         data="eid_sample_tracking_report_data"
-                        header="Sample Tracking Report for EID Test Name"
+                        header="Sample Tracking Report - EID"
                         subHeader=""
                         exportData="true"
                         expand="true"

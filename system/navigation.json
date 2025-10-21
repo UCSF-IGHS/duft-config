@@ -12,7 +12,7 @@
         "icon": "dashboards-icon",
         "dashboards": [
           {
-            "title": "Current Day",
+            "title": "Current day",
             "icon": "dashboard-icon",
             "dashboard": "/dashboard/home"
           },
@@ -43,12 +43,12 @@
             "dashboard": "/dashboard/hvl-and-eid-reports-dashboard"
           },
           {
-            "title": "Sample Received",
+            "title": "Sample received by facility",
             "icon": "blood-sample-icon",
             "dashboard": "/dashboard/sample-received-by-facility-reports-dashboard"
           },
           {
-            "title": "Sample Tracking",
+            "title": "Sample tracking",
             "icon": "blood-icon",
             "dashboard": "/dashboard/sample-tracking-reports-dashboard"
           },
@@ -92,7 +92,7 @@
         "prompt": "This task refreshes the data in the dashboards. Click Execute to proceed, Cancel to abort."
       },
       {
-        "title": "Update System",
+        "title": "Update system",
         "icon": "update-system-icon",
         "task": "LABVISUALS_DUFT_CONFIGS_REFRESH",
         "prompt": "This task updates the system configurations. Click Execute to proceed, Cancel to abort."
