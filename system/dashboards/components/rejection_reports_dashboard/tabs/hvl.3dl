@@ -11,7 +11,7 @@
         subHeader=""
         headerSize="large"
         userOptions={{
-                chart: { id: 2 },
+                chart: { id: 1 },
                 dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
                 colors: ['#008000'],
                 plotOptions: {
