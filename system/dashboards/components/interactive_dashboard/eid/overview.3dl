@@ -240,7 +240,7 @@
                 }
             />
 
-            <ClusteredBarChart
+            <StackedBarChart
                 data="eid_TAT_sample_collection_to_authorisation_data"
                 header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
                 subHeader=""
