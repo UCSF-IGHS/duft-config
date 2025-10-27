@@ -5,8 +5,8 @@ SELECT
     ROW_NUMBER() OVER (
         ORDER BY CASE
             WHEN unpvt.category = 'Sample Received' THEN 1
-            WHEN unpvt.category = 'Sample Tested' THEN 2
-            WHEN unpvt.category = 'Sample Rejected' THEN 3
+            WHEN unpvt.category = 'Sample Rejected' THEN 2
+            WHEN unpvt.category = 'Sample Tested' THEN 3
             WHEN unpvt.category = 'Sample Results Dispatched' THEN 4
         END
     ) AS sort_order
@@ -22,8 +22,8 @@ FROM (
             WHEN 'Sunday' THEN d.weekly_start_sunday_period
         END AS week_name,
         SUM(s.hvl_sample_received) AS [Sample Received],
+        SUM(s.hvl_sample_rejected) AS [Sample Rejected],
 		SUM(s.hvl_sample_tested) AS [Sample Tested],
-		SUM(s.hvl_sample_rejected) AS [Sample Rejected],
 		SUM(s.hvl_result_dispatched) AS [Sample Results Dispatched]
     FROM
         final.fact_daily_sample_summary s
@@ -45,8 +45,8 @@ FROM (
 UNPIVOT (
     value FOR category IN (
         [Sample Received], 
-        [Sample Tested], 
         [Sample Rejected], 
+        [Sample Tested],
         [Sample Results Dispatched]
     )
 ) AS unpvt
