@@ -1,6 +1,7 @@
 SELECT
 	d.weekly_start_monday_period AS category,
-	SUM(s.eid_sample_collected_and_authorised_date_less_or_equal_to_14_days) AS [<=14 days],
+	SUM(s.eid_sample_collected_and_authorised_date_in_less_or_equal_10_days) AS [<=10 days],
+	SUM(s.eid_sample_collected_and_authorised_date_between_11_to_14_days) AS [11 to 14 days],
 	SUM(s.eid_sample_collected_and_authorised_date_between_15_to_21_days) AS [15 to 21 days],
 	SUM(s.eid_sample_collected_and_authorised_date_greater_than_21_days) AS [>21 days]
 FROM
