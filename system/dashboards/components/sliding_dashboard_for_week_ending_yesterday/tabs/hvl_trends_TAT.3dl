@@ -1,6 +1,6 @@
 <Grid>
     <Row columns="2">
-        <StackedBarChart
+        <ClusteredBarChart
             data="hvl_TAT_collection_to_authorization"
             exportData="true"
             downloadVisual="true"
@@ -19,7 +19,7 @@
             }}
         />
 
-        <StackedBarChart
+        <ClusteredBarChart
             data="hvl_TAT_collection_to_received"
             exportData="true"
             downloadVisual="true"
@@ -40,7 +40,7 @@
     </Row>
 
     <Row columns="2">
-        <StackedBarChart
+        <ClusteredBarChart
             data="hvl_TAT_received_to_testing"
             header="For samples tested in the reporting week, the number of days from the sample received to the testing"
             SubHeader=""
@@ -59,7 +59,7 @@
             }}
         />
 
-        <StackedBarChart
+        <ClusteredBarChart
             data="hvl_TAT_received_to_authorization"
             exportData="true"
             downloadVisual="true"
