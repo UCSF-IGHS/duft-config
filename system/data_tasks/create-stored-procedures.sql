@@ -898,8 +898,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'z.z_unique_devices_create
     FROM
         [source].tbl_Sample
     WHERE
-        LEN(ISNULL(DeviceName,'')) > 0
-        AND ReferredDate IS NULL;
+        LEN(ISNULL(DeviceName,'')) > 0;
 
     INSERT INTO
         z.z_unique_device
@@ -1275,7 +1274,7 @@ DECLARE @quarter_period_pepfar NVARCHAR (255);
 DECLARE @quarter_period_calendar NVARCHAR (255);
 DECLARE @month_period NVARCHAR (255);
 DECLARE @month_number NVARCHAR (255);
-SET @BeginDate = '2018-01-01';
+SET @BeginDate = '2025-06-01';
 SET @EndDate = DATEADD(DAY, -1, GETDATE());
 SET @DateCounter = @BeginDate;
 WHILE @DateCounter <= @EndDate
@@ -3201,7 +3200,6 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
         is_received_and_authorised_between_6_to_10_days INT NULL,
         is_received_and_authorised_between_11_to_15_days INT NULL,
         is_received_and_authorised_in_greater_than_15_days INT NULL,
-        is_collected_and_authorised_date_less_or_equal_to_14_days INT NULL,
         is_collected_and_authorised_date_in_less_or_equal_10_days INT NULL,
         is_collected_and_authorised_date_between_11_to_14_days INT NULL,
         is_collected_and_authorised_date_between_15_to_21_days INT NULL,
@@ -5420,43 +5418,6 @@ GO
         
 
 -----------------------------------------------------------------------------------------------
--- sp_fact_sample_testing_update_is_collected_and_authorised_date_less_or_equal_to_14_days
---
-
-PRINT 'Creating derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_less_or_equal_to_14_days'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_less_or_equal_to_14_days AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_less_or_equal_to_14_days';
-
--- $BEGIN
-
-    UPDATE
-        fs
-    SET
-        fs.is_collected_and_authorised_date_less_or_equal_to_14_days =
-        CASE
-            WHEN
-                fs.days_between_collected_and_authorised <= 14
-                THEN 1
-            ELSE 0
-        END
-    FROM
-        derived.fact_sample_testing fs
-    WHERE
-        fs.days_between_collected_and_authorised IS NOT NULL;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_less_or_equal_to_14_days';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
 -- sp_fact_sample_testing_update_is_collected_and_authorised_date_between_11_to_14_days
 --
 
@@ -5791,7 +5752,6 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_sample_te
     EXEC derived.sp_fact_sample_testing_update_is_received_and_authorised_between_11_to_15_days;
     EXEC derived.sp_fact_sample_testing_update_is_received_and_authorised_in_greater_than_15_days;
     EXEC derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_in_less_or_equal_10_days;
-    EXEC derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_less_or_equal_to_14_days;
     EXEC derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_11_to_14_days;
     EXEC derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_between_15_to_21_days;
     EXEC derived.sp_fact_sample_testing_update_is_collected_and_authorised_date_greater_than_21_days;
@@ -6204,10 +6164,12 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         eid_sample_received_and_authorised_date_between_6_to_10_days INT NULL DEFAULT 0,
         eid_sample_received_and_authorised_date_between_11_to_15_days INT NULL DEFAULT 0,
         eid_sample_received_and_authorised_date_greater_than_15_days INT NULL DEFAULT 0,
-        hvl_sample_collected_and_authorised_date_less_or_equal_to_14_days INT NULL DEFAULT 0,
+        hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days INT NULL DEFAULT 0,
+        hvl_sample_collected_and_authorised_date_between_11_to_14_days INT NULL DEFAULT 0,
         hvl_sample_collected_and_authorised_date_between_15_to_21_days INT NULL DEFAULT 0,
         hvl_sample_collected_and_authorised_date_greater_than_21_days INT NULL DEFAULT 0,
-        eid_sample_collected_and_authorised_date_less_or_equal_to_14_days INT NULL DEFAULT 0,
+        eid_sample_collected_and_authorised_date_in_less_or_equal_10_days INT NULL DEFAULT 0,
+        eid_sample_collected_and_authorised_date_between_11_to_14_days INT NULL DEFAULT 0,
         eid_sample_collected_and_authorised_date_between_15_to_21_days INT NULL DEFAULT 0,
         eid_sample_collected_and_authorised_date_greater_than_21_days INT NULL DEFAULT 0,
         hvl_sample_received_and_tested_date_in_less_or_equal_5_days INT NULL DEFAULT 0,
@@ -6682,10 +6644,12 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_accepted ELSE 0 END) AS hvl_result_accepted,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_accepted ELSE 0 END) AS eid_result_accepted,
             SUM(CASE WHEN is_hpv_sample = 1 THEN is_accepted ELSE 0 END) AS hpv_result_accepted,
-            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_less_or_equal_to_14_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_less_or_equal_to_14_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_in_less_or_equal_10_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days,
+            SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_between_11_to_14_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_between_11_to_14_days,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_between_15_to_21_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_between_15_to_21_days,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_collected_and_authorised_date_greater_than_21_days ELSE 0 END) AS hvl_sample_collected_and_authorised_date_greater_than_21_days,
-            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_authorised_date_less_or_equal_to_14_days ELSE 0 END) AS eid_sample_collected_and_authorised_date_less_or_equal_to_14_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_authorised_date_in_less_or_equal_10_days ELSE 0 END) AS eid_sample_collected_and_authorised_date_in_less_or_equal_10_days,
+            SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_authorised_date_between_11_to_14_days ELSE 0 END) AS eid_sample_collected_and_authorised_date_between_11_to_14_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_authorised_date_between_15_to_21_days ELSE 0 END) AS eid_sample_collected_and_authorised_date_between_15_to_21_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_authorised_date_greater_than_21_days ELSE 0 END) AS eid_sample_collected_and_authorised_date_greater_than_21_days,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_received_and_authorised_in_less_or_equal_5_days ELSE 0 END) AS hvl_sample_received_and_authorised_date_in_less_or_equal_5_days,
@@ -6726,10 +6690,12 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         target.hvl_result_accepted = ISNULL(source.hvl_result_accepted, 0),
         target.eid_result_accepted = ISNULL(source.eid_result_accepted, 0),
         target.hpv_result_accepted = ISNULL(source.hpv_result_accepted, 0),
-        target.hvl_sample_collected_and_authorised_date_less_or_equal_to_14_days = ISNULL(source.hvl_sample_collected_and_authorised_date_less_or_equal_to_14_days, 0),
+        target.hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days = ISNULL(source.hvl_sample_collected_and_authorised_date_in_less_or_equal_10_days, 0),
+        target.hvl_sample_collected_and_authorised_date_between_11_to_14_days = ISNULL(source.hvl_sample_collected_and_authorised_date_between_11_to_14_days, 0),
         target.hvl_sample_collected_and_authorised_date_between_15_to_21_days = ISNULL(source.hvl_sample_collected_and_authorised_date_between_15_to_21_days, 0),
         target.hvl_sample_collected_and_authorised_date_greater_than_21_days = ISNULL(source.hvl_sample_collected_and_authorised_date_greater_than_21_days, 0),
-        target.eid_sample_collected_and_authorised_date_less_or_equal_to_14_days = ISNULL(source.eid_sample_collected_and_authorised_date_less_or_equal_to_14_days, 0),
+        target.eid_sample_collected_and_authorised_date_in_less_or_equal_10_days = ISNULL(source.eid_sample_collected_and_authorised_date_in_less_or_equal_10_days, 0),
+        target.eid_sample_collected_and_authorised_date_between_11_to_14_days = ISNULL(source.eid_sample_collected_and_authorised_date_between_11_to_14_days, 0),
         target.eid_sample_collected_and_authorised_date_between_15_to_21_days = ISNULL(source.eid_sample_collected_and_authorised_date_between_15_to_21_days, 0),
         target.eid_sample_collected_and_authorised_date_greater_than_21_days = ISNULL(source.eid_sample_collected_and_authorised_date_greater_than_21_days, 0),
         target.hvl_sample_received_and_authorised_date_in_less_or_equal_5_days = ISNULL(source.hvl_sample_received_and_authorised_date_in_less_or_equal_5_days, 0),
