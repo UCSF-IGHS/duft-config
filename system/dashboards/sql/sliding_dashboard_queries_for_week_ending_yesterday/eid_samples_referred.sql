@@ -5,8 +5,8 @@ SELECT
     ROW_NUMBER() OVER (
         ORDER BY CASE
             WHEN unpvt.category = 'Received Samples' THEN 1
-            WHEN unpvt.category = 'Referred Samples' THEN 2
-            WHEN unpvt.category = 'Results Out' THEN 3
+            WHEN unpvt.category = 'Tested Samples' THEN 2
+            WHEN unpvt.category = 'Referred Samples' THEN 3
         END
     ) AS sort_order
 FROM (
@@ -20,9 +20,9 @@ FROM (
             WHEN 'Saturday' THEN d.weekly_start_saturday_period
             WHEN 'Sunday' THEN d.weekly_start_sunday_period
         END AS week_name,
-        SUM(s.eid_sample_dbs_received) AS [Received Samples],
-	    SUM(s.eid_sample_referred) AS [Referred Samples],
-        SUM(s.eid_sample_referred_resulted) AS [Results Out]
+		SUM(s.eid_sample_dbs_received) AS [Received Samples],
+		SUM(s.eid_sample_tested) AS [Tested Samples],
+	    SUM(s.eid_sample_referred) AS [Referred Samples]
     FROM
         final.fact_daily_sample_summary s
     INNER JOIN derived.dim_date d ON s.report_date = d.date
@@ -43,8 +43,8 @@ FROM (
 UNPIVOT (
     value FOR category IN (
         [Received Samples], 
-        [Referred Samples], 
-        [Results Out]
+        [Tested Samples], 
+        [Referred Samples]
     )
 ) AS unpvt
 ORDER BY
