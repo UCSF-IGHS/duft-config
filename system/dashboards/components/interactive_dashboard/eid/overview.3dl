@@ -47,18 +47,6 @@
                             fontSize: '16px', 
                             fontWeight: 700 
                         },
-                        dataLabels: {
-                            enabled: true,
-                            total: {
-                                enabled: true,
-                                style: {
-                                    fontSize: "16px",
-                                    fontWeight: 700,
-                                    fontColor: "#fff"
-                                },
-                                offsetX: 10
-                            }
-                        },
                         yaxis: {
                             title: {
                                 text: "Number of Samples",
@@ -119,18 +107,6 @@
                             position: "bottom",
                             fontSize: '16px', 
                             fontWeight: 700 
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            total: {
-                                enabled: true,
-                                style: {
-                                    fontSize: "16px",
-                                    fontWeight: 700,
-                                    fontColor: "#fff"
-                                },
-                                offsetX: 10
-                            }
                         },
                         yaxis: {
                             title: {
@@ -194,18 +170,6 @@
                             fontSize: '16px', 
                             fontWeight: 700 
                         },
-                        dataLabels: {
-                            enabled: true,
-                            total: {
-                                enabled: true,
-                                style: {
-                                    fontSize: "16px",
-                                    fontWeight: 700,
-                                    fontColor: "#fff"
-                                },
-                                offsetX: 10
-                            }
-                        },
                         yaxis: {
                             title: {
                                 text: "Number of Samples",
@@ -265,18 +229,6 @@
                             position: "bottom",
                             fontSize: '16px', 
                             fontWeight: 700
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            total: {
-                                enabled: true,
-                                style: {
-                                    fontSize: "16px",
-                                    fontWeight: 700,
-                                    fontColor: "#fff"
-                                },
-                                offsetX: 10
-                            }
                         },
                         yaxis: {
                             title: {
