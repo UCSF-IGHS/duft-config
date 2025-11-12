@@ -1,13 +1,33 @@
 <Dashboards>
-  
   <Include file="components/hpv_reports_dashboard/datasets.3dl" />
 
-  <Dashboard data="" tabName="HPV" title="Human Papiloma Virus (HPV) - Overview of samples received, tested and authorized" subTitle="" lastRefresh="">
+  <Dashboard
+    data=""
+    tabName="Overview"
+    title="Human Papiloma Virus (HPV) - Overview of samples received, tested and authorized"
+    subTitle=""
+    lastRefresh=""
+  >
     <Filters>
       <DatePicker type="date" name="start_date" />
       <DatePicker type="date" name="end_date" />
     </Filters>
-    
-    <Include file="components/hpv_reports_dashboard/tabs/hpv.3dl" />
+
+    <Include file="components/hpv_reports_dashboard/tabs/hpv-overview.3dl" />
+  </Dashboard>
+
+  <Dashboard
+    data=""
+    tabName="Report Table"
+    title=""
+    subTitle="Report Table"
+    lastRefresh=""
+  >
+    <Filters>
+      <DatePicker type="date" name="start_date" />
+      <DatePicker type="date" name="end_date" />
+    </Filters>
+
+    <Include file="components/hpv_reports_dashboard/tabs/hpv-report-table.3dl" />
   </Dashboard>
 </Dashboards>;

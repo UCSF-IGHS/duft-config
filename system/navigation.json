@@ -8,7 +8,7 @@
     "header": "",
     "items": [
       {
-        "title": "Sliding Dashboard",
+        "title": "Sliding",
         "icon": "dashboards-icon",
         "dashboards": [
           {
@@ -29,7 +29,7 @@
         ]
       },
       {
-        "title": "Interactive Dashboard",
+        "title": "Interactive",
         "icon": "chartline-icon",
         "dashboard": "/dashboard/interactive-dashboard"
       },
