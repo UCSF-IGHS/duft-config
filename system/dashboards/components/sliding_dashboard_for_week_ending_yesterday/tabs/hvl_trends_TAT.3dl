@@ -13,7 +13,6 @@
                 chart: { id: 9 },
                 tooltip: { shared: true, style: { fontSize: "16px", fontWeight: 700 } },
                 legend: { show: true, position: "bottom", fontSize: "16px", fontWeight: 700 },
-                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
                 yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
                 xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } }
             }}
@@ -32,7 +31,6 @@
                 chart: { id: 11 },
                 tooltip: { shared: true, style: { fontSize: "16px", fontWeight: 700 } },
                 legend: { show: true, position: "bottom", fontSize: "16px", fontWeight: 700 },
-                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
                 yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
                 xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } }
             }}
@@ -53,7 +51,6 @@
                 chart: { id: 12 },
                 tooltip: { shared: true, style: { fontSize: "16px", fontWeight: 700 } },
                 legend: { show: true, position: "bottom", fontSize: "16px", fontWeight: 700 },
-                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
                 yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
                 xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } }
             }}
@@ -72,7 +69,6 @@
                 chart: { id: 10 },
                 tooltip: { shared: true, style: { fontSize: "16px", fontWeight: 700 } },
                 legend: { show: true, position: "bottom", fontSize: "16px", fontWeight: 700 },
-                dataLabels: { enabled: true, style: { fontSize: "16px", fontWeight: 700 } },
                 yaxis: { title: { text: "Number of Samples", style: { fontSize: "16px", fontWeight: 600 } } },
                 xaxis: { title: { text: "Weeks", style: { fontSize: "16px", fontWeight: 600 } } }
             }}

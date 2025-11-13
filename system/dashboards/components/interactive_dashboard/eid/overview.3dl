@@ -21,7 +21,7 @@
         </Row>
 
         <Row columns="2">
-            <StackedBarChart
+            <ClusteredBarChart
                 data="sample_test_outcome_data"
                 header="Sample Test Outcome for EID"
                 subHeader=""
@@ -46,18 +46,6 @@
                             position: "bottom",
                             fontSize: '16px', 
                             fontWeight: 700 
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            total: {
-                                enabled: true,
-                                style: {
-                                    fontSize: "16px",
-                                    fontWeight: 700,
-                                    fontColor: "#fff"
-                                },
-                                offsetX: 10
-                            }
                         },
                         yaxis: {
                             title: {
@@ -94,7 +82,7 @@
                 }
             />
 
-            <StackedBarChart
+            <ClusteredBarChart
                 data="eid_TAT_sample_collection_to_lab_reception_data"
                 header="For Samples received in the reporting week, number of days from the sample collection to lab reception"
                 subHeader=""
@@ -119,18 +107,6 @@
                             position: "bottom",
                             fontSize: '16px', 
                             fontWeight: 700 
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            total: {
-                                enabled: true,
-                                style: {
-                                    fontSize: "16px",
-                                    fontWeight: 700,
-                                    fontColor: "#fff"
-                                },
-                                offsetX: 10
-                            }
                         },
                         yaxis: {
                             title: {
@@ -168,7 +144,7 @@
         </Row>
 
         <Row columns="2">
-            <StackedBarChart
+            <ClusteredBarChart
                 data="eid_TAT_sample_received_to_authorised_data"
                 header="For Samples received in the reporting week, number of days from receipt of sample to authorization of results"
                 subHeader=""
@@ -193,18 +169,6 @@
                             position: "bottom",
                             fontSize: '16px', 
                             fontWeight: 700 
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            total: {
-                                enabled: true,
-                                style: {
-                                    fontSize: "16px",
-                                    fontWeight: 700,
-                                    fontColor: "#fff"
-                                },
-                                offsetX: 10
-                            }
                         },
                         yaxis: {
                             title: {
@@ -240,7 +204,7 @@
                 }
             />
 
-            <StackedBarChart
+            <ClusteredBarChart
                 data="eid_TAT_sample_collection_to_authorisation_data"
                 header="For Samples received in the reporting week, number of days from sample collection to authorization of results"
                 subHeader=""
@@ -265,18 +229,6 @@
                             position: "bottom",
                             fontSize: '16px', 
                             fontWeight: 700
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            total: {
-                                enabled: true,
-                                style: {
-                                    fontSize: "16px",
-                                    fontWeight: 700,
-                                    fontColor: "#fff"
-                                },
-                                offsetX: 10
-                            }
                         },
                         yaxis: {
                             title: {
