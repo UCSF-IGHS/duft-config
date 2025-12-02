@@ -19,13 +19,4 @@
 
     <Include file="components/tat_reports_dashboard/tabs/eid.3dl" />
   </Dashboard>
-
-    <Dashboard data="" tabName="HPV" title="" subTitle="HPV" lastRefresh="">
-    <Filters>
-      <DatePicker type="date" name="start_date" />
-      <DatePicker type="date" name="end_date" />
-    </Filters>
-
-    <Include file="components/tat_reports_dashboard/tabs/hpv.3dl" />
-  </Dashboard>
 </Dashboards>;
