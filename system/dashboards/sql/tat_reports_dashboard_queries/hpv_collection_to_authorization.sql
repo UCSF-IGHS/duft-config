@@ -3,7 +3,7 @@ SELECT
     SUM(sample_count) AS value
 FROM
 (
-    SELECT 1 AS sort_order,'<=14 days' AS tat_category, SUM(s.hpv_sample_collected_and_authorised_date_less_or_equal_to_14_days)
+    SELECT 1 AS sort_order,'<=14 days' AS tat_category, SUM(s.hpv_sample_collected_and_authorised_date_less_or_equal_to_14_days) AS sample_count
     FROM final.fact_daily_sample_summary s
     WHERE s.report_date >= $[start_date%d]
       AND s.report_date <= $[end_date%d]
