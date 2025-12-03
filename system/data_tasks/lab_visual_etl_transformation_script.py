@@ -128,6 +128,15 @@ def create_tables():
             END
         """,
         """
+            IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'tbl_device' AND schema_id = SCHEMA_ID('source'))
+            BEGIN
+                CREATE TABLE source.tbl_device (
+                    device_name NVARCHAR(50),
+                    device_capacity INT
+                );
+            END
+        """,
+        """
             IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'tbl_Device_Logs' AND schema_id = SCHEMA_ID('source'))
             BEGIN
                 CREATE TABLE source.tbl_Device_Logs (
@@ -310,6 +319,61 @@ def extract_and_insert_facility_data():
         sys.stdout.flush()
         sys.exit(1)
 extract_and_insert_facility_data()
+
+
+# Function to extract and insert device data
+def extract_and_insert_lab_facility_data():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    lab_facilities_masterlist = os.path.join(script_dir, "lab_facilities.xlsx")
+
+    if not os.path.exists(lab_facilities_masterlist):
+        log_message(f"Excel file '{lab_facilities_masterlist}' not found.")
+        return  # stop execution if file not found
+        
+    # Load Excel data
+    df_excel = pd.read_excel(lab_facilities_masterlist)
+    df_excel.rename(
+    columns={
+        "Machine Capacity 24HRS (Test)": "DeviceCapacity",
+    },
+    inplace=True,
+)
+    df_excel = df_excel[['Device', 'DeviceCapacity']]
+    # Drop rows where ANY column is empty or NaN
+    df_excel = df_excel.dropna(subset=['Device', 'DeviceCapacity'])
+
+    # Also remove rows where values are empty strings ("")
+    df_excel = df_excel[(df_excel['Device'].astype(str).str.strip() != '') &
+                        (df_excel['DeviceCapacity'].astype(str).str.strip() != '')]
+
+    # Remove duplicates
+    df_excel = df_excel.drop_duplicates()
+
+    insert_query = """
+        INSERT INTO source.tbl_device (device_name, device_capacity)
+        VALUES (%s, %s);
+    """
+    insert_count = 0
+
+    try:
+        for _, row in df_excel.iterrows():
+            labvisualDB_cursor.execute(
+                insert_query,
+                (
+                    row['Device'],
+                    row['DeviceCapacity']
+                )
+            )
+            insert_count += 1
+        labvisualDB_conn.commit()
+        if insert_count > 0:
+            log_message(f"{insert_count} rows inserted into tbl_device.")
+    except Exception as e:
+        log_message(f"Error inserting data: {e}")
+        labvisualDB_conn.rollback()
+        sys.stdout.flush()
+        sys.exit(1)
+extract_and_insert_lab_facility_data()
 
 
 # Function to extract and insert samples data

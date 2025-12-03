@@ -1,0 +1,16 @@
+<Grid>
+  <PrefilteredDashboard filters="start_date%d, end_date%d">
+    <Row columns="1">
+    </Row>
+    <Row columns="1">
+     <Table
+            data="eid_machine_detailed_report"
+            header="EID MACHINE UTILIZATION"
+            subHeader=""
+            expand="true"
+            exportData="true"
+            showEntries="true"
+          />
+    </Row>
+  </PrefilteredDashboard>
+</Grid>;
