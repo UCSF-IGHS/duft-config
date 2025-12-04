@@ -1,0 +1,17 @@
+<Datasets>
+  
+   <SQLData
+    name="hvl_machine_detailed_report"
+    queryName="machine_reports_dashboard_queries/hvl_machine_detailed_report"
+    filterFrom="start_date, end_date"
+    allowFutureDates="false"
+  />
+
+  <SQLData
+    name="eid_machine_detailed_report"
+    queryName="machine_reports_dashboard_queries/eid_machine_detailed_report"
+    filterFrom="start_date, end_date"
+    allowFutureDates="false"
+  />
+
+</Datasets>

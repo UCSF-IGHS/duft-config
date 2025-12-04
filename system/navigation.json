@@ -8,7 +8,7 @@
     "header": "",
     "items": [
       {
-        "title": "Sliding Dashboard",
+        "title": "Sliding",
         "icon": "dashboards-icon",
         "dashboards": [
           {
@@ -29,7 +29,7 @@
         ]
       },
       {
-        "title": "Interactive Dashboard",
+        "title": "Interactive",
         "icon": "chartline-icon",
         "dashboard": "/dashboard/interactive-dashboard"
       },
@@ -71,6 +71,11 @@
             "title": "Rejection",
             "icon": "ban-icon",
             "dashboard": "/dashboard/rejection-reports-dashboard"
+          },
+          {
+            "title": "Machine Utilization",
+            "icon": "ban-icon",
+            "dashboard": "/dashboard/machine-utilization-dashboard"
           }
         ]
       },

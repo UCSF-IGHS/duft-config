@@ -253,9 +253,14 @@ def refresh_metrics(metrics: pd.DataFrame, conn: Connection) -> None:
             VALUES (%s, %s, %s, %s, GETDATE(), GETDATE())
         """
         values = [
-                (row.metric_type, row.metric_name, int(row.metric_value or 0), row.metric_description)
-                for row in metrics.itertuples(index=False)
-            ]
+                 (
+                    row.metric_type,
+                    row.metric_name,
+                    int(0 if pd.isna(row.metric_value) else row.metric_value),
+                    row.metric_description,
+                )
+            for row in metrics.itertuples(index=False)
+        ]
         cursor.executemany(insert_sql, values)
     conn.commit()
     log_message(f"Inserted {len(metrics)} fresh metrics into todays_lab_analysis")
