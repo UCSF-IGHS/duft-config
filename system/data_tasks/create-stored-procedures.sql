@@ -1274,7 +1274,7 @@ DECLARE @quarter_period_pepfar NVARCHAR (255);
 DECLARE @quarter_period_calendar NVARCHAR (255);
 DECLARE @month_period NVARCHAR (255);
 DECLARE @month_number NVARCHAR (255);
-SET @BeginDate = '2025-06-01';
+SET @BeginDate = '2025-07-01';
 SET @EndDate = DATEADD(DAY, -1, GETDATE());
 SET @DateCounter = @BeginDate;
 WHILE @DateCounter <= @EndDate
@@ -2155,7 +2155,8 @@ CREATE TABLE derived.dim_device(
     device_name NVARCHAR(255) NULL,
     source NVARCHAR(255) NULL,
     is_hvl_device INT NULL,
-    is_eid_device INT NULL
+    is_eid_device INT NULL,
+    device_capacity INT NULL,
 );
 
 -- $END
@@ -2239,7 +2240,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_device_upd
      WITH cte_test_name AS (
         SELECT 
             DISTINCT 
-            REPLACE(UPPER(DeviceName), ' ','') device_name
+            DeviceName AS device_name
         FROM 
             [source].tbl_Sample
         WHERE 
@@ -2258,7 +2259,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_device_upd
     FROM
         derived.dim_device AS dd
     LEFT JOIN 
-        cte_test_name AS ts ON dd.device_name = ts.device_name 
+        cte_test_name AS ts ON dd.original_device_name = ts.device_name 
 
 -- $END
 
@@ -2284,7 +2285,7 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_device_upd
     WITH cte_test_name AS (
         SELECT 
             DISTINCT 
-            REPLACE(UPPER(DeviceName), ' ','') device_name
+            DeviceName AS device_name
         FROM 
             [source].tbl_Sample
         WHERE 
@@ -2302,11 +2303,40 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_device_upd
     FROM
         derived.dim_device AS dd
     LEFT JOIN 
-        cte_test_name AS ts ON dd.device_name = ts.device_name 
+        cte_test_name AS ts ON dd.original_device_name = ts.device_name 
 
 -- $END
 
 EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_dim_device_update_is_eid_device';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_dim_device_update_device_capactiy
+--
+
+PRINT 'Creating derived.sp_dim_device_update_device_capactiy'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_dim_device_update_device_capactiy AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_dim_device_update_device_capactiy';
+
+-- $BEGIN
+    UPDATE dd
+    SET 
+        dd.device_capacity = td.device_capacity
+    FROM 
+        derived.dim_device AS dd
+    LEFT JOIN 
+        source.tbl_device AS td ON REPLACE(LOWER(dd.original_device_name), ' ', '') =REPLACE(LOWER(td.device_name), ' ', '')
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_dim_device_update_device_capactiy';
 
 END
 GO
@@ -2330,6 +2360,7 @@ EXEC derived.sp_dim_device_create;
 EXEC derived.sp_dim_device_insert;
 EXEC derived.sp_dim_device_update_is_hvl_device;
 EXEC derived.sp_dim_device_update_is_eid_device;
+EXEC derived.sp_dim_device_update_device_capactiy;
 
 -- $END
 
@@ -2707,405 +2738,6 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_com
 -- $END 
 
 EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_commodity_status';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_device_status_create
---
-
-PRINT 'Creating derived.sp_fact_daily_device_status_create'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_create AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_create';
-
--- $BEGIN
-
-    CREATE TABLE derived.fact_daily_device_status(
-        device_daily_status_id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
-        report_date DATE NOT NULL,
-        device_id UNIQUEIDENTIFIER NOT NULL,
-        has_been_broken INT NULL,
-        has_been_fixed INT NULL,
-        is_broken INT NULL,
-        days_since_broken INT NULL,
-        number_of_days_before_fixed INT NULL,
-        is_active INT NOT NULL DEFAULT 0,
-        breakdown_reason NVARCHAR(255) NULL,
-        last_date_active DATE NULL
-    );
-
-    ALTER TABLE derived.fact_daily_device_status ADD CONSTRAINT fk_derived_fact_daily_device_status FOREIGN KEY (device_id) REFERENCES derived.dim_device(device_id);
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_create';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_device_status_insert
---
-
-PRINT 'Creating derived.sp_fact_daily_device_status_insert'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_insert AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_insert';
-
--- $BEGIN
-
-    INSERT INTO derived.fact_daily_device_status
-    (
-        report_date,
-		device_id
-    )
-	SELECT 
-		dd.date,
-		dv.device_id  
-	FROM 
-		derived.dim_date dd 
-	CROSS JOIN 
-		derived.dim_device dv 
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_insert';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_device_status_update_breakdown_reason
---
-
-PRINT 'Creating derived.sp_fact_daily_device_status_update_breakdown_reason'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_breakdown_reason AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_breakdown_reason';
-
--- $BEGIN
-
-    UPDATE 
-        ds
-    SET
-        ds.breakdown_reason = dl.break_down_reason
-    FROM
-        [derived].fact_daily_device_status AS ds
-    LEFT JOIN 
-        [derived].dim_device dd ON ds.device_id = dd.device_id
-    LEFT JOIN 
-        z.z_unique_device_logs AS dl ON dl.device_name = dd.device_name
-            AND ds.report_date >= dl.date_broken_down
-            AND (ds.report_date < dl.date_fixed 
-                OR dl.date_fixed IS NULL
-            )
-    WHERE
-        ds.is_broken = 1 
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_breakdown_reason';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_device_status_update_days_since_broken
---
-
-PRINT 'Creating derived.sp_fact_daily_device_status_update_days_since_broken'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_days_since_broken AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_days_since_broken';
-
--- $BEGIN
-
-    UPDATE 
-        fd 
-    SET
-        days_since_broken = DATEDIFF(DAY, last_date_active, report_date)
-    FROM
-        [derived].fact_daily_device_status fd
-    WHERE
-	    fd.is_broken = 1;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_days_since_broken';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_device_status_update_has_been_broken
---
-
-PRINT 'Creating derived.sp_fact_daily_device_status_update_has_been_broken'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_has_been_broken AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_has_been_broken';
-
--- $BEGIN
-
-    UPDATE 
-            ds
-        SET
-            ds.has_been_broken = 1
-    FROM
-        [derived].fact_daily_device_status AS ds
-    INNER JOIN 
-        [derived].dim_device dd ON ds.device_id = dd.device_id
-    INNER JOIN 
-        z.z_unique_device_logs AS dl ON dl.device_name = dd.device_name
-            AND dl.date_broken_down = ds.report_date;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_has_been_broken';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_device_status_update_has_been_fixed
---
-
-PRINT 'Creating derived.sp_fact_daily_device_status_update_has_been_fixed'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_has_been_fixed AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_has_been_fixed';
-
--- $BEGIN
-
-    UPDATE 
-        ds 
-    SET
-        has_been_fixed = 1
-    FROM
-        [derived].fact_daily_device_status AS ds
-    INNER JOIN 
-        [derived].dim_device dd ON ds.device_id = dd.device_id
-    INNER JOIN 
-        z.z_unique_device_logs AS dl ON dl.device_name = dd.device_name  
-            AND dl.date_fixed = ds.report_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_has_been_fixed';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_device_status_update_is_broken
---
-
-PRINT 'Creating derived.sp_fact_daily_device_status_update_is_broken'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_is_broken AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_is_broken';
-
--- $BEGIN
-
-    UPDATE 
-        ds 
-    SET 
-        is_broken =
-        CASE
-            WHEN 
-                ds.report_date >= dl.date_broken_down
-                AND (ds.report_date < dl.date_fixed
-                OR dl.date_fixed IS NULL )
-            THEN 1
-            WHEN 
-                ds.report_date >= dl.date_fixed
-            THEN 0
-            ELSE 
-                NULL
-        END
-    FROM 
-        [derived].fact_daily_device_status AS ds
-    LEFT JOIN 
-        [derived].dim_device AS dd ON ds.device_id = dd.device_id
-    LEFT JOIN 
-        z.z_unique_device_logs AS dl ON dl.device_name = dd.device_name
-            AND ds.report_date >= dl.date_broken_down
-    WHERE
-        ds.has_been_fixed IS NULL
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_is_broken';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_device_status_update_number_of_days_before_fixed
---
-
-PRINT 'Creating derived.sp_fact_daily_device_status_update_number_of_days_before_fixed'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_number_of_days_before_fixed AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_number_of_days_before_fixed';
-
--- $BEGIN
-
-    UPDATE 
-        ds 
-    SET 
-        number_of_days_before_fixed = 
-        DATEDIFF(DAY, dl.date_broken_down, dl.date_fixed)
-    FROM 
-        [derived].fact_daily_device_status AS ds
-    LEFT JOIN 
-        [derived].dim_device AS dd ON ds.device_id = dd.device_id
-    LEFT JOIN 
-        z.z_unique_device_logs AS dl ON dl.device_name = dd.device_name
-    WHERE 
-        dl.date_fixed = ds.report_date
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_number_of_days_before_fixed';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_device_status_update_is_active
---
-
-PRINT 'Creating derived.sp_fact_daily_device_status_update_is_active'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_is_active AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_is_active';
-
--- $BEGIN
-
-    UPDATE 
-        ds
-    SET 
-        ds.is_active = 
-            CASE 
-                WHEN 
-                    is_broken IS NULL 
-                    OR is_broken = 0
-                THEN  1
-                ELSE  0
-            END
-    FROM
-        [derived].fact_daily_device_status ds
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_is_active';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_device_status_update_last_date_active
---
-
-PRINT 'Creating derived.sp_fact_daily_device_status_update_last_date_active'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_last_date_active AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_last_date_active';
-
--- $BEGIN
-
-    UPDATE 
-        ds
-    SET
-        ds.last_date_active = CONVERT(DATE, zt.date_broken_down)
-    FROM 
-        [derived].fact_daily_device_status ds
-    LEFT JOIN 
-        [derived].dim_device dd ON ds.device_id = dd.device_id
-    LEFT JOIN 
-        z.z_unique_device_logs AS zt ON zt.device_name = dd.device_name 
-    WHERE
-        ds.report_date BETWEEN CONVERT(DATE, zt.date_broken_down) AND CONVERT(DATE, zt.date_fixed)
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_last_date_active';
-
-END
-GO
-        
-
------------------------------------------------------------------------------------------------
--- sp_fact_daily_device_status
---
-
-PRINT 'Creating derived.sp_fact_daily_device_status'
-GO
-
-CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status AS
-BEGIN
-
-EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status';
-
--- $BEGIN
-
-    EXEC derived.sp_fact_daily_device_status_create;
-    EXEC derived.sp_fact_daily_device_status_insert;
-    EXEC derived.sp_fact_daily_device_status_update_has_been_broken;
-    EXEC derived.sp_fact_daily_device_status_update_has_been_fixed;
-    EXEC derived.sp_fact_daily_device_status_update_is_broken;
-    EXEC derived.sp_fact_daily_device_status_update_number_of_days_before_fixed;
-    EXEC derived.sp_fact_daily_device_status_update_is_active;
-    EXEC derived.sp_fact_daily_device_status_update_days_since_broken;
-    EXEC derived.sp_fact_daily_device_status_update_breakdown_reason;
-    EXEC derived.sp_fact_daily_device_status_update_last_date_active;
-
--- $END
-
-EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status';
 
 END
 GO
@@ -5769,6 +5401,605 @@ GO
         
 
 -----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_create
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_create'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_create AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_create';
+
+-- $BEGIN
+
+    CREATE TABLE derived.fact_daily_device_status(
+        device_daily_status_id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+        report_date DATE NOT NULL,
+        device_id UNIQUEIDENTIFIER NOT NULL,
+        has_been_broken INT NULL,
+        has_been_fixed INT NULL,
+        is_broken INT NULL,
+        days_since_broken INT NULL,
+        number_of_days_before_fixed INT NULL,
+        is_active INT NOT NULL DEFAULT 0,
+        breakdown_reason NVARCHAR(255) NULL,
+        last_date_active DATE NULL,
+        hvl_samples_tested INT NULL,
+        eid_samples_tested INT NULL,
+        hvl_utilization_percent FLOAT NULL,
+        eid_utilization_percent FLOAT NULL,
+        hvl_samples_pending INT NULL,
+        eid_samples_pending INT NULL,
+    );
+
+    ALTER TABLE derived.fact_daily_device_status ADD CONSTRAINT fk_derived_fact_daily_device_status FOREIGN KEY (device_id) REFERENCES derived.dim_device(device_id);
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_create';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_insert
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_insert'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_insert AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_insert';
+
+-- $BEGIN
+
+    INSERT INTO derived.fact_daily_device_status
+    (
+        report_date,
+		device_id
+    )
+	SELECT 
+		dd.date,
+		dv.device_id  
+	FROM 
+		derived.dim_date dd 
+	CROSS JOIN 
+		derived.dim_device dv 
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_insert';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_update_breakdown_reason
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_update_breakdown_reason'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_breakdown_reason AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_breakdown_reason';
+
+-- $BEGIN
+
+    UPDATE 
+        ds
+    SET
+        ds.breakdown_reason = dl.break_down_reason
+    FROM
+        [derived].fact_daily_device_status AS ds
+    LEFT JOIN 
+        [derived].dim_device dd ON ds.device_id = dd.device_id
+    LEFT JOIN 
+        z.z_unique_device_logs AS dl ON dl.device_name = dd.device_name
+            AND ds.report_date >= dl.date_broken_down
+            AND (ds.report_date < dl.date_fixed 
+                OR dl.date_fixed IS NULL
+            )
+    WHERE
+        ds.is_broken = 1 
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_breakdown_reason';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_update_days_since_broken
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_update_days_since_broken'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_days_since_broken AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_days_since_broken';
+
+-- $BEGIN
+
+    UPDATE 
+        fd 
+    SET
+        days_since_broken = DATEDIFF(DAY, last_date_active, report_date)
+    FROM
+        [derived].fact_daily_device_status fd
+    WHERE
+	    fd.is_broken = 1;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_days_since_broken';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_update_has_been_broken
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_update_has_been_broken'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_has_been_broken AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_has_been_broken';
+
+-- $BEGIN
+
+    UPDATE 
+            ds
+        SET
+            ds.has_been_broken = 1
+    FROM
+        [derived].fact_daily_device_status AS ds
+    INNER JOIN 
+        [derived].dim_device dd ON ds.device_id = dd.device_id
+    INNER JOIN 
+        z.z_unique_device_logs AS dl ON dl.device_name = dd.device_name
+            AND dl.date_broken_down = ds.report_date;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_has_been_broken';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_update_has_been_fixed
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_update_has_been_fixed'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_has_been_fixed AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_has_been_fixed';
+
+-- $BEGIN
+
+    UPDATE 
+        ds 
+    SET
+        has_been_fixed = 1
+    FROM
+        [derived].fact_daily_device_status AS ds
+    INNER JOIN 
+        [derived].dim_device dd ON ds.device_id = dd.device_id
+    INNER JOIN 
+        z.z_unique_device_logs AS dl ON dl.device_name = dd.device_name  
+            AND dl.date_fixed = ds.report_date
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_has_been_fixed';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_update_is_broken
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_update_is_broken'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_is_broken AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_is_broken';
+
+-- $BEGIN
+
+    UPDATE 
+        ds 
+    SET 
+        is_broken =
+        CASE
+            WHEN 
+                ds.report_date >= dl.date_broken_down
+                AND (ds.report_date < dl.date_fixed
+                OR dl.date_fixed IS NULL )
+            THEN 1
+            WHEN 
+                ds.report_date >= dl.date_fixed
+            THEN 0
+            ELSE 
+                NULL
+        END
+    FROM 
+        [derived].fact_daily_device_status AS ds
+    LEFT JOIN 
+        [derived].dim_device AS dd ON ds.device_id = dd.device_id
+    LEFT JOIN 
+        z.z_unique_device_logs AS dl ON dl.device_name = dd.device_name
+            AND ds.report_date >= dl.date_broken_down
+    WHERE
+        ds.has_been_fixed IS NULL
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_is_broken';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_update_number_of_days_before_fixed
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_update_number_of_days_before_fixed'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_number_of_days_before_fixed AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_number_of_days_before_fixed';
+
+-- $BEGIN
+
+    UPDATE 
+        ds 
+    SET 
+        number_of_days_before_fixed = 
+        DATEDIFF(DAY, dl.date_broken_down, dl.date_fixed)
+    FROM 
+        [derived].fact_daily_device_status AS ds
+    LEFT JOIN 
+        [derived].dim_device AS dd ON ds.device_id = dd.device_id
+    LEFT JOIN 
+        z.z_unique_device_logs AS dl ON dl.device_name = dd.device_name
+    WHERE 
+        dl.date_fixed = ds.report_date
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_number_of_days_before_fixed';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_update_is_active
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_update_is_active'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_is_active AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_is_active';
+
+-- $BEGIN
+
+    UPDATE 
+        ds
+    SET 
+        ds.is_active = 
+            CASE 
+                WHEN 
+                    is_broken IS NULL 
+                    OR is_broken = 0
+                THEN  1
+                ELSE  0
+            END
+    FROM
+        [derived].fact_daily_device_status ds
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_is_active';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_update_last_date_active
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_update_last_date_active'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_last_date_active AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_last_date_active';
+
+-- $BEGIN
+
+    UPDATE 
+        ds
+    SET
+        ds.last_date_active = CONVERT(DATE, zt.date_broken_down)
+    FROM 
+        [derived].fact_daily_device_status ds
+    LEFT JOIN 
+        [derived].dim_device dd ON ds.device_id = dd.device_id
+    LEFT JOIN 
+        z.z_unique_device_logs AS zt ON zt.device_name = dd.device_name 
+    WHERE
+        ds.report_date BETWEEN CONVERT(DATE, zt.date_broken_down) AND CONVERT(DATE, zt.date_fixed)
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_last_date_active';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_update_samples_tested
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_update_samples_tested'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_samples_tested AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_samples_tested';
+
+-- $BEGIN
+    WITH samples_tested AS (
+        SELECT 
+            fst.tested_date,
+            fst.device_id,
+            SUM(
+                CASE 
+                    WHEN
+                        fst.is_hvl_sample = 1
+                        AND fst.is_valid_record = 1 
+                    THEN fst.is_tested 
+                    ELSE 0 
+                END
+            ) AS hvl_tested,
+            SUM(
+                CASE 
+                    WHEN
+                        fst.is_eid_sample = 1
+                        AND fst.is_valid_record = 1
+                    THEN fst.is_tested 
+                    ELSE 0
+                END
+            ) AS eid_tested
+        FROM
+            derived.fact_sample_testing fst
+        WHERE
+            fst.is_referred = 0
+            AND fst.tested_date IS NOT NULL
+        GROUP BY
+            fst.tested_date,
+            fst.device_id
+    )
+    UPDATE 
+        ds
+    SET
+        ds.hvl_samples_tested= st.hvl_tested,
+        ds.eid_samples_tested =st.eid_tested
+    FROM
+        [derived].fact_daily_device_status AS ds
+    LEFT JOIN 
+        samples_tested st
+        ON ds.device_id = st.device_id
+        AND ds.report_date =st.tested_date
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_samples_tested';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_update_samples_pending
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_update_samples_pending'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_samples_pending AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_samples_pending';
+
+-- $BEGIN
+
+    WITH backlog AS (
+        SELECT 
+            dd.date,
+            COUNT(
+                CASE
+                    WHEN fst.is_hvl_sample = 1
+                        AND fst.is_sample_rejected = 0
+                        AND fst.lab_received_date <= dd.date
+                        AND (
+                            fst.tested_date IS NULL 
+                            OR fst.tested_date > dd.date
+                            )
+                        AND (
+                            fst.referred_date IS NULL 
+                            OR fst.referred_date > dd.date
+                            )
+                        AND fst.is_valid_record = 1
+                    THEN fst.sample_tracking_id
+                END
+            ) AS hvl_backlog,
+            COUNT(
+                CASE
+                    WHEN fst.is_eid_sample = 1
+                        AND fst.is_sample_rejected = 0
+                        AND fst.lab_received_date <= dd.date
+                        AND (
+                            fst.tested_date IS NULL 
+                            OR fst.tested_date > dd.date
+                            )
+                        AND (
+                            fst.referred_date IS NULL
+                            OR fst.referred_date > dd.date
+                            )
+                        AND fst.is_valid_record = 1
+                    THEN fst.sample_tracking_id
+                END
+            ) AS eid_backlog
+
+        FROM
+            derived.dim_date dd
+        CROSS JOIN
+            derived.fact_sample_testing fst
+        GROUP BY
+            dd.date
+    )
+
+    UPDATE 
+        ds
+    SET
+        ds.hvl_samples_pending = b.hvl_backlog,
+        ds.eid_samples_pending =b.eid_backlog
+    FROM
+        [derived].fact_daily_device_status AS ds
+    LEFT JOIN 
+        backlog b ON ds.report_date = b.[date]
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_samples_pending';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status_update_device_utilization_percent
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status_update_device_utilization_percent'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status_update_device_utilization_percent AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status_update_device_utilization_percent';
+
+-- $BEGIN
+
+    UPDATE ds
+    SET
+        ds.hvl_utilization_percent =
+            CASE 
+                WHEN ds.hvl_samples_tested IS NOT NULL
+                THEN ROUND(
+                        (CAST(ds.hvl_samples_tested AS FLOAT) / CAST(dd.device_capacity AS FLOAT)) * 100,
+                        2
+                    )
+                ELSE 0.0
+            END,
+        ds.eid_utilization_percent =
+            CASE 
+                WHEN ds.eid_samples_tested IS NOT NULL
+                THEN ROUND(
+                    (CAST(ds.eid_samples_tested AS FLOAT) / CAST(dd.device_capacity AS FLOAT)) * 100, 
+                    2
+                )
+                ELSE 0.0
+            END
+    FROM
+        derived.fact_daily_device_status ds
+    LEFT JOIN
+        derived.dim_device dd ON ds.device_id = dd.device_id
+    WHERE 
+        dd.device_capacity IS NOT NULL
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status_update_device_utilization_percent';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
+-- sp_fact_daily_device_status
+--
+
+PRINT 'Creating derived.sp_fact_daily_device_status'
+GO
+
+CREATE OR ALTER PROCEDURE derived.sp_fact_daily_device_status AS
+BEGIN
+
+EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'derived.sp_fact_daily_device_status';
+
+-- $BEGIN
+
+    EXEC derived.sp_fact_daily_device_status_create;
+    EXEC derived.sp_fact_daily_device_status_insert;
+    EXEC derived.sp_fact_daily_device_status_update_has_been_broken;
+    EXEC derived.sp_fact_daily_device_status_update_has_been_fixed;
+    EXEC derived.sp_fact_daily_device_status_update_is_broken;
+    EXEC derived.sp_fact_daily_device_status_update_number_of_days_before_fixed;
+    EXEC derived.sp_fact_daily_device_status_update_is_active;
+    EXEC derived.sp_fact_daily_device_status_update_days_since_broken;
+    EXEC derived.sp_fact_daily_device_status_update_breakdown_reason;
+    EXEC derived.sp_fact_daily_device_status_update_last_date_active;
+    EXEC derived.sp_fact_daily_device_status_update_samples_pending;
+    EXEC derived.sp_fact_daily_device_status_update_samples_tested;
+    EXEC derived.sp_fact_daily_device_status_update_device_utilization_percent;
+
+-- $END
+
+EXEC dbo.sp_etl_tracking_update_end_of_sp_execution 'derived.sp_fact_daily_device_status';
+
+END
+GO
+        
+
+-----------------------------------------------------------------------------------------------
 -- sp_fact_sample_daily_status_create
 --
 
@@ -5924,8 +6155,8 @@ EXEC derived.sp_dim_date;
 EXEC derived.sp_dim_commodity;
 EXEC derived.sp_dim_device;
 EXEC derived.sp_fact_daily_commodity_status;
-EXEC derived.sp_fact_daily_device_status;
 EXEC derived.sp_fact_sample_testing;
+EXEC derived.sp_fact_daily_device_status;
 EXEC derived.sp_fact_sample_daily_status;
 
 -- $END
@@ -6180,6 +6411,21 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         eid_sample_received_and_tested_date_between_6_to_10_days INT NULL DEFAULT 0,
         eid_sample_received_and_tested_date_between_11_to_15_days INT NULL DEFAULT 0,
         eid_sample_received_and_tested_date_greater_than_15_days INT NULL DEFAULT 0,
+        hpv_sample_collected_and_authorised_date_less_or_equal_to_14_days INT NULL DEFAULT 0,
+        hpv_sample_collected_and_authorised_date_between_15_to_21_days INT NULL DEFAULT 0,
+        hpv_sample_collected_and_authorised_date_greater_than_21_days INT NULL DEFAULT 0,
+        hpv_sample_collected_and_received_date_in_less_or_equal_5_days INT NULL DEFAULT 0,
+        hpv_sample_collected_and_received_date_between_6_to_10_days INT NULL DEFAULT 0,
+        hpv_sample_collected_and_received_date_between_11_to_15_days INT NULL DEFAULT 0,
+        hpv_sample_collected_and_received_date_greater_than_15_days INT NULL DEFAULT 0,
+        hpv_sample_received_and_tested_date_in_less_or_equal_5_days INT NULL DEFAULT 0,
+        hpv_sample_received_and_tested_date_between_6_to_10_days INT NULL DEFAULT 0,
+        hpv_sample_received_and_tested_date_between_11_to_15_days INT NULL DEFAULT 0,
+        hpv_sample_received_and_tested_date_greater_than_15_days INT NULL DEFAULT 0,
+        hpv_sample_received_and_authorised_date_in_less_or_equal_5_days INT NULL DEFAULT 0,
+        hpv_sample_received_and_authorised_date_between_6_to_10_days INT NULL DEFAULT 0,
+        hpv_sample_received_and_authorised_date_between_11_to_15_days INT NULL DEFAULT 0,
+        hpv_sample_received_and_authorised_date_greater_than_15_days INT NULL DEFAULT 0,
         hvl_sample_plasma_rejected INT NULL DEFAULT 0,
         hvl_sample_wholeblood_rejected INT NULL DEFAULT 0,
         hvl_sample_plasma_tested INT NULL DEFAULT 0,
@@ -6327,6 +6573,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_greater_than_21_days_aging ELSE 0 END) AS hvl_samples_aging_is_greater_than_21_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_greater_than_7_days_and_less_than_or_equal_to_14_days_aging ELSE 0 END) AS eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_greater_than_14_days_and_less_than_or_equal_to_21_days_aging ELSE 0 END) AS eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_and_tested_date_in_less_or_equal_5_days ELSE 0 END) AS hpv_sample_received_and_tested_date_in_less_or_equal_5_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_and_tested_date_between_6_to_10_days ELSE 0 END) AS hpv_sample_received_and_tested_date_between_6_to_10_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_and_tested_date_between_11_to_15_days ELSE 0 END) AS hpv_sample_received_and_tested_date_between_11_to_15_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_and_tested_date_greater_than_15_days ELSE 0 END) AS hpv_sample_received_and_tested_date_greater_than_15_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_greater_than_21_days_aging ELSE 0 END) AS eid_samples_greater_than_21_days_aging,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_less_than_or_equal_to_7_days_aging ELSE 0 END) AS hvl_samples_aging_is_less_than_or_equal_to_7_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_less_than_or_equal_to_7_days_aging ELSE 0 END) AS eid_samples_aging_less_than_or_equal_to_7_days_aging
@@ -6368,6 +6618,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             target.eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging = ISNULL(source.eid_samples_aging_greater_than_7_days_and_less_than_or_equal_to_14_days_aging, 0),
             target.eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging = ISNULL(source.eid_samples_aging_greater_than_14_days_and_less_than_or_equal_to_21_days_aging, 0),
             target.eid_samples_greater_than_21_days_aging = ISNULL(source.eid_samples_greater_than_21_days_aging, 0),
+            target.hpv_sample_received_and_tested_date_in_less_or_equal_5_days = ISNULL(source.hpv_sample_received_and_tested_date_in_less_or_equal_5_days, 0),
+            target.hpv_sample_received_and_tested_date_between_6_to_10_days = ISNULL(source.hpv_sample_received_and_tested_date_between_6_to_10_days, 0),
+            target.hpv_sample_received_and_tested_date_between_11_to_15_days = ISNULL(source.hpv_sample_received_and_tested_date_between_11_to_15_days, 0),
+            target.hpv_sample_received_and_tested_date_greater_than_15_days = ISNULL(source.hpv_sample_received_and_tested_date_greater_than_15_days, 0),
             target.hvl_samples_aging_is_less_than_or_equal_to_7_days = ISNULL(source.hvl_samples_aging_is_less_than_or_equal_to_7_days, 0),
             target.eid_samples_aging_less_than_or_equal_to_7_days_aging = ISNULL(source.eid_samples_aging_less_than_or_equal_to_7_days_aging, 0)
         FROM
@@ -6434,6 +6688,10 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_received_between_6_to_10_days ELSE 0 END) AS eid_sample_collected_and_received_date_between_6_to_10_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_received_between_11_to_15_days ELSE 0 END) AS eid_sample_collected_and_received_date_between_11_to_15_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_collected_and_received_in_greater_than_15_days ELSE 0 END) AS eid_sample_collected_and_received_date_greater_than_15_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_collected_and_received_in_less_or_equal_5_days ELSE 0 END) AS hpv_sample_collected_and_received_date_in_less_or_equal_5_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_collected_and_received_between_6_to_10_days ELSE 0 END) AS hpv_sample_collected_and_received_date_between_6_to_10_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_collected_and_received_between_11_to_15_days ELSE 0 END) AS hpv_sample_collected_and_received_date_between_11_to_15_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_collected_and_received_in_greater_than_15_days ELSE 0 END) AS hpv_sample_collected_and_received_date_greater_than_15_days,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_sample_rejected ELSE 0 END) AS hvl_sample_rejected,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_sample_rejected ELSE 0 END) AS eid_sample_rejected,
             SUM(CASE WHEN is_hpv_sample = 1 THEN is_sample_rejected ELSE 0 END) AS hpv_sample_rejected
@@ -6481,7 +6739,11 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         target.eid_sample_collected_and_received_date_in_less_or_equal_5_days = ISNULL(source.eid_sample_collected_and_received_date_in_less_or_equal_5_days, 0),
         target.eid_sample_collected_and_received_date_between_6_to_10_days = ISNULL(source.eid_sample_collected_and_received_date_between_6_to_10_days, 0),
         target.eid_sample_collected_and_received_date_between_11_to_15_days = ISNULL(source.eid_sample_collected_and_received_date_between_11_to_15_days, 0),
-        target.eid_sample_collected_and_received_date_greater_than_15_days = ISNULL(source.eid_sample_collected_and_received_date_greater_than_15_days, 0)
+        target.eid_sample_collected_and_received_date_greater_than_15_days = ISNULL(source.eid_sample_collected_and_received_date_greater_than_15_days, 0),
+        target.hpv_sample_collected_and_received_date_in_less_or_equal_5_days = ISNULL(source.hpv_sample_collected_and_received_date_in_less_or_equal_5_days, 0),
+        target.hpv_sample_collected_and_received_date_between_6_to_10_days = ISNULL(source.hpv_sample_collected_and_received_date_between_6_to_10_days, 0),
+        target.hpv_sample_collected_and_received_date_between_11_to_15_days = ISNULL(source.hpv_sample_collected_and_received_date_between_11_to_15_days, 0),
+        target.hpv_sample_collected_and_received_date_greater_than_15_days = ISNULL(source.hpv_sample_collected_and_received_date_greater_than_15_days, 0)
     FROM
         [final].fact_daily_sample_summary AS target
     INNER JOIN
@@ -6660,6 +6922,13 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_between_6_to_10_days ELSE 0 END) AS eid_sample_received_and_authorised_date_between_6_to_10_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_between_11_to_15_days ELSE 0 END) AS eid_sample_received_and_authorised_date_between_11_to_15_days,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_received_and_authorised_in_greater_than_15_days ELSE 0 END) AS eid_sample_received_and_authorised_date_greater_than_15_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_collected_and_authorised_date_less_or_equal_to_14_days ELSE 0 END) AS hpv_sample_collected_and_authorised_date_less_or_equal_to_14_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_collected_and_authorised_date_between_15_to_21_days ELSE 0 END) AS hpv_sample_collected_and_authorised_date_between_15_to_21_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_collected_and_authorised_date_greater_than_21_days ELSE 0 END) AS hpv_sample_collected_and_authorised_date_greater_than_21_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_and_authorised_in_less_or_equal_5_days ELSE 0 END) AS hpv_sample_received_and_authorised_date_in_less_or_equal_5_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_and_authorised_between_6_to_10_days ELSE 0 END) AS hpv_sample_received_and_authorised_date_between_6_to_10_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_and_authorised_between_11_to_15_days ELSE 0 END) AS hpv_sample_received_and_authorised_date_between_11_to_15_days,
+            SUM(CASE WHEN is_hpv_sample = 1 THEN is_received_and_authorised_in_greater_than_15_days ELSE 0 END) AS hpv_sample_received_and_authorised_date_greater_than_15_days,
             SUM(CASE WHEN is_hvl_sample = 1 THEN is_result_invalid ELSE 0 END) AS hvl_result_invalid,
             SUM(CASE WHEN is_eid_sample = 1 THEN is_result_invalid ELSE 0 END) AS eid_result_invalid,
             SUM(CASE WHEN is_hpv_sample = 1 THEN is_result_invalid ELSE 0 END) AS hpv_result_invalid,
@@ -6706,6 +6975,13 @@ EXEC dbo.sp_etl_tracking_insert_start_of_sp_execution 'final.sp_fact_daily_sampl
         target.eid_sample_received_and_authorised_date_between_6_to_10_days = ISNULL(source.eid_sample_received_and_authorised_date_between_6_to_10_days, 0),
         target.eid_sample_received_and_authorised_date_between_11_to_15_days = ISNULL(source.eid_sample_received_and_authorised_date_between_11_to_15_days, 0),
         target.eid_sample_received_and_authorised_date_greater_than_15_days = ISNULL(source.eid_sample_received_and_authorised_date_greater_than_15_days, 0),
+        target.hpv_sample_collected_and_authorised_date_less_or_equal_to_14_days = ISNULL(source.hpv_sample_collected_and_authorised_date_less_or_equal_to_14_days, 0),
+        target.hpv_sample_collected_and_authorised_date_between_15_to_21_days = ISNULL(source.hpv_sample_collected_and_authorised_date_between_15_to_21_days, 0),
+        target.hpv_sample_collected_and_authorised_date_greater_than_21_days = ISNULL(source.hpv_sample_collected_and_authorised_date_greater_than_21_days, 0),
+        target.hpv_sample_received_and_authorised_date_in_less_or_equal_5_days = ISNULL(source.hpv_sample_received_and_authorised_date_in_less_or_equal_5_days, 0),
+        target.hpv_sample_received_and_authorised_date_between_6_to_10_days = ISNULL(source.hpv_sample_received_and_authorised_date_between_6_to_10_days, 0),
+        target.hpv_sample_received_and_authorised_date_between_11_to_15_days = ISNULL(source.hpv_sample_received_and_authorised_date_between_11_to_15_days, 0),
+        target.hpv_sample_received_and_authorised_date_greater_than_15_days = ISNULL(source.hpv_sample_received_and_authorised_date_greater_than_15_days, 0),
         target.hvl_result_invalid = ISNULL(source.hvl_result_invalid, 0),
         target.eid_result_invalid = ISNULL(source.eid_result_invalid, 0),
         target.hpv_result_invalid = ISNULL(source.hpv_result_invalid, 0),
