@@ -5,4 +5,4 @@ SELECT
     FORMAT(created_datetime, 'yyyy-MM-dd HH:mm:ss') as lastUpdated
 FROM
     todays_lab_analysis 
-ORDER BY created_datetime;
+ORDER BY created_datetime DESC;

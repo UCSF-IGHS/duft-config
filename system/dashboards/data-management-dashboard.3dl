@@ -1,178 +1,273 @@
 <Dashboards>
+  <Include file="components/data_management_dashboard/datasets.3dl" />
 
-    <Include file="components/data_management_dashboard/datasets.3dl" />
+  <Dashboard
+    data="current_date_data"
+    tabName="All Data Issues"
+    title=""
+    subTitle="All Data Issues"
+    lastRefresh=""
+  >
+    <Row columns="1">
+      <Header small="true">All Samples with Data Related Issues</Header>
+    </Row>
 
-    <Dashboard
-        data="current_date_data"
-        tabName="All Data Issues"
-        title=""
-        subTitle="All Data Issues"
-        lastRefresh=""
-    >
+    <Grid>
+      <Row columns="1">
+        <Table
+          data="all_data_issues_data"
+          header="All Samples with Data Related Issues"
+          exportData="true"
+          expand="true"
+          showEntries="true"
+        />
+      </Row>
+    </Grid>
+  </Dashboard>
 
-        <Grid>
-            <Row columns="1">
-                <Table
-                    data="all_data_issues_data"
-                    header="All Samples with Data Related Issues"
-                    exportData="true"
-                    expand="true"
-                    showEntries="true"
-                    headerSize="large"
-                />
-            </Row>
-        </Grid>
-    </Dashboard>
+  <Dashboard
+    data="current_date_data"
+    tabName="Missing HFR Code"
+    title=""
+    subTitle="Missing HFR Code"
+    lastRefresh=""
+  >
+    <Filters>
+      <Filter
+        caption="Select Week"
+        name="weekly_start_monday_period"
+        data="week_data"
+      />
+    </Filters>
 
-    <Dashboard
-        data="current_date_data"
-        tabName="Missing HFR Code"
-        title=""
-        subTitle="Missing HFR Code"
-        lastRefresh=""
-    >
-        <Filters>
-            <Filter caption="Select Week" name="weekly_start_monday_period" data="week_data" />
-        </Filters>
+    <Row columns="1">
+      <Header small="true">Samples Missing HFR Code</Header>
+    </Row>
 
-        <Grid>
-            <PrefilteredDashboard filters="weekly_start_monday_period">
-                <Row columns="1">
-                    <Table
-                        data="missing_hfr_code_data"
-                        header="Samples Missing HFR Code"
-                        exportData="true"
-                        expand="true"
-                        showEntries="true"
-                        headerSize="large"
-                    />
-                </Row>
-            </PrefilteredDashboard>
-        </Grid>
-    </Dashboard>
+    <Grid>
+      <PrefilteredDashboard filters="weekly_start_monday_period">
+        <Row columns="1">
+          <Table
+            data="missing_hfr_code_data"
+            header="Samples Missing HFR Code"
+            exportData="true"
+            expand="true"
+            showEntries="true"
+          />
+        </Row>
+      </PrefilteredDashboard>
+    </Grid>
+  </Dashboard>
 
-    <Dashboard
-        data="current_date_data"
-        tabName="Missing Test Name"
-        title=""
-        subTitle="Missing Test Name"
-        lastRefresh=""
-    >
-        <Filters>
-            <Filter caption="Select Week" name="weekly_start_monday_period" data="week_data" />
-        </Filters>
+  <Dashboard
+    data="current_date_data"
+    tabName="Missing Test Name"
+    title=""
+    subTitle="Missing Test Name"
+    lastRefresh=""
+  >
+    <Filters>
+      <Filter
+        caption="Select Week"
+        name="weekly_start_monday_period"
+        data="week_data"
+      />
+    </Filters>
 
-        <Grid>
-            <PrefilteredDashboard filters="weekly_start_monday_period">
-                <Row columns="1">
-                    <Table
-                        data="missing_test_name_data"
-                        header="Samples that haven't specified whether they are HVL or EID"
-                        exportData="true"
-                        expand="true"
-                        showEntries="true"
-                        headerSize="large"
-                    />
-                </Row>
-            </PrefilteredDashboard>
-        </Grid>
-    </Dashboard>
+    <Row columns="1">
+      <Header small="true">
+        Samples that haven't specified whether they are HVL or EID
+      </Header>
+    </Row>
 
-    <Dashboard
-        data="current_date_data"
-        tabName="Missing Collected or Received Date"
-        title=""
-        subTitle="Missing Collected or Received Date"
-        lastRefresh=""
-    >
+    <Grid>
+      <PrefilteredDashboard filters="weekly_start_monday_period">
+        <Row columns="1">
+          <Table
+            data="missing_test_name_data"
+            header="Samples that haven't specified whether they are HVL or EID"
+            exportData="true"
+            expand="true"
+            showEntries="true"
+          />
+        </Row>
+      </PrefilteredDashboard>
+    </Grid>
+  </Dashboard>
 
-        <Grid>
-            <Row columns="1">
-                <Table
-                    data="missing_collected_or_received_date_data"
-                    header="Samples Without a Collected Date or Received Date"
-                    exportData="true"
-                    expand="true"
-                    showEntries="true"
-                    headerSize="large"
-                />
-            </Row>
-        </Grid>
-    </Dashboard>
+  <Dashboard
+    data="current_date_data"
+    tabName="Missing Collected or Received Date"
+    title=""
+    subTitle="Missing Collected or Received Date"
+    lastRefresh=""
+  >
+    <Row columns="1">
+      <Header small="true">
+        Samples Without a Collected Date or Received Date
+      </Header>
+    </Row>
 
-    <Dashboard
-        data="current_date_data"
-        tabName="Earlier Received Date than Collected Date"
-        title=""
-        subTitle="Earlier Received Date than Collected Date"
-        lastRefresh=""
-    >
+    <Grid>
+      <Row columns="1">
+        <Table
+          data="missing_collected_or_received_date_data"
+          header="Samples Without a Collected Date or Received Date"
+          exportData="true"
+          expand="true"
+          showEntries="true"
+        />
+      </Row>
+    </Grid>
+  </Dashboard>
 
-        <Grid>
-            <Row columns="1">
-                <Table
-                    data="earlier_received_date_than_collected_date_data"
-                    header="Samples With Received Date earlier than the Collected Date"
-                    exportData="true"
-                    expand="true"
-                    showEntries="true"
-                    headerSize="large"
-                />
-            </Row>
-        </Grid>
-    </Dashboard>
+  <Dashboard
+    data="current_date_data"
+    tabName="Earlier Received Date than Collected Date"
+    title=""
+    subTitle="Earlier Received Date than Collected Date"
+    lastRefresh=""
+  >
+    <Row columns="1">
+      <Header small="true">
+        Samples With Received Date earlier than the Collected Date
+      </Header>
+    </Row>
 
-    <Dashboard
-        data="current_date_data"
-        tabName="Earlier Dispatched Date than Tested Date"
-        title=""
-        subTitle="Earlier Dispatched Date than Tested Date"
-        lastRefresh=""
-    >
-        <Filters>
-            <Filter caption="Select Week" name="weekly_start_monday_period" data="week_data" />
-        </Filters>
+    <Grid>
+      <Row columns="1">
+        <Table
+          data="earlier_received_date_than_collected_date_data"
+          header="Samples With Received Date earlier than the Collected Date"
+          exportData="true"
+          expand="true"
+          showEntries="true"
+        />
+      </Row>
+    </Grid>
+  </Dashboard>
 
-        <Grid>
-            <PrefilteredDashboard filters="weekly_start_monday_period">
-                <Row columns="1">
-                    <Table
-                        data="samples_with_authorized_date_earlier_than_tested_date_data"
-                        header="Samples with Authorized Date earlier than the Tested Date"
-                        exportData="true"
-                        expand="true"
-                        showEntries="true"
-                        headerSize="large"
-                    />
-                </Row>
-            </PrefilteredDashboard>
-        </Grid>
-    </Dashboard>
+  <Dashboard
+    data="current_date_data"
+    tabName="Earlier Tested date than Referred date"
+    title=""
+    subTitle="Earlier Tested date than Referred date"
+    lastRefresh=""
+  >
+    <Row columns="1">
+      <Header small="true">
+        Samples With Tested Date earlier than the Referred Date
+      </Header>
+    </Row>
 
-    <Dashboard
-        data="current_date_data"
-        tabName="Rejected but has Result"
-        title=""
-        subTitle="Rejected but has Result"
-        lastRefresh=""
-    >
-        <Filters>
-            <Filter caption="Select Week" name="weekly_start_monday_period" data="week_data" />
-        </Filters>
+    <Grid>
+      <Row columns="1">
+        <Table
+          data="earlier_tested_date_than_referred_date_data"
+          header="Samples With Tested Date earlier than the Referred Date"
+          exportData="true"
+          expand="true"
+          showEntries="true"
+        />
+      </Row>
+    </Grid>
+  </Dashboard>
 
-        <Grid>
-            <PrefilteredDashboard filters="weekly_start_monday_period">
-                <Row columns="1">
-                    <Table
-                        data="samples_with_rejection_reasons_but_have_results_data"
-                        header="Samples with Rejection Reasons but have Results"
-                        exportData="true"
-                        expand="true"
-                        showEntries="true"
-                        headerSize="large"
-                    />
-                </Row>
-            </PrefilteredDashboard>
-        </Grid>
-    </Dashboard>
+  <Dashboard
+    data="current_date_data"
+    tabName="Earlier Authorized date than Referred date"
+    title=""
+    subTitle="Earlier Authorized date than Referred date"
+    lastRefresh=""
+  >
+    <Row columns="1">
+      <Header small="true">
+        Samples With Authorized Date earlier than the Referred Date
+      </Header>
+    </Row>
+
+    <Grid>
+      <Row columns="1">
+        <Table
+          data="earlier_authorized_date_than_referred_date_data"
+          header="Samples With Authorized Date earlier than the Referred Date"
+          exportData="true"
+          expand="true"
+          showEntries="true"
+        />
+      </Row>
+    </Grid>
+  </Dashboard>
+
+  <Dashboard
+    data="current_date_data"
+    tabName="Earlier Dispatched Date than Tested Date"
+    title=""
+    subTitle="Earlier Dispatched Date than Tested Date"
+    lastRefresh=""
+  >
+    <Filters>
+      <Filter
+        caption="Select Week"
+        name="weekly_start_monday_period"
+        data="week_data"
+      />
+    </Filters>
+
+    <Row columns="1">
+      <Header small="true">
+        Samples with Authorized Date earlier than the Tested Date
+      </Header>
+    </Row>
+
+    <Grid>
+      <PrefilteredDashboard filters="weekly_start_monday_period">
+        <Row columns="1">
+          <Table
+            data="samples_with_authorized_date_earlier_than_tested_date_data"
+            header="Samples with Authorized Date earlier than the Tested Date"
+            exportData="true"
+            expand="true"
+            showEntries="true"
+          />
+        </Row>
+      </PrefilteredDashboard>
+    </Grid>
+  </Dashboard>
+
+  <Dashboard
+    data="current_date_data"
+    tabName="Rejected but has Result"
+    title=""
+    subTitle="Rejected but has Result"
+    lastRefresh=""
+  >
+    <Filters>
+      <Filter
+        caption="Select Week"
+        name="weekly_start_monday_period"
+        data="week_data"
+      />
+    </Filters>
+
+    <Row columns="1">
+      <Header small="true">
+        Samples with Rejection Reasons but have Results
+      </Header>
+    </Row>
+
+    <Grid>
+      <PrefilteredDashboard filters="weekly_start_monday_period">
+        <Row columns="1">
+          <Table
+            data="samples_with_rejection_reasons_but_have_results_data"
+            header="Samples with Rejection Reasons but have Results"
+            exportData="true"
+            expand="true"
+            showEntries="true"
+          />
+        </Row>
+      </PrefilteredDashboard>
+    </Grid>
+  </Dashboard>
 </Dashboards>

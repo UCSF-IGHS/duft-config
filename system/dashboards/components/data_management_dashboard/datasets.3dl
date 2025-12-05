@@ -20,6 +20,18 @@
     />
 
     <SQLData
+        name="earlier_tested_date_than_referred_date_data"
+        queryName="data_management_queries/earlier_tested_date_than_referred_date"
+        searchColumns="sample_tracking_id"
+    />
+
+    <SQLData
+        name="earlier_authorized_date_than_referred_date_data"
+        queryName="data_management_queries/earlier_authorized_date_than_referred_date"
+        searchColumns="sample_tracking_id"
+    />
+
+    <SQLData
         name="missing_hfr_code_data"
         filterFrom="weekly_start_monday_period"
         searchColumns="sample_tracking_id"

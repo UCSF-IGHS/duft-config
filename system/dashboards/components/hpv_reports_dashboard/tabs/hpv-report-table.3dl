@@ -1,0 +1,13 @@
+<Grid>
+  <PrefilteredDashboard filters="start_date%d, end_date%d">
+    <Row columns="1">
+      <Table
+        data="hpv_detailed_sample_status_breakdown"
+        exportData="true"
+        expand="true"
+        header="Human Papiloma Virus (HPV) - Detailed sample status breakdown"
+        headerSize="large"
+      />
+    </Row>
+  </PrefilteredDashboard>
+</Grid>;

@@ -2,7 +2,7 @@
     <Row columns="2">
         <BarChart
             data="hvl_samples_received_to_authorised"
-            header="HVL - Number of Samples received, tested, rejected and results authorized in the lab"
+            header="HVL - Number of samples received, rejected, tested and results authorized in the lab"
             subHeader=""
             exportData="true"
             downloadVisual="true"
