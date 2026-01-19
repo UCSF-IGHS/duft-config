@@ -22,4 +22,6 @@ FROM
 WHERE
     [Last Appointment Date] <= GETDATE()
 AND
+    [Is Marked Transferred Out] != 'Yes'
+AND
     DATEDIFF(DAY, [Last Visit Date], [Last Appointment Date]) > 10
