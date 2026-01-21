@@ -5,7 +5,7 @@
             "username": "bsiele",
             "password": "fMiy/<vqtw'<Kc81tcUb",
             "port": "1433",
-            "database": "ctc_a_etl_analysis_test",
+            "database": "ctc_a_prod_analysis_test",
             "type": "MSSQL"
         },
         "EMPS": {
