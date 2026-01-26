@@ -2,6 +2,7 @@ import asyncio
 import os
 import pandas as pd
 import pytds
+import threading
 from concurrent.futures import ThreadPoolExecutor
 
 from services.dte_tools.data_task_tools import (
@@ -10,7 +11,6 @@ from services.dte_tools.data_task_tools import (
     initialise_data_task,
 )
 
-# Optional: use a global thread pool executor
 executor = ThreadPoolExecutor(max_workers=2)
 
 
@@ -84,7 +84,7 @@ def read_facility_details(conn, environment):
 def run_sp_data_processing(db_params, environment):
     conn = None
     try:
-        conn = pytds.connect(
+        with pytds.connect(
             server=db_params["server"],
             user=db_params["username"],
             password=db_params["password"],
@@ -123,9 +123,23 @@ async def refresh_ctc_analytical_data():
     environment: DataTaskEnvironment = initialise_data_task("Data Refresh Task", params={})
     db_params = get_resolved_parameters_for_connection("ANA")
 
-    await run_sp_data_processing_async(db_params, environment)
+    # Use per-run event instead of global
+    sp_done_event = threading.Event()
 
-    environment.log_message("Completed.")
+    loop = asyncio.get_event_loop()
+    sp_future = loop.run_in_executor(
+        executor,
+        run_stored_procedure_only,
+        db_params, environment, sp_done_event
+    )
+
+    polling_task = asyncio.create_task(
+        poll_etl_tracking(db_params, environment, sp_done_event)
+    )
+
+    await asyncio.gather(sp_future, polling_task)
+    environment.log_message("Task completed.")
+
 
 
 # Run the task
