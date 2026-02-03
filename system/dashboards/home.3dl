@@ -16,11 +16,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -40,11 +40,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -84,11 +84,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -128,11 +128,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -172,11 +172,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -216,11 +216,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -260,11 +260,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
