@@ -211,7 +211,7 @@
                     [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
-        {/* CPeT Eligible Clients */}
+        {/* Cryptococcal Pre-emptive Therapy Eligible Clients */}
 
             <SQLData
                 name="cpet_clients_data"
@@ -254,7 +254,7 @@
                     [Patient ID] = '[[Patient ID]]'
             </SQLData>
 
-        {/* CMT Eligible Clients */}
+        {/* Cryptococcal Meningitis Treatment Eligible Clients */}
 
             <SQLData
                 name="cmt_clients_data"

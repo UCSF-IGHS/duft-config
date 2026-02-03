@@ -54,14 +54,14 @@
                     exportData="true"
                     header="Clients Eligible for CrAg Test"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, Became Eligible for CrAg Date, Eligible for CrAg Up to Next Week"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, WHO Stage 3/4 Result, Last CD4 Result Count, Eligible for CrAg Up to Next Week"
                     detailsViewColumn="Patient ID"
                 >
                     <Table data="crag_client_details_data" header="PLHIV Client Profile" />
                 </Table>
             </Tile>
 
-            <Tile data="tile_cpet_data" title="Eligible for CPeT">
+            <Tile data="tile_cpet_data" title="Eligible for Cryptococcal Pre-emptive Therapy">
                 <Table
                     data="cpet_clients_data"
                     exportData="true"
@@ -74,7 +74,7 @@
                 </Table>
             </Tile>
 
-            <Tile data="tile_cmt_data" title="Eligible for CMT">
+            <Tile data="tile_cmt_data" title="Eligible for Cryptococcal Treatment">
                 <Table
                     data="cmt_clients_data"
                     exportData="true"
