@@ -5,6 +5,8 @@ SELECT
     [Date Start ART],
     [Last Visit Date],
     [Next Appointment Date],
+    [WHO Stage 3/4 Result],
+    [Last CD4 Result Count],
     [Last VL Test Date],
     [Last VL Result Date],
     [Last VL Result Numeric] AS [Last VL Result],
