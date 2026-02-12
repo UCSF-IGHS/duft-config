@@ -188,7 +188,7 @@
                 "branch": {
                     "title": "Branch",
                     "description": "The branch of the repository to use.",
-                    "defaultValue": "tanzania-ctca-3dl",
+                    "defaultValue": "tanzania-ctca-3dl-bernard",
                     "allowOverride": true,
                     "promptUser": false
                 }
