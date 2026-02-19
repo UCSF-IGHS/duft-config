@@ -336,4 +336,48 @@
         </Grid>
     </Dashboard>
 
+    <Dashboard
+        data="metadata"
+        tabName="H. Missed Biometric Verification"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
+        </Filters>
+
+            <Grid>
+                <SingleLayout>
+                    <Header>
+                    Clients who Missed Biometric Verification
+                </Header>
+                <SubHeader>
+                    PLHIV who missed their biometric verification in the reporting period.
+                </SubHeader>
+                <Table
+                    data="missed_biometric_verification_clients_data"
+                    header="Clients who Missed Biometric Verification"
+                    subHeader="PLHIV whose biometrics were registered in previous visits but missed their last visit biometric verification."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Registered Using Biometrics, Missed Biometric Verification, Missed Biometric Verification Reason"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="missed_biometric_verification_client_details_data" header="PLHIV Client Profile" />
+                </Table>
+            </SingleLayout>
+        </Grid>
+    </Dashboard>
+
 </Dashboards>
