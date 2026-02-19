@@ -292,4 +292,48 @@
         </Grid>
     </Dashboard>
 
+    <Dashboard
+        data="metadata"
+        tabName="H. Missed CD4 Testing"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
+        </Filters>
+
+            <Grid>
+                <SingleLayout>
+                    <Header>
+                    Clients who Missed CD4 Testing
+                </Header>
+                <SubHeader>
+                    PLHIV who missed their CD4 Testing in the reporting period.
+                </SubHeader>
+                <Table
+                    data="missed_cd4_clients_data"
+                    header="Clients who Missed CD4 Testing"
+                    subHeader="PLHIV who missed their CD4 Testing in the reporting period"
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Eligible for CD4, Became Eligible for CD4 Date, Missed Appointment Date"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="missed_cd4_client_details_data" header="PLHIV Client Profile" />
+                </Table>
+            </SingleLayout>
+        </Grid>
+    </Dashboard>
+
 </Dashboards>

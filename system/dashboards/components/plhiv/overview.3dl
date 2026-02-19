@@ -89,6 +89,20 @@
 
             </Tile>
 
+                <Tile data="tile_missed_cd4_data" title="Missed CD4 Testing">
+                <Table
+                    data="missed_cd4_clients_data"
+                    exportData="true"
+                    header="Clients with Missed CD4 Testing"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Became Eligible for CD4 Date"
+                    detailsViewColumn="Patient ID"
+                >
+                    <Table data="missed_cd4_client_details_data" header="PLHIV Client Profile" />
+                </Table>
+
+            </Tile>
+
         </Row>
 
     </Grid>
