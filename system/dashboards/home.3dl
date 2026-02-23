@@ -338,7 +338,7 @@
 
     <Dashboard
         data="metadata"
-        tabName="H. Missed Biometric Verification"
+        tabName="I. Missed Biometric Verification"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
     >
