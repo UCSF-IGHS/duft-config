@@ -6,7 +6,6 @@ SELECT
     [Last Visit Date],
     [Registered Using Biometrics],
     [Missed Biometric Verification],
-    [Missed Biometric Verification Reason],
     [Last Appointment Date] AS [Missed Appointment Date],
     [Now Pregnant/Breastfeeding],
     [Last Visit Type],

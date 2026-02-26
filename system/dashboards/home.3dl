@@ -162,7 +162,7 @@
 
     <Dashboard
         data="metadata"
-        tabName="E. CLHIV Nutritional Challenges"
+        tabName="E. Missed CD4 Testing"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
     >
@@ -181,27 +181,27 @@
               </DateRangePicker>
         </Filters>
 
-        <SingleLayout>
             <Grid>
-                <Header>
-                    Children Living with HIV (CLHIV) with Nutritional Documentation Issues
+                <SingleLayout>
+                    <Header>
+                    Clients who Missed CD4 Testing
                 </Header>
                 <SubHeader>
-                    CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status.
+                    PLHIV who missed their CD4 Testing in the reporting period.
                 </SubHeader>
-                    <Table
-                        data="clhiv_nutrition_clients_data"
-                        header="Children Living with HIV (CLHIV) with Nutritional Documentation Issues"
-                        subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
-                        exportData="true"
-                        variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Documented Nutritional Status, Calculated Nutritional Status, Documented and Calculated Status Match, Last Visit Type, Last Visit Refill Type"
-                        detailsViewColumn="Patient ID"
-                    >
-                    <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
-                    </Table>
-                </Grid>
+                <Table
+                    data="missed_cd4_clients_data"
+                    header="Clients who Missed CD4 Testing"
+                    subHeader="PLHIV who missed their CD4 Testing in the reporting period"
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Eligible for CD4, Last CD4 Result Date, Last CD4 Result Count, Missed Appointment Date"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="missed_cd4_client_details_data" header="PLHIV Client Profile" />
+                </Table>
             </SingleLayout>
+        </Grid>
     </Dashboard>
 
     <Dashboard
@@ -294,7 +294,7 @@
 
     <Dashboard
         data="metadata"
-        tabName="H. Missed CD4 Testing"
+        tabName="H. CLHIV Nutritional Challenges"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
     >
@@ -310,30 +310,30 @@
 
                 <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
-              </DateRangePicker>
+            </DateRangePicker>
         </Filters>
 
+        <SingleLayout>
             <Grid>
-                <SingleLayout>
-                    <Header>
-                    Clients who Missed CD4 Testing
+                <Header>
+                    Children Living with HIV (CLHIV) with Nutritional Documentation Issues
                 </Header>
                 <SubHeader>
-                    PLHIV who missed their CD4 Testing in the reporting period.
+                    CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status.
                 </SubHeader>
                 <Table
-                    data="missed_cd4_clients_data"
-                    header="Clients who Missed CD4 Testing"
-                    subHeader="PLHIV who missed their CD4 Testing in the reporting period"
+                    data="clhiv_nutrition_clients_data"
+                    header="Children Living with HIV (CLHIV) with Nutritional Documentation Issues"
+                    subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Eligible for CD4, Became Eligible for CD4 Date, Missed Appointment Date"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Documented Nutritional Status, Calculated Nutritional Status, Documented and Calculated Status Match, Last Visit Type, Last Visit Refill Type"
                     detailsViewColumn="Patient ID"
                 >
-                <Table data="missed_cd4_client_details_data" header="PLHIV Client Profile" />
+                <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
                 </Table>
-            </SingleLayout>
-        </Grid>
+            </Grid>
+        </SingleLayout>
     </Dashboard>
 
     <Dashboard
@@ -363,7 +363,7 @@
                     Clients who Missed Biometric Verification
                 </Header>
                 <SubHeader>
-                    PLHIV who missed their biometric verification in the reporting period.
+                    PLHIV whose biometrics were registered in previous visits but missed their last visit biometric verification.
                 </SubHeader>
                 <Table
                     data="missed_biometric_verification_clients_data"
@@ -371,7 +371,7 @@
                     subHeader="PLHIV whose biometrics were registered in previous visits but missed their last visit biometric verification."
                     exportData="true"
                     variant="plain"
-                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Registered Using Biometrics, Missed Biometric Verification, Missed Biometric Verification Reason"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Registered Using Biometrics, Missed Biometric Verification"
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="missed_biometric_verification_client_details_data" header="PLHIV Client Profile" />

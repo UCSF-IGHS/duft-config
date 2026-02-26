@@ -12,7 +12,6 @@ SELECT
     [Last CD4 Result Count],
     [Last CD4 < 200],
     [Eligible for CD4],
-    [Became Eligible for CD4 Date],
     [Eligible for CD4 Up to Next Week],
     [WHO Stage 3/4 With No CD4 Test],
     [Number of Days Dispensed],
