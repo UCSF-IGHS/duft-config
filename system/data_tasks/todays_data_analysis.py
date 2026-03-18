@@ -58,7 +58,7 @@ def connect_sql_server() -> Connection:
 def fetch_source_data(engine: Engine) -> pd.DataFrame:
     log_message("Fetching data from source database...")
     
-    query = text("""
+query = text("""
     SELECT 
         metric_type, 
         metric_name, 
