@@ -34,7 +34,6 @@ def connect_mysql() -> Engine:
         log_message(f"Failed to establish connection to source database: {e}")
         sys.exit(1)
 
-
 def connect_sql_server() -> Connection:
     """Establish connection to MSSQL analysis database."""
     try:
@@ -54,11 +53,9 @@ def connect_sql_server() -> Connection:
         log_message(f"Failed to establish connection to analysis database: {e}")
         sys.exit(1)
 
-
 def fetch_source_data(engine: Engine) -> pd.DataFrame:
     log_message("Fetching data from source database...")
-    
-query = text("""
+    query = text("""
     SELECT 
         metric_type, 
         metric_name, 
@@ -257,7 +254,6 @@ query = text("""
     ) AS final_report;
     """)
     
-    # Execute the query using SQLAlchemy
     with engine.connect() as conn:
         return pd.read_sql(query, conn)
 
@@ -278,7 +274,6 @@ def ensure_todays_lab_analysis_table_exists(conn: Connection) -> None:
         );
         """)
         log_message("Ensured table 'todays_lab_analysis' exists")
-
 
 def refresh_metrics(metrics: pd.DataFrame, conn: Connection) -> None:
     """Delete existing rows and insert fresh metrics into MSSQL."""
@@ -301,7 +296,6 @@ def refresh_metrics(metrics: pd.DataFrame, conn: Connection) -> None:
     conn.commit()
     log_message(f"Inserted {len(metrics)} fresh metrics into todays_lab_analysis")
 
-
 def insert_data() -> None:
     try:
         labdash_engine = connect_mysql()
@@ -313,7 +307,6 @@ def insert_data() -> None:
     except Exception as e:
         log_message(f"An error occurred during data insertion: {e}")
         sys.exit(1)
-
 
 if __name__ == "__main__":
     insert_data()
