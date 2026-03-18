@@ -34,7 +34,6 @@ def connect_mysql() -> Engine:
         log_message(f"Failed to establish connection to source database: {e}")
         sys.exit(1)
 
-
 def connect_sql_server() -> Connection:
     """Establish connection to MSSQL analysis database."""
     try:
@@ -54,176 +53,209 @@ def connect_sql_server() -> Connection:
         log_message(f"Failed to establish connection to analysis database: {e}")
         sys.exit(1)
 
-
 def fetch_source_data(engine: Engine) -> pd.DataFrame:
     log_message("Fetching data from source database...")
-    query = """
+    query = text("""
     SELECT 
-        testName AS metric_type, 
-        'received' AS metric_name,
-        SUM(dateReceivedLab >= CURDATE() AND dateReceivedLab < CURDATE() + INTERVAL 1 DAY) AS metric_value,
-        CONCAT('Total ', testName, ' received samples') AS metric_description
-    FROM tbl_labtests
-    GROUP BY testName
-    UNION ALL
-    SELECT 
-        testName, 
-        'rejected',
-        SUM(dateReceivedLab >= CURDATE() AND dateReceivedLab < CURDATE() + INTERVAL 1 DAY),
-        CONCAT('Total ', testName, ' rejected samples')
-    FROM tbl_labtests 
-    WHERE orderStatus IN (5, 6)
-    GROUP BY testName
-    UNION ALL
-    SELECT 
-        testName, 
-        'tested',
-        SUM(testedDate >= CURDATE() AND testedDate < CURDATE() + INTERVAL 1 DAY),
-        CONCAT('Total ', testName, ' tested samples')
-    FROM tbl_labtests
-    GROUP BY testName
-    UNION ALL
-    SELECT 
-        testName, 
-        'authorised',
-        SUM(resultAuthorisedDate >= CURDATE() AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY),
-        CONCAT('Total ', testName, ' authorised results')
-    FROM tbl_labtests
-    GROUP BY testName
-    UNION ALL
-    SELECT 
-        'HIVVL', 
-        'total_hvl_target_not_detected', 
-        COUNT(trackingID), 
-        'HIVVL target not detected'
-    FROM tbl_labtests 
-    WHERE resultAuthorisedDate >= CURDATE() 
-        AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
-        AND LOWER(REPLACE(results, ' ', '')) IN ('tnd', 'targetnotdetected') 
-        AND testName = 'HIVVL'
-    UNION ALL
-     SELECT 
-        'HIVVL', 
-        'hvl_failed', 
-        COUNT(trackingID), 
-        'HIVVL failed and invalid'
-    FROM tbl_labtests 
-    WHERE resultAuthorisedDate >= CURDATE() 
-        AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
-        AND LOWER(REPLACE(results, ' ', '')) IN ('failed', 'invalid') 
-        AND testName = 'HIVVL'
-    UNION ALL
-    SELECT 
-        'HIVVL', 
-        'total_suppressed_lt50', 
-        COUNT(trackingID), 
-        'Suppressed VL less than 50'
-    FROM tbl_labtests 
-    WHERE (CAST(results AS UNSIGNED) < 50 OR results LIKE '%%<%%')
-        AND resultAuthorisedDate >= CURDATE() 
-        AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY 
-        AND testName = 'HIVVL'
-    UNION ALL
-    SELECT 
-        'HIVVL', 
-        'total_suppressed_lt1000', 
-        COUNT(trackingID), 
-        'Suppressed VL less than 1000'
-    FROM tbl_labtests 
-    WHERE (CAST(results AS UNSIGNED) < 1000 OR CAST(results AS UNSIGNED) >= 50)
-        AND resultAuthorisedDate >= CURDATE() 
-        AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY 
-        AND testName = 'HIVVL'
-    UNION ALL
-    SELECT 
-        'HIVVL', 
-        'total_unsuppressed', 
-        COUNT(trackingID), 
-        'Unsuppressed VL'
-    FROM tbl_labtests 
-    WHERE (CAST(results AS UNSIGNED) >= 1000 OR results LIKE '%%>%%')
-        AND resultAuthorisedDate >= CURDATE() 
-        AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
-        AND testName = 'HIVVL'
-    UNION ALL
-    SELECT 
-        'EID', 
-        'total_eid_positive', 
-        COUNT(trackingID), 
-        'EID positive results'
-    FROM tbl_labtests 
-    WHERE testName = 'EID' 
-        AND LOWER(REPLACE(results, ' ', '')) = 'positive'
-        AND resultAuthorisedDate >= CURDATE() 
-        AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
-    UNION ALL
-    SELECT 
-        'EID', 
-        'total_eid_negative', 
-        COUNT(trackingID), 
-        'EID negative results'
-    FROM tbl_labtests 
-    WHERE testName = 'EID' 
-        AND LOWER(REPLACE(results, ' ', '')) = 'negative'
-        AND resultAuthorisedDate >= CURDATE() 
-        AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
-    UNION ALL
-    SELECT 
-        'EID', 
-        'total_eid_indeterminate', 
-        COUNT(trackingID), 
-        'EID indeterminate results'
-    FROM tbl_labtests 
-    WHERE testName = 'EID' 
-        AND LOWER(REPLACE(results, ' ', '')) IN ('indeterminate', 'intermidiate')
-        AND resultAuthorisedDate >= CURDATE() 
-        AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
-    UNION ALL
-    SELECT 
-		testName, 
-		'Reffered',
-		SUM(referredDate >= CURDATE() AND referredDate < CURDATE() + INTERVAL 1 DAY),
-		CONCAT(testName, '- Reffered Samples')
-	FROM tbl_labtests tl 
-	WHERE 
-		orderStatus = 8 
-		and referralFacility is not null
-	GROUP BY testName
-	UNION ALL
-	SELECT 
-		testName, 
-		'Rejected At Other Lab',
-		SUM(referredDate >= CURDATE() AND referredDate < CURDATE() + INTERVAL 1 DAY),
-		CONCAT(testName, '- Rejected At Other Lab Samples')
-	FROM tbl_labtests tl 
-	WHERE 
-		orderStatus = 6 
-		AND referralFacility is not null
-	GROUP BY testName
-	UNION ALL
-	SELECT 
-		testName, 
-		'Results At Other Lab',
-		SUM(referredDate >= CURDATE() AND referredDate < CURDATE() + INTERVAL 1 DAY),
-		 CONCAT(testName, '- Results At Other Lab') 
-	FROM tbl_labtests tl
-	WHERE 
-		orderStatus = 4 
-		AND referralFacility is not null
-	GROUP BY testName
-    UNION ALL
-    SELECT 
-        testName, 
-        (CASE WHEN dataFrom = 0 THEN 'ENTRY FROM LAB'
-            WHEN dataFrom = 1 THEN 'ENTRY FROM HUB'
-            WHEN dataFrom = 2 THEN 'ENTRY FROM CTC' 
-        END),
-        SUM(dateReceivedLab >= CURDATE() AND dateReceivedLab < CURDATE() + INTERVAL 1 DAY),
-        CONCAT(testName, '- ENTRY MODALITY') 
-    FROM tbl_labtests tl
-    GROUP BY testName, dataFrom;
-    """
-    return pd.read_sql(query, engine)
+        metric_type, 
+        metric_name, 
+        COALESCE(metric_value, 0) AS metric_value, 
+        metric_description
+    FROM (
+        SELECT 
+            testName AS metric_type, 
+            'received' AS metric_name,
+            SUM(dateReceivedLab >= CURDATE() AND dateReceivedLab < CURDATE() + INTERVAL 1 DAY) AS metric_value,
+            CONCAT('Total ', testName, ' received samples') AS metric_description
+        FROM tbl_labtests 
+        GROUP BY testName
+
+        UNION ALL
+
+        SELECT 
+            testName, 
+            'rejected',
+            SUM(dateReceivedLab >= CURDATE() AND dateReceivedLab < CURDATE() + INTERVAL 1 DAY),
+            CONCAT('Total ', testName, ' rejected samples')
+        FROM tbl_labtests 
+        WHERE orderStatus IN (5, 6) 
+        GROUP BY testName
+
+        UNION ALL
+
+        SELECT 
+            testName, 
+            'tested',
+            SUM(testedDate >= CURDATE() AND testedDate < CURDATE() + INTERVAL 1 DAY),
+            CONCAT('Total ', testName, ' tested samples')
+        FROM tbl_labtests 
+        GROUP BY testName
+
+        UNION ALL
+
+        SELECT 
+            testName, 
+            'authorised',
+            SUM(resultAuthorisedDate >= CURDATE() AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY),
+            CONCAT('Total ', testName, ' authorised results')
+        FROM tbl_labtests 
+        GROUP BY testName
+
+        UNION ALL
+
+        SELECT 
+            'HIVVL', 
+            'total_hvl_target_not_detected', 
+            COUNT(trackingID), 
+            'HIVVL target not detected'
+        FROM tbl_labtests 
+        WHERE resultAuthorisedDate >= CURDATE() AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
+            AND LOWER(REPLACE(results, ' ', '')) IN ('tnd', 'targetnotdetected') 
+            AND testName = 'HIVVL'
+
+        UNION ALL
+
+        SELECT 
+            'HIVVL', 
+            'hvl_failed', 
+            COUNT(trackingID), 
+            'HIVVL failed and invalid'
+        FROM tbl_labtests 
+        WHERE resultAuthorisedDate >= CURDATE() AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
+            AND LOWER(REPLACE(results, ' ', '')) IN ('failed', 'invalid') 
+            AND testName = 'HIVVL'
+
+        UNION ALL
+
+        SELECT 
+            'HIVVL', 
+            'total_suppressed_lt50', 
+            SUM(CASE 
+                WHEN (results REGEXP '^[0-9]+$' AND CAST(results AS UNSIGNED) < 50) 
+                    OR LOCATE('<', results) > 0 
+                THEN 1 ELSE 0 END), 
+            'Suppressed VL less than 50'
+        FROM tbl_labtests 
+        WHERE resultAuthorisedDate >= CURDATE() AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY 
+            AND testName = 'HIVVL'
+
+        UNION ALL
+
+        SELECT 
+            'HIVVL', 
+            'total_suppressed_lt1000', 
+            SUM(CASE 
+                WHEN results REGEXP '^[0-9]+$' 
+                    AND CAST(results AS UNSIGNED) >= 50 
+                    AND CAST(results AS UNSIGNED) < 1000 
+                THEN 1 ELSE 0 END), 
+            'Suppressed VL less than 1000'
+        FROM tbl_labtests 
+        WHERE resultAuthorisedDate >= CURDATE() AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY 
+            AND testName = 'HIVVL'
+
+        UNION ALL
+
+       SELECT 
+            'HIVVL', 
+            'total_unsuppressed', 
+            SUM(CASE 
+                WHEN (results REGEXP '^[0-9]+$' AND CAST(results AS UNSIGNED) >= 1000) 
+                    OR LOCATE('>', results) > 0 
+                THEN 1 ELSE 0 END), 
+            'Unsuppressed VL'
+        FROM tbl_labtests 
+        WHERE resultAuthorisedDate >= CURDATE() AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY 
+            AND testName = 'HIVVL'
+
+        UNION ALL
+
+        SELECT 
+            'EID', 
+            'total_eid_positive', 
+            SUM(CASE WHEN LOWER(REPLACE(results, ' ', '')) = 'positive' THEN 1 ELSE 0 END), 
+            'EID positive results'
+        FROM tbl_labtests 
+        WHERE testName = 'EID' 
+            AND resultAuthorisedDate >= CURDATE() 
+            AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
+
+        UNION ALL
+
+        SELECT 
+            'EID', 
+            'total_eid_negative', 
+            SUM(CASE WHEN LOWER(REPLACE(results, ' ', '')) = 'negative' THEN 1 ELSE 0 END), 
+            'EID negative results'
+        FROM tbl_labtests 
+        WHERE testName = 'EID' 
+            AND resultAuthorisedDate >= CURDATE() 
+            AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
+
+        UNION ALL
+
+        SELECT 
+            'EID', 
+            'total_eid_indeterminate', 
+            SUM(CASE 
+                WHEN LOWER(REPLACE(results, ' ', '')) IN ('indeterminate', 'intermidiate') 
+                THEN 1 ELSE 0 END), 
+            'EID indeterminate results'
+        FROM tbl_labtests 
+        WHERE testName = 'EID' 
+            AND resultAuthorisedDate >= CURDATE() 
+            AND resultAuthorisedDate < CURDATE() + INTERVAL 1 DAY
+
+        UNION ALL
+
+        SELECT 
+            testName, 
+            'Reffered',
+            SUM(referredDate >= CURDATE() AND referredDate < CURDATE() + INTERVAL 1 DAY),
+            CONCAT(testName, '- Reffered Samples')
+        FROM tbl_labtests 
+        WHERE orderStatus = 8 AND referralFacility IS NOT NULL 
+        GROUP BY testName
+
+        UNION ALL
+
+        SELECT 
+            testName, 
+            'Rejected At Other Lab',
+            SUM(referredDate >= CURDATE() AND referredDate < CURDATE() + INTERVAL 1 DAY),
+            CONCAT(testName, '- Rejected At Other Lab Samples')
+        FROM tbl_labtests 
+        WHERE orderStatus = 6 AND referralFacility IS NOT NULL 
+        GROUP BY testName
+
+        UNION ALL
+
+        SELECT 
+            testName, 
+            'Results At Other Lab',
+            SUM(referredDate >= CURDATE() AND referredDate < CURDATE() + INTERVAL 1 DAY),
+            CONCAT(testName, '- Results At Other Lab') 
+        FROM tbl_labtests 
+        WHERE orderStatus = 4 AND referralFacility IS NOT NULL 
+        GROUP BY testName
+
+        UNION ALL
+
+        SELECT 
+            testName, 
+            (CASE WHEN dataFrom = 0 THEN 'ENTRY FROM LAB'
+                  WHEN dataFrom = 1 THEN 'ENTRY FROM HUB'
+                  WHEN dataFrom = 2 THEN 'ENTRY FROM CTC' 
+                  ELSE 'UNKNOWN' END),
+            SUM(dateReceivedLab >= CURDATE() AND dateReceivedLab < CURDATE() + INTERVAL 1 DAY),
+            CONCAT(testName, '- ENTRY MODALITY') 
+        FROM tbl_labtests 
+        GROUP BY testName, dataFrom
+    ) AS final_report;
+    """)
+    
+    with engine.connect() as conn:
+        return pd.read_sql(query, conn)
 
 
 def ensure_todays_lab_analysis_table_exists(conn: Connection) -> None:
@@ -242,7 +274,6 @@ def ensure_todays_lab_analysis_table_exists(conn: Connection) -> None:
         );
         """)
         log_message("Ensured table 'todays_lab_analysis' exists")
-
 
 def refresh_metrics(metrics: pd.DataFrame, conn: Connection) -> None:
     """Delete existing rows and insert fresh metrics into MSSQL."""
@@ -272,10 +303,10 @@ def insert_data() -> None:
         source_df = fetch_source_data(labdash_engine)
         ensure_todays_lab_analysis_table_exists(sql_conn)
         refresh_metrics(source_df, sql_conn)
+        log_message("Data insertion completed successfully")
     except Exception as e:
         log_message(f"An error occurred during data insertion: {e}")
         sys.exit(1)
-
 
 if __name__ == "__main__":
     insert_data()
