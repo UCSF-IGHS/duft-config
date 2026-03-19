@@ -160,7 +160,7 @@
             "id": "CTC_A_DUFT_CONFIGS_REFRESH",
             "name": "DUFT Configurations Update",
             "description": "Updates the DUFT report definitions to the latest version. An Internet connection is required",
-            "pythonFile": "sample_task.py",
+            "pythonFile": "update.py",
             "hideInUI": true,
             "executeFromRoot": true,
             "supportedParameters": {
