@@ -61,7 +61,7 @@ def run_stored_procedure_only(db_params, environment, result):
             with conn.cursor() as cursor:
                 cursor.execute("SET NOCOUNT ON; EXEC dbo.sp_data_processing")
 
-        environment.log_message("Data refresh in finalizing...")
+        environment.log_message("Data refresh is finalizing...")
 
         result["done_event"].wait()
 
