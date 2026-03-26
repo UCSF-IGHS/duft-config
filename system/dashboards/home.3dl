@@ -16,11 +16,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -40,11 +40,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -84,11 +84,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -128,11 +128,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -162,7 +162,7 @@
 
     <Dashboard
         data="metadata"
-        tabName="E. CLHIV Nutritional Challenges"
+        tabName="E. Missed CD4 Testing"
         title="Facility: %hfr_code%"
         lastRefresh="Reporting Period: %date_range%"
     >
@@ -172,36 +172,36 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
 
-        <SingleLayout>
             <Grid>
-                <Header>
-                    Children Living with HIV (CLHIV) with Nutritional Documentation Issues
+                <SingleLayout>
+                    <Header>
+                    Clients who Missed CD4 Testing
                 </Header>
                 <SubHeader>
-                    CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status.
+                    PLHIV who missed their CD4 Testing in the reporting period.
                 </SubHeader>
-                    <Table
-                        data="clhiv_nutrition_clients_data"
-                        header="Children Living with HIV (CLHIV) with Nutritional Documentation Issues"
-                        subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
-                        exportData="true"
-                        variant="plain"
-                        initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Documented Nutritional Status, Calculated Nutritional Status, Documented and Calculated Status Match, Last Visit Type, Last Visit Refill Type"
-                        detailsViewColumn="Patient ID"
-                    >
-                    <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
-                    </Table>
-                </Grid>
+                <Table
+                    data="missed_cd4_clients_data"
+                    header="Clients who Missed CD4 Testing"
+                    subHeader="PLHIV who missed their CD4 Testing in the reporting period"
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Eligible for CD4, Last CD4 Result Date, Last CD4 Result Count, Missed Appointment Date"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="missed_cd4_client_details_data" header="PLHIV Client Profile" />
+                </Table>
             </SingleLayout>
+        </Grid>
     </Dashboard>
 
     <Dashboard
@@ -216,11 +216,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -260,11 +260,11 @@
 
                 <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
 
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
                 <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
 
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
               </DateRangePicker>
         </Filters>
@@ -287,6 +287,94 @@
                     detailsViewColumn="Patient ID"
                 >
                 <Table data="confirmed_ahd_no_management_client_details_data" header="PLHIV Client Profile" />
+                </Table>
+            </SingleLayout>
+        </Grid>
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="H. CLHIV Nutritional Challenges"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
+
+            </DateRangePicker>
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    Children Living with HIV (CLHIV) with Nutritional Documentation Issues
+                </Header>
+                <SubHeader>
+                    CLHIV under five years who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status.
+                </SubHeader>
+                <Table
+                    data="clhiv_nutrition_clients_data"
+                    header="Children Living with HIV (CLHIV) with Nutritional Documentation Issues"
+                    subHeader="Table of CLHIV who had appointmnet last week but had no documentation of either height/length or weight, or misclassification of nutritional status."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Documented Nutritional Status, Calculated Nutritional Status, Documented and Calculated Status Match, Last Visit Type, Last Visit Refill Type"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="clhiv_nutrition_client_details_data" header="PLHIV Client Profile" />
+                </Table>
+            </Grid>
+        </SingleLayout>
+    </Dashboard>
+
+    <Dashboard
+        data="metadata"
+        tabName="I. Missed Biometric Verification"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
+        </Filters>
+
+            <Grid>
+                <SingleLayout>
+                    <Header>
+                    Clients who Missed Biometric Verification
+                </Header>
+                <SubHeader>
+                    PLHIV whose biometrics were registered in previous visits but missed their last visit biometric verification.
+                </SubHeader>
+                <Table
+                    data="missed_biometric_verification_clients_data"
+                    header="Clients who Missed Biometric Verification"
+                    subHeader="PLHIV whose biometrics were registered in previous visits but missed their last visit biometric verification."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Last Appointment Date, Registered Using Biometrics, Missed Biometric Verification"
+                    detailsViewColumn="Patient ID"
+                >
+                <Table data="missed_biometric_verification_client_details_data" header="PLHIV Client Profile" />
                 </Table>
             </SingleLayout>
         </Grid>

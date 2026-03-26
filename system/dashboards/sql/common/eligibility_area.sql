@@ -1,6 +1,6 @@
 SELECT DISTINCT
-    Sex
+    [Eligibility Area]
 FROM
     duft.fact_duft_sentinel_event
 WHERE
-    Sex IS NOT NULL
+    [Eligibility Area] IS NOT NULL
