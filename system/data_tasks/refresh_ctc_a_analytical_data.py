@@ -14,7 +14,7 @@ executor = ThreadPoolExecutor(max_workers=2)
 
 INITIAL_POLL_DELAY_SECONDS = 10
 POLL_INTERVAL_SECONDS = 5
-PROGRESS_LOG_INTERVAL_SECONDS = 60
+PROGRESS_LOG_INTERVAL_SECONDS = 30
 
 STATE_RUNNING = "RUNNING"
 STATE_SUCCESS = "SUCCESS"
@@ -61,7 +61,7 @@ def run_stored_procedure_only(db_params, environment, result):
             with conn.cursor() as cursor:
                 cursor.execute("SET NOCOUNT ON; EXEC dbo.sp_data_processing")
 
-        environment.log_message("Data refresh in progress...")
+        environment.log_message("Data refresh in finalizing...")
 
         result["done_event"].wait()
 
