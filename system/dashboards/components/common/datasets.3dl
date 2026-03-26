@@ -4,6 +4,8 @@
 
         <SQLData name="gender_data" queryName="common/gender" />
 
+        <SQLData name="eligibility_area_data" queryName="common/eligibility_area" />
+
         <SQLData name="current_date_data" queryName="common/current_date" />
 
         <SQLData name="metadata" queryName="common/metadata" filterFrom="Last Appointment Date" />
