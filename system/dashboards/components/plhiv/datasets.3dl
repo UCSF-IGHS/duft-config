@@ -140,6 +140,7 @@
                 name="missed_vl_clients_data"
                 queryName="plhiv/table/missed_vl_clients"
                 filterFrom="Last Visit Date, Last Appointment Date"
+                filterCopy="Last Appointment Date=Became Eligible for HVL Date"
                 pageSize="15"
                 searchColumns="[Patient ID], [Current Age], [Sex], [Last Appointment Date], [Last VL Result Numeric]"
                 sortColumn="Patient ID"
@@ -149,6 +150,7 @@
                 name="tile_missed_vl_data"
                 queryName="plhiv/tile/missed_vl"
                 filterFrom="Last Visit Date, Last Appointment Date"
+                filterCopy="Last Appointment Date=Became Eligible for HVL Date"
             />
 
             <SQLData
