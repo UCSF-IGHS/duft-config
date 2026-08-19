@@ -1,0 +1,51 @@
+<Dashboards>
+
+    <Include file="components/common/datasets.3dl" />
+
+    <Include file="components/pmtct_eid/datasets.3dl" />
+
+    <Dashboard
+        data="metadata"
+        tabName="A. Diagnosis & Outcome"
+        title="Facility: %hfr_code%"
+        lastRefresh="Reporting Period: %date_range%"
+    >
+
+        <Filters>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
+
+                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
+
+                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
+
+                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+
+                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
+
+              </DateRangePicker>
+        </Filters>
+
+        <SingleLayout>
+            <Grid>
+                <Header>
+                    PMTCT_EID Weekly Performance
+                </Header>
+                <SubHeader>
+                    PMTCT/HEI EID diagnosis and outcome tracking for the reporting week.
+                </SubHeader>
+                <Table
+                    data="pmtct_eid_diagnosis_outcome_data"
+                    header="Diagnosis & Outcome"
+                    subHeader="Table of PMTCT_EID clients tracked for weekly diagnosis and outcome reporting."
+                    exportData="true"
+                    variant="plain"
+                    initialColumns="Mother patient ID, HEI_NO, Date of Birth, Age (Months), Last visit date, Test Date, Test Date results, HEI registered at birth, 4 to 6 Weeks HEI Eligible for DNA PCR Test, 9 Months HEI Eligible for DNA PCR Test, 3 Months Post BF HEI Eligible for DNA PCR Test, 18 Months HEI Eligible for DNA PCR Test, HEI Eligible and attended, HEI Attended and Sample Taken, HEI with Undocumented DNA PCR Test"
+                    detailsViewColumn="HEI_NO"
+                >
+                <Table data="pmtct_eid_diagnosis_outcome_details_data" variant="plain" header="PMTCT_EID Client Profile" />
+                </Table>
+            </Grid>
+        </SingleLayout>
+    </Dashboard>
+
+</Dashboards>
