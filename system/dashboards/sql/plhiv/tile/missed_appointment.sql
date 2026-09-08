@@ -1,13 +1,15 @@
 SELECT
-    COUNT(DISTINCT([Patient ID]))
+    COUNT(DISTINCT fdse.[Patient ID])
 FROM
-    duft.fact_duft_sentinel_event
+    duft.fact_duft_sentinel_event fdse
+INNER JOIN
+    [derived].fact_ctc_daily_client_status fcdcs
+    ON fcdcs.client_id = fdse.[Client ID]
 WHERE
-    [Last Appointment Date] <= GETDATE()
-AND
-    (
-        [Is Marked Transferred Out] = 'No'
-        OR [Is Marked Transferred Out] IS NULL
-    )
-AND
-    DATEDIFF(DAY, [Last Visit Date], [Last Appointment Date]) > 10
+    fdse.[Last Appointment Date] = $[Last Appointment Date%r]
+    AND fcdcs.is_transferred_out IS NULL
+    AND DATEDIFF(
+        DAY,
+        fdse.[Last Visit Date],
+        fdse.[Last Appointment Date]
+    ) > 10;
