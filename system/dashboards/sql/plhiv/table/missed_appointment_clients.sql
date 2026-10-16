@@ -28,4 +28,5 @@ WHERE
         DAY,
         fdse.[Last Visit Date],
         fdse.[Last Appointment Date]
-    ) > 10;
+    ) > 0
+    
