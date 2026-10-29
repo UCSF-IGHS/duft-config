@@ -12,6 +12,8 @@
 
         <SQLData name="hei_metadata" queryName="common/hei_metadata" />
 
+        <SQLData name="pmtct_eid_metadata" queryName="common/pmtct_eid_metadata" filterFrom="Week End Date" />
+
         <SQLData name="date_range_data" queryName="common/date_range" filterFrom="Last Appointment Date" />
 
 </Datasets>
