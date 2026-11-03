@@ -3,6 +3,17 @@
     "header": "Dashboards",
     "items": [
       {
+        "title": "Weekly Performance",
+        "icon": "dashboards-icon",
+        "dashboards": [
+          {
+            "title": "PMTCT_EID",
+            "icon": "dashboard-icon",
+            "dashboard": "/dashboard/weekly_performance"
+          }
+        ]
+      },
+      {
         "title": "Need Attention",
         "icon": "dashboards-icon",
         "dashboards": [
