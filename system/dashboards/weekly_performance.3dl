@@ -39,7 +39,7 @@
                     header="Diagnosis & Outcome"
                     subHeader="Table of PMTCT/EID clients tracked for weekly diagnosis and outcome reporting."
                     variant="plain"
-                    initialColumns="Mother Patient ID, Exposed Infant ID, HEI Age in Months, Week End Date, 4 to 6 Weeks HEI Eligible for DNA PCR Test, 9 Months HEI Eligible for DNA PCR / Antibody Test, 3 Months Post BF HEI Eligible for Antibody Test, 18 Months HEI Eligible for Antibody Test, HEI Eligible and Attended, HEI Attended and Sample Taken, HEI with No Documented DNA PCR Test"
+                    initialColumns="Mother Patient ID, Exposed Infant ID, HEI Age in Months, Week End Date, 4 to 6 Weeks HEI Eligible for DNA PCR Test, 9 Months HEI Eligible for DNA PCR Test, 3 Months Post BF HEI Eligible for Antibody Test, 18 Months HEI Eligible for Antibody Test, HEI Eligible and Attended, HEI Attended and Sample Taken, HEI with Undocumented DNA PCR Test"
                     detailsViewColumn="Mother Patient ID"
                 >
                     <Table data="pmtct_eid_diagnosis_outcome_details_data" header="PMTCT/EID Details" />
