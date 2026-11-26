@@ -11,21 +11,40 @@
         lastRefresh="Reporting Period: %date_range%"
     >
 
+        <SQLData name="nextAppointmentDateBounds">
+            SELECT
+                DATEADD(DAY, -1, CAST(GETDATE() AS DATE)) AS min_date,
+
+                DATEADD(DAY, 13, (
+                    SELECT weekly_start_monday_start_date
+                    FROM derived.dim_date
+                    WHERE date = DATEADD(DAY, -1, CAST(GETDATE() AS DATE))
+                )) AS max_date,
+
+                DATEADD(DAY, 7, (
+                    SELECT weekly_start_monday_start_date
+                    FROM derived.dim_date
+                    WHERE date = DATEADD(DAY, -1, CAST(GETDATE() AS DATE))
+                )) AS default_start,
+
+                DATEADD(DAY, 13, (
+                    SELECT weekly_start_monday_start_date
+                    FROM derived.dim_date
+                    WHERE date = DATEADD(DAY, -1, CAST(GETDATE() AS DATE))
+                )) AS default_end
+        </SQLData>
+
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
-
-                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
-
-                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
-
-                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
-
-                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
-
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false">
+                <DefaultRangeStartDate dataSource="nextAppointmentDateBounds" dataColumn="default_start" />
+                <DefaultRangeEndDate dataSource="nextAppointmentDateBounds" dataColumn="default_end" />
+                <MinSelectableDate dataSource="nextAppointmentDateBounds" dataColumn="min_date" />
+                <MaxSelectableDate dataSource="nextAppointmentDateBounds" dataColumn="max_date" />
             </DateRangePicker>
         </Filters>
 
         <Include file="components/planning/overview.3dl" />
+
     </Dashboard>
 
     <Dashboard
@@ -35,17 +54,35 @@
         lastRefresh="Reporting Period: %date_range%"
     >
 
+        <SQLData name="nextAppointmentDateBoundsEligible">
+            SELECT
+                DATEADD(DAY, -1, CAST(GETDATE() AS DATE)) AS min_date,
+
+                DATEADD(DAY, 13, (
+                    SELECT weekly_start_monday_start_date
+                    FROM derived.dim_date
+                    WHERE date = DATEADD(DAY, -1, CAST(GETDATE() AS DATE))
+                )) AS max_date,
+
+                DATEADD(DAY, 7, (
+                    SELECT weekly_start_monday_start_date
+                    FROM derived.dim_date
+                    WHERE date = DATEADD(DAY, -1, CAST(GETDATE() AS DATE))
+                )) AS default_start,
+
+                DATEADD(DAY, 13, (
+                    SELECT weekly_start_monday_start_date
+                    FROM derived.dim_date
+                    WHERE date = DATEADD(DAY, -1, CAST(GETDATE() AS DATE))
+                )) AS default_end
+        </SQLData>
+
         <Filters>
-            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false" >
-
-                <DefaultRangeStartDate>{() => dayjs().add(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
-
-                <DefaultRangeEndDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</DefaultRangeEndDate>
-
-                <MinSelectableDate>{() => dayjs().subtract(1, 'day')}</MinSelectableDate>
-
-                <MaxSelectableDate>{() => dayjs().add(1, 'week').startOf('week').add(7, 'day')}</MaxSelectableDate>
-
+            <DateRangePicker type="date" name="Next Appointment Date" allowFutureDates="false">
+                <DefaultRangeStartDate dataSource="nextAppointmentDateBoundsEligible" dataColumn="default_start" />
+                <DefaultRangeEndDate dataSource="nextAppointmentDateBoundsEligible" dataColumn="default_end" />
+                <MinSelectableDate dataSource="nextAppointmentDateBoundsEligible" dataColumn="min_date" />
+                <MaxSelectableDate dataSource="nextAppointmentDateBoundsEligible" dataColumn="max_date" />
             </DateRangePicker>
 
             <Filter caption="Eligibility Area" name="Eligibility Area" data="eligibility_area_data" />
@@ -68,10 +105,15 @@
                     initialColumns="Patient ID, Current Age, Sex, Date Start ART, Last Visit Date, Next Appointment Date, VL Eligible Date, Eligible for HVL Up to Next Week, Eligible for EAC Up to Next Week, Eligible for CD4 Up to Next Week, Eligible for CrAg Up to Next Week, Eligible for CPeT Up to Next Week, Eligible for CMT Up to Next Week"
                     detailsViewColumn="Patient ID"
                 >
-                <Table data="plhiv_next_week_client_details_data" variant="plain" header="Client Profile" />
+                    <Table
+                        data="plhiv_next_week_client_details_data"
+                        variant="plain"
+                        header="Client Profile"
+                    />
                 </Table>
             </Grid>
         </SingleLayout>
+
     </Dashboard>
 
 </Dashboards>

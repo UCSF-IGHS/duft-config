@@ -4,6 +4,20 @@
 
     <Include file="components/plhiv/datasets.3dl" />
 
+    <SQLData name="dateBounds">
+        SELECT
+            (SELECT MIN(date)
+            FROM derived.dim_date) AS min_date,
+
+            DATEADD(DAY, -1, CAST(GETDATE() AS DATE)) AS max_date,
+
+            (SELECT weekly_start_monday_start_date
+            FROM derived.dim_date
+            WHERE date = DATEADD(DAY, -1, CAST(GETDATE() AS DATE))) AS default_start,
+
+            DATEADD(DAY, -1, CAST(GETDATE() AS DATE)) AS default_end;
+    </SQLData>
+
     <Dashboard
         data="metadata"
         tabName="A. Overview"
@@ -12,17 +26,12 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
-
-                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
-
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
-
-                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
-
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
-
-              </DateRangePicker>
+            <DateRangePicker type="date" name="Last Appointment Date">
+                <DefaultRangeStartDate dataSource="dateBounds" dataColumn="default_start" />
+                <DefaultRangeEndDate dataSource="dateBounds" dataColumn="default_end" />
+                <MinSelectableDate dataSource="dateBounds" dataColumn="min_date" />
+                <MaxSelectableDate dataSource="dateBounds" dataColumn="max_date" />
+            </DateRangePicker>
         </Filters>
 
         <Include file="components/plhiv/overview.3dl" />
@@ -36,17 +45,12 @@
     >
 
         <Filters>
-                <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
-
-                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
-
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
-
-                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
-
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
-
-              </DateRangePicker>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false">
+                <DefaultRangeStartDate dataSource="dateBounds" dataColumn="default_start" />
+                <DefaultRangeEndDate dataSource="dateBounds" dataColumn="default_end" />
+                <MinSelectableDate dataSource="dateBounds" dataColumn="min_date" />
+                <MaxSelectableDate dataSource="dateBounds" dataColumn="max_date" />
+            </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -80,17 +84,12 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
-
-                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
-
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
-
-                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
-
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
-
-              </DateRangePicker>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false">
+                <DefaultRangeStartDate dataSource="dateBounds" dataColumn="default_start" />
+                <DefaultRangeEndDate dataSource="dateBounds" dataColumn="default_end" />
+                <MinSelectableDate dataSource="dateBounds" dataColumn="min_date" />
+                <MaxSelectableDate dataSource="dateBounds" dataColumn="max_date" />
+            </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -124,17 +123,12 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
-
-                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
-
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
-
-                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
-
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
-
-              </DateRangePicker>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false">
+                <DefaultRangeStartDate dataSource="dateBounds" dataColumn="default_start" />
+                <DefaultRangeEndDate dataSource="dateBounds" dataColumn="default_end" />
+                <MinSelectableDate dataSource="dateBounds" dataColumn="min_date" />
+                <MaxSelectableDate dataSource="dateBounds" dataColumn="max_date" />
+            </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -168,17 +162,12 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
-
-                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
-
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
-
-                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
-
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
-
-              </DateRangePicker>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false">
+                <DefaultRangeStartDate dataSource="dateBounds" dataColumn="default_start" />
+                <DefaultRangeEndDate dataSource="dateBounds" dataColumn="default_end" />
+                <MinSelectableDate dataSource="dateBounds" dataColumn="min_date" />
+                <MaxSelectableDate dataSource="dateBounds" dataColumn="max_date" />
+            </DateRangePicker>
         </Filters>
 
             <Grid>
@@ -212,17 +201,12 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
-
-                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
-
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
-
-                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
-
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
-
-              </DateRangePicker>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false">
+                <DefaultRangeStartDate dataSource="dateBounds" dataColumn="default_start" />
+                <DefaultRangeEndDate dataSource="dateBounds" dataColumn="default_end" />
+                <MinSelectableDate dataSource="dateBounds" dataColumn="min_date" />
+                <MaxSelectableDate dataSource="dateBounds" dataColumn="max_date" />
+            </DateRangePicker>
         </Filters>
 
         <SingleLayout>
@@ -256,17 +240,12 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
-
-                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
-
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
-
-                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
-
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
-
-              </DateRangePicker>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false">
+                <DefaultRangeStartDate dataSource="dateBounds" dataColumn="default_start" />
+                <DefaultRangeEndDate dataSource="dateBounds" dataColumn="default_end" />
+                <MinSelectableDate dataSource="dateBounds" dataColumn="min_date" />
+                <MaxSelectableDate dataSource="dateBounds" dataColumn="max_date" />
+            </DateRangePicker>
         </Filters>
 
             <Grid>
@@ -306,7 +285,7 @@
 
                 <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
 
-                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
+                <MinSelectableDate dataSource="dateBounds" dataColumn="min_date" />
 
                 <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
 
@@ -344,17 +323,12 @@
     >
 
         <Filters>
-            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false" >
-
-                <DefaultRangeStartDate>{() => dayjs().subtract(1, 'week').startOf('week').add(1, 'day')}</DefaultRangeStartDate>
-
-                <DefaultRangeEndDate>{() => dayjs().subtract(1, 'day')}</DefaultRangeEndDate>
-
-                <MinSelectableDate>{() => dayjs().subtract(6, 'month').startOf('week').add(1, 'day')}</MinSelectableDate>
-
-                <MaxSelectableDate>{() => dayjs().subtract(1, 'day')}</MaxSelectableDate>
-
-              </DateRangePicker>
+            <DateRangePicker type="date" name="Last Appointment Date" allowFutureDates="false">
+                <DefaultRangeStartDate dataSource="dateBounds" dataColumn="default_start" />
+                <DefaultRangeEndDate dataSource="dateBounds" dataColumn="default_end" />
+                <MinSelectableDate dataSource="dateBounds" dataColumn="min_date" />
+                <MaxSelectableDate dataSource="dateBounds" dataColumn="max_date" />
+            </DateRangePicker>
         </Filters>
 
             <Grid>
